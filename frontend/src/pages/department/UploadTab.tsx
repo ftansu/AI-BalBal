@@ -128,7 +128,7 @@ export function UploadTab() {
           <input
             id="file"
             type="file"
-            accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg"
+            accept=".pdf,.png,.jpg,.jpeg,.xlsx,.xlsm,.csv,application/pdf,image/png,image/jpeg,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv"
             onChange={(e) => setFile(e.target.files?.[0] ?? null)}
             required
           />

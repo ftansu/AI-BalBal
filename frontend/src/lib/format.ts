@@ -84,3 +84,13 @@ export const SELECTABLE_STATUSES: DocumentStatus[] = ["draft", "executed", "amen
 export const CONFIDENTIALITY_VALUES: Confidentiality[] = ["normal", "restricted", "board"];
 export const STAGE_VALUES: ProjectStage[] = ["development", "construction", "operation"];
 export const ROLE_VALUES: UserRole[] = ["admin", "management", "employee"];
+
+/** "Tansu Demirci" → "TD" (avatar). */
+export function initials(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toLocaleUpperCase("tr") ?? "")
+    .join("");
+}

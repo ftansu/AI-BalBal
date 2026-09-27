@@ -6,13 +6,14 @@ import { useDocuments } from "../api/documents";
 import { projectNameById, useProjects } from "../api/projects";
 import type { AskResponse, Department } from "../api/types";
 import { S } from "../lib/strings";
+import { AnswerView } from "./balbal/AnswerView";
 import { ErrorBox } from "./ErrorBox";
-import { ExcelSourceCardList, SourceCardList } from "./SourceCardList";
 
-/** Shared by "Genel Sor" (no scope) and each department's Sor tab (`department` set).
- * The backend answers only from documents the user may see (ADR-004); scope only narrows. */
+/** Department "Balbal'a Sor" tab and the /sor page. The backend answers only from documents
+ * the user may see (ADR-004); `department` and the project chip only narrow the scope. */
 export function AskPanel({ department }: { department?: Department }) {
   const [question, setQuestion] = useState("");
+  const [projectId, setProjectId] = useState<string | null>(null);
   const [result, setResult] = useState<AskResponse | null>(null);
   const documents = useDocuments(department ? { department: department.slug } : {});
   const projects = useProjects();
@@ -21,10 +22,13 @@ export function AskPanel({ department }: { department?: Department }) {
     const doc = documents.data?.find((d) => d.id === documentId);
     return doc?.project_id ? (projectNames.get(doc.project_id) ?? null) : null;
   };
+  const scopedProjects = (projects.data ?? []).filter(
+    (p) => p.is_active && (!department || p.department_ids.includes(department.id)),
+  );
 
   const mutation = useMutation({
     mutationFn: (q: string) =>
-      ask({ question: q, department: department ? department.slug : undefined }),
+      ask({ question: q, department: department ? department.slug : undefined, project_id: projectId ?? undefined }),
     onSuccess: (data) => setResult(data),
   });
 
@@ -38,10 +42,19 @@ export function AskPanel({ department }: { department?: Department }) {
 
   return (
     <div>
-      {department ? (
-        <p className="notice">{S.ask.scopeNote(department.name)}</p>
-      ) : (
-        <p className="notice">{S.home.askHint}</p>
+      <p className="notice">{department ? S.ask.scopeNote(department.name) : S.home.askHint}</p>
+      {scopedProjects.length > 0 && (
+        <div className="chips">
+          <span className="muted small">{S.balbal.project}:</span>
+          <button type="button" className={`chip${projectId === null ? " active" : ""}`} onClick={() => setProjectId(null)}>
+            {S.balbal.allProjects}
+          </button>
+          {scopedProjects.map((p) => (
+            <button type="button" key={p.id} className={`chip${projectId === p.id ? " active" : ""}`} onClick={() => setProjectId(p.id)}>
+              {p.name}
+            </button>
+          ))}
+        </div>
       )}
       <form className="ask-form" onSubmit={onSubmit}>
         <textarea
@@ -59,47 +72,18 @@ export function AskPanel({ department }: { department?: Department }) {
       <div className="examples">
         {S.ask.examples}{" "}
         {S.ask.exampleQuestions.map((q) => (
-          <a key={q} onClick={() => setQuestion(q)}>
+          <button type="button" key={q} className="link-button" onClick={() => setQuestion(q)}>
             {q}
-          </a>
+          </button>
         ))}
       </div>
       {mutation.isError && <ErrorBox error={mutation.error} />}
       {result && (
-        <>
-          <section className="card">
-            <h2>
-              {S.ask.answerTitle}{" "}
-              <span className={`badge ${result.query_type === "GENERAL_QUERY" ? "warn" : "neutral"}`}>
-                {S.ask.queryType[result.query_type]}
-              </span>
-            </h2>
-            {/* GENERAL answers already start with the same sentence (ADR-010). */}
-            {result.query_type !== "GENERAL_QUERY" && <p className="notice">{result.notice}</p>}
-            <div className={`answer${result.answered ? "" : " no"}`}>{result.answer}</div>
-            {result.model && (
-              <div className="meta">
-                {S.ask.model}: {result.model} · {result.tokens_in}/{result.tokens_out} {S.ask.tokens}
-              </div>
-            )}
-          </section>
-          {result.answered && result.query_type !== "GENERAL_QUERY" && (
-            <>
-              {result.query_type !== "DATA_QUERY" && (
-                <section className="card">
-                  <h2>{S.ask.sourcesTitle}</h2>
-                  <SourceCardList sources={result.sources} projectOfDocument={projectOfDocument} />
-                </section>
-              )}
-              {result.query_type !== "DOCUMENT_QUERY" && (
-                <section className="card">
-                  <h2>{S.ask.excelSourcesTitle}</h2>
-                  <ExcelSourceCardList sources={result.excel_sources} />
-                </section>
-              )}
-            </>
-          )}
-        </>
+        <AnswerView
+          result={result}
+          projectOfDocument={projectOfDocument}
+          uploadPath={department ? `/departman/${department.slug}/yukle` : null}
+        />
       )}
     </div>
   );

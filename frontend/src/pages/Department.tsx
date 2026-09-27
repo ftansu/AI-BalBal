@@ -7,6 +7,7 @@ import { useAuth } from "../auth/useAuth";
 import { ErrorBox } from "../components/ErrorBox";
 import { Spinner } from "../components/Spinner";
 import { S } from "../lib/strings";
+import { AgendaCard } from "./Home";
 import { canSeeDepartment, childrenOf } from "../lib/visibility";
 
 export interface DepartmentContext {
@@ -49,6 +50,7 @@ export function DepartmentPage() {
 
   return (
     <>
+      <AgendaCard />
       <h1>{department.name}</h1>
       {children.length > 0 && (
         <>

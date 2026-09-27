@@ -1,4 +1,6 @@
 import { downloadUrl, useDocument } from "../api/documents";
+import { FileLink } from "./common/FileLink";
+import { WorkbookInspectCard } from "./WorkbookInspectCard";
 import { CONFIDENTIALITY_LABELS, INGESTION_LABELS, STATUS_LABELS, formatDate } from "../lib/format";
 import { S } from "../lib/strings";
 import { DocumentMetadataEditForm } from "./DocumentMetadataEditForm";
@@ -45,6 +47,8 @@ export function DocumentDetailPanel({
           <dd>{formatDate(d.document_date)}</dd>
           <dt>{t.effectiveDate}</dt>
           <dd>{formatDate(d.effective_date)}</dd>
+          <dt>{t.expirationDate}</dt>
+          <dd>{formatDate(d.expiration_date)}</dd>
           <dt>{t.columns.status}</dt>
           <dd>{STATUS_LABELS[d.status]}</dd>
           <dt>{t.version}</dt>
@@ -58,9 +62,9 @@ export function DocumentDetailPanel({
           <dt>{t.tags}</dt>
           <dd>{d.tags.length ? d.tags.join(", ") : none}</dd>
           <dt>{t.supersedes}</dt>
-          <dd>{d.supersedes_document_id ?? none}</dd>
+          <dd>{d.supersedes_document_id ? <FileLink documentId={d.supersedes_document_id} title={t.openVersion} /> : none}</dd>
           <dt>{t.supersededBy}</dt>
-          <dd>{d.superseded_by_document_id ?? none}</dd>
+          <dd>{d.superseded_by_document_id ? <FileLink documentId={d.superseded_by_document_id} title={t.openVersion} /> : none}</dd>
           <dt>{t.columns.ingestion}</dt>
           <dd>
             {INGESTION_LABELS[d.ingestion_status]}
@@ -73,11 +77,15 @@ export function DocumentDetailPanel({
           </dd>
         </dl>
         <div className="actions">
-          <a className="button secondary" href={downloadUrl(d.id)} target="_blank" rel="noreferrer">
+          <a className="button" href={downloadUrl(d.id)} target="_blank" rel="noreferrer">
+            {t.open}
+          </a>
+          <a className="button secondary" href={downloadUrl(d.id)} download>
             {t.download}
           </a>
         </div>
       </section>
+      {d.ingestion_status === "ready" && <WorkbookInspectCard documentId={d.id} />}
       {isAdmin && <DocumentVisibilityCard documentId={d.id} />}
       {isAdmin && <DocumentMetadataEditForm current={d} />}
       {d.ingestion_status === "ready" && (

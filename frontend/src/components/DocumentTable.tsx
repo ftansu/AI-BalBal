@@ -1,6 +1,7 @@
 import type { DocumentListItem, IngestionStatus } from "../api/types";
 import { CONFIDENTIALITY_LABELS, INGESTION_LABELS, STATUS_LABELS, formatDate } from "../lib/format";
 import { S } from "../lib/strings";
+import { DownloadLink, FileLink } from "./common/FileLink";
 
 const INGESTION_CLASS: Record<IngestionStatus, string> = {
   uploaded: "neutral",
@@ -43,6 +44,7 @@ export function DocumentTable({
             <th>{c.project}</th>
             {showSubdepartment && <th>{c.subdepartment}</th>}
             <th>{c.ingestion}</th>
+            <th aria-label={S.documents.download} />
           </tr>
         </thead>
         <tbody>
@@ -52,7 +54,9 @@ export function DocumentTable({
               className={`clickable${d.id === selectedId ? " selected" : ""}`}
               onClick={() => onSelect(d.id)}
             >
-              <td>{d.title}</td>
+              <td onClick={(e) => e.stopPropagation()}>
+                <FileLink documentId={d.id} title={d.title} showDownload={false} />
+              </td>
               <td>{d.document_type}</td>
               <td>{d.counterparty}</td>
               <td>{formatDate(d.document_date)}</td>
@@ -66,6 +70,9 @@ export function DocumentTable({
                 <span className={`badge ${INGESTION_CLASS[d.ingestion_status]}`}>
                   {INGESTION_LABELS[d.ingestion_status]}
                 </span>
+              </td>
+              <td onClick={(e) => e.stopPropagation()}>
+                <DownloadLink documentId={d.id} />
               </td>
             </tr>
           ))}

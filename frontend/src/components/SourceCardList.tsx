@@ -1,10 +1,10 @@
-import { downloadUrl } from "../api/documents";
 import type { ExcelSourceCard, SourceCard } from "../api/types";
 import { STATUS_LABELS, formatDate } from "../lib/format";
 import { S } from "../lib/strings";
+import { DownloadLink, FileLink } from "./common/FileLink";
 
-/** One card per cited (document, page) — SPEC_02 §10: belge, sayfa, tarih, versiyon,
- * proje. Project comes from a client-side `document_id → project name` lookup. */
+/** One card per cited (document, page) — SPEC_02 §10: belge, sayfa, tarih, versiyon, proje.
+ * Every title is a link to the file plus a separate "İndir" link (sabit kural). */
 export function SourceCardList({
   sources,
   projectOfDocument,
@@ -14,28 +14,33 @@ export function SourceCardList({
 }) {
   if (sources.length === 0) return <p className="muted">{S.ask.noSources}</p>;
   return (
-    <div>
+    <div className="source-list">
       {sources.map((s) => {
         const project = projectOfDocument(s.document_id);
         return (
           <div className="source" key={`${s.ref}-${s.document_id}-${s.page_number}`}>
-            <span className="ref">[{s.ref}]</span>
-            <strong>{s.title}</strong> — {S.ask.page} {s.page_number}
-            {s.is_current && <span className="badge ok">{S.ask.current}</span>}
-            <div className="meta">
-              {S.ask.date}: {formatDate(s.document_date)}
-              {s.effective_date && ` · ${S.ask.effective}: ${formatDate(s.effective_date)}`}
-              {` · ${S.ask.version}: ${s.version}`}
-              {` · ${STATUS_LABELS[s.status]}`}
-              {project && ` · ${S.ask.project}: ${project}`}
-              {s.supersedes_title && <div>{S.ask.supersedes(s.supersedes_title)}</div>}
-              {s.superseded_by_title && <div>{S.ask.supersededBy(s.superseded_by_title)}</div>}
-              <div>
-                <a href={downloadUrl(s.document_id)} target="_blank" rel="noreferrer">
-                  {S.ask.download}
-                </a>
-              </div>
+            <div className="source-head">
+              <span className="ref">[{s.ref}]</span>
+              <FileLink documentId={s.document_id} title={s.title} showDownload={false} />
+              <span className="source-meta-inline">
+                — {S.ask.page} {s.page_number} · {formatDate(s.document_date)} · v{s.version}
+              </span>
+              <span className={`badge ${s.is_current ? "ok" : "warn"}`}>
+                {s.is_current ? S.ask.current : S.ask.historical}
+              </span>
+              <DownloadLink documentId={s.document_id} />
             </div>
+            <div className="meta">
+              {STATUS_LABELS[s.status]}
+              {s.effective_date && ` · ${S.ask.effective}: ${formatDate(s.effective_date)}`}
+              {project && ` · ${S.ask.project}: ${project}`}
+            </div>
+            {s.superseded_by_title && (
+              // Backend yalnızca başlığı dönüyor (superseded_by_document_id yok) — bu yüzden
+              // güncel versiyon şimdilik link değil; bkz. docs/BACKEND_GAPS.md B-07.
+              <div className="superseded-warning">{S.ask.supersededBy(s.superseded_by_title)}</div>
+            )}
+            {s.supersedes_title && <div className="meta">{S.ask.supersedes(s.supersedes_title)}</div>}
           </div>
         );
       })}
@@ -47,22 +52,16 @@ export function SourceCardList({
 export function ExcelSourceCardList({ sources }: { sources: ExcelSourceCard[] }) {
   if (sources.length === 0) return <p className="muted">{S.ask.noSources}</p>;
   return (
-    <div>
+    <div className="source-list">
       {sources.map((s) => (
         <div className="source" key={s.label}>
-          <span className="ref">
+          <div className="source-head">
             <span className="badge neutral">{S.ask.queryType.DATA_QUERY}</span>
-          </span>
-          <strong>{s.file}</strong> — {S.ask.sheet} {s.sheet}
-          <div className="meta">
-            {S.ask.range}: {s.range}
-            {s.document_id && (
-              <div>
-                <a href={downloadUrl(s.document_id)} target="_blank" rel="noreferrer">
-                  {S.ask.downloadWorkbook}
-                </a>
-              </div>
-            )}
+            <FileLink documentId={s.document_id} title={s.file} showDownload={false} />
+            <span className="source-meta-inline">
+              — {S.ask.sheet}: {s.sheet} · {S.ask.range}: {s.range}
+            </span>
+            <DownloadLink documentId={s.document_id} />
           </div>
         </div>
       ))}

@@ -11,7 +11,7 @@
 
 **Bu üç madde, `ftansu/AI-BalBal` frontend'ini backend'e bağlayıp Ürün 1'i kendi arayüzüyle, gerçek veriyle test edebilmemiz için ihtiyacımız olan asgari settir.** Üçü bitmeden yapılan bir bağlantı testi, yapı ve veri değişeceği için geçersiz kalır.
 
-**Geçme ölçütü (ürün sahibinin kararı, 28.09.2026):** Bu belgedeki **bütün beklentiler karşılanırsa Ürün 1 testi geçmiş sayılır** ve Ürün 2'ye geçilir. Tek tek izlenecek liste: **§9**.
+**Bu belgenin ölçtüğü şey (ürün sahibinin kararı, 28.09.2026):** Buradaki bütün beklentilerin karşılanması Ürün 1'in **teknik kapıyı** geçtiği anlamına gelir: ürün yazılmış ve çalışıyor. Bu, ürünün **satılabilir** olduğu anlamına gelmez. Hedefimiz satılabilirlik, yani ürünün gerçek hayattaki karşılığını ölçmek; bu yüzden teknik kapıdan sonra gerçek kullanıcıyla bir **satılabilirlik testi** yapılır ve Ürün 2'ye geçiş onun sonucuna bağlıdır. Teknik kapının takip listesi: **§9**.
 
 | Sıra | Kod | Konu | Büyüklük | Neden bağlantı için şart |
 |---|---|---|---|---|
@@ -23,7 +23,7 @@
 
 ```
 B-25 ─────────────────────────────┐
-                                  ├──► Bağlantı günü (§5) ──► §9 listesi tamamen yeşil ──► Ürün 2
+                                  ├──► Bağlantı günü (§5) ──► §9 teknik kapı ──► Satılabilirlik testi ──► Ürün 2
 B-20 (1–5) + B-09 ──► B-18 ───────┘
 ```
 
@@ -237,9 +237,9 @@ Backend adımları ilerledikçe, frontend reposunda (önce canvas'ta görünür 
 
 ---
 
-## 9. Ürün 1 testi — geçme ölçütü ve takip listesi
+## 9. Ürün 1 teknik kapı — takip listesi
 
-**Kural:** Aşağıdaki maddelerin **hepsi** "Geçti" olduğunda Ürün 1 testi geçmiş sayılır ve Ürün 2'ye odaklanılır. Bir madde kalırsa düzeltilir ve o madde (ve etkilediği maddeler) tekrar test edilir. Maddeler bu belgedeki kabul testlerinin birebir kopyasıdır; yeni beklenti eklenmedi.
+**Kural:** Aşağıdaki maddelerin **hepsi** "Geçti" olduğunda Ürün 1 teknik kapıyı geçmiş sayılır ve satılabilirlik testine (gerçek kullanıcı, gerçek iş) başlanır. Ürün 2'ye geçiş satılabilirlik testinin sonucuna bağlıdır; teknik kapıyı geçmek tek başına Ürün 2'ye geçiş sebebi değildir. Bir madde kalırsa düzeltilir ve o madde (ve etkilediği maddeler) tekrar test edilir. Maddeler bu belgedeki kabul testlerinin birebir kopyasıdır; yeni beklenti eklenmedi.
 
 Test, **`ftansu/AI-BalBal` arayüzü üzerinden** yapılır (T-19…T-25); backend testleri (T-01…T-18) backend tarafının otomatik testleri ve özetiyle kanıtlanır.
 

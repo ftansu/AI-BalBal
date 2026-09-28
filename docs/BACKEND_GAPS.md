@@ -1,268 +1,491 @@
-# Balbal Frontend ↔ company-ai Backend — Eksikler ve Uyum Raporu
+# X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
-**Hazırlayan:** Tansu (Claude ile) · **Tarih:** 28.09.2026
-**Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4 tamamlandı) ↔ `ftansu/AI-BalBal` (bu repo)
-**Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v160)
-**Revizyon:** v5 · 28.09.2026 akşam
-
-> **v5 değişiklikleri:** (1) En üste **Değişmez İlke P-1** eklendi (personel onayı olmadan hiçbir işlem ilerlemez). (2) **B-21** numarası EPİAŞ / mahsuplaşma hesabına ayrıldı (tam metin ayrıca eklenecek, bkz. B-21). (3) **B-22** personel izin sistemi, **B-23** Hukuk ve Enerji-Geliştirme yazışma/dilekçe taslağı eklendi. (4) Öncelik tablosu ve D bölümündeki hazır istem güncellendi.
->
-> **Numara notu:** Tansu'ya aynı gün iletilen ayrı bir ek dosyada izin sistemi "B-21", yazışma "B-22" olarak geçiyordu. **Geçerli numaralar bu dosyadakilerdir:** B-21 = mahsuplaşma, B-22 = izin, B-23 = yazışma.
+**Kime:** Naci ve Naci'nin yapay zekası
+**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v6 · 28.09.2026
+**Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
+**Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v165). Repo ile canvas farklıysa **canvas esastır**.
 
 ---
 
-## ⛔ Değişmez İlke P-1 — Personel onayı olmadan hiçbir işlem ilerlemez
+## İçindekiler
 
-Bu, platformun **temel felsefesidir**. Hiçbir phase, hiçbir optimizasyon, hiçbir "kullanıcı deneyimi" gerekçesi bu ilkeyi esnetemez. Yeni bir özellik tasarlarken bu ilkeyle çelişen bir yol görürsen **dur ve Tansu'ya sor**.
-
-1. **Balbal yalnızca taslak üretir.** Balbal (LLM) hiçbir zaman kayıt oluşturmaz, göndermez, onaylamaz, imzalamaz, silmez. Anlar, eksik bilgiyi sorar, taslak yazar. Bu kadar.
-2. **Taslak önce talep sahibine (personele) gösterilir.** Personel taslağı arayüzde görür, gerekirse düzeltir ve **kendi kimlik doğrulamalı oturumundan, arayüzdeki açık onay butonuyla** onaylar. Personel onaylamadan taslak **hiç kimseye** (yönetici, İK, hukuk, başka departman) görünmez ve hiçbir kuyruğa düşmez.
-3. **Sohbette "onaylıyorum / tamam / gönder" yazmak onay değildir.** Onay yalnızca ayrı bir uç (`POST …/approve`) üzerinden gelir; bu uç yalnızca talep sahibinin oturumuyla çağrılabilir. Balbal'ın, bir servisin veya başka bir kullanıcının (yönetici ve admin dahil) personel adına onay vermesi **teknik olarak imkânsız** olmalıdır (403).
-4. **Onaydan sonra içerik değişirse onay düşer.** Onaylanmış bir formun içeriği değiştirilemez. Değişiklik gerekiyorsa form "düzeltme istendi" durumuyla personele geri döner; personel düzeltir ve **yeniden onaylar**. Yönetici ve İK formu kendileri düzenleyemez.
-5. **Durum geçişlerini kod yönetir, LLM değil.** Durum makinesi deterministik koddur. LLM çıktısı hiçbir zaman bir durum geçişini doğrudan tetiklemez.
-6. **Her geçiş denetim kaydına yazılır:** kim, ne zaman, önceki durum, sonraki durum, (varsa) yorum.
-7. **Test zorunludur.** Her işlem modülünde en az şu testler olmalı: (a) personel onayı olmadan sonraki duruma geçiş → reddedilir; (b) başkası adına onay → 403; (c) onaydan sonra içerik değişikliği → onay düşer; (d) onaylanmamış taslak başka kullanıcının hiçbir listesinde görünmez.
-
-**Kapsam:** Bu ilke bugün B-22 (izin) ve B-23 (yazışma/dilekçe) için geçerlidir; ileride eklenecek **her** işlem türü (masraf, satın alma talebi, avans, evrak talebi, görüş talebi vb.) için de aynen geçerlidir. Yeni bir işlem türü eklenirken bu bölüm referans alınır.
-
-
----
-
-## Naci için kısa özet
-
-- **Önce yukarıdaki P-1 ilkesini oku.** Balbal hiçbir işlemi personel onayı olmadan ilerletemez; bu kural her yeni özellikte geçerli.
-- Bu repodaki frontend, senin backend'inin **mevcut API'lerini birebir kullanıyor**: `/api/ask`, `/api/documents/*`, `/api/excel/*`, `/api/projects`, `/api/departments`, `/api/users`, `/api/audit-log`, `/api/auth/*`. Senin backend koduna hiçbir değişiklik yapılmadı.
-- Tasarımın ihtiyaç duyup backend'de **olmayan** özellikler için frontend, önerilen endpoint'leri çağırıyor (`frontend/src/api/proposed.ts`). Backend 404/405/501 dönerse arayüz sahte veri göstermiyor. Onun yerine "Backend bekleniyor" kutusu ve çağırdığı endpoint'in adı görünüyor. Yani bir endpoint'i eklediğin anda ilgili ekran kendiliğinden çalışmaya başlar.
-- Aşağıdaki **B-xx** maddeleri kod yorumlarında da aynı numarayla geçiyor.
-- Ürün veya mimari kararı gerektiren maddeleri **SORU** olarak işaretledim (senin CLAUDE.md kuralına uygun olarak). Bunlarda tahmin yürütüp uygulamaya geçme; önce Tansu ile karar verin.
-
-### Öncelik tablosu
-
-| No | Konu | Tür | Öneri |
-|---|---|---|---|
-| B-07 | Kaynak kartında güncel/önceki versiyonun **id**'si | Küçük şema ekleme | Hemen |
-| B-04 | `/api/ask` cevabında kayıt id + geri bildirim | Küçük | Hemen |
-| B-13 | Belge listesinde dosya türü alanı | Küçük | Hemen |
-| B-17 | İndirilen dosyanın adı + tarayıcıda açma | Küçük | Hemen |
-| B-01 | Gündem (ana ekran özeti) | Orta | V0 sonu |
-| B-03 | Balbal sohbet geçmişi + çok turlu soru | Orta | V0 sonu (SORU) |
-| B-05 | Şirket rehberi (yönetici olmayan için) | Küçük-orta | V0 sonu |
-| B-08 | "Departman yöneticisi" rolü | Yetki modeli | **SORU** |
-| B-09 | Kullanıcının ana departmanı | Küçük | **SORU** ile birlikte |
-| B-10 | Bir belgenin birden çok departmanla paylaşımı | Yetki modeli | **SORU** |
-| B-11 | Yetkisiz belge → evrak talebi | Güvenlik hassas | **SORU** |
-| B-12 | Etiket önerisini yükleyenin onaylaması | Yetki | **SORU** |
-| B-02 | Bildirimler | Orta | V1 |
-| B-06 | Ekip sohbeti + departmanlar arası görüş talebi | Büyük | V1 (**SORU**) |
-| B-14 | Genel arama endpoint'i | Orta | V1 |
-| B-18 | Profesyonel demo belge + Excel seti | Veri | **Hemen** |
-| B-19 | Arayüzü inceleyip eksik tamamlama + tersine yetenek listesi | Analiz | **Hemen** |
-| B-20 | Zihin haritası uyumu (departmanlar, çok proje, izin modeli) | Şema | Hemen / kısmen **SORU** |
-| B-21 | EPİAŞ verisi + günlük tahsilat / aylık mahsuplaşma hesabı | Büyük (hesap motoru) | Yer ayrıldı — tam metin gelene kadar **başlama** |
-| B-22 | Personel izin sistemi (yıllık izin) — P-1 ilkesiyle | Yeni modül + durum makinesi | ADR önce; kod, başlama koşulları tamamlanınca (B-22 §12) |
-| B-23 | Gelen yazı / dava evrakına cevap ve dilekçe taslağı (Hukuk, Enerji-Geliştirme) — P-1 ilkesiyle | Yeni modül | ADR önce; kod, başlama koşulları tamamlanınca (B-23 §11) |
-| B-15 / B-16 | Word yükleme, EPİAŞ canlı veri | V0 kapsamı dışı | Not |
+0. [Bu belge nasıl okunur](#0-bu-belge-nasıl-okunur)
+1. [Genel sistemin çalışma prensibi](#1-genel-sistemin-çalışma-prensibi)
+2. [Kurumsal yapı, kişiler ve yetki](#2-kurumsal-yapı-kişiler-ve-yetki)
+3. [Balbal için notlar](#3-balbal-için-notlar)
+4. [Belgeler ve kurumsal hafıza](#4-belgeler-ve-kurumsal-hafıza)
+5. [Ana ekran: gündem ve bildirimler](#5-ana-ekran-gündem-ve-bildirimler)
+6. [Departmanlar arası iletişim yöntemleri](#6-departmanlar-arası-iletişim-yöntemleri)
+7. [Departman bazlı talepler](#7-departman-bazlı-talepler)
+   - 7.1 Proje Finans · 7.2 Mali İşler · 7.3 Hukuk · 7.4 İdari İşler · 7.5 İK · 7.6 Enerji
+8. [Ortak modüller (birden çok departmanın kullandığı)](#8-ortak-modüller)
+   - 8.1 İşlem talepleri ve personel izni (B-22) · 8.2 Resmî yazışma ve dilekçe taslağı (B-23) · 8.3 EPİAŞ ve mahsuplaşma hesabı (B-21)
+9. [Demo veri seti](#9-demo-veri-seti)
+10. [Naci'den beklenen analiz](#10-naciden-beklenen-analiz)
+11. [Ertelenen ve kapsam dışı işler](#11-ertelenen-ve-kapsam-dışı-işler)
+12. [Yol haritası ve öncelik sırası](#12-yol-haritası-ve-öncelik-sırası)
+13. [Naci'nin yapay zekasına hazır istem](#13-nacinin-yapay-zekasına-hazır-istem)
+- [Ek A — B kodu dizini](#ek-a--b-kodu-dizini)
 
 ---
 
-## A. Backend'de VAR, frontend'e bu çalışmada eklendi
+## 0. Bu belge nasıl okunur
 
-Bunlar için backend'de değişiklik gerekmiyor; bilgin olsun diye listeliyorum.
+- Belge **konu başlıklarına** göre düzenlendi. Her talebin yanında bir **B kodu** var (B-01 … B-23). Frontend kodundaki yorumlar (`// BACKEND_GAPS B-07` gibi) bu kodlara atıf yapar; kodlar değişmedi. Hangi kodun hangi bölümde olduğu **Ek A**'da.
+- Her talebin başında bir **durum etiketi** var:
 
-1. **`/api/ask` proje kapsamı (`project_id`)**: Eski arayüz bunu hiç göndermiyordu. Artık Balbal penceresinde ve departmanın "Balbal'a Sor" sekmesinde proje seçilebiliyor.
-2. **`GET /api/excel/{id}/inspect`**: Hiçbir ekranda kullanılmıyordu. Belge detayında "Excel dosya yapısı" kartı olarak gösteriliyor (sayfalar, adlandırılmış aralıklar, formül sayısı, makro, yeniden hesaplama). Excel olmayan belgede 422 dönüyor, kart gizleniyor.
-3. **Excel/CSV yükleme**: Backend `xlsx/xlsm/csv` kabul ediyordu ama yükleme formundaki dosya seçici yalnızca PDF ve görsel kabul ediyordu. Düzeltildi.
-4. **Versiyon zinciri**: Belge detayında `supersedes_document_id` / `superseded_by_document_id` ham UUID olarak gösteriliyordu. Artık açılabilir ve indirilebilir link olarak gösteriliyor.
-5. **Dosya linki kuralı** (Tansu'nun sabit kuralı): Arayüzdeki her dosya referansı hem tıklanabilir hem indirilebilir olmalı. Belge listesi, kaynak kartları, Excel kaynakları, arama sonuçları ve sohbet ekleri bu kurala göre düzenlendi.
+| Etiket | Anlamı |
+|---|---|
+| **HEMEN** | Kararı verilmiş, küçük/orta iş. Doğrudan uygulanabilir. |
+| **SIRADA** | Kararı verilmiş ama başka bir işin bitmesini bekliyor. Başlama koşulu yazılıdır. |
+| **ADR ÖNCE** | Kod yazılmadan önce mimari karar kaydı (ADR) taslağı hazırlanıp Tansu'ya onaya sunulur. |
+| **ÖNERİLEN KARAR** | Tansu'ya bir karar önerildi, onay bekleniyor. Onaylanana kadar yalnızca ADR/soru listesi; kod yok. |
+| **BİLGİ** | Uygulama talebi değil; bağlam veya ileride yapılacak iş. |
+| **BEKLEMEDE** | Metni tamamlanmadı; başlanmaz. |
+
+- "Frontend" = `ftansu/AI-BalBal` (Tansu tarafı). "Backend" = `ntoydem/company-ai` (Naci tarafı). **Backend tarafı frontend'e dokunmaz**; frontend tarafı backend'e dokunmaz.
+- Backend'de olmayan uçlar için frontend `frontend/src/api/proposed.ts` içindeki **sözleşmeyi** çağırır. Backend 404/405/501 dönerse ekran sahte veri göstermez; "Backend bekleniyor" kutusu ve uç adı görünür. Yani bir ucu eklediğin anda ilgili ekran kendiliğinden çalışır. **Alan adlarını `proposed.ts` ile birebir eşleştir.**
 
 ---
 
-## B. Backend'e eklenmesi gerekenler
+## 1. Genel sistemin çalışma prensibi
 
-### B-01 · Gündem — `GET /api/me/agenda`
-Ana ekranın en üstündeki "Gündeminiz" kutusu, kişinin takip etmesi gereken profesyonel uyarıları gösterir.
-```json
-[{ "id": "…", "kind": "approval|opinion_request|deadline|document_request",
-   "title": "…", "due_date": "2026-10-02", "document_id": "…|null", "document_title": "…|null" }]
-```
-- **Hemen yapılabilecek kısım:** `documents.expiration_date` alanı zaten var. Kullanıcının `allowed_document_ids` kümesinde, 60 gün içinde süresi dolacak belgeler `kind: "deadline"` olarak dönülebilir.
-- Onay bekleyen AI etiket önerileri (`metadata_suggestions.status = pending`) `kind: "approval"` olarak dönülebilir. Kimin onaylayacağı B-12'ye bağlı.
-- Görüş ve evrak talepleri (B-06, B-11) eklenince onlar da bu listeye düşer.
-- Kural: `document_id` olan her madde `allowed_document_ids` kontrolünden geçmeli. Yetkisiz bir belgenin başlığı bile dönmemeli.
+### 1.1 Ürünün mantığı: Tanı → Birleştir → Yorumla
 
-### B-02 · Bildirimler — `GET /api/notifications`, `POST /api/notifications/read-all`
-```json
-[{ "id": "…", "kind": "approval|opinion_request|deadline|document_request|document_uploaded|version_changed",
-   "text": "…", "created_at": "…", "read": false, "document_id": null, "document_title": null, "chat_id": null }]
-```
-Olay kaynakları:
-- kullanıcının departmanına belge yüklenmesi,
-- bir belgenin yerine yeni versiyon gelmesi (`supersedes` zinciri),
-- onay bekleyen öneri,
-- gelen veya cevaplanan görüş talebi,
-- karşılanan evrak talebi.
+Platform, şirketin kendi verisini yapay zekaya üç kademede kullandırır. Her kademe ayrı satılabilir bir üründür; ama hepsi **tek ortak altyapı** üzerinde çalışır.
 
-Arayüz bu listeyi 60 saniyede bir yeniliyor. İleride push gerekmez.
+| Ürün | Ne yapar | Ne yapmaz |
+|---|---|---|
+| **Ürün 1 — Kurumsal Bilgi ve Doküman Sistemi** (Tanıma) | Departman yapısını kurar. Belgeleri toplar, sınıflandırır, indeksler, bağlar. Yetkiye göre bulur, okur, **kaynak göstererek, yorum katmadan** cevap verir. | Yorum, görüş, projeksiyon üretmez. |
+| **Ürün 2 — AI Destek Beyni** (Birleştirme) | Farklı kaynaklardaki kesin bilgiyi birleştirir, yan yana gösterir; **yalnızca gerçekleşen veriyle** aritmetik yapar; şirket şablonlarını doldurur; **yazı ve form taslağı** hazırlar; eksik bilgi/belgeyi gösterir; deadline hatırlatır; departmanlar arası **görüş talebini** yönetir. | Karar vermez, kritik işlem yapmaz. **İnsan onaylar.** |
+| **Ürün 3 — Departman Bazlı AI Araçları** (Yorumlama) | Departman bazında detaylı görüş, projeksiyon, sapma analizi. | Son onay yine insanda. |
 
-### B-03 · Balbal sohbet geçmişi ve çok turlu soru — **SORU**
-- `GET /api/ask/conversations` → `[{ id, title, updated_at }]`
-- `GET /api/ask/conversations/{id}` → `{ id, turns: [{ question, response: AskResponse, created_at }] }`
-- `AskRequest.conversation_id?` (isteğe bağlı) ve `AskResponse.conversation_id`
+**Pratik sonuç:** Bir özelliği tasarlarken önce "bu Ürün 1 mi, 2 mi, 3 mü?" diye bak. Ürün 1 seviyesindeki bir cevapta yorum görürsen hatadır. Ürün 2 seviyesinde tahmin/projeksiyon görürsen hatadır.
 
-Sorular:
-- **SORU:** CLAUDE.md "Soru-cevaplar bilgi tabanına GİRMEZ" diyor. Önerim: geçmiş yalnızca kullanıcının kendisine ait ayrı bir tabloda tutulsun (`ask_conversations`), retrieval'a hiç girmesin, 90 gün saklansın (denetim kaydıyla aynı süre). Onaylıyor musunuz?
-- **SORU:** Takip sorularında ("peki ya İzmir?") önceki turun sorusu sınıflandırıcıya bağlam olarak verilsin mi? Kaynak kuralı değişmez: her turda retrieval yeniden `allowed_document_ids` üzerinden yapılır.
+### 1.2 Değişmez ilkeler
 
-Şu an frontend geçmişi yalnızca tarayıcı oturumunda tutuyor. Sayfa yenilenince kayboluyor.
+Bu ilkeler hiçbir phase'de, hiçbir gerekçeyle esnetilmez. Bir tasarım bunlardan biriyle çelişiyorsa **dur ve Tansu'ya sor**.
 
-### B-04 · Cevap kimliği ve geri bildirim
-- `AskResponse`'a `audit_log_id` eklenmeli (denetim kaydı zaten yazılıyor, yalnızca id'si dönmüyor).
-- `POST /api/ask/feedback { audit_log_id, rating: "up"|"down", comment? }`: Denetim kaydına bağlanır. "Hatalı bildir" bildirimleri yönetim panelinde filtrelenebilir. Eval setini büyütmek için iyi bir kaynak olur.
+#### P-1 · Personel onayı olmadan hiçbir işlem ilerlemez ⛔
 
-### B-05 · Şirket rehberi — `GET /api/directory?q=&department=`
-`/api/users` yalnızca admin'e açık. Ekip sohbetinde kişi bulmak ve eklemek için herkesin görebileceği dar bir liste gerekiyor:
-```json
-[{ "id": "…", "display_name": "…", "title": "Proje Finans Müdürü", "department_slug": "finans", "department_name": "Finans" }]
-```
-- `users` tablosunda **unvan (`title`) alanı yok**; eklenmeli.
-- Şifre özeti, rol ve aktiflik gibi bilgiler bu uçta dönmemeli.
+Platformun temel felsefesi budur.
 
-### B-06 · Ekip sohbeti ve departmanlar arası görüş talebi — **SORU (V1)**
-```
-GET  /api/chats                      → [{ id, kind: direct|group|opinion_request, title, member_ids, includes_balbal,
-                                          last_message, updated_at, unread_count, opinion_request: {…}|null }]
-POST /api/chats                      { member_ids, title?, include_balbal }
-GET  /api/chats/{id}/messages        → [{ id, sender_id|null(=Balbal), sender_name, text, document_id, document_title, created_at, system }]
-POST /api/chats/{id}/messages        { text? , document_id? }
-POST /api/chats/{id}/members         { member_ids, include_balbal? }
-POST /api/opinion-requests           { to_department, subject, body, due_date }
-```
-- **Güvenlik (kritik):** Balbal bir grup sohbetine eklendiğinde yalnızca **sohbetteki tüm üyelerin ortak görebildiği** belgelerden cevap vermeli. Yani üyelerin `allowed_document_ids` kümelerinin kesişimi. Aksi halde yetkisiz bir üye, yetkili bir üyenin belgesini Balbal üzerinden okumuş olur.
-- **Güvenlik:** Sohbette paylaşılan bir belge (`document_id`) her alıcı için indirme anında yeniden yetki kontrolünden geçmeli. Paylaşmak yetki vermez. Arayüz de paylaşım listesinde yalnızca kullanıcının görebildiği belgeleri gösteriyor.
-- Kurumsal hafıza kararı (Tansu): **yalnızca departmanlar arası görüş talepleri ve cevapları** otomatik olarak kurumsal hafızaya girer. Kişiler arası sohbetler girmez.
-- **SORU:** Kişiler arası sohbet V1'de mi olacak, yoksa önce yalnızca görüş talebi mi yapılacak? Önerim: önce görüş talebi (Ürün 2'nin çekirdeği); serbest sohbet sonra gelsin, gerekirse Teams entegrasyonuyla.
+1. **Balbal yalnızca taslak üretir.** Kayıt oluşturmaz, göndermez, onaylamaz, imzalamaz, silmez. Anlar, eksik bilgiyi sorar, taslak yazar.
+2. **Taslak önce talep sahibine gösterilir.** Personel taslağı arayüzde görür, gerekirse düzeltir ve **kendi kimlik doğrulamalı oturumundan, arayüzdeki açık onay butonuyla** onaylar. Onaylamadan taslak **hiç kimseye** (yönetici, İK, hukuk, başka departman) görünmez ve hiçbir kuyruğa düşmez.
+3. **Sohbette "onaylıyorum / tamam / gönder" yazmak onay değildir.** Onay yalnızca ayrı bir uçtan (`POST …/approve`) ve yalnızca talep sahibinin oturumuyla gelir. Balbal'ın, bir servisin veya başka bir kullanıcının (yönetici ve admin dahil) personel adına onay vermesi **teknik olarak imkânsız** olmalı (403).
+4. **Onaydan sonra içerik değişirse onay düşer.** Yönetici, İK veya ikinci onaycı formu **düzenleyemez**; yalnızca onaylar, reddeder ya da yorumla "düzeltme iste" der. Form personele döner, personel düzeltir ve **yeniden onaylar**.
+5. **Durum geçişlerini kod yönetir, LLM değil.** LLM çıktısı hiçbir zaman bir durum geçişini doğrudan tetiklemez.
+6. **Her geçiş denetim kaydına yazılır:** kim, ne zaman, önceki durum, sonraki durum, yorum.
+7. **Her işlem modülünde dört zorunlu test:** (a) personel onayı olmadan sonraki duruma geçiş reddedilir; (b) başkası adına onay → 403; (c) onaydan sonra içerik değişikliği onayı düşürür; (d) onaylanmamış taslak başka kullanıcının hiçbir listesinde (kuyruk, gündem, bildirim, arama, Balbal) görünmez.
 
-### B-07 · Kaynak kartında versiyon id'leri
-`SourceCard` şu an `supersedes_title` ve `superseded_by_title` dönüyor, **id dönmüyor**. Bu yüzden "Bu eski bir versiyon, güncel versiyon: X" uyarısındaki X tıklanamıyor. Önerilen ekleme:
-```python
-supersedes_document_id: UUID | None
-superseded_by_document_id: UUID | None
-```
-Not: Güncel versiyonun id'si dönmeden önce kullanıcının o belgeyi görme yetkisi kontrol edilmeli. Yetki yoksa `None` dönmeli.
+**Kapsam:** Bugün izin talebi (§8.1) ve yazışma/dilekçe (§8.2). İleride eklenecek **her** işlem (masraf, satın alma, avans, evrak talebi, görüş talebi vb.) aynı kurala tabidir.
 
-### B-08 · "Departman yöneticisi" rolü — **SORU**
+#### P-2 · Yetki tek kapıdan geçer
+
+- Belgeye dayanan **her** çıktı (cevap, kaynak kartı, arama sonucu, gündem maddesi, bildirim, sohbette paylaşılan belge, taslak) `allowed_document_ids` üzerinden süzülür. Yetki kontrolü **arama/erişim seviyesinde** yapılır; LLM'e bırakılmaz.
+- Yetkisiz içerik **LLM'e bile girmez**. Yetkisiz bir belgenin başlığı, varlığı, sayısı dahi ele verilmez.
+- Yeni bir yetki kuralı gerekirse (ör. departman yöneticisi, belge paylaşımı) değişiklik **yalnızca** `allowed_document_ids` hesabında yapılır; ikinci bir yetki yolu açılmaz.
+
+#### P-3 · Sahte veri yok
+
+Backend'de olmayan bir özellik için arayüz uydurma veri göstermez. Backend de "boş ama başarılı" cevap yerine gerçekten yoksa 404/501 döner. Tahmini bir değer gösteriliyorsa **"tahmini"** diye etiketlenir.
+
+#### P-4 · Her dosya referansı açılabilir ve indirilebilir
+
+Arayüzde görünen her belge, Excel, sözleşme adı hem tıklanıp açılabilen hem indirilebilen bir link olmalı. Bu yüzden belgeye atıf yapan **her** API cevabı `document_id` taşır (yetki kontrolünden geçmiş olarak).
+
+#### P-5 · Bir kişi = bir arayüz
+
+Her kişinin tek bir ana departmanı ve tek bir arayüzü vardır; arayüzde departman değiştirme yoktur. Departman seçme ekranını yalnızca yönetim ve admin görür.
+
+#### P-6 · Her proje ayrı gösterilir
+
+Birden çok proje söz konusu olduğunda cevaplar, tablolar ve API çıktıları **proje proje ayrı** döner. Konsolide/toplam satırı yalnızca açıkça istenirse üretilir; API varsayılan olarak konsolide dönmez.
+
+#### P-7 · Sadelik
+
+Ekran bilgiyle doldurulmaz. İlk bakışta göze çarpması gerekenler görünür; detay isteyen Balbal'a sorar. Backend tarafında bunun anlamı: ana ekran uçları (gündem, bildirim) **kısa ve öncelikli** liste döner, her şeyi dökmez.
+
+#### P-8 · Sabit motor, yapılandırılabilir şablon
+
+İş mantığı (durum makineleri, hesap motoru, yetki) sabittir. Şirkete özel değerler (oranlar, süreler, şablonlar, tatiller, departman yapısı) **tablo/parametre** olarak tutulur, koda gömülmez.
+
+#### P-9 · Kurgusal demo, açık repo
+
+- Demo ortamında gerçek kişi, gerçek kurum logosu, gerçek belge numarası yok; her şey kurgusal.
+- `ftansu/AI-BalBal` **public** bir repo: gerçek sözleşme oranları, gerçek santral/EPİAŞ kimlikleri, şifre, anahtar asla yazılmaz.
+
+#### P-10 · Karar gerektiren yerde dur
+
+Ürün veya yetki kararı gerektiren bir noktada (belgede **ÖNERİLEN KARAR** veya **ADR ÖNCE** etiketli maddeler) tahmin yürütüp uygulamaya geçme. Önce ADR taslağı ve soru listesi.
+
+### 1.3 İş bölümü
+
+| Kim | Sorumluluk |
+|---|---|
+| **Tansu** | Ürün kararları, zihin haritası (bible), tasarım. Görsel her değişiklik önce Claude Design canvas'ında tasarlanır ve onaylanır, sonra frontend koduna girer. |
+| **Frontend** (`ftansu/AI-BalBal`) | Ekranlar. Backend'e yalnızca API üzerinden bağlanır. Yeni uç ihtiyacını `proposed.ts`'e sözleşme olarak yazar ve bu belgeye ekler. |
+| **Naci / backend** (`ntoydem/company-ai`) | API, veri modeli, yetki, retrieval, LLM akışları, entegrasyonlar (EPİAŞ vb.), testler. Frontend'e dokunmaz; tip değişikliği önerisini Tansu'ya liste olarak verir. |
+
+### 1.4 Bugünkü durum: backend'de var, frontend'e bağlandı (BİLGİ)
+
+Bunlar için backend'de değişiklik gerekmiyor.
+1. **`/api/ask` proje kapsamı (`project_id`)** frontend'e bağlanmıştı; canvas v165'te **proje seçimi kaldırıldı** (bkz. §3.3). Kod henüz buna uyarlanmadı; `project_id` gönderimi kalkacak.
+2. **`GET /api/excel/{id}/inspect`** belge detayında "Excel dosya yapısı" kartı olarak gösteriliyor (sayfalar, adlandırılmış aralıklar, formül sayısı, makro). Excel olmayan belgede 422 → kart gizleniyor.
+3. **Excel/CSV yükleme:** Backend `xlsx/xlsm/csv` kabul ediyordu, formdaki dosya seçici yalnızca PDF/görsel alıyordu. Düzeltildi.
+4. **Versiyon zinciri:** `supersedes_document_id` / `superseded_by_document_id` artık açılabilir ve indirilebilir link.
+5. **Dosya linki kuralı (P-4):** belge listesi, kaynak kartları, Excel kaynakları, arama, sohbet ekleri bu kurala göre düzenlendi.
+
+---
+
+## 2. Kurumsal yapı, kişiler ve yetki
+
+Kurumsal yapı hem backend'de hem frontend'de **zihin haritasıyla (bible) birebir aynı** olmalı. Bir uyumsuzluk görürsen Tansu'ya rapor et; kendin karar verme.
+
+### 2.1 Departman yapısı — **B-20 (1–5)** · HEMEN
+
+Zihin haritasındaki yapı:
+
+| Departman | Alt birimler |
+|---|---|
+| Proje Finans | — |
+| Mali İşler | Muhasebe, Finansal Muhasebe |
+| Hukuk | — |
+| İdari İşler | — |
+| İK | — |
+| Enerji | Proje Geliştirme, O&M (İşletme ve Bakım), EPC (İnşaat), Üretim/Piyasa |
+
+Backend'de tespit edilen farklar:
+1. **İK departmanı yok** → eklenmeli.
+2. **Enerji altında Üretim/Piyasa yok** → eklenmeli.
+3. **"Finans" adı** → "Proje Finans" olmalı (slug değişecekse frontend'e haber ver).
+4. **Mali İşler alt birimleri yok** → Muhasebe ve Finansal Muhasebe eklenmeli.
+5. **Demo kullanıcısı `finans` hem Finans hem Mali İşler'de** → P-5'e ters. Arayüz, "Proje Finans, Mali İşler belgesini göremez" senaryosunu örnek olarak kullanıyor; kullanıcı yalnızca Proje Finans'ta olmalı.
+
+### 2.2 Ana departman — **B-09** · HEMEN (B-08 ile birlikte)
+
+- P-5 gereği kişinin **ana departmanı** bilinmeli: `users.primary_department_id` eklensin, `/api/auth/me` dönsün.
+- Frontend şu an `department_slugs[0]`'ı ana departman kabul ediyor; alan gelince ona geçecek.
+
+### 2.3 Unvan ve yönetici bilgisi · HEMEN
+
+- `users.title` (unvan, ör. "Proje Finans Müdürü") — rehber ve onay ekranları için (§6.1).
+- `users.manager_id` (nullable) — izin ve diğer işlem onayları için (§8.1).
+
+### 2.4 "Departman yöneticisi" rolü — **B-08** · ÖNERİLEN KARAR
+
 Mevcut kural (`authorization.py`):
 - `employee`: kendi departmanının yalnızca `normal` belgeleri
 - `management`: tüm departmanlar, tüm gizlilik düzeyleri
 
-Tasarımda Tansu (Proje Finans Müdürü) kendi departmanının **kısıtlı** belgelerini de görüyor, ama başka departmanların belgelerini görmüyor. Hukuk'tan Ayşe ve Enerji'den Kerem için de durum aynı. Mevcut iki rolden hiçbiri buna uymuyor.
-- Öneri: `department_manager` rolü ekle, kuralı "kendi departman(lar)ı + `normal` ve `restricted`" olsun.
-- Alternatif: `user_departments` tablosuna üyelik bazında `max_confidentiality` alanı ekle.
+Tasarımda departman müdürleri (Proje Finans müdürü, Hukuk müdürü, Enerji müdürü) **kendi departmanlarının `restricted` belgelerini de** görüyor ama başka departmanların belgelerini görmüyor. Mevcut iki rol buna uymuyor.
 
-Değişiklik yine yalnızca `allowed_document_ids` içinde olmalı; tek kapı kuralı bozulmamalı.
+- **Önerilen karar:** `department_manager` rolü; kural: "kendi departman(lar)ı, `normal` + `restricted`". (Alternatif: `user_departments` üyeliğine `max_confidentiality` alanı.)
+- Bu rol aynı zamanda: etiket önerisi onayı (§4.2), işlem onay zinciri (§8.1), yazışma ikinci onayı (§8.2) için kullanılır.
+- Değişiklik yalnızca `allowed_document_ids` içinde (P-2).
+- **Not (Tansu'nun yaklaşımı):** yetki yapısı her şirkette farklı yapılandırılabilir olmalı (P-8). İK'da erişim **bireysel**, operasyonel departmanlarda (Enerji, Hukuk, Finans…) **departman bazlı** düşünülür.
 
-### B-09 · Ana departman
-Demo kullanıcısı `finans` hem `finans` hem `mali_isler` departmanına üye. Tasarım kuralı "bir kişi = tek arayüz" olduğu için kişinin **ana departmanı** bilinmeli.
-- Öneri: `users.primary_department_id` alanı eklensin, `/api/auth/me` bunu dönsün.
-- Frontend şu an `department_slugs[0]` değerini ana departman kabul ediyor.
+### 2.5 Bir belgenin birden çok departmanla paylaşımı — **B-10** · ÖNERİLEN KARAR
 
-### B-10 · Bir belgenin birden çok departmanla paylaşımı — **SORU**
-`documents.department` tek değer alıyor. Ama örneğin bir kredi sözleşmesine hem Finans'ın hem Hukuk'un erişmesi gerekiyor. Bugün bu ancak `management` rolüyle mümkün.
-- Öneri: `document_shares(document_id, department_id)` tablosu eklensin, `allowed_document_ids` bunu da hesaba katsın.
-
-### B-11 · Yetkisiz belge için evrak talebi — **SORU (güvenlik)**
-Tasarımda Balbal "bu belge Mali İşler'in alanında" diyor ve "evrak talep et" butonu sunuyor. **Dikkat:** Bu, kullanıcının görmemesi gereken bir belgenin varlığını ele verir. SECURITY kuralına göre yetkisiz içerik LLM'e bile girmemeli.
-- Öneri: Belge başlığını veya içeriğini asla göstermeyen, yalnızca "bu konuda başka bir departmandan belge talep edebilirsiniz" diyen genel bir akış kurulsun: `POST /api/document-requests { to_department, description }`. Talep hedef departmanın gündemine düşer (B-01).
-- **SORU:** Balbal kaynak bulamadığında hangi departmana yönlendireceğini söyleyebilir mi, yoksa kullanıcı departmanı kendisi mi seçmeli? Güvenli seçenek: kullanıcı seçsin.
-
-### B-12 · Etiket önerisini kim onaylar — **SORU**
-`metadata-suggestion/apply` ve `reject` yalnızca admin'e açık. Tasarımda belgeyi yükleyen kişi (veya o departmanın yöneticisi) Balbal'ın önerisini kendisi onaylıyor. Aksi halde her yükleme admin'i bekler.
-- Öneri: Yükleyen kişi veya belgenin departmanındaki `department_manager` (B-08) onaylayabilsin.
-
-### B-13 · Belge listesinde dosya türü
-`DocumentListItem` ve `DocumentDetail` dosya türünü içermiyor. Frontend, bir belgenin Excel olup olmadığını anlamak için `inspect` çağırıp 422 alıyor.
-- Öneri: `file_kind: "pdf" | "image" | "xlsx" | "xlsm" | "csv"` alanı eklensin.
-
-### B-14 · Genel arama — `GET /api/search?q=`
-Üst bardaki arama şu an belge ve projeleri `/api/documents` ve `/api/projects` listeleri üzerinden **istemcide** filtreliyor. Yalnızca başlık, tür ve muhatap alanlarında arıyor.
-- Öneri: Retrieval'daki FTS kullanılarak içerikte de arama yapan bir uç eklensin. Dönüş: `{ documents: [{…, snippet, page_number}], projects: [...], people: [...] }`. Yetki yine `allowed_document_ids` üzerinden kontrol edilmeli.
-
-### B-17 · İndirme: dosya adı ve tarayıcıda açma
-`download_document` şu an `FileResponse(path, filename=path.name)` dönüyor. Kullanıcıya inen dosyanın adı **`original.pdf`** oluyor.
-- Öneri: `filename` olarak belgenin başlığı ve uzantısı verilsin (örn. `Ankara RES Kredi Sözleşmesi.pdf`).
-- `?inline=1` parametresiyle `Content-Disposition: inline` desteklensin. Arayüzdeki "Belgeyi aç" linki bunu kullanacak, "İndir" linki ise `attachment` olarak kalacak.
-
-### B-18 · Demo veri seti: arayüzdeki her süreci destekleyen profesyonel belgeler — **ÖNCELİKLİ (Tansu'nun notu)**
-
-Sunucudaki örnek belgeler artık daha profesyonel olmalı ve **arayüzdeki tüm süreçleri kapsamalı**. Arayüzde görünen her adımın arkasında Balbal'ın okuyabileceği gerçekçi (ama kurgusal — gerçek kişi/kurum belgesi değil) bir belge bulunmalı:
-
-- **Enerji — Geliştirme:** ölçüm raporu, önlisans başvurusu ve kararı, YEGM teknik uygunluk, TEİAŞ bağlantı görüşü, tapu/kira, MSB askeri yazı, TEA başvurusu ve sonuç yazısı (olumsuzsa gerekçesiyle), ÇED başvurusu/ek bilgi/karar, jeoteknik etüt, kurum görüşleri, bağlantıya çağrı mektubu, imar, kat-i proje, yapı ruhsatı, lisans. Her belgede başvuru tarihi, sonuç tarihi, sonuç (olumlu/olumsuz) ve olumsuzsa sebep yazmalı; arayüz bunları nokta üzerindeki özet notta gösteriyor.
-- **Enerji — İşletme:** bakım sözleşmesi, arıza tutanakları, yıllık bakım raporu, ÇED izleme yükümlülükleri.
-- **Proje Finans:** kredi sözleşmesi + tadiller (versiyon zinciri), ödeme planı Excel'i, sigorta poliçeleri, banka raporlama formları.
-- **Hukuk:** dava dosyaları, duruşma tutanakları, bilirkişi raporu, sözleşmeler.
-- **Mali İşler / İdari İşler / İK:** her birinden en az birkaç temel belge (ör. ticaret sicil gazetesi, vergi levhası, personel yönetmeliği).
-
-**Profesyonel seviye — nasıl hazırlanmalı:**
-- Önce webde araştır: gerçek bir idareden (EPDK, ETKB/YEGM, TEİAŞ, MSB, Çevre Bakanlığı, belediye, tapu) gelen resmi yazı nasıl görünür (antet, sayı, konu, ilgi, dağıtım, imza bloğu, ekler), kredi/bakım/kira sözleşmesi nasıl yapılandırılır (madde numaralandırma, tanımlar, teminatlar, fesih, ekler). Belgeleri bu formatlara göre üret. İçerik kurgusal olacak; gerçek kurum logosu, gerçek kişi adı veya gerçek belge numarası kullanılmayacak.
-- **Excel dosyaları mutlaka olmalı ve basit değil, orta karmaşıklıkta olmalı.** Arayüz testlerinde Excel testi çok önemli (Proje Finans ve Enerji ekranları). Örnekler:
-  - Proje Finans: kredi ödeme planı (dönem, anapara, faiz, bakiye, döviz; formüllü), nakit akış tablosu (aylık, birden çok sayfa), DSCR hesabı (tadil öncesi 1,25x / sonrası 1,20x eşiği), banka raporlama formu (Annex tipi).
-  - Enerji: santral bazlı aylık üretim ve kapasite faktörü, bakım maliyet takibi (bütçe/gerçekleşen), izin süreçleri takip tablosu (başvuru/sonuç tarihleri, durum).
-  - Birden çok sayfa, formül, birleştirilmiş başlık, tarih ve para formatları içermeli; her proje ayrı gösterilmeli (konsolide tablo yok).
-- Beklenen sonuç: `seed` komutuyla yüklenen bu belgelerle arayüzdeki her ekran, "backend bekleniyor" kutusu olmadan gerçek veriyle dolmalı. Proje isimleri arayüzle aynı olmalı (Karatepe, Yeşilova, Boztepe, Güneşalan; geliştirmede Kızılova, Akyar, Demirci).
-
-### B-19 · Arayüzü incele, kendi eksiklerini tamamla — **Naci'den**
-
-- `ftansu/AI-BalBal` reposundaki frontend'i ve Claude Design canvas'ını ("X Platformu — Ana Sayfa") incele. Backend'de karşılığı olmayan her ekran/alan için eksiği kendin tespit edip tamamla (bu rapordaki maddeler dahil, ama bunlarla sınırlı değil).
-- **Tersine liste:** Backend'inde olup bizim arayüzde **olmayan** her yeteneği bize detaylı olarak yaz: endpoint, ne yaptığı, örnek istek/cevap, hangi ekranda kullanılmasını önerdiğin. Arayüzü buna göre tamamlayacağız.
-
-### B-20 · Zihin haritasıyla (proje bible'ı) uyumsuzluklar
-
-Kurumsal yapı hem backend'de hem frontend'de zihin haritasıyla aynı olmalı. Tespit edilenler:
-
-1. **İK departmanı yok** — eklenmeli.
-2. **Enerji altında Üretim/Piyasa birimi yok** — Proje Geliştirme, İnşaat (EPC), İşletme ve Bakım var; Üretim/Piyasa eklenmeli.
-3. **"Finans" adı** — zihin haritasında "Proje Finans".
-4. **Mali İşler alt birimleri yok** — Muhasebe ve Finansal Muhasebe.
-5. **Demo "finans" kullanıcısı hem Finans hem Mali İşler'de** — "tek kişi = tek departman" kuralına ters; arayüz Proje Finans'ın Mali İşler belgesini görememesini örnek senaryo olarak kullanıyor.
-6. **Tek proje seçimi (`project_id`)** — Artık proje seçimi yok; tek sohbette birden çok proje konuşulabiliyor. Balbal sorudaki projeleri kendisi tespit etmeli, cevapta her proje ayrı gösterilmeli (birleştirme yok) ve her kaynak kartında `project` alanı olmalı.
-7. **İzin süreçleri veri modeli yok** — Enerji/Geliştirme ekranı her proje için adımlar, önkoşullar (adım A bitmeden B başlayamaz), başvuru tarihi, sonuç tarihi, sonuç, olumsuzluk sebebi, belge bağlantısı ve yasal süreler (önlisans 24/36 ay, ÇED başvurusu 90 gün, TEA başvurusu 180 gün) istiyor. Önerilen: `permit_steps` (tanım + önkoşullar) ve `project_permit_status` (proje × adım, tarihler, sonuç, sebep, belge id'leri) tabloları ve `GET /api/projects/{id}/permits`.
-8. (Departman yöneticisi rolü → B-08.)
-
+`documents.department` tek değer alıyor. Oysa bir kredi sözleşmesine hem Proje Finans hem Hukuk erişmeli; bugün bu ancak `management` ile mümkün.
+- **Önerilen karar:** `document_shares(document_id, department_id)` tablosu; `allowed_document_ids` bunu da hesaba katar. Paylaşımı belgenin sahibi departmanın `department_manager`'ı yapar.
 
 ---
 
-### B-21 · EPİAŞ verisi ve günlük tahsilat / aylık mahsuplaşma hesabı — **YER AYRILDI, henüz başlama**
+## 3. Balbal için notlar
 
-Bu numara, ana ekrandaki "günlük yatan tutar" ve "mahsuplaşmada yatacak tutar" hesabına ayrıldı. Formül, veri modeli, endpoint'ler ve test örnekleri Tansu ile ayrı bir çalışmada, gerçek faturayla doğrulanmış referans Excel'den çıkarıldı. **Tam metin bu dosyaya ayrı bir commit ile eklenecek.**
+Balbal, platformun yapay zeka asistanı. Kullanıcı bilgiye ekranda gezinerek değil, **Balbal'a sorarak** ulaşır (P-7).
 
-Metin gelene kadar bilinmesi gereken ve değişmeyecek kararlar:
-- Hesap **backend'de** yapılır. Frontend yalnızca gösterir; tarayıcıdan EPİAŞ'a bağlanılmaz, EPİAŞ şifresi yalnızca ortam değişkeninde durur.
-- Her proje **ayrı** hesaplanır ve ayrı döner; konsolide toplam satırı dönülmez.
-- Oranlar (avans oranı, yönetim bedeli, KDV, YEK payı vb.) koda gömülmez; proje bazlı ve **geçerlilik tarihli** parametre tablosundan okunur.
-- Bu repo herkese açık (public) olduğu için gerçek sözleşme oranları, toplayıcı adı ve gerçek EPİAŞ kimlikleri bu dosyaya yazılmaz; testlerde kurgusal değerler kullanılır.
+### 3.1 Balbal'ın davranış kuralları (BİLGİ — mevcut kurallar, bozulmamalı)
 
-**Talimat:** B-21 tam metni bu dosyaya eklenmeden B-21 için kod yazma, tablo açma, EPİAŞ istemcisi kurma.
+1. **Kaynak göstermeden cevap vermez.** Her olgusal ifade numaralı kaynak kartına bağlanır. Kaynak yoksa "bulunamadı" der; tahmin etmez.
+2. **Ürün seviyesine uyar (§1.1).** Ürün 1 cevabı yorumsuzdur; Ürün 2 hesabı yalnızca gerçekleşmiş veriyle yapılır.
+3. **Yetkisiz içerik LLM'e girmez (P-2).** Balbal "bu belge Mali İşler'de" gibi cümlelerle yetkisiz bir belgenin varlığını ele vermez (bkz. §6.4).
+4. **Kapsam sınırı:** Balbal yalnızca şirket arşivi ve iş süreçleri için cevap verir. Şahsi veya kapsam dışı sorularda nazikçe yönlendirir. Başkalarına ait kişisel bilgiler (maaş, izin, sağlık vb.) yetki filtresiyle **erişim seviyesinde** korunur, LLM'in takdirine bırakılmaz. (Tansu bunu "ciddi bir konu, mimari buna göre kurulacak" olarak tanımladı.)
+5. **Soru kayıtları ve KVKK:** Soru-cevaplar bilgi tabanına **girmez**; denetim kaydında tutulur. Kimin ne görebildiği ve personelin bilgilendirilmesi baştan tasarlanır.
+6. **İşlem yapmaz, taslak üretir (P-1).** Bkz. §3.5.
+
+### 3.2 Sohbet geçmişi ve çok turlu soru — **B-03** · ÖNERİLEN KARAR
+
+Şu an frontend geçmişi yalnızca tarayıcı oturumunda tutuyor; sayfa yenilenince kayboluyor.
+
+```
+GET  /api/ask/conversations        → [{ id, title, updated_at }]
+GET  /api/ask/conversations/{id}   → { id, turns: [{ question, response: AskResponse, created_at }] }
+AskRequest.conversation_id?        (isteğe bağlı)
+AskResponse.conversation_id
+```
+**Önerilen karar:**
+- Geçmiş yalnızca kullanıcının kendisine ait ayrı tabloda (`ask_conversations`) tutulur, **retrieval'a hiç girmez**, 90 gün saklanır (denetim kaydıyla aynı).
+- Takip sorularında ("peki ya Yeşilova?") önceki turun sorusu **sınıflandırıcıya bağlam** olarak verilir. Kaynak kuralı değişmez: her turda retrieval yeniden `allowed_document_ids` üzerinden yapılır.
+- Bu altyapı, işlem diyaloglarının (§3.5, §8.1) da ön koşuludur.
+
+### 3.3 Tek sohbette birden çok proje — **B-20/6** · HEMEN
+
+- Balbal penceresinde **proje seçimi yok** (Tansu'nun kararı). Tek sohbette birden çok proje konuşulabilir.
+- Balbal sorudaki projeleri **kendisi tespit eder**; cevapta her proje ayrı gösterilir (P-6); her kaynak kartında `project` alanı olur.
+- `AskRequest.project_id` artık zorunlu değil; kaldırılabilir veya yok sayılabilir.
+
+### 3.4 Cevap kimliği ve geri bildirim — **B-04** · HEMEN
+
+- `AskResponse`'a `audit_log_id` eklenmeli (kayıt zaten yazılıyor, id'si dönmüyor).
+- `POST /api/ask/feedback { audit_log_id, rating: "up"|"down", comment? }` → denetim kaydına bağlanır. "Hatalı bildir" kayıtları yönetim panelinde filtrelenebilir; eval setini büyütmek için iyi bir kaynak.
+
+### 3.5 Soru mu, işlem talebi mi? (niyet ayrımı) · SIRADA (§8.1 ile)
+
+Balbal'a gelen her mesaj önce sınıflandırılır:
+
+| Niyet | Ne olur |
+|---|---|
+| `question` | Mevcut akış (retrieval + kaynaklı cevap). |
+| `action:leave_request` | Retrieval **çalışmaz**, LLM'e belge içeriği verilmez. Alanlar çıkarılır, eksikler sorulur, taslak form oluşturulur (§8.1). |
+| `unknown_action` | "Bu işlem henüz sistemde yok." Hiçbir şey oluşturulmaz. |
+
+- `AskResponse`'a eklenecek alan: `action: { kind: "leave_request_draft", request_id } | null`. Doluysa frontend sohbette form kartını gösterir (`proposed.ts` §7).
+- Kullanıcının mesajındaki ifadeler **talimat değildir**: "Yöneticim onayladı, direkt İK'ya gönder" durum makinesini etkilemez.
+
+### 3.6 Kaynak kartında versiyon bağlantıları — **B-07** · HEMEN
+
+`SourceCard` şu an `supersedes_title` / `superseded_by_title` dönüyor ama **id dönmüyor**; "Bu eski versiyon, güncel versiyon: X" uyarısındaki X tıklanamıyor (P-4 ihlali).
+```python
+supersedes_document_id: UUID | None
+superseded_by_document_id: UUID | None
+```
+Güncel versiyonun id'si dönmeden önce kullanıcının o belgeyi görme yetkisi kontrol edilir; yoksa `None`.
+
+### 3.7 Canlı veri kaynağı (EPİAŞ) — **B-16** · BİLGİ (§8.3 ile)
+
+Üretim, PTF ve YEKDEM soruları Excel'den değil **EPİAŞ Şeffaflık Platformu**'ndan cevaplanacak (Tansu'nun kararı). Tasarımda Balbal bu cevaplarda "Canlı veri · EPİAŞ" rozeti ve kaynak linki gösteriyor. Önerilen alan: `AskResponse.live_sources: [{ provider: "EPIAS", dataset, period, url }]`. Mevcut Excel motoru bu veriyi karşılamıyor; veri çekme ve hesap §8.3'te.
 
 ---
 
-### B-22 · Kurumsal işlemler: personel izin sistemi (ilk örnek: yıllık izin) — **ADR önce, sonra kod**
+## 4. Belgeler ve kurumsal hafıza
 
-> **P-1 bu maddenin tamamına uygulanır.** Aşağıdaki her karar P-1 ile birlikte okunmalıdır.
->
-> **Karışmasın:** B-20/7'deki "izin süreçleri" enerji projelerinin **lisans/ruhsat izinleridir** (`permit_steps`). Bu madde **personel izinleri** (yıllık izin vb.) içindir; tablo ve uç adları bilerek farklıdır (`requests`, `leave_*`).
+### 4.1 Belge listesinde dosya türü — **B-13** · HEMEN
 
-#### 1. Ne istiyoruz (kullanıcının gözünden)
+`DocumentListItem` ve `DocumentDetail` dosya türünü içermiyor; frontend bir belgenin Excel olup olmadığını anlamak için `inspect` çağırıp 422 alıyor.
+- `file_kind: "pdf" | "image" | "xlsx" | "xlsm" | "csv"` alanı eklensin.
 
-Personel Balbal'a doğal dille yazar: *"Yarın yıllık izin kullanacağım."* Balbal:
-1. Bunun bir **soru değil, işlem talebi** olduğunu anlar,
+### 4.2 Etiket önerisini kim onaylar — **B-12** · ÖNERİLEN KARAR
+
+`metadata-suggestion/apply` ve `reject` yalnızca admin'e açık. Tasarımda belgeyi yükleyen kişi Balbal'ın etiket önerisini kendisi onaylıyor; aksi halde her yükleme admin'i bekler.
+- **Önerilen karar:** Yükleyen kişi **veya** belgenin departmanındaki `department_manager` (B-08) onaylayabilir. Bu da P-1'le uyumludur: öneriyi AI yapar, insan onaylar.
+- Onay bekleyen öneriler gündeme `kind: "approval"` olarak düşer (§5.1).
+
+### 4.3 İndirme: dosya adı ve tarayıcıda açma — **B-17** · HEMEN
+
+`download_document` şu an `FileResponse(path, filename=path.name)` dönüyor; inen dosyanın adı **`original.pdf`** oluyor.
+- `filename` = belge başlığı + uzantı (ör. `Karatepe RES Kredi Sözleşmesi.pdf`).
+- `?inline=1` ile `Content-Disposition: inline` desteklensin. Arayüzde "Belgeyi aç" inline, "İndir" attachment kullanır.
+
+### 4.4 Genel arama — **B-14** · SIRADA (V1)
+
+Üst bardaki arama şu an `/api/documents` ve `/api/projects` listelerini **istemcide** filtreliyor; yalnızca başlık, tür ve muhatapta arıyor.
+- `GET /api/search?q=` → retrieval'daki FTS ile **içerikte** de arar. Dönüş: `{ documents: [{…, snippet, page_number}], projects: [...], people: [...] }`. Yetki `allowed_document_ids` (P-2).
+
+### 4.5 Kurumsal hafıza kuralı (BİLGİ — Tansu'nun kararı)
+
+- Kurumsal hafızaya **otomatik** giren tek şey: **departmanlar arası görüş talepleri ve cevapları** (§6.2).
+- Kişiler arası sohbetler, Balbal soru-cevapları, işlem taslakları (izin, yazışma) **girmez**.
+- Personel isterse kendi "bilgi notu"nu belge olarak ilgili klasöre yükler; sistem onu normal belge gibi işler.
+- "Her soru-cevabı kaydet" butonu fikri **ertelendi** (kurumsal ortamda her şeyin kaydedilmesi rahatsızlık yaratabilir).
+
+---
+
+## 5. Ana ekran: gündem ve bildirimler
+
+### 5.1 Gündem — **B-01** · HEMEN (ilk kısım)
+
+Ana ekranın en üstündeki "Gündeminiz" kutusu: kişinin takip etmesi gereken **kısa, öncelikli** liste (P-7).
+```
+GET /api/me/agenda
+→ [{ id, kind: "approval"|"opinion_request"|"deadline"|"document_request",
+     title, due_date, document_id|null, document_title|null }]
+```
+Kaynaklar (hepsi yetki süzgecinden geçer, P-2):
+1. **Hemen yapılabilir:** `documents.expiration_date` 60 gün içinde dolacak belgeler → `deadline`.
+2. **Hemen yapılabilir:** onay bekleyen etiket önerileri → `approval` (kimin göreceği B-12'ye bağlı).
+3. Sonra: görüş talepleri (§6.2), evrak talepleri (§6.4), işlem onayları (§8.1), yazışma süreleri (§8.2).
+- `document_id` olan her madde `allowed_document_ids` kontrolünden geçer; yetkisiz belgenin **başlığı bile** dönmez.
+
+### 5.2 Bildirimler — **B-02** · SIRADA (V1)
+
+```
+GET  /api/notifications
+→ [{ id, kind: "approval"|"opinion_request"|"deadline"|"document_request"|"document_uploaded"|"version_changed",
+     text, created_at, read, document_id|null, document_title|null, chat_id|null }]
+POST /api/notifications/read-all
+```
+Olay kaynakları: kullanıcının departmanına belge yüklenmesi, bir belgenin yeni versiyonla değişmesi, onay bekleyen öneri, gelen/cevaplanan görüş talebi, karşılanan evrak talebi, işlem durum değişiklikleri (§8). Arayüz listeyi 60 saniyede bir yeniliyor; push gerekmez.
+
+---
+
+## 6. Departmanlar arası iletişim yöntemleri
+
+Platformda kişiler ve departmanlar arasında **dört iletişim yolu** var. Her biri farklı bir ihtiyaç için; birbirine karıştırılmamalı.
+
+| Yol | Ne için | Kurumsal hafızaya girer mi | Durum |
+|---|---|---|---|
+| **1. Şirket rehberi** | Kişiyi bulmak | — | HEMEN |
+| **2. Departmanlar arası görüş talebi** | Bir departmanın başka bir departmandan resmî görüş istemesi | **Evet** (talep + cevap) | ÖNERİLEN KARAR — önce bu |
+| **3. Ekip sohbeti** (kişiler arası, grup) | Günlük yazışma | Hayır | ÖNERİLEN KARAR — sonra |
+| **4. Evrak talebi** | Yetkisi olmayan bir belgeye ihtiyaç duyulduğunda | Hayır | ÖNERİLEN KARAR |
+
+### 6.1 Şirket rehberi — **B-05** · HEMEN
+
+`/api/users` yalnızca admin'e açık. Kişi bulmak ve sohbete eklemek için herkesin görebileceği **dar** bir liste gerekiyor:
+```
+GET /api/directory?q=&department=
+→ [{ id, display_name, title, department_slug, department_name }]
+```
+- `users.title` alanı eklenmeli (§2.3).
+- Şifre özeti, rol, aktiflik, e-posta gibi bilgiler bu uçta **dönmez**.
+
+### 6.2 Departmanlar arası görüş talebi — **B-06 (a)** · ÖNERİLEN KARAR (öncelikli)
+
+Bu, Ürün 2'nin çekirdek özelliği: bir departman başka bir departmandan konu, açıklama ve son tarih belirterek görüş ister; cevap gelir; **ikisi birlikte kurumsal hafızaya girer** ve ileride Balbal tarafından bulunabilir.
+```
+POST /api/opinion-requests  { to_department, subject, body, due_date }
+```
+- Talep, hedef departmanın gündemine (`opinion_request`) ve bildirimine düşer.
+- Cevabı hedef departmanın yetkili kişisi yazar. Balbal cevap **taslağı** önerebilir; gönderen yine insandır (P-1).
+- Talebe eklenen belgeler alıcı için indirme anında **yeniden** yetki kontrolünden geçer. Paylaşmak yetki vermez.
+- **Önerilen karar:** Önce yalnızca görüş talebi yapılsın; serbest sohbet sonra.
+
+### 6.3 Ekip sohbeti (kişiler arası ve grup) — **B-06 (b)** · ÖNERİLEN KARAR (V1, görüş talebinden sonra)
+
+```
+GET  /api/chats                   → [{ id, kind: direct|group|opinion_request, title, member_ids, includes_balbal,
+                                       last_message, updated_at, unread_count, opinion_request: {…}|null }]
+POST /api/chats                   { member_ids, title?, include_balbal }
+GET  /api/chats/{id}/messages     → [{ id, sender_id|null(=Balbal), sender_name, text, document_id, document_title, created_at, system }]
+POST /api/chats/{id}/messages     { text?, document_id? }
+POST /api/chats/{id}/members      { member_ids, include_balbal? }
+```
+**Güvenlik (kritik):**
+- Balbal bir grup sohbetine eklendiğinde yalnızca **sohbetteki tüm üyelerin ortak görebildiği** belgelerden (üyelerin `allowed_document_ids` kümelerinin **kesişimi**) cevap verir. Aksi halde yetkisiz üye, yetkili üyenin belgesini Balbal üzerinden okumuş olur.
+- Sohbette paylaşılan belge her alıcı için indirme anında yeniden yetki kontrolünden geçer.
+- Kişiler arası sohbetler kurumsal hafızaya **girmez** (§4.5).
+- İleride Teams entegrasyonu bu yolun alternatifi olabilir.
+
+### 6.4 Yetkisi olmayan belge için evrak talebi — **B-11** · ÖNERİLEN KARAR (güvenlik hassas)
+
+Eski tasarımda Balbal "bu belge Mali İşler'in alanında" deyip "evrak talep et" butonu sunuyordu. **Bu, yetkisiz bir belgenin varlığını ele verir** (P-2 ihlali).
+- **Önerilen karar:** Balbal hiçbir zaman belge başlığı, içeriği veya varlığını söylemez. Kaynak bulamadığında yalnızca *"Bu konuda erişiminizde belge yok. İsterseniz başka bir departmandan belge talep edebilirsiniz."* der. **Departmanı kullanıcı seçer**; Balbal önermez.
+```
+POST /api/document-requests { to_department, description }
+```
+- Talep hedef departmanın gündemine düşer (`document_request`). Karşılanınca talep edene bildirim gider.
+
+---
+
+## 7. Departman bazlı talepler
+
+Her departman için: **bugün arayüzün backend'den beklediği** + **zihin haritasındaki Ürün 3 yol haritası** (bağlam için; şimdi uygulanmayacak).
+
+### 7.1 Proje Finans
+
+**Backend'den beklenen**
+- Günlük yatan tutar, ay içi toplam, ertesi ay mahsuplaşma tutarı ve tarihi — proje proje, kesin/tahmini etiketli → **§8.3 (B-21)**.
+- Demo belgeler: kredi sözleşmesi + tadiller (versiyon zinciri), ödeme planı Excel'i, sigorta poliçeleri, banka raporlama formları → §9.
+
+**Ürün 3 yol haritası (BİLGİ):** kredi, teminat ve sigorta sürelerini takip; nakit akış raporu; banka sorularına cevap taslağı; EPİAŞ verisini işleme; ödeme ve tahsilat takvimi; kredi dashboard'u (önümüzdeki 6 ayda hangi projenin hangi kredisi var); birikmiş hafızadan sapma görüşü.
+
+### 7.2 Mali İşler (Muhasebe, Finansal Muhasebe)
+
+**Backend'den beklenen**
+- Alt birimlerin eklenmesi (§2.1).
+- Finansal Muhasebe ana ekranında da mahsuplaşma bilgisi gösteriliyor → §8.3.
+- Demo belgeler: ticaret sicil gazetesi, vergi levhası vb. → §9.
+
+**Ürün 3 yol haritası (BİLGİ):** fatura verisi çıkarma, muhasebe kodu önerisi, cari mutabakat desteği, ödeme talimatı taslağı, banka hareketi eşleştirme, bütçe–fatura eşleştirme, ERP adaptasyonu.
+
+### 7.3 Hukuk
+
+**Arayüzde olan:** Hukuk ana sayfasında davalar, Enerji'deki geliştirme projeleri gibi **aşamalı zaman çizelgesi** olarak görünüyor: noktanın üzerine gelince kısa bilgi (aşama, tarih), tıklayınca detay paneli ve belgeler.
+
+**Backend'den beklenen**
+1. **Dava dosyası veri modeli** (§8.2'deki `legal_cases` tablosu) ve aşamaları:
+   - `legal_cases(id, court, case_no, parties, case_type, status, project_ids)`
+   - `legal_case_stages(case_id, stage, date, result, note, document_ids)` — ör. dava açıldı, dilekçeler aşaması (cevap, replik, düplik), ön inceleme, tahkikat, bilirkişi, duruşmalar, karar, istinaf, temyiz, kesinleşme.
+   - `GET /api/legal/cases` ve `GET /api/legal/cases/{id}` → zaman çizelgesi için aşamalar, tarihler, bağlı belge id'leri. Yetki: Hukuk departmanı (+ `management`).
+   - Aşama listesi dava türüne göre **parametre** tablosunda tutulur (P-8), koda gömülmez.
+2. **Gelen yazılar ve dava evrakına cevap / dilekçe taslağı** → **§8.2 (B-23)**. Hukuk için kapsam: dava dilekçesine cevap, ihtarnameye cevap, itiraz; KEP ile gelen resmî yazıların analizi ve cevap taslağı.
+3. **Dava ve icra süreleri** gündeme ve bildirime düşer (§8.2 §5 süre takibi).
+4. Demo belgeler: dava dosyaları, duruşma tutanakları, bilirkişi raporu, ihtarname, sözleşmeler → §9.
+
+**Ürün 3 yol haritası (BİLGİ):** mevzuat değişikliği takibi (dashboard'a mevzuat güncellemeleri), resmî yazı taslağı, KEP yazı analizi, cevap taslağı, dava ve icra süresi takibi, sözleşme taslağı, dilekçe/ihtarname taslağı.
+
+### 7.4 İdari İşler
+
+**Backend'den beklenen:** Şimdilik yalnızca demo belgeler (§9). Ana sayfa canvas'ta var; ihtiyaçlar §10'daki analizle çıkarılacak.
+
+**Ürün 3 yol haritası (BİLGİ):** araç, bina, ekipman takibi; bakım, muayene, sigorta hatırlatması; destek hizmeti talepleri; idari satın alma desteği; demirbaş ve zimmet takibi; idari raporlar. (Satın alma/destek talebi eklendiğinde §8.1'deki işlem talebi iskeleti ve P-1 kullanılır.)
+
+### 7.5 İK
+
+**Backend'den beklenen**
+- İK departmanının eklenmesi (§2.1).
+- **Personel izin talebi** → **§8.1 (B-22)**. Onaylanan izinler İK kuyruğuna düşer; izin belgeleri İK klasörüne girer.
+- Demo belgeler: personel yönetmeliği vb. → §9.
+
+**Ürün 3 yol haritası (BİLGİ):** özlük dosyası güncelleme, işe giriş/çıkış işlemleri, puantaj, bordro girdisi, iş ilanı taslağı, oryantasyon planı, İK raporları.
+
+**Erişim notu:** İK verisinde erişim **bireysel**dir (kişi kendi kaydını görür; İK ve onay zinciri ilgili kaydı görür), departman bazlı değildir.
+
+### 7.6 Enerji
+
+#### 7.6.1 Proje Geliştirme — **B-20/7** · ÖNERİLEN KARAR (veri modeli)
+
+**Arayüzde olan:** Her proje için **yatay nokta çizelgesi**. Noktaya tıklayınca önkoşulları ek nokta olarak açılır; tamamlanmış adıma tıklayınca gerçekleşen alt süreçler açılır; üzerine gelince başvuru/sonuç tarihi ve olumsuzsa kısa sebep görünür; tıklayınca belge açılır. Minimum yazı; detay isteyen Balbal'a sorar.
+
+**Backend'den beklenen**
+- `permit_steps` — adım tanımı + önkoşullar (adım A bitmeden B başlayamaz) + yasal süre.
+- `project_permit_status` — proje × adım: başvuru tarihi, sonuç tarihi, sonuç (olumlu/olumsuz/bekliyor), olumsuzluk sebebi, belge id'leri.
+- `GET /api/projects/{id}/permits`.
+- Yasal süreler parametre olarak: önlisans 24/36 ay, ÇED başvurusu 90 gün, TEA başvurusu 180 gün (örnek değerler; tablo ile yönetilir).
+- Kurumlardan gelen yazılar ilgili adıma bağlanır; olumsuz sonuç yazısı gelince sebep ve tarih adıma işlenir → §8.2 §6.
+
+> **Karışmasın:** Buradaki "izin süreçleri" enerji projelerinin **lisans/ruhsat izinleridir**. §8.1 ise **personel iznidir**. Tablo ve uç adları bilerek farklı (`permit_*` ↔ `requests`, `leave_*`).
+
+**Ürün 3 yol haritası (BİLGİ):** izin/ruhsat ve deadline takibi, proje süreçleri, bütçe sapması raporu, kök neden görüşü.
+
+#### 7.6.2 O&M (İşletme ve Bakım)
+
+**Backend'den beklenen:** demo belgeler (bakım sözleşmesi, arıza tutanakları, yıllık bakım raporu, ÇED izleme yükümlülükleri) → §9.
+**Ürün 3 yol haritası (BİLGİ):** bakım takibi, arıza geçmişi, üretim performansı, emre amadelik, kayıp üretim, arıza–üretim kaybı ilişkisi görüşü.
+
+#### 7.6.3 EPC (İnşaat)
+
+**Ürün 3 yol haritası (BİLGİ):** teklif karşılaştırma, milestone takibi, ilerleme raporu, hakediş ve metraj desteği, toplantı tutanağı.
+
+#### 7.6.4 Üretim/Piyasa
+
+**Backend'den beklenen:** birimin eklenmesi (§2.1); EPİAŞ verisi → §8.3.
+**Ürün 3 yol haritası (BİLGİ):** üretim, PTF, YEKDEM, uzlaştırma ve gelir verisi; günlük/haftalık/aylık rapor; yıl sonu gelir projeksiyonu; kaynak bazlı üretim tablosu; "hangi projede üretim sapması var, nedeni ne?" sorusuna görüş.
+
+---
+
+## 8. Ortak modüller
+
+### 8.1 İşlem talepleri ve personel izni — **B-22** · ADR ÖNCE
+
+> **P-1 bu bölümün tamamına uygulanır.**
+
+Zihin haritasında bu, Ürün 2'nin tanımındaki örnektir: *"izin talebi → AI form hazırlar → insan onaylar → sistem kaydeder."* İlk işlem türü **yıllık izin**; aynı iskelet ileride masraf, satın alma, avans gibi talepler için kullanılacak.
+
+#### 8.1.1 Kullanıcının gözünden
+
+Personel Balbal'a yazar: *"Yarın yıllık izin kullanacağım."* Balbal:
+1. Bunun bir soru değil **işlem talebi** olduğunu anlar (§3.5),
 2. Eksik bilgiyi **sohbet içinde** sorar,
-3. Bilgi tamamlanınca sohbet içinde bir **izin formu kartı** gösterir,
-4. Personel formu kontrol eder, gerekirse düzeltir, **"Onayla ve gönder"** butonuna basar,
-5. Form personelin **yöneticisinin** onayına düşer,
-6. Yönetici onaylayınca **İK kuyruğuna** düşer; İK işler ve kayıt kapanır,
+3. Bilgi tamamlanınca sohbette bir **izin formu kartı** gösterir,
+4. Personel formu kontrol eder, gerekirse düzeltir, **"Onayla ve gönder"**e basar,
+5. Form **yöneticinin** onayına düşer,
+6. Yönetici onaylayınca onay kayıtlı **izin belgesi** (PDF) oluşur ve **İK klasörüne** girer; İK işler ve kayıt kapanır,
 7. Personel her adımda bildirim alır.
 
-#### 2. Örnek diyalog (hedef davranış)
+#### 8.1.2 Örnek diyalog (hedef davranış)
 
 ```
 Personel : Yarın yıllık izin kullanacağım.
@@ -270,44 +493,44 @@ Balbal   : Anladım, 29.09.2026 Salı için yıllık izin formu hazırlıyorum.
            Tam gün mü, yarım gün mü olacak?
 Personel : Tam gün. Aslında perşembeye kadar.
 Balbal   : 29.09.2026 Salı – 01.10.2026 Perşembe, 3 iş günü. İşe dönüş: 02.10.2026 Cuma.
-           Kalan yıllık izin bakiyeniz bu talepten sonra 11 gün olacak.
+           Bu talepten sonra kalan yıllık izniniz 11 gün görünüyor (kaynak: [1] 2026 izin hakkı belgesi,
+           [2]–[3] onaylı izin belgeleri).
            İzindeyken size ulaşılacak bir telefon eklemek ister misiniz? (isteğe bağlı)
 Personel : Gerek yok.
 Balbal   : [İZİN FORMU KARTI]
            Tür: Yıllık izin · 29.09.2026 – 01.10.2026 · 3 iş günü · Dönüş: 02.10.2026
            Onaylayacak yönetici: <yönetici adı>
            [Düzenle]  [Onayla ve gönder]  [Vazgeç]
-           Not: Siz onaylamadan bu form kimseye gönderilmez.
+           Siz onaylamadan bu form kimseye gönderilmez.
 ```
-
 Kurallar:
-- Balbal **"gönderdim"** demez; yalnızca **"formu hazırladım, onayınızı bekliyor"** der.
-- Personel sohbete "onaylıyorum" yazarsa Balbal: *"Göndermek için lütfen formdaki 'Onayla ve gönder' butonunu kullanın."* der. Kayıt oluşturmaz.
-- Tarih ifadeleri ("yarın", "pazartesiden itibaren 3 gün", "gelecek hafta cuma") için LLM'e **bugünün tarihi ve kullanıcının saat dilimi (Europe/Istanbul)** verilir; LLM ISO tarih önerir, **backend doğrular** (geçmiş tarih, bitiş < başlangıç, tatil günü başlangıcı vb.). İş günü sayısı ve dönüş tarihi **LLM'e hesaplatılmaz**, backend hesaplar.
+- Balbal **"gönderdim"** demez; **"formu hazırladım, onayınızı bekliyor"** der.
+- Personel sohbete "onaylıyorum" yazarsa: *"Göndermek için formdaki 'Onayla ve gönder' butonunu kullanın."* Kayıt oluşmaz.
+- Tarih ifadeleri için LLM'e **bugünün tarihi ve saat dilimi (Europe/Istanbul)** verilir; LLM ISO tarih önerir, **backend doğrular** (geçmiş tarih, bitiş < başlangıç vb.). **İş günü sayısı ve dönüş tarihini LLM hesaplamaz**, backend hesaplar.
 
-#### 3. Form alanları
+#### 8.1.3 Form alanları
 
 | Alan | Tip | Zorunlu | Kim doldurur | Not |
 |---|---|---|---|---|
-| `leave_type` | enum | evet | Balbal önerir, personel onaylar | V0'da yalnızca `annual` açık. `excuse` (mazeret), `unpaid` (ücretsiz) enum'da tanımlı ama kapalı. **Rapor / hastalık izni V0 kapsamında yok** (özel nitelikli sağlık verisi). |
-| `start_date` | date | evet | Balbal önerir | Geçmiş tarih olamaz (İK'nın geriye dönük kayıt yetkisi V1). |
+| `leave_type` | enum | evet | Balbal önerir | V0'da yalnızca `annual`. `excuse` (mazeret), `unpaid` (ücretsiz) enum'da tanımlı ama kapalı. **Rapor/hastalık izni V0'da yok** (özel nitelikli sağlık verisi). |
+| `start_date` | date | evet | Balbal önerir | Geçmiş tarih olamaz. |
 | `end_date` | date | evet | Balbal önerir | `>= start_date` |
-| `half_day` | enum `none` \| `start_afternoon` \| `end_morning` | evet (varsayılan `none`) | Balbal sorar | |
-| `working_days` | decimal (0,5 adımlı) | — | **Backend hesaplar** | Hafta sonu ve `holidays` tablosundaki resmî tatiller düşülür; arife günü yarım gün sayılır. |
-| `return_date` | date | — | **Backend hesaplar** | Bitişten sonraki ilk iş günü. |
-| `note` | text | hayır | Personel | |
-| `contact_during_leave` | text | hayır | Personel | |
-| `substitute_user_id` | uuid | hayır | Personel | V0'da yalnızca bilgi amaçlı; vekile yetki devri **yok**. |
+| `half_day` | `none` \| `start_afternoon` \| `end_morning` | evet (varsayılan `none`) | Balbal sorar | |
+| `working_days` | ondalık (0,5 adım) | — | **Backend** | Hafta sonu ve `holidays` tablosundaki resmî tatiller düşülür; arife yarım gün. |
+| `return_date` | date | — | **Backend** | Bitişten sonraki ilk iş günü. |
+| `note` | metin | hayır | Personel | |
+| `contact_during_leave` | metin | hayır | Personel | |
+| `substitute_user_id` | uuid | hayır | Personel | V0'da yalnızca bilgi; yetki devri yok. |
 
 Zorunlu alanlar tamamlanmadan taslak **oluşturulmaz**; Balbal sormaya devam eder.
 
-#### 4. Durum makinesi (kod yönetir)
+#### 8.1.4 Durum makinesi (kod yönetir)
 
 ```
-            personel onaylar          yönetici onaylar          İK işler
+            personel onaylar          yönetici onaylar             İK işler
  draft ─────────────────▶ submitted ─────────────────▶ manager_approved ─────────────▶ hr_recorded (son)
    │                        │   │                          │
-   │ personel vazgeçer      │   │ yönetici reddeder        │ İK reddeder (ör. bakiye yetersiz)
+   │ personel vazgeçer      │   │ yönetici reddeder        │ İK reddeder
    ▼                        │   ▼                          ▼
  cancelled                  │  rejected (son)             rejected (son)
    ▲                        │
@@ -315,259 +538,361 @@ Zorunlu alanlar tamamlanmadan taslak **oluşturulmaz**; Balbal sormaya devam ede
  expired (silinir)          ▼
                      changes_requested ──(personel düzeltir + yeniden onaylar)──▶ submitted
 ```
+- `draft`: **yalnızca talep sahibi** görür. 72 saatte onaylanmazsa `expired`; içerik silinir, denetim kaydında yalnızca "süresi doldu" olayı kalır.
+- `submitted`: yöneticinin kuyruğunda. Personel geri çekebilir → `cancelled`.
+- `changes_requested`: yönetici/İK formu düzenlemez, yorumla geri gönderir.
+- `manager_approved`: onay kayıtlı izin belgesi (PDF) üretilir, İK kuyruğuna düşer. Bu aşamada iptal için V0'da İK'ya bildirim gider, İK `rejected` ile kapatır.
+- `hr_recorded`: izin belgesi personelin İK klasörüne eklendi, kayıt kapandı.
+- **Kural:** `draft → submitted` yalnızca `POST /api/requests/{id}/approve` ile ve yalnızca `request.owner_id == current_user.id` iken. Başka yol yok.
 
-- `draft`: **yalnızca talep sahibi** görür. 72 saat içinde onaylanmazsa `expired` olur ve veri silinir (denetim kaydında yalnızca "süresi doldu" olayı kalır, form içeriği kalmaz).
-- `submitted`: personel onayladı; yöneticinin kuyruğuna düştü. Personel bu aşamada talebi **geri çekebilir** → `cancelled`.
-- `changes_requested`: yönetici veya İK formu **düzenlemez**; yorumla geri gönderir. Personel düzeltir, yeniden onaylar → tekrar `submitted` (yönetici onayı yeniden gerekir).
-- `manager_approved`: İK kuyruğuna düştü. Personel bu aşamada geri çekmek isterse "iptal talebi" oluşturur (V1); V0'da İK'ya bildirim gider, İK `rejected` ile kapatır.
-- `hr_recorded`: izin bakiyesinden düşüldü, kayıt kapandı.
-- **Kural:** `draft → submitted` geçişi yalnızca `POST /api/requests/{id}/approve` ile ve yalnızca `request.owner_id == current_user.id` iken yapılabilir. Başka hiçbir yol yok.
+#### 8.1.5 Kim onaylar
 
-#### 5. Kim onaylar
+1. `users.manager_id`
+2. yoksa personelin ana departmanının `department_manager`'ı (B-08)
+3. o da yoksa (ör. genel müdür veya departman yöneticisinin kendisi) İK departmanının `department_manager`'ı
+4. hiçbiri yoksa `submitted` olurken `409 approver_not_configured`, admin'e bildirim; Balbal: "Onay mercii tanımlı değil, İK'ya bildirildi."
+- Kimse **kendi talebini** onaylayamaz (bir üst basamağa geçilir).
+- Vekil yönetici V0'da yok.
 
-- Onay mercii: `users.manager_id` (yeni alan, nullable).
-- `manager_id` boşsa: personelin ana departmanının (`primary_department_id`, B-09) `department_manager`'ı (B-08).
-- O da yoksa (ör. genel müdür, departman yöneticisinin kendisi): İK departmanının `department_manager`'ı onaylar.
-- Hiçbiri tanımlı değilse: taslak onaylanabilir ama `submitted` olurken **hata döner** (`409 approver_not_configured`), admin'e bildirim gider. Balbal personele "onay mercii tanımlı değil, İK'ya bildirildi" der.
-- Kimse **kendi talebini** onaylayamaz (yönetici = talep sahibi olamaz; bu durumda bir üst basamağa geçilir).
-- **Vekil yönetici** V0'da yok (V1).
+#### 8.1.6 İzin bakiyesi ve takvim — Tansu'nun kararına göre
 
-#### 6. İzin bakiyesi ve takvim (deterministik, LLM'e bırakılmaz)
+- **Sistem izin bakiyesini ayrı bir sayaç olarak veritabanında tutmaz.** Bakiye, İK klasöründeki belgelerden **türetilir ve kaynağıyla gösterilir**:
+  - yıllık izin hakkı belgesi (İK yükler; yıl, hak edilen gün, devreden gün),
+  - onaylanmış izin belgeleri (§8.1.4'te `manager_approved`/`hr_recorded` ile oluşan PDF'ler).
+- Balbal "kalan izin" sorusunda bu belgeleri **kaynak kartı** olarak gösterir. Bekleyen (`submitted`) talepler ayrıca "onay bekleyen" olarak belirtilir ve sonuç **tahmini** etiketlenir.
+- Kıdeme göre otomatik hak hesabı **yok** (V1'de, 4857 sayılı İş Kanunu md. 53 İK ile doğrulanarak).
+- Bakiye yetersizse taslak yine oluşturulabilir; personel bilgilendirilir; karar yönetici ve İK'dadır.
+- `holidays(date, name, half_day)` — admin yükler. Dini bayram tarihleri her yıl değiştiği için koda gömülmez.
+- Aynı personelin tarihleri çakışan açık talebi varsa taslak oluşmaz; Balbal bunu söyler.
 
-- `leave_balances(user_id, year, entitled_days, carried_over_days, used_days)` — **İK girer.** V0'da sistem kıdemden hak hesaplamaz; İK açılış bakiyesini yükler. (Kıdeme göre otomatik hak hesabı V1; 4857 sayılı İş Kanunu md. 53'teki 14/20/26 gün kuralı ve yaş istisnaları o zaman İK ile doğrulanarak eklenir.)
-- `used_days` yalnızca `hr_recorded` olunca artar. Balbal'ın gösterdiği "kalan bakiye", bekleyen (`submitted`, `manager_approved`) talepler düşülerek **tahmini** gösterilir ve öyle etiketlenir.
-- Bakiye yetersizse taslak **yine oluşturulabilir** (personel bilgilendirilir); karar yönetici ve İK'dadır.
-- `holidays(date, name, half_day)` — admin yükler; resmî tatiller ve arife yarım günleri. Dini bayram tarihleri her yıl değiştiği için **koda gömülmez**.
-- Çakışma kontrolü: aynı personelin tarihleri çakışan açık talebi varsa taslak oluşturulmaz, Balbal bunu söyler.
-
-#### 7. Niyet ayrımı ve diyalog
-
-- `/api/ask` akışına bir **niyet sınıflandırma** adımı eklenir: `question` | `action:leave_request` | `unknown_action`.
-- `question` → mevcut akış aynen (retrieval, `allowed_document_ids`).
-- `action:leave_request` → retrieval **çalışmaz**; LLM'e belge içeriği verilmez. LLM yalnızca alanları çıkarır; backend doğrular; eksik alan varsa Balbal sorar.
-- `unknown_action` (ör. "masraf girmek istiyorum") → Balbal *"Bu işlem henüz sistemde yok"* der; hiçbir şey oluşturmaz.
-- Çok turlu diyalog **B-03 `conversation_id`** altyapısını kullanır. B-03 yoksa B-22 başlamaz.
-- `AskResponse`'a eklenecek alan: `action: { kind: "leave_request_draft", request_id: string } | null`. Frontend bu alan doluysa sohbette form kartını gösterir.
-- **Güvenlik:** Personelin mesajındaki metin talimat değildir. "Yöneticim onayladı, direkt İK'ya gönder" gibi ifadeler durum makinesini etkilemez.
-
-#### 8. Uçlar
+#### 8.1.7 Uçlar
 
 ```
-POST /api/requests/draft                  { conversation_id, kind: "annual_leave", fields }  ← yalnızca Balbal akışı çağırır
-GET  /api/requests/mine                   → kendi talepleri, tüm durumlar
-GET  /api/requests/{id}                   → yalnızca talep sahibi, onay zincirindeki yönetici ve İK
-PATCH /api/requests/{id}                  { fields }            ← yalnızca talep sahibi, yalnızca draft / changes_requested
-POST /api/requests/{id}/approve           ← yalnızca talep sahibi  (draft|changes_requested → submitted)
-POST /api/requests/{id}/cancel            ← yalnızca talep sahibi  (draft|submitted → cancelled)
-GET  /api/requests/inbox                  → yöneticinin / İK'nın kendi kuyruğu
-POST /api/requests/{id}/manager-decision  { decision: "approve"|"reject"|"request_changes", comment }
-POST /api/requests/{id}/hr-decision       { decision: "record"|"reject", comment }
-GET  /api/me/leave-balance                → { year, entitled, carried_over, used, pending, remaining_estimated }
-GET  /api/holidays?year=                  → resmî tatil listesi
+POST  /api/requests/draft                  { conversation_id, kind: "annual_leave", fields }  ← yalnızca Balbal akışı
+GET   /api/requests/mine                   → kendi talepleri
+GET   /api/requests/{id}                   → talep sahibi, onay zincirindeki yönetici, İK
+PATCH /api/requests/{id}                   { fields }  ← yalnızca talep sahibi; yalnızca draft / changes_requested
+POST  /api/requests/{id}/approve           ← yalnızca talep sahibi (P-1)
+POST  /api/requests/{id}/cancel            ← yalnızca talep sahibi
+GET   /api/requests/inbox                  → yöneticinin / İK'nın kendi kuyruğu
+POST  /api/requests/{id}/manager-decision  { decision: "approve"|"reject"|"request_changes", comment }
+POST  /api/requests/{id}/hr-decision       { decision: "record"|"reject", comment }
+GET   /api/me/leave-balance                → { year, entitled, carried_over, used, pending, remaining_estimated,
+                                               source_document_ids: [...] }   ← belgelerden türetilir
+GET   /api/holidays?year=
 ```
-Sözleşme tipleri `frontend/src/api/proposed.ts` içinde **"8. Kurumsal işlemler — izin"** bölümündedir; alan adlarını birebir kullan.
+Sözleşme tipleri `proposed.ts` **§8**'de. Yönetici ve İK kuyruğu gündeme (`approval`), her durum değişikliği bildirime düşer.
 
-Bağlantılar: yönetici ve İK kuyruğu **B-01 gündeme** `kind: "approval"`, her durum değişikliği **B-02 bildirime** düşer.
-
-#### 9. Veri modeli (öneri)
+#### 8.1.8 Veri modeli (öneri)
 
 ```
 requests(id, kind, owner_id, status, fields jsonb, approver_id, created_at, updated_at,
-         submitted_at, decided_at, expires_at)
+         submitted_at, decided_at, expires_at, result_document_id)
 request_events(id, request_id, actor_id, from_status, to_status, comment, created_at)   ← denetim
-leave_balances(user_id, year, entitled_days, carried_over_days, used_days)
 holidays(date, name, half_day)
-users.manager_id (yeni alan)
+users.manager_id
 ```
-`requests` tablosu genel tutulur (`kind`), çünkü masraf, satın alma vb. ileride aynı tabloya ve aynı durum makinesi iskeletine girecek.
+`requests` genel tutulur (`kind`), çünkü masraf, satın alma vb. aynı tabloya ve aynı durum makinesi iskeletine girecek. `result_document_id` = onay kayıtlı izin belgesi.
 
-#### 10. KVKK ve gizlilik
+#### 8.1.9 KVKK
 
-- İzin verisi kişisel veridir. Görebilenler: talep sahibi, onay zincirindeki yönetici(ler), İK. `management` rolü dahil **başka kimse** görmez.
-- İzin talepleri **retrieval'a, kurumsal hafızaya ve Balbal'ın bilgi tabanına girmez.** Balbal "Ahmet ne zaman izinde?" sorusuna cevap vermez (V1'de yalnızca "ekip takvimi" gibi ayrı ve yetkili bir görünümle).
-- `expired` / `cancelled` taslakların içeriği silinir. Kapanmış kayıtlar için saklama süresi **parametre** (`leave_retention_years`); varsayılan boş = silinmez. Süreyi İK ve hukuk belirler, koda yazılmaz.
-- Rapor/hastalık izni (özel nitelikli sağlık verisi) V0'da **yok**; eklenirse ayrı ADR gerekir.
+- Görebilenler: talep sahibi, onay zincirindeki yönetici(ler), İK. `management` dahil **başka kimse** görmez.
+- İzin talepleri retrieval'a, kurumsal hafızaya, Balbal'ın bilgi tabanına **girmez**. İzin **belgeleri** İK klasöründe bireysel erişimle durur; Balbal onları yalnızca belgenin sahibine ve İK'ya kaynak olarak gösterebilir. Balbal "Ahmet ne zaman izinde?" sorusuna cevap vermez.
+- `expired`/`cancelled` taslakların içeriği silinir. Kapanmış kayıtlar için saklama süresi parametre (`leave_retention_years`); varsayılan boş = silinmez; süreyi İK ve hukuk belirler.
 
-#### 11. Arayüz kimde
+#### 8.1.10 Arayüz
 
-- Arayüzü **Tansu tarafı** yapar. Görsel kural gereği önce Claude Design canvas'ında tasarlanır (sohbette form kartı, "Taleplerim" listesi, yönetici/İK "Onay kuyruğu"), onaylanır, sonra bu repoya kod olarak gelir.
-- Backend tarafı **frontend'e dokunmaz**. Tip değişikliği gerekiyorsa önerisini ayrı liste olarak Tansu'ya verir.
+Tansu tarafı yapar; önce canvas'ta tasarlanır (sohbette form kartı, "Taleplerim", yönetici/İK "Onay kuyruğu"). Backend frontend'e dokunmaz.
 
-#### 12. Başlama koşulu ve sıra
+#### 8.1.11 Başlama koşulu
 
-B-22'nin koduna **ancak şunlar tamamlanınca** başlanır:
-1. B-03 çok turlu sohbet (`conversation_id`) çalışıyor,
-2. B-08 `department_manager` rolü ve B-09 `primary_department_id` var,
-3. B-01 gündem ve B-02 bildirim uçları çalışıyor,
-4. B-20/1 İK departmanı eklendi,
-5. Bu maddeye dayanan **ADR** Tansu tarafından onaylandı.
+Kod, **ancak** şunlar tamamlanınca: B-03 çok turlu sohbet · B-08 `department_manager` ve B-09 ana departman · B-01 gündem ve B-02 bildirim · İK departmanı (§2.1) · bu bölüme dayanan **ADR**'nin Tansu tarafından onaylanması. O zamana kadar: yalnızca ADR + migration taslağı + test listesi.
 
-Koşullar tamamlanmadıysa yapılacak iş: yalnızca ADR taslağı + migration taslağı + test listesi. **Kod yok.**
+#### 8.1.12 Kabul testleri
 
-#### 13. Kabul kriterleri (testler)
-
-1. Personel onayı olmadan `submitted` olunamaz (P-1/a).
-2. Yönetici, İK, admin veya servis hesabı personel adına `approve` çağırırsa **403** (P-1/b).
-3. `changes_requested` sonrası personel yeniden onaylamadan yönetici kuyruğuna düşmez (P-1/c).
-4. `draft` başka kullanıcının hiçbir listesinde (`inbox`, gündem, bildirim, arama, Balbal) görünmez (P-1/d).
+1. Personel onayı olmadan `submitted` olunamaz (P-1a).
+2. Yönetici, İK, admin veya servis hesabı personel adına `approve` → 403 (P-1b).
+3. `changes_requested` sonrası personel yeniden onaylamadan yönetici kuyruğuna düşmez (P-1c).
+4. `draft` başka kullanıcının hiçbir listesinde görünmez (P-1d).
 5. Sohbette "onaylıyorum" yazmak durum değiştirmez.
-6. İş günü hesabı: hafta sonu, resmî tatil ve arife yarım günü doğru düşülür (en az 5 senaryo).
+6. İş günü hesabı: hafta sonu, resmî tatil, arife yarım günü doğru (en az 5 senaryo).
 7. Çakışan tarih → taslak oluşmaz.
-8. Onay mercii zinciri (manager_id → department_manager → İK yöneticisi → 409) her basamak için test edilir.
+8. Onay mercii zinciri her basamakta doğru (manager_id → department_manager → İK yöneticisi → 409).
 9. Kimse kendi talebini onaylayamaz.
-10. İzin talepleri retrieval sonuçlarında hiçbir zaman çıkmaz.
-11. 72 saat sonra `draft` → `expired` ve içerik silinir.
+10. İzin talepleri retrieval sonuçlarında çıkmaz; başkasının izin belgesi Balbal'da görünmez.
+11. 72 saat sonra `draft` → `expired`, içerik silinir.
+12. Bakiye cevabı her zaman kaynak belgelerle döner; kaynaksız bakiye dönmez.
 
-#### 14. Kapsam dışı (V0)
+#### 8.1.13 Kapsam dışı (V0)
 
-Vekile yetki devri, kıdemden otomatik hak hesabı, rapor/hastalık izni, geriye dönük izin girişi, dış İK/bordro sistemine aktarım, ekip izin takvimi, personeller arası serbest yazışma (B-06'daki karar geçerli, V1).
+Vekile yetki devri, kıdemden otomatik hak hesabı, rapor/hastalık izni, geriye dönük izin girişi, e-imza, dış İK/bordro sistemine aktarım, ekip izin takvimi.
 
 ---
 
-### B-23 · Hukuk ve Enerji-Geliştirme: gelen yazılara cevap ve dava evrakına taslak — **ADR önce, sonra kod**
+### 8.2 Resmî yazışma ve dilekçe taslağı (Hukuk + Enerji-Geliştirme) — **B-23** · ADR ÖNCE
 
-> **P-1 bu maddenin tamamına uygulanır.** Balbal yalnızca taslak yazar. Hiçbir yazı, dilekçe veya cevap sistemden **gönderilmez**; KEP ile otomatik cevap **gitmez**; UYAP'a otomatik bir şey **yüklenmez**.
+> **P-1 bu bölümün tamamına uygulanır.** Balbal yalnızca taslak yazar. Hiçbir yazı, dilekçe veya cevap sistemden **gönderilmez**: KEP ile otomatik cevap yok, UYAP'a otomatik yükleme yok, e-posta yok.
 
-#### 1. Ne istiyoruz
+#### 8.2.1 Kapsam
 
-İki kullanım:
-- **Hukuk:** Açılan davalara ve gelen ihtarnamelere karşı **cevap dilekçesi, ihtarnameye cevap, itiraz dilekçesi** taslağı.
-- **Enerji / Proje Geliştirme:** Kurumlardan (EPDK, ETKB/YEGM, TEİAŞ, MSB, Çevre ve Şehircilik Bakanlığı / ÇED, belediye, tapu, valilik vb.) gelen resmî yazılara **cevap yazısı** taslağı: ek bilgi/belge talebine cevap, olumsuz sonuç yazısına itiraz veya açıklama.
+- **Hukuk:** açılan davalara **cevap dilekçesi**, gelen ihtarnameye **cevap**, **itiraz** dilekçesi.
+- **Enerji / Proje Geliştirme:** kurumlardan (EPDK, ETKB/YEGM, TEİAŞ, MSB, Çevre ve Şehircilik/ÇED, belediye, tapu, valilik vb.) gelen resmî yazılara **cevap yazısı**: ek bilgi/belge talebine cevap, olumsuz sonuç yazısına itiraz veya açıklama.
+- "KEP" = **Kayıtlı Elektronik Posta**; resmî yazılar KEP ile gelir.
 
-"KEP" = **Kayıtlı Elektronik Posta.** Resmî yazılar KEP ile gelir.
+#### 8.2.2 Akış (iki adımlı: özet onayı olmadan taslak yazılmaz)
 
-#### 2. Akış (iki adımlı — özet onayı olmadan taslak yazılmaz)
+1. Kullanıcı gelen yazıyı / dava evrakını yükler (V0: PDF elle yükleme).
+2. Balbal **özet** çıkarır: gönderen kurum/mahkeme · tarih · sayı · konu · ilgi · istenen işlem · istenen belgeler · süre önerisi · ilgili proje(ler).
+3. Kullanıcı özeti düzeltir ve **onaylar**. Tebliğ tarihini kullanıcı girer; süre ve proje eşleşmesi burada kesinleşir.
+4. Balbal **cevap taslağı** yazar (kaynak kartlarıyla).
+5. Hazırlayan kişi taslağı düzenler ve **onaylar** (P-1).
+6. **İkinci onay:** Hukuk'ta departman yöneticisi (sorumlu avukat); Enerji'de Proje Geliştirme yöneticisi.
+7. Kullanıcı yazıyı **sistem dışında** gönderir (KEP/UYAP/elden/posta), sistemde "gönderildi" olarak işaretler ve gönderilen nihai PDF'i yükler.
+8. Kayıt kapanır; gelen yazı ve gönderilen cevap normal belge akışına (versiyon, yetki, etiket) girer.
 
-```
-1. Kullanıcı gelen yazıyı/dava evrakını yükler (V0: PDF elle yükleme)
-2. Balbal ÖZET çıkarır:
-     gönderen kurum/mahkeme · tarih · sayı · konu · ilgi · tebliğ tarihi (kullanıcı girer/onaylar)
-     istenen işlem · istenen belgeler · cevap için süre önerisi · ilgili proje(ler)
-3. Kullanıcı özeti kontrol eder, düzeltir, ONAYLAR           ← süre ve proje eşleşmesi burada kesinleşir
-4. Balbal CEVAP TASLAĞI yazar (kaynak kartlarıyla)
-5. Hazırlayan kişi taslağı düzenler ve ONAYLAR               ← P-1 personel onayı
-6. İkinci onay: Hukuk'ta departman yöneticisi (sorumlu avukat), Enerji'de Proje Geliştirme yöneticisi
-7. Kullanıcı yazıyı sistem DIŞINDA gönderir (KEP/UYAP/elden) ve sistemde "gönderildi" olarak işaretler,
-   gönderilen nihai hali PDF olarak yükler
-8. Kayıt kapanır; gelen yazı + gönderilen cevap normal belge akışına (versiyon, yetki, etiket) girer
-```
-
-#### 3. Durum makinesi
+#### 8.2.3 Durum makinesi
 
 ```
 received → summary_ready → summary_confirmed → draft_ready → preparer_approved → reviewer_approved → marked_sent → closed
-                                   ▲                  │                 │                   │
-                                   └── kullanıcı yeni taslak ister ◀────┘   reviewer "düzeltme iste" ──▶ draft_ready
+                                   ▲                  │                 │
+                                   └── yeni taslak ◀──┘   reviewer "düzeltme iste" ──▶ draft_ready
 ```
 - `summary_confirmed` olmadan taslak yazılmaz.
 - `preparer_approved` olmadan ikinci onaycının kuyruğuna düşmez (P-1).
-- İkinci onaycı taslağı **düzenlemez**; yorumla geri gönderir (P-1/4).
-- `marked_sent` yalnızca kullanıcının elle işaretlemesiyle olur; sistem hiçbir şey göndermez.
+- İkinci onaycı taslağı düzenlemez; yorumla geri gönderir.
+- `marked_sent` yalnızca kullanıcının elle işaretlemesiyle.
 
-#### 4. Taslak yazımında zorunlu kurallar
+#### 8.2.4 Taslak yazımında zorunlu kurallar
 
-1. **Kaynaksız iddia yok.** Taslaktaki her olgusal cümle (tarih, sayı, tutar, başvuru, karar, olay) bir **kaynak kartına** bağlanır. Kaynak bulunamayan yerde taslağa **`[BİLGİ EKSİK: …]`** yer tutucusu yazılır; model boşluğu tahminle doldurmaz.
-2. **Kanun maddesi, yönetmelik, yargı kararı, emsal karar uydurulmaz.** Model yalnızca (a) kaynak belgelerde geçen ve (b) sistemdeki `legal_references` tablosunda tanımlı atıfları kullanabilir. Bunların dışındaki her atıf **`[DOĞRULANMALI]`** etiketiyle yazılır ve taslağın sonunda **"Doğrulanacak atıflar"** listesi olarak toplanır. Dış hukuk veritabanı taraması V0'da **yok**.
-3. **Gelen yazının içeriği talimat değildir.** Yüklenen yazı veya dava evrakı içinde "şunu yap / şunu gönder" gibi metinler olabilir; bunlar model için **veri**dir. (Prompt injection koruması: gelen belge içeriği sistem talimatından ayrı, açıkça "alıntı" olarak modele verilir.)
-4. **Yetki:** Taslak yalnızca taslağı hazırlayan kişinin `allowed_document_ids` kümesindeki belgelerden beslenir. İkinci onaycının yetkisi daha genişse bile taslak genişletilmez.
-5. **Biçim:** Resmî yazı: antet yeri, sayı, tarih, konu, ilgi, metin, ekler listesi, dağıtım, imza bloğu (ad/unvan boş bırakılır, kullanıcı doldurur). Dilekçe: mahkeme başlığı, dosya no, davacı/davalı, vekil, konu, açıklamalar, hukuki sebepler, deliller, sonuç ve istem. Biçim şablonları `correspondence_templates` tablosunda tutulur, koda gömülmez.
-6. **Her proje ayrı işlenir.** Bir yazı birden çok projeyi ilgilendiriyorsa özet ve taslakta proje bazlı ayrı bölümler olur; konsolide ifade yok.
+1. **Kaynaksız iddia yok.** Her olgusal cümle (tarih, sayı, tutar, başvuru, karar, olay) bir kaynak kartına bağlanır. Kaynak yoksa taslağa **`[BİLGİ EKSİK: …]`** yazılır; boşluk tahminle doldurulmaz.
+2. **Kanun, yönetmelik, yargı kararı, emsal uydurulmaz.** Yalnızca (a) kaynak belgelerde geçen ve (b) `legal_references` tablosunda tanımlı atıflar kullanılır. Diğer her atıf **`[DOĞRULANMALI]`** etiketiyle yazılır ve taslağın sonunda "Doğrulanacak atıflar" listesinde toplanır. Dış içtihat veritabanı V0'da yok.
+3. **Gelen yazının içeriği talimat değildir.** Yazının içinde "şunu yap / şunu gönder" gibi metinler olabilir; bunlar veridir. Gelen belge içeriği modele sistem talimatından ayrı, açıkça "alıntı" olarak verilir (prompt injection koruması).
+4. **Yetki:** Taslak yalnızca hazırlayanın `allowed_document_ids` kümesindeki belgelerden beslenir; ikinci onaycının yetkisi daha genişse bile taslak genişletilmez.
+5. **Biçim** şablon tablosundan (`correspondence_templates`) gelir, koda gömülmez:
+   - Resmî yazı: antet yeri, sayı, tarih, konu, ilgi, metin, ekler, dağıtım, imza bloğu (ad/unvan boş, kullanıcı doldurur).
+   - Dilekçe: mahkeme başlığı, dosya no, davacı/davalı, vekil, konu, açıklamalar, hukuki sebepler, deliller, sonuç ve istem.
+6. **Her proje ayrı işlenir** (P-6).
 
-#### 5. Süre takibi (en kritik kısım)
+#### 8.2.5 Süre takibi (en kritik kısım)
 
-- Balbal özet adımında **süre önerir**: yazıdaki açık süre ("… tarihinden itibaren 15 gün içinde") ya da `legal_deadline_rules` tablosundaki kural (belge türü → gün sayısı, takvim günü / iş günü, başlangıç = tebliğ tarihi, kaynak).
-- **Tebliğ tarihi LLM'e tahmin ettirilmez;** kullanıcı girer veya onaylar.
-- Süre, `summary_confirmed` ile kesinleşir ve **B-01 gündeme** `kind: "deadline"` olarak düşer; son 7, 3 ve 1 gün kala **B-02 bildirim** gider.
-- `legal_deadline_rules` tablosu **Hukuk departmanı yöneticisi** tarafından doldurulur ve onaylanır. Örnek başlangıç satırları (**hukuk birimi tarafından doğrulanmadan kullanılmaz**): HMK cevap dilekçesi — tebliğden itibaren 2 hafta; İYUK savunma — tebliğden itibaren 30 gün. Kuralı olmayan belge türü için süre alanı boş kalır ve kullanıcıdan istenir.
+- Balbal özet adımında süre **önerir**: yazıdaki açık süre ("… tarihinden itibaren 15 gün içinde") ya da `legal_deadline_rules` tablosundaki kural (belge türü → gün sayısı, takvim/iş günü, başlangıç = tebliğ tarihi, kaynak).
+- **Tebliğ tarihi LLM'e tahmin ettirilmez;** kullanıcı girer.
+- Süre `summary_confirmed` ile kesinleşir, gündeme (`deadline`) düşer; son 7, 3 ve 1 gün kala bildirim gider.
+- `legal_deadline_rules` tablosunu Hukuk departmanı yöneticisi doldurur ve onaylar. Örnek başlangıç satırları (**hukuk birimi doğrulamadan kullanılmaz**): HMK cevap dilekçesi — tebliğden itibaren 2 hafta; İYUK savunma — tebliğden itibaren 30 gün. Kuralı olmayan belge türünde süre boş kalır, kullanıcıdan istenir.
+- Aynı mekanizma dava aşamalarında ve icra takiplerinde de kullanılır (§7.3).
 
-#### 6. Enerji / Geliştirme entegrasyonu
+#### 8.2.6 Enerji-Geliştirme bağlantısı
 
-- Gelen kurum yazısı, ilgili projenin izin adımına bağlanır (B-20/7: `permit_steps`, `project_permit_status`).
-- Olumsuz sonuç yazısı geldiğinde, özet onaylanınca ilgili adıma **sonuç = olumsuz, sonuç tarihi, sebep** işlenir (arayüzdeki nokta çizelgesi bunu gösterir).
+- Gelen kurum yazısı ilgili projenin izin adımına bağlanır (§7.6.1).
+- Olumsuz sonuç yazısında, özet onaylanınca adıma **sonuç = olumsuz, sonuç tarihi, sebep** işlenir (nokta çizelgesi bunu gösterir).
 - İtiraz/cevap taslağı o adımın başvuru belgelerinden ve kurum yazısından beslenir.
 
-#### 7. Uçlar
+#### 8.2.7 Uçlar
 
 ```
-POST /api/correspondence                     { document_id, department: "hukuk"|"enerji", kind: "incoming_letter"|"lawsuit"|"notice" }
-GET  /api/correspondence?status=&department= → kendi departmanının kayıtları (yetkiye göre)
-GET  /api/correspondence/{id}                → kayıt + özet + taslak versiyonları + olaylar
-POST /api/correspondence/{id}/summary        → Balbal özet üretir
-PATCH /api/correspondence/{id}/summary       { fields }       ← kullanıcı düzeltir
-POST /api/correspondence/{id}/summary/confirm { service_date, deadline_date, project_ids }
-POST /api/correspondence/{id}/drafts         { instructions? } → yeni taslak versiyonu (kaynak kartlarıyla)
-PATCH /api/correspondence/{id}/drafts/{v}    { body }         ← yalnızca hazırlayan
-POST /api/correspondence/{id}/drafts/{v}/approve              ← yalnızca hazırlayan (P-1)
-POST /api/correspondence/{id}/review         { decision: "approve"|"request_changes", comment }  ← yalnızca ikinci onaycı
-POST /api/correspondence/{id}/mark-sent      { sent_at, channel: "KEP"|"UYAP"|"elden"|"posta", sent_document_id }
+POST  /api/correspondence                       { document_id, department: "hukuk"|"enerji", kind: "incoming_letter"|"lawsuit"|"notice" }
+GET   /api/correspondence?status=&department=
+GET   /api/correspondence/{id}
+POST  /api/correspondence/{id}/summary          → Balbal özet üretir
+PATCH /api/correspondence/{id}/summary          { fields }
+POST  /api/correspondence/{id}/summary/confirm  { service_date, deadline_date, project_ids }
+POST  /api/correspondence/{id}/drafts           { instructions? }
+PATCH /api/correspondence/{id}/drafts/{v}       { body }      ← yalnızca hazırlayan
+POST  /api/correspondence/{id}/drafts/{v}/approve              ← yalnızca hazırlayan (P-1)
+POST  /api/correspondence/{id}/review           { decision: "approve"|"request_changes", comment }  ← ikinci onaycı
+POST  /api/correspondence/{id}/mark-sent        { sent_at, channel: "KEP"|"UYAP"|"elden"|"posta", sent_document_id }
 ```
-Sözleşme tipleri `frontend/src/api/proposed.ts` içinde **"9. Yazışma ve dilekçe taslağı"** bölümündedir.
+Sözleşme tipleri `proposed.ts` **§9**'da.
 
-#### 8. Veri modeli (öneri)
+#### 8.2.8 Veri modeli (öneri)
 
 ```
 correspondence(id, department, kind, incoming_document_id, owner_id, reviewer_id, status,
                summary jsonb, service_date, deadline_date, project_ids uuid[], legal_case_id, created_at, …)
 correspondence_drafts(id, correspondence_id, version, body, source_cards jsonb,
-                      unverified_references jsonb, created_by, created_at)
+                      unverified_references jsonb, missing_info jsonb, created_by, created_at)
 correspondence_events(id, correspondence_id, actor_id, from_status, to_status, comment, created_at)
-legal_cases(id, court, case_no, parties jsonb, case_type, status, project_ids uuid[])   ← ayrı tablo
+legal_cases(...), legal_case_stages(...)          ← §7.3
 legal_deadline_rules(id, doc_type, days, day_type: "calendar"|"business", starts_from, source, approved_by)
 legal_references(id, code, article, title, text_excerpt, approved_by)
 correspondence_templates(id, kind, body_template)
 ```
 
-#### 9. Gizlilik
+#### 8.2.9 Gizlilik
 
-- Gelen yazı, dava evrakı ve taslaklar **`restricted`** gizlilik düzeyindedir; yalnızca ilgili departman (Hukuk veya Enerji) ve onay zinciri görür.
-- Yetkisiz kullanıcıya kaydın **varlığı bile** gösterilmez (B-11 ilkesi).
-- Taslaklar **retrieval'a ve kurumsal hafızaya girmez.** Yalnızca `marked_sent` sonrasında gelen yazı ve gönderilen nihai cevap normal belge olarak girer.
+- Gelen yazı, dava evrakı ve taslaklar **`restricted`**; yalnızca ilgili departman ve onay zinciri görür.
+- Yetkisiz kullanıcıya kaydın **varlığı bile** gösterilmez (P-2).
+- Taslaklar retrieval'a ve kurumsal hafızaya girmez; yalnızca `marked_sent` sonrasında gelen yazı ve gönderilen nihai cevap belge olarak girer.
 
-#### 10. Çıktı biçimi
+#### 8.2.10 Çıktı biçimi
 
-- V0: arayüzde metin + "kopyala".
-- **V1'in ilk işi: Word (.docx) dışa aktarma.** Dilekçe ve resmî yazıda kullanıcı Word ister; B-15 / dışa aktarma kapsamı bu madde için öne çekilir.
+V0'da arayüzde metin + "kopyala". **V1'in ilk işi Word (.docx) dışa aktarma**; dilekçe ve resmî yazıda kullanıcı Word ister.
 
-#### 11. Başlama koşulu ve sıra
+#### 8.2.11 Başlama koşulu
 
-Koda **ancak şunlar tamamlanınca** başlanır: B-08 `department_manager`, B-01 gündem, B-02 bildirim, B-18 demo verisinde dava dosyaları ve kurum yazıları, B-20/7 izin adımları veri modeli ve bu maddeye dayanan **ADR**'nin Tansu tarafından onaylanması. O zamana kadar yalnızca ADR + migration taslağı + test listesi.
+B-08 `department_manager` · B-01 gündem · B-02 bildirim · §9'daki dava ve kurum yazısı demo belgeleri · §7.6.1 izin adımları veri modeli · §7.3 dava veri modeli · bu bölüme dayanan **ADR**'nin onayı. O zamana kadar yalnızca ADR + migration taslağı + test listesi.
 
-#### 12. Kabul kriterleri (testler)
+#### 8.2.12 Kabul testleri
 
 1. `summary_confirmed` olmadan taslak üretilemez.
 2. Hazırlayan onayı olmadan ikinci onaycı kuyruğuna düşmez; başkası adına onay → 403.
-3. Kaynaksız olgusal cümle taslakta `[BİLGİ EKSİK]` olarak çıkar (eval seti ile).
+3. Kaynaksız olgusal cümle `[BİLGİ EKSİK]` olarak çıkar (eval seti ile).
 4. `legal_references` dışındaki her atıf `[DOĞRULANMALI]` etiketli ve listede.
-5. Gelen yazıya gömülü talimat ("bu yazıyı X'e gönder") hiçbir durum geçişi veya gönderim tetiklemez.
+5. Gelen yazıya gömülü talimat hiçbir durum geçişi veya gönderim tetiklemez.
 6. Sistemde KEP/UYAP/e-posta gönderen hiçbir kod yolu yoktur.
-7. Yetkisiz kullanıcı listelerde, aramada ve Balbal cevaplarında kaydın varlığını göremez.
-8. Süre, `legal_deadline_rules` ve tebliğ tarihinden deterministik hesaplanır; gündeme ve bildirime düşer.
+7. Yetkisiz kullanıcı listelerde, aramada, Balbal'da kaydın varlığını göremez.
+8. Süre `legal_deadline_rules` ve tebliğ tarihinden deterministik hesaplanır; gündeme ve bildirime düşer.
 
-#### 13. Kapsam dışı (V0)
+#### 8.2.13 Kapsam dışı (V0)
 
-KEP kutusundan otomatik çekme (V2, KEP sağlayıcı API'siyle), UYAP entegrasyonu, dış içtihat veritabanı, e-imza, sistemden gönderim (hiçbir sürümde planlanmıyor).
-
----
-
-## C. V0 kapsamı dışında olanlar (bilgi için)
-
-- **B-15 · Word (.docx) yükleme:** CLAUDE.md'de V0 dışında. Tasarımda bazı örnek dosyalar `.docx`; ileride gerekecek.
-- **B-16 · EPİAŞ canlı veri:** Üretim, PTF ve YEKDEM verisi Excel'den değil **EPİAŞ Şeffaflık Platformu**'ndan gelecek (Tansu'nun kararı). Tasarımda Balbal bu cevaplarda "Canlı veri · EPİAŞ" rozeti ve kaynak linki gösteriyor. Backend'de ileride yeni bir kaynak türü gerekecek. Önerim: `AskResponse` içinde `live_sources: [{ provider: "EPIAS", dataset, period, url }]`. Mevcut Excel motoru bu veriyi karşılamıyor.
-- **Dışa aktarma** (Excel/Word/PDF rapor): Ertelenmiş kapsam.
+KEP kutusundan otomatik çekme (V2, KEP sağlayıcı API'si), UYAP entegrasyonu, dış içtihat veritabanı, e-imza, sistemden gönderim (hiçbir sürümde planlanmıyor).
 
 ---
 
-## D. Naci'nin yapay zekasına verilebilecek hazır istem
+### 8.3 EPİAŞ verisi ve günlük tahsilat / aylık mahsuplaşma hesabı — **B-21** · BEKLEMEDE
 
-> `docs/BACKEND_GAPS.md` dosyasını oku (ftansu/AI-BalBal reposunda). Kendi CLAUDE.md kurallarına göre şu sırayla phase planı çıkar ve **SORU** işaretli maddelerde benden onay almadan implementasyona geçme:
-> 0) B-18 demo veri seti: önce webde gerçek resmi yazı ve sözleşme formatlarını araştır; arayüzdeki tüm süreçleri kapsayan profesyonel, kurgusal belgeler ve orta karmaşıklıkta Excel dosyaları üret. B-19: frontend'i ve canvas'ı incele, eksiklerini tamamla, backend'inde olup bizde olmayan yetenekleri detaylı listele. B-20: kurumsal yapıyı zihin haritasına uyarla (6. ve 7. maddeler SORU — önce Tansu ile netleştir).
-> 1) Küçük şema eklemeleri: B-07 (SourceCard'a versiyon id'leri, yetki kontrollü), B-04 (AskResponse.audit_log_id + POST /api/ask/feedback), B-13 (file_kind), B-17 (indirme dosya adı + inline).
-> 2) B-01 gündem: önce `expiration_date` ve bekleyen etiket önerilerinden türetilen kısım.
-> 3) B-05 rehber (users.title alanı dahil).
-> 4) B-08, B-09, B-10, B-11, B-12, B-03 için yalnızca SORU listesi ve önerilen ADR taslakları; kod değil.
-> 5) **Değişmez ilke P-1'i her adımda uygula:** Balbal hiçbir aşamada personel onayı olmadan işlem ilerletmez; yalnızca taslak üretir. Durum geçişlerini LLM değil kod yönetir. P-1 madde 7'deki dört testi her işlem modülünde yaz.
-> 6) **B-21:** Tam metin bu dosyaya eklenene kadar başlama.
-> 7) **B-22 (izin) ve B-23 (yazışma):** Her maddenin "Başlama koşulu" bölümündeki ön koşullar tamamlanmadıysa yalnızca ADR taslağı, migration taslağı ve test listesi üret; **kod yazma**. Koşullar tamamlanınca ADR'yi Tansu'ya onaya sun, onaydan sonra uygula. Maddelerde yazan varsayılan kararları (onay mercii zinciri, form alanları, 72 saat, V0 kapsamı vb.) aynen al; farklı bir şey önermek istiyorsan ADR'de gerekçesiyle yaz, kendin değiştirme.
-> 8) **B-23'te yasaklar:** kanun/karar uydurmak, kaynaksız olgusal iddia, sistemden herhangi bir gönderim (KEP, UYAP, e-posta). Her atıf kaynak kartına bağlı ya da `[DOĞRULANMALI]` etiketli olmalı.
-> 9) Frontend'e dokunma. B-22 ve B-23 sözleşme tipleri `frontend/src/api/proposed.ts` içinde (bölüm 8 ve 9). Tip değişikliği gerekiyorsa önerini ayrı liste olarak Tansu'ya ver.
-> Her endpoint `allowed_document_ids` kuralına uymalı ve en az bir test içermeli. Frontend sözleşmesi `frontend/src/api/proposed.ts` dosyasında; alan adlarını oradaki tiplerle birebir eşleştir.
+Ana ekrandaki "günlük yatan tutar" ve "mahsuplaşmada yatacak tutar" hesabı. Formül, veri modeli, uçlar ve test örnekleri Tansu ile ayrı bir çalışmada, **gerçek faturayla doğrulanmış referans Excel'den** çıkarıldı. **Tam metin bu belgeye ayrı bir commit ile eklenecek.**
+
+Değişmeyecek kararlar:
+- Hesap **backend'de**. Frontend yalnızca gösterir; tarayıcıdan EPİAŞ'a bağlanılmaz; EPİAŞ şifresi yalnızca ortam değişkeninde.
+- Her proje ayrı hesaplanır ve döner; konsolide toplam dönülmez (P-6).
+- Oranlar (avans oranı, yönetim bedeli, KDV, YEK payı vb.) koda gömülmez; proje bazlı, **geçerlilik tarihli** parametre tablosunda (P-8).
+- Public repo: gerçek oranlar, toplayıcı adı, gerçek EPİAŞ kimlikleri yazılmaz; testlerde kurgusal değerler (P-9).
+- Kullanılacak yerler: Proje Finans ve Mali İşler > Finansal Muhasebe ana ekranı; Balbal'ın EPİAŞ cevapları (§3.7).
+
+**Talimat:** Tam metin eklenmeden B-21 için kod yazma, tablo açma, EPİAŞ istemcisi kurma.
+
+---
+
+## 9. Demo veri seti — **B-18** · HEMEN (öncelikli)
+
+Sunucudaki örnek belgeler **profesyonel** olmalı ve **arayüzdeki her süreci** kapsamalı. Hedef: `seed` komutuyla yüklenen belgelerle her ekran "Backend bekleniyor" kutusu olmadan gerçek veriyle dolsun.
+
+### 9.1 Kapsanacak belgeler
+
+| Departman | Belgeler |
+|---|---|
+| **Enerji — Geliştirme** | ölçüm raporu, önlisans başvurusu ve kararı, YEGM teknik uygunluk, TEİAŞ bağlantı görüşü, tapu/kira, MSB askeri yazı, TEA başvurusu ve sonuç yazısı (olumsuzsa gerekçesiyle), ÇED başvurusu/ek bilgi/karar, jeoteknik etüt, kurum görüşleri, bağlantıya çağrı mektubu, imar, kati proje, yapı ruhsatı, lisans. **Her belgede** başvuru tarihi, sonuç tarihi, sonuç ve olumsuzsa sebep yazmalı (nokta çizelgesi bunları gösteriyor). |
+| **Enerji — O&M** | bakım sözleşmesi, arıza tutanakları, yıllık bakım raporu, ÇED izleme yükümlülükleri |
+| **Proje Finans** | kredi sözleşmesi + tadiller (versiyon zinciri), ödeme planı Excel'i, sigorta poliçeleri, banka raporlama formları |
+| **Hukuk** | dava dosyaları (her biri aşamalarıyla, §7.3), duruşma tutanakları, bilirkişi raporu, ihtarname, sözleşmeler, en az bir KEP ile gelmiş kurum yazısı |
+| **Mali İşler / İdari İşler / İK** | her birinden birkaç temel belge (ticaret sicil gazetesi, vergi levhası, personel yönetmeliği vb.). İK için ayrıca kurgusal **yıllık izin hakkı belgesi** ve birkaç **onaylı izin belgesi** (§8.1.6 bakiye türetme testi için). |
+
+### 9.2 Profesyonel seviye — nasıl hazırlanmalı
+
+- **Önce webde araştır:** gerçek bir idareden (EPDK, ETKB/YEGM, TEİAŞ, MSB, Çevre Bakanlığı, belediye, tapu) gelen resmî yazı nasıl görünür (antet, sayı, konu, ilgi, dağıtım, imza bloğu, ekler); kredi, bakım, kira sözleşmesi nasıl yapılandırılır (madde numaralandırma, tanımlar, teminatlar, fesih, ekler); dilekçe ve ihtarname nasıl yazılır. Belgeleri bu formatlara göre üret.
+- İçerik **kurgusal** (P-9): gerçek kurum logosu, gerçek kişi adı, gerçek belge numarası yok.
+- **Excel dosyaları mutlaka olmalı ve orta karmaşıklıkta** olmalı (Proje Finans ve Enerji ekranlarında Excel testi çok önemli):
+  - Proje Finans: kredi ödeme planı (dönem, anapara, faiz, bakiye, döviz; formüllü), aylık nakit akış tablosu (birden çok sayfa), DSCR hesabı (tadil öncesi 1,25x / sonrası 1,20x eşiği), banka raporlama formu (Annex tipi).
+  - Enerji: santral bazlı aylık üretim ve kapasite faktörü, bakım maliyet takibi (bütçe/gerçekleşen), izin süreçleri takip tablosu (başvuru/sonuç tarihleri, durum).
+  - Birden çok sayfa, formül, birleştirilmiş başlık, tarih ve para formatları; **her proje ayrı** (konsolide yok, P-6).
+- **Proje adları arayüzle aynı:** işletmede Karatepe, Yeşilova, Boztepe, Güneşalan; geliştirmede Kızılova, Akyar, Demirci.
+
+---
+
+## 10. Naci'den beklenen analiz — **B-19** · HEMEN
+
+1. `ftansu/AI-BalBal` frontend'ini ve Claude Design canvas'ını ("X Platformu — Ana Sayfa", v165) incele. Backend'de karşılığı olmayan her ekran/alan için eksiği tespit et ve (bu belgede karar verilmiş olanları) tamamla. Bu belgedeki maddelerle sınırlı değil.
+2. **Tersine liste:** Backend'inde olup arayüzde **olmayan** her yeteneği yaz: uç, ne yaptığı, örnek istek/cevap, hangi ekranda kullanılmasını önerdiğin. Arayüzü buna göre tamamlayacağız.
+3. Canvas'ta olup bu belgede **hiç geçmeyen** bir ihtiyaç bulursan (özellikle Mali İşler, İdari İşler, İK ana sayfaları) önce listele, Tansu'ya sor; kendin karar verme.
+
+---
+
+## 11. Ertelenen ve kapsam dışı işler
+
+| Kod | Konu | Durum |
+|---|---|---|
+| B-15 | Word (.docx) **yükleme** | V0 dışı. Tasarımda bazı örnek dosyalar `.docx`; ileride gerekecek. |
+| — | **Dışa aktarma** (Excel/Word/PDF rapor, şablon doldurma) | Ertelendi. İlk öncelik: yazışma/dilekçe taslağının Word çıktısı (§8.2.10). |
+| — | "Her soru-cevabı kurumsal hafızaya kaydet" butonu | Ertelendi (§4.5). |
+| — | KEP otomatik çekme, UYAP, e-imza | Ertelendi (§8.2.13). |
+| — | Kıdemden otomatik izin hakkı, vekalet, rapor izni | Ertelendi (§8.1.13). |
+| — | Teams entegrasyonu | Ekip sohbetine alternatif olarak ileride (§6.3). |
+| — | ERP adaptasyonu (Mali İşler) | Ürün 3 yol haritası (§7.2). |
+
+---
+
+## 12. Yol haritası ve öncelik sırası
+
+| Sıra | Kod | Konu | Bölüm | Etiket |
+|---|---|---|---|---|
+| 1 | B-18 | Demo veri seti | §9 | HEMEN |
+| 1 | B-19 | Arayüz incelemesi + tersine liste | §10 | HEMEN |
+| 1 | B-20 (1–5) | Departman yapısını zihin haritasına uyarla | §2.1 | HEMEN |
+| 2 | B-07 | Kaynak kartında versiyon id'leri | §3.6 | HEMEN |
+| 2 | B-04 | Cevap kimliği + geri bildirim | §3.4 | HEMEN |
+| 2 | B-13 | Dosya türü alanı | §4.1 | HEMEN |
+| 2 | B-17 | İndirme adı + tarayıcıda açma | §4.3 | HEMEN |
+| 2 | B-20/6 | Tek sohbette çok proje | §3.3 | HEMEN |
+| 3 | B-01 | Gündem (ilk kısım) | §5.1 | HEMEN |
+| 3 | B-05 | Şirket rehberi + `users.title` | §6.1 | HEMEN |
+| 3 | B-09 | Ana departman | §2.2 | HEMEN (B-08 ile) |
+| 4 | B-08 | Departman yöneticisi rolü | §2.4 | ÖNERİLEN KARAR |
+| 4 | B-10 | Belgenin çok departmanla paylaşımı | §2.5 | ÖNERİLEN KARAR |
+| 4 | B-11 | Evrak talebi (varlık ele vermeden) | §6.4 | ÖNERİLEN KARAR |
+| 4 | B-12 | Etiket önerisi onayı | §4.2 | ÖNERİLEN KARAR |
+| 4 | B-03 | Sohbet geçmişi + çok turlu soru | §3.2 | ÖNERİLEN KARAR |
+| 4 | B-20/7 | Enerji izin adımları veri modeli | §7.6.1 | ÖNERİLEN KARAR |
+| 5 | B-02 | Bildirimler | §5.2 | SIRADA |
+| 5 | B-06a | Departmanlar arası görüş talebi | §6.2 | ÖNERİLEN KARAR |
+| 5 | B-14 | Genel arama | §4.4 | SIRADA |
+| 6 | B-22 | İşlem talepleri + personel izni | §8.1 | ADR ÖNCE |
+| 6 | B-23 | Resmî yazışma ve dilekçe taslağı | §8.2 | ADR ÖNCE |
+| 6 | — | Hukuk dava veri modeli | §7.3 | ADR ÖNCE (B-23 ile) |
+| 7 | B-06b | Ekip sohbeti | §6.3 | ÖNERİLEN KARAR (V1) |
+| — | B-21 | EPİAŞ + mahsuplaşma | §8.3 | BEKLEMEDE |
+| — | B-15, B-16 | Word yükleme, EPİAŞ canlı kaynak alanı | §11, §3.7 | BİLGİ |
+
+---
+
+## 13. Naci'nin yapay zekasına hazır istem
+
+> `docs/BACKEND_GAPS.md` dosyasını (ftansu/AI-BalBal) baştan sona oku. Önce **§1.2 Değişmez ilkeler**'i oku; bunlar her phase'de geçerli, özellikle **P-1 (personel onayı olmadan hiçbir işlem ilerlemez)** ve **P-2 (yetki tek kapıdan)**. Kendi CLAUDE.md kurallarına göre §12'deki sırayla phase planı çıkar:
+>
+> 1) **Sıra 1:** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste. B-20 (1–5) departman yapısı.
+> 2) **Sıra 2–3:** küçük şema eklemeleri ve ilk ekran uçları: B-07, B-04, B-13, B-17, B-20/6, B-01 (ilk kısım), B-05, B-09.
+> 3) **ÖNERİLEN KARAR etiketli maddeler** (B-08, B-10, B-11, B-12, B-03, B-06, B-20/7): Tansu önerilen kararı onaylamadıysa yalnızca ADR taslağı + soru listesi; kod yok. Onaylandıysa uygula.
+> 4) **ADR ÖNCE maddeleri** (B-22, B-23, Hukuk dava modeli): Her bölümün "Başlama koşulu"ndaki ön koşullar tamamlanmadıysa yalnızca ADR + migration taslağı + test listesi. Tamamlandıysa ADR'yi Tansu'ya onaya sun, onaydan sonra uygula. Bölümlerdeki varsayılan kararları aynen al; farklı bir önerin varsa ADR'de gerekçesiyle yaz, kendin değiştirme.
+> 5) **B-21:** tam metin bu belgeye eklenene kadar başlama.
+> 6) **Her işlem modülünde** P-1'in dört testini yaz. **Her uç** `allowed_document_ids` kuralına uymalı ve en az bir test içermeli.
+> 7) **B-23'te yasaklar:** kanun/karar uydurmak, kaynaksız olgusal iddia, sistemden herhangi bir gönderim (KEP, UYAP, e-posta).
+> 8) **Frontend'e dokunma.** Sözleşme `frontend/src/api/proposed.ts`; alan adlarını birebir eşleştir. Tip değişikliği gerekiyorsa önerini ayrı liste olarak Tansu'ya ver.
+> 9) Her phase sonunda: ne yapıldı, hangi dosyalar değişti, hangi testler eklendi, hangi sorular açık kaldı — kısa özet.
+
+---
+
+## Ek A — B kodu dizini
+
+Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
+
+| Kod | Konu | Bölüm |
+|---|---|---|
+| B-01 | Gündem | §5.1 |
+| B-02 | Bildirimler | §5.2 |
+| B-03 | Balbal sohbet geçmişi, çok turlu soru | §3.2 |
+| B-04 | Cevap kimliği, geri bildirim | §3.4 |
+| B-05 | Şirket rehberi | §6.1 |
+| B-06 | Görüş talebi (a) ve ekip sohbeti (b) | §6.2, §6.3 |
+| B-07 | Kaynak kartında versiyon id'leri | §3.6 |
+| B-08 | Departman yöneticisi rolü | §2.4 |
+| B-09 | Ana departman | §2.2 |
+| B-10 | Belgenin çok departmanla paylaşımı | §2.5 |
+| B-11 | Evrak talebi | §6.4 |
+| B-12 | Etiket önerisi onayı | §4.2 |
+| B-13 | Dosya türü | §4.1 |
+| B-14 | Genel arama | §4.4 |
+| B-15 | Word yükleme | §11 |
+| B-16 | EPİAŞ canlı veri kaynağı alanı | §3.7 |
+| B-17 | İndirme adı, tarayıcıda açma | §4.3 |
+| B-18 | Demo veri seti | §9 |
+| B-19 | Arayüz incelemesi, tersine liste | §10 |
+| B-20 | Zihin haritası uyumu (1–5 yapı, 6 çok proje, 7 izin adımları) | §2.1, §3.3, §7.6.1 |
+| B-21 | EPİAŞ + mahsuplaşma hesabı | §8.3 |
+| B-22 | İşlem talepleri, personel izni | §8.1 |
+| B-23 | Resmî yazışma, dilekçe taslağı | §8.2 |
+
+### Revizyon geçmişi
+
+- **v6 (28.09.2026 akşam):** Belge konu başlıklarına göre yeniden düzenlendi (genel prensip, Balbal, kurumsal yapı, belgeler, gündem, departmanlar arası iletişim, departman bazlı talepler, ortak modüller). Değişmez ilkeler P-1…P-10 olarak toplandı. **Hukuk dava veri modeli** eklendi (§7.3). İzin bakiyesi, Tansu'nun kararına göre **belgelerden türetilecek** şekilde düzeltildi (§8.1.6). Her departmana zihin haritasındaki Ürün 3 yol haritası bağlam olarak eklendi. Durum etiketleri (HEMEN, SIRADA, ADR ÖNCE, ÖNERİLEN KARAR, BİLGİ, BEKLEMEDE) getirildi.
+- **v5 (28.09.2026):** P-1, B-21 yer tutucu, B-22, B-23 eklendi.
+- **v1–v4:** B-01…B-20; canvas v160 → v165; proje seçiminin kaldırılması.

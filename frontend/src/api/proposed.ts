@@ -319,6 +319,9 @@ export interface LeaveBalance {
   pending: number;
   /** Tahmini: entitled + carried_over − used − pending */
   remaining_estimated: number;
+  /** Bakiye veritabanında sayaç olarak tutulmaz; İK klasöründeki izin hakkı belgesi ve onaylı
+   *  izin belgelerinden türetilir. Balbal bunları kaynak kartı olarak gösterir (B-22 §8.1.6). */
+  source_document_ids: string[];
 }
 
 export interface Holiday {

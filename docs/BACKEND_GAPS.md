@@ -1,7 +1,7 @@
 # X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
 **Kime:** Naci ve Naci'nin yapay zekası
-**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7.2 · 28.09.2026
+**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7.3 · 28.09.2026
 **Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v165). Repo ile canvas farklıysa **canvas esastır**.
 
@@ -370,7 +370,7 @@ Güncel versiyonun id'si dönmeden önce kullanıcının o belgeyi görme yetkis
 **Ürün:** Ürün 1 — Tanıma
 
 `download_document` şu an `FileResponse(path, filename=path.name)` dönüyor; inen dosyanın adı **`original.pdf`** oluyor.
-- `filename` = belge başlığı + uzantı (ör. `Karatepe RES Kredi Sözleşmesi.pdf`).
+- `filename` = belge başlığı + uzantı (ör. `Ankara RES Kredi Sözleşmesi.pdf`).
 - `?inline=1` ile `Content-Disposition: inline` desteklensin. Arayüzde "Belgeyi aç" inline, "İndir" attachment kullanır.
 
 ### 4.4 Genel arama — **B-14** · SIRADA (V1)
@@ -924,7 +924,7 @@ Sunucudaki örnek belgeler **profesyonel** olmalı ve **arayüzdeki her süreci*
   - Proje Finans: kredi ödeme planı (dönem, anapara, faiz, bakiye, döviz; formüllü), aylık nakit akış tablosu (birden çok sayfa), DSCR hesabı (tadil öncesi 1,25x / sonrası 1,20x eşiği), banka raporlama formu (Annex tipi).
   - Enerji: santral bazlı aylık üretim ve kapasite faktörü, bakım maliyet takibi (bütçe/gerçekleşen), izin süreçleri takip tablosu (başvuru/sonuç tarihleri, durum).
   - Birden çok sayfa, formül, birleştirilmiş başlık, tarih ve para formatları; **her proje ayrı** (konsolide yok, P-6).
-- **Proje adları arayüzle aynı:** işletmede Karatepe, Yeşilova, Boztepe, Güneşalan; geliştirmede Kızılova, Akyar, Demirci.
+- **Projeler — karar (Tansu, 28.09.2026):** şimdilik **2 proje**, mevcut adlarıyla: Ankara RES (işletme) ve İzmir RES (geliştirme). Canvas'taki 7 proje adı (işletmede Karatepe, Yeşilova, Boztepe, Güneşalan; geliştirmede Kızılova, Akyar, Demirci) ertelendi; bu dönemde demo verinin canvas'tan farklı proje adı taşıması sapma sayılmaz.
 
 ---
 
@@ -999,7 +999,7 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 
 > `docs/BACKEND_GAPS.md` dosyasını (ftansu/AI-BalBal) baştan sona oku. Önce **§1.2 Değişmez ilkeler**'i ve **§1.5 Ürün katmanları**'nı oku. §1.5 projenin belkemiğidir: her özellik Ürün 1 (Tanıma), Ürün 2 (Birleştirme) ya da Ürün 3 (Yorumlama) katmanına aittir; her başlığın altında **"Ürün:"** satırı var. Ürün 1'de yorum, Ürün 2'de tahmin/projeksiyon **yasak**; bir özellikte tahmin varsa o Ürün 3'tür. Kendi CLAUDE.md kurallarına göre §12'deki sırayla phase planı çıkar:
 >
-> 0) **Önce `docs/BAGLANTI_YOL_HARITASI.md`'yi oku.** B-25 → B-20 (1–5) + B-09 → B-18 sırası ve her birinin adım adım planı, kabul testleri orada. Bu üçü frontend'i backend'e bağlamanın ön koşulu; §6'daki karar bekleyen noktalarda (proje adları vb.) onay gelmeden o kısmı kodlama.
+> 0) **Önce `docs/BAGLANTI_YOL_HARITASI.md`'yi oku.** B-25 → B-20 (1–5) + B-09 → B-18 sırası ve her birinin adım adım planı, kabul testleri orada. Bu üçü frontend'i backend'e bağlamanın ön koşulu; §6'daki noktalardan karar verilmemiş olanlarda onay gelmeden o kısmı kodlama (proje sayısı kararı verildi: şimdilik 2 proje).
 > 1) **Sıra 1 — ortak altyapı:** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste — **her yeteneğin ürün katmanını da yaz**. B-25 ürün katmanı anahtarı **karar verildi (§1.5.4), ADR gerekmez** — doğrudan uygula: `company_settings.enabled_products`, uç bazlı `requires_product`, `GET /api/auth/me` cevabına `enabled_products` alanı (frontend zaten bunu bekliyor, alan adını ve değerleri birebir eşleştir).
 > 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, B-10), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-03, B-12, B-11, B-14. Ürün 1 bitmeden Ürün 2 koduna geçme.
 > 3) **Sıra 5–6 — Ürün 2:** bildirim altyapısı (B-02), gündem (B-01), görüş talebi (B-06a), işlem talebi iskeleti (B-22) ve yazışma taslağı (B-23). Ürün 2'de hesap yalnızca gerçekleşmiş veriyle, taslak yalnızca olgusal.
@@ -1047,6 +1047,7 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 
 ### Revizyon geçmişi
 
+- **v7.3 (28.09.2026 gece):** Demo veri projeleri: şimdilik 2 proje, mevcut adlarıyla (§9.2, yol haritası §6/1).
 - **v7.2 (28.09.2026 gece):** B-25 karar verildi (tek uygulama, `enabled_products` anahtarı; frontend tarafı uygulandı). Frontend–backend bağlantısı için **`BAGLANTI_YOL_HARITASI.md`** eklendi: B-25, B-20 (1–5) + B-09, B-18 adım adım plan, backend @ `4301968` durum tespiti, kabul testleri, bağlantı günü kontrol listesi.
 
 - **v7.1 (28.09.2026 akşam):** Tansu'nun kararı işlendi: kişiler arası ve grup sohbeti (B-06b) Ürün 2 tamamlandıktan sonra eklenecek, Balbal sohbete dahil edilebilecek. Sohbette Balbal davranış kuralları eklendi (§6.3).

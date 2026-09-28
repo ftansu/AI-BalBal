@@ -15,7 +15,7 @@
 |---|---|---|---|---|
 | 1 | **B-25** | Ürün katmanı anahtarı | Küçük | Frontend `enabled_products` alanını bekliyor; gelmezse herkes yalnızca P1 görür ve Ürün 2/3 ayrımı sunucuda hiç korunmaz. |
 | 2 | **B-20 (1–5)** + **B-09** | Departman yapısı + ana departman | Orta | Departman sayfaları canvas'la birebir aynı olmalı. Bugün İK yok, "Finans" adı yanlış, demo `finans` kullanıcısı iki departmanda. Şimdi test edilen her ekran, yapı değişince yeniden test edilmek zorunda kalır. |
-| 3 | **B-18** | Demo veri seti | Büyük | Ekranlar gerçekçi belgeyle dolmadan Ürün 1 test edilemez. Bugünkü veri 2 projeye ait, canvas 7 proje gösteriyor; İK ve Üretim/Piyasa için hiç belge yok. |
+| 3 | **B-18** | Demo veri seti | Büyük | Ekranlar gerçekçi belgeyle dolmadan Ürün 1 test edilemez. İK ve Üretim/Piyasa için hiç belge yok; Hukuk ve Enerji Geliştirme süreçleri eksik. (Proje sayısı şimdilik 2'de kalıyor, §6/1.) |
 
 **Sıra neden bu:** B-25 bağımsız ve küçük, hemen yapılabilir. B-18'deki her belge bir departman slug'ı taşıdığı için B-18, B-20'nin bitmesini bekler (İK belgesi, İK departmanı olmadan yüklenemez).
 
@@ -128,7 +128,7 @@ Karar metni: `BACKEND_GAPS.md` §9. Başlama koşulu: Adım 2 bitmiş olmalı.
 
 | # | Fark | Bugün | Hedef (§9) |
 |---|---|---|---|
-| 1 | **Proje adları** | Ankara RES, İzmir RES | Canvas'taki adlar: işletmede Karatepe, Yeşilova, Boztepe, Güneşalan; geliştirmede Kızılova, Akyar, Demirci — **karar gerekli, §6/1** |
+| 1 | **Proje sayısı ve adları** | Ankara RES (işletme), İzmir RES (geliştirme) | **Karar verildi (28.09.2026): şimdilik 2 proje, mevcut adlarıyla kalır** (§6/1). Canvas'taki 7 proje ertelendi. |
 | 2 | İK belgeleri | 0 | Temel belgeler + kurgusal yıllık izin hakkı belgesi + birkaç onaylı izin belgesi |
 | 3 | Mali İşler | 3 belge, alt birimsiz | Muhasebe ve Finansal Muhasebe alt birimlerine dağılmış temel belgeler |
 | 4 | Enerji — Üretim/Piyasa | 0 | Santral bazlı aylık üretim ve kapasite faktörü (mevcut `Monthly_Production_2026.xlsx` bu alt birime alınabilir) |
@@ -136,7 +136,7 @@ Karar metni: `BACKEND_GAPS.md` §9. Başlama koşulu: Adım 2 bitmiş olmalı.
 | 6 | Hukuk | 7 belge | Aşamalarıyla dava dosyaları, duruşma tutanağı, bilirkişi raporu, ihtarname, en az bir KEP ile gelmiş kurum yazısı |
 | 7 | Gizlilik çeşitliliği | 1 restricted | Her operasyonel departmanda en az 2 `restricted` belge (B-08 testi için hazır olsun) |
 | 8 | Excel seti | 4 dosya | §9.2 listesi (aşağıda) |
-| 9 | Değerlendirme seti | 178 satırda proje adı | Proje adları değişirse güncellenmeli; eval yine geçmeli |
+| 9 | Değerlendirme seti | 178 satırda proje adı | Proje adları değişmediği için mevcut sorular geçerli; yeni belgeler için soru eklenir, eval geçmeli |
 
 **Excel hedefi (§9.2):** orta karmaşıklıkta, çok sayfalı, formüllü, tarih ve para formatlı, **her proje ayrı** (konsolide sayfa yok, P-6).
 - Proje Finans: kredi ödeme planı (dönem, anapara, faiz, bakiye, döviz; formüllü) · aylık nakit akış tablosu (çok sayfa) · DSCR hesabı (tadil öncesi 1,25x / sonrası 1,20x eşiği; kredi sözleşmesi tadil zinciriyle tutarlı) · banka raporlama formu (Annex tipi).
@@ -144,14 +144,14 @@ Karar metni: `BACKEND_GAPS.md` §9. Başlama koşulu: Adım 2 bitmiş olmalı.
 
 ### 4.2 Yapılacaklar (önerilen iç sıra)
 
-1. **Proje kararı uygulanır** (§6/1): ledger'da (`seed_data/master/*.yaml`) proje adları ve kodları; tek kaynak ledger kalır. Proje adı değişikliği mevcut veritabanına migration ile yansır (bkz. §1).
+1. **Projeler aynen kalır** (§6/1): `ANK_RES` Ankara RES ve `IZM_RES` İzmir RES. Yeni belgelerin tamamı bu iki projeye (veya şirket geneline) bağlanır; yeni proje eklenmez, proje adı değiştirilmez, bu yüzden proje migration'ı gerekmez.
 2. **Yeni departman belgeleri:** İK, Mali İşler alt birimleri, Enerji Üretim/Piyasa.
 3. **Eksik süreç belgeleri:** Enerji Geliştirme tam listesi, Hukuk dava dosyaları ve KEP yazısı.
 4. **Excel seti** §4.1'deki listeye tamamlanır.
 5. **`restricted` belgeler** eklenir.
 6. **Belge paylaşımı adayı (B-10 için):** en az bir kredi sözleşmesi Proje Finans + Hukuk ilişkisine uygun hazırlanır (B-10 onaylanana kadar yalnızca Proje Finans'ta durur).
 7. **Prose yalnızca yeni belgeler için** üretilir (LLM bir kez, çıktı commit edilir; `make seed` LLM çağırmaz — mevcut kural).
-8. **Doğrulayıcılar ve eval:** isim beyaz listesi (P-9), `validate_documents`, `validate_excel`; proje adları değiştiyse `questions.json` güncellenir ve `make eval` tekrar geçer.
+8. **Doğrulayıcılar ve eval:** isim beyaz listesi (P-9), `validate_documents`, `validate_excel`; yeni belgeler için `questions.json`'a soru eklenir ve `make eval` tekrar geçer.
 9. **Boş veritabanında `make seed`**, ardından her demo kullanıcıyla ekran ekran kontrol.
 
 **Profesyonel seviye (§9.2):** önce resmî yazı, sözleşme, dilekçe ve ihtarname formatları araştırılır; içerik kurgusaldır — gerçek kurum logosu, gerçek kişi adı, gerçek belge numarası yok.
@@ -202,9 +202,7 @@ Bu liste geçtiğinde **Ürün 1 kabul testine** başlanır.
 
 Bunlar netleşmeden ilgili kısım kodlanmaz (P-10). Önerilen varsayımlar yazıldı; onaylanırsa aynen uygulanır.
 
-1. **Proje sayısı ve adları (B-18).** Canvas 7 proje gösteriyor, veri 2 projeye ait. Proje adları eval setinde 178 satırda geçiyor.
-   - **Seçenek A:** 7 projenin hepsi tam belge setiyle. En gerçekçi, en pahalı.
-   - **Seçenek B (önerilen):** Mevcut iki proje canvas adlarına taşınır (işletmedeki tam set → Karatepe, geliştirmedeki tam set → Kızılova); kalan 5 proje daha hafif belge setiyle eklenir (her birine birkaç temel belge ve kendi Excel'i). Canvas'taki proje listesi dolu görünür, maliyet sınırlı kalır.
+1. **Proje sayısı ve adları (B-18) — KARAR VERİLDİ (28.09.2026):** Şimdilik **2 proje**, mevcut adlarıyla: Ankara RES (işletme), İzmir RES (geliştirme). Canvas'taki 7 proje adı (Karatepe, Yeşilova, Boztepe, Güneşalan, Kızılova, Akyar, Demirci) ve ek projeler **ertelendi**; ileride açılırsa ledger, veritabanı migration'ı ve eval seti birlikte güncellenir. Bu dönemde demo verideki proje adlarının canvas'tan farklı olması **sapma sayılmaz**.
 2. **Slug'lar sabit kalsın mı?** Önerilen: evet, yalnızca görünen adlar değişsin (§3.1).
 3. **Enerji alt birim adları.** Önerilen: zihin haritasındaki adlar birebir — "Proje Geliştirme", "O&M (İşletme ve Bakım)", "EPC (İnşaat)", "Üretim/Piyasa"; üst departman adı "Enerji".
 4. **Ürün ayarının yeri.** Önerilen: `company_settings` tablosu (`BACKEND_GAPS.md` §1.5.4'teki karar). Uygulama tek şirketli olduğu için tek satır yeterli.
@@ -220,7 +218,7 @@ Backend adımları ilerledikçe, frontend reposunda (önce canvas'ta görünür 
 | B-25 | 403 `product_not_enabled` cevabı için "Bu özellik paketinizde yok" durumu; `AskResponse.product_level` tipi |
 | B-09 | `department_slugs[0]` yerine `primary_department_slug` kullanımı (`Home.tsx`, `ShellContext.tsx`) |
 | B-20 | İK, Mali İşler alt birimleri, Üretim/Piyasa için departman sayfalarının kontrolü (adlar API'den geliyor, slug sabit kalırsa kod değişikliği beklenmiyor) |
-| B-18 | Proje adları değişirse Balbal örnek soruları (`lib/strings.ts`, bugün "Ankara RES" geçiyor) |
+| B-18 | Proje adları aynı kaldığı için Balbal örnek soruları (`lib/strings.ts`, "Ankara RES") geçerli; değişiklik gerekmez |
 | Bağlantı günü | §5 kontrol listesi ve bulunan hataların bu belgeye/`BACKEND_GAPS.md`'ye işlenmesi |
 
 ---

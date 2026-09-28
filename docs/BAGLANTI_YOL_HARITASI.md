@@ -101,7 +101,7 @@ Karar metni: `BACKEND_GAPS.md` §2.1 ve §2.2. İkisi de HEMEN.
    - Üyelik düzeltmesi: demo `finans` kullanıcısının `mali_isler` üyeliği silinir (P-5).
    - Alt birimler mevcut desende kalır: yetki birimi üst departmandır, alt birim görüntü/filtre alanıdır.
 2. **`demo_departments_seed.py` aynı yapıya güncellenir** — temiz kurulum da migration sonrası ile birebir aynı sonucu versin.
-3. **Yeni demo kullanıcılar:** Mali İşler, İdari İşler ve İK için birer `employee` (önerilen kullanıcı adları: `mali`, `idari`, `ik`). Amaç: her departman ana sayfasına o departmanın kullanıcısıyla girilip test edilebilmesi. Görünen adlar kurgusal/jenerik (P-9).
+3. **Yeni demo kullanıcılar:** Her departmanın kendi kullanıcısıyla test edilebilmesi gerekiyor. Bu, B-18'deki **15 kişilik kurgu personel** listesiyle karşılanır (`BACKEND_GAPS.md` §9.3.1); ayrıca `mali`/`idari`/`ik` hesabı açmaya gerek yok. Amaç: her departman ana sayfasına o departmanın kullanıcısıyla girilip test edilebilmesi. Görünen adlar kurgusal/jenerik (P-9).
 4. **B-09 ana departman:**
    - `users.primary_department_id` (nullable FK). Migration mevcut kullanıcılar için ilk üyelikten doldurur.
    - Kural: ana departman, kullanıcının üyeliklerinden biri olmak zorunda (management/admin için boş olabilir).
@@ -139,6 +139,8 @@ Karar metni: `BACKEND_GAPS.md` §9. Başlama koşulu: Adım 2 bitmiş olmalı.
 | 7 | Gizlilik çeşitliliği | 1 restricted | Her operasyonel departmanda en az 2 `restricted` belge (B-08 testi için hazır olsun) |
 | 8 | Excel seti | 4 dosya | §9.2 listesi (aşağıda) |
 | 9 | Değerlendirme seti | 178 satırda proje adı | Proje adları değişmediği için mevcut sorular geçerli; yeni belgeler için soru eklenir, eval geçmeli |
+| 10 | **Kurgu şirket personeli** | Departman adıyla açılmış 4 demo hesap (`yonetim`, `finans`, `hukuk`, `enerji`) | **15 kişilik kurgusal personel**: ad, unvan, departman/alt birim, yönetici, rol, kullanıcı adı (`BACKEND_GAPS.md` §9.3.1) |
+| 11 | **Sözleşmelerin kurgusallığı ve şirket adı** | Ledger "ABC Enerji A.Ş.", canvas "NATA Enerji A.Ş."; canvas'ta gerçek banka adları | Tek kurgu şirket adı; bütün sözleşme ve belgeler kurgusal; belgelerdeki kişiler 15 kişilik listeden (§9.3.2) |
 
 **Excel hedefi (§9.2):** orta karmaşıklıkta, çok sayfalı, formüllü, tarih ve para formatlı, **her proje ayrı** (konsolide sayfa yok, P-6).
 - Proje Finans: kredi ödeme planı (dönem, anapara, faiz, bakiye, döviz; formüllü) · aylık nakit akış tablosu (çok sayfa) · DSCR hesabı (tadil öncesi 1,25x / sonrası 1,20x eşiği; kredi sözleşmesi tadil zinciriyle tutarlı) · banka raporlama formu (Annex tipi).
@@ -146,6 +148,7 @@ Karar metni: `BACKEND_GAPS.md` §9. Başlama koşulu: Adım 2 bitmiş olmalı.
 
 ### 4.2 Yapılacaklar (önerilen iç sıra)
 
+0. **Kurgu şirket önce:** 15 kişilik personel listesi ve kurgu şirket künyesi ledger'a yazılır ve ürün sahibine haber verilir (`BACKEND_GAPS.md` §9.3.3). Liste erken gelirse canvas tasarımı belge üretimiyle paralel yürür. Bu liste B-20'deki ek demo kullanıcıların (`mali`, `idari`, `ik`) yerini de alır.
 1. **Projeler aynen kalır** (§6/1): `ANK_RES` Ankara RES ve `IZM_RES` İzmir RES. Yeni belgelerin tamamı bu iki projeye (veya şirket geneline) bağlanır; yeni proje eklenmez, proje adı değiştirilmez, bu yüzden proje migration'ı gerekmez.
 2. **Yeni departman belgeleri:** İK, Mali İşler alt birimleri, Enerji Üretim/Piyasa.
 3. **Eksik süreç belgeleri:** Enerji Geliştirme tam listesi, Hukuk dava dosyaları ve KEP yazısı.
@@ -168,6 +171,8 @@ Karar metni: `BACKEND_GAPS.md` §9. Başlama koşulu: Adım 2 bitmiş olmalı.
 - Enerji Geliştirme belgelerinin her birinde başvuru tarihi, sonuç tarihi ve sonuç var.
 - İsim doğrulayıcısı geçer; gerçek kişi/kurum adı yok.
 - `make eval` geçer.
+- 15 kişinin her biri giriş yapabiliyor ve doğrudan kendi departman sayfasına gidiyor; unvan ve yönetici bilgisi `/me`'de doğru.
+- Belgelerde listede olmayan çalışan adı, gerçek özel şirket veya banka adı geçmiyor; şirket adı her yerde aynı.
 
 ---
 
@@ -188,9 +193,9 @@ Karar metni: `BACKEND_GAPS.md` §9. Başlama koşulu: Adım 2 bitmiş olmalı.
 
 | # | Kontrol | Beklenen |
 |---|---|---|
-| 1 | Her demo kullanıcıyla giriş | Doğrudan kendi ana departman sayfası (P-5) |
+| 1 | 15 kişinin her biriyle giriş | Doğrudan kendi ana departman sayfası (P-5) |
 | 2 | Departman listesi (yönetim kullanıcısı) | §3.1 ile birebir |
-| 3 | `finans` kullanıcısı Mali İşler belgesi arar | Bulamaz; Balbal varlığını ele vermez |
+| 3 | Proje Finans çalışanı Mali İşler belgesi arar | Bulamaz; Balbal varlığını ele vermez |
 | 4 | `set-enabled-products P1` | Ekip sohbeti butonu kaybolur |
 | 5 | `set-enabled-products P1,P2,P3` | Ekip sohbeti butonu görünür |
 | 6 | Belge listesi, belge detayı, Excel yapısı, versiyon zinciri | Gerçek demo belgeleriyle dolu, her dosya açılır ve indirilir (P-4) |
@@ -243,7 +248,7 @@ Her adım (B-25, B-20+B-09, B-18) sonunda kısa özet:
 
 **Kural:** Aşağıdaki maddelerin **hepsi** "Geçti" olduğunda Ürün 1 teknik kapıyı geçmiş sayılır ve satılabilirlik testine (gerçek kullanıcı, gerçek iş) başlanır. Ürün 2'ye geçiş satılabilirlik testinin sonucuna bağlıdır; teknik kapıyı geçmek tek başına Ürün 2'ye geçiş sebebi değildir. Bir madde kalırsa düzeltilir ve o madde (ve etkilediği maddeler) tekrar test edilir. Maddeler bu belgedeki kabul testlerinin birebir kopyasıdır; yeni beklenti eklenmedi.
 
-Test, **`ftansu/AI-BalBal` arayüzü üzerinden** yapılır (T-19…T-25); backend testleri (T-01…T-18) backend tarafının otomatik testleri ve özetiyle kanıtlanır.
+Test, **`ftansu/AI-BalBal` arayüzü üzerinden** yapılır (T-19…T-25); backend testleri (T-01…T-18, T-26, T-27) backend tarafının otomatik testleri ve özetiyle kanıtlanır.
 
 | No | Adım | Beklenti | Kaynak | Durum |
 |---|---|---|---|---|
@@ -254,7 +259,7 @@ Test, **`ftansu/AI-BalBal` arayüzü üzerinden** yapılır (T-19…T-25); backe
 | T-05 | B-25 | `/api/ask` cevabında `product_level: "P1"` | §2.2 | ☐ |
 | T-06 | B-20 | `GET /api/departments` §3.1 tablosuyla birebir (ad, slug, üst ilişki) | §3.3 | ☐ |
 | T-07 | B-20 | Temiz kurulum (seed) ve mevcut veritabanı (migration) aynı sonucu veriyor | §3.3 | ☐ |
-| T-08 | B-20 | Demo `finans` kullanıcısı yalnızca Proje Finans üyesi; Mali İşler belgesini listede, aramada ve Balbal'da göremez | §3.3 | ☐ |
+| T-08 | B-20 | Proje Finans çalışanları yalnızca Proje Finans üyesi; Mali İşler belgesini listede, aramada ve Balbal'da göremez | §3.3 | ☐ |
 | T-09 | B-09 | Her demo çalışan için `/me` → tek `primary_department_slug`, üyelikleri arasında | §3.3 | ☐ |
 | T-10 | B-20 | Enerji kullanıcısı dört alt birimin belgelerini görüyor | §3.3 | ☐ |
 | T-11 | B-18 | Boş veritabanında `make seed` hatasız; bütün belgeler `ready` | §4.3 | ☐ |
@@ -267,10 +272,12 @@ Test, **`ftansu/AI-BalBal` arayüzü üzerinden** yapılır (T-19…T-25); backe
 | T-18 | B-18 | `make eval` geçiyor | §4.3 | ☐ |
 | T-19 | Arayüz | Her demo kullanıcıyla giriş → doğrudan kendi ana departman sayfası (P-5) | §5/1 | ☐ |
 | T-20 | Arayüz | Yönetim kullanıcısında departman listesi §3.1 ile birebir | §5/2 | ☐ |
-| T-21 | Arayüz | `finans` kullanıcısı Mali İşler belgesini bulamaz; Balbal varlığını ele vermez | §5/3 | ☐ |
+| T-21 | Arayüz | Proje Finans çalışanı Mali İşler belgesini bulamaz; Balbal varlığını ele vermez | §5/3 | ☐ |
 | T-22 | Arayüz | Paket P1 → ekip sohbeti butonu görünmez | §5/4 | ☐ |
 | T-23 | Arayüz | Paket P1,P2,P3 → ekip sohbeti butonu görünür | §5/5 | ☐ |
 | T-24 | Arayüz | Belge listesi, belge detayı, Excel yapısı, versiyon zinciri gerçek belgelerle dolu; her dosya açılıyor ve iniyor (P-4) | §5/6 | ☐ |
 | T-25 | Arayüz | Balbal demo sorularına kaynaklı, yorumsuz cevap veriyor; `product_level: "P1"` | §5/7 | ☐ |
+| T-26 | B-18 | 15 kişilik kurgusal personel ledger'da; her kişi giriş yapabiliyor, unvan ve yönetici bilgisi doğru | §4.3 | ☐ |
+| T-27 | B-18 | Belgelerde gerçek özel şirket/banka ve listede olmayan çalışan adı yok; şirket adı tek | §4.3 | ☐ |
 
-**Durum işaretleme:** ☐ test edilmedi · ✅ geçti · ❌ kaldı (yanına kısa not). Arayüz testlerini (T-19…T-25) ürün sahibi yapar ve işaretler; backend maddelerini (T-01…T-18) backend tarafı her adımın özetinde işaretler (§8).
+**Durum işaretleme:** ☐ test edilmedi · ✅ geçti · ❌ kaldı (yanına kısa not). Arayüz testlerini (T-19…T-25) ürün sahibi yapar ve işaretler; backend maddelerini (T-01…T-18, T-26, T-27) backend tarafı her adımın özetinde işaretler (§8).

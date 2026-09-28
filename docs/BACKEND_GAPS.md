@@ -1,7 +1,7 @@
 # X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
 **Kime:** Naci ve Naci'nin yapay zekası
-**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7.4 · 28.09.2026
+**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7.5 · 28.09.2026
 **Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v165). Repo ile canvas farklıysa **canvas esastır**.
 
@@ -950,6 +950,47 @@ Sunucudaki örnek belgeler **profesyonel** olmalı ve **arayüzdeki her süreci*
   - Birden çok sayfa, formül, birleştirilmiş başlık, tarih ve para formatları; **her proje ayrı** (konsolide yok, P-6).
 - **Projeler — karar (Tansu, 28.09.2026):** şimdilik **2 proje**, mevcut adlarıyla: Ankara RES (işletme) ve İzmir RES (geliştirme). Canvas'taki 7 proje adı (işletmede Karatepe, Yeşilova, Boztepe, Güneşalan; geliştirmede Kızılova, Akyar, Demirci) ertelendi; bu dönemde demo verinin canvas'tan farklı proje adı taşıması sapma sayılmaz.
 
+### 9.3 Kurgu şirket: 15 kişilik personel ve tamamen kurgusal sözleşmeler (Tansu'nun kararı, 28.09.2026)
+
+**Ortak alanda belge türetmek (B-18) backend'in öncelikli işidir.** Bu bölüm B-18'in parçasıdır.
+
+**Neden:** Arayüz kişiye göre açılır: kullanıcı şifresini girer girmez kendi departmanının sayfasına gider (P-5). Ürün 1, ayrı bir ana sayfa değil, bu departman sayfasının kısıtlı (yalnızca Ürün 1 yetenekleri açık) halidir. Personel hiyerarşisi için daha detaylı bir arayüz tasarlanacak. Bunun için önce kurgu şirketin **kim kimdir** bilgisi backend'de netleşmeli. **Backend kurguyu çıkarır, Tansu tarafı canvas'ı ve arayüzü ona göre tasarlar/değiştirir.** Canvas'taki bugünkü isimler (kişi, şirket, banka) geçicidir; tek kaynak backend'in ledger'ı olacak.
+
+#### 9.3.1 15 kişilik personel listesi
+
+- Her kişi için: **ad soyad** (kurgusal), **unvan**, **departman** ve varsa **alt birim**, **yöneticisi** (kime bağlı), **rol** (`employee` / `management`), **kullanıcı adı**.
+- Kayıt yeri: ledger (`seed_data/master/company.yaml` içinde ayrı bir `personnel` bölümü veya yeni bir `personnel.yaml`). Tek kaynak orası; seed kullanıcıları buradan üretir.
+- Her kişi sisteme giriş yapabilen bir demo kullanıcıdır. Bugünkü `yonetim`, `finans`, `hukuk`, `enerji` gibi departman adıyla açılmış hesapların yerini alır (sistem yöneticisi `admin` hesabı bu 15 kişiye dahil değildir).
+- `users.title` ve `users.manager_id` (§2.3) bu listeden doldurulur; ana departman (B-09) da buradan gelir.
+- Departman yapısı §2.1 ile birebir; **her departmanda ve her alt birimde en az bir kişi** olmalı.
+- **Önerilen dağılım** (farklı önerin varsa §1.7.1'e göre sor):
+
+| Departman / alt birim | Kişi | Önerilen unvanlar |
+|---|---|---|
+| Yönetim | 1 | Genel Müdür (`management`) |
+| Proje Finans | 2 | Proje Finans Müdürü, Proje Finans Uzmanı |
+| Mali İşler | 3 | Mali İşler Müdürü; Muhasebe Uzmanı (Muhasebe); Finansal Muhasebe Uzmanı (Finansal Muhasebe) |
+| Hukuk | 2 | Hukuk Müdürü, Avukat |
+| İdari İşler | 1 | İdari İşler Sorumlusu |
+| İK | 1 | İK Uzmanı |
+| Enerji | 5 | Enerji Grubu Müdürü; Proje Geliştirme Uzmanı; O&M Mühendisi; EPC Proje Mühendisi; Üretim/Piyasa Uzmanı |
+| **Toplam** | **15** | |
+
+- Müdürlerin kendi departmanlarının kısıtlı belgelerini görmesi B-08'e (departman yöneticisi rolü, **ÖNERİLEN KARAR**) bağlıdır. Karar gelene kadar müdürler `employee` rolüyle, unvan ve `manager_id` bilgisiyle açılır.
+- Adlar tamamen kurgusal; gerçek bir kişiyle eşleşmemeli (P-9).
+
+#### 9.3.2 Sözleşmeler ve belgeler tamamen kurguya geçer
+
+- Şirketteki **bütün sözleşmeler ve belgeler** kurgusal olmalı: şirket adı, SPV'ler, bankalar, sigorta, EPC yüklenicisi, danışmanlar, imza yetkilileri, tutarlar, oranlar, belge numaraları.
+- Belgelerdeki kişiler (imzacı, yazışan, hazırlayan) **9.3.1'deki 15 kişiden** seçilir; şirket içi hiçbir belgede listede olmayan bir çalışan adı geçmez.
+- **Şirket adı tek olmalı.** Bugün ledger'da "ABC Enerji A.Ş." (ve SPV'ler), canvas'ta "NATA Enerji A.Ş." geçiyor. Backend kurgu şirket adını belirler; canvas buna göre değiştirilir.
+- Gerçek kamu kurumları (EPDK, TEİAŞ, bakanlıklar, mahkemeler) süreç bağlamında geçebilir (mevcut ledger kuralı); özel şirket ve bankalar kurgusal olur.
+- Projeler: §9.2'deki karar geçerli (şimdilik 2 proje, mevcut adlarıyla).
+
+#### 9.3.3 Tansu tarafına teslim
+
+Liste ve kurgu şirket künyesi (şirket adı, SPV'ler, karşı taraflar) ledger'a yazılınca **ilk özette haber ver**; Tansu tarafı backend reposunu salt okuma ile okuyup canvas'ı ve arayüzü (personel hiyerarşisi ekranları, kullanıcı menüsü, üst bar, belge örnekleri) buna göre tasarlar. Liste, belge üretiminden **önce** paylaşılırsa tasarım ve belge üretimi paralel yürür.
+
 ---
 
 ## 10. Naci'den beklenen analiz — **B-19** · HEMEN
@@ -1072,6 +1113,7 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 
 ### Revizyon geçmişi
 
+- **v7.5 (28.09.2026 gece):** **§9.3 Kurgu şirket** eklendi: 15 kişilik kurgusal personel listesi (ad, unvan, departman, yönetici, rol), bütün sözleşme ve belgelerin kurguya geçmesi, tek şirket adı; backend kurguyu çıkarır, arayüz ona göre tasarlanır. Ürün 1 = departman sayfasının kısıtlı hali (ayrı ana sayfa yok).
 - **v7.4 (28.09.2026 gece):** **§1.7 İki ayrı test** eklendi: kod testi (backend) ile ürün testi (satılabilirlik, Tansu) ayrıldı; "Finalize" = ürün testinden geçmek; Ürün 2'ye geçiş buna bağlandı; soru kuralı (sor, tahmin etme, durma) getirildi. §13 buna göre güncellendi.
 - **v7.3 (28.09.2026 gece):** Demo veri projeleri: şimdilik 2 proje, mevcut adlarıyla (§9.2, yol haritası §6/1).
 - **v7.2 (28.09.2026 gece):** B-25 karar verildi (tek uygulama, `enabled_products` anahtarı; frontend tarafı uygulandı). Frontend–backend bağlantısı için **`BAGLANTI_YOL_HARITASI.md`** eklendi: B-25, B-20 (1–5) + B-09, B-18 adım adım plan, backend @ `4301968` durum tespiti, kabul testleri, bağlantı günü kontrol listesi.

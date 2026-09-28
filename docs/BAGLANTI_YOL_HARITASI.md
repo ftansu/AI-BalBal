@@ -178,6 +178,8 @@ Karar metni: `BACKEND_GAPS.md` §9. Başlama koşulu: Adım 2 bitmiş olmalı.
 
 ## 5. Bağlantı günü — kontrol listesi
 
+> **Güncelleme (28.09.2026):** Bağlantı artık web üzerinden, internete açık bir test ortamında yapılacak (`BACKEND_GAPS.md` §1.8, B-27). Ortam bugünkü özelliklerle hemen açılır; bu belgedeki adımlar geldikçe aynı ortamda test edilir. Aşağıdaki yerel çalıştırma adımları geliştirme içindir.
+
 Üç adım birleştirildikten sonra:
 
 **Backend tarafı**

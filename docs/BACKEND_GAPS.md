@@ -1,7 +1,7 @@
 # X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
 **Kime:** Naci ve Naci'nin yapay zekası
-**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7.6 · 28.09.2026
+**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7.7 · 28.09.2026
 **Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v165). Repo ile canvas farklıysa **canvas esastır**.
 
@@ -10,7 +10,7 @@
 ## İçindekiler
 
 0. [Bu belge nasıl okunur](#0-bu-belge-nasıl-okunur)
-1. [Genel sistemin çalışma prensibi](#1-genel-sistemin-çalışma-prensibi) — **1.5 Ürün katmanları: her özellik hangi üründe?** · **1.6 Uyum denetimi** · **1.7 İki ayrı test ve soru kuralı**
+1. [Genel sistemin çalışma prensibi](#1-genel-sistemin-çalışma-prensibi) — **1.5 Ürün katmanları: her özellik hangi üründe?** · **1.6 Uyum denetimi** · **1.7 İki ayrı test ve soru kuralı** · **1.8 Web üzerinden Ürün 1 testi (B-27)**
 2. [Kurumsal yapı, kişiler ve yetki](#2-kurumsal-yapı-kişiler-ve-yetki)
 3. [Balbal için notlar](#3-balbal-için-notlar)
 4. [Belgeler ve kurumsal hafıza](#4-belgeler-ve-kurumsal-hafıza)
@@ -31,7 +31,7 @@
 
 ## 0. Bu belge nasıl okunur
 
-- Belge **konu başlıklarına** göre düzenlendi. Her talebin yanında bir **B kodu** var (B-01 … B-26). Frontend kodundaki yorumlar (`// BACKEND_GAPS B-07` gibi) bu kodlara atıf yapar; kodlar değişmedi. Hangi kodun hangi bölümde olduğu **Ek A**'da.
+- Belge **konu başlıklarına** göre düzenlendi. Her talebin yanında bir **B kodu** var (B-01 … B-27). Frontend kodundaki yorumlar (`// BACKEND_GAPS B-07` gibi) bu kodlara atıf yapar; kodlar değişmedi. Hangi kodun hangi bölümde olduğu **Ek A**'da.
 - Her talebin başlığının altında **"Ürün:"** satırı var: o özelliğin hangi ürün katmanına (Ürün 1 Tanıma / Ürün 2 Birleştirme / Ürün 3 Yorumlama / ortak altyapı) ait olduğu. Ayrıntı ve kurallar **§1.5**'te.
 - Her talebin başında bir **durum etiketi** var:
 
@@ -239,6 +239,35 @@ Bu projede iki farklı test var. Birbirine karıştırılmaz, biri diğerinin ye
 - **Soruyu cevaplanması kolay yaz:** tek cümlelik soru, 2–3 seçenek, önerdiğin seçenek ve gerekçesi, cevap gelmezse neyin bekleyeceği.
 - **Cevap beklerken durma.** O maddeyi beklet, sıradaki bağımsız maddeyle devam et. Bekleyen soruları her özette "Açık sorular" başlığında tekrar listele.
 - **Ürün testi için gereken bilgiyi erken sor.** Örneğin demo kullanıcı adları, backend adresi, test ortamının ne zaman hazır olacağı, bir belgenin hangi departmana ait olacağı. Bunlar son güne kalırsa ürün testi bekler.
+
+### 1.8 Web üzerinden gerçek Ürün 1 testi — **B-27** · HEMEN (Tansu'nun talebi, 28.09.2026)
+**Ürün:** Ortak altyapı (test ortamı)
+
+**Tansu tarafı artık Ürün 1'in gerçek testlerine web üzerinden başlamak istiyor.** Bunun için internetten erişilebilen, `ftansu/AI-BalBal` arayüzünü `ntoydem/company-ai` backend'ine bağlı çalıştıran bir test ortamı gerekiyor. Ortam **şimdi, bugünkü özelliklerle** açılır; B-25, B-20 + B-09, B-18 ve B-26 geldikçe aynı ortam güncellenir ve `BAGLANTI_YOL_HARITASI.md` §9'daki maddeler bu ortamda işaretlenir. Ortamın açılması bu maddelerin bitmesini beklemez.
+
+#### 1.8.1 İstenenler
+
+1. **Sabit bir web adresi** (alan adı veya IP) ve **HTTPS**. TLS gelince `auth.py`'deki oturum çerezi `secure=True` yapılır (kodda "TLS gelince açılacak" notu var).
+2. **Arayüz `ftansu/AI-BalBal` olmalı.** Backend reposundaki kendi `frontend/` klasörü bu testte kullanılmaz. Öneri: Caddy, `ftansu/AI-BalBal/frontend` klasöründen `npm ci && npm run build` ile üretilen `dist/` klasörünü statik olarak sunsun ve `/api`, `/health`, `/ask` yollarını backend'e aktarsın. Tarayıcı tek origin görür; CORS gerekmez, `httponly` çerez çalışır (geliştirme sunucusundaki `vite.config.ts` aynı düzeni kullanıyor).
+3. **Güncelleme yolu:** `ftansu/AI-BalBal` `main` dalına yeni bir sürüm geldiğinde arayüzü yeniden derleyip yayınlayan tek bir komut (ör. `make update-frontend`: `git pull` + build + Caddy'nin sunduğu klasörü yenileme). Backend güncellemesi için de aynı şekilde `make migrate` + yeniden başlatma.
+4. **Yalnızca kurgusal demo veri** (P-9). Ortam internete açık olduğu için gerçek belge, gerçek kişi, gerçek kurum verisi yüklenmez.
+5. **Erişim güvenliği:** güçlü admin ve demo şifreleri (repoya yazılmaz, güvenli kanaldan iletilir); mevcut giriş denemesi sınırı açık kalır; gerekirse IP kısıtı veya ek bir koruma katmanı önerilebilir.
+6. **Kullanıcılar:** §9.3'teki 15 kişilik kurgu personel hazır olana kadar mevcut demo kullanıcılarla başlanır; liste hazır olunca ortam onlarla yeniden yüklenir.
+7. **Ürün anahtarı:** B-25 uygulanınca demo ortamında test için paket değiştirmek mümkün olmalı (`set-enabled-products`, `BAGLANTI_YOL_HARITASI.md` §2.1/5).
+
+#### 1.8.2 Ortam hazır sayılır, eğer
+
+- HTTPS adres açılıyor ve **bizim giriş sayfamız** (koyu yeşil marka alanı + giriş kartı) geliyor.
+- Demo kullanıcıyla giriş yapılıyor; kullanıcı doğrudan kendi departman sayfasına gidiyor.
+- Belge listesi gerçek demo belgeleriyle doluyor; bir belge açılıp indirilebiliyor.
+- Balbal bir soruya kaynaklı cevap veriyor.
+- `ftansu/AI-BalBal` güncellemesi tek komutla ortama yansıyor.
+
+#### 1.8.3 Tansu tarafına teslim ve sorular
+
+- Hazır olunca haber ver: **adres**, **giriş bilgileri** (güvenli kanaldan), **güncelleme komutu**.
+- Sunucu, alan adı veya ücretli hizmet gerektiren bir seçim varsa (maliyet kararı) kurmadan önce seçenekleriyle **sor** (§1.7.1, P-10). Soruyu bekletme; cevap beklerken hazırlığa devam et.
+- Testte bulunan sorunlar bu belgeye ve yol haritasına işlenir; kod testi ile ürün testi ayrımı (§1.7) geçerlidir.
 
 ---
 
@@ -1088,6 +1117,7 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 | 1 | Ortak | B-18 | Demo veri seti | §9 | HEMEN |
 | 1 | Ortak | B-19 | Arayüz incelemesi + tersine liste (ürün etiketli) | §10 | HEMEN |
 | 1 | Ortak | B-25 | Ürün katmanı anahtarı | §1.5.4 | HEMEN (karar verildi) |
+| 1 | Ortak | B-27 | Web üzerinden Ürün 1 test ortamı (HTTPS, AI-BalBal arayüzü, güncelleme komutu) | §1.8 | HEMEN |
 | 2 | Ürün 1 | B-20 (1–5) | Departman yapısını zihin haritasına uyarla | §2.1 | HEMEN |
 | 2 | Ürün 1 | B-09 | Ana departman | §2.2 | HEMEN (B-08 ile) |
 | 2 | Ürün 1 | B-08 | Departman yöneticisi rolü | §2.4 | ÖNERİLEN KARAR |
@@ -1125,6 +1155,7 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 
 > `docs/BACKEND_GAPS.md` dosyasını (ftansu/AI-BalBal) baştan sona oku. Önce **§1.2 Değişmez ilkeler**'i ve **§1.5 Ürün katmanları**'nı oku. §1.5 projenin belkemiğidir: her özellik Ürün 1 (Tanıma), Ürün 2 (Birleştirme) ya da Ürün 3 (Yorumlama) katmanına aittir; her başlığın altında **"Ürün:"** satırı var. Ürün 1'de yorum, Ürün 2'de tahmin/projeksiyon **yasak**; bir özellikte tahmin varsa o Ürün 3'tür. Kendi CLAUDE.md kurallarına göre §12'deki sırayla phase planı çıkar:
 >
+> 00) **Web test ortamı (B-27, §1.8):** Tansu tarafı Ürün 1'in gerçek testlerine web üzerinden başlamak istiyor. `ftansu/AI-BalBal` arayüzünü backend'e bağlı sunan HTTPS test ortamını bugünkü özelliklerle hemen aç; diğer maddeler geldikçe aynı ortamı güncelle. Maliyet gerektiren seçimleri önce sor.
 > 0) **Önce `docs/BAGLANTI_YOL_HARITASI.md`'yi oku.** B-25 → B-20 (1–5) + B-09 → B-18 sırası ve her birinin adım adım planı, kabul testleri orada. Bu üçü frontend'i backend'e bağlamanın ön koşulu; §6'daki noktalardan karar verilmemiş olanlarda onay gelmeden o kısmı kodlama (proje sayısı kararı verildi: şimdilik 2 proje).
 > 1) **Sıra 1 — ortak altyapı:** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste — **her yeteneğin ürün katmanını da yaz**. B-25 ürün katmanı anahtarı **karar verildi (§1.5.4), ADR gerekmez** — doğrudan uygula: `company_settings.enabled_products`, uç bazlı `requires_product`, `GET /api/auth/me` cevabına `enabled_products` alanı (frontend zaten bunu bekliyor, alan adını ve değerleri birebir eşleştir).
 > 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, **B-26 klasör yetkileri** — B-10'un yerine), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-03, B-12, B-11, B-14. **Ürün 2 koduna, Ürün 1'in finalize olduğunu (ürün testinden geçtiğini) Tansu bildirmeden geçme** (§1.7); kod testlerinin geçmesi finalize demek değildir.
@@ -1172,9 +1203,11 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 | B-24 | E-posta, sözleşme–e-posta ilişkilendirme | §4.6 | Ürün 1 |
 | B-25 | Ürün katmanı anahtarı | §1.5.4 | Ortak |
 | B-26 | Klasör yapısı ve departman erişim yetkileri | §2.6 | Ürün 1 |
+| B-27 | Web üzerinden Ürün 1 test ortamı | §1.8 | Ortak |
 
 ### Revizyon geçmişi
 
+- **v7.7 (28.09.2026 gece):** **§1.8 B-27** eklendi: Tansu tarafı Ürün 1'in gerçek testlerine web üzerinden başlamak istiyor; HTTPS test ortamı, arayüz olarak `ftansu/AI-BalBal`, tek komutla güncelleme, yalnızca kurgusal veri. Ortam bugünkü özelliklerle hemen açılır.
 - **v7.6 (28.09.2026 gece):** **§2.6 B-26** eklendi: sistem yöneticisi sayfası — şirketin klasör ağacı ve her klasör için departman bazında görme/değiştirme yetkisi; SPV'lere aynı yetki uygulanır; B-10 bununla karşılanır. Arayüzü Tansu tarafı tasarlar.
 - **v7.5 (28.09.2026 gece):** **§9.3 Kurgu şirket** eklendi: 15 kişilik kurgusal personel listesi (ad, unvan, departman, yönetici, rol), bütün sözleşme ve belgelerin kurguya geçmesi, tek şirket adı; backend kurguyu çıkarır, arayüz ona göre tasarlanır. Ürün 1 = departman sayfasının kısıtlı hali (ayrı ana sayfa yok).
 - **v7.4 (28.09.2026 gece):** **§1.7 İki ayrı test** eklendi: kod testi (backend) ile ürün testi (satılabilirlik, Tansu) ayrıldı; "Finalize" = ürün testinden geçmek; Ürün 2'ye geçiş buna bağlandı; soru kuralı (sor, tahmin etme, durma) getirildi. §13 buna göre güncellendi.

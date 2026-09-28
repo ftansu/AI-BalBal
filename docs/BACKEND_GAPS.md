@@ -228,8 +228,8 @@ Bu projede iki farklı test var. Birbirine karıştırılmaz, biri diğerinin ye
 | Geçerse | Ürün **çalışıyor** demektir, **satılabilir** demek değildir | Bir sonraki ürüne geçilir |
 
 **Sonuç:**
-1. Kod testini geçmek bir ürünün bittiği anlamına gelmez. **Ürün 2'ye geçiş, Ürün 1'in ürün testini (satılabilirlik) geçmesine bağlıdır.** Bu karar Tansu'dan gelir.
-2. Ürün testinde çıkan sorun (eksik özellik, yanlış cevap, kullanılmayan ekran) backend için **öncelikli iştir**; o anki phase planının önüne alınır.
+1. **Bir ürünün "testleri bitti / finalize oldu" sayılmasının tek anlamı, Tansu tarafının ürün testinden geçmesidir.** Kod testini geçmek ürünün finalize olduğu anlamına gelmez.
+2. Ürün 2'ye geçiş, Ürün 1'in finalize olmasına (ürün testinden geçmesine) bağlıdır. Bu bilgi Tansu'dan gelir.
 3. Ürün testini yavaşlatan en büyük risk, backend tarafının belirsiz bir noktada tahminle ilerlemesi ya da cevap bekleyerek durmasıdır. Bu yüzden aşağıdaki soru kuralı geçerlidir.
 
 #### 1.7.1 Soru kuralı: sor, tahmin etme, durma
@@ -1025,7 +1025,7 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 >
 > 0) **Önce `docs/BAGLANTI_YOL_HARITASI.md`'yi oku.** B-25 → B-20 (1–5) + B-09 → B-18 sırası ve her birinin adım adım planı, kabul testleri orada. Bu üçü frontend'i backend'e bağlamanın ön koşulu; §6'daki noktalardan karar verilmemiş olanlarda onay gelmeden o kısmı kodlama (proje sayısı kararı verildi: şimdilik 2 proje).
 > 1) **Sıra 1 — ortak altyapı:** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste — **her yeteneğin ürün katmanını da yaz**. B-25 ürün katmanı anahtarı **karar verildi (§1.5.4), ADR gerekmez** — doğrudan uygula: `company_settings.enabled_products`, uç bazlı `requires_product`, `GET /api/auth/me` cevabına `enabled_products` alanı (frontend zaten bunu bekliyor, alan adını ve değerleri birebir eşleştir).
-> 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, B-10), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-03, B-12, B-11, B-14. **Ürün 2 koduna, Ürün 1 ürün testini (satılabilirlik) geçtiğini Tansu bildirmeden geçme** (§1.7); kod testlerinin geçmesi tek başına yeterli değil.
+> 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, B-10), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-03, B-12, B-11, B-14. **Ürün 2 koduna, Ürün 1'in finalize olduğunu (ürün testinden geçtiğini) Tansu bildirmeden geçme** (§1.7); kod testlerinin geçmesi finalize demek değildir.
 > 3) **Sıra 5–6 — Ürün 2:** bildirim altyapısı (B-02), gündem (B-01), görüş talebi (B-06a), işlem talebi iskeleti (B-22) ve yazışma taslağı (B-23). Ürün 2'de hesap yalnızca gerçekleşmiş veriyle, taslak yalnızca olgusal.
 > 4) **Sıra 7–8 — Ürün 3:** Enerji izin adımları, Hukuk dava modeli, İK ve hukuk kısımları, B-21. Bunlar için şimdilik yalnızca ADR ve veri modeli taslağı.
 > 5) **ÖNERİLEN KARAR** etiketli maddelerde Tansu onaylamadıysa yalnızca ADR taslağı + soru listesi; kod yok. **ADR ÖNCE** maddelerinde "Başlama koşulu" tamamlanmadıysa yalnızca ADR + migration taslağı + test listesi. Varsayılan kararları aynen al; farklı önerin varsa ADR'de gerekçesiyle yaz, kendin değiştirme.
@@ -1033,7 +1033,7 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 > 7) **Her işlem modülünde** P-1'in dört testini, **her uçta** `allowed_document_ids` testini, **her katmanda** §1.5.4'teki katman testlerini yaz.
 > 8) **B-23'te yasaklar:** kanun/karar uydurmak, kaynaksız olgusal iddia, sistemden herhangi bir gönderim (KEP, UYAP, e-posta).
 > 9) **Frontend'e dokunma.** Sözleşme `frontend/src/api/proposed.ts`; alan adlarını birebir eşleştir. Tip değişikliği gerekiyorsa önerini ayrı liste olarak Tansu'ya ver.
-> 10) **Soru kuralı (§1.7.1):** belirsizlikte tahminle ilerleme; soruyu o an, seçenekli ve önerili sor; cevap beklerken bağımsız maddeyle devam et. Ürün testinden gelen sorunlar phase planının önüne geçer.
+> 10) **Soru kuralı (§1.7.1):** belirsizlikte tahminle ilerleme; soruyu o an, seçenekli ve önerili sor; cevap beklerken bağımsız maddeyle devam et. Bir ürün yalnızca Tansu tarafının ürün testinden geçince finalize sayılır (§1.7).
 > 11) Her phase sonunda: ne yapıldı, hangi ürün katmanına ait, hangi dosyalar değişti, hangi testler eklendi, hangi sorular açık kaldı ve **"Bu belgeden sapmalar"** (§1.6; yoksa "yok") — kısa özet.
 
 ---
@@ -1072,7 +1072,7 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 
 ### Revizyon geçmişi
 
-- **v7.4 (28.09.2026 gece):** **§1.7 İki ayrı test** eklendi: kod testi (backend) ile ürün testi (satılabilirlik, Tansu) ayrıldı; Ürün 2'ye geçiş ürün testine bağlandı; soru kuralı (sor, tahmin etme, durma) getirildi. §13 buna göre güncellendi.
+- **v7.4 (28.09.2026 gece):** **§1.7 İki ayrı test** eklendi: kod testi (backend) ile ürün testi (satılabilirlik, Tansu) ayrıldı; "Finalize" = ürün testinden geçmek; Ürün 2'ye geçiş buna bağlandı; soru kuralı (sor, tahmin etme, durma) getirildi. §13 buna göre güncellendi.
 - **v7.3 (28.09.2026 gece):** Demo veri projeleri: şimdilik 2 proje, mevcut adlarıyla (§9.2, yol haritası §6/1).
 - **v7.2 (28.09.2026 gece):** B-25 karar verildi (tek uygulama, `enabled_products` anahtarı; frontend tarafı uygulandı). Frontend–backend bağlantısı için **`BAGLANTI_YOL_HARITASI.md`** eklendi: B-25, B-20 (1–5) + B-09, B-18 adım adım plan, backend @ `4301968` durum tespiti, kabul testleri, bağlantı günü kontrol listesi.
 

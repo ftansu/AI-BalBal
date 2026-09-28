@@ -1,6 +1,6 @@
 # Balbal Frontend ↔ company-ai Backend — Eksikler ve Uyum Raporu
 
-**Hazırlayan:** Tansu (Claude ile) · **Tarih:** 27.09.2026
+**Hazırlayan:** Tansu (Claude ile) · **Tarih:** 28.09.2026
 **Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4 tamamlandı) ↔ `ftansu/AI-BalBal` (bu repo)
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v160)
 
@@ -32,6 +32,9 @@
 | B-02 | Bildirimler | Orta | V1 |
 | B-06 | Ekip sohbeti + departmanlar arası görüş talebi | Büyük | V1 (**SORU**) |
 | B-14 | Genel arama endpoint'i | Orta | V1 |
+| B-18 | Profesyonel demo belge + Excel seti | Veri | **Hemen** |
+| B-19 | Arayüzü inceleyip eksik tamamlama + tersine yetenek listesi | Analiz | **Hemen** |
+| B-20 | Zihin haritası uyumu (departmanlar, çok proje, izin modeli) | Şema | Hemen / kısmen **SORU** |
 | B-15 / B-16 | Word yükleme, EPİAŞ canlı veri | V0 kapsamı dışı | Not |
 
 ---
@@ -173,7 +176,31 @@ Sunucudaki örnek belgeler artık daha profesyonel olmalı ve **arayüzdeki tüm
 - **Hukuk:** dava dosyaları, duruşma tutanakları, bilirkişi raporu, sözleşmeler.
 - **Mali İşler / İdari İşler / İK:** her birinden en az birkaç temel belge (ör. ticaret sicil gazetesi, vergi levhası, personel yönetmeliği).
 
-Beklenen: `seed` komutuyla yüklenen bu belgelerle arayüzdeki her ekran, "backend bekleniyor" kutusu olmadan gerçek veriyle doldurulabilmeli. Proje isimleri arayüzle aynı olmalı (Karatepe, Yeşilova, Boztepe, Güneşalan; geliştirmede Kızılova, Akyar, Demirci).
+**Profesyonel seviye — nasıl hazırlanmalı:**
+- Önce webde araştır: gerçek bir idareden (EPDK, ETKB/YEGM, TEİAŞ, MSB, Çevre Bakanlığı, belediye, tapu) gelen resmi yazı nasıl görünür (antet, sayı, konu, ilgi, dağıtım, imza bloğu, ekler), kredi/bakım/kira sözleşmesi nasıl yapılandırılır (madde numaralandırma, tanımlar, teminatlar, fesih, ekler). Belgeleri bu formatlara göre üret. İçerik kurgusal olacak; gerçek kurum logosu, gerçek kişi adı veya gerçek belge numarası kullanılmayacak.
+- **Excel dosyaları mutlaka olmalı ve basit değil, orta karmaşıklıkta olmalı.** Arayüz testlerinde Excel testi çok önemli (Proje Finans ve Enerji ekranları). Örnekler:
+  - Proje Finans: kredi ödeme planı (dönem, anapara, faiz, bakiye, döviz; formüllü), nakit akış tablosu (aylık, birden çok sayfa), DSCR hesabı (tadil öncesi 1,25x / sonrası 1,20x eşiği), banka raporlama formu (Annex tipi).
+  - Enerji: santral bazlı aylık üretim ve kapasite faktörü, bakım maliyet takibi (bütçe/gerçekleşen), izin süreçleri takip tablosu (başvuru/sonuç tarihleri, durum).
+  - Birden çok sayfa, formül, birleştirilmiş başlık, tarih ve para formatları içermeli; her proje ayrı gösterilmeli (konsolide tablo yok).
+- Beklenen sonuç: `seed` komutuyla yüklenen bu belgelerle arayüzdeki her ekran, "backend bekleniyor" kutusu olmadan gerçek veriyle dolmalı. Proje isimleri arayüzle aynı olmalı (Karatepe, Yeşilova, Boztepe, Güneşalan; geliştirmede Kızılova, Akyar, Demirci).
+
+### B-19 · Arayüzü incele, kendi eksiklerini tamamla — **Naci'den**
+
+- `ftansu/AI-BalBal` reposundaki frontend'i ve Claude Design canvas'ını ("X Platformu — Ana Sayfa") incele. Backend'de karşılığı olmayan her ekran/alan için eksiği kendin tespit edip tamamla (bu rapordaki maddeler dahil, ama bunlarla sınırlı değil).
+- **Tersine liste:** Backend'inde olup bizim arayüzde **olmayan** her yeteneği bize detaylı olarak yaz: endpoint, ne yaptığı, örnek istek/cevap, hangi ekranda kullanılmasını önerdiğin. Arayüzü buna göre tamamlayacağız.
+
+### B-20 · Zihin haritasıyla (proje bible'ı) uyumsuzluklar
+
+Kurumsal yapı hem backend'de hem frontend'de zihin haritasıyla aynı olmalı. Tespit edilenler:
+
+1. **İK departmanı yok** — eklenmeli.
+2. **Enerji altında Üretim/Piyasa birimi yok** — Proje Geliştirme, İnşaat (EPC), İşletme ve Bakım var; Üretim/Piyasa eklenmeli.
+3. **"Finans" adı** — zihin haritasında "Proje Finans".
+4. **Mali İşler alt birimleri yok** — Muhasebe ve Finansal Muhasebe.
+5. **Demo "finans" kullanıcısı hem Finans hem Mali İşler'de** — "tek kişi = tek departman" kuralına ters; arayüz Proje Finans'ın Mali İşler belgesini görememesini örnek senaryo olarak kullanıyor.
+6. **Tek proje seçimi (`project_id`)** — Artık proje seçimi yok; tek sohbette birden çok proje konuşulabiliyor. Balbal sorudaki projeleri kendisi tespit etmeli, cevapta her proje ayrı gösterilmeli (birleştirme yok) ve her kaynak kartında `project` alanı olmalı.
+7. **İzin süreçleri veri modeli yok** — Enerji/Geliştirme ekranı her proje için adımlar, önkoşullar (adım A bitmeden B başlayamaz), başvuru tarihi, sonuç tarihi, sonuç, olumsuzluk sebebi, belge bağlantısı ve yasal süreler (önlisans 24/36 ay, ÇED başvurusu 90 gün, TEA başvurusu 180 gün) istiyor. Önerilen: `permit_steps` (tanım + önkoşullar) ve `project_permit_status` (proje × adım, tarihler, sonuç, sebep, belge id'leri) tabloları ve `GET /api/projects/{id}/permits`.
+8. (Departman yöneticisi rolü → B-08.)
 
 ---
 
@@ -188,7 +215,7 @@ Beklenen: `seed` komutuyla yüklenen bu belgelerle arayüzdeki her ekran, "backe
 ## D. Naci'nin yapay zekasına verilebilecek hazır istem
 
 > `docs/BACKEND_GAPS.md` dosyasını oku (ftansu/AI-BalBal reposunda). Kendi CLAUDE.md kurallarına göre şu sırayla phase planı çıkar ve **SORU** işaretli maddelerde benden onay almadan implementasyona geçme:
-> 0) B-18 demo veri seti: arayüzdeki tüm süreçleri kapsayan profesyonel, kurgusal belgeler.
+> 0) B-18 demo veri seti: önce webde gerçek resmi yazı ve sözleşme formatlarını araştır; arayüzdeki tüm süreçleri kapsayan profesyonel, kurgusal belgeler ve orta karmaşıklıkta Excel dosyaları üret. B-19: frontend'i ve canvas'ı incele, eksiklerini tamamla, backend'inde olup bizde olmayan yetenekleri detaylı listele. B-20: kurumsal yapıyı zihin haritasına uyarla (6. ve 7. maddeler SORU — önce Tansu ile netleştir).
 > 1) Küçük şema eklemeleri: B-07 (SourceCard'a versiyon id'leri, yetki kontrollü), B-04 (AskResponse.audit_log_id + POST /api/ask/feedback), B-13 (file_kind), B-17 (indirme dosya adı + inline).
 > 2) B-01 gündem: önce `expiration_date` ve bekleyen etiket önerilerinden türetilen kısım.
 > 3) B-05 rehber (users.title alanı dahil).

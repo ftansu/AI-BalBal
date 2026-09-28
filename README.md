@@ -17,6 +17,8 @@
 | Departman: Balbal'a Sor, Belgeler, Belge Yükle (+ AI etiket önerisi), Projeler | Çalışıyor |
 | Belge detayı: versiyon zinciri linkleri, Excel dosya yapısı | Çalışıyor (`/api/excel/{id}/inspect`) |
 | Yönetim: kullanıcılar, denetim kaydı, belge görünürlüğü | Çalışıyor (yalnızca admin) |
+| İzin talebi (Balbal ile), Taleplerim, Onay kuyruğu | Henüz tasarlanmadı; önce canvas. Backend sözleşmesi hazır (B-22, `proposed.ts` §8) |
+| Gelen yazı / dava evrakı → cevap ve dilekçe taslağı | Henüz tasarlanmadı; önce canvas. Backend sözleşmesi hazır (B-23, `proposed.ts` §9) |
 
 Backend'de henüz olmayan bir özellik çağrıldığında arayüz sahte veri göstermez. Onun yerine **"Backend bekleniyor"** kutusu ve beklenen endpoint'in adı görünür. Sözleşmeler `frontend/src/api/proposed.ts` dosyasındadır.
 
@@ -26,6 +28,7 @@ Backend'de henüz olmayan bir özellik çağrıldığında arayüz sahte veri g�
 2. **Tek kişi = tek arayüz:** Çalışan doğrudan kendi (ana) departmanına yönlenir; departman seçme ekranını yalnızca yönetim ve admin görür.
 3. **Sadelik:** Bilgi ekrana yığılmaz; kullanıcı Balbal'a yazarak sorar.
 4. **Görsel değişiklik önce canvas'ta onaylanır**, sonra bu repoya gelir.
+5. **Personel onayı olmadan hiçbir işlem ilerlemez (P-1).** Balbal yalnızca taslak üretir; taslak, sahibi arayüzdeki açık onay butonuyla onaylamadan kimseye görünmez ve hiçbir kuyruğa düşmez. Sohbette "onaylıyorum" yazmak onay değildir. Onaydan sonra içerik değişirse onay düşer. Ayrıntı: [`docs/BACKEND_GAPS.md` → P-1](docs/BACKEND_GAPS.md).
 
 ## Çalıştırma
 

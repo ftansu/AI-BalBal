@@ -9,7 +9,9 @@
 
 ## 0. Özet
 
-**Bu üç madde, `ftansu/AI-BalBal` frontend'ini backend'e bağlayıp Ürün 1'i gerçek veriyle test edebilmemiz için ihtiyacımız olan asgari settir.** Üçü bitmeden yapılan bir bağlantı testi, yapı ve veri değişeceği için geçersiz kalır; üçü bittiğinde frontend backend'e bağlanır ve Ürün 1 kabul testine geçilir.
+**Bu üç madde, `ftansu/AI-BalBal` frontend'ini backend'e bağlayıp Ürün 1'i kendi arayüzüyle, gerçek veriyle test edebilmemiz için ihtiyacımız olan asgari settir.** Üçü bitmeden yapılan bir bağlantı testi, yapı ve veri değişeceği için geçersiz kalır.
+
+**Geçme ölçütü (ürün sahibinin kararı, 28.09.2026):** Bu belgedeki **bütün beklentiler karşılanırsa Ürün 1 testi geçmiş sayılır** ve Ürün 2'ye geçilir. Tek tek izlenecek liste: **§9**.
 
 | Sıra | Kod | Konu | Büyüklük | Neden bağlantı için şart |
 |---|---|---|---|---|
@@ -21,7 +23,7 @@
 
 ```
 B-25 ─────────────────────────────┐
-                                  ├──► Bağlantı günü (§5) ──► Ürün 1 kabul testi
+                                  ├──► Bağlantı günü (§5) ──► §9 listesi tamamen yeşil ──► Ürün 2
 B-20 (1–5) + B-09 ──► B-18 ───────┘
 ```
 
@@ -194,7 +196,7 @@ Karar metni: `BACKEND_GAPS.md` §9. Başlama koşulu: Adım 2 bitmiş olmalı.
 | 6 | Belge listesi, belge detayı, Excel yapısı, versiyon zinciri | Gerçek demo belgeleriyle dolu, her dosya açılır ve indirilir (P-4) |
 | 7 | Balbal'a demo sorular | Kaynaklı, yorumsuz cevap; `product_level: "P1"` |
 
-Bu liste geçtiğinde **Ürün 1 kabul testine** başlanır.
+Bu liste, §9'daki T-19…T-25 maddeleridir.
 
 ---
 
@@ -232,3 +234,41 @@ Backend adımları ilerledikçe, frontend reposunda (önce canvas'ta görünür 
 - Eklenen testler (bu belgedeki kabul testleri tek tek işaretli)
 - Açık kalan sorular
 - **Bu belgeden sapmalar** (yoksa "yok")
+
+---
+
+## 9. Ürün 1 testi — geçme ölçütü ve takip listesi
+
+**Kural:** Aşağıdaki maddelerin **hepsi** "Geçti" olduğunda Ürün 1 testi geçmiş sayılır ve Ürün 2'ye odaklanılır. Bir madde kalırsa düzeltilir ve o madde (ve etkilediği maddeler) tekrar test edilir. Maddeler bu belgedeki kabul testlerinin birebir kopyasıdır; yeni beklenti eklenmedi.
+
+Test, **`ftansu/AI-BalBal` arayüzü üzerinden** yapılır (T-19…T-25); backend testleri (T-01…T-18) backend tarafının otomatik testleri ve özetiyle kanıtlanır.
+
+| No | Adım | Beklenti | Kaynak | Durum |
+|---|---|---|---|---|
+| T-01 | B-25 | `/api/auth/me` ve `/api/auth/login` cevabında `enabled_products` var; demo'da `["P1","P2","P3"]` | §2.2 | ☐ |
+| T-02 | B-25 | `set-enabled-products P1` sonrası `/me` → `["P1"]` | §2.2 | ☐ |
+| T-03 | B-25 | `require_product("P2")` ile korunan uç, P2 kapalıyken `403 product_not_enabled`, açıkken 200 | §2.2 | ☐ |
+| T-04 | B-25 | Geçersiz değer (`"P4"`) yazılamaz | §2.2 | ☐ |
+| T-05 | B-25 | `/api/ask` cevabında `product_level: "P1"` | §2.2 | ☐ |
+| T-06 | B-20 | `GET /api/departments` §3.1 tablosuyla birebir (ad, slug, üst ilişki) | §3.3 | ☐ |
+| T-07 | B-20 | Temiz kurulum (seed) ve mevcut veritabanı (migration) aynı sonucu veriyor | §3.3 | ☐ |
+| T-08 | B-20 | Demo `finans` kullanıcısı yalnızca Proje Finans üyesi; Mali İşler belgesini listede, aramada ve Balbal'da göremez | §3.3 | ☐ |
+| T-09 | B-09 | Her demo çalışan için `/me` → tek `primary_department_slug`, üyelikleri arasında | §3.3 | ☐ |
+| T-10 | B-20 | Enerji kullanıcısı dört alt birimin belgelerini görüyor | §3.3 | ☐ |
+| T-11 | B-18 | Boş veritabanında `make seed` hatasız; bütün belgeler `ready` | §4.3 | ☐ |
+| T-12 | B-18 | Her departmanın demo kullanıcısı kendi belgelerini görür, başka departmanınkini görmez | §4.3 | ☐ |
+| T-13 | B-18 | Canvas'taki her departman ana sayfası en az bir gerçek belgeyle dolu | §4.3 | ☐ |
+| T-14 | B-18 | Her Excel için `/api/excel/{id}/inspect` çalışıyor; hiçbir Excel projeleri tek sayfada toplamıyor (P-6) | §4.3 | ☐ |
+| T-15 | B-18 | Kredi sözleşmesi + tadiller versiyon zinciri olarak görünüyor | §4.3 | ☐ |
+| T-16 | B-18 | Enerji Geliştirme belgelerinin her birinde başvuru tarihi, sonuç tarihi ve sonuç var | §4.3 | ☐ |
+| T-17 | B-18 | İsim doğrulayıcısı geçiyor; gerçek kişi/kurum adı yok (P-9) | §4.3 | ☐ |
+| T-18 | B-18 | `make eval` geçiyor | §4.3 | ☐ |
+| T-19 | Arayüz | Her demo kullanıcıyla giriş → doğrudan kendi ana departman sayfası (P-5) | §5/1 | ☐ |
+| T-20 | Arayüz | Yönetim kullanıcısında departman listesi §3.1 ile birebir | §5/2 | ☐ |
+| T-21 | Arayüz | `finans` kullanıcısı Mali İşler belgesini bulamaz; Balbal varlığını ele vermez | §5/3 | ☐ |
+| T-22 | Arayüz | Paket P1 → ekip sohbeti butonu görünmez | §5/4 | ☐ |
+| T-23 | Arayüz | Paket P1,P2,P3 → ekip sohbeti butonu görünür | §5/5 | ☐ |
+| T-24 | Arayüz | Belge listesi, belge detayı, Excel yapısı, versiyon zinciri gerçek belgelerle dolu; her dosya açılıyor ve iniyor (P-4) | §5/6 | ☐ |
+| T-25 | Arayüz | Balbal demo sorularına kaynaklı, yorumsuz cevap veriyor; `product_level: "P1"` | §5/7 | ☐ |
+
+**Durum işaretleme:** ☐ test edilmedi · ✅ geçti · ❌ kaldı (yanına kısa not). Arayüz testlerini (T-19…T-25) ürün sahibi yapar ve işaretler; backend maddelerini (T-01…T-18) backend tarafı her adımın özetinde işaretler (§8).

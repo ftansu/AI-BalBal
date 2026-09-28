@@ -64,6 +64,8 @@ export interface DocumentListItem {
   confidentiality: Confidentiality;
   external_ref: string | null;
   created_at: string;
+  /** B-26 (docs/BACKEND_GAPS.md §2.6): belgenin bulunduğu klasör. V0 backend'de henüz yok. */
+  folder_id?: string | null;
 }
 
 export interface DocumentDetail extends DocumentListItem {

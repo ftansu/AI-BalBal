@@ -101,6 +101,14 @@ export function patchJson<T>(path: string, data: unknown): Promise<T> {
   });
 }
 
+export function putJson<T>(path: string, data: unknown): Promise<T> {
+  return request<T>(path, {
+    method: "PUT",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
 /** Multipart upload — the browser sets the boundary, so no content-type header here. */
 export function postForm<T>(path: string, form: FormData): Promise<T> {
   return request<T>(path, { method: "POST", body: form });

@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, type FormEvent } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 
 import { uploadDocument, useDocument, useDocumentStatus, useDocuments } from "../../api/documents";
 import { useProjects } from "../../api/projects";
+import { useMyFolders } from "../../api/proposed";
+import { ancestorNames } from "../../lib/folders";
 import type { Confidentiality, DocumentStatus } from "../../api/types";
 import { ErrorBox } from "../../components/ErrorBox";
 import { MetadataSuggestionPanel } from "../../components/MetadataSuggestionPanel";
@@ -28,6 +30,7 @@ const EMPTY = {
   effectiveDate: "",
   version: "1",
   supersedesId: "",
+  folderId: "",
 };
 
 /** SPEC_02 §1 form → `/upload` → `/status` polling → AI suggestion panel (SPEC_02 §4).
@@ -37,7 +40,14 @@ export function UploadTab() {
   const queryClient = useQueryClient();
   const projects = useProjects();
   const documents = useDocuments({ department: department.slug });
-  const [form, setForm] = useState(EMPTY);
+  // B-26: klasörler sunuluyorsa yalnızca değiştirme yetkili klasörlere yüklenir. Sunulmuyorsa
+  // (backend bekleniyor) form bugünkü gibi departmana yükler.
+  const folders = useMyFolders();
+  const writable = (folders.data ?? []).filter((f) => f.access === "write");
+  const folderMode = folders.isSuccess && (folders.data?.length ?? 0) > 0;
+  const [searchParams] = useSearchParams();
+  const preset = searchParams.get("klasor") ?? "";
+  const [form, setForm] = useState({ ...EMPTY, folderId: preset });
   const [file, setFile] = useState<File | null>(null);
   const [uploadedId, setUploadedId] = useState<string | null>(null);
   const status = useDocumentStatus(uploadedId);
@@ -67,7 +77,10 @@ export function UploadTab() {
     data.set("document_date", form.documentDate);
     data.set("status", form.status);
     data.set("confidentiality", form.confidentiality);
-    data.set("department", department.slug);
+    const folder = writable.find((f) => f.id === form.folderId);
+    // Belgenin departmanı klasörün sahibi departmandır (B-26 §2.6.1/3).
+    data.set("department", folder?.owner_department_slug ?? department.slug);
+    if (folder) data.set("folder_id", folder.id);
     data.set("version", form.version || "1");
     if (form.projectId) data.set("project_id", form.projectId);
     if (form.subdepartment) data.set("subdepartment", form.subdepartment);
@@ -78,7 +91,7 @@ export function UploadTab() {
 
   function reset() {
     setUploadedId(null);
-    setForm(EMPTY);
+    setForm({ ...EMPTY, folderId: preset });
     setFile(null);
     upload.reset();
   }
@@ -133,6 +146,28 @@ export function UploadTab() {
             required
           />
         </div>
+        {folderMode && writable.length === 0 && <p className="notice">{t.noWritableFolder}</p>}
+        {folderMode && writable.length > 0 && (
+          <div className="field">
+            <label htmlFor="upload-folder">{t.folder}</label>
+            <select
+              id="upload-folder"
+              value={form.folderId}
+              onChange={(e) => set("folderId", e.target.value)}
+              required
+            >
+              <option value="" disabled>
+                —
+              </option>
+              {writable.map((f) => (
+                <option key={f.id} value={f.id}>
+                  {[...ancestorNames(folders.data ?? [], f.id), f.name].join(" / ")}
+                </option>
+              ))}
+            </select>
+            <p className="muted small">{t.folderHint}</p>
+          </div>
+        )}
         <div className="form-grid">
           <div className="field">
             <label>{t.titleField}</label>
@@ -244,7 +279,7 @@ export function UploadTab() {
           </div>
         </div>
         {upload.isError && <ErrorBox error={upload.error} />}
-        <button type="submit" disabled={upload.isPending || !file}>
+        <button type="submit" disabled={upload.isPending || !file || (folderMode && !form.folderId)}>
           {upload.isPending ? t.submitting : t.submit}
         </button>
       </form>

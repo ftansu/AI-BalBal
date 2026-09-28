@@ -14,12 +14,12 @@ import { AnswerView } from "./AnswerView";
 import { useBalbalSessions, type BalbalTurn } from "./sessionsContext";
 
 /** Balbal sohbet penceresi — canvas: Balbal-Sohbet.dc.html.
- * Sol: geçmiş sorular + "Yeni soru". Sağ: proje kapsamı, cevaplar, kaynaklar.
+ * Sol: geçmiş sorular + "Yeni soru". Sağ: cevaplar, kaynaklar. Proje seçimi yok (canvas v165):
+ * tek pencerede birden çok proje hakkında konuşulur (BACKEND_GAPS §3.3, B-20/6).
  * Geçmiş sunucuda saklanmıyorsa (BACKEND_GAPS B-03) bu oturumda bellekte tutulur. */
 export function BalbalChat({ initialQuestion, onClose }: { initialQuestion: string | null; onClose: () => void }) {
   const { user } = useAuth();
   const { sessions, activeId, setActiveId, newSession, addTurn, updateTurn } = useBalbalSessions();
-  const [projectId, setProjectId] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
   const serverHistory = useAskConversations();
   const projects = useProjects();
@@ -44,7 +44,7 @@ export function BalbalChat({ initialQuestion, onClose }: { initialQuestion: stri
     const turnId = addTurn(sessionId, q);
     setDraft("");
     try {
-      const response: AskResponse = await ask({ question: q, department, project_id: projectId ?? undefined });
+      const response: AskResponse = await ask({ question: q, department });
       updateTurn(sessionId, turnId, { status: "done", response });
     } catch (error) {
       updateTurn(sessionId, turnId, { status: "error", error });
@@ -72,7 +72,6 @@ export function BalbalChat({ initialQuestion, onClose }: { initialQuestion: stri
 
   const historyPending = isPending(serverHistory.error);
   const departmentName = department ? (departments.data?.find((d) => d.slug === department)?.name ?? department) : null;
-  const scopeLabel = projectId ? (projectNames.get(projectId) ?? "") : S.balbal.allProjects;
   const uploadPath = department ? `/departman/${department}/yukle` : null;
 
   return (
@@ -111,27 +110,11 @@ export function BalbalChat({ initialQuestion, onClose }: { initialQuestion: stri
             <div>
               <div className="balbal-title">{active?.title ?? S.balbal.newQuestion}</div>
               <div className="muted small">
-                {S.balbal.scope}: {departmentName ?? S.balbal.allDepartments} · {scopeLabel}
+                {S.balbal.scope}: {departmentName ?? S.balbal.allDepartments} · {S.balbal.allProjects}
               </div>
             </div>
             <CloseButton onClick={onClose} />
           </header>
-          <div className="chips balbal-chips">
-            <span className="muted small">{S.balbal.project}:</span>
-            <button type="button" className={`chip${projectId === null ? " active" : ""}`} onClick={() => setProjectId(null)}>
-              {S.balbal.allProjects}
-            </button>
-            {(projects.data ?? []).filter((p) => p.is_active).map((p) => (
-              <button
-                type="button"
-                key={p.id}
-                className={`chip${projectId === p.id ? " active" : ""}`}
-                onClick={() => setProjectId(p.id)}
-              >
-                {p.name}
-              </button>
-            ))}
-          </div>
 
           <div className="balbal-messages" ref={listRef}>
             {(!active || active.turns.length === 0) && (

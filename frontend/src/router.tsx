@@ -8,6 +8,8 @@ import { DepartmentPage } from "./pages/Department";
 import { HomePage } from "./pages/Home";
 import { LoginPage } from "./pages/Login";
 import { AdminAuditLogPage } from "./pages/admin/AdminAuditLogPage";
+import { AdminFoldersPage } from "./pages/admin/AdminFoldersPage";
+import { AdminLayout } from "./pages/admin/AdminLayout";
 import { AdminUsersPage } from "./pages/admin/AdminUsersPage";
 import { AskTab } from "./pages/department/AskTab";
 import { DocumentsTab } from "./pages/department/DocumentsTab";
@@ -38,9 +40,15 @@ export const router = createBrowserRouter([
             path: "/yonetim",
             element: <RequireAdmin />,
             children: [
-              { index: true, element: <Navigate to="kullanicilar" replace /> },
-              { path: "kullanicilar", element: <AdminUsersPage /> },
-              { path: "denetim-kaydi", element: <AdminAuditLogPage /> },
+              {
+                element: <AdminLayout />,
+                children: [
+                  { index: true, element: <Navigate to="kullanicilar" replace /> },
+                  { path: "kullanicilar", element: <AdminUsersPage /> },
+                  { path: "denetim-kaydi", element: <AdminAuditLogPage /> },
+                  { path: "klasorler", element: <AdminFoldersPage /> },
+                ],
+              },
             ],
           },
           { path: "*", element: <Navigate to="/" replace /> },

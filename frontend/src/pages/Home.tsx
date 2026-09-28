@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import { useDepartments } from "../api/departments";
 import { isPending, useAgenda, type AgendaItem } from "../api/proposed";
 import { useAuth } from "../auth/useAuth";
+import { useHasProduct } from "../auth/useProduct";
 import { FileLink } from "../components/common/FileLink";
 import { PendingNotice } from "../components/common/Modal";
 import { DepartmentCard } from "../components/DepartmentCard";
@@ -67,7 +68,13 @@ const KIND_LABEL: Record<AgendaItem["kind"], string> = {
 
 /** "Gündeminiz": kişinin takip etmesi gereken profesyonel uyarılar ve işler.
  * Departman sayfasının başında da gösterilir. Backend: BACKEND_GAPS B-01. */
+/** Gündem (B-01) Ürün 2'dir: ürün anahtarında P2 kapalıyken hiç gösterilmez ve istek atılmaz (B-25). */
 export function AgendaCard() {
+  const hasP2 = useHasProduct("P2");
+  return hasP2 ? <AgendaCardInner /> : null;
+}
+
+function AgendaCardInner() {
   const agenda = useAgenda();
   return (
     <section className="card agenda">

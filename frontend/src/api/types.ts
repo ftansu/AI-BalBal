@@ -8,6 +8,10 @@ export interface CurrentUser {
   display_name: string;
   role: UserRole;
   department_slugs: string[];
+  /** Ürün katmanı anahtarı — B-25 (docs/BACKEND_GAPS.md §1.5.4), karar verildi 28.09.2026.
+   * V0 backend'de henüz yok; alan gelmezse api/products.ts yalnızca P1 varsayar. Backend
+   * eklediğinde tip zaten hazır — burada başka değişiklik gerekmez. */
+  enabled_products?: ("P1" | "P2" | "P3")[];
 }
 
 export interface Department {

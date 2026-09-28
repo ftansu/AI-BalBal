@@ -178,13 +178,18 @@ Bunlar için backend'de değişiklik gerekmiyor.
 | **Ürün 3 — Yorumlama** | B-21 EPİAŞ + mahsuplaşma (tahmini değerler içerdiği için; bkz. §8.3) · B-16 EPİAŞ canlı veri · B-20/7 Enerji izin/ruhsat takibi · §7.3 Hukuk dava ve icra süresi takibi · B-23'ün hukuki gerekçe ve savunma kısmı · §7'deki bütün departman yol haritaları |
 | **Ürün 2 sonrası (Tansu'nun kararı)** | B-06b kişiler arası ve grup sohbeti, Balbal dahil edilebilir (bkz. §6.3) |
 
-#### 1.5.4 Ürün katmanı anahtarı — **B-25** · ÖNERİLEN KARAR · Ürün: ortak altyapı
+#### 1.5.4 Ürün katmanı anahtarı — **B-25** · KARAR VERİLDİ (Tansu, 28.09.2026) · Ürün: ortak altyapı
+
+**Karar:** Ürünler için ayrı uygulama/repo YOK. Tek frontend (`ftansu/AI-BalBal`), tek backend (`ntoydem/company-ai`); müşteride hangi ürünlerin açık olduğu aşağıdaki anahtarla kontrol edilir. Naci'nin daha önce gündeme getirdiği "her ürün için ayrı frontend" fikri bu nedenle uygulanmayacak — Ürün 2 ve 3, Ürün 1'in departman yapısı, yetki ve belge altyapısı üzerine kurulu; ayrı uygulamalar bu altyapıyı üçe katlardı.
 
 - Şirket ayarlarında hangi ürünlerin açık olduğu tutulur: `company_settings.enabled_products = ["P1","P2","P3"]`.
 - Her uç ve her Balbal akışı bir katmana bağlanır (`requires_product = "P1"|"P2"|"P3"`). Kapalı katmanın ucu `403 product_not_enabled` döner; Balbal *"Bu özellik şirketinizin paketinde yok"* der.
 - `AskResponse`'a `product_level: "P1"|"P2"|"P3"` eklenir: cevabın hangi katmanda üretildiği görünür ve test edilebilir olur. (Mevcut `query_type` alanı buna eşlenebilir.)
+- **`GET /api/auth/me` cevabına `enabled_products: ("P1"|"P2"|"P3")[]` eklenir.** Frontend bunu `CurrentUser.enabled_products` olarak zaten bekliyor (bkz. `frontend/src/api/products.ts`, `frontend/src/api/types.ts`) — alan gelene kadar frontend yalnızca P1 varsayar, kimseye yanlışlıkla Ürün 2/3 göstermez. Alan adı ve değerler (`"P1"|"P2"|"P3"`) birebir bu şekilde olmalı; farklıysa frontend tarafında ayrı bir eşleme yazılması gerekir.
 - Demo ortamında üç ürün de açıktır.
-- **Kabul testi:** Yalnızca P1 açıkken (a) taslak, görüş talebi, gündem uçları 403 döner; (b) Balbal hesap veya tahmin yapmaz; (c) yalnızca P1+P2 açıkken projeksiyon sorusu reddedilir.
+- **Kabul testi:** Yalnızca P1 açıkken (a) taslak, görüş talebi, gündem uçları 403 döner; (b) Balbal hesap veya tahmin yapmaz; (c) yalnızca P1+P2 açıkken projeksiyon sorusu reddedilir; (d) `GET /api/auth/me` cevabında `enabled_products: ["P1"]` döner.
+
+**Frontend tarafında yapıldı (bu commit):** `enabled_products` alanı ve `hasProduct()` yardımcı fonksiyonu (`api/products.ts`), `useHasProduct()` hook'u ve `RequireProduct` route guard'ı (`auth/`) eklendi. Bugün Ürün 2'ye bağlı tek somut ekran olan **ekip sohbeti** (görüş talebi içerdiği için) bu anahtara bağlandı: P2 kapalıyken launcher görünmez ve `openTeam()` no-op'tur. Henüz yazılmamış Ürün 2/3 ekranları (gündem, işlem talebi, yazışma taslağı vb.) yazılırken route'ları `RequireProduct` ile sarmalamak yeterli.
 
 #### 1.5.5 Süreç haritasıyla karşılaştırırken bulunan noktalar
 
@@ -955,7 +960,7 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 |---|---|---|---|---|---|
 | 1 | Ortak | B-18 | Demo veri seti | §9 | HEMEN |
 | 1 | Ortak | B-19 | Arayüz incelemesi + tersine liste (ürün etiketli) | §10 | HEMEN |
-| 1 | Ortak | B-25 | Ürün katmanı anahtarı | §1.5.4 | ÖNERİLEN KARAR |
+| 1 | Ortak | B-25 | Ürün katmanı anahtarı | §1.5.4 | HEMEN (karar verildi) |
 | 2 | Ürün 1 | B-20 (1–5) | Departman yapısını zihin haritasına uyarla | §2.1 | HEMEN |
 | 2 | Ürün 1 | B-09 | Ana departman | §2.2 | HEMEN (B-08 ile) |
 | 2 | Ürün 1 | B-08 | Departman yöneticisi rolü | §2.4 | ÖNERİLEN KARAR |
@@ -992,7 +997,7 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 
 > `docs/BACKEND_GAPS.md` dosyasını (ftansu/AI-BalBal) baştan sona oku. Önce **§1.2 Değişmez ilkeler**'i ve **§1.5 Ürün katmanları**'nı oku. §1.5 projenin belkemiğidir: her özellik Ürün 1 (Tanıma), Ürün 2 (Birleştirme) ya da Ürün 3 (Yorumlama) katmanına aittir; her başlığın altında **"Ürün:"** satırı var. Ürün 1'de yorum, Ürün 2'de tahmin/projeksiyon **yasak**; bir özellikte tahmin varsa o Ürün 3'tür. Kendi CLAUDE.md kurallarına göre §12'deki sırayla phase planı çıkar:
 >
-> 1) **Sıra 1 — ortak altyapı:** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste — **her yeteneğin ürün katmanını da yaz**. B-25 ürün katmanı anahtarı için ADR taslağı.
+> 1) **Sıra 1 — ortak altyapı:** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste — **her yeteneğin ürün katmanını da yaz**. B-25 ürün katmanı anahtarı **karar verildi (§1.5.4), ADR gerekmez** — doğrudan uygula: `company_settings.enabled_products`, uç bazlı `requires_product`, `GET /api/auth/me` cevabına `enabled_products` alanı (frontend zaten bunu bekliyor, alan adını ve değerleri birebir eşleştir).
 > 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, B-10), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-03, B-12, B-11, B-14. Ürün 1 bitmeden Ürün 2 koduna geçme.
 > 3) **Sıra 5–6 — Ürün 2:** bildirim altyapısı (B-02), gündem (B-01), görüş talebi (B-06a), işlem talebi iskeleti (B-22) ve yazışma taslağı (B-23). Ürün 2'de hesap yalnızca gerçekleşmiş veriyle, taslak yalnızca olgusal.
 > 4) **Sıra 7–8 — Ürün 3:** Enerji izin adımları, Hukuk dava modeli, İK ve hukuk kısımları, B-21. Bunlar için şimdilik yalnızca ADR ve veri modeli taslağı.

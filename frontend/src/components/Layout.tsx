@@ -4,6 +4,7 @@ import { Link, Outlet } from "react-router-dom";
 import { useDepartments } from "../api/departments";
 import { useNotifications } from "../api/proposed";
 import { useAuth } from "../auth/useAuth";
+import { useHasProduct } from "../auth/useProduct";
 import { initials } from "../lib/format";
 import { S } from "../lib/strings";
 import { BalbalChat } from "./balbal/BalbalChat";
@@ -22,6 +23,8 @@ export function Layout() {
   const { user } = useAuth();
   const departments = useDepartments();
   const notifications = useNotifications();
+  /** Ekip sohbeti = görüş talebi / kişiler arası sohbet = Ürün 2 (B-25, B-06a/b). */
+  const hasTeamChat = useHasProduct("P2");
   const [panel, setPanel] = useState<Panel>(null);
   const [query, setQuery] = useState("");
   const [balbal, setBalbal] = useState<{ open: boolean; question: string | null }>({ open: false, question: null });
@@ -34,11 +37,12 @@ export function Layout() {
         setBalbal({ open: true, question: question ?? null });
       },
       openTeam: () => {
+        if (!hasTeamChat) return; // Ürün 2 kapalıysa ekip sohbeti hiç açılmaz (B-25).
         setPanel(null);
         setTeamOpen(true);
       },
     }),
-    [],
+    [hasTeamChat],
   );
 
   const deptName = user?.department_slugs
@@ -110,11 +114,13 @@ export function Layout() {
 
         {!balbal.open && !teamOpen && (
           <div className="launchers">
-            <button type="button" className="launcher launcher-team" aria-label={S.team.open} onClick={() => setTeamOpen(true)}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-              </svg>
-            </button>
+            {hasTeamChat && (
+              <button type="button" className="launcher launcher-team" aria-label={S.team.open} onClick={() => setTeamOpen(true)}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                </svg>
+              </button>
+            )}
             <button type="button" className="launcher launcher-balbal" aria-label={S.balbal.open} onClick={() => shell.openBalbal()}>
               <span className="brand-mark large" aria-hidden="true" />
             </button>

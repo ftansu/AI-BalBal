@@ -118,7 +118,7 @@ Karar metni: `BACKEND_GAPS.md` §2.1 ve §2.2. İkisi de HEMEN.
 
 ### 3.4 Bu adımın dışında kalanlar
 
-B-08 (departman yöneticisi rolü) ve B-10 (belge paylaşımı) **ÖNERİLEN KARAR** durumunda; bağlantı için şart değil. Ama B-18'de onları test edecek belgeler şimdiden hazırlanır (§4.2/7).
+B-08 (departman yöneticisi rolü) **ÖNERİLEN KARAR** durumunda; bağlantı için şart değil. B-10'daki belge paylaşımı ihtiyacı artık **B-26 klasör ve departman erişim yetkileri** ile karşılanıyor (`BACKEND_GAPS.md` §2.6); o da bağlantı için şart değil. B-18'de her ikisini test edecek belgeler ve klasörler şimdiden hazırlanır (§4.2/6–7).
 
 ---
 
@@ -154,7 +154,7 @@ Karar metni: `BACKEND_GAPS.md` §9. Başlama koşulu: Adım 2 bitmiş olmalı.
 3. **Eksik süreç belgeleri:** Enerji Geliştirme tam listesi, Hukuk dava dosyaları ve KEP yazısı.
 4. **Excel seti** §4.1'deki listeye tamamlanır.
 5. **`restricted` belgeler** eklenir.
-6. **Belge paylaşımı adayı (B-10 için):** en az bir kredi sözleşmesi Proje Finans + Hukuk ilişkisine uygun hazırlanır (B-10 onaylanana kadar yalnızca Proje Finans'ta durur).
+6. **Klasörler ve çapraz yetki örnekleri (B-26 için):** demo belgeler departman klasör ağacına yerleşir; en az bir örnek: Hukuk / Proje Sözleşmeleri klasörü, Proje Finans'a görme yetkili (`BACKEND_GAPS.md` §2.6.4).
 7. **Prose yalnızca yeni belgeler için** üretilir (LLM bir kez, çıktı commit edilir; `make seed` LLM çağırmaz — mevcut kural).
 8. **Doğrulayıcılar ve eval:** isim beyaz listesi (P-9), `validate_documents`, `validate_excel`; yeni belgeler için `questions.json`'a soru eklenir ve `make eval` tekrar geçer.
 9. **Boş veritabanında `make seed`**, ardından her demo kullanıcıyla ekran ekran kontrol.

@@ -1,7 +1,7 @@
 # X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
 **Kime:** Naci ve Naci'nin yapay zekası
-**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7.5 · 28.09.2026
+**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7.6 · 28.09.2026
 **Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v165). Repo ile canvas farklıysa **canvas esastır**.
 
@@ -31,7 +31,7 @@
 
 ## 0. Bu belge nasıl okunur
 
-- Belge **konu başlıklarına** göre düzenlendi. Her talebin yanında bir **B kodu** var (B-01 … B-23). Frontend kodundaki yorumlar (`// BACKEND_GAPS B-07` gibi) bu kodlara atıf yapar; kodlar değişmedi. Hangi kodun hangi bölümde olduğu **Ek A**'da.
+- Belge **konu başlıklarına** göre düzenlendi. Her talebin yanında bir **B kodu** var (B-01 … B-26). Frontend kodundaki yorumlar (`// BACKEND_GAPS B-07` gibi) bu kodlara atıf yapar; kodlar değişmedi. Hangi kodun hangi bölümde olduğu **Ek A**'da.
 - Her talebin başlığının altında **"Ürün:"** satırı var: o özelliğin hangi ürün katmanına (Ürün 1 Tanıma / Ürün 2 Birleştirme / Ürün 3 Yorumlama / ortak altyapı) ait olduğu. Ayrıntı ve kurallar **§1.5**'te.
 - Her talebin başında bir **durum etiketi** var:
 
@@ -173,7 +173,7 @@ Bunlar için backend'de değişiklik gerekmiyor.
 | Katman | Talepler |
 |---|---|
 | **Ortak altyapı** (her ürünün ön koşulu, ürünlere göre açılıp kapanmaz) | B-18 demo veri · B-19 analiz · B-02 bildirim altyapısı · B-25 ürün katmanı anahtarı · P-1…P-10 ilkeleri |
-| **Ürün 1 — Tanıma** | B-20 (1–5) departman yapısı · B-08 departman yöneticisi rolü · B-09 ana departman · B-10 belge paylaşımı · B-05 rehber · B-13 dosya türü · B-17 indirme · B-07 versiyon bağlantısı · B-14 genel arama · B-12 etiket önerisi onayı · B-03 sohbet geçmişi · B-04 geri bildirim · B-20/6 çok proje · B-11 evrak talebi (bulur ve yönlendirir) · B-15 Word yükleme · **B-24 e-posta ve sözleşme ilişkilendirme** · §1.4'teki mevcut özellikler (ask, Excel inspect, versiyon zinciri) |
+| **Ürün 1 — Tanıma** | B-20 (1–5) departman yapısı · B-08 departman yöneticisi rolü · B-09 ana departman · B-10 belge paylaşımı (→ B-26) · **B-26 klasör ve departman erişim yetkileri** · B-05 rehber · B-13 dosya türü · B-17 indirme · B-07 versiyon bağlantısı · B-14 genel arama · B-12 etiket önerisi onayı · B-03 sohbet geçmişi · B-04 geri bildirim · B-20/6 çok proje · B-11 evrak talebi (bulur ve yönlendirir) · B-15 Word yükleme · **B-24 e-posta ve sözleşme ilişkilendirme** · §1.4'teki mevcut özellikler (ask, Excel inspect, versiyon zinciri) |
 | **Ürün 2 — Birleştirme** | B-01 gündem (deadline hatırlatma, bekleyen onaylar) · B-06a departmanlar arası görüş talebi · B-22 işlem talebi iskeleti ve izin formu taslağı · B-23 yazışma: özet, süre, **olgusal** cevap taslağı · şablon tabanlı dışa aktarma (§11) · §3.5 niyet ayrımı |
 | **Ürün 3 — Yorumlama** | B-21 EPİAŞ + mahsuplaşma (tahmini değerler içerdiği için; bkz. §8.3) · B-16 EPİAŞ canlı veri · B-20/7 Enerji izin/ruhsat takibi · §7.3 Hukuk dava ve icra süresi takibi · B-23'ün hukuki gerekçe ve savunma kısmı · §7'deki bütün departman yol haritaları |
 | **Ürün 2 sonrası (Tansu'nun kararı)** | B-06b kişiler arası ve grup sohbeti, Balbal dahil edilebilir (bkz. §6.3) |
@@ -297,7 +297,67 @@ Tasarımda departman müdürleri (Proje Finans müdürü, Hukuk müdürü, Enerj
 **Ürün:** Ürün 1 — Tanıma (RBAC)
 
 `documents.department` tek değer alıyor. Oysa bir kredi sözleşmesine hem Proje Finans hem Hukuk erişmeli; bugün bu ancak `management` ile mümkün.
-- **Önerilen karar:** `document_shares(document_id, department_id)` tablosu; `allowed_document_ids` bunu da hesaba katar. Paylaşımı belgenin sahibi departmanın `department_manager`'ı yapar.
+- ~~Önerilen karar: `document_shares(document_id, department_id)` tablosu~~ → **Bu ihtiyaç §2.6 (B-26) ile karşılanır (Tansu'nun kararı, 28.09.2026):** belge bazında paylaşım yerine **klasör bazında departman yetkisi**; yetkiyi sistem yöneticisi verir. `document_shares` tablosu açılmaz.
+
+### 2.6 Klasör yapısı ve departman erişim yetkileri (sistem yöneticisi sayfası) — **B-26** · KARAR VERİLDİ (Tansu, 28.09.2026)
+**Ürün:** Ürün 1 — Tanıma (RBAC, ortak alan)
+
+**Amaç:** Sistem yöneticisi, şirketin ortak alanında hangi klasörlerin olduğunu ve her klasöre hangi departmanın **görme** ya da **değiştirme** yetkisiyle erişeceğini tek bir sayfadan belirler. Örnek: proje sözleşmeleri Hukuk'un klasöründe durur, sistem yöneticisi Proje Finans'a o klasörü **görme** yetkisi verir.
+
+**Backend bu sayfanın uçlarını açar; sayfanın arayüzünü Tansu tarafı tasarlar** (önce canvas, sonra `ftansu/AI-BalBal`). Uç sözleşmesi netleşince frontend `proposed.ts`'e eklenir.
+
+#### 2.6.1 Kurallar
+
+1. **Klasör ağacı şirkete özeldir ve veridir, koda gömülmez** (P-8). Her müşteri şirketin sistem yöneticisi kendi ağacını kurar. Demo için örnek ağaç seed ile gelir (§2.6.4).
+2. **SPV'ler üst şirket tarafından yönetilir; bu yüzden yetkilendirme şirket düzeyinde tektir ve bütün SPV'lere/projelere aynı uygulanır.** Klasör yetkisi projeye veya SPV'ye göre değişmez. Belgenin projesi (`project_id`) bugünkü gibi filtre ve bağlam alanıdır, yetki birimi değildir (ADR-004 korunur).
+3. Her klasörün bir **sahibi departman** vardır; sahibi departman klasörde her zaman **değiştirme** yetkisine sahiptir. Her belge **tek bir klasörde** durur; belgenin departmanı klasörün sahibi departmanıdır.
+4. Diğer departmanlar için erişim düzeyi: **yok** (varsayılan) · **görme** · **değiştirme**.
+   - **Görme:** belgeyi listede, aramada, Balbal'ın cevabında ve kaynak kartında görür; açar ve indirir.
+   - **Değiştirme:** görmeye ek olarak klasöre belge yükler, meta veriyi düzenler, yeni versiyon yükler. (Silme bu yetkiye dahil değil; sistemde belge silme zaten yok.)
+5. **Alt klasör, üst klasörün yetkisini miras alır.** Sistem yöneticisi bir alt klasörde farklı yetki tanımlayabilir; tanımlarsa o alt klasör için geçerli olan odur.
+6. **Klasör yetkisi gizlilik düzeyini aşmaz.** Yetki verilen departmanın kullanıcısı, o klasördeki belgeleri kendi departmanında sahip olduğu gizlilik düzeyleriyle görür (bugün çalışan: `normal`; departman yöneticisi rolü B-08 kararına bağlı). `management` ve `admin` kuralları değişmez.
+7. **Tek kapı (P-2):** Klasör yetkisi yalnızca `allowed_document_ids` hesabına eklenir; ikinci bir yetki yolu açılmaz. Aynı kural liste, arama, indirme, Balbal ve "Bu belgeyi kim görebilir?" (`GET /api/documents/{id}/visibility`) için geçerlidir.
+8. **Her yetki değişikliği denetim kaydına yazılır:** kim, ne zaman, hangi klasör, hangi departman, önceki ve yeni düzey.
+9. **Yetkinin kaldırılması anında geçerlidir:** kaldırıldığı anda o departman belgeleri hiçbir yerde göremez.
+10. İK'daki bireysel erişim (kişi bazında yetki) bu maddenin dışındadır; ayrıca ele alınacak.
+
+#### 2.6.2 Önerilen uçlar (alan adları frontend ile birlikte kesinleşir)
+
+| Uç | Kim | Ne yapar |
+|---|---|---|
+| `GET /api/admin/folders` | admin | Ağaç: `id, name, parent_id, owner_department_slug, grants[{department_slug, access: "read"\|"write", inherited: bool}], document_count` |
+| `POST /api/admin/folders` | admin | Klasör oluştur: `name, parent_id, owner_department_slug` |
+| `PATCH /api/admin/folders/{id}` | admin | Ad değiştir, taşı |
+| `DELETE /api/admin/folders/{id}` | admin | Yalnızca boş klasör; doluysa 409 |
+| `PUT /api/admin/folders/{id}/grants` | admin | O klasörün yetki listesini topluca yazar: `[{department_slug, access}]`; sahibi departman listede olmaz |
+| `GET /api/admin/access-matrix` | admin | Klasör × departman tablosu (her hücrede `none/read/write` ve miras bilgisi) — sayfanın genel görünümü için |
+| `GET /api/admin/folders/audit` | admin | Yetki değişikliği geçmişi |
+| `GET /api/folders` | her kullanıcı | Kullanıcının görebildiği klasörler ve her birindeki erişim düzeyi (belge yükleme ekranındaki klasör seçimi ve belge ağacı için) |
+| `POST /api/documents/upload` | — | `folder_id` alanı eklenir; kullanıcının o klasörde `write` yetkisi yoksa 403 |
+
+Admin olmayan kullanıcı `/api/admin/*` uçlarına 403 alır.
+
+#### 2.6.3 Veri modeli (öneri)
+
+`folders(id, name, parent_id, owner_department_id, created_at)` · `folder_grants(folder_id, department_id, access)` · `documents.folder_id` (mevcut belgeler migration ile sahibi departmanın kök klasörüne taşınır) · yetki değişiklikleri için denetim tablosu. Veri modeli için kısa bir ADR yazılır; belirsiz nokta varsa §1.7.1'e göre sor.
+
+#### 2.6.4 Demo verisi (B-18 ile)
+
+- Her departman için örnek klasör ağacı (ör. Hukuk → Proje Sözleşmeleri, Davalar, Kurum Yazışmaları; Proje Finans → Kredi, Sigorta, Banka Raporlama; Enerji → alt birim klasörleri).
+- En az iki çapraz yetki örneği: **Hukuk / Proje Sözleşmeleri → Proje Finans: görme**; bir de **değiştirme** örneği.
+- Demo belgeler bu klasörlere yerleşir.
+
+#### 2.6.5 Kabul testleri
+
+1. Proje Finans'a Hukuk/Proje Sözleşmeleri için **görme** verilince Proje Finans çalışanı o belgeleri listede, aramada, Balbal'da görür, açar ve indirir; yükleme ve düzenleme 403.
+2. **Değiştirme** verilince yükleme, meta düzenleme ve yeni versiyon çalışır.
+3. Yetki kaldırılınca belge hiçbir yerde görünmez (liste, arama, Balbal, indirme, bildirim).
+4. Alt klasör mirası ve alt klasörde ayrı yetki doğru çalışır.
+5. Klasör yetkisi gizlilik düzeyini aşmaz.
+6. Aynı yetki iki projenin/SPV'nin belgelerine aynı şekilde uygulanır.
+7. Her yetki değişikliği denetim kaydında.
+8. Admin olmayan kullanıcı admin uçlarına 403 alır.
+9. "Bu belgeyi kim görebilir?" cevabı klasör yetkileriyle tutarlı.
 
 ---
 
@@ -1031,7 +1091,8 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 | 2 | Ürün 1 | B-20 (1–5) | Departman yapısını zihin haritasına uyarla | §2.1 | HEMEN |
 | 2 | Ürün 1 | B-09 | Ana departman | §2.2 | HEMEN (B-08 ile) |
 | 2 | Ürün 1 | B-08 | Departman yöneticisi rolü | §2.4 | ÖNERİLEN KARAR |
-| 2 | Ürün 1 | B-10 | Belgenin çok departmanla paylaşımı | §2.5 | ÖNERİLEN KARAR |
+| 2 | Ürün 1 | B-10 | Belgenin çok departmanla paylaşımı | §2.5 | B-26 ile karşılanır |
+| 2 | Ürün 1 | B-26 | Klasör yapısı ve departman erişim yetkileri (sistem yöneticisi sayfası) | §2.6 | KARAR VERİLDİ (kısa ADR) |
 | 3 | Ürün 1 | B-07 | Kaynak kartında versiyon id'leri | §3.6 | HEMEN |
 | 3 | Ürün 1 | B-04 | Cevap kimliği + geri bildirim | §3.4 | HEMEN |
 | 3 | Ürün 1 | B-13 | Dosya türü alanı | §4.1 | HEMEN |
@@ -1066,7 +1127,7 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 >
 > 0) **Önce `docs/BAGLANTI_YOL_HARITASI.md`'yi oku.** B-25 → B-20 (1–5) + B-09 → B-18 sırası ve her birinin adım adım planı, kabul testleri orada. Bu üçü frontend'i backend'e bağlamanın ön koşulu; §6'daki noktalardan karar verilmemiş olanlarda onay gelmeden o kısmı kodlama (proje sayısı kararı verildi: şimdilik 2 proje).
 > 1) **Sıra 1 — ortak altyapı:** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste — **her yeteneğin ürün katmanını da yaz**. B-25 ürün katmanı anahtarı **karar verildi (§1.5.4), ADR gerekmez** — doğrudan uygula: `company_settings.enabled_products`, uç bazlı `requires_product`, `GET /api/auth/me` cevabına `enabled_products` alanı (frontend zaten bunu bekliyor, alan adını ve değerleri birebir eşleştir).
-> 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, B-10), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-03, B-12, B-11, B-14. **Ürün 2 koduna, Ürün 1'in finalize olduğunu (ürün testinden geçtiğini) Tansu bildirmeden geçme** (§1.7); kod testlerinin geçmesi finalize demek değildir.
+> 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, **B-26 klasör yetkileri** — B-10'un yerine), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-03, B-12, B-11, B-14. **Ürün 2 koduna, Ürün 1'in finalize olduğunu (ürün testinden geçtiğini) Tansu bildirmeden geçme** (§1.7); kod testlerinin geçmesi finalize demek değildir.
 > 3) **Sıra 5–6 — Ürün 2:** bildirim altyapısı (B-02), gündem (B-01), görüş talebi (B-06a), işlem talebi iskeleti (B-22) ve yazışma taslağı (B-23). Ürün 2'de hesap yalnızca gerçekleşmiş veriyle, taslak yalnızca olgusal.
 > 4) **Sıra 7–8 — Ürün 3:** Enerji izin adımları, Hukuk dava modeli, İK ve hukuk kısımları, B-21. Bunlar için şimdilik yalnızca ADR ve veri modeli taslağı.
 > 5) **ÖNERİLEN KARAR** etiketli maddelerde Tansu onaylamadıysa yalnızca ADR taslağı + soru listesi; kod yok. **ADR ÖNCE** maddelerinde "Başlama koşulu" tamamlanmadıysa yalnızca ADR + migration taslağı + test listesi. Varsayılan kararları aynen al; farklı önerin varsa ADR'de gerekçesiyle yaz, kendin değiştirme.
@@ -1094,7 +1155,7 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 | B-07 | Kaynak kartında versiyon id'leri | §3.6 | Ürün 1 |
 | B-08 | Departman yöneticisi rolü | §2.4 | Ürün 1 |
 | B-09 | Ana departman | §2.2 | Ürün 1 |
-| B-10 | Belgenin çok departmanla paylaşımı | §2.5 | Ürün 1 |
+| B-10 | Belgenin çok departmanla paylaşımı (→ B-26) | §2.5 | Ürün 1 |
 | B-11 | Evrak talebi | §6.4 | Ürün 1 |
 | B-12 | Etiket önerisi onayı | §4.2 | Ürün 1 |
 | B-13 | Dosya türü | §4.1 | Ürün 1 |
@@ -1110,9 +1171,11 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 | B-23 | Resmî yazışma, dilekçe taslağı | §8.2 | Ürün 2 (hukuki gerekçe Ürün 3) |
 | B-24 | E-posta, sözleşme–e-posta ilişkilendirme | §4.6 | Ürün 1 |
 | B-25 | Ürün katmanı anahtarı | §1.5.4 | Ortak |
+| B-26 | Klasör yapısı ve departman erişim yetkileri | §2.6 | Ürün 1 |
 
 ### Revizyon geçmişi
 
+- **v7.6 (28.09.2026 gece):** **§2.6 B-26** eklendi: sistem yöneticisi sayfası — şirketin klasör ağacı ve her klasör için departman bazında görme/değiştirme yetkisi; SPV'lere aynı yetki uygulanır; B-10 bununla karşılanır. Arayüzü Tansu tarafı tasarlar.
 - **v7.5 (28.09.2026 gece):** **§9.3 Kurgu şirket** eklendi: 15 kişilik kurgusal personel listesi (ad, unvan, departman, yönetici, rol), bütün sözleşme ve belgelerin kurguya geçmesi, tek şirket adı; backend kurguyu çıkarır, arayüz ona göre tasarlanır. Ürün 1 = departman sayfasının kısıtlı hali (ayrı ana sayfa yok).
 - **v7.4 (28.09.2026 gece):** **§1.7 İki ayrı test** eklendi: kod testi (backend) ile ürün testi (satılabilirlik, Tansu) ayrıldı; "Finalize" = ürün testinden geçmek; Ürün 2'ye geçiş buna bağlandı; soru kuralı (sor, tahmin etme, durma) getirildi. §13 buna göre güncellendi.
 - **v7.3 (28.09.2026 gece):** Demo veri projeleri: şimdilik 2 proje, mevcut adlarıyla (§9.2, yol haritası §6/1).

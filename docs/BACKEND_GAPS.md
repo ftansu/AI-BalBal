@@ -1,7 +1,7 @@
 # X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
 **Kime:** Naci ve Naci'nin yapay zekası
-**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7.1 · 28.09.2026
+**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7.2 · 28.09.2026
 **Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v165). Repo ile canvas farklıysa **canvas esastır**.
 
@@ -956,6 +956,8 @@ Sunucudaki örnek belgeler **profesyonel** olmalı ve **arayüzdeki her süreci*
 
 Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ürün 1 (belkemiği)** tamamlanır, sonra Ürün 2, en son Ürün 3. Aynı katmanda küçük işler önce.
 
+> **Frontend'i backend'e bağlamak için gereken asgari set: B-25, B-20 (1–5) + B-09 ve B-18.** Uygulama planı, backend'in bugünkü durumu, kabul testleri ve bağlantı günü kontrol listesi: [`BAGLANTI_YOL_HARITASI.md`](BAGLANTI_YOL_HARITASI.md). Bu üçü bitmeden frontend–backend bağlantı testi yapılmaz.
+
 | Sıra | Ürün | Kod | Konu | Bölüm | Etiket |
 |---|---|---|---|---|---|
 | 1 | Ortak | B-18 | Demo veri seti | §9 | HEMEN |
@@ -997,6 +999,7 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 
 > `docs/BACKEND_GAPS.md` dosyasını (ftansu/AI-BalBal) baştan sona oku. Önce **§1.2 Değişmez ilkeler**'i ve **§1.5 Ürün katmanları**'nı oku. §1.5 projenin belkemiğidir: her özellik Ürün 1 (Tanıma), Ürün 2 (Birleştirme) ya da Ürün 3 (Yorumlama) katmanına aittir; her başlığın altında **"Ürün:"** satırı var. Ürün 1'de yorum, Ürün 2'de tahmin/projeksiyon **yasak**; bir özellikte tahmin varsa o Ürün 3'tür. Kendi CLAUDE.md kurallarına göre §12'deki sırayla phase planı çıkar:
 >
+> 0) **Önce `docs/BAGLANTI_YOL_HARITASI.md`'yi oku.** B-25 → B-20 (1–5) + B-09 → B-18 sırası ve her birinin adım adım planı, kabul testleri orada. Bu üçü frontend'i backend'e bağlamanın ön koşulu; §6'daki karar bekleyen noktalarda (proje adları vb.) onay gelmeden o kısmı kodlama.
 > 1) **Sıra 1 — ortak altyapı:** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste — **her yeteneğin ürün katmanını da yaz**. B-25 ürün katmanı anahtarı **karar verildi (§1.5.4), ADR gerekmez** — doğrudan uygula: `company_settings.enabled_products`, uç bazlı `requires_product`, `GET /api/auth/me` cevabına `enabled_products` alanı (frontend zaten bunu bekliyor, alan adını ve değerleri birebir eşleştir).
 > 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, B-10), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-03, B-12, B-11, B-14. Ürün 1 bitmeden Ürün 2 koduna geçme.
 > 3) **Sıra 5–6 — Ürün 2:** bildirim altyapısı (B-02), gündem (B-01), görüş talebi (B-06a), işlem talebi iskeleti (B-22) ve yazışma taslağı (B-23). Ürün 2'de hesap yalnızca gerçekleşmiş veriyle, taslak yalnızca olgusal.
@@ -1043,6 +1046,8 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 | B-25 | Ürün katmanı anahtarı | §1.5.4 | Ortak |
 
 ### Revizyon geçmişi
+
+- **v7.2 (28.09.2026 gece):** B-25 karar verildi (tek uygulama, `enabled_products` anahtarı; frontend tarafı uygulandı). Frontend–backend bağlantısı için **`BAGLANTI_YOL_HARITASI.md`** eklendi: B-25, B-20 (1–5) + B-09, B-18 adım adım plan, backend @ `4301968` durum tespiti, kabul testleri, bağlantı günü kontrol listesi.
 
 - **v7.1 (28.09.2026 akşam):** Tansu'nun kararı işlendi: kişiler arası ve grup sohbeti (B-06b) Ürün 2 tamamlandıktan sonra eklenecek, Balbal sohbete dahil edilebilecek. Sohbette Balbal davranış kuralları eklendi (§6.3).
 - **v7 (28.09.2026 akşam):** "X Platformu — Mimari ve Süreç Haritası"na göre **§1.5 Ürün katmanları** eklendi; her talebin altına **"Ürün:"** satırı kondu. Öncelik sırası katmana göre yeniden kuruldu (önce Ürün 1). Bulunanlar: B-21 tahmin içerdiği için Ürün 3; izin ve yazışma Ürün 2 + Ürün 3 olarak ikiye ayrıldı; Word yükleme Ürün 1 çekirdeği; **B-24** e-posta/sözleşme ilişkilendirme ve **B-25** ürün katmanı anahtarı eklendi; ekip sohbeti haritada yok. **§1.6 Uyum denetimi** eklendi.

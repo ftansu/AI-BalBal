@@ -163,6 +163,18 @@ Tasarımda Balbal "bu belge Mali İşler'in alanında" diyor ve "evrak talep et"
 - Öneri: `filename` olarak belgenin başlığı ve uzantısı verilsin (örn. `Ankara RES Kredi Sözleşmesi.pdf`).
 - `?inline=1` parametresiyle `Content-Disposition: inline` desteklensin. Arayüzdeki "Belgeyi aç" linki bunu kullanacak, "İndir" linki ise `attachment` olarak kalacak.
 
+### B-18 · Demo veri seti: arayüzdeki her süreci destekleyen profesyonel belgeler — **ÖNCELİKLİ (Tansu'nun notu)**
+
+Sunucudaki örnek belgeler artık daha profesyonel olmalı ve **arayüzdeki tüm süreçleri kapsamalı**. Arayüzde görünen her adımın arkasında Balbal'ın okuyabileceği gerçekçi (ama kurgusal — gerçek kişi/kurum belgesi değil) bir belge bulunmalı:
+
+- **Enerji — Geliştirme:** ölçüm raporu, önlisans başvurusu ve kararı, YEGM teknik uygunluk, TEİAŞ bağlantı görüşü, tapu/kira, MSB askeri yazı, TEA başvurusu ve sonuç yazısı (olumsuzsa gerekçesiyle), ÇED başvurusu/ek bilgi/karar, jeoteknik etüt, kurum görüşleri, bağlantıya çağrı mektubu, imar, kat-i proje, yapı ruhsatı, lisans. Her belgede başvuru tarihi, sonuç tarihi, sonuç (olumlu/olumsuz) ve olumsuzsa sebep yazmalı; arayüz bunları nokta üzerindeki özet notta gösteriyor.
+- **Enerji — İşletme:** bakım sözleşmesi, arıza tutanakları, yıllık bakım raporu, ÇED izleme yükümlülükleri.
+- **Proje Finans:** kredi sözleşmesi + tadiller (versiyon zinciri), ödeme planı Excel'i, sigorta poliçeleri, banka raporlama formları.
+- **Hukuk:** dava dosyaları, duruşma tutanakları, bilirkişi raporu, sözleşmeler.
+- **Mali İşler / İdari İşler / İK:** her birinden en az birkaç temel belge (ör. ticaret sicil gazetesi, vergi levhası, personel yönetmeliği).
+
+Beklenen: `seed` komutuyla yüklenen bu belgelerle arayüzdeki her ekran, "backend bekleniyor" kutusu olmadan gerçek veriyle doldurulabilmeli. Proje isimleri arayüzle aynı olmalı (Karatepe, Yeşilova, Boztepe, Güneşalan; geliştirmede Kızılova, Akyar, Demirci).
+
 ---
 
 ## C. V0 kapsamı dışında olanlar (bilgi için)
@@ -176,6 +188,7 @@ Tasarımda Balbal "bu belge Mali İşler'in alanında" diyor ve "evrak talep et"
 ## D. Naci'nin yapay zekasına verilebilecek hazır istem
 
 > `docs/BACKEND_GAPS.md` dosyasını oku (ftansu/AI-BalBal reposunda). Kendi CLAUDE.md kurallarına göre şu sırayla phase planı çıkar ve **SORU** işaretli maddelerde benden onay almadan implementasyona geçme:
+> 0) B-18 demo veri seti: arayüzdeki tüm süreçleri kapsayan profesyonel, kurgusal belgeler.
 > 1) Küçük şema eklemeleri: B-07 (SourceCard'a versiyon id'leri, yetki kontrollü), B-04 (AskResponse.audit_log_id + POST /api/ask/feedback), B-13 (file_kind), B-17 (indirme dosya adı + inline).
 > 2) B-01 gündem: önce `expiration_date` ve bekleyen etiket önerilerinden türetilen kısım.
 > 3) B-05 rehber (users.title alanı dahil).

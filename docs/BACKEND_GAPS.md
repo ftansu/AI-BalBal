@@ -1,7 +1,7 @@
 # X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
 **Kime:** Naci ve Naci'nin yapay zekası
-**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v6 · 28.09.2026
+**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7 · 28.09.2026
 **Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v165). Repo ile canvas farklıysa **canvas esastır**.
 
@@ -10,7 +10,7 @@
 ## İçindekiler
 
 0. [Bu belge nasıl okunur](#0-bu-belge-nasıl-okunur)
-1. [Genel sistemin çalışma prensibi](#1-genel-sistemin-çalışma-prensibi)
+1. [Genel sistemin çalışma prensibi](#1-genel-sistemin-çalışma-prensibi) — **1.5 Ürün katmanları: her özellik hangi üründe?** · **1.6 Uyum denetimi**
 2. [Kurumsal yapı, kişiler ve yetki](#2-kurumsal-yapı-kişiler-ve-yetki)
 3. [Balbal için notlar](#3-balbal-için-notlar)
 4. [Belgeler ve kurumsal hafıza](#4-belgeler-ve-kurumsal-hafıza)
@@ -32,6 +32,7 @@
 ## 0. Bu belge nasıl okunur
 
 - Belge **konu başlıklarına** göre düzenlendi. Her talebin yanında bir **B kodu** var (B-01 … B-23). Frontend kodundaki yorumlar (`// BACKEND_GAPS B-07` gibi) bu kodlara atıf yapar; kodlar değişmedi. Hangi kodun hangi bölümde olduğu **Ek A**'da.
+- Her talebin başlığının altında **"Ürün:"** satırı var: o özelliğin hangi ürün katmanına (Ürün 1 Tanıma / Ürün 2 Birleştirme / Ürün 3 Yorumlama / ortak altyapı) ait olduğu. Ayrıntı ve kurallar **§1.5**'te.
 - Her talebin başında bir **durum etiketi** var:
 
 | Etiket | Anlamı |
@@ -128,6 +129,7 @@ Ekran bilgiyle doldurulmaz. İlk bakışta göze çarpması gerekenler görünü
 | **Naci / backend** (`ntoydem/company-ai`) | API, veri modeli, yetki, retrieval, LLM akışları, entegrasyonlar (EPİAŞ vb.), testler. Frontend'e dokunmaz; tip değişikliği önerisini Tansu'ya liste olarak verir. |
 
 ### 1.4 Bugünkü durum: backend'de var, frontend'e bağlandı (BİLGİ)
+**Ürün:** Ürün 1 — Tanıma
 
 Bunlar için backend'de değişiklik gerekmiyor.
 1. **`/api/ask` proje kapsamı (`project_id`)** frontend'e bağlanmıştı; canvas v165'te **proje seçimi kaldırıldı** (bkz. §3.3). Kod henüz buna uyarlanmadı; `project_id` gönderimi kalkacak.
@@ -136,6 +138,79 @@ Bunlar için backend'de değişiklik gerekmiyor.
 4. **Versiyon zinciri:** `supersedes_document_id` / `superseded_by_document_id` artık açılabilir ve indirilebilir link.
 5. **Dosya linki kuralı (P-4):** belge listesi, kaynak kartları, Excel kaynakları, arama, sohbet ekleri bu kurala göre düzenlendi.
 
+### 1.5 Ürün katmanları: her özellik hangi üründe? (projenin belkemiği)
+
+> **Referans:** "X Platformu — Mimari ve Süreç Haritası" (Tansu). Bu belgedeki **her** talep aşağıdaki katmanlardan birine bağlıdır ve her başlığın altında **"Ürün:"** satırıyla işaretlenmiştir. Bir özelliği yazarken önce katmanını kontrol et: **bir alt katmandaki özellik, üst katmanın yeteneğini kullanamaz.**
+
+#### 1.5.1 Katmanlar ve kesin sınırları
+
+| Kriter | T0 — Test | Ürün 1 — Tanıma | Ürün 2 — Birleştirme | Ürün 3 — Yorumlama |
+|---|---|---|---|---|
+| Ana amaç | Kavramsal kanıtlama | Veri varlığını kanıtlama: bulur, sınıflandırır, gösterir | Kesin veriyi birleştirme | Analiz, görüş, projeksiyon |
+| Departman yapısı | Yok | **Tanımlanır (RBAC)** — Ürün 1'in ilk görevi | Ürün 1 yapısında çalışır | Departmana özel araçlar |
+| Cevap tipi | Anlamlı yanıt testi | Kesin bilgi, **yorumsuz**, kaynaklı | Kesin veri, yan yana karşılaştırma | Serbest kurgulu rapor ve yorum |
+| Hesaplama | Yok | **Yok** | Yalnızca aritmetik (toplam, ortalama, fark), **yalnızca gerçekleşmiş veriyle** | Aritmetik + projeksiyon |
+| Tahmin / projeksiyon | Yok | **Yasak** | **YASAK** (varsayım = yorum) | Serbest |
+| Raporlama | Yok | Arama ve gösterme | **Şablon doldurma** (şirketin Word/Excel şablonları) | Serbest tasarım |
+| Departmana göre farklılaşma | — | **Farklılaşmaz** (ortak motor) | Farklılaşmaz; departman kendi yetki alanında genel görevleri kullanır | Yalnızca bu katman departmanlara ayrılır |
+| Karar / onay | İnsan | İnsan | Son onay insanda (P-1) | Son onay insanda (P-1) |
+
+**Ürün 1 veri grupları** (Ortak Veri Alanı'na yüklenenler): (1) Dokümanlar: PDF, Word, Excel · (2) İletişim ve sözleşme: e-posta içerikleri ve resmî sözleşmeler; sözleşmeyle ilgili e-postalar ilişkilendirilir · (3) Departman belgeleri: yetki matrisine göre erişim · (4) Proje belgeleri ve süreçlere bırakılan personel yorum/notları.
+
+**Ürün 2'nin özellikleri:** şablon tabanlı raporlama · yazı taslağı · eksik belge/bilgi gösterme · deadline hatırlatma · birikmiş notları derleme · departmanlar arası görüş talebi (görüş insanındır; sistem iletir ve kurumsal hafızaya kaydeder) · insan onayı.
+
+**Ürün 3'ün özellikleri:** departman bazlı araçlar (bkz. §7) · sapma ve kök neden analizi · projeksiyon (ör. yıl sonu gelir tahmini) · serbest rapor · risk değerlendirmesi.
+
+#### 1.5.2 Backend için kurallar
+
+1. **Katmanı karıştırma.** Ürün 1 cevabında yorum, Ürün 2 hesabında tahmin çıkarsa bu **hatadır**. Ürün 2'de "yıl sonunda ne olur?" gibi bir soruya cevap *"Bu bir projeksiyondur; Ürün 3 yeteneğidir"* olmalı.
+2. **Her ürün ayrı satılabilir.** Bir müşteri yalnızca Ürün 1 alabilir. Bu yüzden her yetenek hangi ürüne ait olduğunu bilmeli ve o ürün lisanslı değilse **kapalı** olmalı (bkz. §1.5.4, B-25).
+3. **Tahmin etiketi Ürün 3'e aittir.** Bir değer tahminle üretiliyorsa (eksik veriyi oranla tamamlama, gelecek ayı öngörme) o özellik **Ürün 3**'tür. Ürün 2'de yalnızca "kesin" ve "veri yok" durumları olabilir.
+4. **Alt katman üst katmanın ön koşuludur.** Ürün 2 özelliği yazılmadan önce ilgili Ürün 1 altyapısı (yetki, belge, bağlantı) çalışıyor olmalı; Ürün 3 aracı Ürün 1–2 üzerine kurulur, kendi hafıza veya yetki mekanizmasını ayrıca inşa etmez.
+
+#### 1.5.3 Bu belgedeki taleplerin ürünlere dağılımı
+
+| Katman | Talepler |
+|---|---|
+| **Ortak altyapı** (her ürünün ön koşulu, ürünlere göre açılıp kapanmaz) | B-18 demo veri · B-19 analiz · B-02 bildirim altyapısı · B-25 ürün katmanı anahtarı · P-1…P-10 ilkeleri |
+| **Ürün 1 — Tanıma** | B-20 (1–5) departman yapısı · B-08 departman yöneticisi rolü · B-09 ana departman · B-10 belge paylaşımı · B-05 rehber · B-13 dosya türü · B-17 indirme · B-07 versiyon bağlantısı · B-14 genel arama · B-12 etiket önerisi onayı · B-03 sohbet geçmişi · B-04 geri bildirim · B-20/6 çok proje · B-11 evrak talebi (bulur ve yönlendirir) · B-15 Word yükleme · **B-24 e-posta ve sözleşme ilişkilendirme** · §1.4'teki mevcut özellikler (ask, Excel inspect, versiyon zinciri) |
+| **Ürün 2 — Birleştirme** | B-01 gündem (deadline hatırlatma, bekleyen onaylar) · B-06a departmanlar arası görüş talebi · B-22 işlem talebi iskeleti ve izin formu taslağı · B-23 yazışma: özet, süre, **olgusal** cevap taslağı · şablon tabanlı dışa aktarma (§11) · §3.5 niyet ayrımı |
+| **Ürün 3 — Yorumlama** | B-21 EPİAŞ + mahsuplaşma (tahmini değerler içerdiği için; bkz. §8.3) · B-16 EPİAŞ canlı veri · B-20/7 Enerji izin/ruhsat takibi · §7.3 Hukuk dava ve icra süresi takibi · B-23'ün hukuki gerekçe ve savunma kısmı · §7'deki bütün departman yol haritaları |
+| **Haritada yok — karar gerekli** | B-06b kişiler arası ekip sohbeti (bkz. §6.3) |
+
+#### 1.5.4 Ürün katmanı anahtarı — **B-25** · ÖNERİLEN KARAR · Ürün: ortak altyapı
+
+- Şirket ayarlarında hangi ürünlerin açık olduğu tutulur: `company_settings.enabled_products = ["P1","P2","P3"]`.
+- Her uç ve her Balbal akışı bir katmana bağlanır (`requires_product = "P1"|"P2"|"P3"`). Kapalı katmanın ucu `403 product_not_enabled` döner; Balbal *"Bu özellik şirketinizin paketinde yok"* der.
+- `AskResponse`'a `product_level: "P1"|"P2"|"P3"` eklenir: cevabın hangi katmanda üretildiği görünür ve test edilebilir olur. (Mevcut `query_type` alanı buna eşlenebilir.)
+- Demo ortamında üç ürün de açıktır.
+- **Kabul testi:** Yalnızca P1 açıkken (a) taslak, görüş talebi, gündem uçları 403 döner; (b) Balbal hesap veya tahmin yapmaz; (c) yalnızca P1+P2 açıkken projeksiyon sorusu reddedilir.
+
+#### 1.5.5 Süreç haritasıyla karşılaştırırken bulunan noktalar
+
+1. **B-21 mahsuplaşma Ürün 3'e taşındı.** Hesap, UEVM gelmeden gerçek zamanlı üretimi, KGÜP yoksa oranla tahmini KGÜP'ü ve tahmini KÜPST'ü kullanıyor; ekranda "tahmini" değer gösteriyor. Süreç haritasına göre tahmin Ürün 2'de **yasak**. Ayrıca haritada "EPİAŞ verisi işleme, ödeme/tahsilat takvimi" Proje Finans, "uzlaştırma verisi" Enerji-Piyasa **Ürün 3** aracıdır. Ay kapandıktan sonra **kesin** veriyle yapılan mahsuplaşma hesabı ise Ürün 2 aritmetiği sayılabilir. B-21 tam metni bu ayrımla yazılacak.
+2. **İzin talebi hem Ürün 2 hem Ürün 3'te geçiyor.** Ürün 2 tanımında örnek olarak ("AI form hazırlar, insan onaylar"), Ürün 3 İK tablosunda araç olarak. Bu belgedeki ayrım: **işlem talebi iskeleti + form taslağı + onay akışı = Ürün 2** (tüm departmanlar kullanır); **İK'ya özel kurallar (bakiye türetme, puantaj, bordro girdisi) ve izin kullanım trendi analizi = Ürün 3 İK**.
+3. **Yazışma/dilekçe de iki katmanlı.** Ürün 2 "yazı taslağı" hazırlar ama yorum katmaz: özet, süre, olgusal anlatım, istenen belgelerin listesi. Dilekçedeki **hukuki gerekçe, savunma argümanı, risk değerlendirmesi** yorumdur → **Ürün 3 Hukuk**. Yalnızca P2 açıkken taslakta "Hukuki sebepler" bölümü boş bırakılır ve `[AVUKAT DOLDURACAK]` yazılır.
+4. **Word, Ürün 1'in çekirdek veri türü.** Haritada Ürün 1 dokümanları "PDF, Word, Excel". V0'da `.docx` yükleme ertelenmişti (B-15); bu **Ürün 1'in eksiği** olarak kayıtlıdır, sıradaki Ürün 1 genişletmesinin ilk işidir.
+5. **E-posta ve sözleşme ilişkilendirme bu belgede hiç yoktu.** Ürün 1'in 2. veri grubu. **B-24** olarak eklendi (§4.6).
+6. **Kişiler arası ekip sohbeti haritada yok.** Haritada yalnızca "departmanlar arası görüş talebi" var (Ürün 2). B-06b'nin ürüne dahil edilip edilmeyeceği Tansu'nun kararı.
+7. **Şablon tabanlı raporlama Ürün 2'nin çekirdeği** ama "dışa aktarma" olarak ertelenmiş durumda (§11). Ürün 2 tamamlanmış sayılmaz.
+
+### 1.6 Uyum denetimi: backend bu belgeye göre kontrol edilir
+
+Bu belge, backend'in **bağlayıcı çerçevesidir**. Tansu tarafı (Tansu ve Claude) `ntoydem/company-ai` reposunu düzenli olarak **salt okuma** ile bu belgeye göre denetler ve sapmaları Tansu'ya raporlar. Backend koduna Tansu tarafından dokunulmaz; düzeltmeyi Naci tarafı yapar.
+
+**Sapma sayılan durumlar (her biri Tansu'ya bildirilir):**
+1. **İlke ihlali:** P-1…P-10'dan biriyle çelişen kod. Örnek: personel onayı olmadan durum geçişi, LLM çıktısının doğrudan kayıt oluşturması, `allowed_document_ids` dışından beslenen bir cevap, konsolide dönen bir uç, koda gömülmüş oran/süre/şablon.
+2. **Katman ihlali (§1.5):** Ürün 1 cevabında yorum, Ürün 2'de tahmin veya projeksiyon, ürün anahtarına bağlı olmayan bir yetenek.
+3. **Karar beklemeden uygulama:** ÖNERİLEN KARAR veya ADR ÖNCE etiketli bir maddenin, onay veya başlama koşulu olmadan koda dönüşmesi; BEKLEMEDE (B-21) için kod yazılması.
+4. **Sözleşme uyumsuzluğu:** `proposed.ts`'teki alan adlarından, tiplerden veya uç yollarından farklı bir uygulama.
+5. **Zihin haritasına aykırılık:** departman yapısı, adlar veya proje adları bible'dan farklı.
+6. **Kapsam dışı iş:** bu belgede olmayan bir özelliğin Tansu'ya sorulmadan eklenmesi (öneri serbesttir; uygulama sorulduktan sonra).
+7. **Eksik test:** P-1'in dört testi, yetki testi veya katman testleri olmadan birleştirilmiş kod.
+
+**Naci'nin yapay zekasından beklenen:** Her phase özetinde **"Bu belgeden sapmalar"** başlığı olsun. Sapma yoksa "yok" yazılsın; varsa madde numarası, gerekçe ve Tansu'nun onayını bekleyip beklemediği yazılsın. Bilerek yapılan ve gerekçeli bir sapma, denetimde bulunan sapmadan her zaman iyidir.
+
 ---
 
 ## 2. Kurumsal yapı, kişiler ve yetki
@@ -143,6 +218,7 @@ Bunlar için backend'de değişiklik gerekmiyor.
 Kurumsal yapı hem backend'de hem frontend'de **zihin haritasıyla (bible) birebir aynı** olmalı. Bir uyumsuzluk görürsen Tansu'ya rapor et; kendin karar verme.
 
 ### 2.1 Departman yapısı — **B-20 (1–5)** · HEMEN
+**Ürün:** Ürün 1 — Tanıma (departman yapısını kurmak Ürün 1'in ilk görevi)
 
 Zihin haritasındaki yapı:
 
@@ -163,16 +239,19 @@ Backend'de tespit edilen farklar:
 5. **Demo kullanıcısı `finans` hem Finans hem Mali İşler'de** → P-5'e ters. Arayüz, "Proje Finans, Mali İşler belgesini göremez" senaryosunu örnek olarak kullanıyor; kullanıcı yalnızca Proje Finans'ta olmalı.
 
 ### 2.2 Ana departman — **B-09** · HEMEN (B-08 ile birlikte)
+**Ürün:** Ürün 1 — Tanıma (RBAC)
 
 - P-5 gereği kişinin **ana departmanı** bilinmeli: `users.primary_department_id` eklensin, `/api/auth/me` dönsün.
 - Frontend şu an `department_slugs[0]`'ı ana departman kabul ediyor; alan gelince ona geçecek.
 
 ### 2.3 Unvan ve yönetici bilgisi · HEMEN
+**Ürün:** Ürün 1 — Tanıma (unvan); `manager_id` Ürün 2 işlem onayları için
 
 - `users.title` (unvan, ör. "Proje Finans Müdürü") — rehber ve onay ekranları için (§6.1).
 - `users.manager_id` (nullable) — izin ve diğer işlem onayları için (§8.1).
 
 ### 2.4 "Departman yöneticisi" rolü — **B-08** · ÖNERİLEN KARAR
+**Ürün:** Ürün 1 — Tanıma (RBAC)
 
 Mevcut kural (`authorization.py`):
 - `employee`: kendi departmanının yalnızca `normal` belgeleri
@@ -186,6 +265,7 @@ Tasarımda departman müdürleri (Proje Finans müdürü, Hukuk müdürü, Enerj
 - **Not (Tansu'nun yaklaşımı):** yetki yapısı her şirkette farklı yapılandırılabilir olmalı (P-8). İK'da erişim **bireysel**, operasyonel departmanlarda (Enerji, Hukuk, Finans…) **departman bazlı** düşünülür.
 
 ### 2.5 Bir belgenin birden çok departmanla paylaşımı — **B-10** · ÖNERİLEN KARAR
+**Ürün:** Ürün 1 — Tanıma (RBAC)
 
 `documents.department` tek değer alıyor. Oysa bir kredi sözleşmesine hem Proje Finans hem Hukuk erişmeli; bugün bu ancak `management` ile mümkün.
 - **Önerilen karar:** `document_shares(document_id, department_id)` tablosu; `allowed_document_ids` bunu da hesaba katar. Paylaşımı belgenin sahibi departmanın `department_manager`'ı yapar.
@@ -197,6 +277,7 @@ Tasarımda departman müdürleri (Proje Finans müdürü, Hukuk müdürü, Enerj
 Balbal, platformun yapay zeka asistanı. Kullanıcı bilgiye ekranda gezinerek değil, **Balbal'a sorarak** ulaşır (P-7).
 
 ### 3.1 Balbal'ın davranış kuralları (BİLGİ — mevcut kurallar, bozulmamalı)
+**Ürün:** Ürün 1 kuralları (yorumsuz, kaynaklı cevap); üst katmanlar bu kuralların üzerine eklenir
 
 1. **Kaynak göstermeden cevap vermez.** Her olgusal ifade numaralı kaynak kartına bağlanır. Kaynak yoksa "bulunamadı" der; tahmin etmez.
 2. **Ürün seviyesine uyar (§1.1).** Ürün 1 cevabı yorumsuzdur; Ürün 2 hesabı yalnızca gerçekleşmiş veriyle yapılır.
@@ -206,6 +287,7 @@ Balbal, platformun yapay zeka asistanı. Kullanıcı bilgiye ekranda gezinerek d
 6. **İşlem yapmaz, taslak üretir (P-1).** Bkz. §3.5.
 
 ### 3.2 Sohbet geçmişi ve çok turlu soru — **B-03** · ÖNERİLEN KARAR
+**Ürün:** Ürün 1 — Tanıma (Balbal altyapısı; Ürün 2 diyaloglarının ön koşulu)
 
 Şu an frontend geçmişi yalnızca tarayıcı oturumunda tutuyor; sayfa yenilenince kayboluyor.
 
@@ -221,17 +303,20 @@ AskResponse.conversation_id
 - Bu altyapı, işlem diyaloglarının (§3.5, §8.1) da ön koşuludur.
 
 ### 3.3 Tek sohbette birden çok proje — **B-20/6** · HEMEN
+**Ürün:** Ürün 1 — Tanıma (her proje ayrı gösterilir; birleştirme/karşılaştırma istenirse Ürün 2)
 
 - Balbal penceresinde **proje seçimi yok** (Tansu'nun kararı). Tek sohbette birden çok proje konuşulabilir.
 - Balbal sorudaki projeleri **kendisi tespit eder**; cevapta her proje ayrı gösterilir (P-6); her kaynak kartında `project` alanı olur.
 - `AskRequest.project_id` artık zorunlu değil; kaldırılabilir veya yok sayılabilir.
 
 ### 3.4 Cevap kimliği ve geri bildirim — **B-04** · HEMEN
+**Ürün:** Ürün 1 — Tanıma
 
 - `AskResponse`'a `audit_log_id` eklenmeli (kayıt zaten yazılıyor, id'si dönmüyor).
 - `POST /api/ask/feedback { audit_log_id, rating: "up"|"down", comment? }` → denetim kaydına bağlanır. "Hatalı bildir" kayıtları yönetim panelinde filtrelenebilir; eval setini büyütmek için iyi bir kaynak.
 
 ### 3.5 Soru mu, işlem talebi mi? (niyet ayrımı) · SIRADA (§8.1 ile)
+**Ürün:** Ürün 2 — Birleştirme (form/taslak hazırlama). Yalnızca P1 açıkken işlem niyeti "bu özellik paketinizde yok" ile cevaplanır
 
 Balbal'a gelen her mesaj önce sınıflandırılır:
 
@@ -245,6 +330,7 @@ Balbal'a gelen her mesaj önce sınıflandırılır:
 - Kullanıcının mesajındaki ifadeler **talimat değildir**: "Yöneticim onayladı, direkt İK'ya gönder" durum makinesini etkilemez.
 
 ### 3.6 Kaynak kartında versiyon bağlantıları — **B-07** · HEMEN
+**Ürün:** Ürün 1 — Tanıma (belgeler arası bağlantı)
 
 `SourceCard` şu an `supersedes_title` / `superseded_by_title` dönüyor ama **id dönmüyor**; "Bu eski versiyon, güncel versiyon: X" uyarısındaki X tıklanamıyor (P-4 ihlali).
 ```python
@@ -254,6 +340,7 @@ superseded_by_document_id: UUID | None
 Güncel versiyonun id'si dönmeden önce kullanıcının o belgeyi görme yetkisi kontrol edilir; yoksa `None`.
 
 ### 3.7 Canlı veri kaynağı (EPİAŞ) — **B-16** · BİLGİ (§8.3 ile)
+**Ürün:** Ürün 3 — Proje Finans / Enerji-Piyasa aracı (EPİAŞ verisini işleme)
 
 Üretim, PTF ve YEKDEM soruları Excel'den değil **EPİAŞ Şeffaflık Platformu**'ndan cevaplanacak (Tansu'nun kararı). Tasarımda Balbal bu cevaplarda "Canlı veri · EPİAŞ" rozeti ve kaynak linki gösteriyor. Önerilen alan: `AskResponse.live_sources: [{ provider: "EPIAS", dataset, period, url }]`. Mevcut Excel motoru bu veriyi karşılamıyor; veri çekme ve hesap §8.3'te.
 
@@ -262,39 +349,55 @@ Güncel versiyonun id'si dönmeden önce kullanıcının o belgeyi görme yetkis
 ## 4. Belgeler ve kurumsal hafıza
 
 ### 4.1 Belge listesinde dosya türü — **B-13** · HEMEN
+**Ürün:** Ürün 1 — Tanıma
 
 `DocumentListItem` ve `DocumentDetail` dosya türünü içermiyor; frontend bir belgenin Excel olup olmadığını anlamak için `inspect` çağırıp 422 alıyor.
 - `file_kind: "pdf" | "image" | "xlsx" | "xlsm" | "csv"` alanı eklensin.
 
 ### 4.2 Etiket önerisini kim onaylar — **B-12** · ÖNERİLEN KARAR
+**Ürün:** Ürün 1 — Tanıma (sınıflandırma; öneriyi AI yapar, insan onaylar)
 
 `metadata-suggestion/apply` ve `reject` yalnızca admin'e açık. Tasarımda belgeyi yükleyen kişi Balbal'ın etiket önerisini kendisi onaylıyor; aksi halde her yükleme admin'i bekler.
 - **Önerilen karar:** Yükleyen kişi **veya** belgenin departmanındaki `department_manager` (B-08) onaylayabilir. Bu da P-1'le uyumludur: öneriyi AI yapar, insan onaylar.
 - Onay bekleyen öneriler gündeme `kind: "approval"` olarak düşer (§5.1).
 
 ### 4.3 İndirme: dosya adı ve tarayıcıda açma — **B-17** · HEMEN
+**Ürün:** Ürün 1 — Tanıma
 
 `download_document` şu an `FileResponse(path, filename=path.name)` dönüyor; inen dosyanın adı **`original.pdf`** oluyor.
 - `filename` = belge başlığı + uzantı (ör. `Karatepe RES Kredi Sözleşmesi.pdf`).
 - `?inline=1` ile `Content-Disposition: inline` desteklensin. Arayüzde "Belgeyi aç" inline, "İndir" attachment kullanır.
 
 ### 4.4 Genel arama — **B-14** · SIRADA (V1)
+**Ürün:** Ürün 1 — Tanıma (bulur)
 
 Üst bardaki arama şu an `/api/documents` ve `/api/projects` listelerini **istemcide** filtreliyor; yalnızca başlık, tür ve muhatapta arıyor.
 - `GET /api/search?q=` → retrieval'daki FTS ile **içerikte** de arar. Dönüş: `{ documents: [{…, snippet, page_number}], projects: [...], people: [...] }`. Yetki `allowed_document_ids` (P-2).
 
 ### 4.5 Kurumsal hafıza kuralı (BİLGİ — Tansu'nun kararı)
+**Ürün:** Ürün 1 toplar (veri grubu 4: yorum ve notlar) · Ürün 2 düzenler ve derler · Ürün 3 hafızadan görüş üretir
 
 - Kurumsal hafızaya **otomatik** giren tek şey: **departmanlar arası görüş talepleri ve cevapları** (§6.2).
 - Kişiler arası sohbetler, Balbal soru-cevapları, işlem taslakları (izin, yazışma) **girmez**.
 - Personel isterse kendi "bilgi notu"nu belge olarak ilgili klasöre yükler; sistem onu normal belge gibi işler.
 - "Her soru-cevabı kaydet" butonu fikri **ertelendi** (kurumsal ortamda her şeyin kaydedilmesi rahatsızlık yaratabilir).
 
+### 4.6 E-posta içerikleri ve sözleşme–e-posta ilişkilendirme — **B-24** · ÖNERİLEN KARAR (sıra)
+**Ürün:** Ürün 1 — Tanıma (veri grubu 2: İletişim ve sözleşme)
+
+Süreç haritasına göre Ürün 1, e-posta içeriklerini de ortak veri alanına alır ve **bir sözleşmeyi onunla ilgili e-posta zinciriyle ilişkilendirir**. Backend'de ve bu belgede şimdiye kadar yoktu.
+- V0'da kapsam dışı (CLAUDE.md: V0 yalnızca PDF, görsel, Excel/CSV). Ürün 1'in eksik parçası olarak kayda alındı.
+- **Önerilen ilk adım:** `.eml` / `.msg` dosyası **elle yükleme** (posta sunucusu entegrasyonu yok). Gönderen, alıcılar, tarih, konu, gövde ve ekler ayrıştırılır; ekler ayrı belge olarak zincire bağlanır.
+- İlişkilendirme: `document_links(from_document_id, to_document_id, link_type: "email_about"|"attachment_of"|"amends"|…, created_by: "ai"|user_id, confirmed)` — Balbal bağlantıyı **önerir**, belgenin sahibi onaylar (P-1, B-12 ile aynı mantık).
+- Yetki: e-posta da bir belgedir, `allowed_document_ids` kuralına girer (P-2). Kişisel e-posta içeriği için KVKK değerlendirmesi ADR'de yapılır.
+- **Sıra sorusu (Tansu):** B-15 Word yüklemeden önce mi, sonra mı?
+
 ---
 
 ## 5. Ana ekran: gündem ve bildirimler
 
 ### 5.1 Gündem — **B-01** · HEMEN (ilk kısım)
+**Ürün:** Ürün 2 — Birleştirme (deadline hatırlatma, eksik/bekleyen işleri gösterme)
 
 Ana ekranın en üstündeki "Gündeminiz" kutusu: kişinin takip etmesi gereken **kısa, öncelikli** liste (P-7).
 ```
@@ -309,6 +412,7 @@ Kaynaklar (hepsi yetki süzgecinden geçer, P-2):
 - `document_id` olan her madde `allowed_document_ids` kontrolünden geçer; yetkisiz belgenin **başlığı bile** dönmez.
 
 ### 5.2 Bildirimler — **B-02** · SIRADA (V1)
+**Ürün:** Ortak altyapı (her ürünün olayları buradan akar)
 
 ```
 GET  /api/notifications
@@ -332,6 +436,7 @@ Platformda kişiler ve departmanlar arasında **dört iletişim yolu** var. Her 
 | **4. Evrak talebi** | Yetkisi olmayan bir belgeye ihtiyaç duyulduğunda | Hayır | ÖNERİLEN KARAR |
 
 ### 6.1 Şirket rehberi — **B-05** · HEMEN
+**Ürün:** Ürün 1 — Tanıma (departman ve kişi yapısı)
 
 `/api/users` yalnızca admin'e açık. Kişi bulmak ve sohbete eklemek için herkesin görebileceği **dar** bir liste gerekiyor:
 ```
@@ -342,6 +447,7 @@ GET /api/directory?q=&department=
 - Şifre özeti, rol, aktiflik, e-posta gibi bilgiler bu uçta **dönmez**.
 
 ### 6.2 Departmanlar arası görüş talebi — **B-06 (a)** · ÖNERİLEN KARAR (öncelikli)
+**Ürün:** Ürün 2 — Birleştirme (süreç haritasında açıkça Ürün 2)
 
 Bu, Ürün 2'nin çekirdek özelliği: bir departman başka bir departmandan konu, açıklama ve son tarih belirterek görüş ister; cevap gelir; **ikisi birlikte kurumsal hafızaya girer** ve ileride Balbal tarafından bulunabilir.
 ```
@@ -353,6 +459,7 @@ POST /api/opinion-requests  { to_department, subject, body, due_date }
 - **Önerilen karar:** Önce yalnızca görüş talebi yapılsın; serbest sohbet sonra.
 
 ### 6.3 Ekip sohbeti (kişiler arası ve grup) — **B-06 (b)** · ÖNERİLEN KARAR (V1, görüş talebinden sonra)
+**Ürün:** **Süreç haritasında yok** — ürüne dahil edilip edilmeyeceği ve hangi katmana gireceği Tansu'nun kararı
 
 ```
 GET  /api/chats                   → [{ id, kind: direct|group|opinion_request, title, member_ids, includes_balbal,
@@ -369,6 +476,7 @@ POST /api/chats/{id}/members      { member_ids, include_balbal? }
 - İleride Teams entegrasyonu bu yolun alternatifi olabilir.
 
 ### 6.4 Yetkisi olmayan belge için evrak talebi — **B-11** · ÖNERİLEN KARAR (güvenlik hassas)
+**Ürün:** Ürün 1 — Tanıma (bulur ve **yönlendirir**)
 
 Eski tasarımda Balbal "bu belge Mali İşler'in alanında" deyip "evrak talep et" butonu sunuyordu. **Bu, yetkisiz bir belgenin varlığını ele verir** (P-2 ihlali).
 - **Önerilen karar:** Balbal hiçbir zaman belge başlığı, içeriği veya varlığını söylemez. Kaynak bulamadığında yalnızca *"Bu konuda erişiminizde belge yok. İsterseniz başka bir departmandan belge talep edebilirsiniz."* der. **Departmanı kullanıcı seçer**; Balbal önermez.
@@ -384,6 +492,7 @@ POST /api/document-requests { to_department, description }
 Her departman için: **bugün arayüzün backend'den beklediği** + **zihin haritasındaki Ürün 3 yol haritası** (bağlam için; şimdi uygulanmayacak).
 
 ### 7.1 Proje Finans
+**Ürün:** Ürün 3 — Proje Finans aracı (bu departmanın Ürün 1–2 ihtiyaçları ortak bölümlerde)
 
 **Backend'den beklenen**
 - Günlük yatan tutar, ay içi toplam, ertesi ay mahsuplaşma tutarı ve tarihi — proje proje, kesin/tahmini etiketli → **§8.3 (B-21)**.
@@ -392,6 +501,7 @@ Her departman için: **bugün arayüzün backend'den beklediği** + **zihin hari
 **Ürün 3 yol haritası (BİLGİ):** kredi, teminat ve sigorta sürelerini takip; nakit akış raporu; banka sorularına cevap taslağı; EPİAŞ verisini işleme; ödeme ve tahsilat takvimi; kredi dashboard'u (önümüzdeki 6 ayda hangi projenin hangi kredisi var); birikmiş hafızadan sapma görüşü.
 
 ### 7.2 Mali İşler (Muhasebe, Finansal Muhasebe)
+**Ürün:** Ürün 3 — Mali İşler aracı
 
 **Backend'den beklenen**
 - Alt birimlerin eklenmesi (§2.1).
@@ -401,6 +511,7 @@ Her departman için: **bugün arayüzün backend'den beklediği** + **zihin hari
 **Ürün 3 yol haritası (BİLGİ):** fatura verisi çıkarma, muhasebe kodu önerisi, cari mutabakat desteği, ödeme talimatı taslağı, banka hareketi eşleştirme, bütçe–fatura eşleştirme, ERP adaptasyonu.
 
 ### 7.3 Hukuk
+**Ürün:** Ürün 3 — Hukuk aracı (dava/icra süre takibi, hukuki değerlendirme). Gelen yazıdan özet ve olgusal taslak Ürün 2 (§8.2)
 
 **Arayüzde olan:** Hukuk ana sayfasında davalar, Enerji'deki geliştirme projeleri gibi **aşamalı zaman çizelgesi** olarak görünüyor: noktanın üzerine gelince kısa bilgi (aşama, tarih), tıklayınca detay paneli ve belgeler.
 
@@ -417,12 +528,14 @@ Her departman için: **bugün arayüzün backend'den beklediği** + **zihin hari
 **Ürün 3 yol haritası (BİLGİ):** mevzuat değişikliği takibi (dashboard'a mevzuat güncellemeleri), resmî yazı taslağı, KEP yazı analizi, cevap taslağı, dava ve icra süresi takibi, sözleşme taslağı, dilekçe/ihtarname taslağı.
 
 ### 7.4 İdari İşler
+**Ürün:** Ürün 3 — İdari İşler aracı
 
 **Backend'den beklenen:** Şimdilik yalnızca demo belgeler (§9). Ana sayfa canvas'ta var; ihtiyaçlar §10'daki analizle çıkarılacak.
 
 **Ürün 3 yol haritası (BİLGİ):** araç, bina, ekipman takibi; bakım, muayene, sigorta hatırlatması; destek hizmeti talepleri; idari satın alma desteği; demirbaş ve zimmet takibi; idari raporlar. (Satın alma/destek talebi eklendiğinde §8.1'deki işlem talebi iskeleti ve P-1 kullanılır.)
 
 ### 7.5 İK
+**Ürün:** Ürün 3 — İK aracı. İzin formunun hazırlanması ve onay akışı Ürün 2 (§8.1)
 
 **Backend'den beklenen**
 - İK departmanının eklenmesi (§2.1).
@@ -436,6 +549,7 @@ Her departman için: **bugün arayüzün backend'den beklediği** + **zihin hari
 ### 7.6 Enerji
 
 #### 7.6.1 Proje Geliştirme — **B-20/7** · ÖNERİLEN KARAR (veri modeli)
+**Ürün:** Ürün 3 — Enerji-Proje Geliştirme aracı (izin/ruhsat ve deadline takibi). Adımlardaki belgeler Ürün 1 ile bulunur
 
 **Arayüzde olan:** Her proje için **yatay nokta çizelgesi**. Noktaya tıklayınca önkoşulları ek nokta olarak açılır; tamamlanmış adıma tıklayınca gerçekleşen alt süreçler açılır; üzerine gelince başvuru/sonuç tarihi ve olumsuzsa kısa sebep görünür; tıklayınca belge açılır. Minimum yazı; detay isteyen Balbal'a sorar.
 
@@ -451,15 +565,18 @@ Her departman için: **bugün arayüzün backend'den beklediği** + **zihin hari
 **Ürün 3 yol haritası (BİLGİ):** izin/ruhsat ve deadline takibi, proje süreçleri, bütçe sapması raporu, kök neden görüşü.
 
 #### 7.6.2 O&M (İşletme ve Bakım)
+**Ürün:** Ürün 3 — Enerji-O&M aracı
 
 **Backend'den beklenen:** demo belgeler (bakım sözleşmesi, arıza tutanakları, yıllık bakım raporu, ÇED izleme yükümlülükleri) → §9.
 **Ürün 3 yol haritası (BİLGİ):** bakım takibi, arıza geçmişi, üretim performansı, emre amadelik, kayıp üretim, arıza–üretim kaybı ilişkisi görüşü.
 
 #### 7.6.3 EPC (İnşaat)
+**Ürün:** Ürün 3 — Enerji-EPC aracı
 
 **Ürün 3 yol haritası (BİLGİ):** teklif karşılaştırma, milestone takibi, ilerleme raporu, hakediş ve metraj desteği, toplantı tutanağı.
 
 #### 7.6.4 Üretim/Piyasa
+**Ürün:** Ürün 3 — Enerji-Piyasa aracı (yıl sonu projeksiyonu yalnızca burada serbest)
 
 **Backend'den beklenen:** birimin eklenmesi (§2.1); EPİAŞ verisi → §8.3.
 **Ürün 3 yol haritası (BİLGİ):** üretim, PTF, YEKDEM, uzlaştırma ve gelir verisi; günlük/haftalık/aylık rapor; yıl sonu gelir projeksiyonu; kaynak bazlı üretim tablosu; "hangi projede üretim sapması var, nedeni ne?" sorusuna görüş.
@@ -469,6 +586,7 @@ Her departman için: **bugün arayüzün backend'den beklediği** + **zihin hari
 ## 8. Ortak modüller
 
 ### 8.1 İşlem talepleri ve personel izni — **B-22** · ADR ÖNCE
+**Ürün:** Ürün 2 — Birleştirme: işlem iskeleti, form taslağı, onay akışı · Ürün 3 — İK: izin bakiyesi türetme, İK kuralları, izin trendi analizi (bkz. §1.5.5/2)
 
 > **P-1 bu bölümün tamamına uygulanır.**
 
@@ -630,6 +748,7 @@ Vekile yetki devri, kıdemden otomatik hak hesabı, rapor/hastalık izni, geriye
 ---
 
 ### 8.2 Resmî yazışma ve dilekçe taslağı (Hukuk + Enerji-Geliştirme) — **B-23** · ADR ÖNCE
+**Ürün:** Ürün 2 — Birleştirme: özet, süre, olgusal taslak · Ürün 3 — Hukuk / Enerji-Geliştirme: hukuki gerekçe, savunma, risk değerlendirmesi (bkz. §1.5.5/3)
 
 > **P-1 bu bölümün tamamına uygulanır.** Balbal yalnızca taslak yazar. Hiçbir yazı, dilekçe veya cevap sistemden **gönderilmez**: KEP ile otomatik cevap yok, UYAP'a otomatik yükleme yok, e-posta yok.
 
@@ -672,6 +791,7 @@ received → summary_ready → summary_confirmed → draft_ready → preparer_ap
    - Resmî yazı: antet yeri, sayı, tarih, konu, ilgi, metin, ekler, dağıtım, imza bloğu (ad/unvan boş, kullanıcı doldurur).
    - Dilekçe: mahkeme başlığı, dosya no, davacı/davalı, vekil, konu, açıklamalar, hukuki sebepler, deliller, sonuç ve istem.
 6. **Her proje ayrı işlenir** (P-6).
+7. **Katman sınırı:** Yalnızca Ürün 2 açıkken taslak olgusal kalır; dilekçenin "hukuki sebepler", savunma argümanı ve risk değerlendirmesi bölümleri boş bırakılır ve `[AVUKAT DOLDURACAK]` yazılır. Bu bölümleri Balbal ancak Ürün 3 (Hukuk) açıkken önerir ve yine `[DOĞRULANMALI]` kuralına tabidir.
 
 #### 8.2.5 Süre takibi (en kritik kısım)
 
@@ -750,6 +870,7 @@ KEP kutusundan otomatik çekme (V2, KEP sağlayıcı API'si), UYAP entegrasyonu,
 ---
 
 ### 8.3 EPİAŞ verisi ve günlük tahsilat / aylık mahsuplaşma hesabı — **B-21** · BEKLEMEDE
+**Ürün:** Ürün 3 — Proje Finans ve Enerji-Piyasa aracı (tahmini değer içerir). Ay kapandıktan sonra kesin veriyle yapılan hesap Ürün 2 aritmetiğidir (bkz. §1.5.5/1)
 
 Ana ekrandaki "günlük yatan tutar" ve "mahsuplaşmada yatacak tutar" hesabı. Formül, veri modeli, uçlar ve test örnekleri Tansu ile ayrı bir çalışmada, **gerçek faturayla doğrulanmış referans Excel'den** çıkarıldı. **Tam metin bu belgeye ayrı bir commit ile eklenecek.**
 
@@ -760,11 +881,14 @@ Değişmeyecek kararlar:
 - Public repo: gerçek oranlar, toplayıcı adı, gerçek EPİAŞ kimlikleri yazılmaz; testlerde kurgusal değerler (P-9).
 - Kullanılacak yerler: Proje Finans ve Mali İşler > Finansal Muhasebe ana ekranı; Balbal'ın EPİAŞ cevapları (§3.7).
 
+- **Katman ayrımı (§1.5.5/1):** Tahmini değer üreten her parça (UEVM gelmeden gerçek zamanlı üretimle hesap, oranla tahmini KGÜP, tahmini KÜPST, gelecek ödeme öngörüsü) Ürün 3'tür. Kapanmış ayın kesin verisiyle yapılan mahsuplaşma aritmetiği Ürün 2'dir. Tam metin bu ayrımla yazılacak; P3 kapalıysa yalnızca kesin değerler döner.
+
 **Talimat:** Tam metin eklenmeden B-21 için kod yazma, tablo açma, EPİAŞ istemcisi kurma.
 
 ---
 
 ## 9. Demo veri seti — **B-18** · HEMEN (öncelikli)
+**Ürün:** Ortak altyapı (üç ürünün de testi bu veriyle yapılır)
 
 Sunucudaki örnek belgeler **profesyonel** olmalı ve **arayüzdeki her süreci** kapsamalı. Hedef: `seed` komutuyla yüklenen belgelerle her ekran "Backend bekleniyor" kutusu olmadan gerçek veriyle dolsun.
 
@@ -791,6 +915,7 @@ Sunucudaki örnek belgeler **profesyonel** olmalı ve **arayüzdeki her süreci*
 ---
 
 ## 10. Naci'den beklenen analiz — **B-19** · HEMEN
+**Ürün:** Ortak altyapı. Tersine listede her yeteneğin hangi ürüne ait olduğunu da yaz
 
 1. `ftansu/AI-BalBal` frontend'ini ve Claude Design canvas'ını ("X Platformu — Ana Sayfa", v165) incele. Backend'de karşılığı olmayan her ekran/alan için eksiği tespit et ve (bu belgede karar verilmiş olanları) tamamla. Bu belgedeki maddelerle sınırlı değil.
 2. **Tersine liste:** Backend'inde olup arayüzde **olmayan** her yeteneği yaz: uç, ne yaptığı, örnek istek/cevap, hangi ekranda kullanılmasını önerdiğin. Arayüzü buna göre tamamlayacağız.
@@ -802,8 +927,9 @@ Sunucudaki örnek belgeler **profesyonel** olmalı ve **arayüzdeki her süreci*
 
 | Kod | Konu | Durum |
 |---|---|---|
-| B-15 | Word (.docx) **yükleme** | V0 dışı. Tasarımda bazı örnek dosyalar `.docx`; ileride gerekecek. |
-| — | **Dışa aktarma** (Excel/Word/PDF rapor, şablon doldurma) | Ertelendi. İlk öncelik: yazışma/dilekçe taslağının Word çıktısı (§8.2.10). |
+| B-15 | Word (.docx) **yükleme** | V0 dışı ama **Ürün 1'in çekirdek veri türü** (§1.5.5/4). Sıradaki Ürün 1 genişletmesinin ilk işi. |
+| B-24 | E-posta içerikleri, sözleşme–e-posta ilişkilendirme | Ürün 1 eksiği; V0 dışı (§4.6). |
+| — | **Dışa aktarma** (Excel/Word/PDF rapor, şablon doldurma) | Ertelendi. **Ürün 2'nin çekirdek yeteneği** (şablon tabanlı raporlama); bu yapılmadan Ürün 2 tamamlanmış sayılmaz. İlk öncelik: yazışma/dilekçe taslağının Word çıktısı (§8.2.10). |
 | — | "Her soru-cevabı kurumsal hafızaya kaydet" butonu | Ertelendi (§4.5). |
 | — | KEP otomatik çekme, UYAP, e-imza | Ertelendi (§8.2.13). |
 | — | Kıdemden otomatik izin hakkı, vekalet, rapor izni | Ertelendi (§8.1.13). |
@@ -814,50 +940,59 @@ Sunucudaki örnek belgeler **profesyonel** olmalı ve **arayüzdeki her süreci*
 
 ## 12. Yol haritası ve öncelik sırası
 
-| Sıra | Kod | Konu | Bölüm | Etiket |
-|---|---|---|---|---|
-| 1 | B-18 | Demo veri seti | §9 | HEMEN |
-| 1 | B-19 | Arayüz incelemesi + tersine liste | §10 | HEMEN |
-| 1 | B-20 (1–5) | Departman yapısını zihin haritasına uyarla | §2.1 | HEMEN |
-| 2 | B-07 | Kaynak kartında versiyon id'leri | §3.6 | HEMEN |
-| 2 | B-04 | Cevap kimliği + geri bildirim | §3.4 | HEMEN |
-| 2 | B-13 | Dosya türü alanı | §4.1 | HEMEN |
-| 2 | B-17 | İndirme adı + tarayıcıda açma | §4.3 | HEMEN |
-| 2 | B-20/6 | Tek sohbette çok proje | §3.3 | HEMEN |
-| 3 | B-01 | Gündem (ilk kısım) | §5.1 | HEMEN |
-| 3 | B-05 | Şirket rehberi + `users.title` | §6.1 | HEMEN |
-| 3 | B-09 | Ana departman | §2.2 | HEMEN (B-08 ile) |
-| 4 | B-08 | Departman yöneticisi rolü | §2.4 | ÖNERİLEN KARAR |
-| 4 | B-10 | Belgenin çok departmanla paylaşımı | §2.5 | ÖNERİLEN KARAR |
-| 4 | B-11 | Evrak talebi (varlık ele vermeden) | §6.4 | ÖNERİLEN KARAR |
-| 4 | B-12 | Etiket önerisi onayı | §4.2 | ÖNERİLEN KARAR |
-| 4 | B-03 | Sohbet geçmişi + çok turlu soru | §3.2 | ÖNERİLEN KARAR |
-| 4 | B-20/7 | Enerji izin adımları veri modeli | §7.6.1 | ÖNERİLEN KARAR |
-| 5 | B-02 | Bildirimler | §5.2 | SIRADA |
-| 5 | B-06a | Departmanlar arası görüş talebi | §6.2 | ÖNERİLEN KARAR |
-| 5 | B-14 | Genel arama | §4.4 | SIRADA |
-| 6 | B-22 | İşlem talepleri + personel izni | §8.1 | ADR ÖNCE |
-| 6 | B-23 | Resmî yazışma ve dilekçe taslağı | §8.2 | ADR ÖNCE |
-| 6 | — | Hukuk dava veri modeli | §7.3 | ADR ÖNCE (B-23 ile) |
-| 7 | B-06b | Ekip sohbeti | §6.3 | ÖNERİLEN KARAR (V1) |
-| — | B-21 | EPİAŞ + mahsuplaşma | §8.3 | BEKLEMEDE |
-| — | B-15, B-16 | Word yükleme, EPİAŞ canlı kaynak alanı | §11, §3.7 | BİLGİ |
+Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ürün 1 (belkemiği)** tamamlanır, sonra Ürün 2, en son Ürün 3. Aynı katmanda küçük işler önce.
+
+| Sıra | Ürün | Kod | Konu | Bölüm | Etiket |
+|---|---|---|---|---|---|
+| 1 | Ortak | B-18 | Demo veri seti | §9 | HEMEN |
+| 1 | Ortak | B-19 | Arayüz incelemesi + tersine liste (ürün etiketli) | §10 | HEMEN |
+| 1 | Ortak | B-25 | Ürün katmanı anahtarı | §1.5.4 | ÖNERİLEN KARAR |
+| 2 | Ürün 1 | B-20 (1–5) | Departman yapısını zihin haritasına uyarla | §2.1 | HEMEN |
+| 2 | Ürün 1 | B-09 | Ana departman | §2.2 | HEMEN (B-08 ile) |
+| 2 | Ürün 1 | B-08 | Departman yöneticisi rolü | §2.4 | ÖNERİLEN KARAR |
+| 2 | Ürün 1 | B-10 | Belgenin çok departmanla paylaşımı | §2.5 | ÖNERİLEN KARAR |
+| 3 | Ürün 1 | B-07 | Kaynak kartında versiyon id'leri | §3.6 | HEMEN |
+| 3 | Ürün 1 | B-04 | Cevap kimliği + geri bildirim | §3.4 | HEMEN |
+| 3 | Ürün 1 | B-13 | Dosya türü alanı | §4.1 | HEMEN |
+| 3 | Ürün 1 | B-17 | İndirme adı + tarayıcıda açma | §4.3 | HEMEN |
+| 3 | Ürün 1 | B-20/6 | Tek sohbette çok proje | §3.3 | HEMEN |
+| 3 | Ürün 1 | B-05 | Şirket rehberi + `users.title` | §6.1 | HEMEN |
+| 4 | Ürün 1 | B-03 | Sohbet geçmişi + çok turlu soru | §3.2 | ÖNERİLEN KARAR |
+| 4 | Ürün 1 | B-12 | Etiket önerisi onayı | §4.2 | ÖNERİLEN KARAR |
+| 4 | Ürün 1 | B-11 | Evrak talebi (varlık ele vermeden) | §6.4 | ÖNERİLEN KARAR |
+| 4 | Ürün 1 | B-14 | Genel arama | §4.4 | SIRADA |
+| 4 | Ürün 1 | B-15 | Word yükleme | §11 | ÖNERİLEN KARAR (sıra) |
+| 4 | Ürün 1 | B-24 | E-posta, sözleşme–e-posta ilişkilendirme | §4.6 | ÖNERİLEN KARAR (sıra) |
+| 5 | Ortak | B-02 | Bildirimler | §5.2 | SIRADA |
+| 5 | Ürün 2 | B-01 | Gündem (ilk kısım: süre dolacak belgeler, bekleyen onaylar) | §5.1 | HEMEN |
+| 5 | Ürün 2 | B-06a | Departmanlar arası görüş talebi | §6.2 | ÖNERİLEN KARAR |
+| 6 | Ürün 2 | B-22 | İşlem talebi iskeleti + izin formu | §8.1 | ADR ÖNCE |
+| 6 | Ürün 2 | B-23 | Yazışma: özet, süre, olgusal taslak | §8.2 | ADR ÖNCE |
+| 6 | Ürün 2 | — | Şablon tabanlı dışa aktarma (Word/Excel) | §11 | ertelendi — Ürün 2'nin çekirdeği |
+| 7 | Ürün 3 | B-20/7 | Enerji izin/ruhsat adımları | §7.6.1 | ÖNERİLEN KARAR |
+| 7 | Ürün 3 | — | Hukuk dava veri modeli, dava/icra süre takibi | §7.3 | ADR ÖNCE (B-23 ile) |
+| 7 | Ürün 3 | B-22 (İK kısmı) | İzin bakiyesi türetme, İK kuralları | §8.1.6 | ADR ÖNCE |
+| 7 | Ürün 3 | B-23 (hukuk kısmı) | Hukuki gerekçe ve savunma önerisi | §8.2.4/7 | ADR ÖNCE |
+| 8 | Ürün 3 | B-21 | EPİAŞ + mahsuplaşma | §8.3 | BEKLEMEDE |
+| 8 | Ürün 3 | B-16 | EPİAŞ canlı kaynak alanı | §3.7 | BİLGİ |
+| — | Haritada yok | B-06b | Ekip sohbeti | §6.3 | Tansu karar verecek |
 
 ---
 
 ## 13. Naci'nin yapay zekasına hazır istem
 
-> `docs/BACKEND_GAPS.md` dosyasını (ftansu/AI-BalBal) baştan sona oku. Önce **§1.2 Değişmez ilkeler**'i oku; bunlar her phase'de geçerli, özellikle **P-1 (personel onayı olmadan hiçbir işlem ilerlemez)** ve **P-2 (yetki tek kapıdan)**. Kendi CLAUDE.md kurallarına göre §12'deki sırayla phase planı çıkar:
+> `docs/BACKEND_GAPS.md` dosyasını (ftansu/AI-BalBal) baştan sona oku. Önce **§1.2 Değişmez ilkeler**'i ve **§1.5 Ürün katmanları**'nı oku. §1.5 projenin belkemiğidir: her özellik Ürün 1 (Tanıma), Ürün 2 (Birleştirme) ya da Ürün 3 (Yorumlama) katmanına aittir; her başlığın altında **"Ürün:"** satırı var. Ürün 1'de yorum, Ürün 2'de tahmin/projeksiyon **yasak**; bir özellikte tahmin varsa o Ürün 3'tür. Kendi CLAUDE.md kurallarına göre §12'deki sırayla phase planı çıkar:
 >
-> 1) **Sıra 1:** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste. B-20 (1–5) departman yapısı.
-> 2) **Sıra 2–3:** küçük şema eklemeleri ve ilk ekran uçları: B-07, B-04, B-13, B-17, B-20/6, B-01 (ilk kısım), B-05, B-09.
-> 3) **ÖNERİLEN KARAR etiketli maddeler** (B-08, B-10, B-11, B-12, B-03, B-06, B-20/7): Tansu önerilen kararı onaylamadıysa yalnızca ADR taslağı + soru listesi; kod yok. Onaylandıysa uygula.
-> 4) **ADR ÖNCE maddeleri** (B-22, B-23, Hukuk dava modeli): Her bölümün "Başlama koşulu"ndaki ön koşullar tamamlanmadıysa yalnızca ADR + migration taslağı + test listesi. Tamamlandıysa ADR'yi Tansu'ya onaya sun, onaydan sonra uygula. Bölümlerdeki varsayılan kararları aynen al; farklı bir önerin varsa ADR'de gerekçesiyle yaz, kendin değiştirme.
-> 5) **B-21:** tam metin bu belgeye eklenene kadar başlama.
-> 6) **Her işlem modülünde** P-1'in dört testini yaz. **Her uç** `allowed_document_ids` kuralına uymalı ve en az bir test içermeli.
-> 7) **B-23'te yasaklar:** kanun/karar uydurmak, kaynaksız olgusal iddia, sistemden herhangi bir gönderim (KEP, UYAP, e-posta).
-> 8) **Frontend'e dokunma.** Sözleşme `frontend/src/api/proposed.ts`; alan adlarını birebir eşleştir. Tip değişikliği gerekiyorsa önerini ayrı liste olarak Tansu'ya ver.
-> 9) Her phase sonunda: ne yapıldı, hangi dosyalar değişti, hangi testler eklendi, hangi sorular açık kaldı — kısa özet.
+> 1) **Sıra 1 — ortak altyapı:** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste — **her yeteneğin ürün katmanını da yaz**. B-25 ürün katmanı anahtarı için ADR taslağı.
+> 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, B-10), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-03, B-12, B-11, B-14. Ürün 1 bitmeden Ürün 2 koduna geçme.
+> 3) **Sıra 5–6 — Ürün 2:** bildirim altyapısı (B-02), gündem (B-01), görüş talebi (B-06a), işlem talebi iskeleti (B-22) ve yazışma taslağı (B-23). Ürün 2'de hesap yalnızca gerçekleşmiş veriyle, taslak yalnızca olgusal.
+> 4) **Sıra 7–8 — Ürün 3:** Enerji izin adımları, Hukuk dava modeli, İK ve hukuk kısımları, B-21. Bunlar için şimdilik yalnızca ADR ve veri modeli taslağı.
+> 5) **ÖNERİLEN KARAR** etiketli maddelerde Tansu onaylamadıysa yalnızca ADR taslağı + soru listesi; kod yok. **ADR ÖNCE** maddelerinde "Başlama koşulu" tamamlanmadıysa yalnızca ADR + migration taslağı + test listesi. Varsayılan kararları aynen al; farklı önerin varsa ADR'de gerekçesiyle yaz, kendin değiştirme.
+> 6) **B-21:** tam metin bu belgeye eklenene kadar başlama.
+> 7) **Her işlem modülünde** P-1'in dört testini, **her uçta** `allowed_document_ids` testini, **her katmanda** §1.5.4'teki katman testlerini yaz.
+> 8) **B-23'te yasaklar:** kanun/karar uydurmak, kaynaksız olgusal iddia, sistemden herhangi bir gönderim (KEP, UYAP, e-posta).
+> 9) **Frontend'e dokunma.** Sözleşme `frontend/src/api/proposed.ts`; alan adlarını birebir eşleştir. Tip değişikliği gerekiyorsa önerini ayrı liste olarak Tansu'ya ver.
+> 10) Her phase sonunda: ne yapıldı, hangi ürün katmanına ait, hangi dosyalar değişti, hangi testler eklendi, hangi sorular açık kaldı ve **"Bu belgeden sapmalar"** (§1.6; yoksa "yok") — kısa özet.
 
 ---
 
@@ -865,34 +1000,37 @@ Sunucudaki örnek belgeler **profesyonel** olmalı ve **arayüzdeki her süreci*
 
 Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 
-| Kod | Konu | Bölüm |
-|---|---|---|
-| B-01 | Gündem | §5.1 |
-| B-02 | Bildirimler | §5.2 |
-| B-03 | Balbal sohbet geçmişi, çok turlu soru | §3.2 |
-| B-04 | Cevap kimliği, geri bildirim | §3.4 |
-| B-05 | Şirket rehberi | §6.1 |
-| B-06 | Görüş talebi (a) ve ekip sohbeti (b) | §6.2, §6.3 |
-| B-07 | Kaynak kartında versiyon id'leri | §3.6 |
-| B-08 | Departman yöneticisi rolü | §2.4 |
-| B-09 | Ana departman | §2.2 |
-| B-10 | Belgenin çok departmanla paylaşımı | §2.5 |
-| B-11 | Evrak talebi | §6.4 |
-| B-12 | Etiket önerisi onayı | §4.2 |
-| B-13 | Dosya türü | §4.1 |
-| B-14 | Genel arama | §4.4 |
-| B-15 | Word yükleme | §11 |
-| B-16 | EPİAŞ canlı veri kaynağı alanı | §3.7 |
-| B-17 | İndirme adı, tarayıcıda açma | §4.3 |
-| B-18 | Demo veri seti | §9 |
-| B-19 | Arayüz incelemesi, tersine liste | §10 |
-| B-20 | Zihin haritası uyumu (1–5 yapı, 6 çok proje, 7 izin adımları) | §2.1, §3.3, §7.6.1 |
-| B-21 | EPİAŞ + mahsuplaşma hesabı | §8.3 |
-| B-22 | İşlem talepleri, personel izni | §8.1 |
-| B-23 | Resmî yazışma, dilekçe taslağı | §8.2 |
+| Kod | Konu | Bölüm | Ürün |
+|---|---|---|---|
+| B-01 | Gündem | §5.1 | Ürün 2 |
+| B-02 | Bildirimler | §5.2 | Ortak |
+| B-03 | Balbal sohbet geçmişi, çok turlu soru | §3.2 | Ürün 1 |
+| B-04 | Cevap kimliği, geri bildirim | §3.4 | Ürün 1 |
+| B-05 | Şirket rehberi | §6.1 | Ürün 1 |
+| B-06 | Görüş talebi (a) ve ekip sohbeti (b) | §6.2, §6.3 | a: Ürün 2 · b: haritada yok |
+| B-07 | Kaynak kartında versiyon id'leri | §3.6 | Ürün 1 |
+| B-08 | Departman yöneticisi rolü | §2.4 | Ürün 1 |
+| B-09 | Ana departman | §2.2 | Ürün 1 |
+| B-10 | Belgenin çok departmanla paylaşımı | §2.5 | Ürün 1 |
+| B-11 | Evrak talebi | §6.4 | Ürün 1 |
+| B-12 | Etiket önerisi onayı | §4.2 | Ürün 1 |
+| B-13 | Dosya türü | §4.1 | Ürün 1 |
+| B-14 | Genel arama | §4.4 | Ürün 1 |
+| B-15 | Word yükleme | §11 | Ürün 1 |
+| B-16 | EPİAŞ canlı veri kaynağı alanı | §3.7 | Ürün 3 |
+| B-17 | İndirme adı, tarayıcıda açma | §4.3 | Ürün 1 |
+| B-18 | Demo veri seti | §9 | Ortak |
+| B-19 | Arayüz incelemesi, tersine liste | §10 | Ortak |
+| B-20 | Zihin haritası uyumu (1–5 yapı, 6 çok proje, 7 izin adımları) | §2.1, §3.3, §7.6.1 | 1–6: Ürün 1 · 7: Ürün 3 |
+| B-21 | EPİAŞ + mahsuplaşma hesabı | §8.3 | Ürün 3 (kesin kısım Ürün 2) |
+| B-22 | İşlem talepleri, personel izni | §8.1 | Ürün 2 (İK kısmı Ürün 3) |
+| B-23 | Resmî yazışma, dilekçe taslağı | §8.2 | Ürün 2 (hukuki gerekçe Ürün 3) |
+| B-24 | E-posta, sözleşme–e-posta ilişkilendirme | §4.6 | Ürün 1 |
+| B-25 | Ürün katmanı anahtarı | §1.5.4 | Ortak |
 
 ### Revizyon geçmişi
 
+- **v7 (28.09.2026 akşam):** "X Platformu — Mimari ve Süreç Haritası"na göre **§1.5 Ürün katmanları** eklendi; her talebin altına **"Ürün:"** satırı kondu. Öncelik sırası katmana göre yeniden kuruldu (önce Ürün 1). Bulunanlar: B-21 tahmin içerdiği için Ürün 3; izin ve yazışma Ürün 2 + Ürün 3 olarak ikiye ayrıldı; Word yükleme Ürün 1 çekirdeği; **B-24** e-posta/sözleşme ilişkilendirme ve **B-25** ürün katmanı anahtarı eklendi; ekip sohbeti haritada yok. **§1.6 Uyum denetimi** eklendi.
 - **v6 (28.09.2026 akşam):** Belge konu başlıklarına göre yeniden düzenlendi (genel prensip, Balbal, kurumsal yapı, belgeler, gündem, departmanlar arası iletişim, departman bazlı talepler, ortak modüller). Değişmez ilkeler P-1…P-10 olarak toplandı. **Hukuk dava veri modeli** eklendi (§7.3). İzin bakiyesi, Tansu'nun kararına göre **belgelerden türetilecek** şekilde düzeltildi (§8.1.6). Her departmana zihin haritasındaki Ürün 3 yol haritası bağlam olarak eklendi. Durum etiketleri (HEMEN, SIRADA, ADR ÖNCE, ÖNERİLEN KARAR, BİLGİ, BEKLEMEDE) getirildi.
 - **v5 (28.09.2026):** P-1, B-21 yer tutucu, B-22, B-23 eklendi.
 - **v1–v4:** B-01…B-20; canvas v160 → v165; proje seçiminin kaldırılması.

@@ -1,7 +1,7 @@
 # X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
 **Kime:** Naci ve Naci'nin yapay zekası
-**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7.3 · 28.09.2026
+**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7.4 · 28.09.2026
 **Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v165). Repo ile canvas farklıysa **canvas esastır**.
 
@@ -10,7 +10,7 @@
 ## İçindekiler
 
 0. [Bu belge nasıl okunur](#0-bu-belge-nasıl-okunur)
-1. [Genel sistemin çalışma prensibi](#1-genel-sistemin-çalışma-prensibi) — **1.5 Ürün katmanları: her özellik hangi üründe?** · **1.6 Uyum denetimi**
+1. [Genel sistemin çalışma prensibi](#1-genel-sistemin-çalışma-prensibi) — **1.5 Ürün katmanları: her özellik hangi üründe?** · **1.6 Uyum denetimi** · **1.7 İki ayrı test ve soru kuralı**
 2. [Kurumsal yapı, kişiler ve yetki](#2-kurumsal-yapı-kişiler-ve-yetki)
 3. [Balbal için notlar](#3-balbal-için-notlar)
 4. [Belgeler ve kurumsal hafıza](#4-belgeler-ve-kurumsal-hafıza)
@@ -215,6 +215,30 @@ Bu belge, backend'in **bağlayıcı çerçevesidir**. Tansu tarafı (Tansu ve Cl
 7. **Eksik test:** P-1'in dört testi, yetki testi veya katman testleri olmadan birleştirilmiş kod.
 
 **Naci'nin yapay zekasından beklenen:** Her phase özetinde **"Bu belgeden sapmalar"** başlığı olsun. Sapma yoksa "yok" yazılsın; varsa madde numarası, gerekçe ve Tansu'nun onayını bekleyip beklemediği yazılsın. Bilerek yapılan ve gerekçeli bir sapma, denetimde bulunan sapmadan her zaman iyidir.
+
+### 1.7 İki ayrı test: kod testi ve ürün testi (Tansu'nun kararı, 28.09.2026)
+
+Bu projede iki farklı test var. Birbirine karıştırılmaz, biri diğerinin yerine geçmez.
+
+| | **Kod testi** | **Ürün testi (satılabilirlik)** |
+|---|---|---|
+| Sorusu | Ürün yazıldı mı, doğru çalışıyor mu? | Gerçek hayatta karşılığı var mı, biri bunu kullanır ve parasını öder mi? |
+| Kim yapar | Backend tarafı | Tansu tarafı |
+| Nasıl | Otomatik testler (P-1 testleri, `allowed_document_ids`, katman testleri) ve belgelerdeki kabul testleri (`BAGLANTI_YOL_HARITASI.md` §9, T-01…T-18) | Önce arayüz testleri (T-19…T-25), sonra gerçek kullanıcı ve gerçek işle satılabilirlik testi |
+| Geçerse | Ürün **çalışıyor** demektir, **satılabilir** demek değildir | Bir sonraki ürüne geçilir |
+
+**Sonuç:**
+1. Kod testini geçmek bir ürünün bittiği anlamına gelmez. **Ürün 2'ye geçiş, Ürün 1'in ürün testini (satılabilirlik) geçmesine bağlıdır.** Bu karar Tansu'dan gelir.
+2. Ürün testinde çıkan sorun (eksik özellik, yanlış cevap, kullanılmayan ekran) backend için **öncelikli iştir**; o anki phase planının önüne alınır.
+3. Ürün testini yavaşlatan en büyük risk, backend tarafının belirsiz bir noktada tahminle ilerlemesi ya da cevap bekleyerek durmasıdır. Bu yüzden aşağıdaki soru kuralı geçerlidir.
+
+#### 1.7.1 Soru kuralı: sor, tahmin etme, durma
+
+- **Belirsizlik varsa sor.** Belgede açık olmayan, iki türlü okunabilen ya da ürün kararı gerektiren her noktada Tansu'ya sor (P-10). Tahminle kod yazma.
+- **Soruyu bekletme.** Soru ne zaman çıktıysa o an ilet; phase sonundaki özeti bekleme.
+- **Soruyu cevaplanması kolay yaz:** tek cümlelik soru, 2–3 seçenek, önerdiğin seçenek ve gerekçesi, cevap gelmezse neyin bekleyeceği.
+- **Cevap beklerken durma.** O maddeyi beklet, sıradaki bağımsız maddeyle devam et. Bekleyen soruları her özette "Açık sorular" başlığında tekrar listele.
+- **Ürün testi için gereken bilgiyi erken sor.** Örneğin demo kullanıcı adları, backend adresi, test ortamının ne zaman hazır olacağı, bir belgenin hangi departmana ait olacağı. Bunlar son güne kalırsa ürün testi bekler.
 
 ---
 
@@ -1001,7 +1025,7 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 >
 > 0) **Önce `docs/BAGLANTI_YOL_HARITASI.md`'yi oku.** B-25 → B-20 (1–5) + B-09 → B-18 sırası ve her birinin adım adım planı, kabul testleri orada. Bu üçü frontend'i backend'e bağlamanın ön koşulu; §6'daki noktalardan karar verilmemiş olanlarda onay gelmeden o kısmı kodlama (proje sayısı kararı verildi: şimdilik 2 proje).
 > 1) **Sıra 1 — ortak altyapı:** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste — **her yeteneğin ürün katmanını da yaz**. B-25 ürün katmanı anahtarı **karar verildi (§1.5.4), ADR gerekmez** — doğrudan uygula: `company_settings.enabled_products`, uç bazlı `requires_product`, `GET /api/auth/me` cevabına `enabled_products` alanı (frontend zaten bunu bekliyor, alan adını ve değerleri birebir eşleştir).
-> 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, B-10), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-03, B-12, B-11, B-14. Ürün 1 bitmeden Ürün 2 koduna geçme.
+> 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, B-10), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-03, B-12, B-11, B-14. **Ürün 2 koduna, Ürün 1 ürün testini (satılabilirlik) geçtiğini Tansu bildirmeden geçme** (§1.7); kod testlerinin geçmesi tek başına yeterli değil.
 > 3) **Sıra 5–6 — Ürün 2:** bildirim altyapısı (B-02), gündem (B-01), görüş talebi (B-06a), işlem talebi iskeleti (B-22) ve yazışma taslağı (B-23). Ürün 2'de hesap yalnızca gerçekleşmiş veriyle, taslak yalnızca olgusal.
 > 4) **Sıra 7–8 — Ürün 3:** Enerji izin adımları, Hukuk dava modeli, İK ve hukuk kısımları, B-21. Bunlar için şimdilik yalnızca ADR ve veri modeli taslağı.
 > 5) **ÖNERİLEN KARAR** etiketli maddelerde Tansu onaylamadıysa yalnızca ADR taslağı + soru listesi; kod yok. **ADR ÖNCE** maddelerinde "Başlama koşulu" tamamlanmadıysa yalnızca ADR + migration taslağı + test listesi. Varsayılan kararları aynen al; farklı önerin varsa ADR'de gerekçesiyle yaz, kendin değiştirme.
@@ -1009,7 +1033,8 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 > 7) **Her işlem modülünde** P-1'in dört testini, **her uçta** `allowed_document_ids` testini, **her katmanda** §1.5.4'teki katman testlerini yaz.
 > 8) **B-23'te yasaklar:** kanun/karar uydurmak, kaynaksız olgusal iddia, sistemden herhangi bir gönderim (KEP, UYAP, e-posta).
 > 9) **Frontend'e dokunma.** Sözleşme `frontend/src/api/proposed.ts`; alan adlarını birebir eşleştir. Tip değişikliği gerekiyorsa önerini ayrı liste olarak Tansu'ya ver.
-> 10) Her phase sonunda: ne yapıldı, hangi ürün katmanına ait, hangi dosyalar değişti, hangi testler eklendi, hangi sorular açık kaldı ve **"Bu belgeden sapmalar"** (§1.6; yoksa "yok") — kısa özet.
+> 10) **Soru kuralı (§1.7.1):** belirsizlikte tahminle ilerleme; soruyu o an, seçenekli ve önerili sor; cevap beklerken bağımsız maddeyle devam et. Ürün testinden gelen sorunlar phase planının önüne geçer.
+> 11) Her phase sonunda: ne yapıldı, hangi ürün katmanına ait, hangi dosyalar değişti, hangi testler eklendi, hangi sorular açık kaldı ve **"Bu belgeden sapmalar"** (§1.6; yoksa "yok") — kısa özet.
 
 ---
 
@@ -1047,6 +1072,7 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 
 ### Revizyon geçmişi
 
+- **v7.4 (28.09.2026 gece):** **§1.7 İki ayrı test** eklendi: kod testi (backend) ile ürün testi (satılabilirlik, Tansu) ayrıldı; Ürün 2'ye geçiş ürün testine bağlandı; soru kuralı (sor, tahmin etme, durma) getirildi. §13 buna göre güncellendi.
 - **v7.3 (28.09.2026 gece):** Demo veri projeleri: şimdilik 2 proje, mevcut adlarıyla (§9.2, yol haritası §6/1).
 - **v7.2 (28.09.2026 gece):** B-25 karar verildi (tek uygulama, `enabled_products` anahtarı; frontend tarafı uygulandı). Frontend–backend bağlantısı için **`BAGLANTI_YOL_HARITASI.md`** eklendi: B-25, B-20 (1–5) + B-09, B-18 adım adım plan, backend @ `4301968` durum tespiti, kabul testleri, bağlantı günü kontrol listesi.
 

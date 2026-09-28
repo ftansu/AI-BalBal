@@ -227,7 +227,9 @@ Backend adımları ilerledikçe, frontend reposunda (önce canvas'ta görünür 
 
 ## 8. Her adım sonunda beklenen özet
 
-`BACKEND_GAPS.md` §1.6 ve §13/10 geçerli. Her adım (B-25, B-20+B-09, B-18) sonunda kısa özet:
+`BACKEND_GAPS.md` §1.6, §1.7 ve §13 geçerli. Kod testi (bu belgedeki T-01…T-18) backend tarafının, ürün testi (T-19…T-25 ve sonrasında satılabilirlik testi) ürün sahibinin işidir. **Belirsiz bir nokta olursa beklemeden sor** (`BACKEND_GAPS.md` §1.7.1); özellikle bağlantı günü için gereken bilgileri (backend adresi, demo kullanıcılar, ortamın hazır olacağı tarih) erken ilet ki ürün testi beklemesin.
+
+Her adım (B-25, B-20+B-09, B-18) sonunda kısa özet:
 
 - Ne yapıldı, hangi ürün katmanına ait
 - Değişen dosyalar ve migration'lar

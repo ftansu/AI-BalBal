@@ -1,7 +1,7 @@
 # X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
 **Kime:** Naci ve Naci'nin yapay zekası
-**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7 · 28.09.2026
+**Hazırlayan:** Tansu (Claude ile) · **Revizyon:** v7.1 · 28.09.2026
 **Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v165). Repo ile canvas farklıysa **canvas esastır**.
 
@@ -176,7 +176,7 @@ Bunlar için backend'de değişiklik gerekmiyor.
 | **Ürün 1 — Tanıma** | B-20 (1–5) departman yapısı · B-08 departman yöneticisi rolü · B-09 ana departman · B-10 belge paylaşımı · B-05 rehber · B-13 dosya türü · B-17 indirme · B-07 versiyon bağlantısı · B-14 genel arama · B-12 etiket önerisi onayı · B-03 sohbet geçmişi · B-04 geri bildirim · B-20/6 çok proje · B-11 evrak talebi (bulur ve yönlendirir) · B-15 Word yükleme · **B-24 e-posta ve sözleşme ilişkilendirme** · §1.4'teki mevcut özellikler (ask, Excel inspect, versiyon zinciri) |
 | **Ürün 2 — Birleştirme** | B-01 gündem (deadline hatırlatma, bekleyen onaylar) · B-06a departmanlar arası görüş talebi · B-22 işlem talebi iskeleti ve izin formu taslağı · B-23 yazışma: özet, süre, **olgusal** cevap taslağı · şablon tabanlı dışa aktarma (§11) · §3.5 niyet ayrımı |
 | **Ürün 3 — Yorumlama** | B-21 EPİAŞ + mahsuplaşma (tahmini değerler içerdiği için; bkz. §8.3) · B-16 EPİAŞ canlı veri · B-20/7 Enerji izin/ruhsat takibi · §7.3 Hukuk dava ve icra süresi takibi · B-23'ün hukuki gerekçe ve savunma kısmı · §7'deki bütün departman yol haritaları |
-| **Haritada yok — karar gerekli** | B-06b kişiler arası ekip sohbeti (bkz. §6.3) |
+| **Ürün 2 sonrası (Tansu'nun kararı)** | B-06b kişiler arası ve grup sohbeti, Balbal dahil edilebilir (bkz. §6.3) |
 
 #### 1.5.4 Ürün katmanı anahtarı — **B-25** · ÖNERİLEN KARAR · Ürün: ortak altyapı
 
@@ -193,7 +193,7 @@ Bunlar için backend'de değişiklik gerekmiyor.
 3. **Yazışma/dilekçe de iki katmanlı.** Ürün 2 "yazı taslağı" hazırlar ama yorum katmaz: özet, süre, olgusal anlatım, istenen belgelerin listesi. Dilekçedeki **hukuki gerekçe, savunma argümanı, risk değerlendirmesi** yorumdur → **Ürün 3 Hukuk**. Yalnızca P2 açıkken taslakta "Hukuki sebepler" bölümü boş bırakılır ve `[AVUKAT DOLDURACAK]` yazılır.
 4. **Word, Ürün 1'in çekirdek veri türü.** Haritada Ürün 1 dokümanları "PDF, Word, Excel". V0'da `.docx` yükleme ertelenmişti (B-15); bu **Ürün 1'in eksiği** olarak kayıtlıdır, sıradaki Ürün 1 genişletmesinin ilk işidir.
 5. **E-posta ve sözleşme ilişkilendirme bu belgede hiç yoktu.** Ürün 1'in 2. veri grubu. **B-24** olarak eklendi (§4.6).
-6. **Kişiler arası ekip sohbeti haritada yok.** Haritada yalnızca "departmanlar arası görüş talebi" var (Ürün 2). B-06b'nin ürüne dahil edilip edilmeyeceği Tansu'nun kararı.
+6. **Kişiler arası ekip sohbeti haritada yok → karar verildi (Tansu, 28.09.2026):** Ürün 2 tamamlandıktan sonra eklenecek; sohbete Balbal da dahil edilebilecek. Haritaya da bu şekilde işlenecek.
 7. **Şablon tabanlı raporlama Ürün 2'nin çekirdeği** ama "dışa aktarma" olarak ertelenmiş durumda (§11). Ürün 2 tamamlanmış sayılmaz.
 
 ### 1.6 Uyum denetimi: backend bu belgeye göre kontrol edilir
@@ -432,7 +432,7 @@ Platformda kişiler ve departmanlar arasında **dört iletişim yolu** var. Her 
 |---|---|---|---|
 | **1. Şirket rehberi** | Kişiyi bulmak | — | HEMEN |
 | **2. Departmanlar arası görüş talebi** | Bir departmanın başka bir departmandan resmî görüş istemesi | **Evet** (talep + cevap) | ÖNERİLEN KARAR — önce bu |
-| **3. Ekip sohbeti** (kişiler arası, grup) | Günlük yazışma | Hayır | ÖNERİLEN KARAR — sonra |
+| **3. Ekip sohbeti** (kişiler arası, grup; Balbal eklenebilir) | Günlük yazışma | Hayır | KARAR VERİLDİ — Ürün 2 tamamlandıktan sonra |
 | **4. Evrak talebi** | Yetkisi olmayan bir belgeye ihtiyaç duyulduğunda | Hayır | ÖNERİLEN KARAR |
 
 ### 6.1 Şirket rehberi — **B-05** · HEMEN
@@ -458,8 +458,17 @@ POST /api/opinion-requests  { to_department, subject, body, due_date }
 - Talebe eklenen belgeler alıcı için indirme anında **yeniden** yetki kontrolünden geçer. Paylaşmak yetki vermez.
 - **Önerilen karar:** Önce yalnızca görüş talebi yapılsın; serbest sohbet sonra.
 
-### 6.3 Ekip sohbeti (kişiler arası ve grup) — **B-06 (b)** · ÖNERİLEN KARAR (V1, görüş talebinden sonra)
-**Ürün:** **Süreç haritasında yok** — ürüne dahil edilip edilmeyeceği ve hangi katmana gireceği Tansu'nun kararı
+### 6.3 Ekip sohbeti (kişiler arası ve grup) — **B-06 (b)** · SIRADA (Ürün 2 tamamlandıktan sonra)
+**Ürün:** Ürün 2 sonrası — **Tansu'nun kararı (28.09.2026):** kişiler arası ve grup sohbeti Ürün 2 tamamlandıktan sonra eklenecek; **Balbal sohbete dahil edilebilecek.**
+
+**Başlama koşulu:** Ürün 2 kalemleri (gündem, bildirim, görüş talebi, işlem talebi iskeleti, yazışma taslağı) tamamlanmış olmalı. O zamana kadar yalnızca ADR ve veri modeli taslağı.
+
+**Balbal sohbette nasıl davranır:**
+- Balbal yalnızca kullanıcı onu sohbete **eklediğinde** vardır; kendiliğinden katılmaz, mesajları okumaz.
+- Balbal'a sohbette açıkça seslenildiğinde (`@Balbal` veya "Balbal'a sor") cevap verir; diğer mesajlara karışmaz.
+- Cevap, **sohbetteki tüm üyelerin ortak görebildiği belgelerle** sınırlıdır (aşağıdaki güvenlik kuralı). Kimin yetkisi daha genişse ona göre genişlemez.
+- Balbal sohbette **işlem başlatmaz** (P-1): izin, yazışma vb. taslak yalnızca kişinin kendi Balbal penceresinde, kendisi için hazırlanır.
+- Sohbet içeriği, Balbal eklenmiş olsa bile kurumsal hafızaya girmez (§4.5).
 
 ```
 GET  /api/chats                   → [{ id, kind: direct|group|opinion_request, title, member_ids, includes_balbal,
@@ -975,7 +984,7 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 | 7 | Ürün 3 | B-23 (hukuk kısmı) | Hukuki gerekçe ve savunma önerisi | §8.2.4/7 | ADR ÖNCE |
 | 8 | Ürün 3 | B-21 | EPİAŞ + mahsuplaşma | §8.3 | BEKLEMEDE |
 | 8 | Ürün 3 | B-16 | EPİAŞ canlı kaynak alanı | §3.7 | BİLGİ |
-| — | Haritada yok | B-06b | Ekip sohbeti | §6.3 | Tansu karar verecek |
+| 9 | Ürün 2 sonrası | B-06b | Ekip sohbeti (Balbal dahil edilebilir) | §6.3 | SIRADA (Ürün 2 bitince) |
 
 ---
 
@@ -1007,7 +1016,7 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 | B-03 | Balbal sohbet geçmişi, çok turlu soru | §3.2 | Ürün 1 |
 | B-04 | Cevap kimliği, geri bildirim | §3.4 | Ürün 1 |
 | B-05 | Şirket rehberi | §6.1 | Ürün 1 |
-| B-06 | Görüş talebi (a) ve ekip sohbeti (b) | §6.2, §6.3 | a: Ürün 2 · b: haritada yok |
+| B-06 | Görüş talebi (a) ve ekip sohbeti (b) | §6.2, §6.3 | a: Ürün 2 · b: Ürün 2 sonrası |
 | B-07 | Kaynak kartında versiyon id'leri | §3.6 | Ürün 1 |
 | B-08 | Departman yöneticisi rolü | §2.4 | Ürün 1 |
 | B-09 | Ana departman | §2.2 | Ürün 1 |
@@ -1030,6 +1039,7 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 
 ### Revizyon geçmişi
 
+- **v7.1 (28.09.2026 akşam):** Tansu'nun kararı işlendi: kişiler arası ve grup sohbeti (B-06b) Ürün 2 tamamlandıktan sonra eklenecek, Balbal sohbete dahil edilebilecek. Sohbette Balbal davranış kuralları eklendi (§6.3).
 - **v7 (28.09.2026 akşam):** "X Platformu — Mimari ve Süreç Haritası"na göre **§1.5 Ürün katmanları** eklendi; her talebin altına **"Ürün:"** satırı kondu. Öncelik sırası katmana göre yeniden kuruldu (önce Ürün 1). Bulunanlar: B-21 tahmin içerdiği için Ürün 3; izin ve yazışma Ürün 2 + Ürün 3 olarak ikiye ayrıldı; Word yükleme Ürün 1 çekirdeği; **B-24** e-posta/sözleşme ilişkilendirme ve **B-25** ürün katmanı anahtarı eklendi; ekip sohbeti haritada yok. **§1.6 Uyum denetimi** eklendi.
 - **v6 (28.09.2026 akşam):** Belge konu başlıklarına göre yeniden düzenlendi (genel prensip, Balbal, kurumsal yapı, belgeler, gündem, departmanlar arası iletişim, departman bazlı talepler, ortak modüller). Değişmez ilkeler P-1…P-10 olarak toplandı. **Hukuk dava veri modeli** eklendi (§7.3). İzin bakiyesi, Tansu'nun kararına göre **belgelerden türetilecek** şekilde düzeltildi (§8.1.6). Her departmana zihin haritasındaki Ürün 3 yol haritası bağlam olarak eklendi. Durum etiketleri (HEMEN, SIRADA, ADR ÖNCE, ÖNERİLEN KARAR, BİLGİ, BEKLEMEDE) getirildi.
 - **v5 (28.09.2026):** P-1, B-21 yer tutucu, B-22, B-23 eklendi.

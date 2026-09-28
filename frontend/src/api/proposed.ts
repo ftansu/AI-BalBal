@@ -153,6 +153,10 @@ export function useDirectory(q: string, department: string | null) {
 
 // ---------------------------------------------------------------------------
 // 5. Ekip sohbeti + departmanlar arası görüş talebi
+//    Görüş talebi (opinion_request) = Ürün 2. Kişiler arası/grup sohbet (direct, group) = Ürün 2
+//    tamamlandıktan sonra (Tansu'nun kararı). Balbal sohbete eklenebilir (include_balbal); yalnızca
+//    ona seslenildiğinde, üyelerin ortak yetkili belgeleriyle cevap verir, işlem başlatmaz (P-1).
+//    Ayrıntı: docs/BACKEND_GAPS.md §6.3 (B-06b).
 // ---------------------------------------------------------------------------
 export type ChatKind = "direct" | "group" | "opinion_request";
 

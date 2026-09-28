@@ -12,7 +12,7 @@
 |---|---|
 | Üst bar: arama, belge yükle, bildirimler, kullanıcı menüsü | Arama çalışıyor (belge ve proje). Kişi araması ve bildirimler backend bekliyor (B-05, B-02) |
 | Balbal penceresi: geçmiş sorular, proje kapsamı, cevap türü rozeti, numaralı kaynaklar, versiyon uyarısı, geri bildirim | `/api/ask` ile çalışıyor. Geçmiş şimdilik oturumda tutuluyor (B-03), geri bildirim backend bekliyor (B-04) |
-| Ekip sohbeti: sohbet listesi, şirket rehberi, grup, görüş talebi, belge paylaşımı | Arayüz hazır, backend bekliyor (B-05, B-06) |
+| Ekip sohbeti: sohbet listesi, şirket rehberi, grup, görüş talebi, belge paylaşımı | Arayüz hazır, backend bekliyor. Rehber (B-05) Ürün 1, görüş talebi (B-06a) Ürün 2; kişiler arası/grup sohbet (B-06b) **Ürün 2 tamamlandıktan sonra**, Balbal sohbete eklenebilir |
 | Ana sayfa "Gündeminiz" | Arayüz hazır, backend bekliyor (B-01) |
 | Departman: Balbal'a Sor, Belgeler, Belge Yükle (+ AI etiket önerisi), Projeler | Çalışıyor |
 | Belge detayı: versiyon zinciri linkleri, Excel dosya yapısı | Çalışıyor (`/api/excel/{id}/inspect`) |

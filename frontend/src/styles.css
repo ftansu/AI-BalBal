@@ -83,11 +83,12 @@ h2 {
   gap: 10px;
 }
 
+/* Balbal logosu (taş balbal, "Ideas in Depth") — canvas'taki gibi beyaz daire içinde, yeşil halkalı. */
 .brand-mark {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #2fa968 0 30%, #ffffff 31%);
+  background: #ffffff url("./assets/balbal-logo.webp") center / 82% no-repeat;
   box-shadow: 0 0 0 2px #2fa968;
   display: inline-block;
   flex-shrink: 0;

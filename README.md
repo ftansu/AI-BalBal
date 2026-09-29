@@ -11,6 +11,7 @@
 
 | Ekran | Durum |
 |---|---|
+| **Ürün 1 ana sayfası** (canvas: "X Platformu — Ürün 1") — **yalnızca Ürün 1 içindir** | Çalışıyor: ortada büyük Balbal çubuğu, departmana özel örnek sorular, kaynaklı cevaplar; tablo/gösterge yok. Yalnızca Ürün 1 açıkken görünür. Ayrıntı: [`docs/URUN1_ARAYUZ.md`](docs/URUN1_ARAYUZ.md) |
 | Giriş (canvas: Giris.dc.html) | Çalışıyor: marka alanı + giriş kartı, şifre göster/gizle, backend'in hata mesajları |
 | Üst bar: arama, belge yükle, bildirimler, kullanıcı menüsü | Arama çalışıyor (belge ve proje). Kişi araması ve bildirimler backend bekliyor (B-05, B-02) |
 | Balbal penceresi: geçmiş sorular, cevap türü rozeti (proje seçimi yok, canvas v165), numaralı kaynaklar, versiyon uyarısı, geri bildirim | `/api/ask` ile çalışıyor. Geçmiş şimdilik oturumda tutuluyor (B-03), geri bildirim backend bekliyor (B-04) |

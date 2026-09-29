@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 
 import { useDepartments } from "../api/departments";
 import { useNotifications } from "../api/proposed";
 import { useAuth } from "../auth/useAuth";
+import { useHasProduct } from "../auth/useProduct";
 import { initials } from "../lib/format";
 import { S } from "../lib/strings";
 import { BalbalChat } from "./balbal/BalbalChat";
@@ -28,6 +29,10 @@ export function Layout() {
   const [query, setQuery] = useState("");
   const [balbal, setBalbal] = useState<{ open: boolean; question: string | null }>({ open: false, question: null });
   const [teamOpen, setTeamOpen] = useState(false);
+  const location = useLocation();
+  /** ÜRÜN 1 ARAYÜZÜ: yalnızca Ürün 1 açıkken departman giriş sayfasında Balbal ortadaki çubuktur;
+   * üst bardaki arama ve sağ alttaki Balbal butonu bu sayfada gösterilmez. */
+  const urun1Home = !useHasProduct("P2") && /^\/departman\/[^/]+\/?$/.test(location.pathname);
 
   const shell = useMemo<ShellValue>(
     () => ({
@@ -65,21 +70,23 @@ export function Layout() {
             </span>
           )}
           <div className="topbar-tools">
-            <div className="topbar-search">
-              <label htmlFor="top-search" className="sr-only">
-                {S.shell.search}
-              </label>
-              <input
-                id="top-search"
-                value={query}
-                placeholder={S.shell.search}
-                onFocus={() => setPanel("search")}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                  setPanel("search");
-                }}
-              />
-            </div>
+            {!urun1Home && (
+              <div className="topbar-search">
+                <label htmlFor="top-search" className="sr-only">
+                  {S.shell.search}
+                </label>
+                <input
+                  id="top-search"
+                  value={query}
+                  placeholder={S.shell.search}
+                  onFocus={() => setPanel("search")}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setPanel("search");
+                  }}
+                />
+              </div>
+            )}
             {upload && (
               <Link to={upload} className="topbar-button">
                 {S.shell.upload}
@@ -117,9 +124,11 @@ export function Layout() {
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
               </svg>
             </button>
-            <button type="button" className="launcher launcher-balbal" aria-label={S.balbal.open} onClick={() => shell.openBalbal()}>
-              <span className="agent-mark large" aria-hidden="true" />
-            </button>
+            {!urun1Home && (
+              <button type="button" className="launcher launcher-balbal" aria-label={S.balbal.open} onClick={() => shell.openBalbal()}>
+                <span className="agent-mark large" aria-hidden="true" />
+              </button>
+            )}
           </div>
         )}
         {balbal.open && (

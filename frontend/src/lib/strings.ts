@@ -418,4 +418,50 @@ export const S = {
       hint: "Yalnızca değiştirmek istediğiniz alanları doldurun; boş bırakılanlar dokunulmadan kalır.",
     },
   },
+  /** ÜRÜN 1 ARAYÜZÜ — yalnızca Ürün 1 paketinde görünen sade ana sayfa (pages/urun1/Urun1Home.tsx). */
+  urun1: {
+    greeting: (name: string) => (name ? `İyi günler, ${name}` : "İyi günler"),
+    barLabel: "Balbal'a sorun",
+    placeholder: "Balbal'a sorun: belge, sözleşme, madde, tarih…",
+    placeholderFollow: "Devam edin veya yeni bir soru sorun…",
+    send: "Sor",
+    newQuestion: "Yeni soru",
+    examples: {
+      finans: [
+        "Ankara RES kredi sözleşmesinin vadesi ne zaman doluyor?",
+        "Kredi sözleşmesinin son tadili hangi maddeleri değiştirdi?",
+        "Ankara RES sigorta poliçesi ne zaman bitiyor?",
+      ],
+      mali_isler: [
+        "Son yüklenen fatura hangi iş için kesildi?",
+        "2025 bağımsız denetim raporunu hangi firma hazırladı?",
+        "Vergi levhasının güncel hali hangisi?",
+      ],
+      hukuk: [
+        "Ankara RES EPC sözleşmesinde gecikme cezası maddesi nedir?",
+        "İzmir RES davasında son duruşma ne zaman yapıldı?",
+        "Hisse rehni sözleşmesi hangi bankayla imzalandı?",
+      ],
+      idari_isler: [
+        "Ofis kira sözleşmesi ne zaman sona eriyor?",
+        "Şirket araçlarının kasko poliçeleri hangi sigortada?",
+        "Jeneratör bakım sözleşmesi kiminle yapıldı?",
+      ],
+      ik: [
+        "Personel yönetmeliğine göre fazla mesai nasıl onaylanır?",
+        "Yıllık izin süreleri yönetmelikte nasıl tanımlı?",
+        "Organizasyon şemasının güncel hali hangisi?",
+      ],
+      enerji_grubu: [
+        "İzmir RES ÇED başvurusu hangi tarihte yapıldı?",
+        "Ankara RES son arıza raporu neyi anlatıyor?",
+        "İzmir RES bağlantı görüşü hangi trafo merkezini gösteriyor?",
+      ],
+      default: [
+        "Bu departmanın en son yüklenen belgesi hangisi?",
+        "Güncel sözleşmelerimiz hangileri?",
+        "Bu konuyla ilgili belge var mı?",
+      ],
+    },
+  },
 } as const;

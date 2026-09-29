@@ -1,5 +1,5 @@
 // Ürün katmanı anahtarı — B-25 (docs/BACKEND_GAPS.md §1.5.4).
-// Karar verildi (Tansu, 28.09.2026): ayrı uygulama/repo YOK. Tek frontend, tek backend;
+// Karar verildi (ürün sahibi, 28.09.2026): ayrı uygulama/repo YOK. Tek frontend, tek backend;
 // müşteride hangi ürünlerin açık olduğu `company_settings.enabled_products` ile tutulur ve
 // giriş yapan kullanıcıya `CurrentUser.enabled_products` alanıyla bildirilir (bkz. api/types.ts).
 //

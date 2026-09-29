@@ -85,7 +85,7 @@ export const CONFIDENTIALITY_VALUES: Confidentiality[] = ["normal", "restricted"
 export const STAGE_VALUES: ProjectStage[] = ["development", "construction", "operation"];
 export const ROLE_VALUES: UserRole[] = ["admin", "management", "employee"];
 
-/** "Tansu Demirci" → "TD" (avatar). */
+/** "Ayşe Yılmaz" → "AY" (avatar). */
 export function initials(name: string): string {
   return name
     .split(/\s+/)

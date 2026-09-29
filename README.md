@@ -3,7 +3,7 @@
 `ntoydem/company-ai` backend'i ile çalışan, **Balbal** yapay zekâ asistanı etrafında kurulmuş kurumsal belge ve bilgi platformu arayüzü.
 
 - **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (Balbal kimliği, Space Grotesk / IBM Plex Sans, koyu yeşil palet)
-- **Backend:** `ntoydem/company-ai` (Naci). Bu repo backend koduna dokunmaz, aynı API sözleşmesini kullanır.
+- **Backend:** `ntoydem/company-ai` (backend tarafı). Bu repo backend koduna dokunmaz, aynı API sözleşmesini kullanır.
 - **Backend'e eklenmesi gerekenler:** [`docs/BACKEND_GAPS.md`](docs/BACKEND_GAPS.md)
 
 ## Ekranlar

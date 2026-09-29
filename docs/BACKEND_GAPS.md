@@ -702,7 +702,7 @@ POST /api/chats/{id}/members      { member_ids }
 5. Sohbette paylaşılan belgeyi, o belgeye yetkisi olmayan üye açamaz ve indiremez.
 6. P2 kapalıyken görüş talebi sohbetleri listede yoktur; `POST /api/opinion-requests` 403 döner.
 
-**Ürün sahibine sorulacak açık nokta:** Yönetim (`management`) veya sistem yöneticisi (`admin`), üyesi olmadıkları sohbetlerin içeriğini görebilecek mi? Önerilen varsayım: **hayır**; denetim kaydında yalnızca "sohbet oluşturuldu / üye eklendi" gibi olaylar tutulur, mesaj içeriği tutulmaz. Onay gelene kadar bu varsayımla ilerle.
+**Yönetim ve sistem yöneticisi sohbet içeriğini göremez (ürün sahibinin kararı, 29.09.2026):** `management` ve `admin` rolleri, üyesi olmadıkları sohbetlerin mesajlarını hiçbir uçtan okuyamaz. Denetim kaydında yalnızca "sohbet oluşturuldu / üye eklendi / çıkarıldı" gibi olaylar tutulur; mesaj içeriği denetim kaydına yazılmaz. Kabul testi: `management` ve `admin` kullanıcısı, üyesi olmadığı bir sohbetin mesajlarını istediğinde 403 alır.
 
 **Frontend tarafında yapıldı (29.09.2026):** Ekip sohbeti butonu her pakette görünür. "Balbal'ı da sohbete ekle" seçeneği kaldırıldı. "Departmandan görüş talebi" sekmesi yalnızca P2 açıkken görünür. `proposed.ts`'ten `include_balbal` / `includes_balbal` alanları çıkarıldı.
 
@@ -1236,7 +1236,7 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 | 3 | Ürün 1 | B-17 | İndirme adı + tarayıcıda açma | §4.3 | HEMEN |
 | 3 | Ürün 1 | B-20/6 | Tek sohbette çok proje | §3.3 | HEMEN |
 | 3 | Ürün 1 | B-05 | Şirket rehberi + `users.title` | §6.1 | HEMEN |
-| 4 | Ürün 1 | B-06b | Ekip sohbeti (kişiler arası ve grup; Balbal dahil edilemez) | §6.3 | KARAR VERİLDİ (1 açık nokta) |
+| 4 | Ürün 1 | B-06b | Ekip sohbeti (kişiler arası ve grup; Balbal dahil edilemez; yönetim/admin içeriği göremez) | §6.3 | KARAR VERİLDİ |
 | 4 | Ürün 1 | B-03 | Sohbet geçmişi + çok turlu soru | §3.2 | ÖNERİLEN KARAR |
 | 4 | Ürün 1 | B-12 | Etiket önerisi onayı | §4.2 | B-28 ile karşılandı |
 | 4 | Ürün 1 | B-11 | Evrak talebi (varlık ele vermeden) | §6.4 | ÖNERİLEN KARAR |
@@ -1316,7 +1316,7 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 
 ### Revizyon geçmişi
 
-- **v8.0 (29.09.2026):** **Ekip sohbeti kararı değişti (§6.3):** kişiler arası ve grup sohbeti artık **Ürün 1**; **Balbal bu sohbetlere dahil edilemez**, Balbal penceresi ile ekip sohbeti ayrı pencereler; sohbet içeriği retrieval'a ve kurumsal hafızaya girmez. Frontend buna göre güncellendi (Balbal seçeneği kaldırıldı, görüş talebi sekmesi P2'ye bağlandı, `include_balbal` sözleşmeden çıktı). **Ürünün arayüzü `ftansu/AI-BalBal`, backend reposundaki `frontend/` test arayüzü** (§1.3). Netlik düzeltmeleri: gündem (B-01) Ürün 2 olduğu için "HEMEN" yerine "SIRADA"; §12 tablosu sıraya göre düzenlendi ve Ürün 2–3'e geçiş kuralı tabloya yazıldı; §13 istemi 1–13 olarak yeniden numaralandı; `project_id`'nin isteğe bağlı kalacağı netleşti (§1.4); canvas şirket adı "XYZ Enerji A.Ş." olarak düzeltildi (§9.3.2); B-08'deki eski etiket onayı atfı B-28'e göre düzeltildi.
+- **v8.0 (29.09.2026):** **Ekip sohbeti kararı değişti (§6.3):** kişiler arası ve grup sohbeti artık **Ürün 1**; **Balbal bu sohbetlere dahil edilemez**, Balbal penceresi ile ekip sohbeti ayrı pencereler; sohbet içeriği retrieval'a ve kurumsal hafızaya girmez. Yönetim ve sistem yöneticisi, üyesi olmadıkları sohbetlerin içeriğini göremez. Frontend buna göre güncellendi (Balbal seçeneği kaldırıldı, görüş talebi sekmesi P2'ye bağlandı, `include_balbal` sözleşmeden çıktı). **Ürünün arayüzü `ftansu/AI-BalBal`, backend reposundaki `frontend/` test arayüzü** (§1.3). Netlik düzeltmeleri: gündem (B-01) Ürün 2 olduğu için "HEMEN" yerine "SIRADA"; §12 tablosu sıraya göre düzenlendi ve Ürün 2–3'e geçiş kuralı tabloya yazıldı; §13 istemi 1–13 olarak yeniden numaralandı; `project_id`'nin isteğe bağlı kalacağı netleşti (§1.4); canvas şirket adı "XYZ Enerji A.Ş." olarak düzeltildi (§9.3.2); B-08'deki eski etiket onayı atfı B-28'e göre düzeltildi.
 - **v7.9 (29.09.2026):** Ürün sahibinin netleştirmesi: **Ürün 2'de yorum yoktur.** Ürün 2 anlar, karşılaştırır, birleştirir ve yalnızca veriye dayalı cevap verir; yorum, görüş ve değerlendirme Ürün 3'e aittir. §1.1 tablosu, pratik sonuç ve §1.5.2 kural 1 buna göre açıkça yazıldı (önceki metinde yasak yalnızca tahmin/projeksiyon üzerinden tarif ediliyordu).
 - **v7.8 (29.09.2026):** **§4.7 B-28** eklendi ve aynı gün mantık anlatımı olarak yeniden yazıldı: Balbal her belgede o belge için can alıcı olanı ister (faturada az, sözleşme ve tadilde gereken), belgede olmayanı uydurmaz; tadilde ana sözleşme bağlantısı ve değişiklik etiketi; etiketler az ve sabit listeden; personel Balbal'ın açmadığı alanı kendisi ekleyebilir (arayüz + backend); %80 altı güvende personelin açık onayı; değiştirilemez kayıt defteri; ekrana iç not konmaz. B-12 bununla karşılandı.
 - **v7.7 (28.09.2026 gece):** **§1.8 B-27** eklendi: Ürün sahibi tarafı Ürün 1'in gerçek testlerine web üzerinden başlamak istiyor; HTTPS test ortamı, arayüz olarak `ftansu/AI-BalBal`, tek komutla güncelleme, yalnızca kurgusal veri. Ortam bugünkü özelliklerle hemen açılır.

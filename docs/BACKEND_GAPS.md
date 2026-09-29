@@ -1,9 +1,9 @@
 # X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
 **Kime:** Backend tarafı ve backend tarafının yapay zekası
-**Hazırlayan:** Ürün sahibi (Claude ile) · **Revizyon:** v7.7 · 28.09.2026
+**Hazırlayan:** Ürün sahibi (Claude ile) · **Revizyon:** v7.8 · 29.09.2026
 **Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
-**Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v165). Repo ile canvas farklıysa **canvas esastır**.
+**Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v177). Repo ile canvas farklıysa **canvas esastır**.
 
 ---
 
@@ -13,7 +13,7 @@
 1. [Genel sistemin çalışma prensibi](#1-genel-sistemin-çalışma-prensibi) — **1.5 Ürün katmanları: her özellik hangi üründe?** · **1.6 Uyum denetimi** · **1.7 İki ayrı test ve soru kuralı** · **1.8 Web üzerinden Ürün 1 testi (B-27)**
 2. [Kurumsal yapı, kişiler ve yetki](#2-kurumsal-yapı-kişiler-ve-yetki)
 3. [Balbal için notlar](#3-balbal-için-notlar)
-4. [Belgeler ve kurumsal hafıza](#4-belgeler-ve-kurumsal-hafıza)
+4. [Belgeler ve kurumsal hafıza](#4-belgeler-ve-kurumsal-hafıza) — **4.7 Belge yükleme: Balbal okur, personel onaylar (B-28)**
 5. [Ana ekran: gündem ve bildirimler](#5-ana-ekran-gündem-ve-bildirimler)
 6. [Departmanlar arası iletişim yöntemleri](#6-departmanlar-arası-iletişim-yöntemleri)
 7. [Departman bazlı talepler](#7-departman-bazlı-talepler)
@@ -31,7 +31,7 @@
 
 ## 0. Bu belge nasıl okunur
 
-- Belge **konu başlıklarına** göre düzenlendi. Her talebin yanında bir **B kodu** var (B-01 … B-27). Frontend kodundaki yorumlar (`// BACKEND_GAPS B-07` gibi) bu kodlara atıf yapar; kodlar değişmedi. Hangi kodun hangi bölümde olduğu **Ek A**'da.
+- Belge **konu başlıklarına** göre düzenlendi. Her talebin yanında bir **B kodu** var (B-01 … B-28). Frontend kodundaki yorumlar (`// BACKEND_GAPS B-07` gibi) bu kodlara atıf yapar; kodlar değişmedi. Hangi kodun hangi bölümde olduğu **Ek A**'da.
 - Her talebin başlığının altında **"Ürün:"** satırı var: o özelliğin hangi ürün katmanına (Ürün 1 Tanıma / Ürün 2 Birleştirme / Ürün 3 Yorumlama / ortak altyapı) ait olduğu. Ayrıntı ve kurallar **§1.5**'te.
 - Her talebin başında bir **durum etiketi** var:
 
@@ -173,7 +173,7 @@ Bunlar için backend'de değişiklik gerekmiyor.
 | Katman | Talepler |
 |---|---|
 | **Ortak altyapı** (her ürünün ön koşulu, ürünlere göre açılıp kapanmaz) | B-18 demo veri · B-19 analiz · B-02 bildirim altyapısı · B-25 ürün katmanı anahtarı · P-1…P-10 ilkeleri |
-| **Ürün 1 — Tanıma** | B-20 (1–5) departman yapısı · B-08 departman yöneticisi rolü · B-09 ana departman · B-10 belge paylaşımı (→ B-26) · **B-26 klasör ve departman erişim yetkileri** · B-05 rehber · B-13 dosya türü · B-17 indirme · B-07 versiyon bağlantısı · B-14 genel arama · B-12 etiket önerisi onayı · B-03 sohbet geçmişi · B-04 geri bildirim · B-20/6 çok proje · B-11 evrak talebi (bulur ve yönlendirir) · B-15 Word yükleme · **B-24 e-posta ve sözleşme ilişkilendirme** · §1.4'teki mevcut özellikler (ask, Excel inspect, versiyon zinciri) |
+| **Ürün 1 — Tanıma** | B-20 (1–5) departman yapısı · B-08 departman yöneticisi rolü · B-09 ana departman · B-10 belge paylaşımı (→ B-26) · **B-26 klasör ve departman erişim yetkileri** · B-05 rehber · B-13 dosya türü · B-17 indirme · B-07 versiyon bağlantısı · B-14 genel arama · **B-28 belge yükleme (okuma, sınıflandırma, onay, log)** · B-12 etiket önerisi onayı (→ B-28) · B-03 sohbet geçmişi · B-04 geri bildirim · B-20/6 çok proje · B-11 evrak talebi (bulur ve yönlendirir) · B-15 Word yükleme · **B-24 e-posta ve sözleşme ilişkilendirme** · §1.4'teki mevcut özellikler (ask, Excel inspect, versiyon zinciri) |
 | **Ürün 2 — Birleştirme** | B-01 gündem (deadline hatırlatma, bekleyen onaylar) · B-06a departmanlar arası görüş talebi · B-22 işlem talebi iskeleti ve izin formu taslağı · B-23 yazışma: özet, süre, **olgusal** cevap taslağı · şablon tabanlı dışa aktarma (§11) · §3.5 niyet ayrımı |
 | **Ürün 3 — Yorumlama** | B-21 EPİAŞ + mahsuplaşma (tahmini değerler içerdiği için; bkz. §8.3) · B-16 EPİAŞ canlı veri · B-20/7 Enerji izin/ruhsat takibi · §7.3 Hukuk dava ve icra süresi takibi · B-23'ün hukuki gerekçe ve savunma kısmı · §7'deki bütün departman yol haritaları |
 | **Ürün 2 sonrası (ürün sahibinin kararı)** | B-06b kişiler arası ve grup sohbeti, Balbal dahil edilebilir (bkz. §6.3) |
@@ -472,12 +472,13 @@ Güncel versiyonun id'si dönmeden önce kullanıcının o belgeyi görme yetkis
 `DocumentListItem` ve `DocumentDetail` dosya türünü içermiyor; frontend bir belgenin Excel olup olmadığını anlamak için `inspect` çağırıp 422 alıyor.
 - `file_kind: "pdf" | "image" | "xlsx" | "xlsm" | "csv"` alanı eklensin.
 
-### 4.2 Etiket önerisini kim onaylar — **B-12** · ÖNERİLEN KARAR
+### 4.2 Etiket önerisini kim onaylar — **B-12** · → B-28 ile karşılandı
 **Ürün:** Ürün 1 — Tanıma (sınıflandırma; öneriyi AI yapar, insan onaylar)
 
 `metadata-suggestion/apply` ve `reject` yalnızca admin'e açık. Tasarımda belgeyi yükleyen kişi Balbal'ın etiket önerisini kendisi onaylıyor; aksi halde her yükleme admin'i bekler.
 - **Önerilen karar:** Yükleyen kişi **veya** belgenin departmanındaki `department_manager` (B-08) onaylayabilir. Bu da P-1'le uyumludur: öneriyi AI yapar, insan onaylar.
 - Onay bekleyen öneriler gündeme `kind: "approval"` olarak düşer (§5.1).
+- **Güncelleme (29.09.2026):** Bu madde **§4.7 B-28** ile karşılandı: öneriyi yükleyen personel onaylar; %80 altı alanlar için açık onay kutusu ve kayıt defteri zorunlu.
 
 ### 4.3 İndirme: dosya adı ve tarayıcıda açma — **B-17** · HEMEN
 **Ürün:** Ürün 1 — Tanıma
@@ -509,6 +510,132 @@ Süreç haritasına göre Ürün 1, e-posta içeriklerini de ortak veri alanına
 - İlişkilendirme: `document_links(from_document_id, to_document_id, link_type: "email_about"|"attachment_of"|"amends"|…, created_by: "ai"|user_id, confirmed)` — Balbal bağlantıyı **önerir**, belgenin sahibi onaylar (P-1, B-12 ile aynı mantık).
 - Yetki: e-posta da bir belgedir, `allowed_document_ids` kuralına girer (P-2). Kişisel e-posta içeriği için KVKK değerlendirmesi ADR'de yapılır.
 - **Sıra sorusu (ürün sahibi):** B-15 Word yüklemeden önce mi, sonra mı?
+
+### 4.7 Belge yükleme: Balbal okur, yerini ve kimliğini bulur, personel onaylar — **B-28** · KARAR VERİLDİ (ürün sahibi, 29.09.2026)
+**Ürün:** Ürün 1 — Tanıma (sınıflandırma ve bulunabilirlik; öneriyi AI yapar, insan onaylar)
+**Tasarım kaynağı:** canvas `Belge-Yukle.dc.html` (v177). İki örnek akış var: *sözleşme tadili* ve *fatura*.
+**İlişkili:** B-12'nin yerine geçer (onaylayan = yükleyen personel) · B-24'teki `document_links` tablosunu kullanır · B-26 klasör yetkileri · B-18 demo verisi.
+
+#### 4.7.1 Amaç: bugünden, yıllar sonra sorulacak soruya hazır veri üretmek
+
+Bu bölümün tek hedefi şu: **5 yıl sonra biri "Karatepe RES'te faiz hangi tadille değişti?" diye sorduğunda Balbal cevabı hemen verebilsin.** Bunun için belge yüklendiği gün doğru ve **az** veri yazılır.
+
+- Balbal için önemli olan: **hangi şirketle ilgili, hangi konuda, ne belgesi** — ve belge bir başka belgeyi değiştiriyorsa **hangi belgeyi, hangi can alıcı konuda** değiştirdiği.
+- Balbal **her detayı yazmaz, her detayı etiketlemez.** Belge sayısı arttığında fazla alan ve fazla etiket aramayı bozar. Detay gerektiğinde Balbal onu **belgenin kendisinden** okur; ayrı alana kopyalamaz.
+
+#### 4.7.2 Akış
+
+1. **Personel dosyayı bırakır.** Hiçbir alan zorunlu değildir; form boştur.
+2. **Balbal belgeyi okur** (gerekirse OCR).
+3. **Yerini sırayla bulur:** önce **departman**, sonra **klasör**, sonra **alt klasör** (B-26 klasör ağacından). Her adım için güven yüzdesi ve tek cümlelik gerekçe ("Neden") üretir.
+4. **Kimliğini yazar:** şirket/proje · konu · belge türü (§4.7.3).
+5. **Belge türüne özel alanları** doldurur — yalnızca o türün şablonundaki alanlar, yalnızca belgede **açıkça yazıyorsa** (§4.7.4).
+6. **Ana belgeyi bulur** (tadil, ek, protokol, zeyilname gibi bir başka belgeyi değiştiren/tamamlayan türlerde).
+7. **Belge adını ve etiketleri önerir** (§4.7.5, §4.7.6).
+8. **Emin olmadığı noktaları sorar** (§4.7.7).
+9. **Personel kontrol eder,** isterse her alanı değiştirir, soruları cevaplar, gerekli onayları verir ve **"Onayla ve kaydet"** der. **Personel onaylamadan hiçbir şey kaydedilmez** (P-1). Onaydan önce belge taslaktır: aranmaz, Balbal cevaplarında kullanılmaz.
+
+#### 4.7.3 Kimlik: her belgede aynı üç alan
+
+| Alan | Örnek (tadil) | Örnek (fatura) |
+|---|---|---|
+| Şirket / proje | Karatepe RES (Karatepe Enerji A.Ş.) | Karatepe RES (Karatepe Enerji A.Ş.) |
+| Konu | Proje finansmanı kredisi | Türbin periyodik bakımı |
+| Belge türü | Sözleşme tadili — 2. tadil | Fatura |
+
+Şirket/proje ve konu, şirketin kendi listelerinden seçilir (proje/SPV listesi, konu listesi); Balbal serbest metin uydurmaz. Listede yoksa personele sorar.
+
+#### 4.7.4 Belge türü şablonları: türe göre en az alan
+
+Her belge türünün **hangi alanları taşıdığı bir şablon tablosunda** tutulur (P-8; koda gömülmez, şirket bazında düzenlenebilir). Balbal yalnızca şablondaki alanları doldurur; belgede yazmayan alanı **boş bırakmaz, hiç göstermez** — uydurmaz.
+
+Başlangıç şablonları (liste ürün sahibi tarafından tamamlanacak — açık nokta §4.7.10/2):
+
+| Belge türü | Alanlar | Yazılmayanlar (örnek) |
+|---|---|---|
+| Sözleşme | karşı taraf, imza tarihi, yürürlük tarihi*, bitiş/vade tarihi* | madde madde içerik |
+| Sözleşme tadili / ek / protokol | **ana belge (zorunlu bağlantı)**, karşı taraf, imza tarihi, yürürlük tarihi* | değişikliğin içeriği (etiket + belgenin kendisi yeterli) |
+| Fatura | faturayı kesen firma, hangi iş için, fatura tarihi | yürürlük tarihi (faturada olmaz), kalem kalem tutar, vergi no |
+| Banka yazısı | gönderen banka, tarih, ilgili sözleşme* | — |
+| Sigorta poliçesi / zeyilname | sigortacı, poliçe dönemi; zeyilnamede ana poliçe bağlantısı | teminat kalemleri |
+
+\* yalnızca belgede açıkça yazıyorsa.
+
+#### 4.7.5 Belge adı
+
+Kalıp: **Şirket · Konu · Belge · Dönem** — örn. `Karatepe RES · PF Kredi Sözleşmesi · 2. Tadil · 2026-09`, `Karatepe RES · Türbin Bakımı · Fatura · Örnek Rüzgar Bakım · 2026-09`. Amaç: aynı şirketin aynı konudaki belgeleri listede yan yana sıralansın ve Balbal adıyla da bulabilsin. Yüklenen dosyanın orijinal adı ayrıca saklanır ama kayıt adı bu kalıptır.
+
+#### 4.7.6 Etiketler: az, sabit listeden, can alıcı
+
+İki grup etiket vardır; ikisi de **şirketin sabit etiket listesinden** seçilir. Balbal yeni etiket uyduramaz (aynı olay bir gün `faiz-değişikliği`, başka gün `marj-güncelleme` diye kaydedilirse arama kaçırır). Personel listede olmayan bir etiket eklerse bu, yönetici onayına düşen bir "yeni etiket" önerisidir.
+
+1. **Kimlik etiketleri (en fazla 3):** şirket, konu, tür. Örn. `#karatepe-res #pf-kredi #tadil`.
+2. **Değişiklik etiketleri (en fazla 3):** yalnızca tadil/ek/protokol/zeyilname gibi bir belgeyi değiştiren türlerde, **yalnızca belge o konuyu gerçekten değiştiriyorsa**. Örn. faiz marjını indiren tadil → `#faiz-değişikliği`; teminat yapısını da değiştiriyorsa → `#teminat-yapısı-değişikliği`.
+
+Başlangıç değişiklik listesi (ürün sahibi onaylayacak — §4.7.10/2):
+`faiz-değişikliği` · `teminat-yapısı-değişikliği` · `vade-değişikliği` · `kredi-tutarı-değişikliği` · `ödeme-planı-değişikliği` · `finansal-taahhüt-değişikliği` (kovenant) · `taraf-değişikliği` · `temettü-dağıtım-koşulu-değişikliği` · `sigorta-şartı-değişikliği`
+
+**Değişikliğin içeriği (ör. "marj %3,25 → %2,90") ayrı bir alana özetlenmez.** Dört sayfalık bir değişiklik tek satıra sığmaz; kısaltmak yanıltır. Etiket belgeyi **bulur**, ayrıntıyı Balbal belgenin kendisinden **okur**.
+
+**Bu yapıyla 5 yıl sonraki soru nasıl cevaplanır:** "Karatepe RES'te faiz hangi tadille değişti?" → filtre: şirket = Karatepe RES, etiket = `faiz-değişikliği`, tür = tadil → ana belge bağlantısıyla hangi sözleşmenin kaçıncı tadili olduğu → ilgili sayfadan değişiklik okunur ve kaynak kartıyla cevaplanır (P-4). Tam metin aramaya (B-14) gerek kalmadan doğru belgeye gidilir.
+
+#### 4.7.7 Güven, onay ve soru kuralları (Balbal minimum risk alır)
+
+- Her önerilen alan (konum, kimlik, ana belge, türe özel alanlar, ad) bir **güven yüzdesi** taşır.
+- **Güven %80'in altındaysa** o alanın altında **"Onaylıyorum"** kutusu çıkar; personel bu kutuyu **kendisi işaretlemeden kayıt yapılamaz.** (Eşik P-8 gereği parametre; başlangıç değeri 80.)
+- Balbal **birden çok aday arasında kararsızsa** (ör. klasörde iki kredi sözleşmesi var, tadil hangisini değiştiriyor) serbest tahmin yapmaz, **seçenekli soru** sorar. Personelin seçimi o alanın açık onayı sayılır.
+- Personel değiştirdiği alan "personel değiştirdi" olarak işaretlenir.
+- Açık soru veya onaylanmamış %80-altı alan varsa **kaydet düğmesi kapalıdır** (sunucu tarafında da reddedilir; arayüze güvenilmez).
+
+#### 4.7.8 Kayıt defteri (log) — sorun çıkarsa çözmek için
+
+Her yüklemede sistem değiştirilemez bir kayıt tutar (`document_intake_log`, yalnızca ekleme):
+- Balbal'ın **ilk önerisi** (tüm alanlar, güven yüzdeleri, gerekçeler, sorulan sorular, aday listeleri) ve kullanılan model/sürüm,
+- personelin **değiştirdiği her alan** (eski değer → yeni değer),
+- işaretlenen **onay kutuları** ve **soru cevapları**,
+- **onaylayan kişi**, zaman damgası, belge ve taslak kimliği.
+
+Log **kullanıcı ekranında görünmez**; sistem yöneticisi (B-26 sayfası) ve destek incelemesi içindir. Bu kayıt aynı zamanda Balbal'ın hangi türde ne sıklıkla yanıldığını ölçmeye yarar (ürün testi, §1.7).
+
+#### 4.7.9 Önerilen uçlar ve veri modeli (alan adları frontend ile birlikte kesinleşir)
+
+- `POST /api/documents/intake` — dosyayı alır, **taslak** oluşturur, analizi başlatır → `{ intake_id, status }`.
+- `GET /api/documents/intake/{id}` — durum (`reading → department → folder → subfolder → identity → questions → ready`) ve hazırsa öneri:
+  ```json
+  {
+    "location": { "department": {"value":"...","confidence":97}, "folder": {...}, "subfolder": {...}, "reason": "..." },
+    "identity": { "company": {...}, "topic": {...}, "doc_type": {...} },
+    "parent_document": { "document_id": "...", "confidence": 68, "candidates": ["...","..."] } ,
+    "title": { "value": "...", "confidence": 92 },
+    "tags": { "identity": ["..."], "change": ["..."] },
+    "fields": [ { "key": "invoice_date", "label": "Fatura tarihi", "value": "...", "confidence": 99 } ],
+    "questions": [ { "key": "parent_document", "text": "...", "options": [ {"value":"...","label":"..."} ] } ]
+  }
+  ```
+- `POST /api/documents/intake/{id}/confirm` — son değerler + `confirmed_fields` + `answers`. Sunucu §4.7.7'yi yeniden doğrular; geçerse belge kaydedilir, `document_links(link_type:"amends"|"supplement_of")` yazılır, log kapanır.
+- `DELETE /api/documents/intake/{id}` — vazgeç; taslak ve dosya silinir, log "iptal" olarak kalır.
+- Tablolar: `doc_type_templates(doc_type, fields[], parent_required)`, `tag_catalog(tag, group: identity|change, active)`, `document_tags(document_id, tag)`, `document_intake_log(...)`. Mevcut `metadata-suggestion/apply|reject` uçları bu akışa taşınır.
+- Yetki: klasör önerisi ve onayı B-26 yetkileriyle yapılır; öneri listesinde yalnızca personelin **görebildiği** klasörler/aday belgeler yer alır (P-2, varlık ele verilmez).
+
+#### 4.7.10 Açık noktalar (ürün sahibine sorulacak; cevap gelene kadar o kısmı kodlama)
+
+1. **Yazma yetkisi olmayan klasör:** Balbal belgeyi, yükleyenin yazma yetkisi olmayan bir klasöre uygun bulursa ne olur? Tasarımdaki öneri: belge o klasörün sahibi departmana **"yerleştirme onayı"** olarak gider; o departmanda yazma yetkisi olan biri onaylayınca kaydedilir.
+2. **Belge türü şablonları ve değişiklik etiketi listesi:** §4.7.4 ve §4.7.6'daki başlangıç listelerini ürün sahibi tamamlayacak/onaylayacak. O zamana kadar başlangıç listeleriyle çalış.
+
+#### 4.7.11 Arayüz kuralı
+
+Kullanıcı ekranına **iç açıklama/tasarım notu konmaz** ("belgede yazmıyorsa gösterilmez", "şu alanlar gösterilmedi" gibi). Bu kurallar yalnızca bu belgede yaşar; ekranda sadece personelin iş için gördüğü alanlar, Balbal'ın kısa "Neden" gerekçesi, onay kutuları ve sorular vardır.
+
+#### 4.7.12 Kabul testleri
+
+1. Boş formla yükleme yapılabilir; Balbal konum → kimlik → alanlar → ad → etiket önerisini döner.
+2. Fatura için yürürlük tarihi alanı **dönmez**; tadil için ana belge alanı **her zaman döner**.
+3. Belgede yazmayan bir alan (ör. yürürlük tarihi yok) önerilmez.
+4. Etiketler yalnızca `tag_catalog`'dan; kimlik ≤ 3, değişiklik ≤ 3; değişiklik etiketi yalnızca değiştiren türlerde.
+5. %80-altı bir alan onaylanmadan `confirm` çağrılırsa **422**; açık soru varken **422**.
+6. Personelin değiştirdiği her alan logda eski→yeni değerle görünür; log güncellenemez/silinemez.
+7. Onaydan önce taslak belge ne aramada ne Balbal cevabında görünür.
+8. Demo (B-18): Karatepe RES PF kredi sözleşmesinin iki tadili (biri `faiz-değişikliği`, biri `teminat-yapısı-değişikliği`) ve bir bakım faturası; "Karatepe RES'te faiz hangi tadille değişti?" sorusu doğru tadili kaynak kartıyla bulur.
 
 ---
 
@@ -1130,7 +1257,8 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 | 3 | Ürün 1 | B-20/6 | Tek sohbette çok proje | §3.3 | HEMEN |
 | 3 | Ürün 1 | B-05 | Şirket rehberi + `users.title` | §6.1 | HEMEN |
 | 4 | Ürün 1 | B-03 | Sohbet geçmişi + çok turlu soru | §3.2 | ÖNERİLEN KARAR |
-| 4 | Ürün 1 | B-12 | Etiket önerisi onayı | §4.2 | ÖNERİLEN KARAR |
+| 3 | Ürün 1 | B-28 | Belge yükleme: Balbal okur, yer/kimlik/etiket önerir, personel onaylar, log | §4.7 | KARAR VERİLDİ (2 açık nokta) |
+| 4 | Ürün 1 | B-12 | Etiket önerisi onayı | §4.2 | B-28 ile karşılandı |
 | 4 | Ürün 1 | B-11 | Evrak talebi (varlık ele vermeden) | §6.4 | ÖNERİLEN KARAR |
 | 4 | Ürün 1 | B-14 | Genel arama | §4.4 | SIRADA |
 | 4 | Ürün 1 | B-15 | Word yükleme | §11 | ÖNERİLEN KARAR (sıra) |
@@ -1157,8 +1285,9 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 >
 > 00) **Web test ortamı (B-27, §1.8):** Ürün sahibi tarafı Ürün 1'in gerçek testlerine web üzerinden başlamak istiyor. `ftansu/AI-BalBal` arayüzünü backend'e bağlı sunan HTTPS test ortamını bugünkü özelliklerle hemen aç; diğer maddeler geldikçe aynı ortamı güncelle. Maliyet gerektiren seçimleri önce sor.
 > 0) **Önce `docs/BAGLANTI_YOL_HARITASI.md`'yi oku.** B-25 → B-20 (1–5) + B-09 → B-18 sırası ve her birinin adım adım planı, kabul testleri orada. Bu üçü frontend'i backend'e bağlamanın ön koşulu; §6'daki noktalardan karar verilmemiş olanlarda onay gelmeden o kısmı kodlama (proje sayısı kararı verildi: şimdilik 2 proje).
+> 01) **Belge yükleme (B-28, §4.7):** Ürün 1'in çekirdeği. Balbal belgeyi okur; departman → klasör → alt klasör, kimlik (şirket · konu · tür), türe özel **en az** alan, ana belge bağlantısı, sabit listeden az etiket önerir; %80 altı alanda personelin açık onayı, her adımda değiştirilemez log. Amaç: yıllar sonra "X RES'te faiz hangi tadille değişti?" sorusunun bugünden cevaplanabilir olması. §4.7.10'daki iki açık noktayı sor, cevap beklerken diğer kısmı kodla.
 > 1) **Sıra 1 — ortak altyapı:** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste — **her yeteneğin ürün katmanını da yaz**. B-25 ürün katmanı anahtarı **karar verildi (§1.5.4), ADR gerekmez** — doğrudan uygula: `company_settings.enabled_products`, uç bazlı `requires_product`, `GET /api/auth/me` cevabına `enabled_products` alanı (frontend zaten bunu bekliyor, alan adını ve değerleri birebir eşleştir).
-> 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, **B-26 klasör yetkileri** — B-10'un yerine), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-03, B-12, B-11, B-14. **Ürün 2 koduna, Ürün 1'in finalize olduğunu (ürün testinden geçtiğini) ürün sahibi bildirmeden geçme** (§1.7); kod testlerinin geçmesi finalize demek değildir.
+> 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, **B-26 klasör yetkileri** — B-10'un yerine), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-28, B-03, B-11, B-14. **Ürün 2 koduna, Ürün 1'in finalize olduğunu (ürün testinden geçtiğini) ürün sahibi bildirmeden geçme** (§1.7); kod testlerinin geçmesi finalize demek değildir.
 > 3) **Sıra 5–6 — Ürün 2:** bildirim altyapısı (B-02), gündem (B-01), görüş talebi (B-06a), işlem talebi iskeleti (B-22) ve yazışma taslağı (B-23). Ürün 2'de hesap yalnızca gerçekleşmiş veriyle, taslak yalnızca olgusal.
 > 4) **Sıra 7–8 — Ürün 3:** Enerji izin adımları, Hukuk dava modeli, İK ve hukuk kısımları, B-21. Bunlar için şimdilik yalnızca ADR ve veri modeli taslağı.
 > 5) **ÖNERİLEN KARAR** etiketli maddelerde ürün sahibi onaylamadıysa yalnızca ADR taslağı + soru listesi; kod yok. **ADR ÖNCE** maddelerinde "Başlama koşulu" tamamlanmadıysa yalnızca ADR + migration taslağı + test listesi. Varsayılan kararları aynen al; farklı önerin varsa ADR'de gerekçesiyle yaz, kendin değiştirme.
@@ -1188,7 +1317,7 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 | B-09 | Ana departman | §2.2 | Ürün 1 |
 | B-10 | Belgenin çok departmanla paylaşımı (→ B-26) | §2.5 | Ürün 1 |
 | B-11 | Evrak talebi | §6.4 | Ürün 1 |
-| B-12 | Etiket önerisi onayı | §4.2 | Ürün 1 |
+| B-12 | Etiket önerisi onayı (→ B-28) | §4.2 | Ürün 1 |
 | B-13 | Dosya türü | §4.1 | Ürün 1 |
 | B-14 | Genel arama | §4.4 | Ürün 1 |
 | B-15 | Word yükleme | §11 | Ürün 1 |
@@ -1204,9 +1333,11 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 | B-25 | Ürün katmanı anahtarı | §1.5.4 | Ortak |
 | B-26 | Klasör yapısı ve departman erişim yetkileri | §2.6 | Ürün 1 |
 | B-27 | Web üzerinden Ürün 1 test ortamı | §1.8 | Ortak |
+| B-28 | Belge yükleme: okuma, sınıflandırma, onay, log | §4.7 | Ürün 1 |
 
 ### Revizyon geçmişi
 
+- **v7.8 (29.09.2026):** **§4.7 B-28** eklendi: belge yükleme mantığı — Balbal okur, departman → klasör → alt klasör bulur; kimlik (şirket · konu · tür) + türe özel en az alan; tadil/ekte ana belge bağlantısı; kimlik ve değişiklik etiketleri sabit listeden ve az; değişiklik içeriği özetlenmez; %80 altı alanda zorunlu personel onayı; değiştirilemez yükleme logu; ekrana iç not konmaz. B-12 bununla karşılandı.
 - **v7.7 (28.09.2026 gece):** **§1.8 B-27** eklendi: Ürün sahibi tarafı Ürün 1'in gerçek testlerine web üzerinden başlamak istiyor; HTTPS test ortamı, arayüz olarak `ftansu/AI-BalBal`, tek komutla güncelleme, yalnızca kurgusal veri. Ortam bugünkü özelliklerle hemen açılır.
 - **v7.6 (28.09.2026 gece):** **§2.6 B-26** eklendi: sistem yöneticisi sayfası — şirketin klasör ağacı ve her klasör için departman bazında görme/değiştirme yetkisi; SPV'lere aynı yetki uygulanır; B-10 bununla karşılanır. Arayüzü ürün sahibi tarafı tasarlar.
 - **v7.5 (28.09.2026 gece):** **§9.3 Kurgu şirket** eklendi: 15 kişilik kurgusal personel listesi (ad, unvan, departman, yönetici, rol), bütün sözleşme ve belgelerin kurguya geçmesi, tek şirket adı; backend kurguyu çıkarır, arayüz ona göre tasarlanır. Ürün 1 = departman sayfasının kısıtlı hali (ayrı ana sayfa yok).

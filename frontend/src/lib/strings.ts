@@ -122,7 +122,6 @@ export const S = {
     directorySearch: "İsim, unvan veya departman ara",
     allDepartments: "Tümü",
     selected: "Seçilenler",
-    addBalbal: "Balbal'ı da sohbete ekle",
     start: "Sohbeti başlat",
     startGroup: (n: number) => `Grup sohbeti başlat (${n} kişi)`,
     requestHint:

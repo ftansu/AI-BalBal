@@ -1,7 +1,7 @@
 # X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
 **Kime:** Backend tarafı ve backend tarafının yapay zekası
-**Hazırlayan:** Ürün sahibi (Claude ile) · **Revizyon:** v7.8 · 29.09.2026
+**Hazırlayan:** Ürün sahibi (Claude ile) · **Revizyon:** v7.9 · 29.09.2026
 **Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v177). Repo ile canvas farklıysa **canvas esastır**.
 
@@ -58,10 +58,10 @@ Platform, şirketin kendi verisini yapay zekaya üç kademede kullandırır. Her
 | Ürün | Ne yapar | Ne yapmaz |
 |---|---|---|
 | **Ürün 1 — Kurumsal Bilgi ve Doküman Sistemi** (Tanıma) | Departman yapısını kurar. Belgeleri toplar, sınıflandırır, indeksler, bağlar. Yetkiye göre bulur, okur, **kaynak göstererek, yorum katmadan** cevap verir. | Yorum, görüş, projeksiyon üretmez. |
-| **Ürün 2 — AI Destek Beyni** (Birleştirme) | Farklı kaynaklardaki kesin bilgiyi birleştirir, yan yana gösterir; **yalnızca gerçekleşen veriyle** aritmetik yapar; şirket şablonlarını doldurur; **yazı ve form taslağı** hazırlar; eksik bilgi/belgeyi gösterir; deadline hatırlatır; departmanlar arası **görüş talebini** yönetir. | Karar vermez, kritik işlem yapmaz. **İnsan onaylar.** |
+| **Ürün 2 — AI Destek Beyni** (Birleştirme) | Farklı kaynaklardaki kesin bilgiyi birleştirir, yan yana gösterir; **yalnızca gerçekleşen veriyle** aritmetik yapar; şirket şablonlarını doldurur; **yazı ve form taslağı** hazırlar; eksik bilgi/belgeyi gösterir; deadline hatırlatır; departmanlar arası **görüş talebini** yönetir. Anlar, karşılaştırır, birleştirir; **yalnızca veriye dayalı** cevap verir. | **Yorum, görüş, değerlendirme üretmez.** Tahmin/projeksiyon yapmaz. Karar vermez, kritik işlem yapmaz. **İnsan onaylar.** |
 | **Ürün 3 — Departman Bazlı AI Araçları** (Yorumlama) | Departman bazında detaylı görüş, projeksiyon, sapma analizi. | Son onay yine insanda. |
 
-**Pratik sonuç:** Bir özelliği tasarlarken önce "bu Ürün 1 mi, 2 mi, 3 mü?" diye bak. Ürün 1 seviyesindeki bir cevapta yorum görürsen hatadır. Ürün 2 seviyesinde tahmin/projeksiyon görürsen hatadır.
+**Pratik sonuç:** Bir özelliği tasarlarken önce "bu Ürün 1 mi, 2 mi, 3 mü?" diye bak. Ürün 1 seviyesindeki bir cevapta yorum görürsen hatadır. Ürün 2 seviyesinde yorum, değerlendirme veya tahmin/projeksiyon görürsen hatadır.
 
 ### 1.2 Değişmez ilkeler
 
@@ -163,7 +163,7 @@ Bunlar için backend'de değişiklik gerekmiyor.
 
 #### 1.5.2 Backend için kurallar
 
-1. **Katmanı karıştırma.** Ürün 1 cevabında yorum, Ürün 2 hesabında tahmin çıkarsa bu **hatadır**. Ürün 2'de "yıl sonunda ne olur?" gibi bir soruya cevap *"Bu bir projeksiyondur; Ürün 3 yeteneğidir"* olmalı.
+1. **Katmanı karıştırma.** Ürün 1 cevabında yorum, Ürün 2 hesabında tahmin çıkarsa bu **hatadır**. Ürün 2'de "yıl sonunda ne olur?" gibi bir soruya cevap *"Bu bir projeksiyondur; Ürün 3 yeteneğidir"* olmalı. Ürün 2 cevabında "bu iyi/kötü", "riskli", "nedeni muhtemelen şu" gibi bir yargı veya değerlendirme görürsen o da **hatadır**: Ürün 2 anlar, karşılaştırır ve yalnızca veriye dayalı cevap verir; yorum Ürün 3'e aittir.
 2. **Her ürün ayrı satılabilir.** Bir müşteri yalnızca Ürün 1 alabilir. Bu yüzden her yetenek hangi ürüne ait olduğunu bilmeli ve o ürün lisanslı değilse **kapalı** olmalı (bkz. §1.5.4, B-25).
 3. **Tahmin etiketi Ürün 3'e aittir.** Bir değer tahminle üretiliyorsa (eksik veriyi oranla tamamlama, gelecek ayı öngörme) o özellik **Ürün 3**'tür. Ürün 2'de yalnızca "kesin" ve "veri yok" durumları olabilir.
 4. **Alt katman üst katmanın ön koşuludur.** Ürün 2 özelliği yazılmadan önce ilgili Ürün 1 altyapısı (yetki, belge, bağlantı) çalışıyor olmalı; Ürün 3 aracı Ürün 1–2 üzerine kurulur, kendi hafıza veya yetki mekanizmasını ayrıca inşa etmez.
@@ -1293,6 +1293,7 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 
 ### Revizyon geçmişi
 
+- **v7.9 (29.09.2026):** Ürün sahibinin netleştirmesi: **Ürün 2'de yorum yoktur.** Ürün 2 anlar, karşılaştırır, birleştirir ve yalnızca veriye dayalı cevap verir; yorum, görüş ve değerlendirme Ürün 3'e aittir. §1.1 tablosu, pratik sonuç ve §1.5.2 kural 1 buna göre açıkça yazıldı (önceki metinde yasak yalnızca tahmin/projeksiyon üzerinden tarif ediliyordu).
 - **v7.8 (29.09.2026):** **§4.7 B-28** eklendi ve aynı gün mantık anlatımı olarak yeniden yazıldı: Balbal her belgede o belge için can alıcı olanı ister (faturada az, sözleşme ve tadilde gereken), belgede olmayanı uydurmaz; tadilde ana sözleşme bağlantısı ve değişiklik etiketi; etiketler az ve sabit listeden; personel Balbal'ın açmadığı alanı kendisi ekleyebilir (arayüz + backend); %80 altı güvende personelin açık onayı; değiştirilemez kayıt defteri; ekrana iç not konmaz. B-12 bununla karşılandı.
 - **v7.7 (28.09.2026 gece):** **§1.8 B-27** eklendi: Ürün sahibi tarafı Ürün 1'in gerçek testlerine web üzerinden başlamak istiyor; HTTPS test ortamı, arayüz olarak `ftansu/AI-BalBal`, tek komutla güncelleme, yalnızca kurgusal veri. Ortam bugünkü özelliklerle hemen açılır.
 - **v7.6 (28.09.2026 gece):** **§2.6 B-26** eklendi: sistem yöneticisi sayfası — şirketin klasör ağacı ve her klasör için departman bazında görme/değiştirme yetkisi; SPV'lere aynı yetki uygulanır; B-10 bununla karşılanır. Arayüzü ürün sahibi tarafı tasarlar.

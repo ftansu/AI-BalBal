@@ -83,15 +83,31 @@ h2 {
   gap: 10px;
 }
 
-/* Balbal logosu (taş balbal, "Ideas in Depth") — canvas'taki gibi beyaz daire içinde, yeşil halkalı. */
+/* Şirket (platform) logosu — gri taş balbal. Üst bar ve giriş sayfası. */
 .brand-mark {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: #ffffff url("./assets/balbal-logo.webp") center / 82% no-repeat;
+  background: #ffffff url("./assets/company-logo.webp") center / 84% no-repeat;
   box-shadow: 0 0 0 2px #2fa968;
   display: inline-block;
   flex-shrink: 0;
+}
+
+/* Yapay zekâ asistanı Balbal — "röntgen" görünümlü balbal. Balbal butonu, sohbet penceresi, "Balbal'a sor". */
+.agent-mark {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #ffffff url("./assets/balbal-agent.webp") center / 84% no-repeat;
+  box-shadow: 0 0 0 2px #2fa968;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.agent-mark.large {
+  width: 40px;
+  height: 40px;
 }
 
 .brand-mark.large {

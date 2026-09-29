@@ -42,7 +42,7 @@ export function SearchPanel({ query, onClose }: { query: string; onClose: () => 
               openBalbal(query.trim());
             }}
           >
-            <span className="brand-mark" aria-hidden="true" />
+            <span className="agent-mark" aria-hidden="true" />
             {S.shell.askBalbal}: <strong>{query.trim()}</strong>
           </button>
         )}

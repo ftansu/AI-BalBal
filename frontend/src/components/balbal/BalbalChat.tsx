@@ -79,7 +79,7 @@ export function BalbalChat({ initialQuestion, onClose }: { initialQuestion: stri
       <div className="balbal">
         <aside className="balbal-side">
           <div className="balbal-brand">
-            <span className="brand-mark" aria-hidden="true" />
+            <span className="agent-mark" aria-hidden="true" />
             Balbal
           </div>
           <button type="button" className="dark-button" onClick={() => newSession(null)}>
@@ -119,7 +119,7 @@ export function BalbalChat({ initialQuestion, onClose }: { initialQuestion: stri
           <div className="balbal-messages" ref={listRef}>
             {(!active || active.turns.length === 0) && (
               <div className="balbal-empty">
-                <span className="brand-mark large" aria-hidden="true" />
+                <span className="agent-mark large" aria-hidden="true" />
                 <h2>{S.balbal.emptyTitle}</h2>
                 <p className="muted">{S.balbal.emptyHint}</p>
                 <div className="example-list">

@@ -122,7 +122,7 @@ export function Layout() {
               </button>
             )}
             <button type="button" className="launcher launcher-balbal" aria-label={S.balbal.open} onClick={() => shell.openBalbal()}>
-              <span className="brand-mark large" aria-hidden="true" />
+              <span className="agent-mark large" aria-hidden="true" />
             </button>
           </div>
         )}

@@ -75,11 +75,14 @@ export function DocumentTable({
               <td>{formatDate(d.document_date)}</td>
               <td>
                 {STATUS_LABELS[d.status]}
-                {/* B-28: only a not-yet-published document is badged (gösterim; aksiyon PR-2'de). */}
-                {d.review_status && d.review_status !== "approved" && (
+                {/* B-28 publication state next to the lifecycle status — approved is badged too, so
+                    "Taslak" alone never reads as "not approved" (UX notu 1, T-12 onay bekliyor). */}
+                {d.review_status && (
                   <>
                     {" "}
-                    <span className="badge warn">{REVIEW_STATUS_LABELS[d.review_status]}</span>
+                    <span className={`badge ${d.review_status === "approved" ? "ok" : "warn"}`}>
+                      {REVIEW_STATUS_LABELS[d.review_status]}
+                    </span>
                   </>
                 )}
               </td>

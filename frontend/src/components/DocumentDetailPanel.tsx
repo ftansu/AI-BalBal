@@ -64,13 +64,10 @@ export function DocumentDetailPanel({
           <dd>{formatDate(d.expiration_date)}</dd>
           <dt>{t.columns.status}</dt>
           <dd>
-            {STATUS_LABELS[d.status]}
-            {d.review_status !== "approved" && (
-              <>
-                {" "}
-                <span className="badge warn">{REVIEW_STATUS_LABELS[d.review_status]}</span>
-              </>
-            )}
+            {STATUS_LABELS[d.status]}{" "}
+            <span className={`badge ${d.review_status === "approved" ? "ok" : "warn"}`}>
+              {REVIEW_STATUS_LABELS[d.review_status]}
+            </span>
           </dd>
           <dt>{t.version}</dt>
           <dd>{d.version}</dd>

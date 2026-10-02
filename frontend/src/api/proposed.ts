@@ -153,10 +153,11 @@ export function useDirectory(q: string, department: string | null) {
 
 // ---------------------------------------------------------------------------
 // 5. Ekip sohbeti + departmanlar arası görüş talebi
-//    Görüş talebi (opinion_request) = Ürün 2. Kişiler arası/grup sohbet (direct, group) = Ürün 2
-//    tamamlandıktan sonra (ürün sahibinin kararı). Balbal sohbete eklenebilir (include_balbal); yalnızca
-//    ona seslenildiğinde, üyelerin ortak yetkili belgeleriyle cevap verir, işlem başlatmaz (P-1).
-//    Ayrıntı: docs/BACKEND_GAPS.md §6.3 (B-06b).
+//    Kişiler arası/grup sohbet (direct, group) = Ürün 1 (ürün sahibinin kararı, 29.09.2026).
+//    Balbal bu sohbetlere DAHİL EDİLEMEZ: mesajları okumaz, özetlemez, cevaplamaz; sohbet içeriği
+//    retrieval'a ve kurumsal hafızaya girmez. Balbal penceresi ile ekip sohbeti ayrı pencerelerdir.
+//    Görüş talebi (opinion_request) = Ürün 2; P2 kapalıyken bu tür sohbet listede dönmez.
+//    Ayrıntı: docs/BACKEND_GAPS.md §6.2 (B-06a), §6.3 (B-06b).
 // ---------------------------------------------------------------------------
 export type ChatKind = "direct" | "group" | "opinion_request";
 
@@ -165,7 +166,6 @@ export interface ChatSummary {
   kind: ChatKind;
   title: string;
   member_ids: string[];
-  includes_balbal: boolean;
   last_message: string | null;
   updated_at: string;
   unread_count: number;
@@ -180,7 +180,7 @@ export interface ChatSummary {
 
 export interface ChatMessage {
   id: string;
-  sender_id: string | null; // null = Balbal
+  sender_id: string | null; // null = sistem mesajı (ör. "X sohbete eklendi"); Balbal mesajı yoktur
   sender_name: string;
   text: string | null;
   document_id: string | null;
@@ -209,7 +209,7 @@ export function useChatMessages(chatId: string | null) {
   });
 }
 
-export function createChat(body: { member_ids: string[]; title?: string; include_balbal: boolean }) {
+export function createChat(body: { member_ids: string[]; title?: string }) {
   return proposed("POST /api/chats", () => postJson<ChatSummary>("/api/chats", body));
 }
 
@@ -219,7 +219,7 @@ export function sendChatMessage(chatId: string, body: { text?: string; document_
   );
 }
 
-export function addChatMembers(chatId: string, body: { member_ids: string[]; include_balbal?: boolean }) {
+export function addChatMembers(chatId: string, body: { member_ids: string[] }) {
   return proposed("POST /api/chats/{id}/members", () =>
     postJson<ChatSummary>(`/api/chats/${chatId}/members`, body),
   );

@@ -1,7 +1,7 @@
 # Frontend ↔ Backend Bağlantı Yol Haritası — B-25 · B-20 · B-18
 
 **Kime:** Backend tarafı ve backend tarafının yapay zekası
-**Hazırlayan:** Ürün sahibi (Claude ile) · **Tarih:** 28.09.2026
+**Hazırlayan:** Ürün sahibi (Claude ile) · **Tarih:** 28.09.2026 · **Son güncelleme:** 29.09.2026 (ekip sohbeti kararı, §5 ve §9)
 **İncelenen backend sürümü:** `ntoydem/company-ai` @ `4301968` (salt okuma)
 **Bağlayıcı çerçeve:** [`BACKEND_GAPS.md`](BACKEND_GAPS.md) — bu belge onun §12'deki Sıra 1–2'nin **uygulama planıdır**, yerine geçmez. Çelişki olursa `BACKEND_GAPS.md` esastır.
 
@@ -140,7 +140,7 @@ Karar metni: `BACKEND_GAPS.md` §9. Başlama koşulu: Adım 2 bitmiş olmalı.
 | 8 | Excel seti | 4 dosya | §9.2 listesi (aşağıda) |
 | 9 | Değerlendirme seti | 178 satırda proje adı | Proje adları değişmediği için mevcut sorular geçerli; yeni belgeler için soru eklenir, eval geçmeli |
 | 10 | **Kurgu şirket personeli** | Departman adıyla açılmış 4 demo hesap (`yonetim`, `finans`, `hukuk`, `enerji`) | **15 kişilik kurgusal personel**: ad, unvan, departman/alt birim, yönetici, rol, kullanıcı adı (`BACKEND_GAPS.md` §9.3.1) |
-| 11 | **Sözleşmelerin kurgusallığı ve şirket adı** | Ledger "ABC Enerji A.Ş.", canvas "NATA Enerji A.Ş."; canvas'ta gerçek banka adları | Tek kurgu şirket adı; bütün sözleşme ve belgeler kurgusal; belgelerdeki kişiler 15 kişilik listeden (§9.3.2) |
+| 11 | **Sözleşmelerin kurgusallığı ve şirket adı** | Ledger "ABC Enerji A.Ş.", canvas "XYZ Enerji A.Ş."; canvas'ta gerçek banka adları | Tek kurgu şirket adı; bütün sözleşme ve belgeler kurgusal; belgelerdeki kişiler 15 kişilik listeden (§9.3.2) |
 
 **Excel hedefi (§9.2):** orta karmaşıklıkta, çok sayfalı, formüllü, tarih ve para formatlı, **her proje ayrı** (konsolide sayfa yok, P-6).
 - Proje Finans: kredi ödeme planı (dönem, anapara, faiz, bakiye, döviz; formüllü) · aylık nakit akış tablosu (çok sayfa) · DSCR hesabı (tadil öncesi 1,25x / sonrası 1,20x eşiği; kredi sözleşmesi tadil zinciriyle tutarlı) · banka raporlama formu (Annex tipi).
@@ -198,8 +198,8 @@ Karar metni: `BACKEND_GAPS.md` §9. Başlama koşulu: Adım 2 bitmiş olmalı.
 | 1 | 15 kişinin her biriyle giriş | Doğrudan kendi ana departman sayfası (P-5) |
 | 2 | Departman listesi (yönetim kullanıcısı) | §3.1 ile birebir |
 | 3 | Proje Finans çalışanı Mali İşler belgesi arar | Bulamaz; Balbal varlığını ele vermez |
-| 4 | `set-enabled-products P1` | Ekip sohbeti butonu kaybolur |
-| 5 | `set-enabled-products P1,P2,P3` | Ekip sohbeti butonu görünür |
+| 4 | `set-enabled-products P1` | Ekip sohbeti butonu **görünür** (ekip sohbeti Ürün 1); sohbet penceresinde "Departmandan görüş talebi" sekmesi ve ana sayfada "Gündeminiz" **görünmez** |
+| 5 | `set-enabled-products P1,P2,P3` | "Departmandan görüş talebi" sekmesi ve "Gündeminiz" görünür |
 | 6 | Belge listesi, belge detayı, Excel yapısı, versiyon zinciri | Gerçek demo belgeleriyle dolu, her dosya açılır ve indirilir (P-4) |
 | 7 | Balbal'a demo sorular | Kaynaklı, yorumsuz cevap; `product_level: "P1"` |
 
@@ -228,6 +228,7 @@ Backend adımları ilerledikçe, frontend reposunda (önce canvas'ta görünür 
 | B-09 | `department_slugs[0]` yerine `primary_department_slug` kullanımı (`Home.tsx`, `ShellContext.tsx`) |
 | B-20 | İK, Mali İşler alt birimleri, Üretim/Piyasa için departman sayfalarının kontrolü (adlar API'den geliyor, slug sabit kalırsa kod değişikliği beklenmiyor) |
 | B-18 | Proje adları aynı kaldığı için Balbal örnek soruları (`lib/strings.ts`, "Ankara RES") geçerli; değişiklik gerekmez |
+| B-06b (yapıldı, 29.09.2026) | Ekip sohbeti her pakette açık; "Balbal'ı sohbete ekle" seçeneği kaldırıldı; görüş talebi sekmesi P2'ye bağlandı (`BACKEND_GAPS.md` §6.3) |
 | Bağlantı günü | §5 kontrol listesi ve bulunan hataların bu belgeye/`BACKEND_GAPS.md`'ye işlenmesi |
 
 ---
@@ -275,8 +276,8 @@ Test, **`ftansu/AI-BalBal` arayüzü üzerinden** yapılır (T-19…T-25); backe
 | T-19 | Arayüz | Her demo kullanıcıyla giriş → doğrudan kendi ana departman sayfası (P-5) | §5/1 | ☐ |
 | T-20 | Arayüz | Yönetim kullanıcısında departman listesi §3.1 ile birebir | §5/2 | ☐ |
 | T-21 | Arayüz | Proje Finans çalışanı Mali İşler belgesini bulamaz; Balbal varlığını ele vermez | §5/3 | ☐ |
-| T-22 | Arayüz | Paket P1 → ekip sohbeti butonu görünmez | §5/4 | ☐ |
-| T-23 | Arayüz | Paket P1,P2,P3 → ekip sohbeti butonu görünür | §5/5 | ☐ |
+| T-22 | Arayüz | Paket P1 → ekip sohbeti butonu görünür; görüş talebi sekmesi ve "Gündeminiz" görünmez | §5/4 | ☐ |
+| T-23 | Arayüz | Paket P1,P2,P3 → görüş talebi sekmesi ve "Gündeminiz" görünür | §5/5 | ☐ |
 | T-24 | Arayüz | Belge listesi, belge detayı, Excel yapısı, versiyon zinciri gerçek belgelerle dolu; her dosya açılıyor ve iniyor (P-4) | §5/6 | ☐ |
 | T-25 | Arayüz | Balbal demo sorularına kaynaklı, yorumsuz cevap veriyor; `product_level: "P1"` | §5/7 | ☐ |
 | T-26 | B-18 | 15 kişilik kurgusal personel ledger'da; her kişi giriş yapabiliyor, unvan ve yönetici bilgisi doğru | §4.3 | ☐ |

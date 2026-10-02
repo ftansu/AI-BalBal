@@ -10,25 +10,31 @@ import {
   type DirectoryPerson,
 } from "../../api/proposed";
 import { useAuth } from "../../auth/useAuth";
+import { useHasProduct } from "../../auth/useProduct";
 import { S } from "../../lib/strings";
 import { PendingNotice } from "../common/Modal";
 import { ErrorBox } from "../ErrorBox";
 
-/** "Yeni sohbet": şirket rehberinden kişi seçimi (çoklu → grup, Balbal eklenebilir) veya
- * başka bir departmandan resmi görüş talebi (kurumsal hafızaya kaydedilir). */
+/** "Yeni sohbet": şirket rehberinden kişi seçimi (çoklu → grup) — Ürün 1, B-06b. Balbal bu sohbetlere
+ * dahil edilemez. Başka bir departmandan resmi görüş talebi (kurumsal hafızaya kaydedilir) Ürün 2'dir
+ * (B-06a); sekmesi yalnızca P2 açıkken görünür. */
 export function TeamNewChat({ onCreated }: { onCreated: (chat: ChatSummary) => void }) {
+  const hasOpinionRequest = useHasProduct("P2");
   const [tab, setTab] = useState<"people" | "request">("people");
+  const active = hasOpinionRequest ? tab : "people";
   return (
     <div className="team-new">
-      <div className="chips">
-        <button type="button" className={`chip${tab === "people" ? " active" : ""}`} onClick={() => setTab("people")}>
-          {S.team.tabPeople}
-        </button>
-        <button type="button" className={`chip${tab === "request" ? " active" : ""}`} onClick={() => setTab("request")}>
-          {S.team.tabRequest}
-        </button>
-      </div>
-      {tab === "people" ? <PeoplePicker onCreated={onCreated} /> : <OpinionRequestForm onCreated={onCreated} />}
+      {hasOpinionRequest && (
+        <div className="chips">
+          <button type="button" className={`chip${active === "people" ? " active" : ""}`} onClick={() => setTab("people")}>
+            {S.team.tabPeople}
+          </button>
+          <button type="button" className={`chip${active === "request" ? " active" : ""}`} onClick={() => setTab("request")}>
+            {S.team.tabRequest}
+          </button>
+        </div>
+      )}
+      {active === "people" ? <PeoplePicker onCreated={onCreated} /> : <OpinionRequestForm onCreated={onCreated} />}
     </div>
   );
 }
@@ -38,7 +44,6 @@ function PeoplePicker({ onCreated }: { onCreated: (chat: ChatSummary) => void })
   const [q, setQ] = useState("");
   const [dept, setDept] = useState<string | null>(null);
   const [selected, setSelected] = useState<DirectoryPerson[]>([]);
-  const [withBalbal, setWithBalbal] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const directory = useDirectory(q, dept);
   const topLevel = (departments.data ?? []).filter((d) => d.parent_id === null);
@@ -51,7 +56,6 @@ function PeoplePicker({ onCreated }: { onCreated: (chat: ChatSummary) => void })
     try {
       const chat = await createChat({
         member_ids: selected.map((p) => p.id),
-        include_balbal: withBalbal,
         title: selected.length > 1 ? selected.map((p) => p.display_name.split(" ")[0]).join(", ") : undefined,
       });
       onCreated(chat);
@@ -101,10 +105,7 @@ function PeoplePicker({ onCreated }: { onCreated: (chat: ChatSummary) => void })
         })}
       </div>
       <div className="team-new-actions">
-        <label className="inline-check">
-          <input type="checkbox" checked={withBalbal} onChange={(e) => setWithBalbal(e.target.checked)} />
-          {S.team.addBalbal}
-        </label>
+        <span />
         <button type="button" disabled={selected.length === 0} onClick={start}>
           {selected.length > 1 ? S.team.startGroup(selected.length + 1) : S.team.start}
         </button>

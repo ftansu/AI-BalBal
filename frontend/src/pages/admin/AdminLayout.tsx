@@ -11,6 +11,8 @@ export function AdminLayout() {
         <NavLink to="kullanicilar">{t.users}</NavLink>
         <NavLink to="denetim-kaydi">{t.audit}</NavLink>
         <NavLink to="klasorler">{t.folders}</NavLink>
+        <NavLink to="etiketler">{t.tags}</NavLink>
+        <NavLink to="tur-rehberi">{t.guide}</NavLink>
       </nav>
       <Outlet />
     </>

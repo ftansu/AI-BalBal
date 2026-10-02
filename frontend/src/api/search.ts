@@ -11,6 +11,8 @@ export interface SearchDocumentHit extends DocumentListItem {
   /** Plain-text excerpt around the match (content hits); null for metadata-only hits. */
   snippet: string | null;
   page_number: number | null;
+  /** B-28b: what matched — content, or which metadata field (tags / extra fields included). */
+  matched_on: "content" | "title" | "type" | "counterparty" | "reference" | "tag" | "extra_field";
 }
 
 export interface SearchResponse {

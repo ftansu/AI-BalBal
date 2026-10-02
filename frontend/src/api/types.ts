@@ -86,6 +86,8 @@ export interface DocumentDetail extends DocumentListItem {
    * `uploaded_by_id`: only the uploader may submit (stage 1); the server enforces it, the UI
    * uses it to show the action to the right person. */
   uploaded_by_id: string | null;
+  /** B-28b: type-specific facts (staff / Balbal), string values only. */
+  extra_fields: Record<string, ExtraFieldValue>;
   review_comment: string | null;
   submitted_at: string | null;
   reviewed_at: string | null;
@@ -118,6 +120,84 @@ export type SuggestionStatus = "pending" | "applied" | "rejected" | "failed";
 export interface SuggestionField {
   value: string | string[] | null;
   confidence: number;
+  /** B-28b: tags Balbal proposed that are not in the catalogue (admin sees them, may add). */
+  dropped?: string[];
+}
+
+/** B-28b: one `documents.extra_fields` entry — who recorded it and how sure Balbal was. */
+export interface ExtraFieldValue {
+  value: string;
+  source: "ai" | "user";
+  confidence: number | null;
+  added_by_id: string | null;
+  added_at: string | null;
+}
+
+export type TagKind = "identity" | "change";
+
+export interface Tag {
+  slug: string;
+  label: string;
+  kind: TagKind;
+  is_active: boolean;
+}
+
+export interface TagCreate {
+  slug: string;
+  label: string;
+  kind: TagKind;
+}
+
+export interface TagUpdate {
+  label?: string;
+  kind?: TagKind;
+  is_active?: boolean;
+}
+
+export interface GuideField {
+  key: string;
+  label: string;
+  hint: string;
+}
+
+/** `document_type_guide` row (B-28b, ADR-025): a guide, never a mandatory form. */
+export interface GuideFamily {
+  family: string;
+  label: string;
+  type_patterns: string[];
+  suggested_extra_fields: GuideField[];
+  suggested_tags: string[];
+  standard_fields_emphasis: string[];
+  prompt_hint: string;
+  is_active: boolean;
+}
+
+export interface GuideCreate {
+  family: string;
+  label: string;
+  type_patterns: string[];
+  suggested_extra_fields?: GuideField[];
+  suggested_tags?: string[];
+  standard_fields_emphasis?: string[];
+  prompt_hint?: string;
+}
+
+export type GuideUpdate = Partial<Omit<GuideFamily, "family">>;
+
+export interface GuideSignal {
+  family: string;
+  key: string;
+  count: number;
+}
+
+export interface AdminEvent {
+  id: string;
+  created_at: string;
+  actor_name: string;
+  kind: string;
+  target: string;
+  before: string | null;
+  after: string | null;
 }
 
 export interface MetadataSuggestion {
@@ -141,6 +221,8 @@ export interface MetadataSuggestionApply {
   status?: DocumentStatus;
   confidentiality?: Confidentiality;
   tags?: string[];
+  /** B-28b: key → value; `null` removes the key. Keys are normalised to snake_case by the server. */
+  extra_fields?: Record<string, string | null>;
 }
 
 /** B-28 stage 1 — `POST /api/documents/{id}/submit` (uploader only): the final metadata plus the
@@ -164,6 +246,7 @@ export type ReviewEventKind =
   | "resubmitted"
   | "approved"
   | "changes_requested"
+  | "field_added"
   | "metadata_changed_after_approval";
 
 /** `GET /api/admin/documents/{id}/review-events` — append-only intake ledger (admin only). */
@@ -193,6 +276,7 @@ export interface DocumentMetadataEdit {
   status?: DocumentStatus;
   confidentiality?: Confidentiality;
   tags?: string[];
+  extra_fields?: Record<string, string | null>;
   effective_date?: string | null;
   expiration_date?: string | null;
 }

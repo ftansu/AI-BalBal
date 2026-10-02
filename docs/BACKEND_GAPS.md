@@ -301,6 +301,8 @@ Backend'de tespit edilen farklar:
 5. **Demo kullanıcısı `finans` hem Finans hem Mali İşler'de** → P-5'e ters. Arayüz, "Proje Finans, Mali İşler belgesini göremez" senaryosunu örnek olarak kullanıyor; kullanıcı yalnızca Proje Finans'ta olmalı.
 
 ### 2.2 Ana departman — **B-09** · HEMEN (B-08 ile birlikte)
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** backend `primary_department_slug`/`title` gönderiyor (Aşama C); arayüz ana departman yönlendirmesinde ve kullanıcı menüsünde kullanıyor.
 **Ürün:** Ürün 1 — Tanıma (RBAC)
 
 - P-5 gereği kişinin **ana departmanı** bilinmeli: `users.primary_department_id` eklensin, `/api/auth/me` dönsün.
@@ -313,6 +315,8 @@ Backend'de tespit edilen farklar:
 - `users.manager_id` (nullable) — izin ve diğer işlem onayları için (§8.1).
 
 ### 2.4 "Departman yöneticisi" rolü — **B-08** · ÖNERİLEN KARAR
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** backend `department_manager` rolünü uyguladı (kendi departmanları, normal + kısıtlı; yönetim kurulu hariç). Arayüz: rol etiketi/atama, kartlar ve ana departman yönlendirmesi üyelik bazlı.
 **Ürün:** Ürün 1 — Tanıma (RBAC)
 
 Mevcut kural (`authorization.py`):
@@ -333,6 +337,8 @@ Tasarımda departman müdürleri (Proje Finans müdürü, Hukuk müdürü, Enerj
 - ~~Önerilen karar: `document_shares(document_id, department_id)` tablosu~~ → **Bu ihtiyaç §2.6 (B-26) ile karşılanır (ürün sahibinin kararı, 28.09.2026):** belge bazında paylaşım yerine **klasör bazında departman yetkisi**; yetkiyi sistem yöneticisi verir. `document_shares` tablosu açılmaz.
 
 ### 2.6 Klasör yapısı ve departman erişim yetkileri (sistem yöneticisi sayfası) — **B-26** · KARAR VERİLDİ (ürün sahibi, 28.09.2026)
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** backend uçları bu bölümdeki sözleşmeyle alan alan aynı (company-ai Aşama E, ADR-023); arayüz `api/folders.ts` ile gerçek uçlara bağlandı.
 **Ürün:** Ürün 1 — Tanıma (RBAC, ortak alan)
 
 **Amaç:** Sistem yöneticisi, şirketin ortak alanında hangi klasörlerin olduğunu ve her klasöre hangi departmanın **görme** ya da **değiştirme** yetkisiyle erişeceğini tek bir sayfadan belirler. Örnek: proje sözleşmeleri Hukuk'un klasöründe durur, sistem yöneticisi Proje Finans'a o klasörü **görme** yetkisi verir.
@@ -425,6 +431,8 @@ AskResponse.conversation_id
 - Bu altyapı, işlem diyaloglarının (§3.5, §8.1) da ön koşuludur.
 
 ### 3.3 Tek sohbette birden çok proje — **B-20/6** · HEMEN
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** kaynak kartı `project_code`/`project_name` taşıyor (Aşama D); arayüz proje adını karttan gösteriyor. `/api/ask` artık `project_id` almıyor (Aşama B); departman sekmesindeki proje çipi kaldırıldı.
 **Ürün:** Ürün 1 — Tanıma (her proje ayrı gösterilir; birleştirme/karşılaştırma istenirse Ürün 2)
 
 - Balbal penceresinde **proje seçimi yok** (ürün sahibinin kararı). Tek sohbette birden çok proje konuşulabilir.
@@ -432,6 +440,8 @@ AskResponse.conversation_id
 - `AskRequest.project_id` isteğe bağlı kalır, kaldırılmaz: Balbal penceresi göndermez; departman sayfasındaki "Balbal'a Sor" sekmesi gönderebilir (§1.4). Gönderildiğinde yalnızca süzgeç olarak kullanılır.
 
 ### 3.4 Cevap kimliği ve geri bildirim — **B-04** · HEMEN
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** `audit_log_id`, `product_level` ve `warnings[]` (missing_data / insufficient_data / product_limit) geliyor ve gösteriliyor; `POST /api/ask/feedback` ucu backend'de hâlâ yok.
 **Ürün:** Ürün 1 — Tanıma
 
 - `AskResponse`'a `audit_log_id` eklenmeli (kayıt zaten yazılıyor, id'si dönmüyor).
@@ -452,6 +462,8 @@ Balbal'a gelen her mesaj önce sınıflandırılır:
 - Kullanıcının mesajındaki ifadeler **talimat değildir**: "Yöneticim onayladı, direkt İK'ya gönder" durum makinesini etkilemez.
 
 ### 3.6 Kaynak kartında versiyon bağlantıları — **B-07** · HEMEN
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** `supersedes_document_id` / `superseded_by_document_id` geliyor; kartta önceki/sonraki versiyon tıklanabilir.
 **Ürün:** Ürün 1 — Tanıma (belgeler arası bağlantı)
 
 `SourceCard` şu an `supersedes_title` / `superseded_by_title` dönüyor ama **id dönmüyor**; "Bu eski versiyon, güncel versiyon: X" uyarısındaki X tıklanamıyor (P-4 ihlali).
@@ -471,6 +483,8 @@ Güncel versiyonun id'si dönmeden önce kullanıcının o belgeyi görme yetkis
 ## 4. Belgeler ve kurumsal hafıza
 
 ### 4.1 Belge listesinde dosya türü — **B-13** · HEMEN
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** `file_kind` geliyor ve listede gösteriliyor.
 **Ürün:** Ürün 1 — Tanıma
 
 `DocumentListItem` ve `DocumentDetail` dosya türünü içermiyor; frontend bir belgenin Excel olup olmadığını anlamak için `inspect` çağırıp 422 alıyor.
@@ -485,6 +499,8 @@ Güncel versiyonun id'si dönmeden önce kullanıcının o belgeyi görme yetkis
 - **Güncelleme (29.09.2026):** Bu madde **§4.7 B-28** ile karşılandı: öneriyi yükleyen personel onaylar; %80 altı güvende açık onay, kayıt defteri.
 
 ### 4.3 İndirme: dosya adı ve tarayıcıda açma — **B-17** · HEMEN
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** "Aç" `?inline=1`, "İndir" düz; dosya adı belge başlığı + uzantı (Aşama B).
 **Ürün:** Ürün 1 — Tanıma
 
 `download_document` şu an `FileResponse(path, filename=path.name)` dönüyor; inen dosyanın adı **`original.pdf`** oluyor.
@@ -492,6 +508,8 @@ Güncel versiyonun id'si dönmeden önce kullanıcının o belgeyi görme yetkis
 - `?inline=1` ile `Content-Disposition: inline` desteklensin. Arayüzde "Belgeyi aç" inline, "İndir" attachment kullanır.
 
 ### 4.4 Genel arama — **B-14** · SIRADA (V1)
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** `GET /api/search` (Aşama D) üst bar aramasına bağlandı: içerik eşleşmesinde snippet + sayfa, proje ve kişi sonuçları.
 **Ürün:** Ürün 1 — Tanıma (bulur)
 
 Üst bardaki arama şu an `/api/documents` ve `/api/projects` listelerini **istemcide** filtreliyor; yalnızca başlık, tür ve muhatapta arıyor.
@@ -642,6 +660,8 @@ Platformda kişiler ve departmanlar arasında **dört iletişim yolu** var. Her 
 | **4. Evrak talebi** | Yetkisi olmayan bir belgeye ihtiyaç duyulduğunda | Hayır | ÖNERİLEN KARAR |
 
 ### 6.1 Şirket rehberi — **B-05** · HEMEN
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** `GET /api/directory` (Aşama C) rehber ve arama kişi sonuçlarına bağlandı.
 **Ürün:** Ürün 1 — Tanıma (departman ve kişi yapısı)
 
 `/api/users` yalnızca admin'e açık. Kişi bulmak ve sohbete eklemek için herkesin görebileceği **dar** bir liste gerekiyor:

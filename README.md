@@ -13,16 +13,16 @@
 |---|---|
 | **Ürün 1 ana sayfası** (canvas: "X Platformu — Ürün 1") — **yalnızca Ürün 1 içindir** | Çalışıyor: ortada büyük Balbal çubuğu, departmana özel örnek sorular, kaynaklı cevaplar; tablo/gösterge yok. Yalnızca Ürün 1 açıkken görünür. Ayrıntı: [`docs/URUN1_ARAYUZ.md`](docs/URUN1_ARAYUZ.md) |
 | Giriş (canvas: Giris.dc.html) | Çalışıyor: marka alanı + giriş kartı, şifre göster/gizle, backend'in hata mesajları |
-| Üst bar: arama, belge yükle, bildirimler, kullanıcı menüsü | Arama çalışıyor (belge ve proje). Kişi araması ve bildirimler backend bekliyor (B-05, B-02) |
-| Balbal penceresi: geçmiş sorular, cevap türü rozeti (proje seçimi yok, canvas v165), numaralı kaynaklar, versiyon uyarısı, geri bildirim | `/api/ask` ile çalışıyor. Geçmiş şimdilik oturumda tutuluyor (B-03), geri bildirim backend bekliyor (B-04) |
-| Ekip sohbeti: sohbet listesi, şirket rehberi, grup, görüş talebi, belge paylaşımı | Arayüz hazır, backend bekliyor. Kişiler arası/grup sohbet (B-06b) ve rehber (B-05) **Ürün 1**; **Balbal bu sohbetlere dahil edilemez**, Balbal penceresi ayrıdır. Görüş talebi (B-06a) Ürün 2 |
+| Üst bar: arama, belge yükle, bildirimler, kullanıcı menüsü | Arama `GET /api/search` ile çalışıyor (belge içeriği + metadata — snippet ve sayfa —, proje, kişi; B-14). Kişi araması rehberden (`/api/directory`, B-05). Bildirimler backend bekliyor (B-02) |
+| Balbal penceresi: geçmiş sorular, cevap türü + ürün katmanı rozeti (proje seçimi yok, canvas v165), Ç-7 veri durumu uyarıları (`warnings`), numaralı kaynaklar (önceki/sonraki versiyon tıklanabilir, proje adı kartta), geri bildirim | `/api/ask` ile çalışıyor (`product_level`, `warnings`, `audit_log_id`). Geçmiş şimdilik oturumda tutuluyor (B-03), geri bildirim ucu backend bekliyor (B-04) |
+| Ekip sohbeti: sohbet listesi, şirket rehberi, grup, görüş talebi, belge paylaşımı | Rehber çalışıyor (`/api/directory`, B-05). Sohbet uçları backend bekliyor. Kişiler arası/grup sohbet (B-06b) **Ürün 1**; **Balbal bu sohbetlere dahil edilemez**, Balbal penceresi ayrıdır. Görüş talebi (B-06a) Ürün 2 |
 | Ana sayfa "Gündeminiz" | Arayüz hazır, backend bekliyor (B-01) |
 | Departman: Balbal'a Sor, Belgeler, Belge Yükle (+ AI etiket önerisi), Projeler | Çalışıyor |
-| Belge detayı: versiyon zinciri linkleri, Excel dosya yapısı | Çalışıyor (`/api/excel/{id}/inspect`) |
+| Belge detayı: versiyon zinciri linkleri, Excel dosya yapısı | Çalışıyor (`/api/excel/{id}/inspect`). Listede dosya türü (`file_kind`, B-13) ve onay durumu rozeti (`review_status`, B-28 — yalnızca gösterim; onay işlemleri ayrı PR'da). "Aç" PDF/görüntüyü tarayıcıda açar (`?inline=1`), "İndir" belge başlığıyla indirir (B-17) |
 | Yönetim: kullanıcılar, denetim kaydı, belge görünürlüğü | Çalışıyor (yalnızca admin); sekmeli |
-| Yönetim › Klasörler ve erişim: klasör ağacı, departman bazında görme/değiştirme, genel tablo, değişiklik geçmişi | Arayüz hazır, backend bekliyor (B-26) |
-| Belgeler: klasör ağacı (kendi klasörlerim + bana açılanlar), klasörde arama, proje süzme; Belge Yükle'de klasör seçimi | Arayüz hazır, backend bekliyor (B-26). Backend klasör sunmadıkça bugünkü departman listesi ve yükleme çalışır |
-| Ürün anahtarı (B-25) | P2 kapalıyken "Gündeminiz" ve görüş talebi sekmesi gizli (ekip sohbeti her pakette açık); alan gelmezse yalnızca P1 varsayılır |
+| Yönetim › Klasörler ve erişim: klasör ağacı, departman bazında görme/değiştirme, genel tablo, değişiklik geçmişi | Çalışıyor (`/api/admin/folders*`, B-26) |
+| Belgeler: klasör ağacı (kendi klasörlerim + bana açılanlar), klasörde arama, proje süzme; Belge Yükle'de klasör seçimi | Çalışıyor (`/api/folders`, B-26). Roller: `department_manager` (B-08) kendi departmanının kısıtlı belgelerini görür; kartlar üyelik bazlı |
+| Ürün anahtarı (B-25) | `enabled_products` backend'den geliyor. P2 kapalıyken "Gündeminiz", görüş talebi sekmesi ve Excel örnek soruları gizli (ekip sohbeti her pakette açık); cevap kartında `product_level` rozeti; alan gelmezse yalnızca P1 varsayılır |
 | İzin talebi (Balbal ile), Taleplerim, Onay kuyruğu | Henüz tasarlanmadı; önce canvas. Backend sözleşmesi hazır (B-22, `proposed.ts` §8) |
 | Gelen yazı / dava evrakı → cevap ve dilekçe taslağı | Henüz tasarlanmadı; önce canvas. Backend sözleşmesi hazır (B-23, `proposed.ts` §9) |
 

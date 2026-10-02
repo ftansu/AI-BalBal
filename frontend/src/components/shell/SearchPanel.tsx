@@ -1,6 +1,6 @@
 import { useDocuments } from "../../api/documents";
 import { SEARCH_MIN_LENGTH, useSearch, type SearchDocumentHit } from "../../api/search";
-import { STAGE_LABELS, formatDate } from "../../lib/format";
+import { MATCHED_ON_LABELS, STAGE_LABELS, formatDate } from "../../lib/format";
 import { S } from "../../lib/strings";
 import { FileLink } from "../common/FileLink";
 import { CloseButton } from "../common/Modal";
@@ -19,7 +19,7 @@ export function SearchPanel({ query, onClose }: { query: string; onClose: () => 
 
   const docs: SearchDocumentHit[] = active
     ? (search.data?.documents ?? [])
-    : (recent.data ?? []).slice(0, 4).map((d) => ({ ...d, snippet: null, page_number: null }));
+    : (recent.data ?? []).slice(0, 4).map((d) => ({ ...d, snippet: null, page_number: null, matched_on: "content" as const }));
   const projectHits = active ? (search.data?.projects ?? []) : [];
   const personHits = active ? (search.data?.people ?? []) : [];
   const nothing = active && search.isSuccess && docs.length === 0 && projectHits.length === 0 && personHits.length === 0;
@@ -53,6 +53,11 @@ export function SearchPanel({ query, onClose }: { query: string; onClose: () => 
               {d.page_number !== null && ` · ${S.shell.snippetPage(d.page_number)}`}
             </span>
             {d.snippet && <span className="muted small search-snippet">{d.snippet}</span>}
+            {active && d.matched_on !== "content" && (
+              <span className="badge neutral" title={S.shell.matchedOnTitle}>
+                {MATCHED_ON_LABELS[d.matched_on] ?? d.matched_on}
+              </span>
+            )}
             {d.status === "superseded" && <span className="badge warn">{S.ask.historical}</span>}
           </div>
         ))}

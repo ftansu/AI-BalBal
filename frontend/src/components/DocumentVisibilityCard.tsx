@@ -19,6 +19,7 @@ export function DocumentVisibilityCard({ documentId }: { documentId: string }) {
   return (
     <section className="card">
       <h2>{t.title}</h2>
+      {data.review_status !== "approved" && <p className="muted small">{S.review.visibilityPending}</p>}
       {data.users.length === 0 ? (
         <p className="muted">{t.empty}</p>
       ) : (

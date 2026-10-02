@@ -5,13 +5,15 @@ import { useDepartments } from "../../api/departments";
 import { useDocuments } from "../../api/documents";
 import { projectNameById, useProjects } from "../../api/projects";
 import { useMyFolders, type UserFolder } from "../../api/folders";
-import type { Department, DocumentListItem } from "../../api/types";
+import type { Department, DocumentListItem, ReviewStatus } from "../../api/types";
 import { FolderIcon } from "../../components/common/FolderIcon";
 import { DocumentDetailPanel } from "../../components/DocumentDetailPanel";
 import { DocumentTable } from "../../components/DocumentTable";
 import { ErrorBox } from "../../components/ErrorBox";
+import { ReviewFilterChips } from "../../components/review/ReviewFilterChips";
 import { Spinner } from "../../components/Spinner";
 import { ancestorNames, orderTree, subtreeIds } from "../../lib/folders";
+import { applyReviewFilter } from "../../lib/review";
 import { S } from "../../lib/strings";
 import type { DepartmentContext } from "../Department";
 
@@ -35,17 +37,20 @@ function DepartmentDocuments({ folderError }: { folderError: unknown }) {
   const documents = useDocuments({ department: department.slug });
   const projects = useProjects();
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [reviewFilter, setReviewFilter] = useState<ReviewStatus | null>(null);
 
   if (documents.isLoading) return <Spinner />;
   if (documents.isError) return <ErrorBox error={documents.error} />;
   const all = documents.data ?? [];
-  const visible = subdepartment ? all.filter((d) => matchesSubdepartment(d, subdepartment)) : all;
+  const inScope = subdepartment ? all.filter((d) => matchesSubdepartment(d, subdepartment)) : all;
+  const visible = applyReviewFilter(inScope, reviewFilter);
   const projectNames = projectNameById(projects.data);
 
   return (
     <>
       <h2>{S.documents.title}</h2>
       {folderError !== null && <ErrorBox error={folderError} />}
+      <ReviewFilterChips documents={inScope} value={reviewFilter} onChange={setReviewFilter} />
       <DocumentTable
         documents={visible}
         projectNames={projectNames}
@@ -86,6 +91,7 @@ function FolderDocuments({ folders }: { folders: UserFolder[] }) {
   const [projectId, setProjectId] = useState<string | null>(null);
   const [q, setQ] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [reviewFilter, setReviewFilter] = useState<ReviewStatus | null>(null);
 
   const selected = folders.find((f) => f.id === folderId) ?? ownRows[0]?.folder ?? sharedRows[0]?.folder;
   if (documents.isLoading) return <Spinner />;
@@ -99,12 +105,13 @@ function FolderDocuments({ folders }: { folders: UserFolder[] }) {
   const hasFolderField = all.some((d) => d.folder_id !== undefined && d.folder_id !== null);
   const scope = subtreeIds(folders, selected.id);
   const needle = q.trim().toLocaleLowerCase("tr");
-  const visible = all.filter(
+  const inFolder = all.filter(
     (d) =>
       (!hasFolderField || (d.folder_id != null && scope.has(d.folder_id))) &&
       (projectId === null || d.project_id === projectId) &&
       (!needle || `${d.title} ${d.counterparty} ${d.document_type}`.toLocaleLowerCase("tr").includes(needle)),
   );
+  const visible = applyReviewFilter(inFolder, reviewFilter);
   const projectNames = projectNameById(projects.data);
   const ancestors = ancestorNames(folders, selected.id);
   // Paylaşılan klasörün üst klasörleri kullanıcıya görünmeyebilir; o zaman yol sahibi departmanla başlar.
@@ -205,6 +212,7 @@ function FolderDocuments({ folders }: { folders: UserFolder[] }) {
               </button>
             ))}
         </div>
+        <ReviewFilterChips documents={inFolder} value={reviewFilter} onChange={setReviewFilter} />
 
         {visible.length === 0 ? (
           <p className="muted">{t.empty}</p>

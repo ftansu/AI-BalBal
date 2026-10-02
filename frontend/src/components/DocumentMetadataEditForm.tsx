@@ -107,6 +107,7 @@ export function DocumentMetadataEditForm({ current }: { current: DocumentDetail 
     <form className="card" onSubmit={onSubmit}>
       <h2>{t.title}</h2>
       <p className="muted">{t.hint}</p>
+      <p className="muted small">{S.review.editNote}</p>
       <div className="form-grid">
         <div className="field">
           <label>{S.upload.titleField}</label>

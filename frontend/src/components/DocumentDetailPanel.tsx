@@ -1,13 +1,18 @@
-import { downloadUrl, useDocument } from "../api/documents";
+import { downloadUrl, inlineUrl, useDocument } from "../api/documents";
+import { useAuth } from "../auth/useAuth";
 import { FileLink } from "./common/FileLink";
 import { WorkbookInspectCard } from "./WorkbookInspectCard";
-import { CONFIDENTIALITY_LABELS, INGESTION_LABELS, STATUS_LABELS, formatDate } from "../lib/format";
+import { CONFIDENTIALITY_LABELS, INGESTION_LABELS, REVIEW_STATUS_LABELS, STATUS_LABELS, formatDate } from "../lib/format";
 import { S } from "../lib/strings";
 import { DocumentMetadataEditForm } from "./DocumentMetadataEditForm";
 import { DocumentVisibilityCard } from "./DocumentVisibilityCard";
 import { ErrorBox } from "./ErrorBox";
-import { MetadataSuggestionPanel } from "./MetadataSuggestionPanel";
+import { MetadataSuggestionPanel, type SuggestionPanelMode } from "./MetadataSuggestionPanel";
+import { ReviewEventsCard } from "./review/ReviewEventsCard";
+import { ReviewStatusCard } from "./review/ReviewStatusCard";
 import { Spinner } from "./Spinner";
+
+const SUBMITTABLE = new Set(["pending_metadata", "changes_requested"]);
 
 export function DocumentDetailPanel({
   id,
@@ -20,13 +25,21 @@ export function DocumentDetailPanel({
   projectNames: Map<string, string>;
   onClose: () => void;
 }) {
+  const { user } = useAuth();
   const document = useDocument(id);
   if (document.isLoading) return <Spinner />;
   if (document.isError) return <ErrorBox error={document.error} />;
   const d = document.data;
-  if (!d) return null;
+  if (!d || !user) return null;
   const none = S.documents.none;
   const t = S.documents;
+  // B-28 (ADR-024): the uploader submits (stage 1); the target department's own manager
+  // decides (stage 2). Both are re-checked by the server — this only picks what to show.
+  const isUploader = d.uploaded_by_id !== null && d.uploaded_by_id === user.id;
+  const isTargetManager =
+    user.role === "department_manager" && d.department !== null && user.department_slugs.includes(d.department);
+  const panelMode: SuggestionPanelMode =
+    isUploader && SUBMITTABLE.has(d.review_status) ? "uploader" : isAdmin ? "admin" : "readonly";
   return (
     <>
       <section className="card">
@@ -50,7 +63,15 @@ export function DocumentDetailPanel({
           <dt>{t.expirationDate}</dt>
           <dd>{formatDate(d.expiration_date)}</dd>
           <dt>{t.columns.status}</dt>
-          <dd>{STATUS_LABELS[d.status]}</dd>
+          <dd>
+            {STATUS_LABELS[d.status]}
+            {d.review_status !== "approved" && (
+              <>
+                {" "}
+                <span className="badge warn">{REVIEW_STATUS_LABELS[d.review_status]}</span>
+              </>
+            )}
+          </dd>
           <dt>{t.version}</dt>
           <dd>{d.version}</dd>
           <dt>{t.columns.confidentiality}</dt>
@@ -77,7 +98,7 @@ export function DocumentDetailPanel({
           </dd>
         </dl>
         <div className="actions">
-          <a className="button" href={downloadUrl(d.id)} target="_blank" rel="noreferrer">
+          <a className="button" href={inlineUrl(d.id)} target="_blank" rel="noreferrer">
             {t.open}
           </a>
           <a className="button secondary" href={downloadUrl(d.id)} download>
@@ -85,12 +106,14 @@ export function DocumentDetailPanel({
           </a>
         </div>
       </section>
+      <ReviewStatusCard document={d} canReview={isTargetManager} />
       {d.ingestion_status === "ready" && <WorkbookInspectCard documentId={d.id} />}
       {isAdmin && <DocumentVisibilityCard documentId={d.id} />}
       {isAdmin && <DocumentMetadataEditForm current={d} />}
       {d.ingestion_status === "ready" && (
-        <MetadataSuggestionPanel documentId={d.id} poll={false} isAdmin={isAdmin} current={d} />
+        <MetadataSuggestionPanel documentId={d.id} poll={false} mode={panelMode} current={d} />
       )}
+      {isAdmin && <ReviewEventsCard documentId={d.id} />}
     </>
   );
 }

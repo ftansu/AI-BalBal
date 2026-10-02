@@ -121,10 +121,12 @@ export function UploadTab() {
           </button>
         </section>
         {ingestion === "ready" && (
+          // B-28: the person who just uploaded confirms the metadata and sends the document to
+          // review (stage 1). A manager's own-department upload is already published → read-only.
           <MetadataSuggestionPanel
             documentId={uploadedId}
             poll
-            isAdmin={isAdmin}
+            mode={detail.data?.review_status === "approved" ? (isAdmin ? "admin" : "readonly") : "uploader"}
             current={detail.data}
           />
         )}

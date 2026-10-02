@@ -534,6 +534,8 @@ Süreç haritasına göre Ürün 1, e-posta içeriklerini de ortak veri alanına
 - **Sıra sorusu (ürün sahibi):** B-15 Word yüklemeden önce mi, sonra mı?
 
 ### 4.7 Belge yükleme: Balbal belgeyi tanır, personel onaylar — **B-28** · KARAR VERİLDİ (ürün sahibi, 29.09.2026)
+
+**Durum (02.10.2026, PR `feat/onay-akisi-arayuz`):** backend iki aşamalı onayı uyguladı (company-ai ADR-024: `review_status` yetki kapısında, yalnızca onaylı belge aramada/Balbal'da; hedef departmanın `department_manager`'ı onaysız yayınlar, diğer herkes `submit` → `review`; %80 altı alan `confirmed_fields` ile açık onay; onaycısı olmayan departmana yükleme 409). Arayüz: 1. aşama paneli ("Onaylıyorum" kutusu, "Onaya gönder"), detayda Onayla / Geri gönder + yorum, Belgeler'de durum çipleri, yöneticiye kayıt defteri (§4.7.6). Kalan çekirdek (personelin eklediği alan §4.7.3, sabit etiket listesi §4.7.4, tür bazlı rehber §4.7.2, klasör önerisi) ayrı tur.
 **Ürün:** Ürün 1 — Tanıma (sınıflandırma ve bulunabilirlik; öneriyi AI yapar, insan onaylar)
 **Tasarım kaynağı:** canvas `Belge-Yukle.dc.html`. İki örnek akış var: *sözleşme tadili* ve *fatura*.
 **İlişkili:** B-12'nin yerine geçer · B-24 belge bağlantıları · B-26 klasör yetkileri · B-18 demo verisi.

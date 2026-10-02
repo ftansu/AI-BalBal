@@ -82,7 +82,10 @@ export interface DocumentListItem {
 
 export interface DocumentDetail extends DocumentListItem {
   tags: string[];
-  /** B-28 review trail; the full ledger is admin-only (`/api/admin/documents/{id}/review-events`). */
+  /** B-28 review trail; the full ledger is admin-only (`/api/admin/documents/{id}/review-events`).
+   * `uploaded_by_id`: only the uploader may submit (stage 1); the server enforces it, the UI
+   * uses it to show the action to the right person. */
+  uploaded_by_id: string | null;
   review_comment: string | null;
   submitted_at: string | null;
   reviewed_at: string | null;
@@ -138,6 +141,43 @@ export interface MetadataSuggestionApply {
   status?: DocumentStatus;
   confidentiality?: Confidentiality;
   tags?: string[];
+}
+
+/** B-28 stage 1 — `POST /api/documents/{id}/submit` (uploader only): the final metadata plus the
+ * fields whose low-confidence suggestion is explicitly confirmed (BACKEND_GAPS §4.7.5). */
+export interface DocumentSubmitRequest extends MetadataSuggestionApply {
+  confirmed_fields: string[];
+}
+
+/** B-28 stage 2 — `POST /api/documents/{id}/review` (target department's manager). */
+export interface DocumentReviewRequest {
+  decision: "approve" | "request_changes";
+  comment?: string | null;
+}
+
+export type ReviewEventKind =
+  | "uploaded"
+  | "auto_approved"
+  | "field_edited"
+  | "field_confirmed"
+  | "submitted"
+  | "resubmitted"
+  | "approved"
+  | "changes_requested"
+  | "metadata_changed_after_approval";
+
+/** `GET /api/admin/documents/{id}/review-events` — append-only intake ledger (admin only). */
+export interface ReviewEvent {
+  id: string;
+  document_id: string;
+  created_at: string;
+  actor_name: string;
+  kind: ReviewEventKind;
+  field: string | null;
+  before: string | null;
+  after: string | null;
+  confidence: number | null;
+  comment: string | null;
 }
 
 /** `PATCH /api/documents/{id}` (Phase 5.2): manual edit, independent of the AI-suggestion

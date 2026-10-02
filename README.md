@@ -18,6 +18,7 @@
 | Ekip sohbeti: sohbet listesi, şirket rehberi, grup, görüş talebi, belge paylaşımı | Rehber çalışıyor (`/api/directory`, B-05). Sohbet uçları backend bekliyor. Kişiler arası/grup sohbet (B-06b) **Ürün 1**; **Balbal bu sohbetlere dahil edilemez**, Balbal penceresi ayrıdır. Görüş talebi (B-06a) Ürün 2 |
 | Ana sayfa "Gündeminiz" | Arayüz hazır, backend bekliyor (B-01) |
 | Departman: Balbal'a Sor, Belgeler, Belge Yükle (+ AI etiket önerisi), Projeler | Çalışıyor |
+| **Belge onay akışı (B-28)**: yükleyen öneriyi kontrol eder, güveni %80 altı alanı "Onaylıyorum" ile onaylar, **Onaya gönder**; departman yetkilisi belge detayında **Onayla / Geri gönder** (yorum zorunlu); Belgeler'de onay durumu çipleri; yönetici için kayıt defteri | Çalışıyor (`POST …/submit`, `POST …/review`, `GET /api/admin/documents/{id}/review-events`). Yalnızca onaylı belge aramada ve Balbal'da görünür |
 | Belge detayı: versiyon zinciri linkleri, Excel dosya yapısı | Çalışıyor (`/api/excel/{id}/inspect`). Listede dosya türü (`file_kind`, B-13) ve onay durumu rozeti (`review_status`, B-28 — yalnızca gösterim; onay işlemleri ayrı PR'da). "Aç" PDF/görüntüyü tarayıcıda açar (`?inline=1`), "İndir" belge başlığıyla indirir (B-17) |
 | Yönetim: kullanıcılar, denetim kaydı, belge görünürlüğü | Çalışıyor (yalnızca admin); sekmeli |
 | Yönetim › Klasörler ve erişim: klasör ağacı, departman bazında görme/değiştirme, genel tablo, değişiklik geçmişi | Çalışıyor (`/api/admin/folders*`, B-26) |

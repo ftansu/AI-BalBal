@@ -10,6 +10,11 @@ export class ApiError extends Error {
     message: string,
     public readonly requestId: string | null,
     public readonly fieldErrors: string[] = [],
+    /** Machine-readable code when the backend sends `{code, message}` (B-25 `product_not_enabled`,
+     * B-28 `approver_not_configured`, `low_confidence_not_confirmed`, …); null otherwise. */
+    public readonly code: string | null = null,
+    /** B-28 `low_confidence_not_confirmed`: the fields that still need an explicit confirmation. */
+    public readonly fields: string[] = [],
   ) {
     super(message);
     this.name = "ApiError";
@@ -31,13 +36,16 @@ interface ValidationItem {
 function describeError(status: number, body: ErrorBody | null): {
   message: string;
   fieldErrors: string[];
+  code: string | null;
+  fields: string[];
 } {
   const detail = body?.detail;
   if (typeof detail === "string" && detail.trim()) {
-    return { message: detail, fieldErrors: [] };
+    // Bare machine codes (e.g. `product_not_enabled`) stay the message, as before.
+    return { message: detail, fieldErrors: [], code: /^[a-z_]+$/.test(detail) ? detail : null, fields: [] };
   }
   if (detail && typeof detail === "object") {
-    const record = detail as { message?: unknown; errors?: unknown };
+    const record = detail as { message?: unknown; errors?: unknown; code?: unknown; fields?: unknown };
     const message = typeof record.message === "string" ? record.message : S.errors.generic;
     const errors = Array.isArray(record.errors) ? (record.errors as ValidationItem[]) : [];
     const fieldErrors = errors
@@ -46,9 +54,11 @@ function describeError(status: number, body: ErrorBody | null): {
         return loc && item.msg ? `${loc}: ${item.msg}` : (item.msg ?? "");
       })
       .filter((line) => line.length > 0);
-    return { message, fieldErrors };
+    const code = typeof record.code === "string" ? record.code : null;
+    const fields = Array.isArray(record.fields) ? record.fields.filter((f): f is string => typeof f === "string") : [];
+    return { message, fieldErrors, code, fields };
   }
-  return { message: status >= 500 ? S.errors.generic : S.errors.generic, fieldErrors: [] };
+  return { message: status >= 500 ? S.errors.generic : S.errors.generic, fieldErrors: [], code: null, fields: [] };
 }
 
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
@@ -72,11 +82,11 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   }
   if (!response.ok) {
     const errorBody = (body ?? null) as ErrorBody | null;
-    const { message, fieldErrors } = describeError(response.status, errorBody);
+    const { message, fieldErrors, code, fields } = describeError(response.status, errorBody);
     if (response.status === 401 && !path.startsWith("/api/auth/login")) {
       window.dispatchEvent(new Event(UNAUTHORIZED_EVENT));
     }
-    throw new ApiError(response.status, message, errorBody?.request_id ?? null, fieldErrors);
+    throw new ApiError(response.status, message, errorBody?.request_id ?? null, fieldErrors, code, fields);
   }
   return body as T;
 }

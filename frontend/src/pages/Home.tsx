@@ -12,7 +12,7 @@ import { useShell } from "../components/shell/ShellContext";
 import { Spinner } from "../components/Spinner";
 import { formatDate } from "../lib/format";
 import { S } from "../lib/strings";
-import { childrenOf, visibleTopLevel } from "../lib/visibility";
+import { childrenOf, isMembershipBased, visibleTopLevel } from "../lib/visibility";
 
 /** Tasarım kuralı (canvas: "tek kişi = tek departman arayüzü, departman geçişi yok"):
  * yalnızca birden çok departmanı gören (management/admin) kullanıcı departman seçer.
@@ -27,10 +27,10 @@ export function HomePage() {
   const all = departments.data ?? [];
   const visible = visibleTopLevel(user, all);
 
-  // Çalışan: kendi (ana) departmanına. Backend'de "ana departman" alanı yok (BACKEND_GAPS
-  // B-09); birden çok üyeliği olan çalışanda (demo "finans" = finans + mali_isler) ilk üyelik
-  // ana departman sayılır.
-  const home = user.role === "employee" ? visible.find((d) => d.slug === user.department_slugs[0]) : undefined;
+  // Çalışan ve departman yöneticisi: kendi ana departmanına (B-09 — backend `department_slugs`
+  // listesinde ana departmanı başa koyar ve `primary_department_slug` gönderir).
+  const homeSlug = user.primary_department_slug ?? user.department_slugs[0];
+  const home = isMembershipBased(user) ? visible.find((d) => d.slug === homeSlug) : undefined;
   if (home || visible.length === 1) {
     return <Navigate to={`/departman/${(home ?? visible[0]).slug}`} replace />;
   }

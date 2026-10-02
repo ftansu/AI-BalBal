@@ -3,10 +3,9 @@
 // müşteride hangi ürünlerin açık olduğu `company_settings.enabled_products` ile tutulur ve
 // giriş yapan kullanıcıya `CurrentUser.enabled_products` alanıyla bildirilir (bkz. api/types.ts).
 //
-// V0 backend'de bu alan henüz yok (B-25 backend tarafında henüz uygulanmadı). O yüzden alan
-// `undefined` geldiğinde varsayılan olarak yalnızca P1 açık kabul edilir — böylece bugünkü
-// backend'e karşı hiç kimseye yanlışlıkla Ürün 2/3 ekranı gösterilmez. Backend B-25'i
-// uyguladığında bu dosyaya dokunmaya gerek kalmaz; `enabled_products` dolu gelmeye başlar.
+// Backend bu alanı 30.09.2026'dan beri gönderiyor (company-ai Aşama A, ADR-022). Eski bir
+// backend'e karşı alan eksik gelirse güvenli varsayım yine yalnızca P1'dir — hiç kimseye
+// yanlışlıkla Ürün 2/3 ekranı gösterilmez.
 import type { CurrentUser } from "./types";
 
 export type ProductKey = "P1" | "P2" | "P3";
@@ -21,7 +20,7 @@ export const PRODUCT_LABELS: Record<ProductKey, string> = {
 const DEFAULT_ENABLED_PRODUCTS: ProductKey[] = ["P1"];
 
 export function enabledProducts(user: CurrentUser | null): ProductKey[] {
-  return user?.enabled_products ?? DEFAULT_ENABLED_PRODUCTS;
+  return (user?.enabled_products as ProductKey[] | undefined) ?? DEFAULT_ENABLED_PRODUCTS;
 }
 
 export function hasProduct(user: CurrentUser | null, key: ProductKey): boolean {

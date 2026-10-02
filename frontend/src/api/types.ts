@@ -1,17 +1,23 @@
 // Hand-written mirrors of backend/app/schemas/*.py — keep in step with the API.
 
-export type UserRole = "admin" | "management" | "employee";
+/** B-08 (02.10.2026): `department_manager` = own departments at normal + restricted, never board. */
+export type UserRole = "admin" | "management" | "department_manager" | "employee";
+
+export type ProductLevel = "P1" | "P2" | "P3";
 
 export interface CurrentUser {
   id: string;
   username: string;
   display_name: string;
   role: UserRole;
+  /** Ana departman başta (B-09, Aşama C). */
   department_slugs: string[];
-  /** Ürün katmanı anahtarı — B-25 (docs/BACKEND_GAPS.md §1.5.4), karar verildi 28.09.2026.
-   * V0 backend'de henüz yok; alan gelmezse api/products.ts yalnızca P1 varsayar. Backend
-   * eklediğinde tip zaten hazır — burada başka değişiklik gerekmez. */
-  enabled_products?: ("P1" | "P2" | "P3")[];
+  /** Ürün katmanı anahtarı — B-25 (ADR-022). Backend `/login` ve `/me` ile gönderir (30.09.2026);
+   * api/products.ts alan eksikse yine yalnızca P1 varsayar. */
+  enabled_products: ProductLevel[];
+  /** B-09 / B-05 (Aşama C). */
+  primary_department_slug: string | null;
+  title: string | null;
 }
 
 export interface Department {
@@ -49,6 +55,10 @@ export interface ProjectUpdate {
 export type DocumentStatus = "draft" | "executed" | "amended" | "superseded" | "active";
 export type Confidentiality = "normal" | "restricted" | "board";
 export type IngestionStatus = "uploaded" | "ocr" | "ready" | "failed";
+/** B-13 (Aşama B): derived from the stored file; null only for a hand-edited row. */
+export type FileKind = "pdf" | "image" | "xlsx" | "xlsm" | "csv";
+/** B-28 (ADR-024): publication state. Only `approved` documents reach search and Balbal. */
+export type ReviewStatus = "pending_metadata" | "pending_review" | "changes_requested" | "approved";
 
 export interface DocumentListItem {
   id: string;
@@ -64,12 +74,19 @@ export interface DocumentListItem {
   confidentiality: Confidentiality;
   external_ref: string | null;
   created_at: string;
-  /** B-26 (docs/BACKEND_GAPS.md §2.6): belgenin bulunduğu klasör. V0 backend'de henüz yok. */
-  folder_id?: string | null;
+  file_kind: FileKind | null;
+  /** B-26 (Aşama E): belgenin klasörü; null = departmansız/eski kayıt. */
+  folder_id: string | null;
+  review_status: ReviewStatus;
 }
 
 export interface DocumentDetail extends DocumentListItem {
   tags: string[];
+  /** B-28 review trail; the full ledger is admin-only (`/api/admin/documents/{id}/review-events`). */
+  review_comment: string | null;
+  submitted_at: string | null;
+  reviewed_at: string | null;
+  reviewed_by_id: string | null;
   effective_date: string | null;
   expiration_date: string | null;
   version: number;
@@ -83,6 +100,7 @@ export interface DocumentDetail extends DocumentListItem {
 export interface DocumentUploadResponse {
   id: string;
   ingestion_status: IngestionStatus;
+  file_kind: FileKind | null;
 }
 
 export interface DocumentStatusResponse {
@@ -150,6 +168,8 @@ export interface DocumentVisibility {
   document_id: string;
   department: string | null;
   confidentiality: Confidentiality;
+  /** B-28: for a pending document the list is who may *handle* it, not who will see it. */
+  review_status: ReviewStatus;
   users: DocumentVisibilityUser[];
 }
 
@@ -162,6 +182,8 @@ export interface AdminUser {
   is_active: boolean;
   department_ids: string[];
   department_slugs: string[];
+  title: string | null;
+  primary_department_id: string | null;
 }
 
 export interface UserCreate {
@@ -170,6 +192,8 @@ export interface UserCreate {
   display_name: string;
   role: UserRole;
   department_ids: string[];
+  title?: string | null;
+  primary_department_id?: string | null;
 }
 
 export interface UserUpdate {
@@ -177,6 +201,8 @@ export interface UserUpdate {
   role?: UserRole;
   is_active?: boolean;
   department_ids?: string[];
+  title?: string | null;
+  primary_department_id?: string | null;
 }
 
 /** `GET /api/audit-log` (Phase 3.4/5.2) — no `answer`/`sources`, those are detail-only. */
@@ -217,10 +243,11 @@ export interface AuditLogFilter {
   offset?: number;
 }
 
+/** `project_id` was removed from the backend request (Aşama B, 30.09.2026): Balbal penceresinde
+ * proje seçimi yoktur (Ü-10); scope is the department only. */
 export interface AskRequest {
   question: string;
   department?: string;
-  project_id?: string;
 }
 
 export interface SourceCard {
@@ -235,6 +262,20 @@ export interface SourceCard {
   is_current: boolean;
   supersedes_title: string | null;
   superseded_by_title: string | null;
+  /** Aşama A (B-07): version-chain neighbours as ids, so the cards can link to them. */
+  supersedes_document_id: string | null;
+  superseded_by_document_id: string | null;
+  is_initial: boolean;
+  /** Aşama D (B-20/6): the document's project, straight from the card. */
+  project_code: string | null;
+  project_name: string | null;
+}
+
+/** Aşama A (B-04) + Ürün 1 uyum turu: structured warnings next to the answer (Ç-7 durumları). */
+export interface AskWarning {
+  kind: "missing_data" | "insufficient_data" | "product_limit";
+  message: string;
+  action: "request_data" | null;
 }
 
 // ADR-010 (Phase 4.3).
@@ -260,4 +301,9 @@ export interface AskResponse {
   notice: string;
   query_type: QueryType;
   excel_sources: ExcelSourceCard[];
+  /** Aşama A: the audit row of this answer (B-04 feedback target). */
+  audit_log_id: string | null;
+  /** ADR-022: which product layer answered. */
+  product_level: ProductLevel;
+  warnings: AskWarning[];
 }

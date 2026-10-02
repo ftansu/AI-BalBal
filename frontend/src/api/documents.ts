@@ -97,6 +97,8 @@ export function rejectSuggestion(id: string): Promise<MetadataSuggestion> {
 }
 
 export const downloadUrl = (id: string) => `/api/documents/${id}/download`;
+/** Aşama B (B-17): PDF/görüntü tarayıcıda açılır; Excel yine indirilir. Dosya adı = belge başlığı. */
+export const inlineUrl = (id: string) => `/api/documents/${id}/download?inline=1`;
 
 /** Admin-only manual metadata edit (Phase 5.2), independent of the AI-suggestion flow. */
 export function editDocumentMetadata(

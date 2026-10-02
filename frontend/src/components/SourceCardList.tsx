@@ -16,7 +16,8 @@ export function SourceCardList({
   return (
     <div className="source-list">
       {sources.map((s) => {
-        const project = projectOfDocument(s.document_id);
+        // Aşama D: the card carries the project; the list-based lookup stays as a fallback.
+        const project = s.project_name ?? projectOfDocument(s.document_id);
         return (
           <div className="source" key={`${s.ref}-${s.document_id}-${s.page_number}`}>
             <div className="source-head">
@@ -36,11 +37,18 @@ export function SourceCardList({
               {project && ` · ${S.ask.project}: ${project}`}
             </div>
             {s.superseded_by_title && (
-              // Backend yalnızca başlığı dönüyor (superseded_by_document_id yok) — bu yüzden
-              // güncel versiyon şimdilik link değil; bkz. docs/BACKEND_GAPS.md B-07.
-              <div className="superseded-warning">{S.ask.supersededBy(s.superseded_by_title)}</div>
+              // Aşama A (B-07): the newer version is a link — sabit kural, her belge referansı açılabilir.
+              <div className="superseded-warning">
+                {S.ask.supersededBy("")}{" "}
+                <FileLink documentId={s.superseded_by_document_id} title={s.superseded_by_title} showDownload={false} />
+              </div>
             )}
-            {s.supersedes_title && <div className="meta">{S.ask.supersedes(s.supersedes_title)}</div>}
+            {s.supersedes_title && (
+              <div className="meta">
+                {S.ask.supersedes("")}{" "}
+                <FileLink documentId={s.supersedes_document_id} title={s.supersedes_title} showDownload={false} />
+              </div>
+            )}
           </div>
         );
       })}

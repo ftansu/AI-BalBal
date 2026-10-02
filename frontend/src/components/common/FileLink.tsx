@@ -1,4 +1,4 @@
-import { downloadUrl } from "../../api/documents";
+import { downloadUrl, inlineUrl } from "../../api/documents";
 
 /** Sabit kural: arayüzdeki HER dosya referansı tıklanabilir ve indirilebilir olmalı.
  * Bu bileşen dosya adını link olarak, yanında ayrı bir "İndir" linkiyle gösterir.
@@ -20,14 +20,13 @@ export function FileLink({
       </span>
     );
   }
-  const href = downloadUrl(documentId);
   return (
     <span className="file-link">
-      <a href={href} target="_blank" rel="noreferrer" className="file-name">
+      <a href={inlineUrl(documentId)} target="_blank" rel="noreferrer" className="file-name">
         {title}
       </a>
       {showDownload && (
-        <a href={href} download className="file-download">
+        <a href={downloadUrl(documentId)} download className="file-download">
           <DownloadIcon />
           İndir
         </a>

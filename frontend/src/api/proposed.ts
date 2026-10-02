@@ -5,7 +5,7 @@
 // state instead of inventing data.
 import { useQuery } from "@tanstack/react-query";
 
-import { ApiError, getJson, patchJson, postJson, putJson, queryString } from "./client";
+import { ApiError, getJson, patchJson, postJson, queryString } from "./client";
 import type { AskResponse } from "./types";
 
 export class BackendPending extends Error {
@@ -127,29 +127,7 @@ export function sendAnswerFeedback(auditLogId: string, rating: FeedbackRating, c
   );
 }
 
-// ---------------------------------------------------------------------------
-// 4. Şirket rehberi (yönetici olmayan kullanıcılar için; /api/users yalnızca admin)
-// ---------------------------------------------------------------------------
-export interface DirectoryPerson {
-  id: string;
-  display_name: string;
-  title: string | null;
-  department_slug: string | null;
-  department_name: string | null;
-}
-
-export function useDirectory(q: string, department: string | null) {
-  return useQuery({
-    queryKey: ["directory", q, department],
-    queryFn: () =>
-      proposed("GET /api/directory", () =>
-        getJson<DirectoryPerson[]>(
-          `/api/directory${queryString({ q: q || undefined, department: department ?? undefined })}`,
-        ),
-      ),
-    retry: noRetryOnPending,
-  });
-}
+// 4. Şirket rehberi → gerçek uç: api/directory.ts (company-ai Aşama C, 01.10.2026).
 
 // ---------------------------------------------------------------------------
 // 5. Ekip sohbeti + departmanlar arası görüş talebi
@@ -551,89 +529,5 @@ export function updateDraft(id: string, version: number, body: string) {
   );
 }
 
-// ---------------------------------------------------------------------------
-// 10. Klasörler ve departman erişim yetkileri — B-26 (docs/BACKEND_GAPS.md §2.6)
-//     Sistem yöneticisi şirketin ortak alan klasör ağacını ve her klasör için departman
-//     bazında görme/değiştirme yetkisini belirler. Yetki şirket düzeyinde tektir; bütün
-//     projelere/SPV'lere aynı uygulanır. Klasör yetkisi gizlilik düzeyini aşmaz.
-// ---------------------------------------------------------------------------
-export type FolderAccess = "read" | "write";
-/** Bir departmanın bir klasördeki etkin erişimi. `owner` = klasörün sahibi departman. */
-export type EffectiveAccess = "none" | FolderAccess | "owner";
-
-export interface FolderGrant {
-  department_slug: string;
-  access: FolderAccess;
-  /** true = üst klasörden miras; false = bu klasörde tanımlı. */
-  inherited: boolean;
-}
-
-export interface AdminFolder {
-  id: string;
-  name: string;
-  parent_id: string | null;
-  owner_department_slug: string;
-  grants: FolderGrant[];
-  document_count: number;
-}
-
-/** Giriş yapan kullanıcının görebildiği klasör ve oradaki erişimi. */
-export interface UserFolder {
-  id: string;
-  name: string;
-  parent_id: string | null;
-  owner_department_slug: string;
-  access: FolderAccess;
-  document_count: number;
-}
-
-export interface FolderAuditEntry {
-  id: string;
-  created_at: string;
-  actor_name: string;
-  folder_id: string;
-  folder_name: string;
-  department_slug: string;
-  before: "none" | FolderAccess;
-  after: "none" | FolderAccess;
-}
-
-export function useAdminFolders() {
-  return useQuery({
-    queryKey: ["admin-folders"],
-    queryFn: () => proposed("GET /api/admin/folders", () => getJson<AdminFolder[]>("/api/admin/folders")),
-    retry: noRetryOnPending,
-  });
-}
-
-export function createFolder(body: { name: string; parent_id: string | null; owner_department_slug: string }) {
-  return proposed("POST /api/admin/folders", () => postJson<AdminFolder>("/api/admin/folders", body));
-}
-
-/** Klasörün bu klasörde tanımlı yetki listesini topluca yazar (sahibi departman listede olmaz).
- * `access: "none"` gönderilen departman için bu klasördeki tanım kaldırılır ve miras geçerli olur. */
-export function updateFolderGrants(
-  id: string,
-  grants: { department_slug: string; access: "none" | FolderAccess }[],
-) {
-  return proposed("PUT /api/admin/folders/{id}/grants", () =>
-    putJson<AdminFolder>(`/api/admin/folders/${id}/grants`, { grants }),
-  );
-}
-
-export function useFolderAudit() {
-  return useQuery({
-    queryKey: ["admin-folders-audit"],
-    queryFn: () =>
-      proposed("GET /api/admin/folders/audit", () => getJson<FolderAuditEntry[]>("/api/admin/folders/audit")),
-    retry: noRetryOnPending,
-  });
-}
-
-export function useMyFolders() {
-  return useQuery({
-    queryKey: ["folders"],
-    queryFn: () => proposed("GET /api/folders", () => getJson<UserFolder[]>("/api/folders")),
-    retry: noRetryOnPending,
-  });
-}
+// 10. Klasörler ve departman erişim yetkileri (B-26) → gerçek uçlar: api/folders.ts
+//     (company-ai Aşama E, 01.10.2026, ADR-023). Sözleşme alan alan korunmuştur.

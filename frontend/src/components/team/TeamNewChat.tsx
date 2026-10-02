@@ -1,14 +1,8 @@
 import { useState } from "react";
 
 import { useDepartments } from "../../api/departments";
-import {
-  createChat,
-  createOpinionRequest,
-  isPending,
-  useDirectory,
-  type ChatSummary,
-  type DirectoryPerson,
-} from "../../api/proposed";
+import { useDirectory, type DirectoryPerson } from "../../api/directory";
+import { createChat, createOpinionRequest, isPending, type ChatSummary } from "../../api/proposed";
 import { useAuth } from "../../auth/useAuth";
 import { useHasProduct } from "../../auth/useProduct";
 import { S } from "../../lib/strings";

@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import { isPending, useChats, useDirectory, type ChatSummary } from "../../api/proposed";
+import { useDirectory } from "../../api/directory";
+import { isPending, useChats, type ChatSummary } from "../../api/proposed";
 import { S } from "../../lib/strings";
 import { CloseButton, Modal, PendingNotice } from "../common/Modal";
 import { ErrorBox } from "../ErrorBox";

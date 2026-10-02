@@ -50,6 +50,15 @@ export const S = {
       "Güncel DSCR kaç?",
       "İzmir RES'in COD tarihi nedir?",
     ],
+    /** Excel hesabı isteyen örnekler — yalnızca Ürün 2 açıkken gösterilir (ADR-022). */
+    exampleQuestionsP2: ["Ankara RES 2026 Q2 DSCR kaç?", "Güncel DSCR kaç?"],
+    productLevelTitle: "Cevabı veren ürün katmanı",
+    /** Ç-7 veri durumu etiketleri (Balbal Anayasası v2.0). */
+    warningKind: {
+      missing_data: "Veri yok",
+      insufficient_data: "Yeterli veri bulunmamaktadır",
+      product_limit: "Paket sınırı",
+    },
     answerTitle: "Cevap",
     sourcesTitle: "Kaynaklar",
     excelSourcesTitle: "Excel kaynakları",
@@ -94,7 +103,8 @@ export const S = {
       "Yalnızca yetkili olduğunuz şirket belgelerinden cevap veririm ve her cevapta kaynağını gösteririm. Kaynak bulamazsam bunu açıkça söylerim.",
     placeholder: "Balbal'a bir şey sorun…",
     thinking: "Balbal yetkili belgelerinizi tarıyor…",
-    footnote: "Balbal belgelerde yazanı aktarır; yorum veya tahmin eklemez. Hesaplamalar Excel verisinden sistem tarafından yapılır.",
+    footnote: "Balbal belgelerde yazanı aktarır; yorum veya tahmin eklemez.",
+    footnoteP2: "Balbal belgelerde yazanı aktarır; yorum veya tahmin eklemez. Hesaplamalar Excel verisinden sistem tarafından yapılır.",
     noSourcePrefix: "İlgili belge sistemde yoksa",
     uploadLink: "belge yükleyebilirsiniz",
     noSourceSuffix: "; yüklendikten sonra Balbal bu soruyu cevaplayabilir.",
@@ -122,7 +132,6 @@ export const S = {
     directorySearch: "İsim, unvan veya departman ara",
     allDepartments: "Tümü",
     selected: "Seçilenler",
-    addBalbal: "Balbal'ı da sohbete ekle",
     start: "Sohbeti başlat",
     startGroup: (n: number) => `Grup sohbeti başlat (${n} kişi)`,
     requestHint:
@@ -149,7 +158,7 @@ export const S = {
     recentDocuments: "Belgeleriniz",
     projects: "Projeler",
     people: "Kişiler",
-    peoplePending: "Kişi araması için şirket rehberi (backend) bekleniyor.",
+    snippetPage: (page: number) => `s. ${page}`,
     noResults: "Yetkiniz olan kayıtlarda eşleşme yok. Belge içeriğinde aramak için Balbal'a sorun.",
     searchFoot: "Yalnızca görme yetkiniz olan belgeler, projeler ve kişiler listelenir.",
     upload: "Belge yükle",
@@ -162,6 +171,7 @@ export const S = {
     userMenu: "Kullanıcı menüsü",
     myAccess: "Yetkilerim",
     accessEmployee: (depts: string) => `${depts} departmanının normal gizlilikteki belgeleri. Diğer departmanlar için görüş veya evrak talebi.`,
+    accessManager: (depts: string) => `${depts} departmanının normal ve kısıtlı gizlilikteki belgeleri (yönetim kurulu belgeleri hariç).`,
     accessManagement: "Tüm departmanların tüm gizlilik düzeyindeki belgeleri.",
     accessAdmin: "Sistemdeki tüm belgeler ve yönetim ekranları.",
     kvkkTitle: "Kişisel verileriniz (KVKK)",
@@ -201,8 +211,6 @@ export const S = {
       project: "Proje",
       allProjects: "Tümü",
       empty: "Bu klasörde eşleşen belge yok. İçerikte aramak için Balbal'a sorabilirsiniz.",
-      pending: "Klasör görünümü için sunucu desteği gerekiyor (B-26). Şimdilik departmanın bütün belgeleri listeleniyor.",
-      noFolderField: "Sunucu belgelerin klasör bilgisini henüz göndermiyor (B-26); klasöre göre süzme yapılamıyor.",
     },
     empty: "Bu kapsamda belge yok.",
     columns: {
@@ -215,6 +223,7 @@ export const S = {
       ingestion: "İşlem",
       project: "Proje",
       subdepartment: "Alt departman",
+      kind: "Dosya",
     },
     download: "İndir",
     open: "Belgeyi aç",
@@ -417,6 +426,52 @@ export const S = {
       save: "Kaydet",
       saving: "Kaydediliyor…",
       hint: "Yalnızca değiştirmek istediğiniz alanları doldurun; boş bırakılanlar dokunulmadan kalır.",
+    },
+  },
+  /** ÜRÜN 1 ARAYÜZÜ — yalnızca Ürün 1 paketinde görünen sade ana sayfa (pages/urun1/Urun1Home.tsx). */
+  urun1: {
+    greeting: (name: string) => (name ? `İyi günler, ${name}` : "İyi günler"),
+    barLabel: "Balbal'a sorun",
+    placeholder: "Balbal'a sorun: belge, sözleşme, madde, tarih…",
+    placeholderFollow: "Devam edin veya yeni bir soru sorun…",
+    send: "Sor",
+    newQuestion: "Yeni soru",
+    examples: {
+      finans: [
+        "Ankara RES kredi sözleşmesinin vadesi ne zaman doluyor?",
+        "Kredi sözleşmesinin son tadili hangi maddeleri değiştirdi?",
+        "Ankara RES sigorta poliçesi ne zaman bitiyor?",
+      ],
+      mali_isler: [
+        "Son yüklenen fatura hangi iş için kesildi?",
+        "2025 bağımsız denetim raporunu hangi firma hazırladı?",
+        "Vergi levhasının güncel hali hangisi?",
+      ],
+      hukuk: [
+        "Ankara RES EPC sözleşmesinde gecikme cezası maddesi nedir?",
+        "İzmir RES davasında son duruşma ne zaman yapıldı?",
+        "Hisse rehni sözleşmesi hangi bankayla imzalandı?",
+      ],
+      idari_isler: [
+        "Ofis kira sözleşmesi ne zaman sona eriyor?",
+        "Şirket araçlarının kasko poliçeleri hangi sigortada?",
+        "Jeneratör bakım sözleşmesi kiminle yapıldı?",
+      ],
+      ik: [
+        "Personel yönetmeliğine göre fazla mesai nasıl onaylanır?",
+        "Yıllık izin süreleri yönetmelikte nasıl tanımlı?",
+        "Organizasyon şemasının güncel hali hangisi?",
+      ],
+      enerji_grubu: [
+        "İzmir RES ÇED başvurusu hangi tarihte yapıldı?",
+        "Ankara RES son arıza raporu neyi anlatıyor?",
+        "İzmir RES bağlantı görüşü hangi trafo merkezini gösteriyor?",
+      ],
+      default: [
+        "Bu departmanın en son yüklenen belgesi hangisi?",
+        "Güncel sözleşmelerimiz hangileri?",
+        "Bu konuyla ilgili belge var mı?",
+      ],
     },
   },
 } as const;

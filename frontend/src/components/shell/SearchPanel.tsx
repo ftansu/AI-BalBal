@@ -1,58 +1,58 @@
 import { useDocuments } from "../../api/documents";
-import { useProjects } from "../../api/projects";
-import { isPending, useDirectory } from "../../api/proposed";
+import { SEARCH_MIN_LENGTH, useSearch, type SearchDocumentHit } from "../../api/search";
 import { STAGE_LABELS, formatDate } from "../../lib/format";
 import { S } from "../../lib/strings";
 import { FileLink } from "../common/FileLink";
 import { CloseButton } from "../common/Modal";
 import { useShell } from "./ShellContext";
 
-const norm = (s: string) => s.toLocaleLowerCase("tr");
-
-/** Üst bar araması — canvas: Arama-Sonuclari.dc.html. Belge ve proje araması mevcut
- * `/api/documents` + `/api/projects` üzerinden (yalnızca yetkili kayıtlar döner); kişi
- * araması `/api/directory` bekliyor. Belge İÇERİĞİNDE arama Balbal'a yönlendirilir. */
+/** Üst bar araması — canvas: Arama-Sonuclari.dc.html. B-14 (company-ai Aşama D): tek uç
+ * `GET /api/search` belge içeriği + metadata (snippet, sayfa), proje ve kişi sonuçlarını
+ * yetki süzgecinden geçirip döner. Sorgu boşken kullanıcının son belgeleri listelenir.
+ * Cevap isteyen sorular Balbal'a yönlendirilir. */
 export function SearchPanel({ query, onClose }: { query: string; onClose: () => void }) {
   const { openBalbal } = useShell();
-  const documents = useDocuments({});
-  const projects = useProjects();
-  const q = norm(query.trim());
-  const people = useDirectory(query.trim(), null);
+  const q = query.trim();
+  const active = q.length >= SEARCH_MIN_LENGTH;
+  const recent = useDocuments({});
+  const search = useSearch(q);
 
-  const docs = (documents.data ?? [])
-    .filter((d) => !q || norm(`${d.title} ${d.document_type} ${d.counterparty}`).includes(q))
-    .slice(0, q ? 8 : 4);
-  const projectHits = q ? (projects.data ?? []).filter((p) => norm(`${p.name} ${p.code}`).includes(q)) : [];
-  const personHits = q ? (people.data ?? []) : [];
-  const nothing = q && docs.length === 0 && projectHits.length === 0 && personHits.length === 0;
+  const docs: SearchDocumentHit[] = active
+    ? (search.data?.documents ?? [])
+    : (recent.data ?? []).slice(0, 4).map((d) => ({ ...d, snippet: null, page_number: null }));
+  const projectHits = active ? (search.data?.projects ?? []) : [];
+  const personHits = active ? (search.data?.people ?? []) : [];
+  const nothing = active && search.isSuccess && docs.length === 0 && projectHits.length === 0 && personHits.length === 0;
 
   return (
     <div className="popover search-panel" role="dialog" aria-label={S.shell.search}>
       <div className="popover-head">
-        <span className="muted small">{q ? S.shell.resultsFor(query.trim()) : S.shell.searchHint}</span>
+        <span className="muted small">{active ? S.shell.resultsFor(q) : S.shell.searchHint}</span>
         <CloseButton onClick={onClose} />
       </div>
       <div className="popover-body">
-        {q && (
+        {active && (
           <button
             type="button"
             className="ask-balbal-row"
             onClick={() => {
               onClose();
-              openBalbal(query.trim());
+              openBalbal(q);
             }}
           >
             <span className="agent-mark" aria-hidden="true" />
-            {S.shell.askBalbal}: <strong>{query.trim()}</strong>
+            {S.shell.askBalbal}: <strong>{q}</strong>
           </button>
         )}
-        {docs.length > 0 && <div className="section-label">{q ? S.shell.documents : S.shell.recentDocuments}</div>}
+        {docs.length > 0 && <div className="section-label">{active ? S.shell.documents : S.shell.recentDocuments}</div>}
         {docs.map((d) => (
           <div key={d.id} className="search-row">
             <FileLink documentId={d.id} title={d.title} />
             <span className="muted small">
               {d.document_type} · {d.counterparty} · {formatDate(d.document_date)}
+              {d.page_number !== null && ` · ${S.shell.snippetPage(d.page_number)}`}
             </span>
+            {d.snippet && <span className="muted small search-snippet">{d.snippet}</span>}
             {d.status === "superseded" && <span className="badge warn">{S.ask.historical}</span>}
           </div>
         ))}
@@ -65,7 +65,7 @@ export function SearchPanel({ query, onClose }: { query: string; onClose: () => 
             </span>
           </div>
         ))}
-        {q && personHits.length > 0 && <div className="section-label">{S.shell.people}</div>}
+        {personHits.length > 0 && <div className="section-label">{S.shell.people}</div>}
         {personHits.map((p) => (
           <div key={p.id} className="search-row">
             <strong>{p.display_name}</strong>
@@ -74,7 +74,6 @@ export function SearchPanel({ query, onClose }: { query: string; onClose: () => 
             </span>
           </div>
         ))}
-        {q && isPending(people.error) && <p className="muted small">{S.shell.peoplePending}</p>}
         {nothing && <p className="muted">{S.shell.noResults}</p>}
       </div>
       <div className="popover-foot muted small">{S.shell.searchFoot}</div>

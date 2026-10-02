@@ -1,8 +1,11 @@
 import type {
   Confidentiality,
   DocumentStatus,
+  FileKind,
   IngestionStatus,
+  ProductLevel,
   ProjectStage,
+  ReviewStatus,
   SuggestionStatus,
   UserRole,
 } from "../api/types";
@@ -45,7 +48,31 @@ export const STAGE_LABELS: Record<ProjectStage, string> = {
 export const ROLE_LABELS: Record<UserRole, string> = {
   admin: "Yönetici",
   management: "Yönetim",
+  department_manager: "Departman Yöneticisi",
   employee: "Çalışan",
+};
+
+/** B-13: shown next to the title; the file itself is always a link (FileLink). */
+export const FILE_KIND_LABELS: Record<FileKind, string> = {
+  pdf: "PDF",
+  image: "Görüntü",
+  xlsx: "Excel",
+  xlsm: "Excel (makro)",
+  csv: "CSV",
+};
+
+/** B-28 publication state. `approved` is the normal case and is not badged. */
+export const REVIEW_STATUS_LABELS: Record<ReviewStatus, string> = {
+  pending_metadata: "Onaya hazırlanıyor",
+  pending_review: "Onay bekliyor",
+  changes_requested: "Geri gönderildi",
+  approved: "Onaylı",
+};
+
+export const PRODUCT_LEVEL_LABELS: Record<ProductLevel, string> = {
+  P1: "Ürün 1",
+  P2: "Ürün 2",
+  P3: "Ürün 3",
 };
 
 export const SUGGESTION_STATUS_LABELS: Record<SuggestionStatus, string> = {
@@ -83,7 +110,7 @@ export const SUGGESTION_FIELD_ORDER = [
 export const SELECTABLE_STATUSES: DocumentStatus[] = ["draft", "executed", "amended"];
 export const CONFIDENTIALITY_VALUES: Confidentiality[] = ["normal", "restricted", "board"];
 export const STAGE_VALUES: ProjectStage[] = ["development", "construction", "operation"];
-export const ROLE_VALUES: UserRole[] = ["admin", "management", "employee"];
+export const ROLE_VALUES: UserRole[] = ["admin", "management", "department_manager", "employee"];
 
 /** "Ayşe Yılmaz" → "AY" (avatar). */
 export function initials(name: string): string {

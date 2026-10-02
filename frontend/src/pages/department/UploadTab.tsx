@@ -4,7 +4,7 @@ import { useOutletContext, useSearchParams } from "react-router-dom";
 
 import { uploadDocument, useDocument, useDocumentStatus, useDocuments } from "../../api/documents";
 import { useProjects } from "../../api/projects";
-import { useMyFolders } from "../../api/proposed";
+import { useMyFolders } from "../../api/folders";
 import { ancestorNames } from "../../lib/folders";
 import type { Confidentiality, DocumentStatus } from "../../api/types";
 import { ErrorBox } from "../../components/ErrorBox";
@@ -40,8 +40,8 @@ export function UploadTab() {
   const queryClient = useQueryClient();
   const projects = useProjects();
   const documents = useDocuments({ department: department.slug });
-  // B-26: klasörler sunuluyorsa yalnızca değiştirme yetkili klasörlere yüklenir. Sunulmuyorsa
-  // (backend bekleniyor) form bugünkü gibi departmana yükler.
+  // B-26 (Aşama E): yalnızca değiştirme yetkili klasörlere yüklenir; kullanıcının klasörü
+  // yoksa form departmana yükler (backend departmanın kök klasörüne koyar).
   const folders = useMyFolders();
   const writable = (folders.data ?? []).filter((f) => f.access === "write");
   const folderMode = folders.isSuccess && (folders.data?.length ?? 0) > 0;

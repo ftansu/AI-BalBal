@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { NavLink, Navigate, Outlet, useParams } from "react-router-dom";
+import { NavLink, Navigate, Outlet, useLocation, useParams } from "react-router-dom";
 
 import { useDepartments } from "../api/departments";
 import type { Department } from "../api/types";
 import { useAuth } from "../auth/useAuth";
+import { useHasProduct } from "../auth/useProduct";
 import { ErrorBox } from "../components/ErrorBox";
 import { Spinner } from "../components/Spinner";
 import { S } from "../lib/strings";
@@ -24,6 +25,8 @@ export function DepartmentPage() {
   const { user } = useAuth();
   const departments = useDepartments();
   const [subdepartmentId, setSubdepartmentId] = useState<string | null>(null);
+  const location = useLocation();
+  const hasP2 = useHasProduct("P2");
 
   if (!user) return null;
   if (departments.isLoading) return <Spinner />;
@@ -47,6 +50,10 @@ export function DepartmentPage() {
     isAdmin: user.role === "admin",
   };
   const tabs = S.department.tabs;
+
+  // ÜRÜN 1 ARAYÜZÜ (yalnızca Ürün 1 paketinde): departmanın giriş sayfası sade Balbal ekranıdır;
+  // başlık, sekme ve alt birim çipleri gösterilmez (canvas "X Platformu — Ürün 1").
+  if (!hasP2 && isDepartmentIndex(location.pathname)) return <Outlet context={context} />;
 
   return (
     <>
@@ -87,4 +94,8 @@ export function DepartmentPage() {
       <Outlet context={context} />
     </>
   );
+}
+
+function isDepartmentIndex(pathname: string): boolean {
+  return /^\/departman\/[^/]+\/?$/.test(pathname);
 }

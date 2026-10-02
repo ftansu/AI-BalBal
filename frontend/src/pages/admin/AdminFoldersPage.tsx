@@ -4,14 +4,14 @@ import { useMemo, useState, type FormEvent } from "react";
 import { useDepartments } from "../../api/departments";
 import {
   createFolder,
-  isPending,
   updateFolderGrants,
   useAdminFolders,
   useFolderAudit,
   type AdminFolder,
   type EffectiveAccess,
   type FolderAccess,
-} from "../../api/proposed";
+} from "../../api/folders";
+import { isPending } from "../../api/proposed";
 import type { Department } from "../../api/types";
 import { FolderIcon } from "../../components/common/FolderIcon";
 import { PendingNotice } from "../../components/common/Modal";

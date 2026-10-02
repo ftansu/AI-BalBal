@@ -1,7 +1,7 @@
 # X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
 **Kime:** Backend tarafı ve backend tarafının yapay zekası
-**Hazırlayan:** Ürün sahibi (Claude ile) · **Revizyon:** v7.9 · 29.09.2026
+**Hazırlayan:** Ürün sahibi (Claude ile) · **Revizyon:** v8.0 · 29.09.2026
 **Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v177). Repo ile canvas farklıysa **canvas esastır**.
 
@@ -128,11 +128,16 @@ Ekran bilgiyle doldurulmaz. İlk bakışta göze çarpması gerekenler görünü
 | **Frontend** (`ftansu/AI-BalBal`) | Ekranlar. Backend'e yalnızca API üzerinden bağlanır. Yeni uç ihtiyacını `proposed.ts`'e sözleşme olarak yazar ve bu belgeye ekler. |
 | **Backend tarafı** (`ntoydem/company-ai`) | API, veri modeli, yetki, retrieval, LLM akışları, entegrasyonlar (EPİAŞ vb.), testler. Frontend'e dokunmaz; tip değişikliği önerisini ürün sahibine liste olarak verir. |
 
+**Ürünün arayüzü hangisi? (ürün sahibinin kararı, 29.09.2026)**
+- **Ürünün gerçek arayüzü `ftansu/AI-BalBal`'dır.** Müşteriye bu arayüz sunulur; web testleri (B-27) bu arayüzle yapılır.
+- `ntoydem/company-ai` içindeki `frontend/` klasörü **test arayüzüdür**: yalnızca backend'i denemek için kullanılır. Oraya yeni ürün özelliği veya yeni ekran eklenmez; backend testine yetecek kadar değişiklik serbesttir.
+- Rica: bu ayrım backend reposunda da yazılı olsun (ör. `frontend/README.md` ve kök README'de "test arayüzüdür, ürün arayüzü `ftansu/AI-BalBal`"). Böylece o repoda çalışan yapay zeka da test arayüzüne ürün özelliği eklememesi gerektiğini bilir.
+
 ### 1.4 Bugünkü durum: backend'de var, frontend'e bağlandı (BİLGİ)
 **Ürün:** Ürün 1 — Tanıma
 
 Bunlar için backend'de değişiklik gerekmiyor.
-1. **`/api/ask` proje kapsamı (`project_id`)** frontend'e bağlanmıştı; canvas v165'te **proje seçimi kaldırıldı** (bkz. §3.3). Kod henüz buna uyarlanmadı; `project_id` gönderimi kalkacak.
+1. **`/api/ask` proje kapsamı (`project_id`):** Balbal penceresinde proje seçimi **yok** ve pencere `project_id` göndermez (bkz. §3.3). Departman sayfasındaki "Balbal'a Sor" sekmesi ise isteğe bağlı olarak `project_id` gönderebiliyor. Bu yüzden alan backend'de **isteğe bağlı kalmalı, kaldırılmamalı**.
 2. **`GET /api/excel/{id}/inspect`** belge detayında "Excel dosya yapısı" kartı olarak gösteriliyor (sayfalar, adlandırılmış aralıklar, formül sayısı, makro). Excel olmayan belgede 422 → kart gizleniyor.
 3. **Excel/CSV yükleme:** Backend `xlsx/xlsm/csv` kabul ediyordu, formdaki dosya seçici yalnızca PDF/görsel alıyordu. Düzeltildi.
 4. **Versiyon zinciri:** `supersedes_document_id` / `superseded_by_document_id` artık açılabilir ve indirilebilir link.
@@ -173,14 +178,13 @@ Bunlar için backend'de değişiklik gerekmiyor.
 | Katman | Talepler |
 |---|---|
 | **Ortak altyapı** (her ürünün ön koşulu, ürünlere göre açılıp kapanmaz) | B-18 demo veri · B-19 analiz · B-02 bildirim altyapısı · B-25 ürün katmanı anahtarı · P-1…P-10 ilkeleri |
-| **Ürün 1 — Tanıma** | B-20 (1–5) departman yapısı · B-08 departman yöneticisi rolü · B-09 ana departman · B-10 belge paylaşımı (→ B-26) · **B-26 klasör ve departman erişim yetkileri** · B-05 rehber · B-13 dosya türü · B-17 indirme · B-07 versiyon bağlantısı · B-14 genel arama · **B-28 belge yükleme (tanıma, onay, manuel alan, kayıt defteri)** · B-12 etiket önerisi onayı (→ B-28) · B-03 sohbet geçmişi · B-04 geri bildirim · B-20/6 çok proje · B-11 evrak talebi (bulur ve yönlendirir) · B-15 Word yükleme · **B-24 e-posta ve sözleşme ilişkilendirme** · §1.4'teki mevcut özellikler (ask, Excel inspect, versiyon zinciri) |
+| **Ürün 1 — Tanıma** | B-20 (1–5) departman yapısı · B-08 departman yöneticisi rolü · B-09 ana departman · B-10 belge paylaşımı (→ B-26) · **B-26 klasör ve departman erişim yetkileri** · B-05 rehber · B-13 dosya türü · B-17 indirme · B-07 versiyon bağlantısı · B-14 genel arama · **B-28 belge yükleme (tanıma, onay, manuel alan, kayıt defteri)** · B-12 etiket önerisi onayı (→ B-28) · B-03 sohbet geçmişi · B-04 geri bildirim · B-20/6 çok proje · B-11 evrak talebi (bulur ve yönlendirir) · B-15 Word yükleme · **B-24 e-posta ve sözleşme ilişkilendirme** · **B-06b ekip sohbeti (kişiler arası ve grup; Balbal dahil edilemez)** · §1.4'teki mevcut özellikler (ask, Excel inspect, versiyon zinciri) |
 | **Ürün 2 — Birleştirme** | B-01 gündem (deadline hatırlatma, bekleyen onaylar) · B-06a departmanlar arası görüş talebi · B-22 işlem talebi iskeleti ve izin formu taslağı · B-23 yazışma: özet, süre, **olgusal** cevap taslağı · şablon tabanlı dışa aktarma (§11) · §3.5 niyet ayrımı |
 | **Ürün 3 — Yorumlama** | B-21 EPİAŞ + mahsuplaşma (tahmini değerler içerdiği için; bkz. §8.3) · B-16 EPİAŞ canlı veri · B-20/7 Enerji izin/ruhsat takibi · §7.3 Hukuk dava ve icra süresi takibi · B-23'ün hukuki gerekçe ve savunma kısmı · §7'deki bütün departman yol haritaları |
-| **Ürün 2 sonrası (ürün sahibinin kararı)** | B-06b kişiler arası ve grup sohbeti, Balbal dahil edilebilir (bkz. §6.3) |
 
 #### 1.5.4 Ürün katmanı anahtarı — **B-25** · KARAR VERİLDİ (ürün sahibi, 28.09.2026) · Ürün: ortak altyapı
 
-**Karar:** Ürünler için ayrı uygulama/repo YOK. Tek frontend (`ftansu/AI-BalBal`), tek backend (`ntoydem/company-ai`); müşteride hangi ürünlerin açık olduğu aşağıdaki anahtarla kontrol edilir. Naci'nin daha önce gündeme getirdiği "her ürün için ayrı frontend" fikri bu nedenle uygulanmayacak — Ürün 2 ve 3, Ürün 1'in departman yapısı, yetki ve belge altyapısı üzerine kurulu; ayrı uygulamalar bu altyapıyı üçe katlardı.
+**Karar:** Ürünler için ayrı uygulama/repo YOK. Tek frontend (`ftansu/AI-BalBal`), tek backend (`ntoydem/company-ai`); müşteride hangi ürünlerin açık olduğu aşağıdaki anahtarla kontrol edilir. Backend tarafının daha önce gündeme getirdiği "her ürün için ayrı frontend" fikri bu nedenle uygulanmayacak — Ürün 2 ve 3, Ürün 1'in departman yapısı, yetki ve belge altyapısı üzerine kurulu; ayrı uygulamalar bu altyapıyı üçe katlardı.
 
 - Şirket ayarlarında hangi ürünlerin açık olduğu tutulur: `company_settings.enabled_products = ["P1","P2","P3"]`.
 - Her uç ve her Balbal akışı bir katmana bağlanır (`requires_product = "P1"|"P2"|"P3"`). Kapalı katmanın ucu `403 product_not_enabled` döner; Balbal *"Bu özellik şirketinizin paketinde yok"* der.
@@ -189,7 +193,7 @@ Bunlar için backend'de değişiklik gerekmiyor.
 - Demo ortamında üç ürün de açıktır.
 - **Kabul testi:** Yalnızca P1 açıkken (a) taslak, görüş talebi, gündem uçları 403 döner; (b) Balbal hesap veya tahmin yapmaz; (c) yalnızca P1+P2 açıkken projeksiyon sorusu reddedilir; (d) `GET /api/auth/me` cevabında `enabled_products: ["P1"]` döner.
 
-**Frontend tarafında yapıldı (bu commit):** `enabled_products` alanı ve `hasProduct()` yardımcı fonksiyonu (`api/products.ts`), `useHasProduct()` hook'u ve `RequireProduct` route guard'ı (`auth/`) eklendi. Bugün Ürün 2'ye bağlı tek somut ekran olan **ekip sohbeti** (görüş talebi içerdiği için) bu anahtara bağlandı: P2 kapalıyken launcher görünmez ve `openTeam()` no-op'tur. Henüz yazılmamış Ürün 2/3 ekranları (gündem, işlem talebi, yazışma taslağı vb.) yazılırken route'ları `RequireProduct` ile sarmalamak yeterli.
+**Frontend tarafında yapıldı:** `enabled_products` alanı ve `hasProduct()` yardımcı fonksiyonu (`api/products.ts`), `useHasProduct()` hook'u ve `RequireProduct` route guard'ı (`auth/`) eklendi. Bugün bu anahtara bağlı ekranlar: ana sayfadaki **"Gündeminiz"** (Ürün 2) ve ekip sohbeti penceresindeki **"Departmandan görüş talebi"** sekmesi (Ürün 2). Ekip sohbetinin kendisi (kişiler arası ve grup) Ürün 1'dir ve her pakette açıktır (§6.3). Henüz yazılmamış Ürün 2/3 ekranları (işlem talebi, yazışma taslağı vb.) yazılırken route'ları `RequireProduct` ile sarmalamak yeterli.
 
 #### 1.5.5 Süreç haritasıyla karşılaştırırken bulunan noktalar
 
@@ -198,7 +202,7 @@ Bunlar için backend'de değişiklik gerekmiyor.
 3. **Yazışma/dilekçe de iki katmanlı.** Ürün 2 "yazı taslağı" hazırlar ama yorum katmaz: özet, süre, olgusal anlatım, istenen belgelerin listesi. Dilekçedeki **hukuki gerekçe, savunma argümanı, risk değerlendirmesi** yorumdur → **Ürün 3 Hukuk**. Yalnızca P2 açıkken taslakta "Hukuki sebepler" bölümü boş bırakılır ve `[AVUKAT DOLDURACAK]` yazılır.
 4. **Word, Ürün 1'in çekirdek veri türü.** Haritada Ürün 1 dokümanları "PDF, Word, Excel". V0'da `.docx` yükleme ertelenmişti (B-15); bu **Ürün 1'in eksiği** olarak kayıtlıdır, sıradaki Ürün 1 genişletmesinin ilk işidir.
 5. **E-posta ve sözleşme ilişkilendirme bu belgede hiç yoktu.** Ürün 1'in 2. veri grubu. **B-24** olarak eklendi (§4.6).
-6. **Kişiler arası ekip sohbeti haritada yok → karar verildi (ürün sahibi, 28.09.2026):** Ürün 2 tamamlandıktan sonra eklenecek; sohbete Balbal da dahil edilebilecek. Haritaya da bu şekilde işlenecek.
+6. **Kişiler arası ekip sohbeti → karar verildi (ürün sahibi, 29.09.2026):** Ürün 1'e eklendi; **Balbal bu sohbetlere dahil edilemez**, Balbal penceresi ile ekip sohbeti ayrı pencerelerdir. Süreç haritasına da bu şekilde işlendi. (28.09.2026 tarihli "Ürün 2 sonrası, Balbal dahil edilebilir" kararının yerine geçer; ayrıntı §6.3.)
 7. **Şablon tabanlı raporlama Ürün 2'nin çekirdeği** ama "dışa aktarma" olarak ertelenmiş durumda (§11). Ürün 2 tamamlanmış sayılmaz.
 
 ### 1.6 Uyum denetimi: backend bu belgeye göre kontrol edilir
@@ -224,7 +228,7 @@ Bu projede iki farklı test var. Birbirine karıştırılmaz, biri diğerinin ye
 |---|---|---|
 | Sorusu | Ürün yazıldı mı, doğru çalışıyor mu? | Gerçek hayatta karşılığı var mı, biri bunu kullanır ve parasını öder mi? |
 | Kim yapar | Backend tarafı | Ürün sahibi tarafı |
-| Nasıl | Otomatik testler (P-1 testleri, `allowed_document_ids`, katman testleri) ve belgelerdeki kabul testleri (`BAGLANTI_YOL_HARITASI.md` §9, T-01…T-18) | Önce arayüz testleri (T-19…T-25), sonra gerçek kullanıcı ve gerçek işle satılabilirlik testi |
+| Nasıl | Otomatik testler (P-1 testleri, `allowed_document_ids`, katman testleri) ve belgelerdeki kabul testleri (`BAGLANTI_YOL_HARITASI.md` §9: T-01…T-18, T-26, T-27) | Önce arayüz testleri (T-19…T-25), sonra gerçek kullanıcı ve gerçek işle satılabilirlik testi |
 | Geçerse | Ürün **çalışıyor** demektir, **satılabilir** demek değildir | Bir sonraki ürüne geçilir |
 
 **Sonuç:**
@@ -297,6 +301,8 @@ Backend'de tespit edilen farklar:
 5. **Demo kullanıcısı `finans` hem Finans hem Mali İşler'de** → P-5'e ters. Arayüz, "Proje Finans, Mali İşler belgesini göremez" senaryosunu örnek olarak kullanıyor; kullanıcı yalnızca Proje Finans'ta olmalı.
 
 ### 2.2 Ana departman — **B-09** · HEMEN (B-08 ile birlikte)
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** backend `primary_department_slug`/`title` gönderiyor (Aşama C); arayüz ana departman yönlendirmesinde ve kullanıcı menüsünde kullanıyor.
 **Ürün:** Ürün 1 — Tanıma (RBAC)
 
 - P-5 gereği kişinin **ana departmanı** bilinmeli: `users.primary_department_id` eklensin, `/api/auth/me` dönsün.
@@ -309,6 +315,8 @@ Backend'de tespit edilen farklar:
 - `users.manager_id` (nullable) — izin ve diğer işlem onayları için (§8.1).
 
 ### 2.4 "Departman yöneticisi" rolü — **B-08** · ÖNERİLEN KARAR
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** backend `department_manager` rolünü uyguladı (kendi departmanları, normal + kısıtlı; yönetim kurulu hariç). Arayüz: rol etiketi/atama, kartlar ve ana departman yönlendirmesi üyelik bazlı.
 **Ürün:** Ürün 1 — Tanıma (RBAC)
 
 Mevcut kural (`authorization.py`):
@@ -318,7 +326,7 @@ Mevcut kural (`authorization.py`):
 Tasarımda departman müdürleri (Proje Finans müdürü, Hukuk müdürü, Enerji müdürü) **kendi departmanlarının `restricted` belgelerini de** görüyor ama başka departmanların belgelerini görmüyor. Mevcut iki rol buna uymuyor.
 
 - **Önerilen karar:** `department_manager` rolü; kural: "kendi departman(lar)ı, `normal` + `restricted`". (Alternatif: `user_departments` üyeliğine `max_confidentiality` alanı.)
-- Bu rol aynı zamanda: etiket önerisi onayı (§4.2), işlem onay zinciri (§8.1), yazışma ikinci onayı (§8.2) için kullanılır.
+- Bu rol aynı zamanda: işlem onay zinciri (§8.1) ve yazışma ikinci onayı (§8.2) için kullanılır. (Etiket önerisini artık belgeyi yükleyen personel onaylar; §4.7, B-28.)
 - Değişiklik yalnızca `allowed_document_ids` içinde (P-2).
 - **Not (ürün sahibinin yaklaşımı):** yetki yapısı her şirkette farklı yapılandırılabilir olmalı (P-8). İK'da erişim **bireysel**, operasyonel departmanlarda (Enerji, Hukuk, Finans…) **departman bazlı** düşünülür.
 
@@ -329,6 +337,8 @@ Tasarımda departman müdürleri (Proje Finans müdürü, Hukuk müdürü, Enerj
 - ~~Önerilen karar: `document_shares(document_id, department_id)` tablosu~~ → **Bu ihtiyaç §2.6 (B-26) ile karşılanır (ürün sahibinin kararı, 28.09.2026):** belge bazında paylaşım yerine **klasör bazında departman yetkisi**; yetkiyi sistem yöneticisi verir. `document_shares` tablosu açılmaz.
 
 ### 2.6 Klasör yapısı ve departman erişim yetkileri (sistem yöneticisi sayfası) — **B-26** · KARAR VERİLDİ (ürün sahibi, 28.09.2026)
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** backend uçları bu bölümdeki sözleşmeyle alan alan aynı (company-ai Aşama E, ADR-023); arayüz `api/folders.ts` ile gerçek uçlara bağlandı.
 **Ürün:** Ürün 1 — Tanıma (RBAC, ortak alan)
 
 **Amaç:** Sistem yöneticisi, şirketin ortak alanında hangi klasörlerin olduğunu ve her klasöre hangi departmanın **görme** ya da **değiştirme** yetkisiyle erişeceğini tek bir sayfadan belirler. Örnek: proje sözleşmeleri Hukuk'un klasöründe durur, sistem yöneticisi Proje Finans'a o klasörü **görme** yetkisi verir.
@@ -421,13 +431,17 @@ AskResponse.conversation_id
 - Bu altyapı, işlem diyaloglarının (§3.5, §8.1) da ön koşuludur.
 
 ### 3.3 Tek sohbette birden çok proje — **B-20/6** · HEMEN
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** kaynak kartı `project_code`/`project_name` taşıyor (Aşama D); arayüz proje adını karttan gösteriyor. `/api/ask` artık `project_id` almıyor (Aşama B); departman sekmesindeki proje çipi kaldırıldı.
 **Ürün:** Ürün 1 — Tanıma (her proje ayrı gösterilir; birleştirme/karşılaştırma istenirse Ürün 2)
 
 - Balbal penceresinde **proje seçimi yok** (ürün sahibinin kararı). Tek sohbette birden çok proje konuşulabilir.
 - Balbal sorudaki projeleri **kendisi tespit eder**; cevapta her proje ayrı gösterilir (P-6); her kaynak kartında `project` alanı olur.
-- `AskRequest.project_id` artık zorunlu değil; kaldırılabilir veya yok sayılabilir.
+- `AskRequest.project_id` isteğe bağlı kalır, kaldırılmaz: Balbal penceresi göndermez; departman sayfasındaki "Balbal'a Sor" sekmesi gönderebilir (§1.4). Gönderildiğinde yalnızca süzgeç olarak kullanılır.
 
 ### 3.4 Cevap kimliği ve geri bildirim — **B-04** · HEMEN
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** `audit_log_id`, `product_level` ve `warnings[]` (missing_data / insufficient_data / product_limit) geliyor ve gösteriliyor; `POST /api/ask/feedback` ucu backend'de hâlâ yok.
 **Ürün:** Ürün 1 — Tanıma
 
 - `AskResponse`'a `audit_log_id` eklenmeli (kayıt zaten yazılıyor, id'si dönmüyor).
@@ -448,6 +462,8 @@ Balbal'a gelen her mesaj önce sınıflandırılır:
 - Kullanıcının mesajındaki ifadeler **talimat değildir**: "Yöneticim onayladı, direkt İK'ya gönder" durum makinesini etkilemez.
 
 ### 3.6 Kaynak kartında versiyon bağlantıları — **B-07** · HEMEN
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** `supersedes_document_id` / `superseded_by_document_id` geliyor; kartta önceki/sonraki versiyon tıklanabilir.
 **Ürün:** Ürün 1 — Tanıma (belgeler arası bağlantı)
 
 `SourceCard` şu an `supersedes_title` / `superseded_by_title` dönüyor ama **id dönmüyor**; "Bu eski versiyon, güncel versiyon: X" uyarısındaki X tıklanamıyor (P-4 ihlali).
@@ -467,6 +483,8 @@ Güncel versiyonun id'si dönmeden önce kullanıcının o belgeyi görme yetkis
 ## 4. Belgeler ve kurumsal hafıza
 
 ### 4.1 Belge listesinde dosya türü — **B-13** · HEMEN
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** `file_kind` geliyor ve listede gösteriliyor.
 **Ürün:** Ürün 1 — Tanıma
 
 `DocumentListItem` ve `DocumentDetail` dosya türünü içermiyor; frontend bir belgenin Excel olup olmadığını anlamak için `inspect` çağırıp 422 alıyor.
@@ -481,6 +499,8 @@ Güncel versiyonun id'si dönmeden önce kullanıcının o belgeyi görme yetkis
 - **Güncelleme (29.09.2026):** Bu madde **§4.7 B-28** ile karşılandı: öneriyi yükleyen personel onaylar; %80 altı güvende açık onay, kayıt defteri.
 
 ### 4.3 İndirme: dosya adı ve tarayıcıda açma — **B-17** · HEMEN
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** "Aç" `?inline=1`, "İndir" düz; dosya adı belge başlığı + uzantı (Aşama B).
 **Ürün:** Ürün 1 — Tanıma
 
 `download_document` şu an `FileResponse(path, filename=path.name)` dönüyor; inen dosyanın adı **`original.pdf`** oluyor.
@@ -488,6 +508,8 @@ Güncel versiyonun id'si dönmeden önce kullanıcının o belgeyi görme yetkis
 - `?inline=1` ile `Content-Disposition: inline` desteklensin. Arayüzde "Belgeyi aç" inline, "İndir" attachment kullanır.
 
 ### 4.4 Genel arama — **B-14** · SIRADA (V1)
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** `GET /api/search` (Aşama D) üst bar aramasına bağlandı: içerik eşleşmesinde snippet + sayfa, proje ve kişi sonuçları.
 **Ürün:** Ürün 1 — Tanıma (bulur)
 
 Üst bardaki arama şu an `/api/documents` ve `/api/projects` listelerini **istemcide** filtreliyor; yalnızca başlık, tür ve muhatapta arıyor.
@@ -497,7 +519,7 @@ Güncel versiyonun id'si dönmeden önce kullanıcının o belgeyi görme yetkis
 **Ürün:** Ürün 1 toplar (veri grubu 4: yorum ve notlar) · Ürün 2 düzenler ve derler · Ürün 3 hafızadan görüş üretir
 
 - Kurumsal hafızaya **otomatik** giren tek şey: **departmanlar arası görüş talepleri ve cevapları** (§6.2).
-- Kişiler arası sohbetler, Balbal soru-cevapları, işlem taslakları (izin, yazışma) **girmez**.
+- Kişiler arası ve grup sohbetleri, Balbal soru-cevapları, işlem taslakları (izin, yazışma) **girmez**. Balbal ekip sohbetlerini hiç okuyamaz (§6.3).
 - Personel isterse kendi "bilgi notu"nu belge olarak ilgili klasöre yükler; sistem onu normal belge gibi işler.
 - "Her soru-cevabı kaydet" butonu fikri **ertelendi** (kurumsal ortamda her şeyin kaydedilmesi rahatsızlık yaratabilir).
 
@@ -597,7 +619,7 @@ Kod testleri backend tarafının işidir. Biz ürün testinde (§1.7) şunlara b
 
 ## 5. Ana ekran: gündem ve bildirimler
 
-### 5.1 Gündem — **B-01** · HEMEN (ilk kısım)
+### 5.1 Gündem — **B-01** · SIRADA (Ürün 1 finalize olduktan sonra)
 **Ürün:** Ürün 2 — Birleştirme (deadline hatırlatma, eksik/bekleyen işleri gösterme)
 
 Ana ekranın en üstündeki "Gündeminiz" kutusu: kişinin takip etmesi gereken **kısa, öncelikli** liste (P-7).
@@ -607,9 +629,10 @@ GET /api/me/agenda
      title, due_date, document_id|null, document_title|null }]
 ```
 Kaynaklar (hepsi yetki süzgecinden geçer, P-2):
-1. **Hemen yapılabilir:** `documents.expiration_date` 60 gün içinde dolacak belgeler → `deadline`.
-2. **Hemen yapılabilir:** onay bekleyen etiket önerileri → `approval` (kimin göreceği B-12'ye bağlı).
+1. **İlk kısım:** `documents.expiration_date` 60 gün içinde dolacak belgeler → `deadline`.
+2. **İlk kısım:** personelin onayını bekleyen belge yükleme önerileri → `approval` (yalnızca belgeyi yükleyen kişi görür; §4.7, B-28).
 3. Sonra: görüş talepleri (§6.2), evrak talepleri (§6.4), işlem onayları (§8.1), yazışma süreleri (§8.2).
+- Gündem Ürün 2'dir; Ürün 1 ürün testinden geçmeden kodlanmaz (§1.7). Frontend'de "Gündeminiz" kutusu P2 kapalıyken zaten gizli.
 - `document_id` olan her madde `allowed_document_ids` kontrolünden geçer; yetkisiz belgenin **başlığı bile** dönmez.
 
 ### 5.2 Bildirimler — **B-02** · SIRADA (V1)
@@ -632,11 +655,13 @@ Platformda kişiler ve departmanlar arasında **dört iletişim yolu** var. Her 
 | Yol | Ne için | Kurumsal hafızaya girer mi | Durum |
 |---|---|---|---|
 | **1. Şirket rehberi** | Kişiyi bulmak | — | HEMEN |
-| **2. Departmanlar arası görüş talebi** | Bir departmanın başka bir departmandan resmî görüş istemesi | **Evet** (talep + cevap) | ÖNERİLEN KARAR — önce bu |
-| **3. Ekip sohbeti** (kişiler arası, grup; Balbal eklenebilir) | Günlük yazışma | Hayır | KARAR VERİLDİ — Ürün 2 tamamlandıktan sonra |
+| **2. Departmanlar arası görüş talebi** | Bir departmanın başka bir departmandan resmî görüş istemesi | **Evet** (talep + cevap) | ÖNERİLEN KARAR — Ürün 2 |
+| **3. Ekip sohbeti** (kişiler arası, grup; **Balbal dahil edilemez**) | Günlük yazışma | Hayır | KARAR VERİLDİ — Ürün 1 |
 | **4. Evrak talebi** | Yetkisi olmayan bir belgeye ihtiyaç duyulduğunda | Hayır | ÖNERİLEN KARAR |
 
 ### 6.1 Şirket rehberi — **B-05** · HEMEN
+
+**Durum (02.10.2026, PR `feat/backend-sync-urun1`):** `GET /api/directory` (Aşama C) rehber ve arama kişi sonuçlarına bağlandı.
 **Ürün:** Ürün 1 — Tanıma (departman ve kişi yapısı)
 
 `/api/users` yalnızca admin'e açık. Kişi bulmak ve sohbete eklemek için herkesin görebileceği **dar** bir liste gerekiyor:
@@ -657,33 +682,51 @@ POST /api/opinion-requests  { to_department, subject, body, due_date }
 - Talep, hedef departmanın gündemine (`opinion_request`) ve bildirimine düşer.
 - Cevabı hedef departmanın yetkili kişisi yazar. Balbal cevap **taslağı** önerebilir; gönderen yine insandır (P-1).
 - Talebe eklenen belgeler alıcı için indirme anında **yeniden** yetki kontrolünden geçer. Paylaşmak yetki vermez.
-- **Önerilen karar:** Önce yalnızca görüş talebi yapılsın; serbest sohbet sonra.
+- Arayüzde görüş talebi, ekip sohbeti penceresinde ayrı bir sekmedir ve yalnızca P2 açıkken görünür. Görüş talebi sohbetleri `GET /api/chats` listesinde `kind: "opinion_request"` olarak döner; P2 kapalıyken bu tür dönmez ve `POST /api/opinion-requests` `403 product_not_enabled` verir (B-25).
 
-### 6.3 Ekip sohbeti (kişiler arası ve grup) — **B-06 (b)** · SIRADA (Ürün 2 tamamlandıktan sonra)
-**Ürün:** Ürün 2 sonrası — **Ürün sahibinin kararı (28.09.2026):** kişiler arası ve grup sohbeti Ürün 2 tamamlandıktan sonra eklenecek; **Balbal sohbete dahil edilebilecek.**
+### 6.3 Ekip sohbeti (kişiler arası ve grup) — **B-06 (b)** · KARAR VERİLDİ (ürün sahibi, 29.09.2026)
+**Ürün:** Ürün 1 — Tanıma (şirket içi iletişim; şirket rehberi B-05 ile birlikte)
 
-**Başlama koşulu:** Ürün 2 kalemleri (gündem, bildirim, görüş talebi, işlem talebi iskeleti, yazışma taslağı) tamamlanmış olmalı. O zamana kadar yalnızca ADR ve veri modeli taslağı.
+> Bu karar, 28.09.2026 tarihli önceki kararın ("Ürün 2 tamamlandıktan sonra; Balbal sohbete dahil edilebilir") **yerine geçer**. Önceki kararla ilgili bütün notlar geçersizdir.
 
-**Balbal sohbette nasıl davranır:**
-- Balbal yalnızca kullanıcı onu sohbete **eklediğinde** vardır; kendiliğinden katılmaz, mesajları okumaz.
-- Balbal'a sohbette açıkça seslenildiğinde (`@Balbal` veya "Balbal'a sor") cevap verir; diğer mesajlara karışmaz.
-- Cevap, **sohbetteki tüm üyelerin ortak görebildiği belgelerle** sınırlıdır (aşağıdaki güvenlik kuralı). Kimin yetkisi daha genişse ona göre genişlemez.
-- Balbal sohbette **işlem başlatmaz** (P-1): izin, yazışma vb. taslak yalnızca kişinin kendi Balbal penceresinde, kendisi için hazırlanır.
-- Sohbet içeriği, Balbal eklenmiş olsa bile kurumsal hafızaya girmez (§4.5).
+**Karar:**
+1. Personel arası sohbet (birebir ve grup) **Ürün 1**'dedir; her pakette açıktır.
+2. **Balbal bu sohbetlere dahil edilemez.** Sohbete eklenemez; mesajları okumaz, özetlemez, cevaplamaz. Sohbette Balbal'a seslenme (`@Balbal` gibi) yoktur.
+3. **Balbal penceresi ile ekip sohbeti ayrı pencerelerdir.** Arayüzde iki ayrı buton ve iki ayrı panel vardır; biri diğerinin içeriğini göstermez.
+4. Sohbet mesajları **retrieval'a, Balbal'ın bilgi tabanına ve kurumsal hafızaya girmez** (§4.5). Balbal "X ile Y ne konuştu?" gibi bir soruya cevap veremez, çünkü bu veriye hiç erişimi yoktur.
 
+**Backend'den beklenen:**
 ```
-GET  /api/chats                   → [{ id, kind: direct|group|opinion_request, title, member_ids, includes_balbal,
+GET  /api/chats                   → [{ id, kind: "direct"|"group"|"opinion_request", title, member_ids,
                                        last_message, updated_at, unread_count, opinion_request: {…}|null }]
-POST /api/chats                   { member_ids, title?, include_balbal }
-GET  /api/chats/{id}/messages     → [{ id, sender_id|null(=Balbal), sender_name, text, document_id, document_title, created_at, system }]
+POST /api/chats                   { member_ids, title? }
+GET  /api/chats/{id}/messages     → [{ id, sender_id|null (null = sistem mesajı), sender_name, text,
+                                       document_id, document_title, created_at, system }]
 POST /api/chats/{id}/messages     { text?, document_id? }
-POST /api/chats/{id}/members      { member_ids, include_balbal? }
+POST /api/chats/{id}/members      { member_ids }
 ```
-**Güvenlik (kritik):**
-- Balbal bir grup sohbetine eklendiğinde yalnızca **sohbetteki tüm üyelerin ortak görebildiği** belgelerden (üyelerin `allowed_document_ids` kümelerinin **kesişimi**) cevap verir. Aksi halde yetkisiz üye, yetkili üyenin belgesini Balbal üzerinden okumuş olur.
-- Sohbette paylaşılan belge her alıcı için indirme anında yeniden yetki kontrolünden geçer.
-- Kişiler arası sohbetler kurumsal hafızaya **girmez** (§4.5).
-- İleride Teams entegrasyonu bu yolun alternatifi olabilir.
+- Sözleşme `frontend/src/api/proposed.ts` §5'tedir; alan adlarını birebir eşleştir. Uçlarda Balbal'ı sohbete ekleyen bir alan **yoktur** ve eklenmemelidir.
+- Sohbet mesajlarını tutan tablolar retrieval ve Balbal akışlarından **teknik olarak ayrı** tutulur: Balbal'ın kullandığı hiçbir sorgu bu tabloları okumaz.
+- Sohbeti ve mesajlarını yalnızca sohbetin üyeleri görür.
+- Sohbette paylaşılan belge, her alıcı için açma ve indirme anında yeniden yetki kontrolünden geçer. Belgeyi paylaşmak, alıcıya yetki vermez (P-2).
+- Görüş talebi (§6.2, Ürün 2) aynı listede `kind: "opinion_request"` olarak görünür; P2 kapalıyken bu tür dönmez.
+- Mesajlar kişisel veridir: saklama süresi ve KVKK bilgilendirmesi kısa bir ADR'de yazılır.
+
+**Sıra:** Web testinin ilk turu için şart değildir. Frontend–backend bağlantı seti (B-25, B-20 + B-09, B-18) tamamlandıktan sonra, şirket rehberi (B-05) ile birlikte yapılır.
+
+**Kabul testleri:**
+1. Yalnızca P1 açıkken birebir ve grup sohbeti çalışır.
+2. Sohbete Balbal eklemenin hiçbir yolu yoktur; uçlarda böyle bir alan bulunmaz.
+3. Balbal'a sohbet içeriğiyle ilgili soru sorulduğunda hiçbir sohbet mesajı kaynak olarak dönmez.
+4. Üye olmayan kullanıcı sohbeti ve mesajlarını göremez.
+5. Sohbette paylaşılan belgeyi, o belgeye yetkisi olmayan üye açamaz ve indiremez.
+6. P2 kapalıyken görüş talebi sohbetleri listede yoktur; `POST /api/opinion-requests` 403 döner.
+
+**Yönetim ve sistem yöneticisi sohbet içeriğini göremez (ürün sahibinin kararı, 29.09.2026):** `management` ve `admin` rolleri, üyesi olmadıkları sohbetlerin mesajlarını hiçbir uçtan okuyamaz. Denetim kaydında yalnızca "sohbet oluşturuldu / üye eklendi / çıkarıldı" gibi olaylar tutulur; mesaj içeriği denetim kaydına yazılmaz. Kabul testi: `management` ve `admin` kullanıcısı, üyesi olmadığı bir sohbetin mesajlarını istediğinde 403 alır.
+
+**Frontend tarafında yapıldı (29.09.2026):** Ekip sohbeti butonu her pakette görünür. "Balbal'ı da sohbete ekle" seçeneği kaldırıldı. "Departmandan görüş talebi" sekmesi yalnızca P2 açıkken görünür. `proposed.ts`'ten `include_balbal` / `includes_balbal` alanları çıkarıldı.
+
+İleride Teams entegrasyonu bu yolun alternatifi olabilir (§11).
 
 ### 6.4 Yetkisi olmayan belge için evrak talebi — **B-11** · ÖNERİLEN KARAR (güvenlik hassas)
 **Ürün:** Ürün 1 — Tanıma (bulur ve **yönlendirir**)
@@ -1155,7 +1198,7 @@ Sunucudaki örnek belgeler **profesyonel** olmalı ve **arayüzdeki her süreci*
 
 - Şirketteki **bütün sözleşmeler ve belgeler** kurgusal olmalı: şirket adı, SPV'ler, bankalar, sigorta, EPC yüklenicisi, danışmanlar, imza yetkilileri, tutarlar, oranlar, belge numaraları.
 - Belgelerdeki kişiler (imzacı, yazışan, hazırlayan) **9.3.1'deki 15 kişiden** seçilir; şirket içi hiçbir belgede listede olmayan bir çalışan adı geçmez.
-- **Şirket adı tek olmalı.** Bugün ledger'da "ABC Enerji A.Ş." (ve SPV'ler), canvas'ta "NATA Enerji A.Ş." geçiyor. Backend kurgu şirket adını belirler; canvas buna göre değiştirilir.
+- **Şirket adı tek olmalı.** Bugün ledger'da "ABC Enerji A.Ş." (ve SPV'ler), canvas'ta "XYZ Enerji A.Ş." geçiyor. Backend kurgu şirket adını belirler; canvas buna göre değiştirilir.
 - Gerçek kamu kurumları (EPDK, TEİAŞ, bakanlıklar, mahkemeler) süreç bağlamında geçebilir (mevcut ledger kuralı); özel şirket ve bankalar kurgusal olur.
 - Projeler: §9.2'deki karar geçerli (şimdilik 2 proje, mevcut adlarıyla).
 
@@ -1168,7 +1211,7 @@ Liste ve kurgu şirket künyesi (şirket adı, SPV'ler, karşı taraflar) ledger
 ## 10. Backend tarafından beklenen analiz — **B-19** · HEMEN
 **Ürün:** Ortak altyapı. Tersine listede her yeteneğin hangi ürüne ait olduğunu da yaz
 
-1. `ftansu/AI-BalBal` frontend'ini ve Claude Design canvas'ını ("X Platformu — Ana Sayfa", v165) incele. Backend'de karşılığı olmayan her ekran/alan için eksiği tespit et ve (bu belgede karar verilmiş olanları) tamamla. Bu belgedeki maddelerle sınırlı değil.
+1. `ftansu/AI-BalBal` frontend'ini ve Claude Design canvas'ını ("X Platformu — Ana Sayfa", güncel sürüm; bu belge yazılırken v177) incele. Backend'de karşılığı olmayan her ekran/alan için eksiği tespit et ve (bu belgede karar verilmiş olanları) tamamla. Bu belgedeki maddelerle sınırlı değil.
 2. **Tersine liste:** Backend'inde olup arayüzde **olmayan** her yeteneği yaz: uç, ne yaptığı, örnek istek/cevap, hangi ekranda kullanılmasını önerdiğin. Arayüzü buna göre tamamlayacağız.
 3. Canvas'ta olup bu belgede **hiç geçmeyen** bir ihtiyaç bulursan (özellikle Mali İşler, İdari İşler, İK ana sayfaları) önce listele, ürün sahibine sor; kendin karar verme.
 
@@ -1191,7 +1234,7 @@ Liste ve kurgu şirket künyesi (şirket adı, SPV'ler, karşı taraflar) ledger
 
 ## 12. Yol haritası ve öncelik sırası
 
-Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ürün 1 (belkemiği)** tamamlanır, sonra Ürün 2, en son Ürün 3. Aynı katmanda küçük işler önce.
+Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ürün 1 (belkemiği)** tamamlanır, sonra Ürün 2, en son Ürün 3. Aynı katmanda küçük işler önce. **Ürün 2 ve Ürün 3 satırları, Ürün 1 ürün testinden geçmeden (§1.7) kodlanmaz;** o zamana kadar yalnızca ADR ve soru listesi hazırlanabilir.
 
 > **Frontend'i backend'e bağlamak için gereken asgari set: B-25, B-20 (1–5) + B-09 ve B-18.** Uygulama planı, backend'in bugünkü durumu, kabul testleri ve bağlantı günü kontrol listesi: [`BAGLANTI_YOL_HARITASI.md`](BAGLANTI_YOL_HARITASI.md). Bu üçü bitmeden frontend–backend bağlantı testi yapılmaz.
 
@@ -1206,21 +1249,22 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 | 2 | Ürün 1 | B-08 | Departman yöneticisi rolü | §2.4 | ÖNERİLEN KARAR |
 | 2 | Ürün 1 | B-10 | Belgenin çok departmanla paylaşımı | §2.5 | B-26 ile karşılanır |
 | 2 | Ürün 1 | B-26 | Klasör yapısı ve departman erişim yetkileri (sistem yöneticisi sayfası) | §2.6 | KARAR VERİLDİ (kısa ADR) |
+| 3 | Ürün 1 | B-28 | Belge yükleme: Balbal belgeyi tanır, can alıcı bilgiyi ister, personel manuel alan ekleyebilir, %80 altı onay, kayıt defteri | §4.7 | KARAR VERİLDİ (2 açık nokta) |
 | 3 | Ürün 1 | B-07 | Kaynak kartında versiyon id'leri | §3.6 | HEMEN |
 | 3 | Ürün 1 | B-04 | Cevap kimliği + geri bildirim | §3.4 | HEMEN |
 | 3 | Ürün 1 | B-13 | Dosya türü alanı | §4.1 | HEMEN |
 | 3 | Ürün 1 | B-17 | İndirme adı + tarayıcıda açma | §4.3 | HEMEN |
 | 3 | Ürün 1 | B-20/6 | Tek sohbette çok proje | §3.3 | HEMEN |
 | 3 | Ürün 1 | B-05 | Şirket rehberi + `users.title` | §6.1 | HEMEN |
+| 4 | Ürün 1 | B-06b | Ekip sohbeti (kişiler arası ve grup; Balbal dahil edilemez; yönetim/admin içeriği göremez) | §6.3 | KARAR VERİLDİ |
 | 4 | Ürün 1 | B-03 | Sohbet geçmişi + çok turlu soru | §3.2 | ÖNERİLEN KARAR |
-| 3 | Ürün 1 | B-28 | Belge yükleme: Balbal belgeyi tanır, can alıcı bilgiyi ister, personel manuel alan ekleyebilir, %80 altı onay, kayıt defteri | §4.7 | KARAR VERİLDİ (2 açık nokta) |
 | 4 | Ürün 1 | B-12 | Etiket önerisi onayı | §4.2 | B-28 ile karşılandı |
 | 4 | Ürün 1 | B-11 | Evrak talebi (varlık ele vermeden) | §6.4 | ÖNERİLEN KARAR |
 | 4 | Ürün 1 | B-14 | Genel arama | §4.4 | SIRADA |
 | 4 | Ürün 1 | B-15 | Word yükleme | §11 | ÖNERİLEN KARAR (sıra) |
 | 4 | Ürün 1 | B-24 | E-posta, sözleşme–e-posta ilişkilendirme | §4.6 | ÖNERİLEN KARAR (sıra) |
 | 5 | Ortak | B-02 | Bildirimler | §5.2 | SIRADA |
-| 5 | Ürün 2 | B-01 | Gündem (ilk kısım: süre dolacak belgeler, bekleyen onaylar) | §5.1 | HEMEN |
+| 5 | Ürün 2 | B-01 | Gündem (ilk kısım: süre dolacak belgeler, bekleyen onaylar) | §5.1 | SIRADA (Ürün 1 finalize olduktan sonra) |
 | 5 | Ürün 2 | B-06a | Departmanlar arası görüş talebi | §6.2 | ÖNERİLEN KARAR |
 | 6 | Ürün 2 | B-22 | İşlem talebi iskeleti + izin formu | §8.1 | ADR ÖNCE |
 | 6 | Ürün 2 | B-23 | Yazışma: özet, süre, olgusal taslak | §8.2 | ADR ÖNCE |
@@ -1231,29 +1275,28 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 | 7 | Ürün 3 | B-23 (hukuk kısmı) | Hukuki gerekçe ve savunma önerisi | §8.2.4/7 | ADR ÖNCE |
 | 8 | Ürün 3 | B-21 | EPİAŞ + mahsuplaşma | §8.3 | BEKLEMEDE |
 | 8 | Ürün 3 | B-16 | EPİAŞ canlı kaynak alanı | §3.7 | BİLGİ |
-| 9 | Ürün 2 sonrası | B-06b | Ekip sohbeti (Balbal dahil edilebilir) | §6.3 | SIRADA (Ürün 2 bitince) |
 
 ---
 
 ## 13. Backend tarafının yapay zekasına hazır istem
 
-> `docs/BACKEND_GAPS.md` dosyasını (ftansu/AI-BalBal) baştan sona oku. Önce **§1.2 Değişmez ilkeler**'i ve **§1.5 Ürün katmanları**'nı oku. §1.5 projenin belkemiğidir: her özellik Ürün 1 (Tanıma), Ürün 2 (Birleştirme) ya da Ürün 3 (Yorumlama) katmanına aittir; her başlığın altında **"Ürün:"** satırı var. Ürün 1'de yorum, Ürün 2'de tahmin/projeksiyon **yasak**; bir özellikte tahmin varsa o Ürün 3'tür. Kendi CLAUDE.md kurallarına göre §12'deki sırayla phase planı çıkar:
+> `docs/BACKEND_GAPS.md` dosyasını (ftansu/AI-BalBal) baştan sona oku. Önce **§1.2 Değişmez ilkeler**'i ve **§1.5 Ürün katmanları**'nı oku. §1.5 projenin belkemiğidir: her özellik Ürün 1 (Tanıma), Ürün 2 (Birleştirme) ya da Ürün 3 (Yorumlama) katmanına aittir; her başlığın altında **"Ürün:"** satırı var. Ürün 1'de yorum, Ürün 2'de yorum ve tahmin/projeksiyon **yasak**; bir özellikte tahmin veya yorum varsa o Ürün 3'tür. Kendi CLAUDE.md kurallarına göre §12'deki sırayla phase planı çıkar:
 >
-> 00) **Web test ortamı (B-27, §1.8):** Ürün sahibi tarafı Ürün 1'in gerçek testlerine web üzerinden başlamak istiyor. `ftansu/AI-BalBal` arayüzünü backend'e bağlı sunan HTTPS test ortamını bugünkü özelliklerle hemen aç; diğer maddeler geldikçe aynı ortamı güncelle. Maliyet gerektiren seçimleri önce sor.
-> 0) **Önce `docs/BAGLANTI_YOL_HARITASI.md`'yi oku.** B-25 → B-20 (1–5) + B-09 → B-18 sırası ve her birinin adım adım planı, kabul testleri orada. Bu üçü frontend'i backend'e bağlamanın ön koşulu; §6'daki noktalardan karar verilmemiş olanlarda onay gelmeden o kısmı kodlama (proje sayısı kararı verildi: şimdilik 2 proje).
-> 01) **Belge yükleme (B-28, §4.7):** Ürün 1'in çekirdeği. §4.7 bir iş listesi değil, mantık anlatımıdır; önce mantığı anla, kurulumu kendin tasarla. Özü: Balbal her belgede **o belge için can alıcı olanı** ister (hangi şirket, hangi konu, ne belgesi; tadilde hangi sözleşmenin tadili ve neyi değiştirdiği), gerekmeyeni istemez, belgede olmayanı uydurmaz; personel Balbal'ın açmadığı alanı kendisi ekleyebilir; %80 altı güvende personelin açık onayı olmadan kayıt olmaz; her şey değiştirilemez bir kayıtta tutulur. §4.7.9'daki açık noktaları sor.
-> 1) **Sıra 1 — ortak altyapı:** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste — **her yeteneğin ürün katmanını da yaz**. B-25 ürün katmanı anahtarı **karar verildi (§1.5.4), ADR gerekmez** — doğrudan uygula: `company_settings.enabled_products`, uç bazlı `requires_product`, `GET /api/auth/me` cevabına `enabled_products` alanı (frontend zaten bunu bekliyor, alan adını ve değerleri birebir eşleştir).
-> 2) **Sıra 2–4 — Ürün 1 (belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, **B-26 klasör yetkileri** — B-10'un yerine), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra B-28, B-03, B-11, B-14. **Ürün 2 koduna, Ürün 1'in finalize olduğunu (ürün testinden geçtiğini) ürün sahibi bildirmeden geçme** (§1.7); kod testlerinin geçmesi finalize demek değildir.
-> 3) **Sıra 5–6 — Ürün 2:** bildirim altyapısı (B-02), gündem (B-01), görüş talebi (B-06a), işlem talebi iskeleti (B-22) ve yazışma taslağı (B-23). Ürün 2'de hesap yalnızca gerçekleşmiş veriyle, taslak yalnızca olgusal.
-> 4) **Sıra 7–8 — Ürün 3:** Enerji izin adımları, Hukuk dava modeli, İK ve hukuk kısımları, B-21. Bunlar için şimdilik yalnızca ADR ve veri modeli taslağı.
-> 5) **ÖNERİLEN KARAR** etiketli maddelerde ürün sahibi onaylamadıysa yalnızca ADR taslağı + soru listesi; kod yok. **ADR ÖNCE** maddelerinde "Başlama koşulu" tamamlanmadıysa yalnızca ADR + migration taslağı + test listesi. Varsayılan kararları aynen al; farklı önerin varsa ADR'de gerekçesiyle yaz, kendin değiştirme.
-> 6) **B-21:** tam metin bu belgeye eklenene kadar başlama.
-> 7) **Her işlem modülünde** P-1'in dört testini, **her uçta** `allowed_document_ids` testini, **her katmanda** §1.5.4'teki katman testlerini yaz.
-> 8) **B-23'te yasaklar:** kanun/karar uydurmak, kaynaksız olgusal iddia, sistemden herhangi bir gönderim (KEP, UYAP, e-posta).
-> 9) **Frontend'e dokunma.** Sözleşme `frontend/src/api/proposed.ts`; alan adlarını birebir eşleştir. Tip değişikliği gerekiyorsa önerini ayrı liste olarak ürün sahibine ver.
-> 10) **Soru kuralı (§1.7.1):** belirsizlikte tahminle ilerleme; soruyu o an, seçenekli ve önerili sor; cevap beklerken bağımsız maddeyle devam et. Bir ürün yalnızca ürün sahibi tarafının ürün testinden geçince finalize sayılır (§1.7).
-> 11) Her phase sonunda: ne yapıldı, hangi ürün katmanına ait, hangi dosyalar değişti, hangi testler eklendi, hangi sorular açık kaldı ve **"Bu belgeden sapmalar"** (§1.6; yoksa "yok") — kısa özet.
-
+> 1. **Ürünün arayüzü `ftansu/AI-BalBal`'dır (§1.3).** Kendi reponundaki `frontend/` klasörü test arayüzüdür; oraya ürün özelliği ekleme ve bu ayrımı kendi README'nde yaz.
+> 2. **Web test ortamı (B-27, §1.8):** `ftansu/AI-BalBal` arayüzünü backend'e bağlı sunan HTTPS test ortamını bugünkü özelliklerle hemen aç; diğer maddeler geldikçe aynı ortamı güncelle. Maliyet gerektiren seçimleri önce sor.
+> 3. **`docs/BAGLANTI_YOL_HARITASI.md`'yi oku.** B-25 → B-20 (1–5) + B-09 → B-18 sırası, her birinin adım adım planı ve kabul testleri orada. Bu üçü frontend'i backend'e bağlamanın ön koşulu; o belgenin §6'sında karar verilmemiş bir nokta varsa onay gelmeden o kısmı kodlama (proje sayısı kararı verildi: şimdilik 2 proje).
+> 4. **Ortak altyapı (Sıra 1):** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste; **her yeteneğin ürün katmanını da yaz**. B-25 ürün katmanı anahtarı **karar verildi (§1.5.4), ADR gerekmez**; doğrudan uygula: `company_settings.enabled_products`, uç bazlı `requires_product`, `GET /api/auth/me` cevabına `enabled_products` alanı (frontend bunu bekliyor, alan adını ve değerleri birebir eşleştir).
+> 5. **Belge yükleme (B-28, §4.7):** Ürün 1'in çekirdeği. §4.7 bir iş listesi değil, mantık anlatımıdır; önce mantığı anla, kurulumu kendin tasarla. Özü: Balbal her belgede **o belge için can alıcı olanı** ister (hangi şirket, hangi konu, ne belgesi; tadilde hangi sözleşmenin tadili ve neyi değiştirdiği), gerekmeyeni istemez, belgede olmayanı uydurmaz; personel Balbal'ın açmadığı alanı kendisi ekleyebilir; %80 altı güvende personelin açık onayı olmadan kayıt olmaz; her şey değiştirilemez bir kayıtta tutulur. §4.7.9'daki açık noktaları sor.
+> 6. **Ürün 1 (Sıra 2–4, belkemiği):** departman yapısı ve yetki (B-20 1–5, B-09, B-08, **B-26 klasör yetkileri**; B-10'un yerine), küçük şema eklemeleri (B-07, B-04, B-13, B-17, B-20/6, B-05), sonra **B-06b ekip sohbeti (Balbal dahil edilemez, §6.3)**, B-03, B-11, B-14.
+> 7. **Ürün 2 ve Ürün 3'e geçme kuralı:** Ürün 2 koduna, ürün sahibi Ürün 1'in finalize olduğunu (ürün testinden geçtiğini) bildirmeden geçme (§1.7); kod testlerinin geçmesi finalize demek değildir. O zamana kadar Ürün 2 ve 3 maddeleri için yalnızca ADR ve veri modeli taslağı.
+>    - **Ürün 2 (Sıra 5–6):** bildirim altyapısı (B-02), gündem (B-01), görüş talebi (B-06a), işlem talebi iskeleti (B-22) ve yazışma taslağı (B-23). Ürün 2'de hesap yalnızca gerçekleşmiş veriyle, taslak yalnızca olgusal.
+>    - **Ürün 3 (Sıra 7–8):** Enerji izin adımları, Hukuk dava modeli, İK ve hukuk kısımları, B-21.
+> 8. **Etiketler:** **ÖNERİLEN KARAR** etiketli maddelerde ürün sahibi onaylamadıysa yalnızca ADR taslağı + soru listesi; kod yok. **ADR ÖNCE** maddelerinde "Başlama koşulu" tamamlanmadıysa yalnızca ADR + migration taslağı + test listesi. Varsayılan kararları aynen al; farklı önerin varsa ADR'de gerekçesiyle yaz, kendin değiştirme. **B-21:** tam metin bu belgeye eklenene kadar başlama.
+> 9. **Testler:** her işlem modülünde P-1'in dört testini, her uçta `allowed_document_ids` testini, her katmanda §1.5.4'teki katman testlerini yaz.
+> 10. **B-23'te yasaklar:** kanun/karar uydurmak, kaynaksız olgusal iddia, sistemden herhangi bir gönderim (KEP, UYAP, e-posta).
+> 11. **Frontend'e dokunma.** Sözleşme `frontend/src/api/proposed.ts`; alan adlarını birebir eşleştir. Tip değişikliği gerekiyorsa önerini ayrı liste olarak ürün sahibine ver.
+> 12. **Soru kuralı (§1.7.1):** belirsizlikte tahminle ilerleme; soruyu o an, seçenekli ve önerili sor; cevap beklerken bağımsız maddeyle devam et.
+> 13. **Her phase sonunda kısa özet:** ne yapıldı, hangi ürün katmanına ait, hangi dosyalar değişti, hangi testler eklendi, hangi sorular açık kaldı ve **"Bu belgeden sapmalar"** (§1.6; yoksa "yok").
 ---
 
 ## Ek A — B kodu dizini
@@ -1267,7 +1310,7 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 | B-03 | Balbal sohbet geçmişi, çok turlu soru | §3.2 | Ürün 1 |
 | B-04 | Cevap kimliği, geri bildirim | §3.4 | Ürün 1 |
 | B-05 | Şirket rehberi | §6.1 | Ürün 1 |
-| B-06 | Görüş talebi (a) ve ekip sohbeti (b) | §6.2, §6.3 | a: Ürün 2 · b: Ürün 2 sonrası |
+| B-06 | Görüş talebi (a) ve ekip sohbeti (b) | §6.2, §6.3 | a: Ürün 2 · b: Ürün 1 (Balbal dahil edilemez) |
 | B-07 | Kaynak kartında versiyon id'leri | §3.6 | Ürün 1 |
 | B-08 | Departman yöneticisi rolü | §2.4 | Ürün 1 |
 | B-09 | Ana departman | §2.2 | Ürün 1 |
@@ -1293,6 +1336,7 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 
 ### Revizyon geçmişi
 
+- **v8.0 (29.09.2026):** **Ekip sohbeti kararı değişti (§6.3):** kişiler arası ve grup sohbeti artık **Ürün 1**; **Balbal bu sohbetlere dahil edilemez**, Balbal penceresi ile ekip sohbeti ayrı pencereler; sohbet içeriği retrieval'a ve kurumsal hafızaya girmez. Yönetim ve sistem yöneticisi, üyesi olmadıkları sohbetlerin içeriğini göremez. Frontend buna göre güncellendi (Balbal seçeneği kaldırıldı, görüş talebi sekmesi P2'ye bağlandı, `include_balbal` sözleşmeden çıktı). **Ürünün arayüzü `ftansu/AI-BalBal`, backend reposundaki `frontend/` test arayüzü** (§1.3). Netlik düzeltmeleri: gündem (B-01) Ürün 2 olduğu için "HEMEN" yerine "SIRADA"; §12 tablosu sıraya göre düzenlendi ve Ürün 2–3'e geçiş kuralı tabloya yazıldı; §13 istemi 1–13 olarak yeniden numaralandı; `project_id`'nin isteğe bağlı kalacağı netleşti (§1.4); canvas şirket adı "XYZ Enerji A.Ş." olarak düzeltildi (§9.3.2); B-08'deki eski etiket onayı atfı B-28'e göre düzeltildi.
 - **v7.9 (29.09.2026):** Ürün sahibinin netleştirmesi: **Ürün 2'de yorum yoktur.** Ürün 2 anlar, karşılaştırır, birleştirir ve yalnızca veriye dayalı cevap verir; yorum, görüş ve değerlendirme Ürün 3'e aittir. §1.1 tablosu, pratik sonuç ve §1.5.2 kural 1 buna göre açıkça yazıldı (önceki metinde yasak yalnızca tahmin/projeksiyon üzerinden tarif ediliyordu).
 - **v7.8 (29.09.2026):** **§4.7 B-28** eklendi ve aynı gün mantık anlatımı olarak yeniden yazıldı: Balbal her belgede o belge için can alıcı olanı ister (faturada az, sözleşme ve tadilde gereken), belgede olmayanı uydurmaz; tadilde ana sözleşme bağlantısı ve değişiklik etiketi; etiketler az ve sabit listeden; personel Balbal'ın açmadığı alanı kendisi ekleyebilir (arayüz + backend); %80 altı güvende personelin açık onayı; değiştirilemez kayıt defteri; ekrana iç not konmaz. B-12 bununla karşılandı.
 - **v7.7 (28.09.2026 gece):** **§1.8 B-27** eklendi: Ürün sahibi tarafı Ürün 1'in gerçek testlerine web üzerinden başlamak istiyor; HTTPS test ortamı, arayüz olarak `ftansu/AI-BalBal`, tek komutla güncelleme, yalnızca kurgusal veri. Ortam bugünkü özelliklerle hemen açılır.

@@ -45,7 +45,6 @@ export function TeamConversation({ chat }: { chat: ChatSummary }) {
         <div className="team-conv-title">{chat.title}</div>
         <div className="muted small">
           {chat.member_ids.length} {S.team.members}
-          {chat.includes_balbal && " · Balbal"}
         </div>
       </header>
       {chat.opinion_request && (

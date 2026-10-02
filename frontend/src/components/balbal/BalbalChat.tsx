@@ -7,7 +7,9 @@ import { projectNameById, useProjects } from "../../api/projects";
 import { isPending, useAskConversations } from "../../api/proposed";
 import type { AskResponse } from "../../api/types";
 import { useAuth } from "../../auth/useAuth";
+import { useHasProduct } from "../../auth/useProduct";
 import { S } from "../../lib/strings";
+import { isMembershipBased } from "../../lib/visibility";
 import { CloseButton, Modal } from "../common/Modal";
 import { ErrorBox } from "../ErrorBox";
 import { AnswerView } from "./AnswerView";
@@ -19,6 +21,7 @@ import { useBalbalSessions, type BalbalTurn } from "./sessionsContext";
  * Geçmiş sunucuda saklanmıyorsa (BACKEND_GAPS B-03) bu oturumda bellekte tutulur. */
 export function BalbalChat({ initialQuestion, onClose }: { initialQuestion: string | null; onClose: () => void }) {
   const { user } = useAuth();
+  const hasP2 = useHasProduct("P2");
   const { sessions, activeId, setActiveId, newSession, addTurn, updateTurn } = useBalbalSessions();
   const [draft, setDraft] = useState("");
   const serverHistory = useAskConversations();
@@ -29,7 +32,8 @@ export function BalbalChat({ initialQuestion, onClose }: { initialQuestion: stri
   const listRef = useRef<HTMLDivElement>(null);
   const askedInitial = useRef(false);
 
-  const department = user && user.role === "employee" ? user.department_slugs[0] : undefined;
+  // Membership-based roles (employee, department_manager) ask within their home department (B-08/B-09).
+  const department = user && isMembershipBased(user) ? (user.primary_department_slug ?? user.department_slugs[0]) : undefined;
   const active = sessions.find((s) => s.id === activeId) ?? null;
 
   const projectOfDocument = (documentId: string): string | null => {
@@ -150,7 +154,7 @@ export function BalbalChat({ initialQuestion, onClose }: { initialQuestion: stri
             />
             <button type="submit">{S.ask.submit}</button>
           </form>
-          <p className="muted small balbal-footnote">{S.balbal.footnote}</p>
+          <p className="muted small balbal-footnote">{hasP2 ? S.balbal.footnoteP2 : S.balbal.footnote}</p>
         </section>
       </div>
     </Modal>

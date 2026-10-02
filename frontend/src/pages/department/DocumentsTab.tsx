@@ -4,10 +4,9 @@ import { Link, useOutletContext } from "react-router-dom";
 import { useDepartments } from "../../api/departments";
 import { useDocuments } from "../../api/documents";
 import { projectNameById, useProjects } from "../../api/projects";
-import { isPending, useMyFolders, type UserFolder } from "../../api/proposed";
+import { useMyFolders, type UserFolder } from "../../api/folders";
 import type { Department, DocumentListItem } from "../../api/types";
 import { FolderIcon } from "../../components/common/FolderIcon";
-import { PendingNotice } from "../../components/common/Modal";
 import { DocumentDetailPanel } from "../../components/DocumentDetailPanel";
 import { DocumentTable } from "../../components/DocumentTable";
 import { ErrorBox } from "../../components/ErrorBox";
@@ -21,17 +20,17 @@ function matchesSubdepartment(document: DocumentListItem, sub: Department): bool
   return value === sub.name.toLocaleLowerCase("tr") || value === sub.slug;
 }
 
-/** Belgeler — canvas: Departman-Belgeleri.dc.html. Backend klasörleri (B-26) sunuyorsa
- * solda kullanıcının görebildiği klasör ağacı (kendi departmanı + bana açılanlar), sağda
- * seçili klasörün belgeleri. Sunmuyorsa departmanın bütün belgeleri listelenir. */
+/** Belgeler — canvas: Departman-Belgeleri.dc.html. Klasörler (B-26, company-ai Aşama E): solda
+ * kullanıcının görebildiği klasör ağacı (kendi departmanı + bana açılanlar), sağda seçili
+ * klasörün belgeleri. Kullanıcının hiç klasörü yoksa departmanın bütün belgeleri listelenir. */
 export function DocumentsTab() {
   const folders = useMyFolders();
   if (folders.isLoading) return <Spinner />;
   if (folders.isSuccess && folders.data.length > 0) return <FolderDocuments folders={folders.data} />;
-  return <DepartmentDocuments folderPending={isPending(folders.error)} folderError={folders.isError && !isPending(folders.error) ? folders.error : null} />;
+  return <DepartmentDocuments folderError={folders.isError ? folders.error : null} />;
 }
 
-function DepartmentDocuments({ folderPending, folderError }: { folderPending: boolean; folderError: unknown }) {
+function DepartmentDocuments({ folderError }: { folderError: unknown }) {
   const { department, children, subdepartment, isAdmin } = useOutletContext<DepartmentContext>();
   const documents = useDocuments({ department: department.slug });
   const projects = useProjects();
@@ -46,7 +45,6 @@ function DepartmentDocuments({ folderPending, folderError }: { folderPending: bo
   return (
     <>
       <h2>{S.documents.title}</h2>
-      {folderPending && <PendingNotice endpoint="GET /api/folders">{S.documents.folders.pending}</PendingNotice>}
       {folderError !== null && <ErrorBox error={folderError} />}
       <DocumentTable
         documents={visible}
@@ -177,9 +175,6 @@ function FolderDocuments({ folders }: { folders: UserFolder[] }) {
           )}
         </div>
 
-        {!hasFolderField && all.length > 0 && (
-          <PendingNotice endpoint="DocumentListItem.folder_id">{t.noFolderField}</PendingNotice>
-        )}
 
         <div className="chips">
           <label htmlFor="folder-search" className="sr-only">

@@ -21,9 +21,11 @@ export function UserMenu({ onClose }: { onClose: () => void }) {
   const access =
     user.role === "employee"
       ? S.shell.accessEmployee(deptNames || "—")
-      : user.role === "management"
-        ? S.shell.accessManagement
-        : S.shell.accessAdmin;
+      : user.role === "department_manager"
+        ? S.shell.accessManager(deptNames || "—")
+        : user.role === "management"
+          ? S.shell.accessManagement
+          : S.shell.accessAdmin;
   const upload = uploadPathFor(user.department_slugs);
 
   async function logout() {
@@ -41,6 +43,7 @@ export function UserMenu({ onClose }: { onClose: () => void }) {
             <strong>{user.display_name}</strong>
             <div className="muted small">
               {user.username} · {ROLE_LABELS[user.role]}
+              {user.title && ` · ${user.title}`}
             </div>
           </div>
         </div>

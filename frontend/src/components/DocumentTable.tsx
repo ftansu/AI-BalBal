@@ -1,5 +1,12 @@
 import type { DocumentListItem, IngestionStatus } from "../api/types";
-import { CONFIDENTIALITY_LABELS, INGESTION_LABELS, STATUS_LABELS, formatDate } from "../lib/format";
+import {
+  CONFIDENTIALITY_LABELS,
+  FILE_KIND_LABELS,
+  INGESTION_LABELS,
+  REVIEW_STATUS_LABELS,
+  STATUS_LABELS,
+  formatDate,
+} from "../lib/format";
 import { S } from "../lib/strings";
 import { DownloadLink, FileLink } from "./common/FileLink";
 
@@ -56,11 +63,26 @@ export function DocumentTable({
             >
               <td onClick={(e) => e.stopPropagation()}>
                 <FileLink documentId={d.id} title={d.title} showDownload={false} />
+                {d.file_kind && (
+                  <span className="muted small" title={c.kind}>
+                    {" "}
+                    {FILE_KIND_LABELS[d.file_kind]}
+                  </span>
+                )}
               </td>
               <td>{d.document_type}</td>
               <td>{d.counterparty}</td>
               <td>{formatDate(d.document_date)}</td>
-              <td>{STATUS_LABELS[d.status]}</td>
+              <td>
+                {STATUS_LABELS[d.status]}
+                {/* B-28: only a not-yet-published document is badged (gösterim; aksiyon PR-2'de). */}
+                {d.review_status && d.review_status !== "approved" && (
+                  <>
+                    {" "}
+                    <span className="badge warn">{REVIEW_STATUS_LABELS[d.review_status]}</span>
+                  </>
+                )}
+              </td>
               <td>{CONFIDENTIALITY_LABELS[d.confidentiality]}</td>
               <td>{(d.project_id && projectNames.get(d.project_id)) || S.documents.none}</td>
               {showSubdepartment && (

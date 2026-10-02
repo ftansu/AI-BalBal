@@ -5,7 +5,9 @@ import type {
   DocumentDetail,
   DocumentListItem,
   DocumentMetadataEdit,
+  DocumentReviewRequest,
   DocumentStatusResponse,
+  DocumentSubmitRequest,
   DocumentUploadResponse,
   DocumentVisibility,
   MetadataSuggestion,
@@ -94,6 +96,17 @@ export function applySuggestion(
 
 export function rejectSuggestion(id: string): Promise<MetadataSuggestion> {
   return postJson<MetadataSuggestion>(`/api/documents/${id}/metadata-suggestion/reject`);
+}
+
+/** B-28 stage 1 (ADR-024): the uploader confirms the final metadata; 422 `low_confidence_not_confirmed`
+ * carries `fields`, 409 `suggestion_pending` while the AI suggestion is still being produced. */
+export function submitDocument(id: string, body: DocumentSubmitRequest): Promise<DocumentDetail> {
+  return postJson<DocumentDetail>(`/api/documents/${id}/submit`, body);
+}
+
+/** B-28 stage 2: approve, or send back with a mandatory comment. */
+export function reviewDocument(id: string, body: DocumentReviewRequest): Promise<DocumentDetail> {
+  return postJson<DocumentDetail>(`/api/documents/${id}/review`, body);
 }
 
 export const downloadUrl = (id: string) => `/api/documents/${id}/download`;

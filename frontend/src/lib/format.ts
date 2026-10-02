@@ -5,6 +5,7 @@ import type {
   IngestionStatus,
   ProductLevel,
   ProjectStage,
+  ReviewEventKind,
   ReviewStatus,
   SuggestionStatus,
   UserRole,
@@ -68,6 +69,23 @@ export const REVIEW_STATUS_LABELS: Record<ReviewStatus, string> = {
   changes_requested: "Geri gönderildi",
   approved: "Onaylı",
 };
+
+/** B-28 ledger rows (admin). */
+export const REVIEW_EVENT_LABELS: Record<ReviewEventKind, string> = {
+  uploaded: "Yüklendi",
+  auto_approved: "Departman yetkilisi yükledi — yayınlandı",
+  field_edited: "Alan değiştirildi",
+  field_confirmed: "Düşük güvenli öneri onaylandı",
+  submitted: "Onaya gönderildi",
+  resubmitted: "Yeniden onaya gönderildi",
+  approved: "Onaylandı",
+  changes_requested: "Geri gönderildi",
+  metadata_changed_after_approval: "Onaydan sonra bilgi değişti — onay düştü",
+};
+
+/** Mirrors the backend default `METADATA_CONFIRM_THRESHOLD`; only decides which rows get the
+ * "Onaylıyorum" box. The rule itself is enforced by the server (422 → `fields`). */
+export const CONFIRM_THRESHOLD = 0.8;
 
 export const PRODUCT_LEVEL_LABELS: Record<ProductLevel, string> = {
   P1: "Ürün 1",

@@ -577,6 +577,20 @@ tr.selected {
   font-size: 0.84rem;
 }
 
+/* B-28: a row whose low-confidence suggestion still needs the uploader's explicit confirmation. */
+.suggestion-row.needs-confirm {
+  background: var(--warn-soft);
+  border-left: 3px solid var(--warn);
+  padding-left: 6px;
+}
+
+/* B-28 admin ledger: compact rows, multi-line cells aligned to the top. */
+.review-events td,
+.review-events th {
+  font-size: 0.84rem;
+  vertical-align: top;
+}
+
 .confidence {
   height: 4px;
   background: #e5e7eb;

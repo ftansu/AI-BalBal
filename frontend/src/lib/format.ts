@@ -7,6 +7,7 @@ import type {
   ProjectStage,
   ReviewEventKind,
   ReviewStatus,
+  TagKind,
   SuggestionStatus,
   UserRole,
 } from "../api/types";
@@ -75,6 +76,7 @@ export const REVIEW_EVENT_LABELS: Record<ReviewEventKind, string> = {
   uploaded: "Yüklendi",
   auto_approved: "Departman yetkilisi yükledi — yayınlandı",
   field_edited: "Alan değiştirildi",
+  field_added: "Alan eklendi (personel)",
   field_confirmed: "Düşük güvenli öneri onaylandı",
   submitted: "Onaya gönderildi",
   resubmitted: "Yeniden onaya gönderildi",
@@ -82,6 +84,46 @@ export const REVIEW_EVENT_LABELS: Record<ReviewEventKind, string> = {
   changes_requested: "Geri gönderildi",
   metadata_changed_after_approval: "Onaydan sonra bilgi değişti — onay düştü",
 };
+
+export const TAG_KIND_LABELS: Record<TagKind, string> = {
+  identity: "Kimlik",
+  change: "Değişiklik",
+};
+
+export const EXTRA_SOURCE_LABELS = { ai: "Balbal", user: "Personel" } as const;
+
+/** B-28b search hits: which metadata field matched (content hits show a snippet instead). */
+export const MATCHED_ON_LABELS: Record<string, string> = {
+  title: "Başlıkta",
+  type: "Türde",
+  counterparty: "Muhatapta",
+  reference: "Referansta",
+  tag: "Etiket eşleşmesi",
+  extra_field: "Ek alan eşleşmesi",
+};
+
+/** Standard fields the guide may emphasise ("bu türde özellikle doldur"). */
+export const STANDARD_FIELD_LABELS: Record<string, string> = {
+  ...SUGGESTION_FIELD_LABELS_BASE(),
+  effective_date: "Yürürlük tarihi",
+  expiration_date: "Bitiş tarihi",
+  supersedes_document_id: "Değiştirdiği belge",
+  title: "Başlık",
+};
+
+function SUGGESTION_FIELD_LABELS_BASE(): Record<string, string> {
+  return {
+    department: "Departman",
+    subdepartment: "Alt departman",
+    project_code: "Proje",
+    document_type: "Belge türü",
+    counterparty: "Muhatap",
+    document_date: "Belge tarihi",
+    status: "Durum",
+    confidentiality: "Gizlilik",
+    tags: "Etiketler",
+  };
+}
 
 /** Mirrors the backend default `METADATA_CONFIRM_THRESHOLD`; only decides which rows get the
  * "Onaylıyorum" box. The rule itself is enforced by the server (422 → `fields`). */

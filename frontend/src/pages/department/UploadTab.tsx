@@ -3,6 +3,7 @@ import { useState, type FormEvent } from "react";
 import { useOutletContext, useSearchParams } from "react-router-dom";
 
 import { uploadDocument, useDocument, useDocumentStatus, useDocuments } from "../../api/documents";
+import { useGuide } from "../../api/guide";
 import { useProjects } from "../../api/projects";
 import { useMyFolders } from "../../api/folders";
 import { ancestorNames } from "../../lib/folders";
@@ -13,8 +14,10 @@ import {
   CONFIDENTIALITY_LABELS,
   CONFIDENTIALITY_VALUES,
   SELECTABLE_STATUSES,
+  STANDARD_FIELD_LABELS,
   STATUS_LABELS,
 } from "../../lib/format";
+import { OTHER_FAMILY, guideFor } from "../../lib/typeFamily";
 import { S } from "../../lib/strings";
 import type { DepartmentContext } from "../Department";
 
@@ -39,6 +42,7 @@ export function UploadTab() {
   const { department, children, isAdmin } = useOutletContext<DepartmentContext>();
   const queryClient = useQueryClient();
   const projects = useProjects();
+  const guide = useGuide();
   const documents = useDocuments({ department: department.slug });
   // B-26 (Aşama E): yalnızca değiştirme yetkili klasörlere yüklenir; kullanıcının klasörü
   // yoksa form departmana yükler (backend departmanın kök klasörüne koyar).
@@ -48,6 +52,9 @@ export function UploadTab() {
   const [searchParams] = useSearchParams();
   const preset = searchParams.get("klasor") ?? "";
   const [form, setForm] = useState({ ...EMPTY, folderId: preset });
+  // B-28b: the type guide for what is being typed — a hint line, never a blocker.
+  const matchedGuide = guideFor(form.documentType, guide.data ?? []);
+  const typeGuide = matchedGuide && matchedGuide.family !== OTHER_FAMILY ? matchedGuide : null;
   const [file, setFile] = useState<File | null>(null);
   const [uploadedId, setUploadedId] = useState<string | null>(null);
   const status = useDocumentStatus(uploadedId);
@@ -183,6 +190,15 @@ export function UploadTab() {
               placeholder="facility_agreement"
               required
             />
+            {typeGuide && (
+              <p className="muted small">
+                {S.guide.familyBadge(typeGuide.label)}
+                {typeGuide.suggested_extra_fields.length > 0 &&
+                  ` · ${S.guide.hint(typeGuide.suggested_extra_fields.map((f) => f.label || f.key).join(", "))}`}
+                {typeGuide.standard_fields_emphasis.length > 0 &&
+                  ` · ${S.guide.important}: ${typeGuide.standard_fields_emphasis.map((k) => STANDARD_FIELD_LABELS[k] ?? k).join(", ")}`}
+              </p>
+            )}
           </div>
           <div className="field">
             <label>{t.counterparty}</label>

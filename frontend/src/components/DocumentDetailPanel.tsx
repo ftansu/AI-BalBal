@@ -2,7 +2,14 @@ import { downloadUrl, inlineUrl, useDocument } from "../api/documents";
 import { useAuth } from "../auth/useAuth";
 import { FileLink } from "./common/FileLink";
 import { WorkbookInspectCard } from "./WorkbookInspectCard";
-import { CONFIDENTIALITY_LABELS, INGESTION_LABELS, REVIEW_STATUS_LABELS, STATUS_LABELS, formatDate } from "../lib/format";
+import {
+  CONFIDENTIALITY_LABELS,
+  EXTRA_SOURCE_LABELS,
+  INGESTION_LABELS,
+  REVIEW_STATUS_LABELS,
+  STATUS_LABELS,
+  formatDate,
+} from "../lib/format";
 import { S } from "../lib/strings";
 import { DocumentMetadataEditForm } from "./DocumentMetadataEditForm";
 import { DocumentVisibilityCard } from "./DocumentVisibilityCard";
@@ -11,6 +18,7 @@ import { MetadataSuggestionPanel, type SuggestionPanelMode } from "./MetadataSug
 import { ReviewEventsCard } from "./review/ReviewEventsCard";
 import { ReviewStatusCard } from "./review/ReviewStatusCard";
 import { Spinner } from "./Spinner";
+import { TagPicker } from "./TagPicker";
 
 const SUBMITTABLE = new Set(["pending_metadata", "changes_requested"]);
 
@@ -78,7 +86,20 @@ export function DocumentDetailPanel({
           <dt>{t.columns.subdepartment}</dt>
           <dd>{d.subdepartment ?? none}</dd>
           <dt>{t.tags}</dt>
-          <dd>{d.tags.length ? d.tags.join(", ") : none}</dd>
+          <dd>
+            <TagPicker selected={d.tags} onChange={() => undefined} readOnly />
+          </dd>
+          <dt>{S.extra.title}</dt>
+          <dd>
+            {Object.keys(d.extra_fields ?? {}).length === 0
+              ? none
+              : Object.entries(d.extra_fields).map(([key, entry]) => (
+                  <div key={key}>
+                    <strong>{key}</strong>: {entry.value}{" "}
+                    <span className="badge neutral">{EXTRA_SOURCE_LABELS[entry.source]}</span>
+                  </div>
+                ))}
+          </dd>
           <dt>{t.supersedes}</dt>
           <dd>{d.supersedes_document_id ? <FileLink documentId={d.supersedes_document_id} title={t.openVersion} /> : none}</dd>
           <dt>{t.supersededBy}</dt>

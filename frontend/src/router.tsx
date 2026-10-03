@@ -9,7 +9,9 @@ import { HomePage } from "./pages/Home";
 import { LoginPage } from "./pages/Login";
 import { AdminAuditLogPage } from "./pages/admin/AdminAuditLogPage";
 import { AdminFoldersPage } from "./pages/admin/AdminFoldersPage";
+import { AdminGuidePage } from "./pages/admin/AdminGuidePage";
 import { AdminLayout } from "./pages/admin/AdminLayout";
+import { AdminTagsPage } from "./pages/admin/AdminTagsPage";
 import { AdminUsersPage } from "./pages/admin/AdminUsersPage";
 import { AskTab } from "./pages/department/AskTab";
 import { DocumentsTab } from "./pages/department/DocumentsTab";
@@ -47,6 +49,8 @@ export const router = createBrowserRouter([
                   { path: "kullanicilar", element: <AdminUsersPage /> },
                   { path: "denetim-kaydi", element: <AdminAuditLogPage /> },
                   { path: "klasorler", element: <AdminFoldersPage /> },
+                  { path: "etiketler", element: <AdminTagsPage /> },
+                  { path: "tur-rehberi", element: <AdminGuidePage /> },
                 ],
               },
             ],

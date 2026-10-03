@@ -560,6 +560,8 @@ Yani sabit bir "her belgede şu alanlar doldurulur" formu yok. Balbal her belged
 
 Bu, belgenin **nereye konacağı** için de geçerli: Balbal belgeyi okuyup şirketin klasör yapısı içinde (B-26) önce departmanını, sonra klasörünü, sonra alt klasörünü önerir ve kısaca **nedenini** söyler.
 
+**Durum (02.10.2026, PR `feat/b28b-arayuz`):** backend tür rehberini uyguladı (company-ai ADR-025: `document_type_guide`, 10 başlangıç ailesi, en uzun desen eşleşir, admin düzenler; `GET /api/document-type-guide` herkese). Rehber Balbal'ın sınıflandırma promptuna girer; zorunlu alan yok, yalnızca vurgu. Arayüz: Belge Yükle'de tür alanının altında ipucu satırı, 1. aşama panelinde aile rozeti + "önemli" işareti + boş önerilen alan satırları, Yönetim › Tür rehberi sayfası. Klasör önerisi hâlâ açık.
+
 #### 4.7.3 Personel her zaman Balbal'dan fazlasını bilebilir: manuel alan
 
 Balbal'ın göremediği ama personelin önemli olduğunu bildiği bilgiler olacak (belgede dolaylı geçen bir koşul, şirket içi bir bağlam, Balbal'ın atladığı bir tarih). Bu yüzden hem arayüzde hem backend'de, **personelin Balbal'ın açmadığı bir alanı kendisi açıp doldurabileceği bir yer** olmalı.
@@ -567,6 +569,8 @@ Balbal'ın göremediği ama personelin önemli olduğunu bildiği bilgiler olaca
 - Personel eklediği alanı Balbal'ın önerdiği alanlarla aynı değerde görür; belge aynı bilgiyle aranır.
 - Personelin eklediği alan **"personel ekledi"** olarak ayrışır ve kayıt defterine (§4.7.6) girer.
 - Aynı türde belgelerde personeller aynı alanı sık sık elle ekliyorsa, bu Balbal'ın o türde bir şeyi kaçırdığının işaretidir. Sistem bunu görünür kılabilmeli ki rehber (P-8) zamanla iyileşsin. Bu karar yine insanındır; Balbal kendi rehberini kendisi değiştirmez.
+
+**Durum (02.10.2026, PR `feat/b28b-arayuz`):** backend `documents.extra_fields` (anahtar → değer, `source: ai | user`, güven, ekleyen, zaman; en fazla 20; `submit`/`apply`/`PATCH` ile yazılır, `null` siler), kayıt defterine `field_added` olayı, `GET /api/admin/document-type-guide/signals` (aile × alan × sayı). Arayüz: 1. aşama panelinde "Ek alanlar" bölümü (Balbal'ın açtıkları güven çubuğu ve %80 kuralıyla, "+ Alan ekle" ile personelin eklediği, kaynak rozeti Balbal / Personel), belge detayında ek alanlar herkese kaynak rozetiyle, Yönetim › Tür rehberi › Sinyaller + "Rehbere ekle" (yalnızca formu doldurur; kaydetme admin kararı). Arama ek alan değerinde eşleşir (`matched_on: extra_field`).
 
 #### 4.7.4 Etiketler: az ve tutarlı
 
@@ -582,6 +586,8 @@ Değişiklik etiketleri için başlangıç önerisi (ürün sahibi onaylayacak):
 **Değişikliğin içeriği ayrı bir alana özetlenmez.** Dört sayfalık bir değişiklik tek satıra sığmaz; kısaltılırsa eksik ve yanıltıcı olur. Etiket belgeyi bulur, ayrıntıyı Balbal gerektiğinde belgenin kendisinden okur ve kaynağıyla gösterir (P-4).
 
 Belge adı da aynı amaca hizmet eder: **şirket · konu · belge · dönem** sırasıyla kurulan bir ad, aynı şirketin aynı konudaki belgelerini yan yana dizer (örn. `Karatepe RES · PF Kredi Sözleşmesi · 2. Tadil · 2026-09`).
+
+**Durum (02.10.2026, PR `feat/b28b-arayuz`):** backend sabit kataloğu uyguladı (`tag_catalog`, kimlik / değişiklik; yukarıdaki 9 değişiklik etiketi başlangıç olarak yüklü; katalog dışı etiket 422 `unknown_tag`; etiket silinmez, emekli edilir; `GET /api/tags` herkese, `/api/admin/tags` admin). Balbal'ın katalog dışı önerileri `tags.dropped` ile yalnızca yöneticiye görünür. Arayüz: etiket **yazılmaz, seçilir** (`TagPicker`: önce tür için önerilenler, kimlik etiketleri, değişiklik etiketleri yalnızca tadil ailesinde açık, diğerlerinde katlı); Yönetim › Etiketler (ekle, adı düzenle, emekli et / yeniden aktifleştir, değişiklik geçmişi); arama sonucunda `matched_on: tag` rozeti.
 
 #### 4.7.5 Risk: Balbal emin değilse insan karar verir
 

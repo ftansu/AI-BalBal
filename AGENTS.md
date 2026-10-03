@@ -14,3 +14,5 @@ Zorunlu çalışma biçimi (özet; tam metin Anayasada):
 - Yeni görsel/UI öğesi, Ürün Yetkilisinin tasarım onayı olmadan kodlanmaz (T-12).
 - Anayasaya aykırılık T-15 formatıyla bildirilir (`anayasa-ihlali` etiketi).
 - `anayasa/` klasöründeki dosyalar yalnızca Ç-3'e göre (tüm Proje Yetkililerinin onayıyla) değiştirilir.
+
+**Aktif görev devri:** `docs/GOREV_DEVRI_URUN2.md` (02.10.2026). Devir süresince oradaki çalışma kuralları geçerlidir.

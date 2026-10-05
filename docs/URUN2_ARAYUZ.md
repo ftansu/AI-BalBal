@@ -1,13 +1,15 @@
 # Ürün 2 Arayüzü — Frontend Tasarımı ve Backend'den Beklenenler
 
 **Kime:** Backend tarafı ve backend tarafının yapay zekâsı
-**Hazırlayan:** Ürün sahibi (Claude ile) · **Tarih:** 05.10.2026 · **Durum:** Tasarım onaylı (canvas), kod yazılmadı
+**Hazırlayan:** Ürün sahibi (Claude ile) · **Tarih:** 05.10.2026 · **Durum:** Tasarım onaylı (canvas) · **Backend tarafından uygulanacak**
 **Tasarım kaynağı:** Claude Design canvas **"X Platformu — Ürün 2"** (sürüm 39). Bağlantıyı ürün sahibi paylaşır. Bu belge ile canvas farklıysa **canvas esastır**.
 **Belge önceliği:** Anayasa (v2.0) > Süreç haritası > `BACKEND_GAPS.md` > bu belge.
 
-> **Kapsam sınırı.** Bu belge mantığı anlatır; uygulama kurgusu geliştiriciye aittir (T-9). Yeni B kodlarının (B-29 … B-36) backend'i, ürün sahibi o kod için **"yazılabilir"** diyene kadar yazılmaz. Önce ADR taslağı + soru listesi beklenir (`BACKEND_GAPS.md` §13/8 "ADR ÖNCE" kuralı). Frontend kodu da canvas'tan ayrıca onaylanan parçalar halinde gelir (T-12); bu PR yalnızca belgedir.
+> **KARAR (05.10.2026, ürün sahibi): Mevcut geliştirmelerin tamamı backend tarafından uygulanır.** Amaç ürün ayırmak değil, uygulamayı bitirmektir. Bu belgedeki ve canvas'taki her özellik — Ürün 3 olarak işaretlenenler dahil — ürün anahtarıyla (B-25) kapatılmadan geliştirilir. **Ürünlerin ayrılması, tüm arayüz ve backend tamamlandıktan sonra Anayasa'da veya uygulamada ayrıca yapılacaktır.** Ürün etiketleri bu ayrım için bilgi olarak korunur (T-11); bugün iş sırasını veya görünürlüğü belirlemez.
 >
-> **Anayasa uyarıları en sonda (§12).** Canvas'taki bazı İK ekranları Ek-B'ye göre **Ürün 3**'tür; ürün anahtarıyla (B-25) kapatılmaları gerekir. Okumadan kod yazılmasın.
+> Bu belge mantığı anlatır; uygulama kurgusu geliştiriciye aittir (T-9). Veri modeli ve uç adları öneridir; geliştirici daha iyisini seçebilir, seçtiğini görev sonu notunda yazar. Frontend kodu canvas'tan parça parça gelir; bu PR yalnızca belgedir.
+>
+> **Hâlâ geçerli olan iki sınır:** (1) P-1 insan onayı ve O-6 — Balbal yalnızca taslak üretir; (2) yeni dış bağlantı (mevzuat dış taraması) güvenlik kuralıdır (T-14, Ç-11), ürün ayrımı değildir: bağlantı eklenmeden önce ürün sahibinin onayı kayda geçer.
 
 ---
 
@@ -308,7 +310,7 @@ Kural: **türetilen hiçbir şey tabloya kopyalanmaz**; her istekte ana veriden 
 
 ## 11. Backend'den beklenenler
 
-Etiket: hepsi **ADR ÖNCE**. Ürün sahibi "yazılabilir" diyene kadar yalnızca ADR + migration taslağı + test listesi.
+Etiket: hepsi **HEMEN** (05.10.2026 kararı). Kritik veri modeli kararları için kısa bir ADR yazılır ama iş onu beklemez; ADR görev sonu notuyla birlikte sunulur.
 
 ### B-29 — Şirket yapısı sürümleri ve onay paketi · Ürün 1
 
@@ -370,12 +372,12 @@ Etiket: hepsi **ADR ÖNCE**. Ürün sahibi "yazılabilir" diyene kadar yalnızca
 
 ## 12. Anayasa uyarıları
 
-Kod yazılmadan önce ürün sahibinin karar vermesi gerekenler. Bunlar **Kritik Geliştirme Kararı**dır (Ç-15); belirsiz kısım durur, diğerleri devam eder.
+**05.10.2026 kararıyla bu maddeler geliştirmeyi durdurmaz.** Tüm özellikler uygulanır; aşağıdakiler, uygulama bittikten sonra yapılacak ürün ayrımında (Anayasa veya uygulama) kullanılmak üzere kayıttır. İstisna: madde 3'teki dış bağlantı, güvenlik kuralı olduğu için bağlantı eklenmeden önce ürün sahibinin onayını gerektirir.
 
-1. **İK izin talebi, izin yönetimi, izin hakları, maaş/bordro, işe giriş–çıkış işlem taslağı → Ek-B'de Ürün 3 (İnsan Kaynakları).** Canvas bunları "Ürün 2" sayfasında ve İK ana sayfasında gösteriyor. Uygulamada `enabled_products` içinde `P3` yoksa bu sekmeler ve akışlar **görünmemeli** (B-25). `BACKEND_GAPS.md` B-22 de "İK kısmı Ürün 3" diyor; tutarlı.
+1. **İK izin talebi, izin yönetimi, izin hakları, maaş/bordro, işe giriş–çıkış işlem taslağı → Ek-B'de Ürün 3 (İnsan Kaynakları).** Canvas bunları "Ürün 2" sayfasında ve İK ana sayfasında gösteriyor. Ürün ayrımı yapıldığında bu sekmeler ve akışlar `P3` anahtarına bağlanacak (B-25); **şimdilik açık geliştirilir.** `BACKEND_GAPS.md` B-22 de "İK kısmı Ürün 3" diyor; tutarlı.
 2. **Kıdem ve İhbar "bugün işten çıkarılsa"** varsayımsal bir hesaptır (gerçekleşmemiş olay) → Ürün 2'nin "yalnızca gerçekleşmiş veri" sınırını aşar → **Ürün 3**. Varsayımlar ekranda açıkça listelenmeli (T-4).
-3. **Mevzuat güncelliği için dış kaynak taraması** yeni dış bağlantıdır → **Ek-E/6 + Ç-11 kararı** gerekir. Karar gelene kadar sistem içi karşılaştırma ve kullanıcı yüklemesi.
-4. **Balbal — Hiyerarşi Düzenleyici** Ek-B'de adıyla geçmiyor. En yakın madde Ürün 2 "Veri taslağı hazırlar". Ürün sahibine soru: bu madde kapsamında mı sayılsın (Ç-11/b, tek Proje Yetkilisi onayı), yoksa yeni yetenek mi (Ç-11/a, Ç-3 oybirliği)? Şema yönetimi (ağaç, onay, devreye alma) Ürün 1 "departman yapısını tanımlar" kapsamındadır; soru yalnızca Balbal'ın düzenleme aracı olmasıyla ilgili.
+3. **Mevzuat güncelliği için dış kaynak taraması** yeni dış bağlantıdır → **Ek-E/6 + Ç-11 kararı** gerekir. Önce sistem içi karşılaştırma ve kullanıcı yüklemesi yapılır; dış tarama, ürün sahibi kaynağı (Resmî Gazete vb.) onaylayınca eklenir.
+4. **Balbal — Hiyerarşi Düzenleyici** Ek-B'de adıyla geçmiyor. En yakın madde Ürün 2 "Veri taslağı hazırlar". Geliştirilir; Ek-B'deki yeri ürün ayrımında netleşir (Ç-11/a ise Ç-3 oybirliği gerekir). Şema yönetimi (ağaç, onay, devreye alma) Ürün 1 "departman yapısını tanımlar" kapsamındadır; soru yalnızca Balbal'ın düzenleme aracı olmasıyla ilgili.
 5. **Balbal'ın ekip sohbetine eklenmesi** Anayasa v2.0 Ü-7.3 ile Ürün 2'den itibaren serbest; `BACKEND_GAPS.md` v8.0 §6.3 ise "dahil edilemez" diyor. Anayasa esastır; §6.3'ün güncellenmesi gerekir (bu PR'da yapılmadı, ayrı karar).
 
 ---

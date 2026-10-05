@@ -1,8 +1,8 @@
 # X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
 **Kime:** Backend tarafı ve backend tarafının yapay zekası
-**Hazırlayan:** Ürün sahibi (Claude ile) · **Revizyon:** v8.1 · 05.10.2026
-**Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
+**Hazırlayan:** Ürün sahibi (Claude ile) · **Revizyon:** v8.2 · 05.10.2026
+**Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/balbal`
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v177). Repo ile canvas farklıysa **canvas esastır**.
 
 ---
@@ -31,6 +31,9 @@
 
 ## 0. Bu belge nasıl okunur
 
+> **KARAR (05.10.2026, ürün sahibi): Mevcut geliştirmelerin tamamı backend tarafından uygulanır.** Amaç ürün ayırmak değil, uygulamayı bitirmektir. `URUN2_ARAYUZ.md`'deki ve canvas'taki her özellik (B-29 … B-36 dahil) — Ürün 3 olarak işaretlenenler dahil — ürün anahtarıyla (B-25) kapatılmadan geliştirilir. **Ürünlerin ayrılması, tüm arayüz ve backend tamamlandıktan sonra Anayasa'da veya uygulamada ayrıca yapılacaktır.** Ürün etiketleri bu ayrım için bilgi olarak korunur (T-11); bugün iş sırasını veya görünürlüğü belirlemez.
+> Bu karar §1.5'teki katman sırasını ve §12'deki "önce Ürün 1" sırasını **askıya alır**; katman etiketleri yalnızca kayıt içindir. P-1 (insan onayı) ve güvenlik kuralları (Ç-11, T-14) aynen geçerlidir.
+
 - Belge **konu başlıklarına** göre düzenlendi. Her talebin yanında bir **B kodu** var (B-01 … B-36; B-29 sonrası `URUN2_ARAYUZ.md`'de). Frontend kodundaki yorumlar (`// BACKEND_GAPS B-07` gibi) bu kodlara atıf yapar; kodlar değişmedi. Hangi kodun hangi bölümde olduğu **Ek A**'da.
 - Her talebin başlığının altında **"Ürün:"** satırı var: o özelliğin hangi ürün katmanına (Ürün 1 Tanıma / Ürün 2 Birleştirme / Ürün 3 Yorumlama / ortak altyapı) ait olduğu. Ayrıntı ve kurallar **§1.5**'te.
 - Her talebin başında bir **durum etiketi** var:
@@ -44,7 +47,7 @@
 | **BİLGİ** | Uygulama talebi değil; bağlam veya ileride yapılacak iş. |
 | **BEKLEMEDE** | Metni tamamlanmadı; başlanmaz. |
 
-- "Frontend" = `ftansu/AI-BalBal` (ürün sahibi tarafı). "Backend" = `ntoydem/company-ai` (backend tarafı). **Backend tarafı frontend'e dokunmaz**; frontend tarafı backend'e dokunmaz.
+- "Frontend" = `ftansu/balbal` (ürün sahibi tarafı). "Backend" = `ntoydem/company-ai` (backend tarafı). **Backend tarafı frontend'e dokunmaz**; frontend tarafı backend'e dokunmaz.
 - Backend'de olmayan uçlar için frontend `frontend/src/api/proposed.ts` içindeki **sözleşmeyi** çağırır. Backend 404/405/501 dönerse ekran sahte veri göstermez; "Backend bekleniyor" kutusu ve uç adı görünür. Yani bir ucu eklediğin anda ilgili ekran kendiliğinden çalışır. **Alan adlarını `proposed.ts` ile birebir eşleştir.**
 
 ---
@@ -114,7 +117,7 @@ Ekran bilgiyle doldurulmaz. İlk bakışta göze çarpması gerekenler görünü
 #### P-9 · Kurgusal demo, açık repo
 
 - Demo ortamında gerçek kişi, gerçek kurum logosu, gerçek belge numarası yok; her şey kurgusal.
-- `ftansu/AI-BalBal` **public** bir repo: gerçek sözleşme oranları, gerçek santral/EPİAŞ kimlikleri, şifre, anahtar asla yazılmaz.
+- `ftansu/balbal` **public** bir repo: gerçek sözleşme oranları, gerçek santral/EPİAŞ kimlikleri, şifre, anahtar asla yazılmaz.
 
 #### P-10 · Karar gerektiren yerde dur
 
@@ -125,13 +128,13 @@ Ekran bilgiyle doldurulmaz. İlk bakışta göze çarpması gerekenler görünü
 | Kim | Sorumluluk |
 |---|---|
 | **Ürün sahibi** | Ürün kararları, zihin haritası (bible), tasarım. Görsel her değişiklik önce Claude Design canvas'ında tasarlanır ve onaylanır, sonra frontend koduna girer. |
-| **Frontend** (`ftansu/AI-BalBal`) | Ekranlar. Backend'e yalnızca API üzerinden bağlanır. Yeni uç ihtiyacını `proposed.ts`'e sözleşme olarak yazar ve bu belgeye ekler. |
+| **Frontend** (`ftansu/balbal`) | Ekranlar. Backend'e yalnızca API üzerinden bağlanır. Yeni uç ihtiyacını `proposed.ts`'e sözleşme olarak yazar ve bu belgeye ekler. |
 | **Backend tarafı** (`ntoydem/company-ai`) | API, veri modeli, yetki, retrieval, LLM akışları, entegrasyonlar (EPİAŞ vb.), testler. Frontend'e dokunmaz; tip değişikliği önerisini ürün sahibine liste olarak verir. |
 
 **Ürünün arayüzü hangisi? (ürün sahibinin kararı, 29.09.2026)**
-- **Ürünün gerçek arayüzü `ftansu/AI-BalBal`'dır.** Müşteriye bu arayüz sunulur; web testleri (B-27) bu arayüzle yapılır.
+- **Ürünün gerçek arayüzü `ftansu/balbal`'dır.** Müşteriye bu arayüz sunulur; web testleri (B-27) bu arayüzle yapılır.
 - `ntoydem/company-ai` içindeki `frontend/` klasörü **test arayüzüdür**: yalnızca backend'i denemek için kullanılır. Oraya yeni ürün özelliği veya yeni ekran eklenmez; backend testine yetecek kadar değişiklik serbesttir.
-- Rica: bu ayrım backend reposunda da yazılı olsun (ör. `frontend/README.md` ve kök README'de "test arayüzüdür, ürün arayüzü `ftansu/AI-BalBal`"). Böylece o repoda çalışan yapay zeka da test arayüzüne ürün özelliği eklememesi gerektiğini bilir.
+- Rica: bu ayrım backend reposunda da yazılı olsun (ör. `frontend/README.md` ve kök README'de "test arayüzüdür, ürün arayüzü `ftansu/balbal`"). Böylece o repoda çalışan yapay zeka da test arayüzüne ürün özelliği eklememesi gerektiğini bilir.
 
 ### 1.4 Bugünkü durum: backend'de var, frontend'e bağlandı (BİLGİ)
 **Ürün:** Ürün 1 — Tanıma
@@ -184,7 +187,7 @@ Bunlar için backend'de değişiklik gerekmiyor.
 
 #### 1.5.4 Ürün katmanı anahtarı — **B-25** · KARAR VERİLDİ (ürün sahibi, 28.09.2026) · Ürün: ortak altyapı
 
-**Karar:** Ürünler için ayrı uygulama/repo YOK. Tek frontend (`ftansu/AI-BalBal`), tek backend (`ntoydem/company-ai`); müşteride hangi ürünlerin açık olduğu aşağıdaki anahtarla kontrol edilir. Backend tarafının daha önce gündeme getirdiği "her ürün için ayrı frontend" fikri bu nedenle uygulanmayacak — Ürün 2 ve 3, Ürün 1'in departman yapısı, yetki ve belge altyapısı üzerine kurulu; ayrı uygulamalar bu altyapıyı üçe katlardı.
+**Karar:** Ürünler için ayrı uygulama/repo YOK. Tek frontend (`ftansu/balbal`), tek backend (`ntoydem/company-ai`); müşteride hangi ürünlerin açık olduğu aşağıdaki anahtarla kontrol edilir. Backend tarafının daha önce gündeme getirdiği "her ürün için ayrı frontend" fikri bu nedenle uygulanmayacak — Ürün 2 ve 3, Ürün 1'in departman yapısı, yetki ve belge altyapısı üzerine kurulu; ayrı uygulamalar bu altyapıyı üçe katlardı.
 
 - Şirket ayarlarında hangi ürünlerin açık olduğu tutulur: `company_settings.enabled_products = ["P1","P2","P3"]`.
 - Her uç ve her Balbal akışı bir katmana bağlanır (`requires_product = "P1"|"P2"|"P3"`). Kapalı katmanın ucu `403 product_not_enabled` döner; Balbal *"Bu özellik şirketinizin paketinde yok"* der.
@@ -247,13 +250,13 @@ Bu projede iki farklı test var. Birbirine karıştırılmaz, biri diğerinin ye
 ### 1.8 Web üzerinden gerçek Ürün 1 testi — **B-27** · HEMEN (ürün sahibinin talebi, 28.09.2026)
 **Ürün:** Ortak altyapı (test ortamı)
 
-**Ürün sahibi tarafı artık Ürün 1'in gerçek testlerine web üzerinden başlamak istiyor.** Bunun için internetten erişilebilen, `ftansu/AI-BalBal` arayüzünü `ntoydem/company-ai` backend'ine bağlı çalıştıran bir test ortamı gerekiyor. Ortam **şimdi, bugünkü özelliklerle** açılır; B-25, B-20 + B-09, B-18 ve B-26 geldikçe aynı ortam güncellenir ve `BAGLANTI_YOL_HARITASI.md` §9'daki maddeler bu ortamda işaretlenir. Ortamın açılması bu maddelerin bitmesini beklemez.
+**Ürün sahibi tarafı artık Ürün 1'in gerçek testlerine web üzerinden başlamak istiyor.** Bunun için internetten erişilebilen, `ftansu/balbal` arayüzünü `ntoydem/company-ai` backend'ine bağlı çalıştıran bir test ortamı gerekiyor. Ortam **şimdi, bugünkü özelliklerle** açılır; B-25, B-20 + B-09, B-18 ve B-26 geldikçe aynı ortam güncellenir ve `BAGLANTI_YOL_HARITASI.md` §9'daki maddeler bu ortamda işaretlenir. Ortamın açılması bu maddelerin bitmesini beklemez.
 
 #### 1.8.1 İstenenler
 
 1. **Sabit bir web adresi** (alan adı veya IP) ve **HTTPS**. TLS gelince `auth.py`'deki oturum çerezi `secure=True` yapılır (kodda "TLS gelince açılacak" notu var).
-2. **Arayüz `ftansu/AI-BalBal` olmalı.** Backend reposundaki kendi `frontend/` klasörü bu testte kullanılmaz. Öneri: Caddy, `ftansu/AI-BalBal/frontend` klasöründen `npm ci && npm run build` ile üretilen `dist/` klasörünü statik olarak sunsun ve `/api`, `/health`, `/ask` yollarını backend'e aktarsın. Tarayıcı tek origin görür; CORS gerekmez, `httponly` çerez çalışır (geliştirme sunucusundaki `vite.config.ts` aynı düzeni kullanıyor).
-3. **Güncelleme yolu:** `ftansu/AI-BalBal` `main` dalına yeni bir sürüm geldiğinde arayüzü yeniden derleyip yayınlayan tek bir komut (ör. `make update-frontend`: `git pull` + build + Caddy'nin sunduğu klasörü yenileme). Backend güncellemesi için de aynı şekilde `make migrate` + yeniden başlatma.
+2. **Arayüz `ftansu/balbal` olmalı.** Backend reposundaki kendi `frontend/` klasörü bu testte kullanılmaz. Öneri: Caddy, `ftansu/balbal/frontend` klasöründen `npm ci && npm run build` ile üretilen `dist/` klasörünü statik olarak sunsun ve `/api`, `/health`, `/ask` yollarını backend'e aktarsın. Tarayıcı tek origin görür; CORS gerekmez, `httponly` çerez çalışır (geliştirme sunucusundaki `vite.config.ts` aynı düzeni kullanıyor).
+3. **Güncelleme yolu:** `ftansu/balbal` `main` dalına yeni bir sürüm geldiğinde arayüzü yeniden derleyip yayınlayan tek bir komut (ör. `make update-frontend`: `git pull` + build + Caddy'nin sunduğu klasörü yenileme). Backend güncellemesi için de aynı şekilde `make migrate` + yeniden başlatma.
 4. **Yalnızca kurgusal demo veri** (P-9). Ortam internete açık olduğu için gerçek belge, gerçek kişi, gerçek kurum verisi yüklenmez.
 5. **Erişim güvenliği:** güçlü admin ve demo şifreleri (repoya yazılmaz, güvenli kanaldan iletilir); mevcut giriş denemesi sınırı açık kalır; gerekirse IP kısıtı veya ek bir koruma katmanı önerilebilir.
 6. **Kullanıcılar:** §9.3'teki 15 kişilik kurgu personel hazır olana kadar mevcut demo kullanıcılarla başlanır; liste hazır olunca ortam onlarla yeniden yüklenir.
@@ -265,7 +268,7 @@ Bu projede iki farklı test var. Birbirine karıştırılmaz, biri diğerinin ye
 - Demo kullanıcıyla giriş yapılıyor; kullanıcı doğrudan kendi departman sayfasına gidiyor.
 - Belge listesi gerçek demo belgeleriyle doluyor; bir belge açılıp indirilebiliyor.
 - Balbal bir soruya kaynaklı cevap veriyor.
-- `ftansu/AI-BalBal` güncellemesi tek komutla ortama yansıyor.
+- `ftansu/balbal` güncellemesi tek komutla ortama yansıyor.
 
 #### 1.8.3 Ürün sahibi tarafına teslim ve sorular
 
@@ -343,7 +346,7 @@ Tasarımda departman müdürleri (Proje Finans müdürü, Hukuk müdürü, Enerj
 
 **Amaç:** Sistem yöneticisi, şirketin ortak alanında hangi klasörlerin olduğunu ve her klasöre hangi departmanın **görme** ya da **değiştirme** yetkisiyle erişeceğini tek bir sayfadan belirler. Örnek: proje sözleşmeleri Hukuk'un klasöründe durur, sistem yöneticisi Proje Finans'a o klasörü **görme** yetkisi verir.
 
-**Backend bu sayfanın uçlarını açar; sayfanın arayüzünü ürün sahibi tarafı tasarlar** (önce canvas, sonra `ftansu/AI-BalBal`). Uç sözleşmesi netleşince frontend `proposed.ts`'e eklenir.
+**Backend bu sayfanın uçlarını açar; sayfanın arayüzünü ürün sahibi tarafı tasarlar** (önce canvas, sonra `ftansu/balbal`). Uç sözleşmesi netleşince frontend `proposed.ts`'e eklenir.
 
 #### 2.6.1 Kurallar
 
@@ -1219,7 +1222,7 @@ Liste ve kurgu şirket künyesi (şirket adı, SPV'ler, karşı taraflar) ledger
 ## 10. Backend tarafından beklenen analiz — **B-19** · HEMEN
 **Ürün:** Ortak altyapı. Tersine listede her yeteneğin hangi ürüne ait olduğunu da yaz
 
-1. `ftansu/AI-BalBal` frontend'ini ve Claude Design canvas'ını ("X Platformu — Ana Sayfa", güncel sürüm; bu belge yazılırken v177) incele. Backend'de karşılığı olmayan her ekran/alan için eksiği tespit et ve (bu belgede karar verilmiş olanları) tamamla. Bu belgedeki maddelerle sınırlı değil.
+1. `ftansu/balbal` frontend'ini ve Claude Design canvas'ını ("X Platformu — Ana Sayfa", güncel sürüm; bu belge yazılırken v177) incele. Backend'de karşılığı olmayan her ekran/alan için eksiği tespit et ve (bu belgede karar verilmiş olanları) tamamla. Bu belgedeki maddelerle sınırlı değil.
 2. **Tersine liste:** Backend'inde olup arayüzde **olmayan** her yeteneği yaz: uç, ne yaptığı, örnek istek/cevap, hangi ekranda kullanılmasını önerdiğin. Arayüzü buna göre tamamlayacağız.
 3. Canvas'ta olup bu belgede **hiç geçmeyen** bir ihtiyaç bulursan (özellikle Mali İşler, İdari İşler, İK ana sayfaları) önce listele, ürün sahibine sor; kendin karar verme.
 
@@ -1251,7 +1254,7 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 | 1 | Ortak | B-18 | Demo veri seti | §9 | HEMEN |
 | 1 | Ortak | B-19 | Arayüz incelemesi + tersine liste (ürün etiketli) | §10 | HEMEN |
 | 1 | Ortak | B-25 | Ürün katmanı anahtarı | §1.5.4 | HEMEN (karar verildi) |
-| 1 | Ortak | B-27 | Web üzerinden Ürün 1 test ortamı (HTTPS, AI-BalBal arayüzü, güncelleme komutu) | §1.8 | HEMEN |
+| 1 | Ortak | B-27 | Web üzerinden Ürün 1 test ortamı (HTTPS, balbal arayüzü, güncelleme komutu) | §1.8 | HEMEN |
 | 2 | Ürün 1 | B-20 (1–5) | Departman yapısını zihin haritasına uyarla | §2.1 | HEMEN |
 | 2 | Ürün 1 | B-09 | Ana departman | §2.2 | HEMEN (B-08 ile) |
 | 2 | Ürün 1 | B-08 | Departman yöneticisi rolü | §2.4 | ÖNERİLEN KARAR |
@@ -1288,10 +1291,10 @@ Sıra **ürün katmanına göre** kurulur (§1.5): önce ortak altyapı ve **Ür
 
 ## 13. Backend tarafının yapay zekasına hazır istem
 
-> `docs/BACKEND_GAPS.md` dosyasını (ftansu/AI-BalBal) baştan sona oku. Önce **§1.2 Değişmez ilkeler**'i ve **§1.5 Ürün katmanları**'nı oku. §1.5 projenin belkemiğidir: her özellik Ürün 1 (Tanıma), Ürün 2 (Birleştirme) ya da Ürün 3 (Yorumlama) katmanına aittir; her başlığın altında **"Ürün:"** satırı var. Ürün 1'de yorum, Ürün 2'de yorum ve tahmin/projeksiyon **yasak**; bir özellikte tahmin veya yorum varsa o Ürün 3'tür. Kendi CLAUDE.md kurallarına göre §12'deki sırayla phase planı çıkar:
+> `docs/BACKEND_GAPS.md` dosyasını (ftansu/balbal) baştan sona oku. Önce **§1.2 Değişmez ilkeler**'i ve **§1.5 Ürün katmanları**'nı oku. §1.5 projenin belkemiğidir: her özellik Ürün 1 (Tanıma), Ürün 2 (Birleştirme) ya da Ürün 3 (Yorumlama) katmanına aittir; her başlığın altında **"Ürün:"** satırı var. Ürün 1'de yorum, Ürün 2'de yorum ve tahmin/projeksiyon **yasak**; bir özellikte tahmin veya yorum varsa o Ürün 3'tür. Kendi CLAUDE.md kurallarına göre §12'deki sırayla phase planı çıkar:
 >
-> 1. **Ürünün arayüzü `ftansu/AI-BalBal`'dır (§1.3).** Kendi reponundaki `frontend/` klasörü test arayüzüdür; oraya ürün özelliği ekleme ve bu ayrımı kendi README'nde yaz.
-> 2. **Web test ortamı (B-27, §1.8):** `ftansu/AI-BalBal` arayüzünü backend'e bağlı sunan HTTPS test ortamını bugünkü özelliklerle hemen aç; diğer maddeler geldikçe aynı ortamı güncelle. Maliyet gerektiren seçimleri önce sor.
+> 1. **Ürünün arayüzü `ftansu/balbal`'dır (§1.3).** Kendi reponundaki `frontend/` klasörü test arayüzüdür; oraya ürün özelliği ekleme ve bu ayrımı kendi README'nde yaz.
+> 2. **Web test ortamı (B-27, §1.8):** `ftansu/balbal` arayüzünü backend'e bağlı sunan HTTPS test ortamını bugünkü özelliklerle hemen aç; diğer maddeler geldikçe aynı ortamı güncelle. Maliyet gerektiren seçimleri önce sor.
 > 3. **`docs/BAGLANTI_YOL_HARITASI.md`'yi oku.** B-25 → B-20 (1–5) + B-09 → B-18 sırası, her birinin adım adım planı ve kabul testleri orada. Bu üçü frontend'i backend'e bağlamanın ön koşulu; o belgenin §6'sında karar verilmemiş bir nokta varsa onay gelmeden o kısmı kodlama (proje sayısı kararı verildi: şimdilik 2 proje).
 > 4. **Ortak altyapı (Sıra 1):** B-18 demo veri seti (önce webde resmî yazı, sözleşme, dilekçe formatlarını araştır; kurgusal, profesyonel belgeler ve orta karmaşıklıkta, formüllü, proje proje ayrı Excel'ler üret). B-19 arayüz incelemesi ve tersine liste; **her yeteneğin ürün katmanını da yaz**. B-25 ürün katmanı anahtarı **karar verildi (§1.5.4), ADR gerekmez**; doğrudan uygula: `company_settings.enabled_products`, uç bazlı `requires_product`, `GET /api/auth/me` cevabına `enabled_products` alanı (frontend bunu bekliyor, alan adını ve değerleri birebir eşleştir).
 > 5. **Belge yükleme (B-28, §4.7):** Ürün 1'in çekirdeği. §4.7 bir iş listesi değil, mantık anlatımıdır; önce mantığı anla, kurulumu kendin tasarla. Özü: Balbal her belgede **o belge için can alıcı olanı** ister (hangi şirket, hangi konu, ne belgesi; tadilde hangi sözleşmenin tadili ve neyi değiştirdiği), gerekmeyeni istemez, belgede olmayanı uydurmaz; personel Balbal'ın açmadığı alanı kendisi ekleyebilir; %80 altı güvende personelin açık onayı olmadan kayıt olmaz; her şey değiştirilemez bir kayıtta tutulur. §4.7.9'daki açık noktaları sor.
@@ -1352,11 +1355,12 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 
 ### Revizyon geçmişi
 
+- **v8.2 (05.10.2026):** **Ürün sahibi kararı:** mevcut geliştirmelerin tamamı backend tarafından uygulanır; ürünler, tüm arayüz ve backend tamamlandıktan sonra Anayasa'da veya uygulamada ayrıca ayrılacaktır (§0 kutusu). B-29 … B-36 "ADR ÖNCE" yerine "HEMEN". Frontend reposunun adı `ftansu/balbal` → **`ftansu/balbal`** (eski adres GitHub tarafından yönlendirilir).
 - **v8.1 (05.10.2026):** Ürün 2 arayüz tasarımı (canvas "X Platformu — Ürün 2" v39) için **`docs/URUN2_ARAYUZ.md`** eklendi; yeni kodlar **B-29 … B-36** (hepsi ADR ÖNCE) Ek A'ya yazıldı. Anayasa uyarıları o belgenin §12'sinde: İK izin/maaş/işe giriş–çıkış ve kıdem "bugün çıkarılsa" Ürün 3; mevzuat dış taraması Ek-E/6; Hiyerarşi Düzenleyici Ek-B sorusu; §6.3 ekip sohbeti kararı Anayasa v2.0 Ü-7.3 ile güncellenmeli.
-- **v8.0 (29.09.2026):** **Ekip sohbeti kararı değişti (§6.3):** kişiler arası ve grup sohbeti artık **Ürün 1**; **Balbal bu sohbetlere dahil edilemez**, Balbal penceresi ile ekip sohbeti ayrı pencereler; sohbet içeriği retrieval'a ve kurumsal hafızaya girmez. Yönetim ve sistem yöneticisi, üyesi olmadıkları sohbetlerin içeriğini göremez. Frontend buna göre güncellendi (Balbal seçeneği kaldırıldı, görüş talebi sekmesi P2'ye bağlandı, `include_balbal` sözleşmeden çıktı). **Ürünün arayüzü `ftansu/AI-BalBal`, backend reposundaki `frontend/` test arayüzü** (§1.3). Netlik düzeltmeleri: gündem (B-01) Ürün 2 olduğu için "HEMEN" yerine "SIRADA"; §12 tablosu sıraya göre düzenlendi ve Ürün 2–3'e geçiş kuralı tabloya yazıldı; §13 istemi 1–13 olarak yeniden numaralandı; `project_id`'nin isteğe bağlı kalacağı netleşti (§1.4); canvas şirket adı "XYZ Enerji A.Ş." olarak düzeltildi (§9.3.2); B-08'deki eski etiket onayı atfı B-28'e göre düzeltildi.
+- **v8.0 (29.09.2026):** **Ekip sohbeti kararı değişti (§6.3):** kişiler arası ve grup sohbeti artık **Ürün 1**; **Balbal bu sohbetlere dahil edilemez**, Balbal penceresi ile ekip sohbeti ayrı pencereler; sohbet içeriği retrieval'a ve kurumsal hafızaya girmez. Yönetim ve sistem yöneticisi, üyesi olmadıkları sohbetlerin içeriğini göremez. Frontend buna göre güncellendi (Balbal seçeneği kaldırıldı, görüş talebi sekmesi P2'ye bağlandı, `include_balbal` sözleşmeden çıktı). **Ürünün arayüzü `ftansu/balbal`, backend reposundaki `frontend/` test arayüzü** (§1.3). Netlik düzeltmeleri: gündem (B-01) Ürün 2 olduğu için "HEMEN" yerine "SIRADA"; §12 tablosu sıraya göre düzenlendi ve Ürün 2–3'e geçiş kuralı tabloya yazıldı; §13 istemi 1–13 olarak yeniden numaralandı; `project_id`'nin isteğe bağlı kalacağı netleşti (§1.4); canvas şirket adı "XYZ Enerji A.Ş." olarak düzeltildi (§9.3.2); B-08'deki eski etiket onayı atfı B-28'e göre düzeltildi.
 - **v7.9 (29.09.2026):** Ürün sahibinin netleştirmesi: **Ürün 2'de yorum yoktur.** Ürün 2 anlar, karşılaştırır, birleştirir ve yalnızca veriye dayalı cevap verir; yorum, görüş ve değerlendirme Ürün 3'e aittir. §1.1 tablosu, pratik sonuç ve §1.5.2 kural 1 buna göre açıkça yazıldı (önceki metinde yasak yalnızca tahmin/projeksiyon üzerinden tarif ediliyordu).
 - **v7.8 (29.09.2026):** **§4.7 B-28** eklendi ve aynı gün mantık anlatımı olarak yeniden yazıldı: Balbal her belgede o belge için can alıcı olanı ister (faturada az, sözleşme ve tadilde gereken), belgede olmayanı uydurmaz; tadilde ana sözleşme bağlantısı ve değişiklik etiketi; etiketler az ve sabit listeden; personel Balbal'ın açmadığı alanı kendisi ekleyebilir (arayüz + backend); %80 altı güvende personelin açık onayı; değiştirilemez kayıt defteri; ekrana iç not konmaz. B-12 bununla karşılandı.
-- **v7.7 (28.09.2026 gece):** **§1.8 B-27** eklendi: Ürün sahibi tarafı Ürün 1'in gerçek testlerine web üzerinden başlamak istiyor; HTTPS test ortamı, arayüz olarak `ftansu/AI-BalBal`, tek komutla güncelleme, yalnızca kurgusal veri. Ortam bugünkü özelliklerle hemen açılır.
+- **v7.7 (28.09.2026 gece):** **§1.8 B-27** eklendi: Ürün sahibi tarafı Ürün 1'in gerçek testlerine web üzerinden başlamak istiyor; HTTPS test ortamı, arayüz olarak `ftansu/balbal`, tek komutla güncelleme, yalnızca kurgusal veri. Ortam bugünkü özelliklerle hemen açılır.
 - **v7.6 (28.09.2026 gece):** **§2.6 B-26** eklendi: sistem yöneticisi sayfası — şirketin klasör ağacı ve her klasör için departman bazında görme/değiştirme yetkisi; SPV'lere aynı yetki uygulanır; B-10 bununla karşılanır. Arayüzü ürün sahibi tarafı tasarlar.
 - **v7.5 (28.09.2026 gece):** **§9.3 Kurgu şirket** eklendi: 15 kişilik kurgusal personel listesi (ad, unvan, departman, yönetici, rol), bütün sözleşme ve belgelerin kurguya geçmesi, tek şirket adı; backend kurguyu çıkarır, arayüz ona göre tasarlanır. Ürün 1 = departman sayfasının kısıtlı hali (ayrı ana sayfa yok).
 - **v7.4 (28.09.2026 gece):** **§1.7 İki ayrı test** eklendi: kod testi (backend) ile ürün testi (satılabilirlik, ürün sahibi) ayrıldı; "Finalize" = ürün testinden geçmek; Ürün 2'ye geçiş buna bağlandı; soru kuralı (sor, tahmin etme, durma) getirildi. §13 buna göre güncellendi.

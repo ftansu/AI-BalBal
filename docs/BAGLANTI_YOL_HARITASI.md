@@ -9,7 +9,7 @@
 
 ## 0. Özet
 
-**Bu üç madde, `ftansu/AI-BalBal` frontend'ini backend'e bağlayıp Ürün 1'i kendi arayüzüyle, gerçek veriyle test edebilmemiz için ihtiyacımız olan asgari settir.** Üçü bitmeden yapılan bir bağlantı testi, yapı ve veri değişeceği için geçersiz kalır.
+**Bu üç madde, `ftansu/balbal` frontend'ini backend'e bağlayıp Ürün 1'i kendi arayüzüyle, gerçek veriyle test edebilmemiz için ihtiyacımız olan asgari settir.** Üçü bitmeden yapılan bir bağlantı testi, yapı ve veri değişeceği için geçersiz kalır.
 
 **Bu belgenin ölçtüğü şey (ürün sahibinin kararı, 28.09.2026):** Buradaki bütün beklentilerin karşılanması Ürün 1'in **teknik kapıyı** geçtiği anlamına gelir: ürün yazılmış ve çalışıyor. Bu, ürünün **satılabilir** olduğu anlamına gelmez. Hedefimiz satılabilirlik, yani ürünün gerçek hayattaki karşılığını ölçmek; bu yüzden teknik kapıdan sonra gerçek kullanıcıyla bir **satılabilirlik testi** yapılır ve Ürün 2'ye geçiş onun sonucuna bağlıdır. Teknik kapının takip listesi: **§9**.
 
@@ -251,7 +251,7 @@ Her adım (B-25, B-20+B-09, B-18) sonunda kısa özet:
 
 **Kural:** Aşağıdaki maddelerin **hepsi** "Geçti" olduğunda Ürün 1 teknik kapıyı geçmiş sayılır ve satılabilirlik testine (gerçek kullanıcı, gerçek iş) başlanır. Ürün 2'ye geçiş satılabilirlik testinin sonucuna bağlıdır; teknik kapıyı geçmek tek başına Ürün 2'ye geçiş sebebi değildir. Bir madde kalırsa düzeltilir ve o madde (ve etkilediği maddeler) tekrar test edilir. Maddeler bu belgedeki kabul testlerinin birebir kopyasıdır; yeni beklenti eklenmedi.
 
-Test, **`ftansu/AI-BalBal` arayüzü üzerinden** yapılır (T-19…T-25); backend testleri (T-01…T-18, T-26, T-27) backend tarafının otomatik testleri ve özetiyle kanıtlanır.
+Test, **`ftansu/balbal` arayüzü üzerinden** yapılır (T-19…T-25); backend testleri (T-01…T-18, T-26, T-27) backend tarafının otomatik testleri ve özetiyle kanıtlanır.
 
 | No | Adım | Beklenti | Kaynak | Durum |
 |---|---|---|---|---|

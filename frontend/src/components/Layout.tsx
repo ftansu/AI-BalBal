@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 
 import { useDepartments } from "../api/departments";
+import { formatDate } from "../lib/format";
 import { useNotifications } from "../api/proposed";
 import { useAuth } from "../auth/useAuth";
 import { useHasProduct } from "../auth/useProduct";
@@ -67,6 +68,14 @@ export function Layout() {
             <span className="topbar-dept">
               <span className="dot" aria-hidden="true" />
               {deptName}
+            </span>
+          )}
+          {user && (
+            // ADR-026 (company-ai): backend'in kendi "bugün"ü — arayüz hiçbir tarih
+            // hesabı yapmaz, yalnızca `/api/auth/me`'nin verdiği değeri gösterir.
+            <span className="topbar-dept" title={S.shell.todayBadge(formatDate(user.today), user.demo_mode_enabled)}>
+              <span className="dot" aria-hidden="true" />
+              {S.shell.todayBadge(formatDate(user.today), user.demo_mode_enabled)}
             </span>
           )}
           <div className="topbar-tools">

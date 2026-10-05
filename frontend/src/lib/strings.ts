@@ -170,6 +170,7 @@ export const S = {
     awaitingApproval: "Onayımı bekleyen",
     openChat: "Sohbeti aç",
     userMenu: "Kullanıcı menüsü",
+    todayBadge: (date: string, demo: boolean) => `Bugün: ${date}${demo ? " (demo)" : ""}`,
     myAccess: "Yetkilerim",
     accessEmployee: (depts: string) => `${depts} departmanının normal gizlilikteki belgeleri. Diğer departmanlar için görüş veya evrak talebi.`,
     accessManager: (depts: string) => `${depts} departmanının normal ve kısıtlı gizlilikteki belgeleri (yönetim kurulu belgeleri hariç).`,

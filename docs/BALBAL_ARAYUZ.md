@@ -1,4 +1,6 @@
-# Ürün 2 Arayüzü — Frontend Tasarımı ve Backend'den Beklenenler
+# Balbal Arayüzü — Frontend Tasarımı ve Backend'den Beklenenler
+
+> **Bu, Balbal uygulamasının tam arayüzüdür; yalnızca Ürün 2'nin arayüzü değildir.** Projede iki frontend var: (1) **Ürün 1 arayüzü** — yalnızca Ürün 1 açıkken görünen sade ekran ([`URUN1_ARAYUZ.md`](URUN1_ARAYUZ.md)); (2) **Balbal arayüzü** — bu belge: uygulamanın bütün ekranları. Canvas'ın adı tarihsel olarak "X Platformu — Ürün 2"dir.
 
 **Kime:** Backend tarafı ve backend tarafının yapay zekâsı
 **Hazırlayan:** Ürün sahibi (Claude ile) · **Tarih:** 05.10.2026 · **Durum:** Tasarım onaylı (canvas) · **Backend tarafından uygulanacak**
@@ -15,7 +17,7 @@
 
 ## İçindekiler
 
-0. [Özet: Ürün 2'de ne değişti](#0-özet-ürün-2de-ne-değişti)
+0. [Özet: bu tasarımda ne var](#0-özet-bu-tasarımda-ne-var)
 1. [Temel ilkeler](#1-temel-ilkeler)
 2. [Ekran envanteri (ürün etiketi + Ek-B atfı)](#2-ekran-envanteri)
 3. [Balbal penceresi ve cevap blokları](#3-balbal-penceresi-ve-cevap-blokları)
@@ -32,7 +34,7 @@
 
 ---
 
-## 0. Özet: Ürün 2'de ne değişti
+## 0. Özet: bu tasarımda ne var
 
 | # | Değişiklik | Neden önemli |
 |---|---|---|
@@ -264,7 +266,7 @@ Eski tasarımdaki tikler, "+ Ekle" ve "önemli bilgi" sütunu **kaldırıldı**.
 
 ## 9. Yönetim paneli
 
-Ayrıntı: ürün sahibinin "Yönetim ekranı — kullanıcılar, yetkiler ve onay mekanizması" notu. Burada yalnızca Ürün 2 döneminde eklenenler.
+Ayrıntı: ürün sahibinin "Yönetim ekranı — kullanıcılar, yetkiler ve onay mekanizması" notu. Burada yalnızca bu tasarımda eklenenler.
 
 ### 9.1 Yapı türetilir
 
@@ -374,7 +376,7 @@ Etiket: hepsi **HEMEN** (05.10.2026 kararı). Kritik veri modeli kararları içi
 
 **05.10.2026 kararıyla bu maddeler geliştirmeyi durdurmaz.** Tüm özellikler uygulanır; aşağıdakiler, uygulama bittikten sonra yapılacak ürün ayrımında (Anayasa veya uygulama) kullanılmak üzere kayıttır. İstisna: madde 3'teki dış bağlantı, güvenlik kuralı olduğu için bağlantı eklenmeden önce ürün sahibinin onayını gerektirir.
 
-1. **İK izin talebi, izin yönetimi, izin hakları, maaş/bordro, işe giriş–çıkış işlem taslağı → Ek-B'de Ürün 3 (İnsan Kaynakları).** Canvas bunları "Ürün 2" sayfasında ve İK ana sayfasında gösteriyor. Ürün ayrımı yapıldığında bu sekmeler ve akışlar `P3` anahtarına bağlanacak (B-25); **şimdilik açık geliştirilir.** `BACKEND_GAPS.md` B-22 de "İK kısmı Ürün 3" diyor; tutarlı.
+1. **İK izin talebi, izin yönetimi, izin hakları, maaş/bordro, işe giriş–çıkış işlem taslağı → Ek-B'de Ürün 3 (İnsan Kaynakları).** Canvas bunları onay akışları sayfasında ve İK ana sayfasında gösteriyor. Ürün ayrımı yapıldığında bu sekmeler ve akışlar `P3` anahtarına bağlanacak (B-25); **şimdilik açık geliştirilir.** `BACKEND_GAPS.md` B-22 de "İK kısmı Ürün 3" diyor; tutarlı.
 2. **Kıdem ve İhbar "bugün işten çıkarılsa"** varsayımsal bir hesaptır (gerçekleşmemiş olay) → Ürün 2'nin "yalnızca gerçekleşmiş veri" sınırını aşar → **Ürün 3**. Varsayımlar ekranda açıkça listelenmeli (T-4).
 3. **Mevzuat güncelliği için dış kaynak taraması** yeni dış bağlantıdır → **Ek-E/6 + Ç-11 kararı** gerekir. Önce sistem içi karşılaştırma ve kullanıcı yüklemesi yapılır; dış tarama, ürün sahibi kaynağı (Resmî Gazete vb.) onaylayınca eklenir.
 4. **Balbal — Hiyerarşi Düzenleyici** Ek-B'de adıyla geçmiyor. En yakın madde Ürün 2 "Veri taslağı hazırlar". Geliştirilir; Ek-B'deki yeri ürün ayrımında netleşir (Ç-11/a ise Ç-3 oybirliği gerekir). Şema yönetimi (ağaç, onay, devreye alma) Ürün 1 "departman yapısını tanımlar" kapsamındadır; soru yalnızca Balbal'ın düzenleme aracı olmasıyla ilgili.

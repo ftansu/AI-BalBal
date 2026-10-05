@@ -1,7 +1,7 @@
 # X Platformu (Balbal) — Backend Talepleri ve Çalışma Esasları
 
 **Kime:** Backend tarafı ve backend tarafının yapay zekası
-**Hazırlayan:** Ürün sahibi (Claude ile) · **Revizyon:** v8.0 · 29.09.2026
+**Hazırlayan:** Ürün sahibi (Claude ile) · **Revizyon:** v8.1 · 05.10.2026
 **Karşılaştırılan sürümler:** `ntoydem/company-ai` @ `4301968` (Phase 5.4) ↔ `ftansu/AI-BalBal`
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ana Sayfa" (v177). Repo ile canvas farklıysa **canvas esastır**.
 
@@ -31,7 +31,7 @@
 
 ## 0. Bu belge nasıl okunur
 
-- Belge **konu başlıklarına** göre düzenlendi. Her talebin yanında bir **B kodu** var (B-01 … B-28). Frontend kodundaki yorumlar (`// BACKEND_GAPS B-07` gibi) bu kodlara atıf yapar; kodlar değişmedi. Hangi kodun hangi bölümde olduğu **Ek A**'da.
+- Belge **konu başlıklarına** göre düzenlendi. Her talebin yanında bir **B kodu** var (B-01 … B-36; B-29 sonrası `URUN2_ARAYUZ.md`'de). Frontend kodundaki yorumlar (`// BACKEND_GAPS B-07` gibi) bu kodlara atıf yapar; kodlar değişmedi. Hangi kodun hangi bölümde olduğu **Ek A**'da.
 - Her talebin başlığının altında **"Ürün:"** satırı var: o özelliğin hangi ürün katmanına (Ürün 1 Tanıma / Ürün 2 Birleştirme / Ürün 3 Yorumlama / ortak altyapı) ait olduğu. Ayrıntı ve kurallar **§1.5**'te.
 - Her talebin başında bir **durum etiketi** var:
 
@@ -1341,9 +1341,18 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 | B-26 | Klasör yapısı ve departman erişim yetkileri | §2.6 | Ürün 1 |
 | B-27 | Web üzerinden Ürün 1 test ortamı | §1.8 | Ortak |
 | B-28 | Belge yükleme: tanıma, onay, manuel alan, kayıt defteri | §4.7 | Ürün 1 |
+| B-29 | Şirket yapısı sürümleri ve YK onay paketi (yeni + yürürlükteki anlık görüntü) | `URUN2_ARAYUZ.md` §11 | Ürün 1 |
+| B-30 | Pozisyon kapasitesi, atama, pozisyon değişikliği talepleri | `URUN2_ARAYUZ.md` §11 | Ürün 1 |
+| B-31 | Şema devreye alma ve tetik noktaları | `URUN2_ARAYUZ.md` §11 | Ürün 1 |
+| B-32 | Yapı değişikliği sonrası klasör uyumsuzlukları ve güncelleme talepleri | `URUN2_ARAYUZ.md` §11 | Ürün 1 |
+| B-33 | Ortak klasör onayı (eş pozisyon / iki yönetici) | `URUN2_ARAYUZ.md` §11 | Ürün 1 |
+| B-34 | Mevzuat kaynakları ve güncellik (dış tarama Ek-E/6 bekliyor) | `URUN2_ARAYUZ.md` §11 | Ürün 2 |
+| B-35 | Balbal — Hiyerarşi Düzenleyici (Ek-B sorusu açık) | `URUN2_ARAYUZ.md` §11 | Ürün 2 |
+| B-36 | Yapılandırılmış cevap blokları, pencere sürekliliği | `URUN2_ARAYUZ.md` §11 | Ürün 2 |
 
 ### Revizyon geçmişi
 
+- **v8.1 (05.10.2026):** Ürün 2 arayüz tasarımı (canvas "X Platformu — Ürün 2" v39) için **`docs/URUN2_ARAYUZ.md`** eklendi; yeni kodlar **B-29 … B-36** (hepsi ADR ÖNCE) Ek A'ya yazıldı. Anayasa uyarıları o belgenin §12'sinde: İK izin/maaş/işe giriş–çıkış ve kıdem "bugün çıkarılsa" Ürün 3; mevzuat dış taraması Ek-E/6; Hiyerarşi Düzenleyici Ek-B sorusu; §6.3 ekip sohbeti kararı Anayasa v2.0 Ü-7.3 ile güncellenmeli.
 - **v8.0 (29.09.2026):** **Ekip sohbeti kararı değişti (§6.3):** kişiler arası ve grup sohbeti artık **Ürün 1**; **Balbal bu sohbetlere dahil edilemez**, Balbal penceresi ile ekip sohbeti ayrı pencereler; sohbet içeriği retrieval'a ve kurumsal hafızaya girmez. Yönetim ve sistem yöneticisi, üyesi olmadıkları sohbetlerin içeriğini göremez. Frontend buna göre güncellendi (Balbal seçeneği kaldırıldı, görüş talebi sekmesi P2'ye bağlandı, `include_balbal` sözleşmeden çıktı). **Ürünün arayüzü `ftansu/AI-BalBal`, backend reposundaki `frontend/` test arayüzü** (§1.3). Netlik düzeltmeleri: gündem (B-01) Ürün 2 olduğu için "HEMEN" yerine "SIRADA"; §12 tablosu sıraya göre düzenlendi ve Ürün 2–3'e geçiş kuralı tabloya yazıldı; §13 istemi 1–13 olarak yeniden numaralandı; `project_id`'nin isteğe bağlı kalacağı netleşti (§1.4); canvas şirket adı "XYZ Enerji A.Ş." olarak düzeltildi (§9.3.2); B-08'deki eski etiket onayı atfı B-28'e göre düzeltildi.
 - **v7.9 (29.09.2026):** Ürün sahibinin netleştirmesi: **Ürün 2'de yorum yoktur.** Ürün 2 anlar, karşılaştırır, birleştirir ve yalnızca veriye dayalı cevap verir; yorum, görüş ve değerlendirme Ürün 3'e aittir. §1.1 tablosu, pratik sonuç ve §1.5.2 kural 1 buna göre açıkça yazıldı (önceki metinde yasak yalnızca tahmin/projeksiyon üzerinden tarif ediliyordu).
 - **v7.8 (29.09.2026):** **§4.7 B-28** eklendi ve aynı gün mantık anlatımı olarak yeniden yazıldı: Balbal her belgede o belge için can alıcı olanı ister (faturada az, sözleşme ve tadilde gereken), belgede olmayanı uydurmaz; tadilde ana sözleşme bağlantısı ve değişiklik etiketi; etiketler az ve sabit listeden; personel Balbal'ın açmadığı alanı kendisi ekleyebilir (arayüz + backend); %80 altı güvende personelin açık onayı; değiştirilemez kayıt defteri; ekrana iç not konmaz. B-12 bununla karşılandı.

@@ -6,12 +6,14 @@
 - **Ürünün arayüzü bu repodur.** `ntoydem/company-ai` içindeki `frontend/` klasörü yalnızca backend'i denemek için kullanılan test arayüzüdür.
 - **Backend:** `ntoydem/company-ai` (backend tarafı). Bu repo backend koduna dokunmaz, aynı API sözleşmesini kullanır.
 - **Backend'e eklenmesi gerekenler:** [`docs/BACKEND_GAPS.md`](docs/BACKEND_GAPS.md)
+- **Ürün 2 arayüzü ve beklentiler:** [`docs/URUN2_ARAYUZ.md`](docs/URUN2_ARAYUZ.md)
 
 ## Ekranlar
 
 | Ekran | Durum |
 |---|---|
 | **Ürün 1 ana sayfası** (canvas: "X Platformu — Ürün 1") — **yalnızca Ürün 1 içindir** | Çalışıyor: ortada büyük Balbal çubuğu, departmana özel örnek sorular, kaynaklı cevaplar; tablo/gösterge yok. Yalnızca Ürün 1 açıkken görünür. Ayrıntı: [`docs/URUN1_ARAYUZ.md`](docs/URUN1_ARAYUZ.md) |
+| **Ürün 2 arayüzü** (canvas: "X Platformu — Ürün 2") — Balbal penceresi 3 hali, cevap blokları, onay akışları, İK Şirket Yapısı, Kişiler, Mevzuat, ortak klasör onayı, yapı uyumsuzlukları | Tasarım onaylı, kod yok. Ayrıntı ve backend beklentileri (B-29 … B-36): [`docs/URUN2_ARAYUZ.md`](docs/URUN2_ARAYUZ.md) |
 | Giriş (canvas: Giris.dc.html) | Çalışıyor: marka alanı + giriş kartı, şifre göster/gizle, backend'in hata mesajları |
 | Üst bar: arama, belge yükle, bildirimler, kullanıcı menüsü | Arama `GET /api/search` ile çalışıyor (belge içeriği + metadata — snippet ve sayfa —, proje, kişi; B-14). Kişi araması rehberden (`/api/directory`, B-05). Bildirimler backend bekliyor (B-02) |
 | Balbal penceresi: geçmiş sorular, cevap türü + ürün katmanı rozeti (proje seçimi yok, canvas v165), Ç-7 veri durumu uyarıları (`warnings`), numaralı kaynaklar (önceki/sonraki versiyon tıklanabilir, proje adı kartta), geri bildirim | `/api/ask` ile çalışıyor (`product_level`, `warnings`, `audit_log_id`). Geçmiş şimdilik oturumda tutuluyor (B-03), geri bildirim ucu backend bekliyor (B-04) |

@@ -7,6 +7,8 @@
 **Tasarım kaynağı:** Claude Design canvas **"X Platformu — Ürün 2"** (05.10: sürüm 39 · 06.10: `1791297325-0284`; anlık görüntü `tasarim/canvas/`). Bağlantıyı ürün sahibi paylaşır. Bu belge ile canvas farklıysa **canvas esastır**.
 
 > **⚠️ 06.10.2026: Ürün 2 / Balbal frontend'i tamamlanmadı.** Mali İşler, İdari İşler ve Akış Zincirleri eklendi; daha yapılacak çok iş var. Bugünkü ekranlar, kurallar ve backend beklentileri (B-37 … B-42 önerisi): [`NACI_NOTU_2026-10-06.md`](NACI_NOTU_2026-10-06.md). Bu belgenin aşağıdaki bölümleri 05.10 durumunu anlatır.
+>
+> **⛔ 06.10.2026 kararı:** Şu aşamada backend ile bu arayüz **birleştirilmez**; bütün geliştirmeler **Ürün 1** üzerinde yapılır. Aşağıdaki "tamamı uygulanır" kararı bu nedenle askıdadır; ayrıntı notta.
 **Belge önceliği:** Anayasa (v2.0) > Süreç haritası > `BACKEND_GAPS.md` > bu belge.
 
 > **KARAR (05.10.2026, ürün sahibi): Mevcut geliştirmelerin tamamı backend tarafından uygulanır.** Amaç ürün ayırmak değil, uygulamayı bitirmektir. Bu belgedeki ve canvas'taki her özellik — Ürün 3 olarak işaretlenenler dahil — ürün anahtarıyla (B-25) kapatılmadan geliştirilir. **Ürünlerin ayrılması, tüm arayüz ve backend tamamlandıktan sonra Anayasa'da veya uygulamada ayrıca yapılacaktır.** Ürün etiketleri bu ayrım için bilgi olarak korunur (T-11); bugün iş sırasını veya görünürlüğü belirlemez.

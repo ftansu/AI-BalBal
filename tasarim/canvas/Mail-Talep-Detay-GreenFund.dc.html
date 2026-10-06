@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Portföy İzleme Talebi — GreenFund</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+
+<div style="width:1440px;height:1080px;box-sizing:border-box;display:flex;flex-direction:column;background:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;color:#132119;overflow:hidden;">
+
+  <!-- Top bar -->
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="Main.dc.html" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#C9D3CC;">
+        <span aria-hidden="true">←</span> Ana Sayfaya Dön
+      </a>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;">GreenFund Capital Partners — Portföy İzleme Talebi</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#2FA968;display:inline-block;"></span>
+      <div style="font-size:13px;font-weight:600;">Proje Finans Departmanı</div>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div style="flex:1;display:flex;justify-content:center;padding:32px 40px;box-sizing:border-box;min-height:0;overflow:hidden;">
+    <div style="width:820px;display:flex;flex-direction:column;gap:20px;overflow:hidden;">
+
+      <!-- Original email -->
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:22px 26px;">
+        <div style="font-size:11px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Bayraklı Mail</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;margin-top:6px;">Konu: Portföy İzleme Raporu — Ek Belge Talebi</div>
+        <div style="font-size:12px;color:#8A968E;margin-top:4px;">Kimden: partners@greenfundcapital.com · 11 Eyl 2026</div>
+        <div style="font-size:13px;line-height:1.7;color:#2A3A31;margin-top:16px;">
+          Sayın Yetkili, portföy izleme sürecimiz kapsamında aşağıdaki belgelerin tarafımıza iletilmesini rica ederiz: güncel kredi sözleşmesi nüshası, proje sigorta poliçesi, ticaret sicil gazetesi sureti, güncel ÇED uygunluk yazısı. Saygılarımızla.
+        </div>
+      </div>
+
+      <!-- Before confirmation: AI extraction -->
+      <sc-if value="{{notConfirmed}}" hint-placeholder-val="{{true}}">
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:22px 26px;">
+          <div style="font-size:13px;font-weight:600;color:#132119;">Yapay Zeka Tespiti</div>
+          <div style="font-size:11px;color:#8A968E;margin-top:2px;margin-bottom:14px;">Bu e-postadan talep edildiği anlaşılan belgeler</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <sc-for list="{{requestedItems}}" as="item" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F0F2F0;">
+                <span aria-hidden="true" style="color:{{accent}};">●</span>
+                <div style="font-size:13px;">{{item.label}}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:20px;">
+            <button style="background:{{accent}};color:#0E241D;border:none;border-radius:10px;padding:12px 20px;font-weight:600;font-size:13px;cursor:pointer;" onClick="{{onConfirm}}">Evet, Bunlar İsteniyor — Okudum</button>
+            <a href="Main.dc.html" style="display:inline-flex;align-items:center;font-size:13px;font-weight:600;color:#5B6B60;padding:12px 16px;">İptal</a>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- After confirmation: scan results (mixed) -->
+      <sc-if value="{{confirmed}}" hint-placeholder-val="{{true}}">
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:22px 26px;">
+          <div style="margin-bottom:14px;">
+            <div style="font-size:13px;font-weight:600;color:#132119;">Tarama Sonucu</div>
+            <div style="font-size:11px;color:#8A968E;margin-top:2px;">Sistemde bu belgeler arandı</div>
+          </div>
+
+          <div style="display:flex;gap:8px;margin-bottom:16px;">
+            <div style="font-size:11px;font-weight:600;background:#E7F3EB;color:#1E6B3E;border-radius:20px;padding:5px 12px;">2 Bulundu</div>
+            <div style="font-size:11px;font-weight:600;background:#FBF1DE;color:#9A6B12;border-radius:20px;padding:5px 12px;">1 Muhasebeden İstenecek</div>
+            <div style="font-size:11px;font-weight:600;background:#FBE7E7;color:#B23A3A;border-radius:20px;padding:5px 12px;">1 Bulunamadı</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <!-- Found item 1 -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F0F2F0;">
+              <a href="Sozlesme-Onizleme.dc.html" style="font-size:13px;text-decoration:underline;">Güncel kredi sözleşmesi nüshası</a>
+              <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:#E7F3EB;color:#1E6B3E;">Bulundu</span><a href="Sozlesme-Onizleme.dc.html" style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#1E6B3E;text-decoration:underline;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1E6B3E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>İndir</a></div>
+            </div>
+            <!-- Found item 2 -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F0F2F0;">
+              <a href="Sozlesme-Onizleme.dc.html" style="font-size:13px;text-decoration:underline;">Proje sigorta poliçesi</a>
+              <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:#E7F3EB;color:#1E6B3E;">Bulundu</span><a href="Sozlesme-Onizleme.dc.html" style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#1E6B3E;text-decoration:underline;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1E6B3E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>İndir</a></div>
+            </div>
+            <!-- Needs cross-department request -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F0F2F0;">
+              <div style="font-size:13px;">Ticaret sicil gazetesi sureti</div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:#FBF1DE;color:#9A6B12;">Muhasebeden İstenecek</span>
+                <sc-if value="{{requestNotSent}}" hint-placeholder-val="{{true}}">
+                  <button style="background:{{accent}};color:#0E241D;border:none;border-radius:8px;padding:6px 14px;font-weight:600;font-size:11.5px;cursor:pointer;" onClick="{{onRequestAccounting}}">İste</button>
+                </sc-if>
+                <sc-if value="{{requestSent}}" hint-placeholder-val="{{true}}">
+                  <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:#E7F3EB;color:#1E6B3E;">✓ Talep Gönderildi</span>
+                </sc-if>
+              </div>
+            </div>
+            <!-- Not found -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F0F2F0;">
+              <div style="font-size:13px;">Güncel ÇED uygunluk yazısı</div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:#FBE7E7;color:#B23A3A;">Bulunamadı</span>
+                <sc-if value="{{cedNotSent}}" hint-placeholder-val="{{true}}">
+                  <button style="background:{{accent}};color:#0E241D;border:none;border-radius:8px;padding:6px 14px;font-weight:600;font-size:11.5px;cursor:pointer;" onClick="{{onRequestCed}}">Talep Et</button>
+                </sc-if>
+                <sc-if value="{{cedSent}}" hint-placeholder-val="{{true}}">
+                  <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:#E7F3EB;color:#1E6B3E;">✓ Talep Edildi</span>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#FBF1DE;border:1px solid #F0DBA0;border-radius:10px;padding:14px 18px;margin-top:16px;font-size:12.5px;line-height:1.6;color:#7A5A0A;">
+            <strong>Ticaret sicil gazetesi</strong> Mali İşler / Muhasebe departmanının yetkili alanında — Proje Finans erişiminde değil. "İste" ile departmana otomatik talep gönderilebilir.
+          </div>
+          <div style="background:#FBE7E7;border:1px solid #EFC5C5;border-radius:10px;padding:14px 18px;margin-top:10px;font-size:12.5px;line-height:1.6;color:#8A2A2A;">
+            <strong>Güncel ÇED uygunluk yazısı</strong> sistemde hiçbir yerde bulunamadı. Bu belgenin ortak alana eklenmesi gerekiyor.
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2FA968"},"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#2FA968';
+    const self = this;
+    const confirmed = !!(this.state && this.state.confirmed);
+    const requestSent = !!(this.state && this.state.accountingRequestSent);
+    const cedSent = !!(this.state && this.state.cedRequestSent);
+
+    const requestedItems = [
+      { label: 'Güncel kredi sözleşmesi nüshası' },
+      { label: 'Proje sigorta poliçesi' },
+      { label: 'Ticaret sicil gazetesi sureti' },
+      { label: 'Güncel ÇED uygunluk yazısı' }
+    ];
+
+    return {
+      accent: accent,
+      notConfirmed: !confirmed,
+      confirmed: confirmed,
+      requestedItems: requestedItems,
+      requestSent: requestSent,
+      requestNotSent: !requestSent,
+      cedSent: cedSent,
+      cedNotSent: !cedSent,
+      onConfirm: function () { self.setState({ confirmed: true }); },
+      onRequestAccounting: function () { self.setState({ accountingRequestSent: true }); },
+      onRequestCed: function () { self.setState({ cedRequestSent: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

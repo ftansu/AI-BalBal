@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Balbal Sohbet</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+
+<div style="{{rootStyle}}">
+
+  <!-- Sol: geçmiş sorular (dar pencerede gizlenir) -->
+  <sc-if value="{{showHistory}}" hint-placeholder-val="{{true}}">
+  <div style="width:260px;flex-shrink:0;display:flex;flex-direction:column;background:#F6F9F7;border-right:1px solid #E9EDEA;box-sizing:border-box;">
+    <div style="display:flex;align-items:center;gap:10px;padding:18px 18px 14px;">
+      <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="Balbal" style="width:34px;height:34px;border-radius:50%;object-fit:cover;">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;">Balbal</div>
+    </div>
+    <div style="padding:0 14px 12px;">
+      <button onClick="{{onNewConv}}" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:#0E241D;color:#F6F7F5;border:none;border-radius:10px;padding:12px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+        Yeni soru
+      </button>
+    </div>
+    <div style="padding:6px 18px 6px;font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;">Geçmiş sorular</div>
+    <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:2px;padding:0 10px 10px;">
+      <sc-for list="{{history}}" as="h" hint-placeholder-count="6">
+        <button onClick="{{h.select}}" style="{{h.style}}">
+          <div style="font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{h.title}}</div>
+          <div style="font-size:11.5px;color:#8A968E;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{h.when}}{{h.projText}}</div>
+        </button>
+      </sc-for>
+    </div>
+    <div style="padding:12px 18px 16px;border-top:1px solid #E9EDEA;font-size:11.5px;line-height:1.5;color:#8A968E;">
+      Sorularınız 90 gün denetim kaydında tutulur ve yalnızca sistem yöneticisi görebilir. Başka kullanıcıların cevaplarını etkilemez.
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- Sağ: aktif sohbet -->
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px 10px;flex-shrink:0;">
+      <div style="min-width:0;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{activeTitle}}</div>
+        <div style="font-size:12.5px;color:#5B6B60;margin-top:2px;">{{scopeLine}}</div>
+      </div>
+      <button aria-label="Kapat" onClick="{{onClose}}" style="width:36px;height:36px;flex-shrink:0;border-radius:8px;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6B60" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+      </button>
+    </div>
+
+    <div style="border-bottom:1px solid #E9EDEA;flex-shrink:0;"></div>
+
+    <!-- Mesajlar -->
+    <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:16px;padding:20px 24px;">
+      <sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+        <div style="margin:auto 0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:20px 30px;">
+          <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;">Size nasıl yardımcı olabilirim?</div>
+          <div style="font-size:14px;color:#5B6B60;line-height:1.6;max-width:480px;">Yalnızca yetkili olduğunuz şirket belgelerinden cevap veririm ve her cevapta kaynağını gösteririm. Belgeleri yan yana getirebilir, gerçekleşmiş veriyle hesap yapabilir ve şirket şablonlarını doldurabilirim; yorum ve tahmin yapmam. Kaynak bulamazsam veya kaynaklar çelişirse bunu açıkça söylerim.</div>
+        </div>
+      </sc-if>
+
+      <sc-for list="{{messages}}" as="m" hint-placeholder-count="4">
+        <sc-if value="{{m.isUser}}" hint-placeholder-val="{{true}}">
+          <div style="align-self:flex-end;max-width:70%;background:#EEF2EF;border-radius:16px 16px 3px 16px;padding:12px 16px;font-size:16px;line-height:1.5;">{{m.text}}</div>
+        </sc-if>
+        <sc-if value="{{m.isAi}}" hint-placeholder-val="{{true}}">
+          <div style="align-self:flex-start;max-width:86%;display:flex;flex-direction:column;gap:6px;">
+            <div style="background:#F0FAF3;border:1px solid #DCEEE2;border-radius:16px 16px 16px 3px;padding:14px 18px;font-size:16px;line-height:1.6;">
+              <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
+                <sc-if value="{{m.badgeLabel}}" hint-placeholder-val="{{true}}">
+                  <span style="{{m.badgeStyle}}">{{m.badgeLabel}}</span>
+                </sc-if>
+                <sc-for list="{{m.projects}}" as="pj" hint-placeholder-count="2">
+                  <span style="display:inline-block;font-size:11.5px;font-weight:600;border-radius:6px;padding:2px 8px;margin-bottom:8px;color:#14401F;background:#FFFFFF;border:1px solid #BFE3CC;">{{pj.name}}</span>
+                </sc-for>
+              </div>
+              <div style="white-space:pre-line;">{{m.text}}</div>
+
+              <sc-if value="{{m.hasTable}}" hint-placeholder-val="{{false}}">
+                <div style="margin-top:12px;background:#FFFFFF;border:1px solid #DCEEE2;border-radius:10px;overflow:hidden;">
+                  <div style="{{m.tableGrid}}">
+                    <div style="padding:8px 12px;font-size:10.5px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;border-bottom:1px solid #E9EDEA;background:#FAFBFA;">{{m.tableHead}}</div>
+                    <sc-for list="{{m.tableCols}}" as="tc" hint-placeholder-count="2">
+                      <div style="padding:8px 12px;font-size:12.5px;font-weight:700;border-bottom:1px solid #E9EDEA;border-left:1px solid #F0F2F0;background:#FAFBFA;">{{tc.name}}</div>
+                    </sc-for>
+                    <sc-for list="{{m.tableRows}}" as="tr" hint-placeholder-count="3">
+                      <div style="padding:8px 12px;font-size:12.5px;font-weight:600;color:#2A3A31;border-bottom:1px solid #F0F2F0;">{{tr.label}}</div>
+                      <sc-for list="{{tr.cells}}" as="td" hint-placeholder-count="2">
+                        <div style="{{td.style}}">
+                          <div style="font-size:13px;font-weight:600;">{{td.value}}</div>
+                          <div style="font-size:11px;color:#8A968E;">{{td.src}}</div>
+                        </div>
+                      </sc-for>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{m.hasCalc}}" hint-placeholder-val="{{false}}">
+                <div style="margin-top:12px;background:#FFFFFF;border:1px solid #DCEEE2;border-radius:10px;overflow:hidden;">
+                  <div style="padding:12px 14px;display:flex;align-items:center;gap:16px;">
+                    <div>
+                      <div style="font-size:10.5px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">{{m.calc.label}}</div>
+                      <div style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;margin-top:2px;">{{m.calc.result}}</div>
+                    </div>
+                    <div style="width:1px;height:38px;background:#E9EDEA;"></div>
+                    <div style="flex:1;font-size:12.5px;color:#5B6B60;line-height:1.5;">{{m.calc.method}}</div>
+                    <button onClick="{{m.onCalcToggle}}" style="background:transparent;border:none;padding:0;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#1E6B3E;text-decoration:underline;cursor:pointer;white-space:nowrap;">{{m.calcToggleLabel}}</button>
+                  </div>
+                  <sc-if value="{{m.calcOpen}}" hint-placeholder-val="{{false}}">
+                    <div style="border-top:1px solid #E9EDEA;padding:8px 14px 12px;">
+                      <div style="display:grid;grid-template-columns:90px 1fr 110px 1fr;gap:0 10px;">
+                        <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding:6px 0;border-bottom:1px solid #E9EDEA;">Dönem</div>
+                        <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding:6px 0;border-bottom:1px solid #E9EDEA;">Kalem</div>
+                        <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding:6px 0;border-bottom:1px solid #E9EDEA;text-align:right;">Tutar</div>
+                        <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding:6px 0;border-bottom:1px solid #E9EDEA;">Kaynak</div>
+                        <sc-for list="{{m.calc.inputs}}" as="ci" hint-placeholder-count="3">
+                          <div style="font-size:12px;padding:5px 0;border-bottom:1px solid #F0F2F0;">{{ci.period}}</div>
+                          <div style="font-size:12px;padding:5px 0;border-bottom:1px solid #F0F2F0;">{{ci.item}}</div>
+                          <div style="font-size:12px;font-weight:600;padding:5px 0;border-bottom:1px solid #F0F2F0;text-align:right;">{{ci.amount}}</div>
+                          <a href="{{ci.href}}" style="font-size:11px;color:#1E6B3E;text-decoration:underline;padding:5px 0;border-bottom:1px solid #F0F2F0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ci.src}}</a>
+                        </sc-for>
+                      </div>
+                      <div style="font-size:11.5px;color:#5B6B60;line-height:1.5;margin-top:8px;">{{m.calc.note}}</div>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{m.hasList}}" hint-placeholder-val="{{false}}">
+                <div style="margin-top:12px;background:#FFFFFF;border:1px solid #DCEEE2;border-radius:10px;overflow:hidden;">
+                  <sc-for list="{{m.listGroups}}" as="lg" hint-placeholder-count="2">
+                    <div style="padding:8px 14px 4px;font-size:10.5px;font-weight:600;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;background:#FAFBFA;border-bottom:1px solid #E9EDEA;">{{lg.label}}</div>
+                    <sc-for list="{{lg.items}}" as="li" hint-placeholder-count="3">
+                      <div style="display:flex;align-items:center;gap:12px;padding:9px 14px;border-bottom:1px solid #F0F2F0;">
+                        <sc-if value="{{li.lead}}" hint-placeholder-val="{{false}}"><div style="width:58px;flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:{{li.leadColor}};">{{li.lead}}</div></sc-if>
+                        <div style="flex:1;min-width:0;">
+                          <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{li.title}}</div>
+                          <div style="font-size:11.5px;color:#5B6B60;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Kaynak: <a href="{{li.href}}" style="color:#1E6B3E;text-decoration:underline;">{{li.src}}</a></div>
+                        </div>
+                        <span style="{{li.badgeStyle}}">{{li.badge}}</span>
+                      </div>
+                    </sc-for>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{m.hasActions}}" hint-placeholder-val="{{false}}">
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+                  <sc-for list="{{m.actions}}" as="ac" hint-placeholder-count="2">
+                    <sc-if value="{{ac.isLink}}" hint-placeholder-val="{{true}}">
+                      <a href="{{ac.href}}" style="display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;border:1px solid #BFE3CC;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:600;color:#1E6B3E;">{{ac.label}}</a>
+                    </sc-if>
+                    <sc-if value="{{ac.isFull}}" hint-placeholder-val="{{false}}">
+                      <button onClick="{{ac.onFull}}" style="display:inline-flex;align-items:center;gap:6px;background:#FFF4E5;border:1px solid #F5C892;border-radius:8px;padding:8px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;color:#9A4E0A;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>{{ac.label}}</button>
+                    </sc-if>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{m.notice}}" hint-placeholder-val="{{false}}">
+                <div style="margin-top:10px;font-size:13px;color:#5E430C;background:#FBF1DE;border-radius:8px;padding:8px 12px;">{{m.notice}}</div>
+              </sc-if>
+
+              <sc-if value="{{m.unanswered}}" hint-placeholder-val="{{false}}">
+                <div style="margin-top:10px;font-size:13.5px;color:#5B6B60;">İlgili belge sistemde yoksa <a href="Belge-Yukle.dc.html" style="color:#1E6B3E;font-weight:600;text-decoration:underline;">belge yükleyebilirsiniz</a>; yüklendikten sonra Balbal bu soruyu cevaplayabilir.</div>
+              </sc-if>
+
+              <sc-if value="{{m.hasSources}}" hint-placeholder-val="{{true}}">
+                <div style="margin-top:12px;padding-top:10px;border-top:1px solid #DCEEE2;display:flex;flex-direction:column;gap:8px;">
+                  <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;">Kaynaklar</div>
+                  <sc-for list="{{m.sources}}" as="s" hint-placeholder-count="2">
+                    <div style="display:flex;flex-direction:column;gap:3px;">
+                      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:13.5px;color:#5B6B60;">
+                        <span style="font-weight:600;color:#8A968E;">[{{s.ref}}]</span>
+                        <a href="{{s.href}}" style="color:#1E6B3E;font-weight:600;text-decoration:underline;">{{s.title}}</a>
+                        <span>{{s.meta}}</span>
+                        <sc-if value="{{s.statusLabel}}" hint-placeholder-val="{{true}}">
+                          <span style="{{s.statusStyle}}">{{s.statusLabel}}</span>
+                        </sc-if>
+                        <a href="{{s.href}}" style="display:inline-flex;align-items:center;gap:4px;color:#1E6B3E;text-decoration:underline;margin-left:2px;">
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1E6B3E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>
+                          {{s.actionLabel}}
+                        </a>
+                      </div>
+                      <sc-if value="{{s.supersededBy}}" hint-placeholder-val="{{false}}">
+                        <div style="font-size:12.5px;color:#5E430C;background:#FBF1DE;border-radius:6px;padding:5px 10px;align-self:flex-start;">Bu eski bir versiyon. Güncel versiyon: <a href="{{s.supersededHref}}" style="color:#5E430C;font-weight:600;text-decoration:underline;">{{s.supersededBy}}</a></div>
+                      </sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{m.denied}}" hint-placeholder-val="{{false}}">
+                <div style="margin-top:10px;">
+                  <sc-if value="{{m.requestOpen}}" hint-placeholder-val="{{true}}">
+                    <button onClick="{{m.onRequest}}" style="background:#2FA968;color:#0E241D;border:none;border-radius:8px;padding:10px 16px;font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:14.5px;cursor:pointer;">{{m.requestLabel}}</button>
+                  </sc-if>
+                  <sc-if value="{{m.requestSent}}" hint-placeholder-val="{{false}}">
+                    <div style="display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:#1E6B3E;background:#E7F3EB;border-radius:20px;padding:7px 14px;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1E6B3E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                      {{m.requestSentLabel}}
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-if>
+            </div>
+
+            <sc-if value="{{m.canFeedback}}" hint-placeholder-val="{{true}}">
+              <div style="display:flex;align-items:center;gap:6px;padding-left:4px;">
+                <button onClick="{{m.onUp}}" aria-label="Yararlı" style="{{m.upStyle}}">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"></path></svg>
+                  Yararlı
+                </button>
+                <button onClick="{{m.onDown}}" aria-label="Hatalı cevap veya kaynak bildir" style="{{m.downStyle}}">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"></path></svg>
+                  Hatalı bildir
+                </button>
+                <sc-if value="{{m.fbThanks}}" hint-placeholder-val="{{false}}">
+                  <span style="font-size:12.5px;color:#8A968E;">{{m.fbThanks}}</span>
+                </sc-if>
+                <span style="flex:1;"></span>
+                <sc-if value="{{m.memOpen}}" hint-placeholder-val="{{false}}">
+                  <button onClick="{{m.onMem}}" style="{{m.memStyle}}">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8M7 3v5h8"></path></svg>
+                    Hafızaya ekle
+                  </button>
+                </sc-if>
+                <sc-if value="{{m.memDone}}" hint-placeholder-val="{{false}}">
+                  <span style="font-size:12.5px;font-weight:600;color:#1E6B3E;">✓ Kurumsal hafızaya eklendi</span>
+                </sc-if>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+      </sc-for>
+
+      <sc-if value="{{pending}}" hint-placeholder-val="{{false}}">
+        <div style="align-self:flex-start;display:flex;align-items:center;gap:8px;font-size:14px;color:#5B6B60;background:#F6F9F7;border-radius:16px;padding:10px 14px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#2FA968;display:inline-block;animation:pulse-dot 1s infinite;"></span>
+          Balbal yetkili belgelerinizi tarıyor…
+        </div>
+      </sc-if>
+    </div>
+
+    <!-- Giriş -->
+    <div style="padding:12px 20px 16px;border-top:1px solid #E9EDEA;flex-shrink:0;">
+      <div style="display:flex;gap:10px;">
+        <label for="balbal-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Balbal'a sorunuzu yazın</label>
+        <input id="balbal-input" ref="{{inputRef}}" type="text" onKeyDown="{{onKeyDown}}" placeholder="Balbal'a bir şey sorun…" style="flex:1;font-family:'IBM Plex Sans',sans-serif;font-size:16px;padding:12px 16px;border:1px solid #E1E7E2;border-radius:10px;box-sizing:border-box;">
+        <button onClick="{{onSend}}" style="background:#2FA968;color:#0E241D;border:none;border-radius:10px;padding:0 22px;font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:16px;cursor:pointer;">Gönder</button>
+      </div>
+      <div style="font-size:11.5px;color:#8A968E;margin-top:8px;">Balbal belgelerde yazanı aktarır, birleştirir ve gerçekleşmiş veriyle hesaplar; yorum veya tahmin eklemez. Her cevabın veri durumu işaretlenir.</div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dept":{"editor":"enum","options":["finans","hukuk","enerji","ik"],"default":"finans"},"ask":{"editor":null},"onClose":{"editor":null},"w":{"editor":null},"h":{"editor":null},"compact":{"editor":null},"onFull":{"editor":null},"$preview":{"width":1000,"height":820}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    // Üst bardaki aramadan "Balbal'a sor" ile açıldıysa soruyu yeni sohbette başlat.
+    const q = (this.props.ask || '').trim();
+    if (!q) return;
+    const self = this;
+    this.setState({ extra: [{ id: 'n1', title: q, when: 'Şimdi', messages: [] }], activeId: 'n1', appended: { n1: [{ from: 'user', text: q }] }, pending: true });
+    this.askTimer = setTimeout(function () {
+      const cur = (self.state && self.state.appended) || {};
+      const next = Object.assign({}, cur);
+      next.n1 = (cur.n1 || []).concat([{ from: 'ai', preview: true, text: 'Bu bir tasarım önizlemesi. Gerçek sistemde soru yalnızca yetkili belgelerinizde aranır ve cevap, kaynaklarıyla birlikte burada görünür.' }]);
+      self.setState({ appended: next, pending: false });
+    }, 900);
+  }
+  componentWillUnmount() { if (this.askTimer) clearTimeout(this.askTimer); }
+  renderVals() {
+    const self = this;
+    const st = this.state || {};
+    const dept = this.props.dept || 'finans';
+    if (!this.inputRef) this.inputRef = { current: null };
+
+    const KARATEPE = 'Sozlesme-Onizleme.dc.html';
+    const EPIAS = 'https://seffaflik.epias.com.tr';
+    const UNANSWERED = 'Mevcut şirket kaynaklarında bu soruyu güvenilir şekilde cevaplamak için yeterli bilgi bulamadım.';
+    const CALC_INPUTS = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl'].map(function (mn, i) {
+      return { period: mn + ' 2026', item: 'Taksit (anapara + faiz) · dekont eşleşti', amount: '$116.240', src: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx · D' + (6 + i) + ' · Dekont_2026-' + (i < 9 ? '0' : '') + (i + 1) + '.pdf', href: 'Excel-Onizleme.dc.html' };
+    });
+
+    const DATA = {
+      finans: {
+        label: 'Proje Finans',
+        examples: ['Karatepe ve Yeşilova kredi şartlarını yan yana göster', 'Yeşilova için 2026\'da şimdiye kadar ne kadar taksit ödedik?', 'Commerzbank Annex F formunu doldur'],
+        convs: [
+          { id: 'u1', title: 'Kredi şartları yan yana', when: 'Bugün 13:40', messages: [
+            { from: 'user', text: 'Karatepe ve Yeşilova kredi şartlarını yan yana göster.' },
+            { from: 'ai', type: 'MERGE', text: 'İki projenin güncel sözleşmelerinde yazan değerleri yan yana getirdim. Hangisinin daha uygun olduğu hakkında değerlendirme yapmadım.', table: {
+              head: 'Şart', cols: ['Karatepe RES', 'Yeşilova RES'],
+              rows: [
+                { label: 'Banka', cells: [{ value: 'Garanti BBVA', src: '[1] s.1' }, { value: 'Commerzbank AG', src: '[2] s.1' }] },
+                { label: 'Faiz', cells: [{ value: 'SOFR + %3,25', src: '[3] s.2' }, { value: 'EURIBOR + %2,90', src: '[2] s.5' }] },
+                { label: 'Min. DSCR', cells: [{ value: '1,20x', src: '[3] s.2' }, { value: '1,15x', src: '[2] s.8' }] },
+                { label: 'Erken ödeme', cells: [{ value: 'İlk 24 ay %2', src: '[1] s.4' }, { value: 'Yok', src: '[2] s.6' }] }
+              ] },
+              actions: [{ label: 'Tam ekranda aç (4 proje)', full: true }, { label: 'Excel\'e aktar', href: 'Excel-Onizleme.dc.html' }],
+              sources: [
+              { kind: 'doc', title: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 1, date: '12.01.2024', version: 2, current: true },
+              { kind: 'doc', title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 1, date: '03.06.2023', version: 1, current: true },
+              { kind: 'doc', title: 'Karatepe_RES_Kredi_Tadil_2.pdf', href: KARATEPE, page: 2, date: '15.03.2025', version: 1, current: true }
+            ] },
+            { from: 'user', text: 'Boztepe\'nin kredi tutarı ne?' },
+            { from: 'ai', type: 'CONFLICT', text: 'İki yetkili kaynak farklı tutar veriyor; birini seçmedim:\nKredi sözleşmesi — $14.000.000\nÖdeme planı (Özet sayfası) — $13.600.000\nFark 400.000 USD. Hangisinin geçerli olduğunu belgelerden tespit edemiyorum; Mali İşler veya bankayla teyit gerekebilir.', sources: [
+              { kind: 'doc', title: 'Boztepe_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 3, date: '20.02.2024', version: 1, current: true },
+              { kind: 'excel', title: 'Boztepe_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Özet', range: 'B4' }
+            ] }
+          ] },
+          { id: 'u2', title: 'Yeşilova 2026 ödenen taksitler', when: 'Bugün 12:05', messages: [
+            { from: 'user', text: 'Yeşilova için 2026\'da şimdiye kadar ne kadar taksit ödedik?' },
+            { from: 'ai', type: 'CALC', text: 'Ocak–Eylül 2026 arasında dekontla doğrulanan 9 taksit ödendi. Ekim–Aralık taksitleri henüz gerçekleşmediği için dahil etmedim.', calc: { label: 'Toplam ödenen (Oca–Eyl 2026)', result: '$1.046.160', method: '9 × $116.240 · ödeme planı satırları banka dekontlarıyla eşleştirildi · Toplam işlemi · hesaplama katmanı', inputs: CALC_INPUTS, note: 'Her taksit, ödeme planındaki tutar ile banka dekontundaki tutarın eşleşmesiyle gerçekleşmiş sayıldı. Ekim–Aralık taksitleri planda var, ödenmedi; dahil edilmedi.' }, sources: [
+              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'D6:D14' },
+              { kind: 'doc', title: 'Dekont_Commerzbank_2026-01…09.pdf (9 belge)', href: KARATEPE, page: 1, date: '2026', version: 1, current: true }
+            ] },
+            { from: 'user', text: 'Yıl sonunda toplam ne kadar ödemiş olacağız?' },
+            { from: 'ai', type: 'LIMIT', text: 'Yıl sonu toplamı bir tahmin olur; gerçekleşmemiş veriyle hesap yapmıyorum. Yapabildiğim:\nGerçekleşen (Oca–Eyl): $1.046.160\nPlanda yazan kalan 3 taksit (Eki–Ara): $348.720 — bu "planlanan" tutardır, ödenmiş değildir.\nİkisini toplamıyorum; isterseniz planlanan taksitleri ayrı tablo olarak verebilirim.', sources: [
+              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'D15:D17' }
+            ] }
+          ] },
+          { id: 'u3', title: 'Annex F formu', when: 'Bugün 10:10', messages: [
+            { from: 'user', text: 'Commerzbank Annex F formunu doldur.' },
+            { from: 'ai', type: 'TEMPLATE', text: 'Şirket şablonu "Commerzbank Annex F — Yıllık Raporlama"yı Yeşilova RES için 01.10.2025–30.09.2026 dönemi gerçekleşen verileriyle doldurdum.\n9 alandan 6\'sı kesin veri; 2 alanda eminliğim %80\'in altında (DSCR, sigorta poliçe no) — onayınız gerekiyor; 1 alan boş (teminat mektubu belgesi sistemde yok).\nDosya onayınızdan önce oluşturulmaz.', actions: [{ label: 'Formu incele ve onayla', href: 'Sablon-Doldur.dc.html' }, { label: 'Cevap yazısı taslağı', href: 'Yazi-Taslagi.dc.html' }], sources: [
+              { kind: 'doc', title: 'Yillik_Raporlama_Talebi_Commerzbank.eml', href: 'Mail-Talep-Detay.dc.html', page: 1, date: '14.09.2026', version: 1, current: true },
+              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'C3:E14' }
+            ] },
+            { from: 'user', text: 'Bu konuda daha önce ne konuşulmuş?' },
+            { from: 'ai', type: 'MEMORY', text: 'Kurumsal hafızada "Yeşilova RES · Raporlama" konusunda 3 kayıt var; yorum eklemeden sıraladım:\n14.09.2026 — Commerzbank talebi (bayraklı mail)\n12.03.2026 — Geçen yılki Annex F dosyası (onaylı belge)\n18.03.2026 — Personel notu: "Banka, üretim verisini EPİAŞ kaynaklı istedi; şirket Excel\'i kabul edilmedi."', list: [{ label: 'Yeşilova RES · Raporlama — kurumsal hafıza', items: [
+              { lead: '14.09.26', title: 'Commerzbank yıllık raporlama talebi (bayraklı mail)', src: 'Yillik_Raporlama_Talebi_Commerzbank.eml', href: 'Mail-Talep-Detay.dc.html', badge: 'Belge', badgeStyle: 'color:#1E6B3E;background:#E7F3EB;' },
+              { lead: '18.03.26', title: 'Personel notu: banka üretim verisini EPİAŞ kaynaklı istedi', src: 'Bilgi_Notu_AnnexF_2026.docx', href: KARATEPE, badge: 'Not', badgeStyle: 'color:#9A6B12;background:#FBF1DE;' },
+              { lead: '12.03.26', title: 'Geçen yılın Annex F dosyası (onaylı belge)', src: 'Annex_F_Yesilova_2025.xlsx', href: 'Excel-Onizleme.dc.html', badge: 'Belge', badgeStyle: 'color:#1E6B3E;background:#E7F3EB;' }
+            ] }], actions: [{ label: 'Tam ekranda aç', full: true }], sources: [
+              { kind: 'doc', title: 'Annex_F_Yesilova_2025.xlsx', href: 'Excel-Onizleme.dc.html', page: 1, date: '12.03.2026', version: 1, current: false, supersededBy: 'Annex_F_Yesilova_2026.xlsx (hazırlanıyor)', supersededHref: 'Sablon-Doldur.dc.html' },
+              { kind: 'doc', title: 'Bilgi_Notu_AnnexF_2026.docx', href: KARATEPE, page: 1, date: '18.03.2026', version: 1, current: true }
+            ] }
+          ] },
+          { id: 'u4', title: 'Yaklaşan son tarihler', when: 'Dün 17:20', messages: [
+            { from: 'user', text: 'Önümüzdeki 3 ayda hangi son tarihler var?' },
+            { from: 'ai', type: 'LIST', text: 'Yetkili olduğunuz belgelerde yazan tarihleri sıraladım; belgede olmayan bir tarihi tahmin etmedim. Her proje ayrı:', list: [
+              { label: 'Yeşilova RES', items: [
+                { lead: '14 Eki', leadColor: '#B23A3A', title: 'Commerzbank Ek-F belgeleri teslimi (14.09 + 30 gün)', src: 'Yillik_Raporlama_Talebi_Commerzbank.eml · Kredi Sözleşmesi s.22', href: 'Mail-Talep-Detay.dc.html', badge: '9 gün', badgeStyle: 'color:#7A2323;background:#FBE7E7;' },
+                { lead: '15 Oca', title: 'Teminat mektubu vade sonu', src: 'Yesilova_RES_Kredi_Sozlesmesi.pdf · s.12 · md. 11.4', href: KARATEPE, badge: '102 gün' }
+              ] },
+              { label: 'Boztepe RES', items: [
+                { lead: '31 Eki', leadColor: '#9A6B12', title: 'Ek-C 6 aylık raporlama dönemi', src: 'Boztepe_RES_Kredi_Sozlesmesi.pdf · s.18 · Ek-C', href: KARATEPE, badge: '26 gün', badgeStyle: 'color:#5E430C;background:#FBF1DE;' },
+                { lead: '10 Kas', leadColor: '#9A6B12', title: 'Sigorta poliçesi bitiş', src: 'Boztepe_RES_Sigorta_Policesi.pdf · s.1', href: KARATEPE, badge: '36 gün', badgeStyle: 'color:#5E430C;background:#FBF1DE;' }
+              ] },
+              { label: 'Karatepe RES', items: [
+                { lead: '31 Ara', title: 'DSCR test tarihi (yıllık)', src: 'Karatepe_RES_Kredi_Tadil_2.pdf · s.2 · md. 3', href: KARATEPE, badge: '87 gün' }
+              ] }
+            ], actions: [{ label: 'Hatırlatma kur (30 gün önce)', href: 'Bildirimler.dc.html' }, { label: 'Excel\'e aktar', href: 'Excel-Onizleme.dc.html' }], sources: [
+              { kind: 'doc', title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 22, date: '03.06.2023', version: 1, current: true },
+              { kind: 'doc', title: 'Boztepe_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 18, date: '20.02.2024', version: 1, current: true },
+              { kind: 'doc', title: 'Karatepe_RES_Kredi_Tadil_2.pdf', href: KARATEPE, page: 2, date: '15.03.2025', version: 1, current: true }
+            ] }
+          ] },
+          { id: 'u5', title: 'Karatepe eksik belgeler', when: 'Dün 15:05', messages: [
+            { from: 'user', text: 'Karatepe RES için kredi sözleşmesinin istediği belgelerden hangileri sistemde eksik?' },
+            { from: 'ai', type: 'LIST', text: 'Sözleşmede "sunulacak / bulundurulacak" diye yazan belgeleri sistemdeki belgelerle karşılaştırdım. Bir belgenin önemli olup olmadığı hakkında yorum yapmıyorum:', list: [
+              { label: 'Karatepe RES — kredi sözleşmesi yükümlülükleri', items: [
+                { title: 'Teminat mektubu (DSRA yerine)', src: 'Karatepe_RES_Kredi_Tadil_2.pdf · s.3 · md. 4', href: KARATEPE, badge: 'Eksik', badgeStyle: 'color:#7A2323;background:#FBE7E7;' },
+                { title: 'Sigorta poliçesi — bitiş 30.06.2026, yeni poliçe sistemde yok', src: 'Karatepe_RES_Kredi_Sozlesmesi.pdf · s.19 · md. 18.2', href: KARATEPE, badge: 'Süresi dolmuş', badgeStyle: 'color:#5E430C;background:#FBF1DE;' },
+                { title: 'Yıllık raporlama paketi 2025', src: 'Karatepe_Yillik_Rapor_2025.pdf', href: KARATEPE, badge: 'Sistemde', badgeStyle: 'color:#1E6B3E;background:#E7F3EB;' },
+                { title: 'Üretim lisansı — Enerji departmanında, görme yetkiniz var', src: 'Karatepe_RES_Uretim_Lisansi.pdf', href: KARATEPE, badge: 'Sistemde', badgeStyle: 'color:#1E6B3E;background:#E7F3EB;' }
+              ] }
+            ], actions: [{ label: 'Eksik belgeyi yükle', href: 'Belge-Yukle.dc.html' }], sources: [
+              { kind: 'doc', title: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 19, date: '12.01.2024', version: 2, current: true },
+              { kind: 'doc', title: 'Karatepe_RES_Kredi_Tadil_2.pdf', href: KARATEPE, page: 3, date: '15.03.2025', version: 1, current: true }
+            ] }
+          ] },
+          { id: 'f0', title: 'Karatepe ve Yeşilova DSCR şartları', when: 'Bugün 11:20', messages: [
+            { from: 'user', text: 'Karatepe ve Yeşilova kredilerinde güncel minimum DSCR şartı nedir?' },
+            { from: 'ai', type: 'DOCUMENT', text: 'Her proje kendi kredi sözleşmesine tabi; ayrı ayrı:\nKaratepe RES — 1,20x (2. Tadil, 15.03.2025; ilk sözleşmede 1,25x idi).\nYeşilova RES — 1,15x (Commerzbank kredi sözleşmesi, madde 8.2).', sources: [
+              { kind: 'doc', title: 'Karatepe_RES_Kredi_Tadil_2.pdf', href: KARATEPE, page: 2, date: '15.03.2025', version: 1, current: true },
+              { kind: 'doc', title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 8, date: '03.06.2023', version: 1, current: true }
+            ] },
+            { from: 'user', text: 'Yeşilova’nın eylül taksiti ne kadar?' },
+            { from: 'ai', type: 'DATA', text: 'Yeşilova RES eylül taksiti $116.240.', sources: [
+              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'B14:D14' }
+            ] }
+          ] },
+          { id: 'f1', title: 'Karatepe erken ödeme cezası', when: 'Bugün 10:42', messages: [
+            { from: 'user', text: 'Karatepe RES kredi sözleşmesinde erken ödeme cezası var mı?' },
+            { from: 'ai', type: 'DOCUMENT', text: "Garanti BBVA kredi sözleşmesi madde 7.3'e göre ilk 24 ay içinde yapılan erken ödemelerde, ödenen tutarın %2'si erken ödeme bedeli olarak tahsil edilir.", sources: [
+              { kind: 'doc', title: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 4, date: '12.01.2024', version: 2, current: true }
+            ] },
+            { from: 'user', text: 'Ticaret Sicil Gazetesi belgesine bakabilir miyim?' },
+            { from: 'ai', text: 'Bu belge Mali İşler / Muhasebe departmanının yetkili alanında; Proje Finans erişiminizde değil. İçeriğini gösteremiyorum.', denied: { label: 'Mali İşler’den evrak talep et', sent: 'Talep Mali İşler’e iletildi — sonucu bildirimlerde göreceksiniz' } }
+          ] },
+          { id: 'f2', title: 'Karatepe güncel DSCR şartı', when: 'Bugün 09:15', messages: [
+            { from: 'user', text: 'Karatepe RES’in güncel minimum DSCR şartı nedir?' },
+            { from: 'ai', type: 'DOCUMENT', text: 'Güncel minimum DSCR şartı 1,20x. Bu oran 15.03.2025 tarihli 2. Tadil Sözleşmesi ile belirlendi. 2022 tarihli ilk sözleşmede 1,25x idi.', sources: [
+              { kind: 'doc', title: 'Karatepe_RES_Kredi_Tadil_2.pdf', href: KARATEPE, page: 2, date: '15.03.2025', version: 1, current: true },
+              { kind: 'doc', title: 'Karatepe_RES_Kredi_Sozlesmesi_2022.pdf', href: KARATEPE, page: 11, date: '20.06.2022', version: 1, current: false, supersededBy: 'Karatepe_RES_Kredi_Sozlesmesi.pdf (v2)', supersededHref: KARATEPE }
+            ] }
+          ] },
+          { id: 'f3', title: 'Yeşilova taksit ve bakiye', when: 'Dün', messages: [
+            { from: 'user', text: 'Hangi projelerin kredisi Commerzbank’ta?' },
+            { from: 'ai', type: 'DOCUMENT', text: 'Yeşilova RES kredisi Commerzbank AG ile yapılandırılmış.', sources: [
+              { kind: 'doc', title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 2, date: '03.06.2023', version: 1, current: true }
+            ] },
+            { from: 'user', text: 'Yeşilova RES için bu ayki taksit tutarı ve kalan bakiye ne kadar?' },
+            { from: 'ai', type: 'DATA', text: 'Eylül taksiti $116.240, kalan anapara bakiyesi $8.420.000.', sources: [
+              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'B14:D14' }
+            ] }
+          ] },
+          { id: 'f4', title: 'Eylül üretimi (EPİAŞ)', when: 'Dün', messages: [
+            { from: 'user', text: 'Bu ay projelerimiz kaç MWh üretti?' },
+            { from: 'ai', type: 'LIVE', text: '1–23 Eylül 2026 gerçekleşen üretim:\nKaratepe RES — 6.210 MWh\nYeşilova RES — 4.980 MWh\nBoztepe RES — 3.740 MWh\nGüneşalan GES — 2.480 MWh', sources: [
+              { kind: 'live', title: 'EPİAŞ Şeffaflık Platformu — Gerçek zamanlı üretim', href: EPIAS, period: '01–23.09.2026' }
+            ] }
+          ] },
+          { id: 'f5', title: 'DSCR nedir?', when: '24.09.2026', messages: [
+            { from: 'user', text: 'DSCR nedir?' },
+            { from: 'ai', type: 'GENERAL', text: 'DSCR (Borç Servis Karşılama Oranı), bir dönemde projenin ürettiği nakdin o dönemde ödenmesi gereken anapara ve faiz toplamına oranıdır. 1’in üzerindeki değer, borç servisinin nakitle karşılanabildiğini gösterir.' }
+          ] },
+          { id: 'f6', title: 'Boztepe lisans bitiş tarihi', when: '22.09.2026', messages: [
+            { from: 'user', text: 'Boztepe RES üretim lisansı ne zaman bitiyor?' },
+            { from: 'ai', text: UNANSWERED, unanswered: true }
+          ] }
+        ]
+      },
+      hukuk: {
+        label: 'Hukuk',
+        examples: ['Boztepe RES davasında son duruşma tutanağında ne yazıyor?', 'Karatepe kredi sözleşmesinde fesih halleri nelerdir?', 'Süresi 60 gün içinde dolacak sözleşmeler hangileri?'],
+        convs: [
+          { id: 'h1', title: 'Boztepe davası sonraki duruşma', when: 'Bugün 11:05', messages: [
+            { from: 'user', text: 'Boztepe RES imar davasında bir sonraki duruşma ne zaman?' },
+            { from: 'ai', type: 'DOCUMENT', text: '28 Ekim 2026, Ankara 2. İdare Mahkemesi’nde. Dosyaya göre mahkeme bilirkişi raporunu bekliyor.', sources: [
+              { kind: 'doc', title: 'Boztepe_RES_Dava_Dosyasi.pdf', href: 'Dava-Gecmisi.dc.html', page: 3, date: '02.09.2026', version: 4, current: true }
+            ] }
+          ] },
+          { id: 'h2', title: 'Karatepe kredi fesih halleri', when: 'Dün', messages: [
+            { from: 'user', text: 'Karatepe kredi sözleşmesinde fesih halleri nelerdir?' },
+            { from: 'ai', type: 'DOCUMENT', text: 'Sözleşmenin 12.1 maddesine göre banka şu hallerde sözleşmeyi feshedebilir:\n(a) iki ardışık taksidin ödenmemesi\n(b) DSCR şartının iki dönem üst üste sağlanamaması\n(c) teminatların önemli ölçüde değer kaybetmesi', sources: [
+              { kind: 'doc', title: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 14, date: '12.01.2024', version: 2, current: true }
+            ] }
+          ] },
+          { id: 'h3', title: 'Proje Finans nakit tablosu', when: '25.09.2026', messages: [
+            { from: 'user', text: 'Proje Finans’ın 2026 nakit akış tablosunu görebilir miyim?' },
+            { from: 'ai', text: 'Bu belge Proje Finans departmanının yetkili alanında; Hukuk erişiminizde değil. İçeriğini gösteremiyorum.', denied: { label: 'Proje Finans’tan görüş talep et', sent: 'Görüş talebi Proje Finans’a iletildi' } }
+          ] },
+          { id: 'h4', title: 'YEKDEM nedir?', when: '23.09.2026', messages: [
+            { from: 'user', text: 'YEKDEM nedir?' },
+            { from: 'ai', type: 'GENERAL', text: 'YEKDEM (Yenilenebilir Enerji Kaynakları Destekleme Mekanizması), yenilenebilir kaynaklardan üretilen elektriğe belirli bir süre boyunca sabit alım fiyatı garantisi veren destek mekanizmasıdır.' }
+          ] }
+        ]
+      },
+      ik: {
+        label: 'İK',
+        examples: ['Kıdem tazminatı tavanı ne kadar?', 'Yıllık izni 3 günden az kalan kim?', 'Kaan Turhan bugün ayrılsa kıdem ve ihbar yükü ne olur?'],
+        convs: [
+          { id: 'k1', title: 'Kıdem tavanı', when: 'Bugün 10:12', messages: [
+            { from: 'user', text: 'Kıdem tazminatı tavanı ne kadar?' },
+            { from: 'ai', type: 'DOCUMENT', text: '01.07–31.12.2025 dönemi için 53.919,68 TL. 2026 dönemi genelgesi sistemde yok; Mevzuat sekmesinde "değişiklik şüphesi" olarak işaretli, İK onaylayana kadar eski tavan kullanılır.', sources: [
+              { kind: 'doc', title: 'Kidem_Tazminati_Tavani_Genelgesi_2025-2.pdf', href: KARATEPE, page: 1, date: '01.07.2025', version: 1, current: true }
+            ] }
+          ] },
+          { id: 'k2', title: 'İzni az kalanlar', when: 'Dün', messages: [
+            { from: 'user', text: 'Yıllık izni 3 günden az kalan kim?' },
+            { from: 'ai', type: 'DOCUMENT', text: 'İzin Hakları kayıtlarına göre: Selin Arslan 2 gün, Burak Çelik 0 gün; Onur Yıldız −3 gün (ekside). Kaynak: İK izin kayıtları, 4857 s. İş K. m.53.', sources: [
+              { kind: 'doc', title: 'IK_Izin_Haklari_2026.xlsx', href: 'Excel-Onizleme.dc.html', page: 1, date: '05.10.2026', version: 1, current: true }
+            ] }
+          ] },
+          { id: 'k3', title: 'Maaş bilgisi talebi', when: '02.10.2026', messages: [
+            { from: 'user', text: 'Kerem Aydın\'ın net maaşı ne kadar?' },
+            { from: 'ai', text: 'Maaş bilgileri şifreli Maaş sekmesinde tutulur; sohbette gösterilmez. Sekmeyi açıp İK şifresiyle görebilirsiniz.', denied: { label: 'Maaş sekmesini aç', sent: 'Maaş sekmesi açıldı; şifre gerekli.' } }
+          ] }
+        ]
+      },
+      enerji: {
+        label: 'Enerji',
+        examples: ['Karatepe RES ÇED yükümlülükleri nelerdir?', 'Kızılova ve Demirci RES’te lisansa kadar hangi adımlar kaldı?', 'Güneşalan GES bu hafta kaç MWh üretti?'],
+        convs: [
+          { id: 'e0', title: 'Geliştirme projelerinde son durum', when: 'Bugün 09:30', messages: [
+            { from: 'user', text: 'Kızılova, Akyar ve Demirci’de izin süreçlerinin son durumu nedir?' },
+            { from: 'ai', type: 'DOCUMENT', text: 'Her proje ayrı:\nKızılova RES — ÇED süreci devam ediyor; son yazı 12.09.2026 tarihli kurum görüşü. Önlisans bitişi 15.01.2027.\nAkyar GES — ÇED ve askeri görüş başvuruları yapıldı, arazi edinimi için malik görüşmesi sürüyor. Önlisans bitişi 03.03.2028.\nDemirci RES — TEA başvurusu 08.09.2026 tarihli yazıyla olumsuz sonuçlandı. Önlisans bitişi 10.10.2027.', sources: [
+              { kind: 'doc', title: 'CED_Kurum_Gorus_Yazisi_Kizilova.pdf', href: KARATEPE, page: 1, date: '12.09.2026', version: 1, current: true },
+              { kind: 'doc', title: 'Akyar_Arazi_Sahibi_Gorusme_Tutanagi.pdf', href: KARATEPE, page: 1, date: '05.09.2026', version: 1, current: true },
+              { kind: 'doc', title: 'TEA_Olumsuz_Gorus_Demirci.pdf', href: KARATEPE, page: 1, date: '08.09.2026', version: 1, current: true }
+            ] }
+          ] },
+          { id: 'e1', title: 'Karatepe ÇED geçerliliği', when: 'Bugün 08:50', messages: [
+            { from: 'user', text: 'Karatepe RES’in ÇED raporunun geçerlilik süresi ne kadar?' },
+            { from: 'ai', type: 'DOCUMENT', text: 'Rapora göre ÇED olumlu kararı 5 yıl geçerli — 18 Eylül 2031’e kadar.', sources: [
+              { kind: 'doc', title: 'Karatepe_RES_CED_Raporu_2026.pdf', href: 'Belge-Bildirim-CED.dc.html', page: 6, date: '18.09.2026', version: 1, current: true }
+            ] }
+          ] },
+          { id: 'e2', title: 'Güneşalan GES Eylül üretimi', when: 'Dün', messages: [
+            { from: 'user', text: 'Bu ay Güneşalan GES kaç MWh üretti?' },
+            { from: 'ai', type: 'LIVE', text: 'Güneşalan GES 1–23 Eylül 2026 arasında 2.480 MWh üretti.', sources: [
+              { kind: 'live', title: 'EPİAŞ Şeffaflık Platformu — Gerçek zamanlı üretim', href: EPIAS, period: '01–23.09.2026' }
+            ] }
+          ] },
+          { id: 'e3', title: 'T-07 türbin garanti süresi', when: '24.09.2026', messages: [
+            { from: 'user', text: 'Karatepe T-07 türbininin garanti süresi ne zaman bitiyor?' },
+            { from: 'ai', type: 'DOCUMENT', text: 'Bakım sözleşmesinin 9.2 maddesine göre garanti süresi devreye alma tarihinden itibaren 60 ay. Belgede devreye alma tarihi 03.05.2023 olarak yazıyor.', sources: [
+              { kind: 'doc', title: 'Karatepe_RES_Bakim_Sozlesmesi.pdf', href: KARATEPE, page: 9, date: '03.05.2023', version: 1, current: true }
+            ] }
+          ] },
+          { id: 'e4', title: 'Kapasite faktörü nedir?', when: '21.09.2026', messages: [
+            { from: 'user', text: 'Kapasite faktörü nedir?' },
+            { from: 'ai', type: 'GENERAL', text: 'Kapasite faktörü, bir santralin belirli bir dönemde gerçekte ürettiği enerjinin, aynı dönemde tam kapasiteyle kesintisiz çalışsaydı üreteceği enerjiye oranıdır.' }
+          ] }
+        ]
+      }
+    };
+
+    const d = DATA[dept] || DATA.finans;
+    // Tek pencerede birden çok proje konuşulabilir: proje seçimi yok, soruda geçen projeler algılanır
+    // ve cevapta her proje ayrı gösterilir (birleştirme yapılmaz).
+    const KNOWN_PROJECTS = [['Karatepe RES', 'karatepe'], ['Yeşilova RES', 'yeşilova'], ['Boztepe RES', 'boztepe'], ['Güneşalan GES', 'güneşalan'], ['Kızılova RES', 'kızılova'], ['Akyar GES', 'akyar'], ['Demirci RES', 'demirci']];
+    const projectsIn = function (text) {
+      const t = (text || '').toLocaleLowerCase('tr');
+      return KNOWN_PROJECTS.filter(function (kp) { return t.indexOf(kp[1]) !== -1; }).map(function (kp) { return kp[0]; });
+    };
+    const extra = st.extra || [];
+    const appended = st.appended || {};
+    const fb = st.fb || {};
+    const requests = st.requests || {};
+    const convs = extra.concat(d.convs);
+    const activeId = st.activeId || d.convs[0].id;
+    const active = convs.filter(function (c) { return c.id === activeId; })[0] || convs[0];
+    const allMsgs = (active.messages || []).concat(appended[active.id] || []);
+
+    const BADGE = 'display:inline-block;font-size:11.5px;font-weight:700;border-radius:6px;padding:2px 8px;margin-bottom:8px;';
+    const BADGES = {
+      DOCUMENT: { label: 'Belge', style: BADGE + 'color:#5B6B60;background:#EEF0EE;' },
+      DATA: { label: 'Excel', style: BADGE + 'color:#5B6B60;background:#EEF0EE;' },
+      MIXED: { label: 'Belge + Excel', style: BADGE + 'color:#5B6B60;background:#EEF0EE;' },
+      GENERAL: { label: 'Genel bilgi', style: BADGE + 'color:#9A6B12;background:#FBF1DE;' },
+      LIVE: { label: 'Canlı veri · EPİAŞ', style: BADGE + 'color:#0E5F5B;background:#E0F2F1;' },
+      MERGE: { label: 'Birleştirme · yan yana', style: BADGE + 'color:#1E6B3E;background:#E7F3EB;' },
+      CALC: { label: 'Hesaplama · gerçekleşen veri', style: BADGE + 'color:#1E6B3E;background:#E7F3EB;' },
+      CONFLICT: { label: 'Çelişkili veri', style: BADGE + 'color:#7A2323;background:#FBE7E7;' },
+      LIMIT: { label: 'Kapsam dışı · tahmin yapılmaz', style: BADGE + 'color:#9A6B12;background:#FBF1DE;' },
+      TEMPLATE: { label: 'Şablon dolduruldu · onay bekliyor', style: BADGE + 'color:#9A6B12;background:#FBF1DE;' },
+      MEMORY: { label: 'Kurumsal hafıza', style: BADGE + 'color:#0E5F5B;background:#E0F2F1;' },
+      LIST: { label: 'Birleştirme · belgelerden derlendi', style: BADGE + 'color:#1E6B3E;background:#E7F3EB;' }
+    };
+    const TD = 'padding:8px 12px;border-bottom:1px solid #F0F2F0;border-left:1px solid #F0F2F0;';
+    const mem = st.mem || {};
+    const calcOpen = st.calcOpen || {};
+    const LB = 'font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;flex-shrink:0;';
+    const STATUS = 'font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 6px;';
+    const FB_BASE = "display:inline-flex;align-items:center;gap:5px;border-radius:14px;padding:4px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;cursor:pointer;";
+    const FB_OFF = FB_BASE + 'background:transparent;border:1px solid #E1E7E2;color:#8A968E;';
+    const FB_UP = FB_BASE + 'background:#E7F3EB;border:1px solid #BFE3CC;color:#1E6B3E;';
+    const FB_DOWN = FB_BASE + 'background:#FBE7E7;border:1px solid #EAC2C2;color:#7A2323;';
+
+    const setFb = function (key, val) {
+      const next = Object.assign({}, fb);
+      next[key] = next[key] === val ? null : val;
+      self.setState({ fb: next });
+    };
+
+    const messages = allMsgs.map(function (m, i) {
+      const key = active.id + '-' + i;
+      const isAi = m.from === 'ai';
+      const badge = m.type ? BADGES[m.type] : null;
+      const sources = (m.sources || []).map(function (s, j) {
+        let meta = '';
+        let statusLabel = null;
+        let statusStyle = '';
+        let actionLabel = 'İndir';
+        if (s.kind === 'doc') {
+          meta = '— s.' + s.page + ' · ' + s.date + ' · v' + s.version;
+          statusLabel = s.current ? 'GÜNCEL' : 'TARİHSEL';
+          statusStyle = STATUS + (s.current ? 'color:#1E6B3E;background:#E7F3EB;' : 'color:#9A6B12;background:#FBF1DE;');
+        } else if (s.kind === 'excel') {
+          meta = '— Sayfa: ' + s.sheet + ' · Aralık: ' + s.range;
+        } else if (s.kind === 'live') {
+          meta = '— ' + s.period;
+          statusLabel = 'CANLI';
+          statusStyle = STATUS + 'color:#0E5F5B;background:#E0F2F1;';
+          actionLabel = 'Kaynağa git';
+        }
+        return {
+          ref: j + 1, title: s.title, href: s.href, meta: meta,
+          statusLabel: statusLabel, statusStyle: statusStyle, actionLabel: actionLabel,
+          supersededBy: s.supersededBy || null, supersededHref: s.supersededHref || s.href
+        };
+      });
+      const srcText = (m.sources || []).map(function (s) { return s.title.replace(/_/g, ' '); }).join(' ');
+      const msgProjects = isAi && !m.preview ? projectsIn(m.text + ' ' + srcText) : [];
+      const denied = !!m.denied;
+      const sent = denied && !!requests[key];
+      const thanks = fb[key] === 'up' ? 'Teşekkürler.' : (fb[key] === 'down' ? 'Bildiriminiz sistem yöneticisine iletildi.' : null);
+      return {
+        isUser: m.from === 'user',
+        isAi: isAi,
+        text: m.text,
+        badgeLabel: badge ? badge.label : null,
+        badgeStyle: badge ? badge.style : '',
+        projects: msgProjects.map(function (n) { return { name: n }; }),
+        notice: m.type === 'GENERAL' ? 'Bu cevap şirket belgelerinden değil, genel bilgiden üretildi; şirketinize özel bir bilgi içermez.' : null,
+        unanswered: !!m.unanswered,
+        hasSources: sources.length > 0,
+        sources: sources,
+        denied: denied,
+        requestOpen: denied && !sent,
+        requestSent: sent,
+        requestLabel: denied ? m.denied.label : '',
+        requestSentLabel: denied ? m.denied.sent : '',
+        onRequest: function () { const n = Object.assign({}, requests); n[key] = true; self.setState({ requests: n }); },
+        canFeedback: isAi && !m.preview,
+        upStyle: fb[key] === 'up' ? FB_UP : FB_OFF,
+        downStyle: fb[key] === 'down' ? FB_DOWN : FB_OFF,
+        onUp: function () { setFb(key, 'up'); },
+        onDown: function () { setFb(key, 'down'); },
+        fbThanks: thanks,
+        hasTable: !!m.table,
+        tableHead: m.table ? m.table.head : '',
+        tableGrid: m.table ? 'display:grid;grid-template-columns:120px repeat(' + m.table.cols.length + ', minmax(0, 1fr));' : '',
+        tableCols: m.table ? m.table.cols.map(function (c) { return { name: c }; }) : [],
+        tableRows: m.table ? m.table.rows.map(function (r) { return { label: r.label, cells: r.cells.map(function (c) { return { value: c.value, src: c.src, style: TD }; }) }; }) : [],
+        hasCalc: !!m.calc,
+        calc: m.calc || { label: '', result: '', method: '', inputs: [], note: '' },
+        calcOpen: !!calcOpen[key],
+        calcToggleLabel: calcOpen[key] ? 'Detayı gizle' : 'Hesap detayı',
+        onCalcToggle: function () { const n = Object.assign({}, calcOpen); n[key] = !calcOpen[key]; self.setState({ calcOpen: n }); },
+        hasList: !!m.list,
+        listGroups: (m.list || []).map(function (g) { return { label: g.label, items: g.items.map(function (it) { return { lead: it.lead || null, leadColor: it.leadColor || '#0E241D', title: it.title, src: it.src, href: it.href, badge: it.badge || '', badgeStyle: LB + (it.badgeStyle || 'color:#5B6B60;background:#EEF0EE;') }; }) }; }),
+        hasActions: !!(m.actions && m.actions.length),
+        actions: (m.actions || []).map(function (a) { return { label: a.label, href: a.href || '#', isLink: !a.full, isFull: !!a.full, onFull: function () { if (self.props.onFull) self.props.onFull(); } }; }),
+        memOpen: isAi && !m.preview && m.type !== 'GENERAL' && !mem[key],
+        memDone: !!mem[key],
+        memStyle: FB_OFF,
+        onMem: function () { const n = Object.assign({}, mem); n[key] = true; self.setState({ mem: n }); }
+      };
+    });
+
+    const HIST = "width:100%;text-align:left;border:none;border-radius:8px;padding:9px 10px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;color:#132119;";
+    const history = convs.map(function (c) {
+      const all = (c.messages || []).concat(appended[c.id] || []).map(function (m) { return m.text || ''; }).join(' ');
+      const pj = projectsIn(all);
+      return {
+        title: c.title, when: c.when,
+        projText: pj.length ? ' · ' + pj.map(function (n) { return n.replace(/ (RES|GES)$/, ''); }).join(', ') : '',
+        style: HIST + (c.id === active.id ? 'background:#E7F3EB;' : 'background:transparent;'),
+        select: function () { self.setState({ activeId: c.id, pending: false }); }
+      };
+    });
+
+    const send = function (text) {
+      const q = (text || '').trim();
+      if (q.length < 3) return;
+      const id = active.id;
+      const list = (appended[id] || []).concat([{ from: 'user', text: q }]);
+      const nextApp = Object.assign({}, appended);
+      nextApp[id] = list;
+      const nextExtra = extra.map(function (c) { return c.id === id && c.title === 'Yeni soru' ? Object.assign({}, c, { title: q }) : c; });
+      self.setState({ appended: nextApp, extra: nextExtra, pending: true });
+      if (self.inputRef.current) self.inputRef.current.value = '';
+      setTimeout(function () {
+        const cur = (self.state && self.state.appended) || {};
+        const again = Object.assign({}, cur);
+        again[id] = (cur[id] || []).concat([{ from: 'ai', preview: true, text: 'Bu bir tasarım önizlemesi. Gerçek sistemde soru yalnızca yetkili belgelerinizde aranır ve cevap, kaynaklarıyla birlikte burada görünür.' }]);
+        self.setState({ appended: again, pending: false });
+      }, 900);
+    };
+
+    const examples = d.examples.map(function (t) { return { text: t, ask: function () { send(t); } }; });
+
+    const W = this.props.w || 1000, H = this.props.h || 820;
+    const compact = !!this.props.compact || W < 760;
+    return {
+      rootStyle: 'width:' + W + 'px;height:' + H + "px;box-sizing:border-box;display:flex;background:#FFFFFF;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.28);overflow:hidden;font-family:'IBM Plex Sans',sans-serif;color:#132119;",
+      showHistory: !compact,
+      history: history,
+      activeTitle: active.title,
+      scopeLine: 'Kapsam: ' + d.label + ' belgeleri · birden çok proje sorulabilir, her proje ayrı cevaplanır',
+      isEmpty: allMsgs.length === 0,
+      examples: examples,
+      messages: messages,
+      pending: !!st.pending,
+      inputRef: this.inputRef,
+      onSend: function () { send(self.inputRef.current ? self.inputRef.current.value : ''); },
+      onKeyDown: function (e) { if (e.key === 'Enter') { e.preventDefault(); send(e.target.value); } },
+      onNewConv: function () {
+        const id = 'n' + (extra.length + 1);
+        self.setState({ extra: [{ id: id, title: 'Yeni soru', when: 'Şimdi', messages: [] }].concat(extra), activeId: id, pending: false });
+      },
+      onClose: this.props.onClose || function () {}
+    };
+  }
+}
+</script>
+</body>
+</html>

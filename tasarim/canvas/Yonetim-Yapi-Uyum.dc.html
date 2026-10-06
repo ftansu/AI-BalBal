@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Yönetim Paneli — Yapı değişikliği uyumsuzlukları</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+
+<div style="width:1440px;height:900px;box-sizing:border-box;display:flex;flex-direction:column;background:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;color:#132119;overflow:hidden;position:relative;">
+
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="Yonetim.dc.html" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#C9D3CC;"><span aria-hidden="true">←</span> Yönetim Paneli</a>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;">Yapı Değişikliği Uyumsuzlukları</div>
+    </div>
+    <div style="font-size:12.5px;color:#9FB0A6;">Yalnızca sistem yöneticisi erişebilir</div>
+  </div>
+
+  <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:14px;padding:20px 40px 24px;box-sizing:border-box;">
+
+    <!-- Uyarı -->
+    <div role="alert" style="flex-shrink:0;display:flex;align-items:center;gap:16px;background:#FBEAEA;border:1px solid #F0C9C9;border-radius:14px;padding:14px 18px;">
+      <div style="width:40px;height:40px;border-radius:12px;background:#7A2323;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path></svg>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:14.5px;font-weight:700;color:#7A2323;">Şirket yapısı v4 devreye alındı (05.10.2026 · İK, YK onaylı). Klasör yetkileri yeni yapıyla {{openCount}} noktada uyumsuz.</div>
+        <div style="font-size:12.5px;color:#5B2A2A;line-height:1.5;margin-top:2px;">Değişiklikler: İK + İdari İşler → İK ve İdari İşler · Bilgi Teknolojileri yeni departman. Uyumsuzluk çözülene kadar kimseye otomatik yeni erişim açılmaz.</div>
+      </div>
+      <a href="IK-Sirket-Yapisi.dc.html" style="flex-shrink:0;background:#FFFFFF;border:1px solid #F0C9C9;border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:600;color:#7A2323;">Şirket yapısını gör</a>
+    </div>
+
+    <div style="flex:1;min-height:0;display:flex;gap:16px;">
+
+      <!-- Liste -->
+      <div style="flex:1;min-width:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+        <div style="padding:12px 20px;border-bottom:1px solid #E9EDEA;display:flex;align-items:center;gap:10px;flex-shrink:0;flex-wrap:wrap;">
+          <div style="font-size:14px;font-weight:600;flex:1;">Uyumsuzluklar</div>
+          <sc-for list="{{filters}}" as="f" hint-placeholder-count="3">
+            <button onClick="{{f.select}}" style="{{f.style}}">{{f.label}}</button>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:150px minmax(0,1fr) 220px 150px;gap:12px;padding:8px 20px;border-bottom:1px solid #E9EDEA;font-size:11.5px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;color:#8A968E;flex-shrink:0;">
+          <span>Tür</span><span>Uyumsuzluk</span><span>Güncelleme talebi</span><span>Durum</span>
+        </div>
+        <div style="flex:1;min-height:0;overflow-y:auto;">
+          <sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+            <button onClick="{{r.select}}" style="{{r.style}}">
+              <span><span style="{{r.kindStyle}}">{{r.kind}}</span></span>
+              <span style="display:flex;flex-direction:column;gap:2px;min-width:0;">
+                <span style="font-size:13px;font-weight:600;line-height:1.35;">{{r.title}}</span>
+                <span style="font-size:12px;color:#5B6B60;line-height:1.4;">{{r.now}}</span>
+              </span>
+              <span style="font-size:12.5px;line-height:1.4;color:#132119;">{{r.to}}</span>
+              <span><span style="{{r.statusStyle}}">{{r.status}}</span></span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- Detay -->
+      <div style="width:400px;flex-shrink:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+        <div style="flex:1;min-height:0;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <span><span style="{{cur.kindStyle}}">{{cur.kind}}</span></span>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;line-height:1.3;">{{cur.title}}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <sc-for list="{{cur.facts}}" as="f" hint-placeholder-count="3">
+              <div style="display:flex;flex-direction:column;gap:2px;background:#F6F9F7;border-radius:10px;padding:8px 12px;">
+                <span style="font-size:11.5px;font-weight:600;color:#8A968E;">{{f.k}}</span>
+                <span style="font-size:12.5px;line-height:1.5;color:#132119;">{{f.v}}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="font-size:13px;font-weight:600;">Süreç</div>
+            <sc-for list="{{cur.track}}" as="t" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:10px;font-size:12.5px;">
+                <span style="{{t.dot}}"></span><span style="{{t.txtStyle}}">{{t.label}}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{cur.canRequest}}" hint-placeholder-val="{{true}}">
+            <button onClick="{{cur.request}}" style="background:#0E241D;border:none;border-radius:10px;padding:11px 14px;font-size:13.5px;font-weight:600;color:#F6F7F5;cursor:pointer;">Sistem güncelleme talebi gönder</button>
+            <div style="font-size:11.5px;color:#8A968E;line-height:1.45;">Talep, ilgili departman başının bildirimlerine ve görevlerine düşer. Departman başı klasör sahipliğini ve erişimleri onaylar ya da düzeltir.</div>
+          </sc-if>
+          <sc-if value="{{cur.waiting}}" hint-placeholder-val="{{false}}">
+            <div style="background:#FBF1DE;border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;">
+              <div style="font-size:12.5px;color:#7A4E0B;line-height:1.5;">Talep gönderildi; departman başının yanıtı bekleniyor.</div>
+              <button onClick="{{cur.answer}}" style="background:#FFFFFF;border:1px solid #E6C98F;border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:600;color:#7A4E0B;cursor:pointer;">Departman başı onayladı (demo)</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{cur.answered}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="font-size:12.5px;line-height:1.5;background:#E8EFFD;color:#1D4ED8;border-radius:10px;padding:10px 12px;">Yanıt: {{cur.reply}}</div>
+              <button onClick="{{cur.apply}}" style="background:#2FA968;border:none;border-radius:10px;padding:11px 14px;font-size:13.5px;font-weight:600;color:#0E241D;cursor:pointer;">Yetkiyi uygula ve kapat</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{cur.closed}}" hint-placeholder-val="{{false}}">
+            <div role="status" style="font-size:12.5px;line-height:1.5;background:#E7F3EB;color:#14401F;border-radius:10px;padding:10px 12px;">Uygulandı. Klasör erişimi güncellendi ve Değişiklik Geçmişi'ne yazıldı.</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const self = this;
+    const st = this.state || {};
+    const ITEMS = [
+      { id: 'ik', kind: 'Sahiplik', title: 'İK klasörleri (İK, Personel Dosyaları): sahibi kalmadı',
+        now: 'Klasörler silinmedi; eski erişimler korunuyor, yeni erişim kapalı.', to: 'İK ve İdari İşler Müdürü (boş) → Genel Müdür · Levent Aksoy',
+        cause: 'İK ve İdari İşler departmanları birleşti. Klasörlerin sahibi olarak birleşik departman önerilir.', reply: 'Sahibi İK ve İdari İşler olsun; Personel Dosyaları yalnızca İK pozisyonlarına açık kalsın.' },
+      { id: 'idari', kind: 'Sahiplik', title: 'İdari İşler klasörü: sahibi kalmadı',
+        now: 'Klasör silinmedi; eski erişimler korunuyor, yeni erişim kapalı.', to: 'İK ve İdari İşler Müdürü (boş) → Genel Müdür · Levent Aksoy',
+        cause: 'İK ve İdari İşler departmanları birleşti. Klasörün sahibi olarak birleşik departman önerilir.', reply: 'Sahibi İK ve İdari İşler olsun.' },
+      { id: 'grant', kind: 'Erişim', title: 'Hukuk / Kurum Yazışmaları: İdari İşler\'e verilmiş görme yetkisi',
+        now: 'Departman artık yok; yetki askıya alındı, kimse bu yetkiyle göremiyor.', to: 'Hukuk Müdürü · Ayşe Yılmaz',
+        cause: 'Erişim verilen departman birleşme ile kalktı. Klasör sahibi yetkinin yeni departmana taşınıp taşınmayacağına karar verir.', reply: 'Görme yetkisi İK ve İdari İşler departmanına taşınsın.' },
+      { id: 'bt', kind: 'Yeni departman', title: 'Bilgi Teknolojileri: klasörü ve erişimi yok',
+        now: 'Departman sayfası açık; belge ekleme kapalı (klasör yok).', to: 'BT Sorumlusu (boş) → Genel Müdür · Levent Aksoy',
+        cause: 'Yeni departmanın ortak alanda klasörü yok. Klasör yapısı ve diğer departman klasörlerine erişim talep edilmeli.', reply: 'Ortak alanda "Bilgi Teknolojileri" klasörü açılsın; başka klasöre erişim istenmiyor.' },
+      { id: 'kisi', kind: 'Kişiye özel', title: 'Zeynep Koç: departmanı değişti; kişiye özel yetkisi (Hukuk / Proje Sözleşmeleri, görme)',
+        now: 'Yetki askıya alındı; yeniden onaylanana kadar kapalı.', to: 'Hukuk Müdürü · Ayşe Yılmaz',
+        cause: 'Kişi İK\'dan İK ve İdari İşler\'e geçti. Kişiye özel yetkiler departman değişikliğinde otomatik taşınmaz.', reply: 'Yetki yeniden verilsin.' }
+    ];
+    const S = st.s || {};
+    const statusOf = function (id) { return S[id] || 'acik'; };
+    const STAT = { acik: ['Açık', 'color:#7A2323;background:#FBEAEA;'], talep: ['Talep gönderildi', 'color:#7A4E0B;background:#FBF1DE;'], yanit: ['Yanıt geldi', 'color:#1D4ED8;background:#E8EFFD;'], kapali: ['Uygulandı', 'color:#14401F;background:#E7F3EB;'] };
+    const KIND = { 'Sahiplik': 'color:#5B21B6;background:#EFE8FD;', 'Erişim': 'color:#1D4ED8;background:#E8EFFD;', 'Yeni departman': 'color:#14401F;background:#DDF3E4;', 'Onay ↔ erişim': 'color:#7A4E0B;background:#FBF1DE;', 'Kişiye özel': 'color:#5B6B60;background:#F0F2F0;' };
+    const pill = function (c) { return 'display:inline-block;font-size:11px;font-weight:700;border-radius:6px;padding:3px 8px;' + c; };
+    const filter = st.f || 'acik';
+    const shown = ITEMS.filter(function (it) { const s = statusOf(it.id); return filter === 'hepsi' ? true : (filter === 'acik' ? s !== 'kapali' : s === 'kapali'); });
+    const selId = st.sel && ITEMS.some(function (x) { return x.id === st.sel; }) ? st.sel : (shown[0] || ITEMS[0]).id;
+    const setS = function (id, v) { const n = Object.assign({}, S); n[id] = v; self.setState({ s: n }); };
+    const rows = shown.map(function (it) {
+      const s = statusOf(it.id); const on = it.id === selId;
+      return { kind: it.kind, kindStyle: pill(KIND[it.kind]), title: it.title, now: it.now, to: it.to, status: STAT[s][0], statusStyle: pill(STAT[s][1]),
+        select: function () { self.setState({ sel: it.id }); },
+        style: 'width:100%;text-align:left;display:grid;grid-template-columns:150px minmax(0,1fr) 220px 150px;gap:12px;align-items:start;padding:12px 20px;border:none;border-bottom:1px solid #F0F2F0;cursor:pointer;font-family:inherit;color:#132119;' + (on ? 'background:#F1F8F3;box-shadow:inset 3px 0 0 #2FA968;' : 'background:#FFFFFF;') };
+    });
+    const it = ITEMS.filter(function (x) { return x.id === selId; })[0];
+    const s = statusOf(it.id);
+    const order = ['acik', 'talep', 'yanit', 'kapali']; const si = order.indexOf(s);
+    const TR = ['Uyumsuzluk açıldı (devreye almada otomatik)', 'Güncelleme talebi departman başına gönderildi', 'Departman başı yanıtladı', 'Yönetici uyguladı'];
+    const track = TR.map(function (l, i) { const done = i <= si;
+      return { label: l, dot: 'width:10px;height:10px;border-radius:50%;flex-shrink:0;' + (done ? 'background:#2FA968;' : 'background:#E1E7E2;'), txtStyle: done ? 'color:#132119;font-weight:500;' : 'color:#8A968E;' }; });
+    const cur = { kind: it.kind, kindStyle: pill(KIND[it.kind]), title: it.title,
+      facts: [{ k: 'Neden oluştu', v: it.cause }, { k: 'Şu an ne oluyor (geçiş kuralı)', v: it.now }, { k: 'Talep edilecek', v: it.to }],
+      track: track, canRequest: s === 'acik', waiting: s === 'talep', answered: s === 'yanit', closed: s === 'kapali', reply: it.reply,
+      request: function () { setS(it.id, 'talep'); }, answer: function () { setS(it.id, 'yanit'); }, apply: function () { setS(it.id, 'kapali'); } };
+    const openCount = ITEMS.filter(function (x) { return statusOf(x.id) !== 'kapali'; }).length;
+    const F = [['acik', 'Açık (' + openCount + ')'], ['kapali', 'Uygulanan (' + (ITEMS.length - openCount) + ')'], ['hepsi', 'Tümü']];
+    const filters = F.map(function (f) { const on = filter === f[0];
+      return { label: f[1], select: function () { self.setState({ f: f[0] }); }, style: 'border-radius:8px;padding:6px 12px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;' + (on ? 'background:#0E241D;color:#F6F7F5;border:1px solid #0E241D;' : 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;') }; });
+    return { rows: rows, cur: cur, filters: filters, openCount: String(openCount) };
+  }
+}
+</script>
+</body>
+</html>

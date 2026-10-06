@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Departman Belgeleri</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+a{color:inherit;text-decoration:none}
+input:focus{outline:none;border-color:#2FA968;box-shadow:0 0 0 3px rgba(47,169,104,0.18)}
+</style>
+</helmet>
+
+<div style="width:1440px;height:900px;box-sizing:border-box;display:flex;flex-direction:column;background:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;color:#132119;overflow:hidden;">
+
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="Main.dc.html" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#C9D3CC;">
+        <span aria-hidden="true">←</span> Ana Sayfaya Dön
+      </a>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;">Belgeler</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#2FA968;display:inline-block;"></span>
+      <div style="font-size:13px;font-weight:600;">Proje Finans Departmanı</div>
+    </div>
+  </div>
+
+  <div style="flex:1;min-height:0;display:flex;gap:22px;padding:24px 40px;box-sizing:border-box;">
+
+    <!-- Sol: görebildiğim klasörler -->
+    <div style="width:310px;flex-shrink:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="flex:1;overflow-y:auto;padding:12px 10px;display:flex;flex-direction:column;gap:4px;">
+        <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;padding:4px 10px 6px;">Departmanımın klasörleri</div>
+        <sc-for list="{{ownTree}}" as="n" hint-placeholder-count="4">
+          <button onClick="{{n.select}}" style="{{n.style}}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E6B3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            <span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{n.name}}</span>
+            <span style="font-size:11.5px;color:#8A968E;">{{n.count}}</span>
+          </button>
+        </sc-for>
+        <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;padding:14px 10px 6px;">Bana açılan klasörler</div>
+        <sc-for list="{{sharedTree}}" as="n" hint-placeholder-count="4">
+          <button onClick="{{n.select}}" style="{{n.style}}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            <span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{n.name}}</span>
+            <span style="{{n.badgeStyle}}" title="{{n.badgeTitle}}">{{n.badge}}</span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="padding:10px 16px;border-top:1px solid #E9EDEA;font-size:11.5px;color:#8A968E;line-height:1.5;">Yalnızca erişiminiz olan klasörler görünür. Klasör yetkilerini sistem yöneticisi belirler.</div>
+    </div>
+
+    <!-- Sağ: klasördeki belgeler -->
+    <div style="flex:1;min-width:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:18px 22px 14px;border-bottom:1px solid #E9EDEA;">
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+          <div style="font-size:12px;color:#8A968E;">{{sel.path}}</div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:#0E241D;">{{sel.name}}</div>
+            <span style="{{sel.badgeStyle}}">{{sel.badge}}</span>
+          </div>
+          <div style="font-size:12.5px;color:#5B6B60;">{{sel.note}}</div>
+        </div>
+        <sc-if value="{{sel.canWrite}}" hint-placeholder-val="{{true}}">
+          <a href="Belge-Yukle.dc.html" style="flex-shrink:0;display:flex;align-items:center;gap:8px;background:#2FA968;color:#0E241D;border-radius:10px;padding:10px 16px;font-size:13.5px;font-weight:600;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0E241D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"></path></svg>
+            Bu klasöre yükle
+          </a>
+        </sc-if>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 22px;border-bottom:1px solid #F0F2F0;flex-wrap:wrap;">
+        <label for="belge-ara" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Klasörde ara</label>
+        <input id="belge-ara" type="search" placeholder="Bu klasörde ara" value="{{q}}" onChange="{{onQ}}" style="width:260px;height:38px;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:10px;padding:0 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;">
+        <span style="font-size:12.5px;color:#8A968E;margin-left:6px;">Proje:</span>
+        <sc-for list="{{projChips}}" as="pc" hint-placeholder-count="3">
+          <button onClick="{{pc.select}}" style="{{pc.style}}">{{pc.label}}</button>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 150px 110px 110px 120px 90px 60px;gap:12px;padding:10px 22px;border-bottom:1px solid #E9EDEA;font-size:11px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">
+        <div>Belge</div><div>Tür</div><div>Proje</div><div>Tarih</div><div>Versiyon</div><div>Gizlilik</div><div></div>
+      </div>
+      <div style="flex:1;min-height:0;overflow-y:auto;">
+        <sc-for list="{{docs}}" as="d" hint-placeholder-count="8">
+          <div style="display:grid;grid-template-columns:1fr 150px 110px 110px 120px 90px 60px;gap:12px;padding:11px 22px;border-bottom:1px solid #F0F2F0;align-items:center;font-size:13px;">
+            <div style="min-width:0;display:flex;flex-direction:column;gap:2px;">
+              <a href="{{d.href}}" style="color:#1E6B3E;font-weight:600;text-decoration:underline;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{d.title}}</a>
+              <span style="font-size:11.5px;color:#8A968E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{d.party}}</span>
+            </div>
+            <div style="color:#5B6B60;">{{d.type}}</div>
+            <div style="color:#5B6B60;">{{d.project}}</div>
+            <div style="color:#5B6B60;">{{d.date}}</div>
+            <div><span style="{{d.verStyle}}">{{d.ver}}</span></div>
+            <div style="color:#5B6B60;">{{d.conf}}</div>
+            <a href="{{d.href}}" aria-label="{{d.dlLabel}}" style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#1E6B3E;text-decoration:underline;">İndir</a>
+          </div>
+        </sc-for>
+        <sc-if value="{{empty}}" hint-placeholder-val="{{false}}">
+          <div style="padding:28px 22px;font-size:13.5px;color:#8A968E;">Bu klasörde eşleşen belge yok. İçerikte aramak için Balbal'a sorabilirsiniz.</div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const self = this;
+    const st = this.state || {};
+    const OWN = [
+      { id: 'pf', name: 'Proje Finans', depth: 0, count: 42, path: 'Proje Finans' },
+      { id: 'pf-kredi', name: 'Kredi Sözleşmeleri', depth: 1, count: 14, path: 'Proje Finans /' },
+      { id: 'pf-sigorta', name: 'Sigorta', depth: 1, count: 9, path: 'Proje Finans /' },
+      { id: 'pf-rapor', name: 'Banka Raporlama', depth: 1, count: 11, path: 'Proje Finans /' }
+    ];
+    const SHARED = [
+      { id: 'p-hukuk', name: 'Hukuk', depth: 0, partial: true, path: '' },
+      { id: 'hukuk-soz', name: 'Proje Sözleşmeleri', depth: 1, owner: 'Hukuk', access: 'read', path: 'Hukuk /' },
+      { id: 'hukuk-soz-kredi', name: 'Kredi ve Teminat', depth: 2, owner: 'Hukuk', access: 'read', path: 'Hukuk / Proje Sözleşmeleri /' },
+      { id: 'hukuk-soz-epc', name: 'EPC ve Türbin', depth: 2, owner: 'Hukuk', access: 'read', path: 'Hukuk / Proje Sözleşmeleri /' },
+      { id: 'p-enerji', name: 'Enerji', depth: 0, partial: true, path: '' },
+      { id: 'en-piyasa', name: 'Üretim/Piyasa', depth: 1, owner: 'Enerji', access: 'read', path: 'Enerji /' }
+    ];
+    const DOCS = {
+      'pf-kredi': [
+        ['Ankara RES Kredi Sözleşmesi', 'PQR Bank · VWX Export Credit Agency', 'Kredi sözleşmesi', 'Ankara RES', '12.01.2024', 'Güncel · v2', 'Normal', 'pdf'],
+        ['Ankara RES Kredi Sözleşmesi 1. Tadil', 'PQR Bank', 'Tadil', 'Ankara RES', '10.06.2024', 'Güncel · v1', 'Normal', 'pdf'],
+        ['Ankara RES Kredi Sözleşmesi 2. Tadil', 'PQR Bank', 'Tadil', 'Ankara RES', '15.03.2025', 'Güncel · v1', 'Normal', 'pdf'],
+        ['Ankara RES Kredi Ödeme Planı', 'PQR Bank', 'Ödeme planı (Excel)', 'Ankara RES', '01.09.2026', 'Güncel · v3', 'Normal', 'xlsx'],
+        ['İzmir RES Kredi Term Sheet', 'PQR Bank', 'Term sheet', 'İzmir RES', '04.07.2026', 'Taslak', 'Kısıtlı', 'pdf']
+      ],
+      'pf-sigorta': [
+        ['Ankara RES İnşaat Sonrası Sigorta Poliçesi', 'STU Sigorta', 'Sigorta poliçesi', 'Ankara RES', '01.01.2026', 'Güncel · v1', 'Normal', 'pdf'],
+        ['Ankara RES Sigorta Yenileme Teklifi', 'STU Sigorta', 'Teklif', 'Ankara RES', '02.09.2026', 'Güncel · v1', 'Normal', 'pdf']
+      ],
+      'pf-rapor': [
+        ['Covenant Report Q2 2026', 'PQR Bank', 'Banka raporu (Excel)', 'Ankara RES', '15.08.2026', 'Güncel · v1', 'Normal', 'xlsx'],
+        ['Financial Model 2026', 'DEF Enerji Üretim A.Ş.', 'Finansal model (Excel)', 'Ankara RES', '01.09.2026', 'Güncel · v1', 'Kısıtlı', 'xlsx']
+      ],
+      'hukuk-soz': [
+        ['Ankara RES EPC Sözleşmesi', 'JKL İnşaat A.Ş.', 'EPC sözleşmesi', 'Ankara RES', '20.02.2023', 'Güncel · v1', 'Normal', 'pdf'],
+        ['Ankara RES Türbin Tedarik Sözleşmesi', 'XYZ Wind Turbines GmbH', 'Tedarik sözleşmesi', 'Ankara RES', '14.03.2023', 'Güncel · v1', 'Normal', 'pdf'],
+        ['Ankara RES Hisse Rehni Sözleşmesi', 'PQR Bank', 'Teminat sözleşmesi', 'Ankara RES', '12.01.2024', 'Güncel · v1', 'Normal', 'pdf']
+      ],
+      'hukuk-soz-kredi': [
+        ['Ankara RES Hisse Rehni Sözleşmesi', 'PQR Bank', 'Teminat sözleşmesi', 'Ankara RES', '12.01.2024', 'Güncel · v1', 'Normal', 'pdf']
+      ],
+      'hukuk-soz-epc': [
+        ['Ankara RES EPC Sözleşmesi', 'JKL İnşaat A.Ş.', 'EPC sözleşmesi', 'Ankara RES', '20.02.2023', 'Güncel · v1', 'Normal', 'pdf'],
+        ['Ankara RES Türbin Tedarik Sözleşmesi', 'XYZ Wind Turbines GmbH', 'Tedarik sözleşmesi', 'Ankara RES', '14.03.2023', 'Güncel · v1', 'Normal', 'pdf']
+      ],
+      'en-piyasa': [
+        ['Monthly Production 2026', 'DEF Enerji Üretim A.Ş.', 'Üretim tablosu (Excel)', 'Ankara RES', '01.09.2026', 'Güncel · v1', 'Normal', 'xlsx']
+      ]
+    };
+    DOCS.pf = DOCS['pf-kredi'].slice(0, 2).concat(DOCS['pf-sigorta'].slice(0, 1));
+
+    const selId = st.sel || 'pf-kredi';
+    const NODE = "display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:none;border-radius:8px;padding:8px 10px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#132119;";
+    const mk = function (f, shared) {
+      if (f.partial) {
+        return { name: f.name, count: '', badge: 'Kısmen görme', badgeTitle: 'Klasörün kendisi görülmez; yalnızca altındaki yetkili klasörler listelenir.', badgeStyle: 'font-size:10.5px;font-weight:600;color:#5B6B60;background:#EEF1EE;border-radius:6px;padding:2px 6px;',
+          style: NODE + 'opacity:0.45;cursor:default;font-weight:600;padding-left:' + (10 + f.depth * 18) + 'px;background:transparent;', select: function () {} };
+      }
+      return {
+        name: f.name, count: String(f.count || ''),
+        badge: shared ? 'Görme' : '', badgeTitle: shared ? 'Departmanınıza bu klasörde Görme yetkisi verilmiş' : '',
+        badgeStyle: 'font-size:10.5px;font-weight:600;color:#2563EB;background:#E8EFFD;border-radius:6px;padding:2px 6px;',
+        style: NODE + 'padding-left:' + (10 + f.depth * 18) + 'px;' + (f.id === selId ? 'background:#E7F3EB;font-weight:600;' : 'background:transparent;') + (f.depth === 0 ? 'font-weight:600;' : ''),
+        select: function () { self.setState({ sel: f.id, q: '' }); }
+      };
+    };
+    const ownTree = OWN.map(function (f) { return mk(f, false); });
+    const sharedTree = SHARED.map(function (f) { return mk(f, true); });
+
+    const all = OWN.map(function (f) { return Object.assign({ shared: false }, f); }).concat(SHARED.filter(function (x) { return !x.partial; }).map(function (f) { return Object.assign({ shared: true }, f); }));
+    const f = all.filter(function (x) { return x.id === selId; })[0] || all[1];
+    const sel = f.shared
+      ? { name: f.name, path: f.path, badge: 'Görme', badgeStyle: 'font-size:11.5px;font-weight:600;color:#2563EB;background:#E8EFFD;border-radius:6px;padding:3px 8px;', note: f.owner + ' departmanının klasörü. Belgeleri açıp indirebilirsiniz; yükleme ve düzenleme yetkiniz yok.', canWrite: false }
+      : { name: f.name, path: f.depth ? f.path : 'Kök klasör', badge: 'Değiştirme', badgeStyle: 'font-size:11.5px;font-weight:600;color:#1E6B3E;background:#EAF6EE;border-radius:6px;padding:3px 8px;', note: 'Departmanınızın klasörü. Belge yükleyebilir ve bilgilerini düzenleyebilirsiniz.', canWrite: true };
+
+    const proj = st.proj || 'all';
+    const CH = "border-radius:14px;padding:5px 11px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;";
+    const projChips = [['all', 'Tümü'], ['Ankara RES', 'Ankara RES'], ['İzmir RES', 'İzmir RES']].map(function (p) {
+      return { label: p[1], style: CH + (proj === p[0] ? 'background:#0E241D;color:#F6F7F5;border:1px solid #0E241D;' : 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;'), select: function () { self.setState({ proj: p[0] }); } };
+    });
+    const q = (st.q || '').toLocaleLowerCase('tr');
+    const PILL = 'font-size:11.5px;font-weight:600;border-radius:6px;padding:3px 8px;';
+    const docs = (DOCS[f.id] || []).filter(function (d) {
+      return (proj === 'all' || d[3] === proj) && (!q || (d[0] + ' ' + d[1] + ' ' + d[2]).toLocaleLowerCase('tr').indexOf(q) >= 0);
+    }).map(function (d) {
+      const draft = d[5] === 'Taslak';
+      return {
+        title: d[0], party: d[1], type: d[2], project: d[3], date: d[4], ver: d[5], conf: d[6],
+        verStyle: PILL + (draft ? 'color:#9A6B12;background:#FBF1DE;' : 'color:#1E6B3E;background:#E7F3EB;'),
+        href: d[7] === 'xlsx' ? 'Excel-Onizleme.dc.html' : 'Sozlesme-Onizleme.dc.html',
+        dlLabel: d[0] + ' indir'
+      };
+    });
+    return {
+      ownTree: ownTree, sharedTree: sharedTree, sel: sel, projChips: projChips, docs: docs, empty: docs.length === 0,
+      q: st.q || '', onQ: function (e) { self.setState({ q: e.target.value }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

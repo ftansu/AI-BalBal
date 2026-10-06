@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Hukuk Departmanı — Ana Sayfa</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+@keyframes genie{0%{transform:scale(.12) translate(40%,40%);opacity:0}70%{opacity:1}100%{transform:scale(1) translate(0,0);opacity:1}}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+
+<div style="width:1440px;height:980px;box-sizing:border-box;display:flex;flex-direction:column;background:#EEF6F0;font-family:'IBM Plex Sans',sans-serif;color:#132119;overflow:hidden;position:relative;">
+
+  <!-- Top bar -->
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <img src="/_blob/971aff4c7613d55ac58efe53b0a7a61a" alt="XYZ Enerji" style="width:34px;height:34px;border-radius:8px;object-fit:cover;flex-shrink:0;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;letter-spacing:0.2px;">XYZ Enerji A.Ş. Platformu</div>
+      </div>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:{{accent}};display:inline-block;"></span>
+        <div style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;color:#F6F7F5;">Hukuk Departmanı</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-right:14px;"><div style="display:flex;align-items:center;gap:8px;width:340px;height:38px;box-sizing:border-box;background:#1D3329;border:1px solid #2E4A3D;border-radius:10px;padding:0 12px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><label for="top-search" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Belge, proje veya kişi ara</label><input id="top-search" type="text" onInput="{{onSearchInput}}" onFocus="{{onSearchFocus}}" placeholder="Belge, proje veya kişi ara" style="flex:1;min-width:0;background:transparent;border:none;outline:none;color:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;font-size:14px;"></div><a href="Belge-Yukle.dc.html" style="height:38px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;border:1px solid #2E4A3D;color:#F6F7F5;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"></path></svg>Belge yükle</a><button onClick="{{onToggleNotif}}" aria-label="Bildirimler" style="position:relative;width:38px;height:38px;flex-shrink:0;border-radius:10px;border:1px solid #2E4A3D;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg><span style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;box-sizing:border-box;border-radius:9px;background:#2FA968;color:#0E241D;font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;">3</span></button></div>
+      <div style="text-align:right;">
+        <div style="font-size:13px;font-weight:600;line-height:1.2;">Ayşe Yılmaz</div>
+        <div style="font-size:11px;color:#9FB0A6;line-height:1.2;">Hukuk Müdürü</div>
+      </div>
+      <button onClick="{{onToggleUserMenu}}" aria-label="Kullanıcı menüsü" style="border:none;cursor:pointer;padding:0;width:36px;height:36px;border-radius:50%;background:#2563EB;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FFFFFF;">AY</button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div style="{{bodyStyle}}">
+
+    <!-- Page tabs -->
+    <div style="display:flex;gap:8px;flex-shrink:0;">
+      <button style="{{pageGenelBtnStyle}}" onClick="{{onSelectPageGenel}}">Genel Bakış</button>
+      <button style="{{pagePozisyonBtnStyle}}" onClick="{{onSelectPagePozisyon}}">Pozisyon</button>
+      <sc-if value="{{balbalTab}}" hint-placeholder-val="{{false}}">
+        <button style="{{balbalTabStyle}}" onClick="{{onSelectBalbalTab}}"><img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:18px;height:18px;border-radius:50%;object-fit:contain;background:#FFFFFF;">Balbal</button>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{pageIsBalbal}}" hint-placeholder-val="{{false}}">
+    <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+        <div style="font-size:12.5px;color:#5B6B60;">Balbal tam ekran · diğer sekmelere geçince konuşma açık kalır</div>
+        <div style="display:flex;gap:8px;">
+          <button onClick="{{onBalbalToWindow}}" style="display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:8px;padding:7px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#132119;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H3v6M15 21h6v-6M3 3l7 7M21 21l-7-7"></path></svg>Pencereye küçült</button>
+          <button onClick="{{onBalbalCloseFull}}" style="display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:8px;padding:7px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#5B6B60;cursor:pointer;">Kapat</button>
+        </div>
+      </div>
+      <dc-import name="Balbal-Sohbet" dept="hukuk" ask="{{chatAsk}}" w="{{fullW}}" h="{{fullH}}" on-full="{{onBalbalFull}}" hint-size="1360px,740px"></dc-import>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{pageIsGenel}}" hint-placeholder-val="{{true}}">
+    <!-- Dashboard row -->
+        <div data-gz="top" style="display:flex;gap:28px;align-items:flex-start;flex-shrink:0;">
+      <sc-for list="{{gzGenelTop}}" as="col" hint-placeholder-count="2">
+        <div data-gcol="top" style="{{col.style}}">
+          <sc-for list="{{col.items}}" as="g" hint-placeholder-count="2">
+            <div data-gi="top" data-gid="{{g.id}}" style="{{g.style}}">
+              <button aria-label="Gadget'ı taşı" title="Tutup sürükleyerek yerini değiştirin" onPointerDown="{{g.onGrab}}" style="position:absolute;top:3px;left:50%;transform:translateX(-50%);width:56px;height:16px;border:none;background:transparent;cursor:grab;touch-action:none;display:flex;align-items:center;justify-content:center;padding:0;z-index:3;"><svg width="30" height="8" viewBox="0 0 30 8" aria-hidden="true"><g fill="#A9B6AE"><circle cx="3" cy="2" r="1.5"></circle><circle cx="9" cy="2" r="1.5"></circle><circle cx="15" cy="2" r="1.5"></circle><circle cx="21" cy="2" r="1.5"></circle><circle cx="27" cy="2" r="1.5"></circle><circle cx="3" cy="6" r="1.5"></circle><circle cx="9" cy="6" r="1.5"></circle><circle cx="15" cy="6" r="1.5"></circle><circle cx="21" cy="6" r="1.5"></circle><circle cx="27" cy="6" r="1.5"></circle></g></svg></button>
+              <sc-if value="{{g.isDurusma}}" hint-placeholder-val="{{false}}">
+              <div style="padding-top:18px;">
+
+                        <div style="display:flex;align-items:center;justify-content:space-between;">
+                          <div>
+                            <div style="font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:600;">Yaklaşan Duruşma Tarihleri</div>
+                            <div style="font-size:12px;color:#5B6B60;margin-top:2px;">Açık Dava ve Süreç Dosyaları</div>
+                          </div>
+                        </div>
+
+                        <div style="font-size:11px;font-weight:600;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;margin-top:4px;">İşletmedeki Santraller</div>
+                        <div style="display:flex;flex-direction:column;gap:12px;">
+                          <sc-for list="{{projectCases}}" as="p" hint-placeholder-count="4">
+                            <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;">
+                              <button onClick="{{p.toggle}}" style="width:100%;background:transparent;border:none;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;text-align:left;">
+                                <div style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;">{{p.name}}</div>
+                                <div style="display:flex;align-items:center;gap:12px;">
+                                  <span style="font-size:11px;font-weight:600;background:#EEF0EE;color:#5B6B60;border-radius:20px;padding:4px 10px;">{{p.countLabel}}</span>
+                                  <span style="font-size:13px;color:#8A968E;">{{p.chevron}}</span>
+                                </div>
+                              </button>
+                              <sc-if value="{{p.expanded}}" hint-placeholder-val="{{true}}">
+                                <div style="border-top:1px solid #F0F2F0;">
+                                  <sc-for list="{{p.cases}}" as="c" hint-placeholder-count="2">
+                                    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid #F0F2F0;">
+                                      <div>
+                                        <a href="Dava-Gecmisi.dc.html" style="font-size:13.5px;font-weight:600;text-decoration:underline;">{{c.name}}</a>
+                                        <div style="font-size:12px;color:#5B6B60;margin-top:2px;">{{c.court}}</div>
+                                      </div>
+                                      <div style="display:flex;gap:24px;">
+                                        <div style="text-align:right;">
+                                          <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Sonraki Duruşma</div>
+                                          <div style="font-size:14px;font-weight:600;margin-top:2px;">{{c.date}}</div>
+                                        </div>
+                                        <div style="text-align:right;">
+                                          <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Durum</div>
+                                          <div style="font-size:12.5px;font-weight:600;margin-top:4px;padding:3px 10px;border-radius:20px;background:{{c.badgeBg}};color:{{c.badgeColor}};">{{c.status}}</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </sc-for>
+                                </div>
+                              </sc-if>
+                            </div>
+                          </sc-for>
+                        </div>
+
+                        <div style="font-size:11px;font-weight:600;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;margin-top:8px;">Geliştirme Aşamasındaki Projeler</div>
+                        <div style="display:flex;flex-direction:column;gap:12px;">
+                          <sc-for list="{{devProjectCases}}" as="p" hint-placeholder-count="3">
+                            <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;">
+                              <button onClick="{{p.toggle}}" style="width:100%;background:transparent;border:none;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;text-align:left;">
+                                <div style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;">{{p.name}}</div>
+                                <div style="display:flex;align-items:center;gap:12px;">
+                                  <span style="font-size:11px;font-weight:600;background:#EEF0EE;color:#5B6B60;border-radius:20px;padding:4px 10px;">{{p.countLabel}}</span>
+                                  <span style="font-size:13px;color:#8A968E;">{{p.chevron}}</span>
+                                </div>
+                              </button>
+                              <sc-if value="{{p.expanded}}" hint-placeholder-val="{{true}}">
+                                <div style="border-top:1px solid #F0F2F0;">
+                                  <sc-for list="{{p.cases}}" as="c" hint-placeholder-count="2">
+                                    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid #F0F2F0;">
+                                      <div>
+                                        <a href="Dava-Gecmisi.dc.html" style="font-size:13.5px;font-weight:600;text-decoration:underline;">{{c.name}}</a>
+                                        <div style="font-size:12px;color:#5B6B60;margin-top:2px;">{{c.court}}</div>
+                                      </div>
+                                      <div style="display:flex;gap:24px;">
+                                        <div style="text-align:right;">
+                                          <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Sonraki Adım</div>
+                                          <div style="font-size:14px;font-weight:600;margin-top:2px;">{{c.date}}</div>
+                                        </div>
+                                        <div style="text-align:right;">
+                                          <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Durum</div>
+                                          <div style="font-size:12.5px;font-weight:600;margin-top:4px;padding:3px 10px;border-radius:20px;background:{{c.badgeBg}};color:{{c.badgeColor}};">{{c.status}}</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </sc-for>
+                                </div>
+                              </sc-if>
+                            </div>
+                          </sc-for>
+                        </div>
+      
+              </div>
+              </sc-if>
+              <sc-if value="{{g.isMevzuat}}" hint-placeholder-val="{{false}}">
+              <div style="padding-top:18px;">
+                <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 22px;">
+                          <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">Mevzuat Bildirimleri</div></div>
+                          <div style="display:flex;flex-direction:column;margin-top:10px;">
+                            <sc-for list="{{mevzuat}}" as="m" hint-placeholder-count="3">
+                              <div style="padding:10px 0;border-bottom:1px solid #F0F2F0;">
+                                <div style="font-size:12.5px;font-weight:600;color:#132119;">{{m.title}}</div>
+                                <div style="font-size:11px;color:#8A968E;margin-top:2px;">{{m.date}} · {{m.source}}</div>
+                              </div>
+                            </sc-for>
+                          </div>
+                        </div>
+              </div>
+              </sc-if>
+              <sc-if value="{{g.isBakanlik}}" hint-placeholder-val="{{false}}">
+              <div style="padding-top:18px;">
+                <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 22px;">
+                          <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">Bakanlık Duyuruları</div></div>
+                          <div style="display:flex;flex-direction:column;margin-top:10px;">
+                            <sc-for list="{{bakanlik}}" as="b" hint-placeholder-count="3">
+                              <div style="padding:10px 0;border-bottom:1px solid #F0F2F0;">
+                                <div style="font-size:12.5px;font-weight:600;color:#132119;">{{b.title}}</div>
+                                <div style="font-size:11px;color:#8A968E;margin-top:2px;">{{b.date}}</div>
+                              </div>
+                            </sc-for>
+                          </div>
+                        </div>
+              </div>
+              </sc-if>
+            </div>
+          </sc-for>
+          <sc-if value="{{col.isEmpty}}" hint-placeholder-val="{{false}}">
+            <div style="border:2px dashed #D5DDD8;border-radius:14px;height:120px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#8A968E;">Gadget'ı buraya bırakın</div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="font-size:11px;color:#8A968E;line-height:1.5;">Veriler Resmi Gazete, EPDK ve ilgili bakanlık kaynaklarından otomatik çekilmektedir.</div>
+    </sc-if>
+
+    <sc-if value="{{pageIsPozisyon}}" hint-placeholder-val="{{true}}">
+    <!-- Position row -->
+        <div data-gz="top" style="display:flex;gap:28px;align-items:flex-start;flex-shrink:0;">
+      <sc-for list="{{gzPozTop}}" as="col" hint-placeholder-count="2">
+        <div data-gcol="top" style="{{col.style}}">
+          <sc-for list="{{col.items}}" as="g" hint-placeholder-count="2">
+            <div data-gi="top" data-gid="{{g.id}}" style="{{g.style}}">
+              <button aria-label="Gadget'ı taşı" title="Tutup sürükleyerek yerini değiştirin" onPointerDown="{{g.onGrab}}" style="position:absolute;top:3px;left:50%;transform:translateX(-50%);width:56px;height:16px;border:none;background:transparent;cursor:grab;touch-action:none;display:flex;align-items:center;justify-content:center;padding:0;z-index:3;"><svg width="30" height="8" viewBox="0 0 30 8" aria-hidden="true"><g fill="#A9B6AE"><circle cx="3" cy="2" r="1.5"></circle><circle cx="9" cy="2" r="1.5"></circle><circle cx="15" cy="2" r="1.5"></circle><circle cx="21" cy="2" r="1.5"></circle><circle cx="27" cy="2" r="1.5"></circle><circle cx="3" cy="6" r="1.5"></circle><circle cx="9" cy="6" r="1.5"></circle><circle cx="15" cy="6" r="1.5"></circle><circle cx="21" cy="6" r="1.5"></circle><circle cx="27" cy="6" r="1.5"></circle></g></svg></button>
+              <sc-if value="{{g.isGorevler}}" hint-placeholder-val="{{false}}">
+              <div style="padding-top:18px;">
+                <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 22px;">
+                          <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">Görevler</div></div>
+                            <div style="font-size:11px;font-weight:600;background:#FBF1DE;color:#9A6B12;border-radius:20px;padding:4px 11px;white-space:nowrap;">{{tasksPendingLabel}}</div>
+                          </div>
+                          <div style="display:flex;flex-direction:column;margin-top:10px;max-height:230px;overflow-y:auto;">
+                            <sc-for list="{{tasksList}}" as="item" hint-placeholder-count="3">
+                              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 4px 10px 0;border-bottom:1px solid #F0F2F0;">
+                                <div>
+                                  <div style="font-size:12.5px;font-weight:600;color:#132119;">{{item.title}}</div>
+                                  <div style="font-size:11px;color:#8A968E;margin-top:2px;">{{item.meta}}</div>
+                                </div>
+                                <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:{{item.badgeBg}};color:{{item.badgeColor}};white-space:nowrap;">{{item.status}}</span>
+                              </div>
+                            </sc-for>
+                          </div>
+                        </div>
+              </div>
+              </sc-if>
+              <sc-if value="{{g.isMailler}}" hint-placeholder-val="{{false}}">
+              <div style="padding-top:18px;">
+                <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 22px;">
+                          <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">Bayraklı Mailler</div></div>
+                            <div style="font-size:11px;font-weight:600;background:#FBF1DE;color:#9A6B12;border-radius:20px;padding:4px 11px;white-space:nowrap;">{{mailsPendingLabel}}</div>
+                          </div>
+                          <div style="display:flex;flex-direction:column;margin-top:10px;max-height:230px;overflow-y:auto;">
+                            <sc-for list="{{mailsList}}" as="item" hint-placeholder-count="3">
+                              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 4px 10px 0;border-bottom:1px solid #F0F2F0;">
+                                <div>
+                                  <div style="font-size:12.5px;font-weight:600;color:#132119;">{{item.title}}</div>
+                                  <div style="font-size:11px;color:#8A968E;margin-top:2px;">{{item.meta}}</div>
+                                </div>
+                                <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:{{item.badgeBg}};color:{{item.badgeColor}};white-space:nowrap;">{{item.status}}</span>
+                              </div>
+                            </sc-for>
+                          </div>
+                        </div>
+              </div>
+              </sc-if>
+              <sc-if value="{{g.isTalepler}}" hint-placeholder-val="{{false}}">
+              <div style="padding-top:18px;">
+                <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 22px;">
+                          <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">Gelen Talepler</div></div>
+                            <div style="font-size:11px;font-weight:600;background:#FBF1DE;color:#9A6B12;border-radius:20px;padding:4px 11px;white-space:nowrap;">{{talepPendingLabel}}</div>
+                          </div>
+                          <div style="display:flex;flex-direction:column;margin-top:10px;max-height:230px;overflow-y:auto;">
+                            <sc-for list="{{talepList}}" as="item" hint-placeholder-count="3">
+                              <a href="{{item.href}}" style="display:flex;align-items:center;justify-content:space-between;padding:10px 4px 10px 0;border-bottom:1px solid #F0F2F0;">
+                                <div>
+                                  <div style="font-size:12.5px;font-weight:600;color:#132119;">{{item.title}}</div>
+                                  <div style="font-size:11px;color:#8A968E;margin-top:2px;">{{item.meta}}</div>
+                                </div>
+                                <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:{{item.badgeBg}};color:{{item.badgeColor}};white-space:nowrap;">{{item.status}}</span>
+                              </a>
+                            </sc-for>
+                          </div>
+                        </div>
+              </div>
+              </sc-if>
+              <sc-if value="{{g.isDavalar}}" hint-placeholder-val="{{false}}">
+              <div style="padding-top:18px;">
+                <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:18px 22px;">
+                          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">Aktif Dava Dosyaları</div></div>
+                          <div style="display:grid;grid-template-columns:1fr 120px 130px 110px;gap:2px 12px;">
+                            <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:8px;border-bottom:1px solid #E9EDEA;">Dava</div>
+                            <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:8px;border-bottom:1px solid #E9EDEA;">Karşı Taraf</div>
+                            <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:8px;border-bottom:1px solid #E9EDEA;">Sonraki Adım</div>
+                            <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:8px;border-bottom:1px solid #E9EDEA;">Durum</div>
+                            <sc-for list="{{davalar}}" as="d" hint-placeholder-count="3">
+                              <div style="font-size:12.5px;font-weight:500;padding:7px 0;">{{d.name}}</div>
+                              <div style="font-size:12.5px;color:#5B6B60;padding:7px 0;">{{d.opponent}}</div>
+                              <div style="font-size:12.5px;padding:7px 0;">{{d.next}}</div>
+                              <div style="padding:7px 0;"><span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:{{d.badgeBg}};color:{{d.badgeColor}};">{{d.status}}</span></div>
+                            </sc-for>
+                          </div>
+                        </div>
+              </div>
+              </sc-if>
+            </div>
+          </sc-for>
+          <sc-if value="{{col.isEmpty}}" hint-placeholder-val="{{false}}">
+            <div style="border:2px dashed #D5DDD8;border-radius:14px;height:120px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#8A968E;">Gadget'ı buraya bırakın</div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <!-- Two round chat buttons -->
+    <sc-if value="{{anyModalClosed}}" hint-placeholder-val="{{true}}">
+      <button aria-label="Ekip Sohbetini Aç" onClick="{{onOpenTeamChat}}" style="position:absolute;right:36px;bottom:112px;width:56px;height:56px;border-radius:50%;background:{{accent}};border:none;box-shadow:0 8px 22px rgba(19,33,25,0.2);cursor:pointer;display:flex;align-items:center;justify-content:center;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+      </button>
+      <button aria-label="Balbal'ı Aç" onClick="{{onOpenChat}}" style="position:absolute;right:36px;bottom:36px;width:64px;height:64px;border-radius:50%;background:#FFFFFF;border:none;box-shadow:0 8px 22px rgba(19,33,25,0.28), 0 0 0 2px {{accent}};cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;">
+        <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="Balbal" style="width:78%;height:78%;object-fit:contain;">
+      </button>
+    </sc-if>
+
+    <!-- Balbal penceresi (ortak bileşen: Balbal-Sohbet.dc.html) — yüzen / yan panel / tam ekran sekme -->
+    <sc-if value="{{chatOpen}}" hint-placeholder-val="{{false}}">
+      <div style="{{chatWin.style}}">
+        <div onPointerDown="{{chatWin.onGrab}}" style="{{chatWin.barStyle}}">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#C9D3CC;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><path d="M5 9h14M5 15h14"></path></svg>
+            {{chatWin.hint}}
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;">
+            <button onClick="{{chatWin.onFloat}}" aria-label="Yüzen pencere" title="Yüzen pencere" style="{{chatWin.floatBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="12" rx="2"></rect></svg></button>
+            <button onClick="{{chatWin.onSide}}" aria-label="Yan panel" title="Yan panel" style="{{chatWin.sideBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M14 4v16"></path></svg></button>
+            <button onClick="{{onBalbalFull}}" aria-label="Tam ekran sekme" title="Tam ekran sekme" style="{{chatWin.fullBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg></button>
+            <button onClick="{{onCloseChat}}" aria-label="Kapat" style="{{chatWin.closeBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+          </div>
+        </div>
+        <dc-import name="Balbal-Sohbet" dept="hukuk" ask="{{chatAsk}}" w="{{chatWin.w}}" h="{{chatWin.h}}" on-close="{{onCloseChat}}" on-full="{{onBalbalFull}}" hint-size="760px,560px"></dc-import>
+        <sc-if value="{{chatWin.isFloat}}" hint-placeholder-val="{{true}}">
+          <button onPointerDown="{{chatWin.onResize}}" aria-label="Pencereyi boyutlandır" title="Köşeden tutup boyutlandırın" style="position:absolute;right:2px;bottom:2px;width:22px;height:22px;border:none;background:transparent;cursor:nwse-resize;touch-action:none;padding:0;display:flex;align-items:flex-end;justify-content:flex-end;"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M13 1 1 13M13 7l-6 6" stroke="#A9B6AE" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- Ekip sohbeti penceresi (ortak bileşen: Ekip-Sohbet.dc.html) — aynı pencere davranışı -->
+    <sc-if value="{{teamChatOpen}}" hint-placeholder-val="{{false}}">
+      <div style="{{teamWin.style}}">
+        <div onPointerDown="{{teamWin.onGrab}}" style="{{teamWin.barStyle}}">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#C9D3CC;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><path d="M5 9h14M5 15h14"></path></svg>
+            {{teamWin.hint}}
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;">
+            <button onClick="{{teamWin.onFloat}}" aria-label="Yüzen pencere" title="Yüzen pencere" style="{{teamWin.floatBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="12" rx="2"></rect></svg></button>
+            <button onClick="{{teamWin.onSide}}" aria-label="Yan panel" title="Yan panel" style="{{teamWin.sideBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M14 4v16"></path></svg></button>
+            <button onClick="{{onCloseTeamChat}}" aria-label="Kapat" style="{{teamWin.closeBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+          </div>
+        </div>
+        <dc-import name="Ekip-Sohbet" dept="hukuk" w="{{teamWin.w}}" h="{{teamWin.h}}" on-close="{{onCloseTeamChat}}" hint-size="760px,560px"></dc-import>
+        <sc-if value="{{teamWin.isFloat}}" hint-placeholder-val="{{true}}">
+          <button onPointerDown="{{teamWin.onResize}}" aria-label="Pencereyi boyutlandır" title="Köşeden tutup boyutlandırın" style="position:absolute;right:2px;bottom:2px;width:22px;height:22px;border:none;background:transparent;cursor:nwse-resize;touch-action:none;padding:0;display:flex;align-items:flex-end;justify-content:flex-end;"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M13 1 1 13M13 7l-6 6" stroke="#A9B6AE" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- Üst bar panelleri -->
+    <sc-if value="{{searchOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;top:70px;left:640px;z-index:20;">
+        <dc-import name="Arama-Sonuclari" dept="hukuk" query="{{searchQ}}" on-close="{{onCloseSearch}}" on-ask-balbal="{{onAskFromSearch}}" hint-size="560px,520px"></dc-import>
+      </div>
+    </sc-if>
+    <sc-if value="{{notifOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;top:70px;right:120px;z-index:20;">
+        <dc-import name="Bildirimler" dept="hukuk" on-close="{{onCloseNotif}}" on-open-team-chat="{{onNotifOpenTeam}}" on-open-balbal="{{onNotifOpenBalbal}}" hint-size="420px,560px"></dc-import>
+      </div>
+    </sc-if>
+    <sc-if value="{{userMenuOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;top:70px;right:24px;z-index:20;">
+        <dc-import name="Kullanici-Menusu" dept="hukuk" on-close="{{onCloseUserMenu}}" hint-size="340px,520px"></dc-import>
+      </div>
+    </sc-if>
+
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2FA968","options":["#2FA968","#0E241D","#D97706","#2563EB"]},"$preview":{"width":1440,"height":980}}'>
+class Component extends DCLogic {
+  gzStoreKey() { return 'xplatform-layout-hukuk'; }
+  gzAreas() { return { genel: { top: [['durusma'], ['mevzuat', 'bakanlik']], full: [] }, pozisyon: { top: [['gorevler', 'mailler'], ['talepler', 'davalar']], full: [] } }; }
+  // ---- Gadget sürükle-bırak motoru (tutamaçtan tut, sürükle, bırak; diğerleri kayar, bırakılan yerine oturur) ----
+  // Her "alan" (genel / pozisyon) kendi düzenini bağımsız tutar.
+  componentDidMount() {
+    try {
+      const raw = window.localStorage.getItem(this.gzStoreKey());
+      if (raw) {
+        const all = JSON.parse(raw);
+        const defs = this.gzAreas();
+        const merged = {};
+        Object.keys(defs).forEach(function (area) { const v = all[area]; if (v) merged[area] = v; });
+        let ok = false;
+        Object.keys(merged).forEach(function (area) { if (this.gzValid(area, merged[area])) ok = true; else delete merged[area]; }, this);
+        if (ok) this.setState({ gzLayout: merged });
+      }
+    } catch (err) { /* depolama yoksa varsayılan düzen */ }
+  }
+  componentWillUnmount() { this.gzDetach(); this.winDetach(); }
+  // ---- Pencere motoru: yüzen pencere taşıma/boyutlandırma (Balbal ve ekip sohbeti). Konum/boyut kullanıcı bazında tutulur.
+  winDetach() {
+    if (this._wMove) window.removeEventListener('pointermove', this._wMove);
+    if (this._wUp) { window.removeEventListener('pointerup', this._wUp); window.removeEventListener('pointercancel', this._wUp); }
+    this._wMove = null; this._wUp = null;
+    try { document.body.style.userSelect = ''; } catch (err) {}
+  }
+  winStart(key, mode, e) {
+    const self = this;
+    const st = (this.state && this.state[key]) || {};
+    const def = this.winDefaults()[key];
+    const RH = 980;
+    const start = { x: e.clientX, y: e.clientY, left: st.x !== undefined ? st.x : def.x, top: st.y !== undefined ? st.y : def.y, w: st.w || def.w, h: st.h || def.h };
+    this.winDetach();
+    try { document.body.style.userSelect = 'none'; } catch (err) {}
+    this._wMove = function (ev) {
+      const dx = ev.clientX - start.x, dy = ev.clientY - start.y;
+      const cur = Object.assign({}, (self.state && self.state[key]) || {});
+      if (mode === 'move') { cur.x = Math.max(0, Math.min(1440 - 240, start.left + dx)); cur.y = Math.max(0, Math.min(RH - 120, start.top + dy)); }
+      else { cur.w = Math.max(420, Math.min(1400, start.w + dx)); cur.h = Math.max(360, Math.min(900, start.h + dy)); }
+      const patch = {}; patch[key] = cur; self.setState(patch);
+    };
+    this._wUp = function () { self.winDetach(); };
+    window.addEventListener('pointermove', this._wMove);
+    window.addEventListener('pointerup', this._wUp);
+    window.addEventListener('pointercancel', this._wUp);
+    e.preventDefault();
+  }
+  winDefaults() { return { chatWin: { x: 400, y: 120, w: 980, h: 760 }, teamWin: { x: 360, y: 150, w: 980, h: 720 } }; }
+  winBuild(key, hint) {
+    const self = this;
+    const def = this.winDefaults()[key];
+    const st = (this.state && this.state[key]) || {};
+    const RH = 980;
+    const mode = st.mode || 'float';
+    const isFloat = mode === 'float';
+    const w = isFloat ? (st.w || def.w) : 520;
+    const h = isFloat ? (st.h || def.h) : (RH - 69 - 34);
+    const x = st.x !== undefined ? st.x : def.x;
+    const y = st.y !== undefined ? st.y : def.y;
+    const base = 'position:absolute;z-index:10;display:flex;flex-direction:column;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.28);overflow:hidden;background:#FFFFFF;';
+    const style = isFloat
+      ? base + 'left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;height:' + (h + 34) + 'px;transform-origin:100% 100%;animation:genie 320ms cubic-bezier(.2,.8,.2,1);'
+      : base + 'right:0;top:69px;bottom:0;width:' + w + 'px;border-radius:0;box-shadow:-8px 0 24px rgba(19,33,25,0.12);';
+    const BTN = 'width:26px;height:26px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;';
+    const on = BTN + 'background:#2FA968;color:#0E241D;';
+    const off = BTN + 'background:transparent;color:#C9D3CC;';
+    const setMode = function (m) { return function () { const cur = Object.assign({}, st, { mode: m }); const patch = {}; patch[key] = cur; self.setState(patch); }; };
+    return {
+      style: style, w: w, h: h, isFloat: isFloat,
+      barStyle: 'height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 14px;background:#0E241D;cursor:' + (isFloat ? 'grab' : 'default') + ';touch-action:none;user-select:none;',
+      hint: isFloat ? hint + ' · tutup taşıyın, köşeden boyutlandırın' : hint + ' · yan panel',
+      floatBtn: isFloat ? on : off, sideBtn: isFloat ? off : on, fullBtn: off, closeBtn: off,
+      onFloat: setMode('float'), onSide: setMode('side'),
+      onGrab: function (e) { if (isFloat && e.target && !e.target.closest('button,a')) self.winStart(key, 'move', e); },
+      onResize: function (e) { self.winStart(key, 'resize', e); }
+    };
+  }
+  gzValid(area, v) {
+    const d = this.gzAreas()[area];
+    if (!d) return false;
+    const flat = function (x) { return x.top[0].concat(x.top[1], x.full || []).slice().sort().join(','); };
+    return v && v.top && v.top.length === 2 && flat(v) === flat(d);
+  }
+  gzDetach() {
+    if (this._gzMove) window.removeEventListener('pointermove', this._gzMove);
+    if (this._gzUp) { window.removeEventListener('pointerup', this._gzUp); window.removeEventListener('pointercancel', this._gzUp); }
+    this._gzMove = null; this._gzUp = null;
+    try { document.body.style.userSelect = ''; document.body.style.cursor = ''; } catch (err) {}
+  }
+  gzStart(area, zone, id, e) {
+    if (e.button != null && e.button !== 0) return;
+    e.preventDefault();
+    const zoneEl = e.currentTarget.closest('[data-gz="' + zone + '"]');
+    if (!zoneEl) return;
+    const colEls = zone === 'full' ? [zoneEl] : Array.prototype.slice.call(zoneEl.querySelectorAll('[data-gcol="' + zone + '"]'));
+    let fromCol = -1, fromIdx = -1, item = null;
+    const cols = colEls.map(function (c, ci) {
+      const cr = c.getBoundingClientRect();
+      const items = Array.prototype.slice.call(c.querySelectorAll('[data-gi="' + zone + '"]')).map(function (el, ii) {
+        const r = el.getBoundingClientRect();
+        const o = { id: el.getAttribute('data-gid'), top: r.top, left: r.left, w: r.width, h: r.height, mid: r.top + r.height / 2 };
+        if (o.id === id) { fromCol = ci; fromIdx = ii; item = o; }
+        return o;
+      });
+      return { left: cr.left, right: cr.right, items: items };
+    });
+    if (!item) return;
+    const gap = zone === 'full' ? 24 : 16;
+    this._drag = { area: area, zone: zone, id: id, zoneEl: zoneEl, x0: e.clientX, y0: e.clientY, cols: cols, fromCol: fromCol, fromIdx: fromIdx, item: item, h: item.h + gap };
+    this._gzMove = this.gzMove.bind(this);
+    this._gzUp = this.gzEnd.bind(this);
+    window.addEventListener('pointermove', this._gzMove);
+    window.addEventListener('pointerup', this._gzUp);
+    window.addEventListener('pointercancel', this._gzUp);
+    try { document.body.style.userSelect = 'none'; document.body.style.cursor = 'grabbing'; } catch (err) {}
+    this.setState({ gzDrag: { dx: 0, dy: 0, col: fromCol, idx: fromIdx } });
+  }
+  gzMove(e) {
+    const D = this._drag;
+    if (!D) return;
+    const dx = e.clientX - D.x0, dy = e.clientY - D.y0;
+    const cx = D.item.left + dx + D.item.w / 2, cy = D.item.top + dy + D.item.h / 2;
+    let col = 0, best = Infinity;
+    D.cols.forEach(function (c, ci) {
+      const dist = cx < c.left ? c.left - cx : (cx > c.right ? cx - c.right : 0);
+      if (dist < best) { best = dist; col = ci; }
+    });
+    const others = D.cols[col].items.filter(function (o) { return o.id !== D.id; });
+    let idx = 0;
+    others.forEach(function (o) { if (o.mid < cy) idx++; });
+    this.setState({ gzDrag: { dx: dx, dy: dy, col: col, idx: idx } });
+  }
+  gzEnd() {
+    const D = this._drag, g = this.state && this.state.gzDrag;
+    this.gzDetach();
+    if (!D || !g) { this._drag = null; return; }
+    const area = D.area;
+    const cur = (this.state && this.state.gzLayout && this.state.gzLayout[area]) || this.gzAreas()[area];
+    const next = { top: [cur.top[0].slice(), cur.top[1].slice()], full: (cur.full || []).slice() };
+    const lists = D.zone === 'full' ? [next.full] : next.top;
+    lists[D.fromCol].splice(lists[D.fromCol].indexOf(D.id), 1);
+    lists[g.col].splice(g.idx, 0, D.id);
+    this._settle = { zoneEl: D.zoneEl, zone: D.zone, id: D.id, top: D.item.top + g.dy, left: D.item.left + g.dx };
+    this._drag = null;
+    const allLayout = Object.assign({}, this.state && this.state.gzLayout);
+    allLayout[area] = next;
+    try {
+      const raw = {}; const defs = this.gzAreas();
+      Object.keys(defs).forEach(function (a) { raw[a] = allLayout[a] || defs[a]; });
+      window.localStorage.setItem(this.gzStoreKey(), JSON.stringify(raw));
+    } catch (err) {}
+    this.setState({ gzLayout: allLayout, gzDrag: null, gzNoAnim: true });
+  }
+  componentDidUpdate() {
+    const s = this._settle;
+    if (!s) return;
+    this._settle = null;
+    const self = this;
+    const el = s.zoneEl && s.zoneEl.querySelector('[data-gi="' + s.zone + '"][data-gid="' + s.id + '"]');
+    if (!el) { this.setState({ gzNoAnim: false }); return; }
+    const r = el.getBoundingClientRect();
+    el.style.transition = 'none';
+    el.style.zIndex = '40';
+    el.style.transform = 'translate(' + (s.left - r.left) + 'px,' + (s.top - r.top) + 'px) scale(1.015)';
+    el.style.boxShadow = '0 18px 40px rgba(14,36,29,0.18)';
+    el.getBoundingClientRect();
+    requestAnimationFrame(function () {
+      el.style.transition = 'transform 340ms cubic-bezier(.2,.9,.3,1.12), box-shadow 340ms ease';
+      el.style.transform = 'translate(0px,0px) scale(1)';
+      el.style.boxShadow = '0 0 0 rgba(14,36,29,0)';
+      setTimeout(function () {
+        el.style.transition = ''; el.style.transform = ''; el.style.boxShadow = ''; el.style.zIndex = '';
+        self.setState({ gzNoAnim: false });
+      }, 380);
+    });
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#2FA968';
+    const self = this;
+
+    const pageTab = (this.state && this.state.pageTab) || 'genel';
+    const pageBaseBtn = "font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:20px;padding:10px 20px;cursor:pointer;";
+    const pageActiveBtn = pageBaseBtn + 'background:#0E241D;color:#F6F7F5;';
+    const pageInactiveBtn = pageBaseBtn + 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;';
+
+    const projectCasesDef = [
+      {
+        id: 'karatepe',
+        name: 'Karatepe RES',
+        cases: [
+          { name: 'Kamulaştırma Davası', court: 'Ankara 4. İdare Mahkemesi', date: '14 Eki 2026', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+          { name: 'Elektrik Direği İhlali Davası', court: 'Ankara 1. Asliye Hukuk Mahkemesi', date: '20 Kas 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' }
+        ]
+      },
+      {
+        id: 'boztepe',
+        name: 'Boztepe RES',
+        cases: [
+          { name: 'İmar İptali Davası', court: 'Ankara 2. İdare Mahkemesi', date: '28 Eki 2026', status: 'Bilirkişi Bekleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' }
+        ]
+      },
+      {
+        id: 'gunesalan',
+        name: 'Güneşalan GES',
+        cases: [
+          { name: 'Yüklenici Sözleşme İhtilafı', court: 'Ankara 3. Asliye Ticaret Mahkemesi', date: '22 Kas 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' }
+        ]
+      },
+      {
+        id: 'yesilova',
+        name: 'Yeşilova RES',
+        cases: [
+          { name: 'Tazminat Davası', court: 'Çanakkale Asliye Hukuk Mahkemesi', date: '5 Kas 2026', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+          { name: 'Sınır İhlali Davası', court: 'Çanakkale 2. Asliye Hukuk Mahkemesi', date: '18 Ara 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' }
+        ]
+      }
+    ];
+
+    const devProjectCasesDef = [
+      {
+        id: 'kizilova',
+        name: 'Kızılova RES (Geliştirme)',
+        cases: [
+          { name: 'ÇED İtiraz Süreci', court: 'Çevre, Şehircilik ve İklim Değişikliği Bakanlığı', date: '30 Eki 2026', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+          { name: 'Arazi Tahsis Anlaşmazlığı', court: 'Tarım ve Orman Bakanlığı — Bölge Müdürlüğü', date: '12 Kas 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' }
+        ]
+      },
+      {
+        id: 'akyar',
+        name: 'Akyar GES (Geliştirme)',
+        cases: [
+          { name: 'İrtifak Bedeli Tespit Davası', court: 'Asliye Hukuk Mahkemesi', date: '25 Eki 2026', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' }
+        ]
+      },
+      {
+        id: 'demirci',
+        name: 'Demirci RES (Geliştirme)',
+        cases: [
+          { name: 'TEA Olumsuz Görüşüne İtiraz', court: 'ETKB / TEİAŞ', date: '8 Kas 2026', status: 'Bilirkişi Bekleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
+          { name: 'Kamulaştırma Ön İnceleme Süreci', court: 'Ankara 6. İdare Mahkemesi', date: '2 Ara 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' }
+        ]
+      }
+    ];
+
+    const expandedProjects = (this.state && this.state.expandedProjects) || {};
+    function buildProjectCases(defs) {
+      return defs.map(function (p) {
+        const isExpanded = !!expandedProjects[p.id];
+        return {
+          id: p.id,
+          name: p.name,
+          cases: p.cases,
+          countLabel: p.cases.length + ' Süreç',
+          chevron: isExpanded ? '▲' : '▼',
+          expanded: isExpanded,
+          toggle: function () {
+            const next = Object.assign({}, expandedProjects);
+            next[p.id] = !isExpanded;
+            self.setState({ expandedProjects: next });
+          }
+        };
+      });
+    }
+    const projectCases = buildProjectCases(projectCasesDef);
+    const devProjectCases = buildProjectCases(devProjectCasesDef);
+
+    const mevzuat = [
+      { title: "Elektrik Piyasası Lisans Yönetmeliği'nde Değişiklik", date: '18 Eyl 2026', source: 'Resmi Gazete' },
+      { title: 'YEKDEM Tarife Güncellemesi Tebliği', date: '10 Eyl 2026', source: 'EPDK' },
+      { title: 'Çevresel Etki Değerlendirmesi Yönetmeliği Ek Madde', date: '2 Eyl 2026', source: 'Resmi Gazete' }
+    ];
+
+    const bakanlik = [
+      { title: 'Enerji ve Tabii Kaynaklar Bakanlığı — RES/GES Kapasite Artırım Duyurusu', date: '15 Eyl 2026' },
+      { title: 'Çevre, Şehircilik ve İklim Değişikliği Bakanlığı — ÇED Süreç Duyurusu', date: '8 Eyl 2026' },
+      { title: 'Hazine ve Maliye Bakanlığı — Yabancı Yatırım Teşvik Duyurusu', date: '1 Eyl 2026' }
+    ];
+
+    const tasksList = [
+      { title: 'Boztepe RES İmar Davası Dilekçe Hazırlığı', meta: 'Bitiş: 22 Eyl 2026', status: 'Devam Ediyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
+      { title: 'Yıllık Sözleşme Taraması', meta: 'Bitiş: 30 Eyl 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' },
+      { title: 'Denetim Hazırlık Toplantısı', meta: 'Bitiş: 16 Eyl 2026', status: 'Tamamlandı', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' }
+    ];
+
+    const mailsList = [
+      { title: 'Kamulaştırma_Itiraz_Sureci.eml', meta: 'Ankara 4. İdare Mahkemesi Kalemi · 15 Eyl 2026', status: 'Taranmadı', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' },
+      { title: 'Sozlesme_Inceleme_Talebi.eml', meta: 'Proje Finans · 13 Eyl 2026', status: 'Belgeler Tam', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+      { title: 'Dava_Dosyasi_Guncelleme.eml', meta: 'Karşı Taraf Avukatı · 10 Eyl 2026', status: 'Belgeler Eksik', badgeBg: '#FBE7E7', badgeColor: '#B23A3A' }
+    ];
+
+    const talepList = [
+      { title: 'Proje Finans', meta: 'Karatepe RES kredi sözleşmesi kopyasını talep etti · 15 Eyl 2026', status: 'Bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Main.dc.html' },
+      { title: 'Mali İşler', meta: 'İmza sirküleri örneği talep etti · 12 Eyl 2026', status: 'Tamamlandı', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E', href: 'Main.dc.html' }
+    ];
+
+    const davalar = [
+      { name: 'Karatepe RES Kamulaştırma', opponent: 'İdare', next: 'Duruşma 14 Eki', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+      { name: 'Boztepe RES İmar İptali', opponent: 'Belediye', next: 'Bilirkişi Raporu', status: 'Bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
+      { name: 'Yeşilova RES Tazminat', opponent: 'Şahıs', next: 'Duruşma 5 Kas', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' }
+    ];
+
+    const tasksPending = tasksList.filter(function (t) { return t.status !== 'Tamamlandı'; }).length;
+    const mailsPending = mailsList.filter(function (m) { return m.status === 'Taranmadı'; }).length;
+    const talepPending = talepList.filter(function (t) { return t.status !== 'Tamamlandı'; }).length;
+
+    // ---- Gadget düzeni (alan bazlı: genel + pozisyon) ----
+    const gzLayoutState = (this.state && this.state.gzLayout) || {};
+    const gzDragSt = this.state && this.state.gzDrag;
+    const gzD = this._drag;
+    const gzNoAnim = !!(this.state && this.state.gzNoAnim);
+    const gzEase = 'transition:transform 240ms cubic-bezier(.2,.8,.2,1);';
+    const gzAreaDefs = this.gzAreas();
+    const gzItemStyle = function (area, zone, lists, ci, ii, id, gapPx) {
+      const base = 'position:relative;min-width:0;';
+      if (gzDragSt && gzD && gzD.area === area && gzD.zone === zone) {
+        if (id === gzD.id) {
+          return base + 'z-index:40;transform:translate(' + gzDragSt.dx + 'px,' + gzDragSt.dy + 'px) scale(1.015);box-shadow:0 18px 40px rgba(14,36,29,0.18);border-radius:14px;opacity:0.97;transition:box-shadow 160ms ease;';
+        }
+        const others = lists[ci].filter(function (x) { return x !== gzD.id; });
+        let shift = 0;
+        if (ci === gzD.fromCol && ii > gzD.fromIdx) shift -= gzD.h;
+        if (ci === gzDragSt.col && others.indexOf(id) >= gzDragSt.idx) shift += gzD.h;
+        return base + 'transform:translateY(' + shift + 'px);' + gzEase;
+      }
+      return base + (gzNoAnim ? 'transition:none;' : gzEase);
+    };
+    const gzGrab = function (area, zone, id) { return function (e) { self.gzStart(area, zone, id, e); }; };
+    const gzBuildTop = function (area, idFlags, colWidths) {
+      const layout = gzLayoutState[area] || gzAreaDefs[area];
+      const dragging = gzDragSt && gzD && gzD.area === area && gzD.zone === 'top';
+      return layout.top.map(function (ids, ci) {
+        const target = dragging && gzDragSt.col === ci;
+        return {
+          style: 'flex:' + (colWidths ? colWidths[ci] : '1') + ';min-width:0;display:flex;flex-direction:column;gap:16px;min-height:100px;border-radius:16px;transition:outline-color 200ms ease;' + (dragging ? 'outline:2px dashed ' + (target ? accent : '#D5DDD8') + ';outline-offset:8px;' : 'outline:2px dashed transparent;outline-offset:8px;'),
+          isEmpty: ids.length === 0,
+          items: ids.map(function (id, ii) {
+            const item = { id: id, style: gzItemStyle(area, 'top', layout.top, ci, ii, id, 16), onGrab: gzGrab(area, 'top', id) };
+            if (idFlags[id]) item[idFlags[id]] = true;
+            return item;
+          })
+        };
+      });
+    };
+    const gzBuildFull = function (area, idFlags) {
+      const layout = gzLayoutState[area] || gzAreaDefs[area];
+      return (layout.full || []).map(function (id, ii) {
+        const item = { id: id, style: gzItemStyle(area, 'full', [layout.full], 0, ii, id, 24), onGrab: gzGrab(area, 'full', id) };
+        if (idFlags[id]) item[idFlags[id]] = true;
+        return item;
+      });
+    };
+    const gzGenelTop = gzBuildTop('genel', { durusma: 'isDurusma', mevzuat: 'isMevzuat', bakanlik: 'isBakanlik' }, ['1.3', '1']);
+    const gzPozTop = gzBuildTop('pozisyon', { gorevler: 'isGorevler', mailler: 'isMailler', talepler: 'isTalepler', davalar: 'isDavalar' }, ['1', '1']);
+
+    const chatOpen = !!(this.state && this.state.chatOpen);
+    const teamChatOpen = !!(this.state && this.state.teamChatOpen);
+    const anyModalClosed = !chatOpen && !teamChatOpen;
+    const aiAdded = !!(this.state && this.state.aiAdded);
+    const teamNamesLabel = 'Ayşe Yılmaz, Kaan Turhan' + (aiAdded ? ', Balbal' : '');
+
+
+    // Üst bar panelleri + ortak sohbet bileşenleri
+    const shellSt = this.state || {};
+    const searchQ = shellSt.searchQ || '';
+    const searchOpen = !!shellSt.searchOpen;
+    const notifOpen = !!shellSt.notifOpen;
+    const userMenuOpen = !!shellSt.userMenuOpen;
+    const chatAsk = shellSt.chatAsk || '';
+
+    const chatWin = this.winBuild('chatWin', 'Balbal');
+    const teamWin = this.winBuild('teamWin', 'Ekip sohbeti');
+    const sidePad = ((chatOpen && !chatWin.isFloat) || (teamChatOpen && !teamWin.isFloat)) ? 520 : 0;
+    const chatFull = !!(this.state && this.state.chatFull);
+    const pageIsBalbal = chatFull && pageTab === 'balbal';
+    const prevTab = (this.state && this.state.prevTab) || 'genel';
+    const TABB = "font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:20px;padding:8px 18px 8px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;";
+    const balbalVals = {
+      chatWin: chatWin, teamWin: teamWin,
+      balbalTab: chatFull,
+      pageIsBalbal: pageIsBalbal,
+      balbalTabStyle: TABB + (pageIsBalbal ? 'background:#D97706;color:#132119;' : 'background:#FFF4E5;color:#9A4E0A;border:1px solid #F5C892;'),
+      onSelectBalbalTab: function () { self.setState({ pageTab: 'balbal' }); },
+      onBalbalFull: function () { const cur = pageTab; self.setState({ chatFull: true, chatOpen: false, pageTab: 'balbal', prevTab: cur === 'balbal' ? prevTab : cur, notifOpen: false, userMenuOpen: false, searchOpen: false }); },
+      onBalbalToWindow: function () { self.setState({ chatFull: false, chatOpen: true, pageTab: prevTab, chatWin: Object.assign({}, (self.state && self.state.chatWin) || {}, { mode: 'float' }) }); },
+      onBalbalCloseFull: function () { self.setState({ chatFull: false, chatAsk: '', pageTab: prevTab }); },
+      fullW: 1360, fullH: 740,
+      bodyStyle: 'flex: 1; display: flex; flex-direction: column; gap: 24px; padding: 28px ' + (sidePad + 40) + 'px 28px 40px; box-sizing: border-box; min-height: 0; overflow-y: auto; overflow-x: hidden;  transition: padding 220ms ease;',
+      onNotifOpenBalbal: function (q) { self.setState({ notifOpen: false, chatOpen: true, chatFull: false, chatAsk: q || '' }); }
+    };
+    return Object.assign(balbalVals, {
+      chatAsk: chatAsk,
+      searchQ: searchQ,
+      searchOpen: searchOpen,
+      notifOpen: notifOpen,
+      userMenuOpen: userMenuOpen,
+      onSearchInput: function (e) { self.setState({ searchQ: e.target.value, searchOpen: true, notifOpen: false, userMenuOpen: false }); },
+      onSearchFocus: function () { self.setState({ searchOpen: true, notifOpen: false, userMenuOpen: false }); },
+      onCloseSearch: function () { self.setState({ searchOpen: false }); },
+      onAskFromSearch: function (q) { self.setState({ searchOpen: false, chatOpen: true, chatAsk: q }); },
+      onToggleNotif: function () { self.setState({ notifOpen: !notifOpen, userMenuOpen: false, searchOpen: false }); },
+      onCloseNotif: function () { self.setState({ notifOpen: false }); },
+      onNotifOpenTeam: function () { self.setState({ notifOpen: false, teamChatOpen: true }); },
+      onToggleUserMenu: function () { self.setState({ userMenuOpen: !userMenuOpen, notifOpen: false, searchOpen: false }); },
+      onCloseUserMenu: function () { self.setState({ userMenuOpen: false }); },
+      onOpenChat: function () { self.setState({ chatOpen: true, chatAsk: '', notifOpen: false, userMenuOpen: false, searchOpen: false }); },
+      onCloseChat: function () { self.setState({ chatOpen: false, chatAsk: '' }); },
+      onOpenTeamChat: function () { self.setState({ teamChatOpen: true, notifOpen: false, userMenuOpen: false, searchOpen: false }); },
+      onCloseTeamChat: function () { self.setState({ teamChatOpen: false }); },
+      accent: accent,
+      pageIsGenel: pageTab === 'genel',
+      pageIsPozisyon: pageTab === 'pozisyon',
+      pageGenelBtnStyle: pageTab === 'genel' ? pageActiveBtn : pageInactiveBtn,
+      pagePozisyonBtnStyle: pageTab === 'pozisyon' ? pageActiveBtn : pageInactiveBtn,
+      onSelectPageGenel: function () { self.setState({ pageTab: 'genel' }); },
+      onSelectPagePozisyon: function () { self.setState({ pageTab: 'pozisyon' }); },
+      projectCases: projectCases,
+      devProjectCases: devProjectCases,
+      mevzuat: mevzuat,
+      bakanlik: bakanlik,
+      tasksList: tasksList,
+      mailsList: mailsList,
+      talepList: talepList,
+      davalar: davalar,
+      gzGenelTop: gzGenelTop,
+      gzPozTop: gzPozTop,
+      tasksPendingLabel: tasksPending + ' Bekliyor',
+      mailsPendingLabel: mailsPending + ' Bekliyor',
+      talepPendingLabel: talepPending + ' Bekliyor',
+      chatOpen: chatOpen,
+      teamChatOpen: teamChatOpen,
+      anyModalClosed: anyModalClosed,
+      aiAdded: aiAdded,
+      aiAddable: !aiAdded,
+      teamNamesLabel: teamNamesLabel,
+      onAddAi: function () { self.setState({ aiAdded: true }); }
+    });
+  }
+}
+</script>
+</body>
+</html>

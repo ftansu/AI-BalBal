@@ -1,0 +1,1401 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>İK — Şirket Yapısı (şema çalışması, onay, kişi yerleşimi, devreye alma)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+a{color:inherit;text-decoration:none}
+select,input{font-family:'IBM Plex Sans',sans-serif}
+</style>
+</helmet>
+
+<div style="{{rootStyle}}">
+
+  <!-- Üst çubuk (yalnızca tek başına açıldığında; İK sayfasında sekme içinde gizli) -->
+  <sc-if value="{{standalone}}" hint-placeholder-val="{{true}}">
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="Ana-Sayfa-IK.dc.html" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#C9D3CC;"><span aria-hidden="true">←</span> İK Ana Sayfası</a>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <img src="/_blob/971aff4c7613d55ac58efe53b0a7a61a" alt="XYZ Enerji" style="width:34px;height:34px;border-radius:8px;object-fit:cover;flex-shrink:0;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;letter-spacing:0.2px;">XYZ Enerji A.Ş. Platformu</div>
+      </div>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#2FA968;display:inline-block;"></span>
+        <div style="font-size:14px;font-weight:600;">İK Departmanı · Şirket Yapısı</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="text-align:right;">
+        <div style="font-size:13px;font-weight:600;line-height:1.2;">Zeynep Koç</div>
+        <div style="font-size:11px;color:#9FB0A6;line-height:1.2;">İK Uzmanı · Departman yöneticisi</div>
+      </div>
+      <div aria-hidden="true" style="width:36px;height:36px;border-radius:50%;background:#D97706;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FFFFFF;">ZK</div>
+    </div>
+  </div>
+
+  </sc-if>
+
+  <div style="{{bodyStyle}}">
+
+    <sc-if value="{{showHead}}" hint-placeholder-val="{{true}}">
+    <!-- Başlık + süreç adımları -->
+    <div style="display:flex;align-items:center;gap:18px;flex-shrink:0;flex-wrap:wrap;">
+      <div style="display:flex;flex-direction:column;gap:2px;min-width:230px;">
+        <div style="display:flex;align-items:center;gap:10px;"><div style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;">Şirket Yapısı</div>
+        </div>
+        <div style="font-size:12.5px;color:#5B6B60;">{{verLine}}</div>
+      </div>
+      <div style="flex:1;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+        <sc-for list="{{steps}}" as="s" hint-placeholder-count="5">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div style="{{s.boxStyle}}">
+              <span style="{{s.numStyle}}">{{s.num}}</span>
+              <span style="display:flex;flex-direction:column;line-height:1.2;">
+                <span style="font-size:13px;font-weight:600;">{{s.label}}</span>
+                <span style="{{s.subStyle}}">{{s.sub}}</span>
+              </span>
+            </div>
+            <sc-if value="{{s.arrow}}" hint-placeholder-val="{{true}}"><span aria-hidden="true" style="color:#9FB0A6;">→</span></sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- Görünüm seçimi + durum şeridi -->
+    <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;flex-wrap:wrap;">
+      <div role="tablist" aria-label="Şema görünümü" style="display:flex;gap:4px;background:#FFFFFF;border:1px solid #D6E4DA;border-radius:12px;padding:4px;">
+        <sc-for list="{{views}}" as="v" hint-placeholder-count="2">
+          <button role="tab" onClick="{{v.select}}" style="{{v.style}}">{{v.label}}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{canTogglePeople}}" hint-placeholder-val="{{false}}">
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#132119;cursor:pointer;"><input type="checkbox" checked="{{showPeopleLive}}" onChange="{{onTogglePeople}}" style="width:16px;height:16px;accent-color:#2FA968;">Kişileri göster</label>
+      </sc-if>
+    </div>
+
+    </sc-if>
+    <!-- Ana alan: ağaç + sağ panel -->
+    <div style="flex:1;min-height:0;display:flex;gap:16px;">
+
+      <!-- AĞAÇ -->
+      <div ref="{{treeRef}}" tabIndex="-1" onKeyDown="{{onTreeKey}}" style="{{treeCardStyle}}">
+        <div style="padding:12px 20px;border-bottom:1px solid #E9EDEA;display:flex;align-items:center;gap:14px;flex-shrink:0;flex-wrap:wrap;">
+          <div style="font-size:14px;font-weight:600;">{{treeTitle}}</div>
+          <span style="flex:1;"></span>
+          <sc-if value="{{treeNotFull}}" hint-placeholder-val="{{true}}">
+            <button onClick="{{onTreeFull}}" aria-label="Ağacı tam ekran aç" title="Tam ekran" style="display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;border:1px solid #D6E4DA;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;color:#132119;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>Tam ekran</button>
+          </sc-if>
+          <sc-if value="{{treeFull}}" hint-placeholder-val="{{false}}">
+            <span style="font-size:11.5px;color:#8A968E;">Esc ile çık</span>
+            <button onClick="{{onTreeClose}}" aria-label="Tam ekrandan çık" style="width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;background:#FFFFFF;border:1px solid #D6E4DA;border-radius:8px;cursor:pointer;color:#132119;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+          </sc-if>
+        </div>
+        <div style="flex:1;min-height:0;overflow:auto;">
+          <sc-for list="{{trees}}" as="tr" hint-placeholder-count="1">
+          <div style="display:flex;flex-direction:column;align-items:center;min-width:100%;width:max-content;box-sizing:border-box;padding:22px 20px 28px;">
+            <sc-if value="{{tr.hasTitle}}" hint-placeholder-val="{{false}}"><div style="{{tr.titleStyle}}">{{tr.title}}</div></sc-if>
+
+            <!-- Kök: Yönetim Kurulu -->
+            <button onClick="{{tr.root.select}}" style="{{tr.root.style}}">
+              <span style="font-size:11px;font-weight:600;letter-spacing:0.6px;text-transform:uppercase;color:#C9D3CC;">{{tr.root.typeLbl}}</span>
+              <span style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;">{{tr.root.name}}</span>
+              <span style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;"><sc-for list="{{tr.root.badges}}" as="b" hint-placeholder-count="0"><span style="{{b.style}}">{{b.t}}</span></sc-for></span>
+            </button>
+            <div style="width:2px;height:18px;background:#B9C9BE;"></div>
+
+            <!-- 1. seviye (Genel Müdür ve YK'ya doğrudan bağlı kollar) -->
+            <div style="display:flex;gap:14px;align-items:flex-start;">
+              <sc-for list="{{tr.l1}}" as="m" hint-placeholder-count="1">
+                <button onClick="{{m.select}}" style="{{m.style}}">
+                  <span style="font-size:11px;font-weight:600;letter-spacing:0.6px;text-transform:uppercase;color:#5B6B60;">{{m.typeLbl}}</span>
+                  <span style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;">{{m.name}}</span>
+                  <sc-if value="{{m.hasPeople}}" hint-placeholder-val="{{false}}"><span style="{{m.peopleStyle}}">{{m.people}}</span></sc-if>
+                  <span style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;"><sc-for list="{{m.badges}}" as="b" hint-placeholder-count="0"><span style="{{b.style}}">{{b.t}}</span></sc-for></span>
+                </button>
+              </sc-for>
+            </div>
+            <div style="width:2px;height:18px;background:#B9C9BE;"></div>
+
+            <!-- Departman kolları -->
+            <div style="display:flex;align-items:flex-start;">
+              <sc-for list="{{tr.cols}}" as="c" hint-placeholder-count="6">
+                <div style="{{c.colStyle}}">
+                  <div style="position:relative;height:16px;">
+                    <span style="{{c.lineL}}"></span><span style="{{c.lineR}}"></span>
+                    <span style="position:absolute;left:50%;top:0;width:2px;height:16px;margin-left:-1px;background:#B9C9BE;"></span>
+                  </div>
+                  <div style="padding:0 6px;display:flex;flex-direction:column;gap:6px;">
+                    <button onClick="{{c.head.select}}" style="{{c.head.style}}">
+                      <span style="font-size:10.5px;font-weight:600;letter-spacing:0.6px;text-transform:uppercase;color:#9FB0A6;">{{c.head.typeLbl}}</span>
+                      <span style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;line-height:1.2;">{{c.head.name}}</span>
+                      <span style="font-size:11px;color:#C9D3CC;">{{c.head.sub}}</span>
+                      <span style="display:flex;gap:4px;flex-wrap:wrap;"><sc-for list="{{c.head.badges}}" as="b" hint-placeholder-count="0"><span style="{{b.style}}">{{b.t}}</span></sc-for></span>
+                    </button>
+                    <sc-for list="{{c.rows}}" as="r" hint-placeholder-count="3">
+                      <div style="{{r.wrapStyle}}">
+                        <button onClick="{{r.select}}" style="{{r.style}}">
+                          <span style="{{r.typeStyle}}">{{r.typeLbl}}</span>
+                          <span style="font-size:12.5px;font-weight:600;line-height:1.3;">{{r.name}}</span>
+                          <sc-if value="{{r.hasPeople}}" hint-placeholder-val="{{false}}"><span style="{{r.peopleStyle}}">{{r.people}}</span></sc-if>
+                          <span style="display:flex;gap:4px;flex-wrap:wrap;"><sc-for list="{{r.badges}}" as="b" hint-placeholder-count="0"><span style="{{b.style}}">{{b.t}}</span></sc-for></span>
+                        </button>
+                      </div>
+                    </sc-for>
+                    <sc-if value="{{c.hasSubs}}" hint-placeholder-val="{{false}}">
+                      <div style="display:flex;gap:8px;align-items:flex-start;margin-top:2px;">
+                        <sc-for list="{{c.subs}}" as="sb" hint-placeholder-count="2">
+                          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+                            <button onClick="{{sb.head.select}}" style="{{sb.head.style}}">
+                              <span style="font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#1E6B3E;">{{sb.head.typeLbl}}</span>
+                              <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;line-height:1.2;">{{sb.head.name}}</span>
+                              <span style="font-size:11px;color:#5B6B60;">{{sb.head.sub}}</span>
+                              <span style="display:flex;gap:4px;flex-wrap:wrap;"><sc-for list="{{sb.head.badges}}" as="b" hint-placeholder-count="0"><span style="{{b.style}}">{{b.t}}</span></sc-for></span>
+                            </button>
+                            <sc-for list="{{sb.rows}}" as="r" hint-placeholder-count="3">
+                              <div style="{{r.wrapStyle}}">
+                                <button onClick="{{r.select}}" style="{{r.style}}">
+                                  <span style="{{r.typeStyle}}">{{r.typeLbl}}</span>
+                                  <span style="font-size:12.5px;font-weight:600;line-height:1.3;">{{r.name}}</span>
+                                  <sc-if value="{{r.hasPeople}}" hint-placeholder-val="{{false}}"><span style="{{r.peopleStyle}}">{{r.people}}</span></sc-if>
+                                  <span style="display:flex;gap:4px;flex-wrap:wrap;"><sc-for list="{{r.badges}}" as="b" hint-placeholder-count="0"><span style="{{b.style}}">{{b.t}}</span></sc-for></span>
+                                </button>
+                              </div>
+                            </sc-for>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+
+          </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{showRp}}" hint-placeholder-val="{{true}}">
+      <!-- SAĞ PANEL -->
+      <div style="width:372px;flex-shrink:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+        <div style="flex:1;min-height:0;overflow-y:auto;padding:16px 18px 18px;display:flex;flex-direction:column;gap:14px;">
+
+          <!-- Sağ panel sayfaları: Seçili Kol · Balbal (yalnızca şema çalışmasında) -->
+          <sc-if value="{{pEdit}}" hint-placeholder-val="{{true}}">
+            <div role="tablist" aria-label="Sağ panel" style="display:flex;gap:6px;flex-shrink:0;">
+              <button role="tab" onClick="{{rpGoKol}}" style="{{rpKolStyle}}">Seçili Kol</button>
+              <button role="tab" onClick="{{rpGoBalbal}}" style="{{rpBalbalStyle}}"><img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:16px;height:16px;border-radius:50%;object-fit:contain;">Balbal</button>
+            </div>
+          </sc-if>
+
+          <!-- Balbal — Hiyerarşi Düzenleyici (yalnızca şema çalışmasında) -->
+          <sc-if value="{{rpBalbal}}" hint-placeholder-val="{{true}}">
+            <div style="flex:1 1 auto;min-height:0;border:1px solid #F5D3A8;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;">
+              <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#FFF8EF;border-bottom:1px solid #F5D3A8;">
+                <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:contain;">
+                <div style="flex:1;min-width:0;font-size:13.5px;font-weight:700;color:#132119;">Balbal — Hiyerarşi Düzenleyici</div>
+              </div>
+              <div style="flex:1;min-height:0;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:8px;">
+                <sc-for list="{{hdLog}}" as="lg" hint-placeholder-count="1">
+                  <div style="{{lg.style}}">{{lg.text}}</div>
+                </sc-for>
+                <sc-if value="{{hdHasPending}}" hint-placeholder-val="{{false}}">
+                  <div style="border:1px solid #E1E7E2;border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;">
+                    <div style="font-size:12.5px;line-height:1.45;">{{hdPendingText}}</div>
+                    <div style="display:flex;gap:6px;">
+                      <button onClick="{{hdApply}}" style="flex:1;background:#2FA968;border:none;border-radius:8px;padding:7px 10px;font-size:12.5px;font-weight:600;color:#0E241D;cursor:pointer;">Taslağa uygula</button>
+                      <button onClick="{{hdCancel}}" style="flex:1;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:8px;padding:7px 10px;font-size:12.5px;font-weight:600;color:#5B6B60;cursor:pointer;">Vazgeç</button>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+              <sc-if value="{{hdHasSel}}" hint-placeholder-val="{{false}}">
+                <div style="display:flex;align-items:center;gap:6px;padding:6px 12px 0;font-size:11.5px;color:#5B6B60;">Ağaçta seçili: <span style="font-weight:700;color:#132119;background:#F0F2F0;border-radius:6px;padding:2px 7px;">{{hdSelName}}</span><button onClick="{{hdClearSel}}" aria-label="Seçimi kaldır" style="border:none;background:none;cursor:pointer;color:#8A968E;font-size:14px;padding:0 4px;">×</button></div>
+              </sc-if>
+              <div style="display:flex;gap:6px;padding:8px 12px;border-top:1px solid #F0F2F0;">
+                <label for="hd-in" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Balbal'a yapı değişikliğini anlatın</label>
+                <input id="hd-in" type="text" value="{{hdInput}}" onInput="{{onHdInput}}" onKeyDown="{{onHdKey}}" placeholder="{{hdPlaceholder}}" style="flex:1;min-width:0;height:36px;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:8px;padding:0 10px;font-size:12.5px;color:#132119;">
+                <button onClick="{{hdSend}}" style="background:#D97706;border:none;border-radius:8px;padding:0 12px;height:36px;font-size:12.5px;font-weight:600;color:#FFFFFF;cursor:pointer;">Gönder</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{pEdit}}" hint-placeholder-val="{{true}}">
+            <div style="flex-shrink:0;display:flex;flex-direction:column;gap:6px;">
+              <button onClick="{{onSendYk}}" disabled="{{sendDisabled}}" style="{{sendBtnStyle}}">YK onayına gönder · {{changeCount}}</button>
+            </div>
+          </sc-if>
+
+          <!-- Seçili kol (düzenleme dışındaki görünümlerde; şema çalışmasında yerini Balbal alır) -->
+          <sc-if value="{{showSelBox}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="font-size:11.5px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:#8A968E;">Seçili kol</div>
+            <sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}">
+              <div style="background:#F6F9F7;border:1px solid #E1E7E2;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;align-items:center;gap:8px;"><span style="{{selInfo.typeStyle}}">{{selInfo.typeLbl}}</span><span style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;">{{selInfo.name}}</span></div>
+                <sc-for list="{{selInfo.facts}}" as="f" hint-placeholder-count="3">
+                  <div style="display:flex;gap:8px;font-size:12.5px;line-height:1.4;"><span style="width:118px;flex-shrink:0;color:#8A968E;">{{f.k}}</span><span style="color:#132119;font-weight:500;">{{f.v}}</span></div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{selShowPeople}}" hint-placeholder-val="{{true}}">
+              <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
+                <div style="display:flex;align-items:baseline;gap:8px;">
+                  <div style="font-size:11.5px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:#8A968E;">Çalışanlar</div>
+                  <span style="font-size:12px;color:#8A968E;">{{selFill}}</span>
+                </div>
+                <sc-for list="{{selPeople}}" as="sp" hint-placeholder-count="2">
+                  <button onClick="{{sp.open}}" aria-label="{{sp.aria}}" style="display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:12px;padding:9px 10px;cursor:pointer;font-family:inherit;color:#132119;">
+                    <span style="width:32px;height:32px;border-radius:50%;background:#E7F3EB;color:#14401F;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">{{sp.ini}}</span>
+                    <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;">
+                      <span style="font-size:13px;font-weight:600;">{{sp.name}}</span>
+                      <span style="font-size:11.5px;color:#5B6B60;">{{sp.sub}}</span>
+                    </span>
+                    <span style="{{sp.fileStyle}}">{{sp.file}}</span>
+                    <span aria-hidden="true" style="color:#9FB0A6;font-size:14px;">›</span>
+                  </button>
+                </sc-for>
+                <sc-if value="{{selPeopleEmpty}}" hint-placeholder-val="{{false}}">
+                  <div style="font-size:12.5px;color:#7A2323;background:#FBEAEA;border-radius:10px;padding:8px 10px;">Boş pozisyon</div>
+                </sc-if>
+              </div>
+            </sc-if>
+            <sc-if value="{{noSel}}" hint-placeholder-val="{{false}}">
+              <div style="font-size:12.5px;color:#8A968E;line-height:1.5;">Ağaçta bir kola tıklayın.</div>
+            </sc-if>
+            <sc-if value="{{selHasChanges}}" hint-placeholder-val="{{false}}">
+              <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
+                <div style="font-size:11.5px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:#8A968E;">Bu kolda yapılan değişiklikler</div>
+                <sc-for list="{{selChanges}}" as="sc" hint-placeholder-count="1">
+                  <div style="display:flex;align-items:flex-start;gap:8px;font-size:12.5px;line-height:1.45;"><span style="{{sc.style}}">{{sc.tag}}</span><span>{{sc.text}}</span></div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{selToBalbal}}" hint-placeholder-val="{{false}}">
+              <button onClick="{{rpGoBalbal}}" style="margin-top:6px;align-self:flex-start;display:inline-flex;align-items:center;gap:6px;background:#FFF8EF;border:1px solid #F5D3A8;border-radius:8px;padding:7px 12px;font-size:12.5px;font-weight:600;color:#9A6B12;cursor:pointer;">Bu kol için Balbal'a yaz</button>
+            </sc-if>
+          </div>
+
+          </sc-if>
+
+          <!-- YÜRÜRLÜKTEKİ / ÖNCEKİ: salt okunur -->
+          <sc-if value="{{pReadOnly}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="font-size:12.5px;color:#5B6B60;line-height:1.55;">{{readOnlyText}}</div>
+              <sc-if value="{{canGoDraft}}" hint-placeholder-val="{{true}}">
+                <button onClick="{{goDraft}}" style="background:#0E241D;border:none;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#F6F7F5;cursor:pointer;text-align:center;">{{goDraftLabel}}</button>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- 1) ŞEMA ÇALIŞMASI: İK düzenler -->
+          <sc-if value="{{pEdit}}" hint-placeholder-val="{{true}}">
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <sc-if value="{{hasYkNote}}" hint-placeholder-val="{{false}}">
+                <div role="status" style="font-size:12.5px;line-height:1.5;color:#7A2323;background:#FBEAEA;border-radius:10px;padding:10px 12px;">{{ykNote}}</div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- Taslaktaki değişiklikler (1 ve 2. adımda) -->
+          <sc-if value="{{pChanges}}" hint-placeholder-val="{{true}}">
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:baseline;gap:8px;">
+                <div style="font-size:13px;font-weight:600;">Yürürlükteki şemaya göre değişiklikler</div>
+                <span style="font-size:12px;color:#8A968E;">{{changeCount}}</span>
+                <span style="flex:1;"></span>
+                <sc-if value="{{pEdit}}" hint-placeholder-val="{{true}}"><button onClick="{{onReset}}" style="background:none;border:none;padding:0;font-size:12px;font-weight:600;color:#5B6B60;cursor:pointer;text-decoration:underline;">Taslağı sıfırla</button></sc-if>
+              </div>
+              <sc-for list="{{changes}}" as="ch" hint-placeholder-count="4">
+                <div style="display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border:1px solid #EEF1EE;border-radius:10px;">
+                  <span style="{{ch.style}}">{{ch.tag}}</span>
+                  <span style="flex:1;min-width:0;font-size:12.5px;line-height:1.45;">{{ch.text}}</span>
+                  <sc-if value="{{ch.showUndo}}" hint-placeholder-val="{{true}}"><button onClick="{{ch.undo}}" disabled="{{ch.undoOff}}" style="{{ch.undoStyle}}">Geri al</button></sc-if>
+                </div>
+              </sc-for>
+              <sc-if value="{{noChanges}}" hint-placeholder-val="{{false}}">
+                <div style="font-size:12.5px;color:#8A968E;">Henüz değişiklik yok. Çalışma kopyası yürürlükteki şemanın aynısı.</div>
+              </sc-if>
+              <sc-if value="{{pEdit}}" hint-placeholder-val="{{true}}">
+                <button onClick="{{onSendYk}}" disabled="{{sendDisabled}}" style="{{sendBtnStyle}}">YK onayına gönder</button>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- 2) YK ŞEMA ONAYI -->
+          <sc-if value="{{pYk}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;flex-direction:column;gap:10px;background:#FBF1DE;border-radius:12px;padding:12px 14px;">
+              <div style="font-size:13px;font-weight:700;color:#7A4E0B;">YK onayı bekleniyor</div>
+              <div style="font-size:12.5px;line-height:1.5;color:#5B4A2A;">Taslak kilitli, YK'ya gönderildi.</div>
+              <div style="font-size:11.5px;font-weight:600;color:#7A4E0B;">YK üyesi ekranı (demo)</div>
+              <div style="display:flex;gap:8px;">
+                <button onClick="{{onYkApprove}}" style="flex:1;background:#2FA968;border:none;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;color:#0E241D;cursor:pointer;">Şemayı onayla</button>
+                <button onClick="{{onYkRevise}}" style="flex:1;background:#FFFFFF;border:1px solid #E6C98F;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;color:#7A4E0B;cursor:pointer;">Revizyon iste</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- 3) KİŞİ YERLEŞİMİ -->
+          <sc-if value="{{pAtama}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;flex-direction:column;gap:12px;">
+
+              <sc-if value="{{selIsPozAtama}}" hint-placeholder-val="{{true}}">
+                <div style="display:flex;flex-direction:column;gap:8px;border:1px solid #E1E7E2;border-radius:12px;padding:12px 14px;">
+                  <div style="font-size:13px;font-weight:600;">Bu pozisyondaki kişiler</div>
+                  <sc-for list="{{selHolders}}" as="h" hint-placeholder-count="1">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:13px;">
+                      <span style="width:26px;height:26px;border-radius:50%;background:#E7F3EB;color:#14401F;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;">{{h.ini}}</span>
+                      <button onClick="{{h.open}}" style="flex:1;text-align:left;background:none;border:none;padding:0;font-family:inherit;font-size:13px;font-weight:500;color:#132119;cursor:pointer;text-decoration:underline;text-decoration-color:#C9D3CC;text-underline-offset:3px;">{{h.name}}</button>
+                      <button onClick="{{h.remove}}" style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:600;color:#7A2323;cursor:pointer;">Çıkar</button>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{selEmpty}}" hint-placeholder-val="{{false}}"><div style="font-size:12.5px;color:#7A2323;">Boş. Onay zincirinde atlanır; onay bir üst pozisyona geçer.</div></sc-if>
+                </div>
+              </sc-if>
+              <sc-if value="{{selNotPozAtama}}" hint-placeholder-val="{{false}}">
+                <div style="font-size:12.5px;color:#8A968E;">Kişi yerleştirmek için ağaçta bir pozisyon seçin.</div>
+              </sc-if>
+
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="font-size:13px;font-weight:600;">Çalışanlar <span style="font-weight:400;color:#8A968E;font-size:12px;">· tıklayınca seçili pozisyona yerleşir</span></div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                  <sc-for list="{{peopleBtns}}" as="pb" hint-placeholder-count="8">
+                    <button onClick="{{pb.assign}}" disabled="{{pb.off}}" style="{{pb.style}}">{{pb.label}}</button>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="font-size:13px;font-weight:600;">Boş pozisyonlar <span style="font-weight:400;color:#8A968E;font-size:12px;">{{emptyCount}}</span></div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                  <sc-for list="{{emptyPoz}}" as="ep" hint-placeholder-count="2">
+                    <button onClick="{{ep.select}}" style="background:#FBEAEA;border:none;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:600;color:#7A2323;cursor:pointer;">{{ep.name}}</button>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="font-size:13px;font-weight:600;">Yürürlüğe göre değişen kişiler <span style="font-weight:400;color:#8A968E;font-size:12px;">{{movedCount}}</span></div>
+                <sc-for list="{{movedPeople}}" as="mp" hint-placeholder-count="2">
+                  <div style="font-size:12.5px;line-height:1.45;color:#132119;padding:6px 10px;background:#F6F9F7;border-radius:8px;">{{mp.text}}</div>
+                </sc-for>
+              </div>
+
+              <button onClick="{{onSendPeople}}" disabled="{{sendPeopleDisabled}}" style="{{sendPeopleStyle}}">Kişi onayına gönder (YK)</button>
+              <div style="font-size:11.5px;color:#8A968E;line-height:1.45;">{{sendPeopleHint}}</div>
+            </div>
+          </sc-if>
+
+          <!-- 4) KİŞİ ONAYI -->
+          <sc-if value="{{pKisiOnay}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;flex-direction:column;gap:10px;background:#FBF1DE;border-radius:12px;padding:12px 14px;">
+              <div style="font-size:13px;font-weight:700;color:#7A4E0B;">Kişi yerleşimi YK onayında</div>
+              <div style="font-size:12.5px;line-height:1.5;color:#5B4A2A;">{{kisiOnayText}}</div>
+              <div style="font-size:11.5px;font-weight:600;color:#7A4E0B;">YK üyesi ekranı (demo)</div>
+              <div style="display:flex;gap:8px;">
+                <button onClick="{{onPeopleApprove}}" style="flex:1;background:#2FA968;border:none;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;color:#0E241D;cursor:pointer;">Kişileri onayla</button>
+                <button onClick="{{onPeopleRevise}}" style="flex:1;background:#FFFFFF;border:1px solid #E6C98F;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;color:#7A4E0B;cursor:pointer;">Revizyon iste</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- 5) DEVREYE ALMA -->
+          <sc-if value="{{pHazir}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="font-size:12.5px;color:#5B6B60;line-height:1.5;">Devreye alınca güncellenecekler:</div>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="font-size:13px;font-weight:600;">Güncellenecek tetik noktaları</div>
+                <sc-for list="{{triggers}}" as="tg" hint-placeholder-count="4">
+                  <div style="border:1px solid #EEF1EE;border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:3px;">
+                    <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:12.5px;font-weight:600;flex:1;">{{tg.head}}</span><span style="{{tg.countStyle}}">{{tg.count}}</span></div>
+                    <sc-for list="{{tg.lines}}" as="tl" hint-placeholder-count="1"><div style="font-size:12px;color:#5B6B60;line-height:1.45;">{{tl}}</div></sc-for>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;background:#FBEAEA;border-radius:12px;padding:10px 12px;">
+                <div style="font-size:13px;font-weight:700;color:#7A2323;">Klasör yetkileriyle uyumsuzluk: {{mmCount}}</div>
+                <sc-for list="{{mismatches}}" as="mm" hint-placeholder-count="3"><div style="font-size:12px;color:#5B2A2A;line-height:1.45;">• {{mm.title}}</div></sc-for>
+                <div style="font-size:11.5px;color:#7A2323;line-height:1.45;">Yönetim paneline uyarı olarak düşer.</div>
+              </div>
+              <button onClick="{{onGoLive}}" style="background:#0E241D;border:none;border-radius:10px;padding:12px 14px;font-size:13.5px;font-weight:600;color:#F6F7F5;cursor:pointer;">Devreye al</button>
+            </div>
+          </sc-if>
+
+          <!-- Devreye alındı -->
+          <sc-if value="{{pCanli}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div role="status" style="background:#E7F3EB;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;">
+                <div style="font-size:13px;font-weight:700;color:#14401F;">v{{liveVer}} devreye alındı · 05.10.2026</div>
+                <div style="font-size:12.5px;line-height:1.5;color:#14401F;">{{liveText}}</div>
+              </div>
+              <a href="Yonetim-Yapi-Uyum.dc.html" style="display:block;background:#FBEAEA;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;color:#7A2323;">Yönetim panelinde {{mmCount}} uyumsuzluk açıldı → görüntüle</a>
+              <button onClick="{{onNewStudy}}" style="background:#FFFFFF;border:1px solid #D6E4DA;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#132119;cursor:pointer;">Yeni şema çalışması başlat</button>
+            </div>
+          </sc-if>
+
+        </div>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <!-- KİŞİ KARTI (ortada) -->
+  <sc-if value="{{cardOpen}}" hint-placeholder-val="{{false}}">
+  <div onClick="{{cardClose}}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:50;background:rgba(14,36,29,0.45);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;">
+    <div ref="{{cardRef}}" tabIndex="-1" role="dialog" aria-modal="true" aria-label="{{card.name}}" onClick="{{cardStop}}" onKeyDown="{{cardKey}}" style="width:820px;max-width:100%;max-height:100%;background:#F6F9F7;border-radius:18px;box-shadow:0 24px 60px rgba(14,36,29,0.35);display:flex;flex-direction:column;overflow:hidden;outline:none;">
+
+      <div style="flex-shrink:0;display:flex;align-items:center;gap:14px;padding:18px 22px;background:#0E241D;color:#F6F7F5;">
+        <div aria-hidden="true" style="width:52px;height:52px;border-radius:50%;background:#2FA968;color:#0E241D;font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">{{card.ini}}</div>
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:700;line-height:1.2;">{{card.name}}</div>
+          <div style="font-size:13px;color:#C9D3CC;">{{card.pos}} · {{card.dept}}</div>
+        </div>
+        <span style="{{card.roleStyle}}">{{card.role}}</span>
+        <span style="font-size:11.5px;font-weight:700;border-radius:6px;padding:4px 9px;color:#14401F;background:#DDF3E4;">Aktif</span>
+        <button onClick="{{cardClose}}" aria-label="Kartı kapat" style="width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid #28483A;border-radius:10px;cursor:pointer;color:#F6F7F5;flex-shrink:0;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+      </div>
+
+      <div style="flex:1;min-height:0;overflow-y:auto;padding:16px 18px 18px;display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start;">
+
+        <!-- Görev bilgisi -->
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:#8A968E;">Görev</div>
+          <sc-for list="{{card.facts}}" as="f" hint-placeholder-count="4">
+            <div style="display:flex;gap:10px;font-size:13px;line-height:1.4;"><span style="width:96px;flex-shrink:0;color:#8A968E;">{{f.k}}</span><span style="font-weight:500;">{{f.v}}</span></div>
+          </sc-for>
+        </div>
+
+        <!-- Yöneticileri -->
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:#8A968E;">Yöneticileri</div>
+          <sc-for list="{{card.chain}}" as="m" hint-placeholder-count="3">
+            <div style="display:flex;gap:10px;align-items:stretch;">
+              <div style="width:12px;display:flex;flex-direction:column;align-items:center;flex-shrink:0;">
+                <span style="{{m.dot}}"></span>
+                <sc-if value="{{m.line}}" hint-placeholder-val="{{true}}"><span style="flex:1;width:2px;background:#D6E4DA;margin-top:2px;"></span></sc-if>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:1px;padding-bottom:6px;min-width:0;">
+                <span style="font-size:11px;font-weight:600;color:#8A968E;">{{m.lbl}}</span>
+                <span style="{{m.nameStyle}}">{{m.who}}</span>
+                <span style="font-size:12px;color:#5B6B60;">{{m.pos}}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- Görev tanımı -->
+        <div style="grid-column:1 / -1;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:#8A968E;">Görev tanımı</div>
+          <div style="font-size:13px;line-height:1.55;">{{card.jd}}</div>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <sc-for list="{{card.jdItems}}" as="j" hint-placeholder-count="3">
+              <div style="display:flex;gap:8px;font-size:12.5px;line-height:1.5;color:#132119;"><span aria-hidden="true" style="color:#2FA968;font-weight:700;">•</span><span>{{j}}</span></div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- Güncel maaş -->
+        <div style="grid-column:1 / -1;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:#8A968E;">Güncel maaş · aylık</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+            <sc-for list="{{card.pay}}" as="py" hint-placeholder-count="3">
+              <div style="background:#F6F9F7;border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;">
+                <span style="font-size:12px;color:#5B6B60;">{{py.k}}</span>
+                <span style="{{py.vStyle}}">{{py.v}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- Kıdem ve ihbar -->
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:baseline;gap:8px;">
+            <div style="font-size:11.5px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:#8A968E;flex:1;">Biriken kıdem ve ihbar</div>
+            <span style="font-size:11px;color:#8A968E;">{{card.sevDate}}</span>
+          </div>
+          <sc-for list="{{card.sev}}" as="v" hint-placeholder-count="3">
+            <div style="display:flex;align-items:baseline;gap:10px;">
+              <span style="flex:1;display:flex;flex-direction:column;gap:1px;"><span style="font-size:13px;font-weight:500;">{{v.k}}</span><span style="font-size:11.5px;color:#8A968E;">{{v.note}}</span></span>
+              <span style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;white-space:nowrap;">{{v.v}}</span>
+            </div>
+          </sc-for>
+          <div style="display:flex;align-items:baseline;gap:10px;border-top:1px solid #E9EDEA;padding-top:10px;">
+            <span style="flex:1;font-size:13px;font-weight:700;">Toplam</span>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:#7A2323;white-space:nowrap;">{{card.sevTotal}}</span>
+          </div>
+        </div>
+
+        <!-- Personel dosyası -->
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:11.5px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:#8A968E;flex:1;">Personel dosyası</div>
+            <span style="{{card.fileStyle}}">{{card.fileTxt}}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="flex:1;height:8px;border-radius:4px;background:#EEF1EE;overflow:hidden;"><div style="{{card.barStyle}}"></div></div>
+            <span style="font-size:12px;font-weight:600;color:#5B6B60;">{{card.fileCount}}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:3px;">
+            <sc-for list="{{card.docs}}" as="d" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;line-height:1.45;"><span style="{{d.markStyle}}">{{d.mark}}</span><span style="{{d.txtStyle}}">{{d.n}}</span></div>
+            </sc-for>
+          </div>
+          <div style="font-size:11.5px;color:#8A968E;">{{card.folder}}</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"embedded":{"editor":null},"yonetim":{"editor":null},"onPick":{"editor":null},"onStage":{"editor":null},"full":{"editor":null},"onFull":{"editor":null},"onWindow":{"editor":null},"w":{"editor":null},"h":{"editor":null},"$preview":{"width":1600,"height":1000}}'>
+class Component extends DCLogic {
+
+  data() {
+    if (this._d) return this._d;
+    const LIVE = [
+      { id: 'yk', t: 'kurul', n: 'Yönetim Kurulu', p: null },
+      { id: 'gm', t: 'poz', n: 'Genel Müdür', p: 'yk' },
+      { id: 'enerji', t: 'dept', n: 'Enerji', p: 'gm' },
+      { id: 'enm', t: 'poz', n: 'Enerji Grubu Müdürü', p: 'enerji' },
+      { id: 'en-merkez', t: 'birim', n: 'Genel Merkez', p: 'enm' },
+      { id: 'en-gel', t: 'birim', n: 'Proje Geliştirme', p: 'en-merkez' },
+      { id: 'pgu', t: 'poz', n: 'Proje Geliştirme Uzmanı', p: 'en-gel' },
+      { id: 'en-om', t: 'birim', n: 'O&M (İşletme ve Bakım)', p: 'en-merkez' },
+      { id: 'om', t: 'poz', n: 'O&M Mühendisi', p: 'en-om' },
+      { id: 'en-piy', t: 'birim', n: 'Üretim/Piyasa', p: 'en-merkez' },
+      { id: 'upu', t: 'poz', n: 'Üretim/Piyasa Uzmanı', p: 'en-piy' },
+      { id: 'en-saha', t: 'birim', n: 'Saha Operasyon', p: 'enm' },
+      { id: 'sfm', t: 'poz', n: 'Saha Operasyon Müdürü', p: 'en-saha' },
+      { id: 'sh-kt', t: 'birim', n: 'Karatepe RES', p: 'sfm' },
+      { id: 'kt-tek', t: 'poz', n: 'Saha Teknisyeni', p: 'sh-kt' },
+      { id: 'sh-bz', t: 'birim', n: 'Boztepe RES', p: 'sfm' },
+      { id: 'bz-tek', t: 'poz', n: 'Saha Teknisyeni', p: 'sh-bz' },
+      { id: 'sh-ys', t: 'birim', n: 'Yeşilova RES', p: 'sfm' },
+      { id: 'ys-tek', t: 'poz', n: 'Saha Teknisyeni', p: 'sh-ys' },
+      { id: 'sh-gn', t: 'birim', n: 'Güneşalan GES', p: 'sfm' },
+      { id: 'gn-tek', t: 'poz', n: 'Saha Teknisyeni', p: 'sh-gn' },
+      { id: 'en-epc', t: 'birim', n: 'EPC (İnşaat)', p: 'enm' },
+      { id: 'epc', t: 'poz', n: 'EPC Proje Mühendisi', p: 'en-epc' },
+      { id: 'epc-ins', t: 'poz', n: 'İnşaat Mühendisi', p: 'epc' },
+      { id: 'epc-elk', t: 'poz', n: 'Elektrik Mühendisi', p: 'epc' },
+      { id: 'epc-tkr', t: 'poz', n: 'EPC Teknikeri', p: 'epc' },
+      { id: 'pf', t: 'dept', n: 'Proje Finans', p: 'gm' },
+      { id: 'pfm', t: 'poz', n: 'Proje Finans Müdürü', p: 'pf' },
+      { id: 'pfu', t: 'poz', n: 'Proje Finans Uzmanı', p: 'pfm' },
+      { id: 'mali', t: 'dept', n: 'Mali İşler', p: 'gm' },
+      { id: 'mim', t: 'poz', n: 'Mali İşler Müdürü', p: 'mali' },
+      { id: 'mali-muh', t: 'birim', n: 'Muhasebe', p: 'mim' },
+      { id: 'muh', t: 'poz', n: 'Muhasebe Uzmanı', p: 'mali-muh' },
+      { id: 'mali-fm', t: 'birim', n: 'Finansal Muhasebe', p: 'mim' },
+      { id: 'fmu', t: 'poz', n: 'Finansal Muhasebe Uzmanı', p: 'mali-fm' },
+      { id: 'hukuk', t: 'dept', n: 'Hukuk', p: 'gm' },
+      { id: 'hkm', t: 'poz', n: 'Hukuk Müdürü', p: 'hukuk' },
+      { id: 'avu', t: 'poz', n: 'Avukat', p: 'hkm' },
+      { id: 'ik', t: 'dept', n: 'İK', p: 'gm' },
+      { id: 'ikuz', t: 'poz', n: 'İK Uzmanı', p: 'ik' },
+      { id: 'idari', t: 'dept', n: 'İdari İşler', p: 'gm' },
+      { id: 'idr', t: 'poz', n: 'İdari İşler Sorumlusu', p: 'idari' },
+      { id: 'stj', t: 'poz', n: 'Stajyer', p: 'idr' }
+    ];
+    const PEOPLE = [
+      ['levent', 'Levent Aksoy', 'gm'], ['kaan', 'Kaan Turhan', 'pfm'], ['oguz', 'Oğuz Tekin', 'pfu'],
+      ['elif', 'Elif Şahin', 'mim'], ['selin', 'Selin Arslan', 'muh'], ['gokhan', 'Gökhan Erdem', 'fmu'],
+      ['ayse', 'Ayşe Yılmaz', 'hkm'], ['burak', 'Burak Çelik', 'avu'], ['deniz', 'Deniz Kaya', 'idr'],
+      ['zeynep', 'Zeynep Koç', 'ikuz'], ['kerem', 'Kerem Aydın', 'enm'], ['cem', 'Cem Aktaş', 'pgu'],
+      ['onur', 'Onur Yıldız', 'om'], ['hakan', 'Hakan Tunç', 'epc'], ['pinar', 'Pınar Güler', 'upu'],
+      ['murat', 'Murat Kılınç', 'sfm'],
+      ['emre', 'Emre Yalçın', 'kt-tek'],
+      ['furkan', 'Furkan Kurt', 'kt-tek'],
+      ['volkan', 'Volkan Özdemir', 'kt-tek'],
+      ['serkan', 'Serkan Doğan', 'kt-tek'],
+      ['ugur', 'Uğur Şimşek', 'bz-tek'],
+      ['baris', 'Barış Ateş', 'bz-tek'],
+      ['sinan', 'Sinan Polat', 'bz-tek'],
+      ['tolga', 'Tolga Aslan', 'bz-tek'],
+      ['mert', 'Mert Aydoğan', 'ys-tek'],
+      ['okan', 'Okan Yavuz', 'ys-tek'],
+      ['gurkan', 'Gürkan Taş', 'ys-tek'],
+      ['erkan', 'Erkan Bulut', 'ys-tek'],
+      ['ece', 'Ece Duman', 'gn-tek'],
+      ['yusuf', 'Yusuf Akın', 'gn-tek'],
+      ['ramazan', 'Ramazan Er', 'gn-tek'],
+      ['nihat', 'Nihat Çetin', 'gn-tek'],
+      ['caner', 'Caner Doğru', 'epc-ins'],
+      ['melis', 'Melis Karaca', 'epc-elk'],
+      ['halil', 'Halil Öztürk', 'epc-tkr'],
+      ['semih', 'Semih Kaplan', 'epc-tkr']
+    ].map(function (r) { return { id: r[0], n: r[1], pos: r[2] }; });
+    const CAP = { gm: 1, enm: 1, sfm: 1, 'kt-tek': 4, 'bz-tek': 4, 'ys-tek': 4, 'gn-tek': 4, epc: 1, 'epc-ins': 1, 'epc-elk': 1, 'epc-tkr': 2, pgu: 3, om: 3, upu: 2, pfm: 1, pfu: 3, mim: 1, muh: 2, fmu: 2, hkm: 1, avu: 3, ikuz: 2, idr: 1, stj: 2 };
+    LIVE.forEach(function (n) { if (n.t === 'poz') n.cap = CAP[n.id] || 1; });
+    const LIVE_ASG = {}; PEOPLE.forEach(function (q) { LIVE_ASG[q.id] = q.pos; });
+    // Klasör sahipliği ve başka departmanlara verilmiş erişimler (yönetim paneli ile aynı kurgu)
+    const FOLDERS = {
+      enerji: ['Enerji', 'Proje Geliştirme', 'O&M', 'EPC', 'Üretim/Piyasa'],
+      pf: ['Proje Finans', 'Kredi Sözleşmeleri', 'Sigorta', 'Banka Raporlama'],
+      mali: ['Mali İşler', 'Muhasebe', 'Finansal Muhasebe'],
+      hukuk: ['Hukuk', 'Proje Sözleşmeleri', 'Davalar', 'Kurum Yazışmaları'],
+      ik: ['İK', 'Personel Dosyaları'],
+      idari: ['İdari İşler']
+    };
+    const GRANTS = [
+      { folder: 'Hukuk / Proje Sözleşmeleri', owner: 'hukuk', dept: 'pf', mode: 'görme' },
+      { folder: 'Hukuk / Kurum Yazışmaları', owner: 'hukuk', dept: 'idari', mode: 'görme' },
+      { folder: 'Mali İşler / Finansal Muhasebe', owner: 'mali', dept: 'pf', mode: 'görme' }
+    ];
+    const PERSONAL = { zeynep: ['Hukuk / Proje Sözleşmeleri (görme)'] };
+    // İK kayıtları (kurgusal; İK ana sayfasıyla aynı): işe giriş, brüt ücret, bu yıl kullanılan izin, devreden
+    const HR = {
+      levent: ['2015-02-02', 420000, 6, 0], kaan: ['2022-08-15', 185000, 10, 0], oguz: ['2024-09-02', 48000, 3, 0],
+      elif: ['2016-05-09', 190000, 12, 4], selin: ['2021-01-11', 47000, 16, -2], gokhan: ['2023-04-03', 46000, 5, 0],
+      ayse: ['2019-10-14', 175000, 8, 0], burak: ['2024-02-05', 98000, 14, 0], deniz: ['2018-03-19', 95000, 20, 3],
+      zeynep: ['2020-06-01', 88000, 7, 0], kerem: ['2017-09-04', 210000, 11, 2], cem: ['2023-11-20', 52000, 4, 0],
+      onur: ['2022-03-07', 101000, 17, 0], hakan: ['2024-03-03', 99000, 9, 0], pinar: ['2025-01-13', 45000, 2, 0],
+      murat: ['2018-06-11', 165000, 9, 2],
+      emre: ['2021-07-05', 64000, 10, 0],
+      furkan: ['2024-05-20', 56000, 6, 0],
+      volkan: ['2020-02-17', 69000, 14, 1],
+      serkan: ['2019-04-01', 71000, 12, 0],
+      ugur: ['2022-03-28', 61000, 11, 0],
+      baris: ['2025-02-03', 54000, 3, 0],
+      sinan: ['2021-10-11', 67000, 9, 0],
+      tolga: ['2020-09-14', 70000, 8, 0],
+      mert: ['2022-06-06', 60000, 13, 0],
+      okan: ['2025-08-18', 53000, 0, 0],
+      gurkan: ['2023-01-16', 65000, 8, 0],
+      erkan: ['2022-01-10', 68000, 7, 0],
+      ece: ['2023-09-04', 62000, 5, 0],
+      yusuf: ['2022-11-07', 57000, 12, 0],
+      ramazan: ['2025-04-14', 52000, 2, 0],
+      nihat: ['2021-05-03', 66000, 10, 0],
+      caner: ['2022-09-12', 92000, 8, 0],
+      melis: ['2023-02-20', 90000, 6, 0],
+      halil: ['2021-11-15', 58000, 11, 0],
+      semih: ['2024-08-05', 52000, 4, 0]
+    };
+    const DOCS_IN = ['Nüfus cüzdanı fotokopisi', 'İkametgâh belgesi', 'Adli sicil kaydı', 'Sağlık raporu', 'Diploma / öğrenim belgesi', 'Askerlik durum belgesi', 'SGK işe giriş bildirgesi', 'İmzalı iş sözleşmesi', 'Vesikalık fotoğraf (2)', 'Banka hesap bilgisi (IBAN)', 'KVKK aydınlatma ve onay', 'Önceki işyeri çalışma belgesi'];
+    const VARDIYA = {emre: 1, furkan: 1, volkan: 2, serkan: 2, ugur: 1, baris: 1, sinan: 2, tolga: 2, mert: 1, okan: 1, gurkan: 2, erkan: 2, ece: 1, yusuf: 1, ramazan: 2, nihat: 2 };
+    const MISSING = { hakan: ['Askerlik durum belgesi'], okan: ['Yüksekte çalışma ve kurtarma eğitimi (GWO)'], ramazan: ['Sağlık raporu'], semih: ['İSG eğitimi belgesi'] };
+    // Saha pozisyonlarına özgü ek belgeler (rolün son eki: sef / tek / elk / bak)
+    const DOCS_EXTRA = { tek: ['Yüksekte çalışma ve kurtarma eğitimi (GWO)', 'EKAT yetki belgesi (OG)', 'İSG eğitimi belgesi'], ins: ['İSG eğitimi belgesi'], elk: ['EKAT yetki belgesi (OG)', 'İSG eğitimi belgesi'], tkr: ['İSG eğitimi belgesi'], epc: ['İSG eğitimi belgesi'], sfm: ['İSG eğitimi belgesi'] };
+    // Görev tanımları (pozisyon bazında; İK girer)
+    const JD = {
+      gm: ['Şirketin stratejik ve operasyonel yönetiminden, Yönetim Kurulu kararlarının uygulanmasından sorumludur.', ['Bütçe, yatırım ve finansman kararlarını YK\'ya sunar', 'Departman müdürlerini yönetir ve performanslarını izler', 'Banka, kamu kurumları ve ortaklar nezdinde şirketi temsil eder']],
+      enm: ['Enerji grubunun geliştirme, inşaat, işletme ve piyasa faaliyetlerini yönetir.', ['Proje geliştirme ve EPC takvimini izler', 'Santral performansı ve bakım planını onaylar', 'Üretim ve piyasa raporlarını Genel Müdür\'e sunar']],
+      pgu: ['Yeni projelerin izin, lisans ve fizibilite süreçlerini yürütür.', ['İzin ve ruhsat başvurularını hazırlar ve takip eder', 'Saha, ölçüm ve fizibilite verilerini derler', 'Kurum yazışmalarının taslaklarını hazırlar']],
+      epc: ['İnşaat aşamasındaki projelerin teknik ve sözleşmesel takibini yapar.', ['Yüklenici iş programı ve milestone\'ları izler', 'Hakediş ve metraj kontrolüne destek verir', 'Saha toplantı tutanaklarını hazırlar']],
+      om: ['İşletmedeki santrallerin bakım ve arıza süreçlerini yönetir.', ['Arıza kayıtlarını ve bakım planını tutar', 'Emre amadelik ve kayıp üretim verisini raporlar', 'Servis sağlayıcılarla koordinasyonu yürütür']],
+      upu: ['Üretim ve piyasa verilerini toplar, uzlaştırma ve gelir raporlarını hazırlar.', ['Günlük üretim ve PTF verilerini derler', 'YEKDEM ve uzlaştırma tablolarını hazırlar', 'Aylık gelir raporunu oluşturur']],
+      pfm: ['Projelerin finansman yapısını, banka ilişkilerini ve kredi yükümlülüklerini yönetir.', ['Kredi sözleşmesi yükümlülüklerini ve raporlamayı takip eder', 'Finansal model ve nakit akışını yönetir', 'Banka ve sigorta kurumlarıyla ilişkileri yürütür']],
+      pfu: ['Proje finansmanı süreçlerinde analiz ve raporlama desteği verir.', ['Banka raporlama paketlerini hazırlar', 'Teminat, sigorta ve süre takvimini izler', 'Finansal model güncellemelerine veri sağlar']],
+      mim: ['Muhasebe, vergi ve finansal raporlama süreçlerinden sorumludur.', ['Ay sonu kapanış ve mali tabloları onaylar', 'Vergi ve beyan takvimini yönetir', 'Bağımsız denetim süreçlerini koordine eder']],
+      muh: ['Genel muhasebe kayıtlarını ve cari hesapları yürütür.', ['Fatura ve fiş kayıtlarını yapar', 'Cari hesap mutabakatlarını hazırlar', 'Beyanname hazırlığına veri sağlar']],
+      fmu: ['Ödeme, banka ve finansal muhasebe işlemlerini yürütür.', ['Ödeme talimatlarını hazırlar', 'Banka hareketlerini kayıtlarla eşleştirir', 'Bordro ödemelerini muhasebeleştirir']],
+      hkm: ['Şirketin tüm hukuki süreçlerini, sözleşmelerini ve davalarını yönetir.', ['Sözleşmeleri inceler ve müzakere eder', 'Dava ve icra dosyalarını yönetir', 'Kurum yazışmalarının hukuki kontrolünü yapar']],
+      avu: ['Dava, icra ve sözleşme işlerinde hukuki destek verir.', ['Dava dosyalarını ve süreleri takip eder', 'Dilekçe ve sözleşme taslakları hazırlar', 'Duruşma ve icra işlemlerini yürütür']],
+      ikuz: ['İşe alım, özlük, izin ve bordro girdisi süreçlerini yürütür.', ['Personel dosyalarını ve belgelerini tutar', 'İzin ve puantaj kayıtlarını işler', 'Şirket yapısı ve kişi yerleşimi çalışmalarını yürütür']],
+      idr: ['Ofis, araç, demirbaş ve destek hizmetlerini yönetir.', ['Satın alma ve tedarikçi takibini yapar', 'Zimmet ve demirbaş kayıtlarını tutar', 'Bina ve araç bakımlarını planlar']],
+      stj: ['Bağlı olduğu birimde gözetim altında destek görevleri üstlenir.', ['Evrak ve arşiv işlerine destek verir', 'Verilen araştırma ve derleme görevlerini yapar']],
+      sfm: ['Tüm santral sahalarındaki teknisyenlerin amiridir; merkezden saha operasyonunu ve vardiya düzenini yönetir.', ['Vardiya planını ve bakım takvimini yapar', 'Arıza, olay ve İSG kayıtlarını onaylar', 'Yük tevzi ve servis firmalarıyla koordinasyonu sağlar']],
+      _tek: ['Santralin günlük işletmesini vardiya düzeninde yürütür; türbin/panel ve şalt ekipmanının bakım ve arıza işlerini yapar.', ['Vardiyasında santrali izler ve manevraları yapar (EKAT)', 'Periyodik bakım ve arıza müdahalesini kaydeder', 'Yüksekte çalışma ve İSG kurallarını uygular']],
+      epc: ['İnşaat halindeki yeni projelerin EPC ekibini yönetir; yüklenici ve iş programını takip eder.', ['İnşaat ve elektrik mühendislerini yönetir', 'Milestone, hakediş ve metraj kontrolünü onaylar', 'Saha toplantı tutanaklarını hazırlar']],
+      'epc-ins': ['Yeni projelerin inşaat işlerinin (yol, temel, platform) teknik takibini yapar.', ['Yüklenici imalatlarını ve metrajı kontrol eder', 'İnşaat iş programını izler', 'Saha İSG uygulamasını denetler']],
+      'epc-elk': ['Yeni projelerin elektrik işlerinin (şalt, OG hat, trafo) teknik takibini yapar.', ['Elektrik montajını ve test/devreye alma adımlarını izler', 'TEİAŞ bağlantı süreçlerine teknik destek verir', 'Elektrik iş programını kontrol eder']],
+      'epc-tkr': ['Şantiyede mühendislere imalat kontrolü ve ölçüm desteği verir.', ['Saha ölçüm ve kontrol kayıtlarını tutar', 'Malzeme teslim ve zimmetini takip eder', 'Günlük saha raporunu hazırlar']],
+      n1: ['İnsan kaynakları ve idari işler süreçlerini birlikte yönetir.', ['İK ve idari işler bütçesini yönetir', 'İşe alım ve özlük süreçlerini onaylar', 'Destek hizmetlerini koordine eder']],
+      n3: ['Şirketin bilgi sistemleri, donanım ve kullanıcı destek süreçlerinden sorumludur.', ['Kullanıcı hesapları ve donanım envanterini yönetir', 'Yedekleme ve bilgi güvenliği kontrollerini yapar', 'Yazılım lisanslarını takip eder']]
+    };
+    this._d = { LIVE: LIVE, PEOPLE: PEOPLE, LIVE_ASG: LIVE_ASG, FOLDERS: FOLDERS, GRANTS: GRANTS, PERSONAL: PERSONAL, HR: HR, DOCS_IN: DOCS_IN, DOCS_EXTRA: DOCS_EXTRA, MISSING: MISSING, VARDIYA: VARDIYA, JD: JD, KIDEM_TAVAN: 53919.68 };
+    return this._d;
+  }
+
+  clone(x) { return JSON.parse(JSON.stringify(x)); }
+
+  doMerge(nodes, merges, a, b, name, id) {
+    const A = nodes.filter(function (x) { return x.id === a; })[0];
+    const B = nodes.filter(function (x) { return x.id === b; })[0];
+    const idx = nodes.indexOf(A);
+    const pos = nodes.slice(0, idx).filter(function (x) { return x.id !== b; }).length;
+    const kidsA = nodes.filter(function (x) { return x.p === a; }).map(function (x) { return x.id; });
+    const kidsB = nodes.filter(function (x) { return x.p === b; }).map(function (x) { return x.id; });
+    const out = nodes.filter(function (x) { return x.id !== a && x.id !== b; }).map(function (x) {
+      return (x.p === a || x.p === b) ? Object.assign({}, x, { p: id }) : x;
+    });
+    out.splice(pos, 0, { id: id, t: 'dept', n: name, p: A.p });
+    return { nodes: out, merges: merges.concat([{ id: id, a: Object.assign({}, A), b: Object.assign({}, B), kidsA: kidsA, kidsB: kidsB }]) };
+  }
+
+  undoMerge(nodes, merges, mid) {
+    const m = merges.filter(function (x) { return x.id === mid; })[0];
+    const M = nodes.filter(function (x) { return x.id === mid; })[0];
+    if (!m || !M) return null;
+    const idx = nodes.indexOf(M);
+    const out = nodes.filter(function (x) { return x.id !== mid; }).map(function (x) {
+      if (x.p !== mid) return x;
+      return Object.assign({}, x, { p: m.kidsB.indexOf(x.id) >= 0 ? m.b.id : m.a.id });
+    });
+    out.splice(idx, 0, Object.assign({}, m.a, { p: M.p }), Object.assign({}, m.b, { p: M.p }));
+    return { nodes: out, merges: merges.filter(function (x) { return x.id !== mid; }) };
+  }
+
+  seed() {
+    const D = this.data();
+    let nodes = this.clone(D.LIVE);
+    const r = this.doMerge(nodes, [], 'ik', 'idari', 'İK ve İdari İşler', 'm1');
+    nodes = r.nodes;
+    const i = nodes.map(function (x) { return x.id; }).indexOf('m1');
+    nodes.splice(i + 1, 0, { id: 'n1', t: 'poz', n: 'İK ve İdari İşler Müdürü', p: 'm1' });
+    nodes.forEach(function (x) { if (x.id === 'ikuz' || x.id === 'idr') x.p = 'n1'; });
+    nodes.push({ id: 'n2', t: 'dept', n: 'Bilgi Teknolojileri', p: 'gm' });
+    nodes.push({ id: 'n3', t: 'poz', n: 'BT Sorumlusu', p: 'n2' });
+    return { nodes: nodes, merges: r.merges, ctr: 4 };
+  }
+
+  componentDidMount() { this.notify(); this.notifyPick(); }
+  componentDidUpdate() { this.notify(); this.notifyPick(); }
+  notify() {
+    const st = this.state || {}; const key = (st.stage || 'draft') + '|' + (st.liveVer || 3);
+    if (key === this._nk || !this.props.onStage) return; this._nk = key;
+    const D = this.data();
+    this.props.onStage({ stage: st.stage || 'draft', liveVer: st.liveVer || 3, nodes: st.liveNodes || D.LIVE, asg: st.liveAsg || D.LIVE_ASG, people: D.PEOPLE, hr: D.HR });
+  }
+  notifyPick() {
+    const st = this.state || {}; const pk = st.sel || '';
+    if (!this.props.yonetim || !this.props.onPick || pk === this._pk) return; this._pk = pk;
+    const D = this.data(); const nodes = st.liveNodes || D.LIVE; const asg = st.liveAsg || D.LIVE_ASG;
+    const n = nodes.filter(function (x) { return x.id === pk; })[0] || null;
+    if (!n) { this.props.onPick(null); return; }
+    const ids = [n.id]; const walk = function (k) { nodes.forEach(function (c) { if (c.p === k) { ids.push(c.id); walk(c.id); } }); }; walk(n.id);
+    const ppl = D.PEOPLE.filter(function (q) { return ids.indexOf(asg[q.id]) >= 0; }).map(function (q) { return q.id; });
+    this.props.onPick({ id: n.id, t: n.t, n: n.n, people: ppl });
+  }
+  renderVals() {
+    const self = this;
+    const D = this.data();
+    const st = this.state || {};
+    const SEED = this._seed || (this._seed = this.seed());
+
+    const adm = !!this.props.yonetim;
+    const stage = adm ? 'canli' : (st.stage || 'draft');
+    const liveNodes = st.liveNodes || D.LIVE;
+    const prevNodes = st.prevNodes || null;
+    const liveAsg = st.liveAsg || D.LIVE_ASG;
+    const liveVer = st.liveVer || 3;
+    const nextVer = liveVer + 1;
+    const nodes = st.nodes || SEED.nodes;
+    const merges = st.merges || SEED.merges;
+    const ctr = st.ctr || SEED.ctr;
+    const view = adm ? 'live' : (st.view || 'draft');
+    const asg = st.asg || this.initAsg(nodes, liveAsg);
+    const set = function (o) { self.setState(o); };
+
+    // ---- yardımcılar ----
+    const mapOf = function (ns) { const m = {}; ns.forEach(function (x) { m[x.id] = x; }); return m; };
+    const kidsOf = function (ns, id) { return ns.filter(function (x) { return x.p === id; }); };
+    const descOf = function (ns, id) { const out = []; const walk = function (k) { kidsOf(ns, k).forEach(function (c) { out.push(c.id); walk(c.id); }); }; walk(id); return out; };
+    const deptOf = function (ns, id) { const m = mapOf(ns); let c = m[id]; let g = 0; while (c && g < 40) { if (c.t === 'dept') return c; c = m[c.p]; g++; } return null; };
+    const apprPoz = function (ns, id) { const m = mapOf(ns); const n = m[id]; if (!n) return null; if (n.cross && m[n.cross]) return n.cross; let p = n.p; let g = 0; while (p && g < 40) { if (m[p] && m[p].t === 'poz') return p; p = m[p] ? m[p].p : null; g++; } return null; };
+    const holders = function (A, poz) { return D.PEOPLE.filter(function (q) { return A[q.id] === poz; }); };
+    const effAppr = function (ns, A, poz) { let a = apprPoz(ns, poz); let g = 0; while (a && holders(A, a).length === 0 && g < 40) { a = apprPoz(ns, a); g++; } return a; };
+    const isTopPoz = function (ns, n) { const m = mapOf(ns); return n.t === 'poz' && n.p && m[n.p] && m[n.p].t === 'kurul'; };
+    const allowedKids = function (ns, n) { if (n.t === 'kurul') return ['poz']; if (isTopPoz(ns, n)) return ['dept', 'birim', 'poz']; return ['birim', 'poz']; };
+    const TL = { kurul: 'Kurul', dept: 'Departman', birim: 'Birim', poz: 'Pozisyon' };
+    const shortName = function (n) { const w = n.split(' '); return w[0] + ' ' + w[w.length - 1].charAt(0) + '.'; };
+
+    // ---- fark hesabı (çalışma kopyası ↔ yürürlükteki) ----
+    const lm = mapOf(liveNodes); const dm = mapOf(nodes);
+    const mergeOf = {}; merges.forEach(function (m) { mergeOf[m.a.id] = m.id; mergeOf[m.b.id] = m.id; });
+    const finalOf = function (id) { let c = id; let g = 0; while (mergeOf[c] && !dm[c] && g < 20) { c = mergeOf[c]; g++; } return c; };
+    const nameOf = function (id) { if (dm[id]) return dm[id].n; if (lm[id]) return lm[id].n; let nm = id; merges.forEach(function (m) { if (m.a.id === id) nm = m.a.n; if (m.b.id === id) nm = m.b.n; }); return nm; };
+    const tags = {}; const addTag = function (id, t) { (tags[id] = tags[id] || []).push(t); };
+    const changes = [];
+    merges.forEach(function (m) {
+      if (!dm[m.id]) return;
+      changes.push({ kind: 'merge', id: m.id, text: m.a.n + ' + ' + m.b.n + ' birleşti → ' + dm[m.id].n });
+      addTag(m.id, 'Birleşti');
+    });
+    nodes.forEach(function (d) {
+      const L = lm[d.id];
+      if (!L) {
+        if (merges.some(function (m) { return m.id === d.id; })) return;
+        changes.push({ kind: 'new', id: d.id, text: TL[d.t] + ' eklendi: ' + d.n + ' (' + nameOf(d.p) + ' altına)' }); addTag(d.id, 'Yeni'); return;
+      }
+      if (L.n !== d.n) { changes.push({ kind: 'rename', id: d.id, text: 'Adı değişti: ' + L.n + ' → ' + d.n }); addTag(d.id, 'Adı değişti'); }
+      if (L.p !== d.p && !(mergeOf[L.p] && finalOf(L.p) === d.p)) { const da = deptOf(liveNodes, d.id); const db = deptOf(nodes, d.id); const dch = da && db && da.id !== db.id && !(mergeOf[da.id] && finalOf(da.id) === db.id); changes.push({ kind: 'move', id: d.id, text: d.n + ': ' + nameOf(L.p) + ' altından → ' + nameOf(d.p) + ' altına taşındı' + (dch ? ' (departmanı ' + da.n + ' → ' + db.n + ')' : '') }); addTag(d.id, 'Taşındı'); }
+      if (d.t === 'poz' && (L.cap || 1) !== (d.cap || 1)) { changes.push({ kind: 'cap', id: d.id, text: d.n + ': kapasite ' + (L.cap || 1) + ' → ' + (d.cap || 1) + ' kişi' }); addTag(d.id, 'Kapasite'); }
+      if ((L.cross || '') !== (d.cross || '')) {
+        const dp = deptOf(nodes, d.id);
+        changes.push({ kind: 'cross', id: d.id, text: d.cross ? d.n + ' → ' + nameOf(d.cross) + ' pozisyonuna raporlar (çapraz bağ; departmanı ' + (dp ? dp.n : '—') + ' kalır)' : d.n + ': çapraz bağ kaldırıldı' });
+        addTag(d.id, 'Çapraz bağ');
+      }
+    });
+    liveNodes.forEach(function (L) {
+      if (dm[L.id] || mergeOf[L.id]) return;
+      changes.push({ kind: 'removed', id: L.id, text: TL[L.t] + ' kaldırıldı: ' + L.n });
+    });
+    const TAGSTYLE = {
+      'Yeni': 'color:#14401F;background:#DDF3E4;', 'Birleşti': 'color:#5B21B6;background:#EFE8FD;', 'Adı değişti': 'color:#7A4E0B;background:#FBF1DE;',
+      'Taşındı': 'color:#1D4ED8;background:#E8EFFD;', 'Çapraz bağ': 'color:#5B21B6;background:#EFE8FD;', 'Kapasite': 'color:#0F766E;background:#E2F4F1;', 'Kaldırıldı': 'color:#7A2323;background:#FBEAEA;', 'Boş': 'color:#7A2323;background:#FBEAEA;'
+    };
+    const tagStyle = function (t) { return 'font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 6px;white-space:nowrap;' + (TAGSTYLE[t] || 'color:#5B6B60;background:#F0F2F0;'); };
+    const KTAG = { cap: 'Kapasite', merge: 'Birleşti', 'new': 'Yeni', rename: 'Adı değişti', move: 'Taşındı', cross: 'Çapraz bağ', removed: 'Kaldırıldı' };
+
+    // ---- hangi şema gösteriliyor ----
+    const isLiveStage = stage === 'canli';
+    let showNodes = nodes; let showAsg = null; let showDiff = false;
+    if (view === 'live') { showNodes = liveNodes; showAsg = (isLiveStage && (st.showP || adm)) ? liveAsg : null; }
+    else if (view === 'onceki') { showNodes = prevNodes || liveNodes; }
+    else { showNodes = nodes; showDiff = (stage === 'draft' || stage === 'yk'); showAsg = (stage === 'atama' || stage === 'kisiOnay' || stage === 'hazir') ? asg : null; }
+    const sm = mapOf(showNodes);
+    const sel = st.sel && sm[st.sel] ? st.sel : null;
+    const canEdit = view === 'draft' && stage === 'draft';
+    const canAssign = view === 'draft' && stage === 'atama';
+
+    const pick = function (id) { return function () { set({ sel: id, renameTxt: '', moveTo: '', mergeWith: '', mergeName: '' }); }; };
+    const peopleTxt = function (id) { if (!showAsg) return ''; const hs = holders(showAsg, id); return hs.length ? hs.map(function (q) { return shortName(q.n); }).join(', ') : 'Boş'; };
+    const badgesOf = function (id) { return showDiff ? (tags[id] || []).map(function (t) { return { t: t, style: tagStyle(t) }; }) : []; };
+    const selRing = function (id) { return id === sel ? 'outline:3px solid #2FA968;outline-offset:2px;' : ''; };
+
+    const buildTree = function (showNodes, showAsg, showDiff, noSel) {
+    const sm = mapOf(showNodes);
+    const peopleTxt = function (id) { if (!showAsg) return ''; const hs = holders(showAsg, id); return hs.length ? hs.map(function (q) { return shortName(q.n); }).join(', ') : 'Boş'; };
+    const badgesOf = function (id) { return showDiff ? (tags[id] || []).map(function (t) { return { t: t, style: tagStyle(t) }; }) : []; };
+    const selRing = function (id) { return !noSel && id === sel ? 'outline:3px solid #2FA968;outline-offset:2px;' : ''; };
+    // kök + 1. seviye
+    const root = showNodes.filter(function (x) { return !x.p; })[0] || showNodes[0];
+    const l1n = kidsOf(showNodes, root.id);
+    const main = l1n.filter(function (x) { return kidsOf(showNodes, x.id).some(function (k) { return k.t === 'dept'; }); })[0] || l1n[0];
+    const rootV = { name: root.n, typeLbl: TL[root.t], badges: badgesOf(root.id), select: pick(root.id),
+      style: 'display:flex;flex-direction:column;align-items:center;gap:3px;min-width:220px;background:#0E241D;color:#F6F7F5;border:none;border-radius:14px;padding:12px 22px;cursor:pointer;font-family:inherit;' + selRing(root.id) };
+    const l1 = l1n.map(function (x) {
+      const isMain = main && x.id === main.id; const pt = peopleTxt(x.id);
+      return { name: x.n, typeLbl: TL[x.t] + (isMain ? '' : ' · YK\'ya bağlı'), badges: badgesOf(x.id), select: pick(x.id), hasPeople: !!pt, people: pt,
+        peopleStyle: 'font-size:12px;font-weight:600;' + (pt === 'Boş' ? 'color:#7A2323;' : 'color:#1E6B3E;'),
+        style: 'display:flex;flex-direction:column;align-items:center;gap:3px;min-width:200px;background:' + (isMain ? '#E7F3EB' : '#FFFFFF') + ';color:#132119;border:1px solid ' + (isMain ? '#B9D8C3' : '#D6E4DA') + ';border-radius:12px;padding:10px 18px;cursor:pointer;font-family:inherit;' + selRing(x.id) };
+    });
+
+    // departman kolları
+    const colNodes = main ? kidsOf(showNodes, main.id) : [];
+    const rowOf = function (n, depth) {
+      const pt = peopleTxt(n.id); const isB = n.t === 'birim';
+      return {
+        name: n.n, typeLbl: TL[n.t], select: pick(n.id), badges: badgesOf(n.id), hasPeople: n.t === 'poz' && !!pt, people: pt,
+        peopleStyle: 'font-size:11.5px;font-weight:600;line-height:1.3;' + (pt === 'Boş' ? 'color:#7A2323;' : 'color:#1E6B3E;'),
+        typeStyle: 'font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;' + (isB ? 'color:#1E6B3E;' : 'color:#8A968E;'),
+        wrapStyle: 'padding-left:' + (Math.min(depth, 5) * 8) + 'px;' + (depth ? 'border-left:2px solid #E1E7E2;margin-left:4px;' : ''),
+        style: 'width:100%;box-sizing:border-box;text-align:left;display:flex;flex-direction:column;gap:2px;border-radius:10px;padding:7px 9px;cursor:pointer;font-family:inherit;color:#132119;' +
+          (isB ? 'background:#E7F3EB;border:1px solid #CFE5D6;' : 'background:#FFFFFF;border:1px solid #E1E7E2;') + selRing(n.id)
+      };
+    };
+    const cols = colNodes.map(function (c, i) {
+      // Alt grupları yan yana aç: aynı üst altında, içinde başka birim barındıran 2+ birim varsa (ör. Enerji → Genel Merkez · Saha)
+      const hasSubB = function (id) { return descOf(showNodes, id).some(function (d) { return sm[d].t === 'birim'; }); };
+      let splitIds = [];
+      (function () { const q = [c.id]; while (q.length && !splitIds.length) { const x = q.shift(); const kb = kidsOf(showNodes, x).filter(function (k) { return k.t === 'birim'; }); if (kb.length >= 2 && kb.some(function (k) { return hasSubB(k.id); })) splitIds = kb.map(function (k) { return k.id; }); else kidsOf(showNodes, x).forEach(function (k) { q.push(k.id); }); } })();
+      const rows = [];
+      const walk = function (id, depth, out) { kidsOf(showNodes, id).forEach(function (k) { if (out === rows && splitIds.indexOf(k.id) >= 0) return; out.push(rowOf(k, depth)); walk(k.id, depth + 1, out); }); };
+      walk(c.id, 0, rows);
+      const subs = splitIds.map(function (sid) { const b = sm[sid]; const sr = []; walk(sid, 0, sr);
+        const pz = descOf(showNodes, sid).filter(function (id) { return sm[id].t === 'poz'; }).length;
+        return { head: { name: b.n, typeLbl: TL[b.t], sub: pz + ' pozisyon', badges: badgesOf(sid), select: pick(sid),
+          style: 'width:100%;box-sizing:border-box;text-align:left;display:flex;flex-direction:column;gap:2px;background:#E7F3EB;color:#132119;border:1px solid #B9D8C3;border-top:3px solid #2FA968;border-radius:10px;padding:8px 10px;cursor:pointer;font-family:inherit;' + selRing(sid) }, rows: sr }; });
+      const nCol = Math.max(subs.length, 1);
+      const pozN = descOf(showNodes, c.id).filter(function (id) { return sm[id].t === 'poz'; }).length;
+      const first = i === 0; const last = i === colNodes.length - 1;
+      return {
+        head: { name: c.n, typeLbl: TL[c.t], sub: pozN + ' pozisyon', badges: badgesOf(c.id), select: pick(c.id),
+          style: 'width:100%;box-sizing:border-box;text-align:left;display:flex;flex-direction:column;gap:3px;background:#0E241D;color:#F6F7F5;border:none;border-radius:12px;padding:10px 12px;cursor:pointer;font-family:inherit;' + selRing(c.id) },
+        rows: rows, subs: subs, hasSubs: subs.length > 0,
+        colStyle: 'width:' + ((nCol > 1 ? 172 : 178) * nCol + (nCol - 1) * 8) + 'px;flex-shrink:0;display:flex;flex-direction:column;align-items:stretch;',
+        lineL: 'position:absolute;top:0;left:0;width:50%;height:2px;background:' + (first ? 'transparent' : '#B9C9BE') + ';',
+        lineR: 'position:absolute;top:0;right:0;width:50%;height:2px;background:' + (last ? 'transparent' : '#B9C9BE') + ';'
+      };
+    });
+
+    return { rootNode: root, main: main, root: rootV, l1: l1, cols: cols };
+    };
+    const T1 = buildTree(showNodes, showAsg, showDiff, false);
+    const root = T1.rootNode; const main = T1.main;
+    const ykCompare = view === 'draft' && stage === 'yk';
+    const trees = ykCompare
+      ? [Object.assign({ hasTitle: true, title: 'Yeni hali · v' + nextVer, titleStyle: 'align-self:flex-start;font-size:13px;font-weight:700;color:#132119;background:#E7F3EB;border-radius:8px;padding:5px 10px;margin-bottom:12px;' }, T1),
+         Object.assign({ hasTitle: true, title: 'Eski hali · yürürlükteki v' + liveVer, titleStyle: 'align-self:flex-start;font-size:13px;font-weight:700;color:#5B6B60;background:#F0F2F0;border-radius:8px;padding:5px 10px;margin-bottom:12px;' }, buildTree(liveNodes, null, false, true))]
+      : [Object.assign({ hasTitle: false, title: '', titleStyle: '' }, T1)];
+    // ---- seçili kol bilgisi ----
+    const sn = sel ? sm[sel] : null;
+    const facts = [];
+    if (sn) {
+      if (sn.p) facts.push({ k: 'Bağlı olduğu', v: sm[sn.p] ? sm[sn.p].n : '—' });
+      const dp = deptOf(showNodes, sn.id); if (dp && sn.t !== 'dept') facts.push({ k: 'Departmanı', v: dp.n });
+      if (sn.t === 'poz') { const a = apprPoz(showNodes, sn.id); facts.push({ k: 'Onayı veren', v: a ? sm[a].n : 'Yönetim Kurulu' }); facts.push({ k: 'Kapasite', v: (sn.cap || 1) + ' kişi' }); }
+      if (sn.t !== 'poz') { const pz = descOf(showNodes, sn.id).filter(function (id) { return sm[id].t === 'poz'; }).length; facts.push({ k: 'Altındaki pozisyon', v: String(pz) }); }
+      if (sn.t === 'dept' && (D.FOLDERS[sn.id])) facts.push({ k: 'Klasörleri', v: D.FOLDERS[sn.id].join(', ') });
+    }
+    const selInfo = sn ? { name: sn.n, typeLbl: TL[sn.t], facts: facts, typeStyle: 'font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 7px;color:#F6F7F5;background:#0E241D;' } : { name: '', typeLbl: '', facts: [], typeStyle: '' };
+
+    // ---- kişi kartı ----
+    const HR = D.HR; const TODAY = new Date(2026, 9, 5);
+    const fmtTL = function (n) { return Math.round(n).toLocaleString('tr-TR') + ' TL'; };
+    const fmtD = function (d) { return d.toLocaleDateString('tr-TR'); };
+    // Bordro (İK Maaş sekmesiyle aynı hesap; Ekim 2026, kümülatif matrah)
+    const GVT = [[158000, 0.15], [330000, 0.20], [1200000, 0.27], [4300000, 0.35], [Infinity, 0.40]];
+    const taxOn = function (cum) { let t = 0, prev = 0; for (let i = 0; i < GVT.length; i++) { const lim = GVT[i][0]; if (cum > prev) t += (Math.min(cum, lim) - prev) * GVT[i][1]; prev = lim; if (cum <= lim) break; } return t; };
+    const payOf = function (gross) { const ASG = 26005.50; const m = gross * 0.85; const cum = m * 9; const am = ASG * 0.85; const gv = Math.max((taxOn(cum + m) - taxOn(cum)) - (taxOn(am * 10) - taxOn(am * 9)), 0); const dv = Math.max(gross * 0.00759 - ASG * 0.00759, 0); return { gross: gross, net: gross * 0.85 - gv - dv, employer: gross * 1.1775 }; };
+    const tenure = function (id) { const h = new Date(HR[id][0]); const days = Math.floor((TODAY - h) / 86400000); const y = Math.floor(days / 365.25); const m = Math.floor((days - y * 365.25) / 30.44); return { years: days / 365.25, label: y + ' yıl ' + m + ' ay', hire: h }; };
+    const sevOf = function (id) {
+      const t = tenure(id); const gross = HR[id][1]; const daily = gross / 30; const base = Math.min(gross, D.KIDEM_TAVAN);
+      const kidem = t.years >= 1 ? base * t.years * (1 - 0.00759) : 0;
+      const nw = (function (m) { return m < 6 ? 2 : (m < 18 ? 4 : (m < 36 ? 6 : 8)); })(t.years * 12);
+      const ent = t.years < 1 ? 0 : (t.years < 5 ? 14 : (t.years < 15 ? 20 : 26)); const left = Math.max(ent + HR[id][3] - HR[id][2], 0);
+      return { t: t, kidem: kidem, nw: nw, ihbar: daily * nw * 7, left: left, leavePay: left * daily, capped: gross > D.KIDEM_TAVAN };
+    };
+    const docsOf = function (id) { const pz = (liveAsg[id] || D.LIVE_ASG[id] || ''); const r = pz.split('-').pop(); return D.DOCS_IN.concat(D.DOCS_EXTRA[r] || D.DOCS_EXTRA[pz] || []); };
+    const fileOf = function (id) { const all = docsOf(id); const miss = (D.MISSING[id] || []).filter(function (d) { return all.indexOf(d) >= 0; }); return { all: all, miss: miss, have: all.length - miss.length, total: all.length }; };
+    const iniOf = function (n) { return n.split(' ').map(function (w) { return w.charAt(0); }).join('').slice(0, 2); };
+    const PSTAGE = ['atama', 'kisiOnay', 'hazir'];
+    const pAsg = view === 'onceki' ? null : ((view === 'draft' && PSTAGE.indexOf(stage) >= 0) ? asg : liveAsg);
+    const openCard = function (id) { return function () { set({ card: id }); setTimeout(function () { if (self._cardEl && self._cardEl.focus) self._cardEl.focus(); }, 30); }; };
+    const selPeopleArr = (sn && sn.t === 'poz' && pAsg) ? holders(pAsg, sn.id) : [];
+    const selPeople = selPeopleArr.map(function (q) {
+      const t = tenure(q.id); const f = fileOf(q.id);
+      return { name: q.n, ini: iniOf(q.n), aria: q.n + ' kartını aç', open: openCard(q.id),
+        sub: (D.VARDIYA[q.id] ? D.VARDIYA[q.id] + '. vardiya · ' : '') + 'İşe giriş ' + t.hire.getFullYear() + ' · ' + t.label,
+        file: f.miss.length ? f.miss.length + ' eksik belge' : 'Dosya tam',
+        fileStyle: 'font-size:11px;font-weight:700;border-radius:6px;padding:3px 7px;white-space:nowrap;' + (f.miss.length ? 'color:#7A2323;background:#FBEAEA;' : 'color:#14401F;background:#E7F3EB;') };
+    });
+    let card = null;
+    const cq = st.card ? D.PEOPLE.filter(function (q) { return q.id === st.card; })[0] : null;
+    if (cq) {
+      const cAsg = pAsg || liveAsg; const cNodes = pAsg ? showNodes : liveNodes; const cm = mapOf(cNodes);
+      const posId = cAsg[cq.id]; const pn = posId ? cm[posId] : null; const dp = pn ? deptOf(cNodes, pn.id) : null;
+      const t = tenure(cq.id); const sv = sevOf(cq.id); const f = fileOf(cq.id);
+      const level = (function () { let c = pn; let n = 0; let g = 0; while (c && g < 40) { if (c.t === 'poz') n++; c = cm[c.p]; g++; } return n; })();
+      const role = level <= 1 ? 'Üst yönetim' : (level === 2 ? 'Departman yöneticisi' : 'Çalışan');
+      const RS = { 'Üst yönetim': 'color:#9A6B12;background:#FBF1DE;', 'Departman yöneticisi': 'color:#14401F;background:#DDF3E4;', 'Çalışan': 'color:#C9D3CC;background:#1B3A2F;' };
+      const chain = [];
+      if (pn) {
+        let a = apprPoz(cNodes, pn.id); let g = 0;
+        while (a && g < 40) {
+          const hs = holders(cAsg, a);
+          chain.push({ lbl: chain.length ? 'Üst yönetici' : 'Doğrudan yöneticisi', who: hs.length ? hs.map(function (q) { return q.n; }).join(', ') : 'Boş pozisyon', pos: cm[a].n, empty: !hs.length });
+          a = apprPoz(cNodes, a); g++;
+        }
+        const top = cNodes.filter(function (x) { return !x.p; })[0];
+        if (top) chain.push({ lbl: 'Kurul', who: top.n, pos: '', empty: false });
+      }
+      const chainV = chain.map(function (c, i) {
+        return Object.assign(c, { line: i < chain.length - 1,
+          dot: 'width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:3px;' + (i === 0 ? 'background:#2FA968;' : (c.empty ? 'background:#FFFFFF;border:2px solid #E0A3A3;box-sizing:border-box;' : 'background:#B9C9BE;')),
+          nameStyle: 'font-size:13.5px;font-weight:' + (i === 0 ? '700' : '600') + ';' + (c.empty ? 'color:#7A2323;' : 'color:#132119;') });
+      });
+      const birims = (function () { const out = []; let c = pn ? cm[pn.p] : null; let g = 0; while (c && c.t !== 'dept' && g < 40) { if (c.t === 'birim') out.unshift(c.n); c = cm[c.p]; g++; } return out; })();
+      const pay = payOf(HR[cq.id][1]);
+      const jd = pn ? (D.JD[pn.id] || D.JD['_' + pn.id.split('-').pop()] || null) : null;
+      const vard = D.VARDIYA[cq.id] || 0;
+      const pct = Math.round(f.have / f.total * 100);
+      card = {
+        name: cq.n, ini: iniOf(cq.n), pos: pn ? pn.n : 'Yerleştirilmemiş', dept: dp ? dp.n : (pn ? 'Yönetim' : '—'),
+        role: role, roleStyle: 'font-size:11.5px;font-weight:700;border-radius:6px;padding:4px 9px;' + RS[role],
+        facts: [
+          { k: 'İşe giriş', v: fmtD(t.hire) },
+          { k: 'Kıdem', v: t.label },
+          { k: 'Pozisyon', v: pn ? pn.n : 'Yerleştirilmemiş' },
+          { k: 'Departman', v: dp ? dp.n : (pn ? 'Yönetim' : '—') }
+        ].concat(birims.length ? [{ k: 'Birim', v: birims.join(' › ') }] : []).concat(vard ? [{ k: 'Vardiya', v: vard + '. vardiya' }] : []),
+        chain: chainV.length ? chainV : [{ lbl: 'Yönetici', who: '—', pos: '', line: false, dot: 'width:12px;height:12px;border-radius:50%;background:#E1E7E2;margin-top:3px;', nameStyle: 'font-size:13.5px;font-weight:600;color:#8A968E;' }],
+        jd: jd ? jd[0] : 'Bu pozisyon için görev tanımı henüz girilmedi.', jdItems: jd ? jd[1] : [],
+        sevDate: 'Bugün itibarıyla · ' + fmtD(TODAY),
+        sev: [
+          { k: 'Kıdem tazminatı', note: sv.kidem ? 'Net' + (sv.capped ? ' · tavan uygulandı' : '') : '1 yıl dolmadı', v: sv.kidem ? fmtTL(sv.kidem) : '—' },
+          { k: 'İhbar tazminatı', note: sv.nw + ' hafta · brüt', v: fmtTL(sv.ihbar) },
+          { k: 'Kullanılmayan izin', note: sv.left + ' gün · brüt', v: fmtTL(sv.leavePay) }
+        ],
+        sevTotal: fmtTL(sv.kidem + sv.ihbar + sv.leavePay),
+        pay: [{ k: 'Brüt', v: fmtTL(pay.gross), main: true }, { k: 'Net (Ekim bordrosu)', v: fmtTL(pay.net), main: false }, { k: 'İşveren maliyeti', v: fmtTL(pay.employer), main: false }].map(function (x) { return { k: x.k, v: x.v, vStyle: "font-family:'Space Grotesk',sans-serif;font-weight:700;white-space:nowrap;" + (x.main ? 'font-size:22px;color:#0E241D;' : 'font-size:16px;color:#132119;') }; }),
+        fileTxt: f.miss.length ? f.miss.length + ' eksik' : 'Tam', fileCount: f.have + '/' + f.total,
+        fileStyle: 'font-size:11.5px;font-weight:700;border-radius:6px;padding:3px 8px;' + (f.miss.length ? 'color:#7A2323;background:#FBEAEA;' : 'color:#14401F;background:#DDF3E4;'),
+        barStyle: 'height:100%;width:' + pct + '%;border-radius:4px;background:' + (f.miss.length ? '#D97706' : '#2FA968') + ';',
+        docs: f.all.map(function (d) { const ok = f.miss.indexOf(d) < 0;
+          return { n: d, mark: ok ? '✓' : '!', markStyle: 'width:18px;height:18px;border-radius:50%;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;' + (ok ? 'color:#14401F;background:#E7F3EB;' : 'color:#FFFFFF;background:#B23A3A;'), txtStyle: ok ? 'color:#132119;' : 'color:#7A2323;font-weight:600;' }; }),
+        folder: 'İK / Personel Dosyaları / ' + cq.n
+      };
+    }
+    if (!this._cardRef) this._cardRef = function (el) { self._cardEl = el; };
+    const cardVals = {
+      selShowPeople: !!(sn && sn.t === 'poz' && pAsg && !canAssign), selPeople: selPeople, selPeopleEmpty: !!(sn && sn.t === 'poz' && pAsg && selPeopleArr.length === 0),
+      selFill: sn && sn.t === 'poz' ? selPeopleArr.length + '/' + (sn.cap || 1) : '',
+      cardOpen: !!card, card: card || { name: '', ini: '', pos: '', dept: '', role: '', roleStyle: '', facts: [], chain: [], jd: '', jdItems: [], sevDate: '', sev: [], sevTotal: '', pay: [], fileTxt: '', fileCount: '', fileStyle: '', barStyle: '', docs: [], folder: '' },
+      cardRef: this._cardRef, cardClose: function () { set({ card: null }); }, cardStop: function (e) { if (e && e.stopPropagation) e.stopPropagation(); },
+      cardKey: function (e) { if (e.key === 'Escape') { e.preventDefault(); if (e.stopPropagation) e.stopPropagation(); set({ card: null }); } }
+    };
+
+    // ---- düzenleme (1. adım) ----
+    const commit = function (ns, extra) { set(Object.assign({ nodes: ns, renameTxt: '', addName: '', moveTo: '', mergeWith: '', mergeName: '' }, extra || {})); };
+    const addTypes = sn ? allowedKids(nodes, sn).map(function (t) { return { id: t, label: TL[t] }; }) : [];
+    const addType = (st.addType && addTypes.some(function (o) { return o.id === st.addType; })) ? st.addType : (addTypes[addTypes.length - 1] || {}).id || 'poz';
+    const addName = st.addName || '';
+    const renameTxt = st.renameTxt || '';
+    const isRootSel = !!(sn && !sn.p);
+    const btn = function (on, kind) {
+      const base = 'height:36px;border-radius:8px;padding:0 12px;font-size:12.5px;font-weight:600;white-space:nowrap;';
+      if (!on) return base + 'background:#F0F2F0;border:1px solid #E6EAE7;color:#A9B3AC;cursor:not-allowed;';
+      if (kind === 'danger') return base + 'background:#FFFFFF;border:1px solid #F0C9C9;color:#7A2323;cursor:pointer;';
+      if (kind === 'merge') return base + 'background:#5B21B6;border:none;color:#FFFFFF;cursor:pointer;';
+      return base + 'background:#0E241D;border:none;color:#F6F7F5;cursor:pointer;';
+    };
+    const addOk = !!(sn && addName.trim());
+    const renameOk = !!(sn && !isRootSel && renameTxt.trim() && renameTxt.trim() !== sn.n);
+    const desc = sn ? descOf(nodes, sn.id) : [];
+    const moveOpts = (sn && !isRootSel) ? nodes.filter(function (x) { if (x.id === sn.id || x.id === sn.p || desc.indexOf(x.id) >= 0 || allowedKids(nodes, x).indexOf(sn.t) < 0) return false; if (sn.t === 'poz') { const a = deptOf(nodes, sn.id); const b = deptOf(nodes, x.id); return !a ? !b : !!(b && b.id === a.id); } return true; }).map(function (x) { const dp = deptOf(nodes, x.id); return { id: x.id, label: x.n + (dp && dp.id !== x.id ? ' · ' + dp.n : '') }; }) : [];
+    const moveTo = st.moveTo || '';
+    const moveOk = !!(moveTo && moveOpts.some(function (o) { return o.id === moveTo; }));
+    const selDept = sn ? deptOf(nodes, sn.id) : null;
+    const mergeOpts = (sn && sn.t === 'dept') ? nodes.filter(function (x) { return x.t === 'dept' && x.id !== sn.id; }).map(function (x) { return { id: x.id, label: x.n }; }) : [];
+    const mergeWith = st.mergeWith || ''; const mergeName = st.mergeName || '';
+    const mergeOk = !!(mergeWith && mergeName.trim());
+    const hasKids = sn ? kidsOf(nodes, sn.id).length > 0 : true;
+    const crossedBy = sn ? nodes.filter(function (x) { return x.cross === sn.id; }) : [];
+    const removeOk = !!(sn && !isRootSel && !hasKids && crossedBy.length === 0);
+    const removeHint = !sn ? '' : (isRootSel ? 'Kök kaldırılamaz.' : (hasKids ? 'Altında kol var; önce onları taşıyın veya kaldırın.' : (crossedBy.length ? crossedBy.map(function (x) { return x.n; }).join(', ') + ' buraya çapraz bağlı; önce bağı kaldırın.' : (lm[sn.id] ? 'Yürürlükte olan kol; kaldırma YK onayına gider.' : 'Bu çalışmada eklenen kol; tamamen silinir.'))));
+
+
+    // ---- Balbal — Hiyerarşi Düzenleyici ----
+    const trl = function (x) { return String(x).replace(/İ/g, 'i').replace(/I/g, 'ı').toLowerCase(); };
+    const isL = function (ch) { return !!ch && /[a-zçğıöşü0-9]/.test(ch); };
+    const findAll = function (raw) {
+      const t = trl(raw); const hits = [];
+      nodes.forEach(function (n) { const nn = trl(n.n); let from = 0; let k;
+        while ((k = t.indexOf(nn, from)) >= 0) { if (!isL(t.charAt(k - 1))) hits.push({ n: n, i: k, e: k + nn.length }); from = k + 1; } });
+      hits.sort(function (a, b) { return (b.e - b.i) - (a.e - a.i); });
+      const out = []; hits.forEach(function (h) { if (!out.some(function (o) { return h.i < o.e && h.e > o.i; })) out.push(h); });
+      out.sort(function (a, b) { return a.i - b.i; }); return out;
+    };
+    const cap = function (x) { return x.replace(/\s+/g, ' ').trim(); };
+    const quoted = function (raw) { const m = raw.match(/[\"“”]([^\"“”]+)[\"“”]/); return m ? cap(m[1]) : ''; };
+    const TYPE_RE = /(pozisyon|birim|departman)/;
+    const typeOf = function (t) { const m = t.match(TYPE_RE); return m ? ({ pozisyon: 'poz', birim: 'birim', departman: 'dept' })[m[1]] : null; };
+    const SCOPE = 'Burada yalnızca şirket yapısını düzenliyorum: kol eklemek, taşımak, adını değiştirmek, departman birleştirmek ve kaldırmak. Proje, belge veya başka konular için sağ alttaki Balbal\'ı kullanın.';
+    const interpret = function (raw) {
+      const t = trl(raw); const hits = findAll(raw); const selN = sn && dm[sn.id] ? dm[sn.id] : null;
+      if (/birleştir/.test(t)) {
+        let ds = hits.filter(function (h) { return h.n.t === 'dept'; }).map(function (h) { return h.n; });
+        if (ds.length === 1 && selN && selN.t === 'dept' && selN.id !== ds[0].id) ds = [selN, ds[0]];
+        if (ds.length < 2) return { err: 'Birleştirmek için iki departman adı yazın (ör. "Mali İşler ile Proje Finans\'ı birleştir, adı \\"Finans\\" olsun").' };
+        let name = quoted(raw); if (!name) { const m = t.match(/adı\s+(.+?)\s+olsun/); if (m) { const k = t.indexOf(m[1]); name = cap(raw.slice(k, k + m[1].length)); } }
+        if (!name) name = ds[0].n + ' ve ' + ds[1].n;
+        return { op: { t: 'merge', a: ds[0].id, b: ds[1].id, name: name }, text: ds[0].n + ' ile ' + ds[1].n + ' birleşir → "' + name + '". Alt birim ve pozisyonlar yeni departmana geçer; klasörler silinmez.' };
+      }
+      if (/adını|adı\s/.test(t) && /(yap|olsun|değiştir|olarak)/.test(t)) {
+        const subj = hits.length ? hits[0].n : selN; if (!subj) return { err: 'Hangi kolun adını değiştireyim? Ağaçtan seçin ya da adını yazın.' };
+        let name = quoted(raw); if (!name) { const m = t.match(/adını\s+(.+?)\s+(yap|olsun|olarak|değiştir)/); if (m) { const k = t.indexOf(m[1], t.indexOf('adını')); name = cap(raw.slice(k, k + m[1].length)); } }
+        if (!name) return { err: 'Yeni adı tırnak içinde yazın (ör. "Hukuk" adını "Hukuk ve Uyum" yap).' };
+        if (!subj.p) return { err: 'Kökün (Yönetim Kurulu) adı değiştirilemez.' };
+        return { op: { t: 'rename', id: subj.id, name: name }, text: subj.n + ' → "' + name + '"' };
+      }
+      if (/taşı|bağla|altına al/.test(t)) {
+        let subj, tgt; if (hits.length >= 2) { subj = hits[0].n; tgt = hits[1].n; } else if (hits.length === 1 && selN) { subj = selN; tgt = hits[0].n; }
+        if (!subj || !tgt) return { err: 'Neyi nereye taşıyacağımı anlayamadım. Örnek: "Muhasebe birimini Proje Finans altına taşı".' };
+        if (!subj.p) return { err: 'Kök taşınamaz.' };
+        if (descOf(nodes, subj.id).indexOf(tgt.id) >= 0 || tgt.id === subj.id) return { err: tgt.n + ', ' + subj.n + ' kolunun altında; bir kol kendi altına taşınamaz.' };
+        if (allowedKids(nodes, tgt).indexOf(subj.t) < 0) return { err: TL[subj.t] + ' "' + tgt.n + '" altına bağlanamaz.' + (subj.t === 'dept' ? ' Departmanlar yalnızca yönetim seviyesine bağlanır.' : '') };
+        if (subj.t === 'poz') { const a = deptOf(nodes, subj.id); const b = deptOf(nodes, tgt.id); if ((a && !b) || (!a && b) || (a && b && a.id !== b.id)) return { err: 'Bunu yapamam: ' + subj.n + ' (' + (a ? a.n : 'üst yönetim') + ') başka bir departmandaki ' + tgt.n + ' altına bağlanamaz. Bir pozisyon yalnızca kendi departmanı içinde bağlanır; departmanlar arası raporlama yok. Pozisyonun departmanı değişecekse onu yeni departmanda ayrı bir pozisyon olarak ekleyin.' }; }
+        const da = deptOf(nodes, subj.id); const db = tgt.t === 'dept' ? tgt : deptOf(nodes, tgt.id);
+        return { op: { t: 'move', id: subj.id, to: tgt.id }, text: subj.n + ' → ' + tgt.n + ' altına taşınır.' + (subj.t === 'birim' && da && db && da.id !== db.id ? ' İçindeki pozisyonların departmanı ' + da.n + ' → ' + db.n + ' olur.' : '') };
+      }
+      if (/ekle|\baç\b|oluştur/.test(t)) {
+        let type = typeOf(t) || 'poz'; let name = quoted(raw); let parent = null;
+        const named = /(adında|adlı|isimli|isminde)/.exec(t);
+        if (hits.length) { const h = hits[0]; if (!named || h.i > named.index) { parent = h.n; } else { parent = hits[1] ? hits[1].n : null; }
+          if (!name) { let rest = raw.slice(h.e); let tr = trl(rest); const cut = tr.search(/\s(pozisyon|birim|departman)|\sekle|\saç\b|\soluştur/); if (cut >= 0) { rest = rest.slice(0, cut); tr = tr.slice(0, cut); }
+            rest = rest.replace(/^[’'][a-zçğıöşü]+/i, ''); tr = trl(rest); const lead = tr.match(/^\s*((altına|altında|içine|içinde|bir|yeni|olarak)\s+)+/); if (lead) rest = rest.slice(lead[0].length); name = cap(rest); } }
+        if (named && !name) { const before = raw.slice(0, named.index); const hb = findAll(before); name = cap(hb.length ? before.slice(hb[hb.length - 1].e).replace(/^[’'][a-zçğıöşü]+/i, '').replace(/^\s*(altına|altında|içine)\s+/i, '') : before); }
+        if (!parent) parent = type === 'dept' ? (main || selN) : selN;
+        if (!parent) return { err: 'Nereye ekleyeyim? Üst kolu yazın ya da ağaçtan seçin.' };
+        if (!name) return { err: 'Yeni kolun adını yazın (ör. Mali İşler altına "Bütçe Uzmanı" pozisyonu ekle).' };
+        if (allowedKids(nodes, parent).indexOf(type) < 0) return { err: TL[type] + ', ' + parent.n + ' altına eklenemez.' + (type === 'dept' ? ' Departmanlar yönetim seviyesine (Genel Müdür) eklenir.' : '') };
+        return { op: { t: 'add', parent: parent.id, type: type, name: name }, text: TL[type] + ' eklenir: "' + name + '" → ' + parent.n + ' altına' + (deptOf(nodes, parent.id) && type !== 'dept' ? ' (' + deptOf(nodes, parent.id).n + ')' : '') + '.' };
+      }
+      if (/değişiklik/.test(t) && /(listele|göster|neler|ne var|özetle)/.test(t)) {
+        return { info: changes.length ? 'Yürürlükteki şemaya göre ' + changes.length + ' değişiklik var:\n' + changes.map(function (c, i) { return (i + 1) + '. ' + c.text; }).join('\n') : 'Henüz değişiklik yok; çalışma kopyası yürürlükteki şemanın aynısı.' };
+      }
+      if (/geri al/.test(t)) {
+        let ch = null;
+        if (/son/.test(t)) ch = changes[changes.length - 1] || null;
+        else { const ids = hits.map(function (h) { return h.n.id; }); ch = changes.filter(function (c) { return ids.indexOf(c.id) >= 0; })[0] || null;
+          if (!ch) { const m = t.match(/(\d+)/); if (m) ch = changes[parseInt(m[1], 10) - 1] || null; } }
+        if (!ch) return { err: changes.length ? 'Hangi değişikliği geri alayım? Kolun adını, "son değişiklik" ya da listedeki numarasını yazın.' : 'Geri alınacak değişiklik yok.' };
+        const u = undoFor(ch); if (!u.ok) return { err: '"' + ch.text + '" geri alınamıyor: önce bağlı olduğu değişikliği geri almak gerekiyor.' };
+        return { op: { t: 'undo', fn: u.fn }, text: 'Geri alınır: ' + ch.text };
+      }
+      if (/kapasite/.test(t)) {
+        const subj = hits.length ? hits[0].n : selN; const m = t.match(/(\d+)/);
+        if (!subj || subj.t !== 'poz') return { err: 'Kapasite yalnızca pozisyon için tanımlanır. Hangi pozisyon?' };
+        if (!m) return { err: 'Kaç kişi? Ör. "Avukat kapasitesi 3 olsun".' };
+        const n = parseInt(m[1], 10); if (n < 1) return { err: 'Kapasite en az 1 olmalı.' };
+        return { op: { t: 'cap', id: subj.id, cap: n }, text: subj.n + ': kapasite ' + (subj.cap || 1) + ' → ' + n + ' kişi' };
+      }
+      if (/sıfırla|baştan başla|hepsini geri al/.test(t)) return { op: { t: 'reset' }, text: 'Tüm değişiklikler silinir; çalışma kopyası yürürlükteki şemaya döner.' };
+      if (/onay/.test(t) && /(gönder|sun)/.test(t)) {
+        if (!changes.length) return { err: 'Gönderilecek değişiklik yok.' };
+        return { op: { t: 'send' }, text: changes.length + ' değişiklik YK onayına gönderilir; taslak kilitlenir.' };
+      }
+      if (/kaldır|\bsil/.test(t)) {
+        const subj = hits.length ? hits[0].n : selN; if (!subj) return { err: 'Hangi kolu kaldırayım?' };
+        if (!subj.p) return { err: 'Kök kaldırılamaz.' };
+        if (kidsOf(nodes, subj.id).length) return { err: subj.n + ' altında kol var (' + kidsOf(nodes, subj.id).map(function (x) { return x.n; }).join(', ') + '). Önce onları taşıyalım mı?' };
+        return { op: { t: 'remove', id: subj.id }, text: subj.n + ' kaldırılır.' + (lm[subj.id] ? ' Yürürlükte olan kol; kaldırma YK onayına gider.' : '') };
+      }
+      return { err: SCOPE };
+    };
+    const applyOp = function (op, extra) {
+      if (op.t === 'add') { const id = 'x' + ctr; const i = nodes.indexOf(dm[op.parent]); const d = descOf(nodes, op.parent); let at = i; nodes.forEach(function (x, j) { if (d.indexOf(x.id) >= 0 && j > at) at = j; }); const ns = nodes.slice(); ns.splice(at + 1, 0, Object.assign({ id: id, t: op.type, n: op.name, p: op.parent }, op.type === 'poz' ? { cap: 1 } : {})); set(Object.assign({ nodes: ns, ctr: ctr + 1, sel: id }, extra)); }
+      else if (op.t === 'move') set(Object.assign({ nodes: nodes.map(function (x) { return x.id === op.id ? Object.assign({}, x, { p: op.to }) : x; }), sel: op.id }, extra));
+      else if (op.t === 'rename') set(Object.assign({ nodes: nodes.map(function (x) { return x.id === op.id ? Object.assign({}, x, { n: op.name }) : x; }), sel: op.id }, extra));
+      else if (op.t === 'remove') set(Object.assign({ nodes: nodes.filter(function (x) { return x.id !== op.id; }), sel: dm[op.id] ? dm[op.id].p : null }, extra));
+      else if (op.t === 'undo') { op.fn(); if (extra) set(extra); }
+      else if (op.t === 'cap') set(Object.assign({ nodes: nodes.map(function (x) { return x.id === op.id ? Object.assign({}, x, { cap: op.cap }) : x; }), sel: op.id }, extra));
+      else if (op.t === 'reset') set(Object.assign({ nodes: self.clone(liveNodes), merges: [], sel: null }, extra));
+      else if (op.t === 'send') set(Object.assign({ stage: 'yk', ykNote: '' }, extra));
+      else if (op.t === 'merge') { const id = 'x' + ctr; const r = self.doMerge(nodes, merges, op.a, op.b, op.name, id); set(Object.assign({ nodes: r.nodes, merges: r.merges, ctr: ctr + 1, sel: id }, extra)); }
+    };
+    const HD_HELLO = 'Ne değiştirmek istiyorsunuz?';
+    const hdLogRaw = st.hdLog || [{ w: 'b', t: HD_HELLO }];
+    const hdPending = st.hdPending || null;
+    const hdInput = st.hdInput || '';
+    const hdSendText = function (txt) {
+      const q = cap(txt || ''); if (!q) return;
+      const r = interpret(q); const log = hdLogRaw.concat([{ w: 'u', t: q }]);
+      if (r.err) set({ hdLog: log.concat([{ w: 'b', t: r.err }]), hdPending: null, hdInput: '' });
+      else if (r.info) set({ hdLog: log.concat([{ w: 'b', t: r.info }]), hdPending: null, hdInput: '' });
+      else set({ hdLog: log.concat([{ w: 'b', t: 'Şunu yapayım mı?' }]), hdPending: r, hdInput: '' });
+    };
+    const bubble = function (w) { return 'max-width:92%;font-size:12.5px;line-height:1.45;padding:7px 10px;white-space:pre-line;' + (w === 'u' ? 'align-self:flex-end;background:#0E241D;color:#F6F7F5;border-radius:10px 10px 2px 10px;' : 'align-self:flex-start;background:#FFF8EF;color:#132119;border:1px solid #F5D3A8;border-radius:10px 10px 10px 2px;'); };
+    const HD_CHIPS = ['Değişiklikleri listele', 'Son değişikliği geri al', 'Mali İşler altına "Bütçe Uzmanı" pozisyonu ekle', 'Muhasebe birimini Proje Finans altına taşı', 'Proje Finans Müdürü\'nü Hukuk Müdürü\'ne bağla', 'Hukuk adını "Hukuk ve Uyum" yap'];
+    const hdVals = {
+      hdLog: hdLogRaw.map(function (m) { return { text: m.t, style: bubble(m.w) }; }),
+      hdHasPending: !!hdPending, hdPendingText: hdPending ? hdPending.text : '',
+      hdApply: function () { if (!hdPending) return; applyOp(hdPending.op, { hdPending: null, hdLog: hdLogRaw.concat([{ w: 'b', t: 'Uygulandı.' }]) }); },
+      hdCancel: function () { set({ hdPending: null, hdLog: hdLogRaw.concat([{ w: 'b', t: 'Vazgeçildi.' }]) }); },
+      hdChips: HD_CHIPS.map(function (c) { return { label: c, use: function () { hdSendText(c); } }; }),
+      hdInput: hdInput, onHdInput: function (e) { set({ hdInput: e.target.value }); },
+      onHdKey: function (e) { if (e.key === 'Enter') { e.preventDefault(); hdSendText(e.target.value); } },
+      hdSend: function () { hdSendText(hdInput); },
+      hdCount: changes.length + ' değişiklik', hdHasSel: !!sn, hdSelName: sn ? sn.n : '', hdClearSel: function () { set({ sel: null }); },
+      hdPlaceholder: sn ? 'Seçili: ' + sn.n + ' · ne yapalım?' : 'Ör. Enerji altına "Satın Alma" birimi ekle',
+      manualOn: !!st.manualOn, manualLabel: st.manualOn ? 'Elle düzenlemeyi gizle' : 'Elle düzenle (seçili kol)', toggleManual: function () { set({ manualOn: !st.manualOn }); }
+    };
+
+    // ---- değişiklik listesi + geri al ----
+    const undoFor = function (c) {
+      const L = lm[c.id];
+      if (c.kind === 'merge') { return { ok: true, fn: function () { const r = self.undoMerge(nodes, merges, c.id); if (r) set({ nodes: r.nodes, merges: r.merges }); } }; }
+      if (c.kind === 'new') { return { ok: true, fn: function () { const gone = [c.id].concat(descOf(nodes, c.id)); commit(nodes.filter(function (x) { return gone.indexOf(x.id) < 0; }).map(function (x) { return gone.indexOf(x.cross) >= 0 ? Object.assign({}, x, { cross: undefined }) : x; })); } }; }
+      if (c.kind === 'rename') { return { ok: true, fn: function () { commit(nodes.map(function (x) { return x.id === c.id ? Object.assign({}, x, { n: L.n }) : x; })); } }; }
+      if (c.kind === 'move') { const tgt = finalOf(L.p); const ok = !!dm[tgt] && descOf(nodes, c.id).indexOf(tgt) < 0; return { ok: ok, fn: function () { if (ok) commit(nodes.map(function (x) { return x.id === c.id ? Object.assign({}, x, { p: tgt }) : x; })); } }; }
+      if (c.kind === 'cap') { return { ok: true, fn: function () { commit(nodes.map(function (x) { return x.id === c.id ? Object.assign({}, x, { cap: L.cap || 1 }) : x; })); } }; }
+      if (c.kind === 'cross') { const ok = !L.cross || !!dm[L.cross]; return { ok: ok, fn: function () { if (ok) commit(nodes.map(function (x) { return x.id === c.id ? Object.assign({}, x, { cross: L.cross }) : x; })); } }; }
+      if (c.kind === 'removed') { const tgt = finalOf(L.p); const ok = !!dm[tgt]; return { ok: ok, fn: function () { if (ok) commit(nodes.concat([Object.assign({}, L, { p: tgt })])); } }; }
+      return { ok: false, fn: function () {} };
+    };
+    const changesV = changes.map(function (c) {
+      const u = undoFor(c); const t = KTAG[c.kind];
+      return { tag: t, style: tagStyle(t), text: c.text, showUndo: stage === 'draft', undo: u.fn, undoOff: !u.ok,
+        undoStyle: 'flex-shrink:0;background:#FFFFFF;border:1px solid ' + (u.ok ? '#D6E4DA' : '#EEF1EE') + ';border-radius:8px;padding:4px 8px;font-size:11.5px;font-weight:600;color:' + (u.ok ? '#132119' : '#B5BFB8') + ';cursor:' + (u.ok ? 'pointer' : 'not-allowed') + ';' };
+    });
+
+    // ---- kişi yerleşimi (3. adım) ----
+    const pozList = nodes.filter(function (x) { return x.t === 'poz'; });
+    const emptyPoz = pozList.filter(function (x) { return holders(asg, x.id).length === 0; });
+    const selPoz = sn && sn.t === 'poz' && view === 'draft' ? sn : null;
+    const peopleBtns = D.PEOPLE.map(function (q) {
+      const cur = asg[q.id]; const curN = cur && dm[cur] ? dm[cur].n : 'yerleştirilmedi'; const here = selPoz && cur === selPoz.id;
+      const un = !cur || !dm[cur];
+      const full = selPoz && holders(asg, selPoz.id).length >= (selPoz.cap || 1);
+      return { label: shortName(q.n) + ' · ' + curN, off: !selPoz || here || full,
+        assign: function () { if (!selPoz) return; const A = Object.assign({}, asg); A[q.id] = selPoz.id; set({ asg: A }); },
+        style: 'border-radius:8px;padding:5px 9px;font-size:12px;font-weight:500;cursor:' + (selPoz && !here ? 'pointer' : 'default') + ';' +
+          (here ? 'background:#E7F3EB;border:1px solid #B9D8C3;color:#14401F;' : (un ? 'background:#FBF1DE;border:1px solid #E6C98F;color:#7A4E0B;' : 'background:#FFFFFF;border:1px solid #E1E7E2;color:#132119;')) };
+    });
+    const selHolders = selPoz ? holders(asg, selPoz.id).map(function (q) { return { name: q.n, open: openCard(q.id), ini: q.n.split(' ').map(function (w) { return w.charAt(0); }).join('').slice(0, 2),
+      remove: function () { const A = Object.assign({}, asg); A[q.id] = null; set({ asg: A }); } }; }) : [];
+    const movedPeople = D.PEOPLE.filter(function (q) {
+      const a = liveAsg[q.id]; const b = asg[q.id];
+      const da = a ? (deptOf(liveNodes, a) || {}).n : null; const db = b && dm[b] ? (deptOf(nodes, b) || {}).n : null;
+      const na = a && lm[a] ? lm[a].n : null; const nb = b && dm[b] ? dm[b].n : null;
+      return na !== nb || da !== db;
+    }).map(function (q) {
+      const a = liveAsg[q.id]; const b = asg[q.id];
+      const fa = a && lm[a] ? lm[a].n + ' (' + ((deptOf(liveNodes, a) || {}).n || '—') + ')' : 'yok';
+      const fb = b && dm[b] ? dm[b].n + ' (' + ((deptOf(nodes, b) || {}).n || '—') + ')' : 'yerleştirilmedi';
+      return { text: q.n + ': ' + fa + ' → ' + fb };
+    });
+    const unplaced = D.PEOPLE.filter(function (q) { return !asg[q.id] || !dm[asg[q.id]]; });
+
+    // ---- tetik noktaları ve klasör uyumsuzlukları (5. adım) ----
+    const apprLines = [];
+    D.PEOPLE.forEach(function (q) {
+      const a = liveAsg[q.id]; const b = asg[q.id]; if (!b || !dm[b]) return;
+      const ea = a && lm[a] ? effAppr(liveNodes, liveAsg, a) : null; const eb = effAppr(nodes, asg, b);
+      const la = ea ? holders(liveAsg, ea).map(function (x) { return shortName(x.n); }).join(', ') + ' (' + lm[ea].n + ')' : 'YK';
+      const lb = eb ? holders(asg, eb).map(function (x) { return shortName(x.n); }).join(', ') + ' (' + dm[eb].n + ')' : 'YK';
+      if (la !== lb) apprLines.push(shortName(q.n) + ': ' + la + ' → ' + lb);
+    });
+    const liveDepts = liveNodes.filter(function (x) { return x.t === 'dept'; }); const newDepts = nodes.filter(function (x) { return x.t === 'dept'; });
+    const deptLines = [];
+    newDepts.forEach(function (d) { const m = merges.filter(function (x) { return x.id === d.id; })[0];
+      if (m) deptLines.push(m.a.n + ' + ' + m.b.n + ' → ' + d.n + ': iki departman sayfası tek sayfada birleşir');
+      else if (!lm[d.id]) deptLines.push(d.n + ': yeni departman sayfası açılır');
+      else if (lm[d.id].n !== d.n) deptLines.push(lm[d.id].n + ' → ' + d.n + ': ad her yerde güncellenir'); });
+    liveDepts.forEach(function (d) { if (!dm[d.id] && !mergeOf[d.id]) deptLines.push(d.n + ': departman sayfası kapanır, kayıtları arşivde kalır'); });
+    const headOf = function (ns, A, deptId) { const pz = descOf(ns, deptId).filter(function (id) { return mapOf(ns)[id].t === 'poz'; }); let h = pz[0] || null; if (h && holders(A, h).length === 0) h = effAppr(ns, A, h); if (!h) return 'YK'; return mapOf(ns)[h].n + ' (' + (holders(A, h).map(function (x) { return x.n; }).join(', ') || 'boş') + ')'; };
+    const mismatches = [];
+    merges.forEach(function (m) { if (!dm[m.id]) return; [m.a, m.b].forEach(function (src) { const fs = D.FOLDERS[src.id]; if (!fs) return;
+      mismatches.push({ title: src.n + ' klasörleri (' + fs.join(', ') + '): sahibi birleşen ' + dm[m.id].n + ' olmalı', to: headOf(nodes, asg, m.id) }); }); });
+    liveDepts.forEach(function (d) { if (dm[d.id] || mergeOf[d.id]) return; const fs = D.FOLDERS[d.id]; if (fs) mismatches.push({ title: d.n + ' klasörleri (' + fs.join(', ') + '): sahibi kalmadı', to: 'Genel Müdür' }); });
+    D.GRANTS.forEach(function (g) { if (!dm[g.dept]) mismatches.push({ title: g.folder + ': ' + nameOf(g.dept) + ' departmanına verilmiş ' + g.mode + ' yetkisi; departman artık yok', to: dm[g.owner] ? headOf(nodes, asg, g.owner) : 'Genel Müdür' }); });
+    newDepts.forEach(function (d) { if (!lm[d.id] && !merges.some(function (m) { return m.id === d.id; })) mismatches.push({ title: d.n + ': ortak alanda klasörü yok, hiçbir klasöre erişimi yok', to: headOf(nodes, asg, d.id) }); });
+    Object.keys(D.PERSONAL).forEach(function (pid) { const a = liveAsg[pid]; const b = asg[pid]; const da = a ? (deptOf(liveNodes, a) || {}).id : null; const db = b && dm[b] ? (deptOf(nodes, b) || {}).id : null;
+      if (da !== db) { const q = D.PEOPLE.filter(function (x) { return x.id === pid; })[0]; mismatches.push({ title: q.n + ': departmanı değişti; kişiye özel yetkisi (' + D.PERSONAL[pid].join(', ') + ') yeniden onaylanmalı', to: dm.hukuk ? headOf(nodes, asg, 'hukuk') : 'Genel Müdür' }); } });
+
+    const trig = function (head, lines, none) { return { head: head, lines: lines.length ? lines : [none], count: lines.length ? lines.length + ' değişiklik' : 'değişmiyor',
+      countStyle: 'font-size:11px;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;' + (lines.length ? 'color:#1D4ED8;background:#E8EFFD;' : 'color:#5B6B60;background:#F0F2F0;') }; };
+    const triggers = [
+      trig('Belge onay akışı (kimin belgesi kime gider)', apprLines, 'Onaylayanlar aynı kalıyor'),
+      trig('İzin onay zinciri ve vekâlet', apprLines.length ? ['Belge onayıyla aynı kaynaktan: ' + apprLines.length + ' kişinin izin onaylayanı değişir'] : [], 'Değişmiyor'),
+      trig('Departman sayfaları, görüş talebi ve bildirim listeleri', deptLines, 'Departman listesi aynı'),
+      trig('Son tarih hatırlatma alıcıları', deptLines.length || apprLines.length ? ['Departman başına giden hatırlatmalar (kredi, teminat, sigorta, dava, izin süreleri) yeni departman başlarına yönlenir'] : [], 'Değişmiyor'),
+      trig('Balbal erişim filtresi', mismatches.length ? ['Departman bazlı erişim yeni yapıya göre kurulur; uyumsuz klasörler çözülene kadar mevcut erişim korunur, yeni erişim açılmaz'] : [], 'Değişmiyor')
+    ];
+
+    // ---- adımlar ----
+    const ORDER = ['draft', 'yk', 'atama', 'kisiOnay', 'hazir', 'canli'];
+    const si = ORDER.indexOf(stage);
+    const STEPS = [['Şema çalışması', 'İK'], ['Şema onayı', 'YK'], ['Kişi yerleşimi', 'İK'], ['Kişi onayı', 'YK'], ['Devreye alma', 'İK']];
+    const steps = STEPS.map(function (s, i) {
+      const done = si > i || stage === 'canli'; const cur = si === i;
+      return { num: done ? '✓' : String(i + 1), label: s[0], sub: s[1], arrow: i < STEPS.length - 1,
+        boxStyle: 'display:flex;align-items:center;gap:10px;border-radius:12px;padding:8px 12px;' + (cur ? 'background:#0E241D;color:#F6F7F5;' : (done ? 'background:#E7F3EB;color:#14401F;' : 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;')),
+        numStyle: 'width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;' + (cur ? 'background:#2FA968;color:#0E241D;' : (done ? 'background:#2FA968;color:#FFFFFF;' : 'background:#EEF1EE;color:#5B6B60;')),
+        subStyle: 'font-size:11px;' + (cur ? 'color:#9FB0A6;' : 'color:#8A968E;') };
+    });
+
+    // ---- görünüm seçenekleri ----
+    const vDefs = isLiveStage ? [['live', 'Yürürlükteki şema (v' + liveVer + ')'], ['onceki', 'Önceki (v' + (liveVer - 1) + ')']]
+      : [['live', 'Yürürlükteki şema (v' + liveVer + ')'], ['draft', stage === 'draft' ? 'Çalışma kopyası (v' + nextVer + ' taslak)' : (stage === 'yk' ? 'v' + nextVer + ' · YK onayında' : 'v' + nextVer + ' · kişi yerleşimi')]];
+    const views = vDefs.map(function (v) { const on = view === v[0];
+      return { label: v[1], select: function () { set({ view: v[0] }); }, style: 'border:none;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;' + (on ? 'background:#0E241D;color:#F6F7F5;' : 'background:transparent;color:#5B6B60;') }; });
+
+    let bannerHead = ''; let bannerText = ''; let bannerTone = 'info';
+    if (view === 'live') { bannerHead = 'Salt okunur.'; bannerText = ' Sistem şu an bu şemayla çalışıyor; çalışma kopyasındaki değişiklikler devreye alınana kadar hiçbir şeyi etkilemez.'; }
+    else if (view === 'onceki') { bannerHead = 'Arşiv.'; bannerText = ' Bir önceki yürürlük sürümü; karşılaştırma için.'; }
+    else if (stage === 'draft') { bannerHead = 'Çalışma kopyası.'; bannerText = ' İK burada kol ekler, taşır, birleştirir. Yürürlükteki şema değişmez.'; bannerTone = 'work'; }
+    else if (stage === 'yk') { bannerHead = 'Kilitli.'; bannerText = ' Taslak YK onayında; düzenleme kapalı.'; bannerTone = 'wait'; }
+    else if (stage === 'atama') { bannerHead = 'Şema onaylandı.'; bannerText = ' Şimdi pozisyonlara kişiler yerleştiriliyor; yapı değiştirilemez.'; bannerTone = 'work'; }
+    else if (stage === 'kisiOnay') { bannerHead = 'Kilitli.'; bannerText = ' Kişi yerleşimi YK onayında.'; bannerTone = 'wait'; }
+    else if (stage === 'hazir') { bannerHead = 'Devreye almaya hazır.'; bannerText = ' Şema ve kişiler onaylı; devreye alınana kadar sistem eski şemayla çalışır.'; bannerTone = 'work'; }
+    const TONE = { info: 'background:#FFFFFF;border:1px solid #E1E7E2;color:#5B6B60;', work: 'background:#E7F3EB;border:1px solid #CFE5D6;color:#14401F;', wait: 'background:#FBF1DE;border:1px solid #EBD5A8;color:#7A4E0B;' };
+    const bannerStyle = 'flex:1;min-width:300px;display:flex;gap:2px;flex-wrap:wrap;font-size:12.5px;line-height:1.45;border-radius:10px;padding:8px 12px;' + TONE[bannerTone];
+
+    const nChanges = changes.length;
+    const legend = (showDiff ? ['Yeni', 'Birleşti', 'Taşındı', 'Adı değişti'] : (showAsg ? ['Boş'] : [])).map(function (t) { return { label: t === 'Boş' ? 'Boş pozisyon' : t, style: tagStyle(t) }; });
+
+    const emb = !!this.props.embedded;
+    const treeFull = !!st.treeFull;
+    if (!this._treeRef) this._treeRef = function (el) { self._treeEl = el; };
+    return Object.assign(hdVals, cardVals, {
+      standalone: !emb && !adm, showHead: !adm, showRp: !adm,
+      treeRef: this._treeRef, treeFull: treeFull, treeNotFull: !treeFull && !adm,
+      treeCardStyle: 'background:#FFFFFF;border:1px solid #E1E7E2;display:flex;flex-direction:column;overflow:hidden;outline:none;' + (treeFull ? 'position:absolute;top:8px;left:8px;right:8px;bottom:8px;z-index:30;border-radius:14px;box-shadow:0 20px 50px rgba(14,36,29,0.28);' : 'flex:1;min-width:0;border-radius:14px;'),
+      onTreeFull: function () { set({ treeFull: true }); setTimeout(function () { if (self._treeEl && self._treeEl.focus) self._treeEl.focus(); }, 30); },
+      onTreeClose: function () { set({ treeFull: false }); },
+      onTreeKey: function (e) { if (e.key === 'Escape' && st.treeFull) { e.preventDefault(); set({ treeFull: false }); } }, showSelBox: !canEdit || (st.rpTab === 'kol'),
+      rpBalbal: canEdit && st.rpTab !== 'kol',
+      rpGoKol: function () { set({ rpTab: 'kol' }); }, rpGoBalbal: function () { set({ rpTab: 'balbal' }); },
+      rpKolStyle: 'flex:1;border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;' + (st.rpTab === 'kol' ? 'background:#0E241D;color:#F6F7F5;border:1px solid #0E241D;' : 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;'),
+      rpBalbalStyle: 'flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;' + (st.rpTab !== 'kol' ? 'background:#D97706;color:#132119;border:1px solid #D97706;' : 'background:#FFF4E5;color:#9A4E0A;border:1px solid #F5C892;'),
+      selChanges: sn && canEdit ? changes.filter(function (c) { return c.id === sn.id; }).map(function (c) { return { tag: KTAG[c.kind], style: tagStyle(KTAG[c.kind]), text: c.text }; }) : [],
+      selHasChanges: !!(sn && canEdit && changes.some(function (c) { return c.id === sn.id; })),
+      selToBalbal: !!(sn && canEdit),
+      canFull: emb && !!(this.props.onFull || this.props.onWindow), fullBtnLabel: this.props.full ? 'Sekmeden çık' : 'Sekmede tam ekran aç',
+      onFullBtn: function () { if (self.props.full) { if (self.props.onWindow) self.props.onWindow(); } else if (self.props.onFull) self.props.onFull(); },
+      rootStyle: 'width:' + (emb ? (this.props.w || 1360) : 1600) + 'px;height:' + (emb ? (this.props.h || 790) : 1000) + 'px;box-sizing:border-box;display:flex;flex-direction:column;background:#EEF6F0;font-family:\'IBM Plex Sans\',sans-serif;color:#132119;overflow:hidden;position:relative;',
+      bodyStyle: 'flex:1;min-height:0;display:flex;flex-direction:column;gap:14px;box-sizing:border-box;' + (emb ? 'padding:0;' : 'padding:20px 40px 24px;'),
+      verLine: 'Yürürlükte v' + liveVer,
+      steps: steps, views: views, bannerStyle: bannerStyle, bannerHead: bannerHead, bannerText: bannerText,
+      canTogglePeople: view === 'live' && isLiveStage, showPeopleLive: !!st.showP, onTogglePeople: function () { set({ showP: !st.showP }); },
+      treeTitle: view === 'draft' ? (stage === 'draft' ? 'Çalışma kopyası · v' + nextVer + ' taslak' : 'v' + nextVer + (showAsg ? ' · pozisyonlar ve kişiler' : ' · onaya giden şema')) : (view === 'onceki' ? 'Önceki şema · v' + (liveVer - 1) : 'Yürürlükteki şema · v' + liveVer + (showAsg ? ' · kişilerle' : ' · isimsiz')),
+      legend: legend, trees: trees,
+      hasSel: !!sn, noSel: !sn, selInfo: selInfo, isRootSel: isRootSel,
+      selIsPoz: !!(sn && sn.t === 'poz' && !isTopPoz(nodes, sn)), selIsDept: !!(sn && sn.t === 'dept'),
+
+      pReadOnly: view !== 'draft', canGoDraft: !isLiveStage || stage === 'canli',
+      readOnlyText: isLiveStage ? '' : 'Salt okunur.',
+      goDraft: isLiveStage ? function () { set({ stage: 'draft', view: 'draft', nodes: self.clone(liveNodes), merges: [], asg: null, sel: null, ykNote: '' }); } : function () { set({ view: 'draft' }); },
+      goDraftLabel: isLiveStage ? 'Yeni şema çalışması başlat' : 'Çalışma kopyasına geç',
+
+      pEdit: canEdit, hasYkNote: !!st.ykNote, ykNote: st.ykNote || '',
+      addTypes: addTypes, addType: addType, onAddType: function (e) { set({ addType: e.target.value }); },
+      addName: addName, onAddName: function (e) { set({ addName: e.target.value }); },
+      addDisabled: !addOk, addBtnStyle: btn(addOk),
+      onAdd: function () { if (!addOk) return; const id = 'x' + ctr; const i = nodes.indexOf(dm[sn.id]); const d = descOf(nodes, sn.id); let at = i; nodes.forEach(function (x, j) { if (d.indexOf(x.id) >= 0 && j > at) at = j; });
+        const ns = nodes.slice(); ns.splice(at + 1, 0, { id: id, t: addType, n: addName.trim(), p: sn.id }); commit(ns, { ctr: ctr + 1, sel: id }); },
+      renameTxt: renameTxt, onRenameTxt: function (e) { set({ renameTxt: e.target.value }); }, renameDisabled: !renameOk, renameBtnStyle: btn(renameOk),
+      onRename: function () { if (renameOk) commit(nodes.map(function (x) { return x.id === sn.id ? Object.assign({}, x, { n: renameTxt.trim() }) : x; })); },
+      moveRule: sn && sn.t === 'poz' ? 'Pozisyon yalnızca kendi departmanı içinde taşınır; başka departmandaki bir pozisyona bağlanamaz. Yönetim seviyesi (Genel Müdür) her departmanın üstündedir.' : (sn && sn.t === 'birim' ? 'Birim, içindeki pozisyonlarla birlikte başka bir departmana taşınabilir; pozisyonların departmanı da değişir.' : 'Departman yalnızca yönetim seviyesine bağlanır.'),
+      moveOpts: moveOpts, moveTo: moveTo, moveLocked: isRootSel, onMoveTo: function (e) { set({ moveTo: e.target.value }); }, moveDisabled: !moveOk, moveBtnStyle: btn(moveOk),
+      onMove: function () { if (moveOk) commit(nodes.map(function (x) { return x.id === sn.id ? Object.assign({}, x, { p: moveTo }) : x; })); },
+      mergeOpts: mergeOpts, mergeWith: mergeWith, mergeName: mergeName, onMergeWith: function (e) { set({ mergeWith: e.target.value }); }, onMergeName: function (e) { set({ mergeName: e.target.value }); },
+      mergeDisabled: !mergeOk, mergeBtnStyle: btn(mergeOk, 'merge'),
+      onMerge: function () { if (!mergeOk) return; const id = 'x' + ctr; const r = self.doMerge(nodes, merges, sn.id, mergeWith, mergeName.trim(), id); set({ nodes: r.nodes, merges: r.merges, ctr: ctr + 1, sel: id, mergeWith: '', mergeName: '' }); },
+      removeDisabled: !removeOk, removeBtnStyle: btn(removeOk, 'danger'), removeHint: removeHint,
+      onRemove: function () { if (removeOk) commit(nodes.filter(function (x) { return x.id !== sn.id; }), { sel: sn.p }); },
+
+      pChanges: view === 'draft' && stage === 'yk', changes: changesV, noChanges: nChanges === 0, changeCount: nChanges + ' değişiklik',
+      onReset: function () { set({ nodes: self.clone(liveNodes), merges: [], sel: null }); },
+      sendDisabled: nChanges === 0, sendBtnStyle: (nChanges ? 'background:#0E241D;color:#F6F7F5;cursor:pointer;' : 'background:#F0F2F0;color:#A9B3AC;cursor:not-allowed;') + 'border:none;border-radius:10px;padding:11px 14px;font-size:13.5px;font-weight:600;',
+      onSendYk: function () { if (nChanges) set({ stage: 'yk', ykNote: '' }); },
+
+      pYk: view === 'draft' && stage === 'yk',
+      onYkApprove: function () { set({ stage: 'atama', asg: self.initAsg(nodes, liveAsg), sel: null }); },
+      onYkRevise: function () { set({ stage: 'draft', ykNote: 'YK revizyon istedi (05.10.2026): "Bilgi Teknolojileri ayrı departman yerine Mali İşler altında birim olarak kalsın." Taslak yeniden düzenlemeye açıldı.' }); },
+
+      pAtama: canAssign, nextVer: nextVer, selIsPozAtama: !!selPoz, selNotPozAtama: !selPoz, selHolders: selHolders, selEmpty: !!(selPoz && selHolders.length === 0),
+      peopleBtns: peopleBtns, emptyPoz: emptyPoz.map(function (x) { return { name: x.n, select: pick(x.id) }; }), emptyCount: '· ' + emptyPoz.length,
+      movedPeople: movedPeople.length ? movedPeople : [{ text: 'Kimsenin pozisyonu değişmedi.' }], movedCount: '· ' + movedPeople.length,
+      sendPeopleDisabled: unplaced.length > 0, sendPeopleStyle: (unplaced.length ? 'background:#F0F2F0;color:#A9B3AC;cursor:not-allowed;' : 'background:#0E241D;color:#F6F7F5;cursor:pointer;') + 'border:none;border-radius:10px;padding:11px 14px;font-size:13.5px;font-weight:600;',
+      sendPeopleHint: unplaced.length ? 'Yerleştirilmedi: ' + unplaced.map(function (q) { return q.n; }).join(', ') : '',
+      onSendPeople: function () { if (!unplaced.length) set({ stage: 'kisiOnay' }); },
+
+      pKisiOnay: view === 'draft' && stage === 'kisiOnay',
+      kisiOnayText: D.PEOPLE.length + ' çalışan, ' + pozList.length + ' pozisyon (' + emptyPoz.length + ' boş). Yürürlüğe göre ' + movedPeople.length + ' kişinin pozisyonu veya departmanı değişiyor.',
+      onPeopleApprove: function () { set({ stage: 'hazir' }); }, onPeopleRevise: function () { set({ stage: 'atama' }); },
+
+      pHazir: view === 'draft' && stage === 'hazir', triggers: triggers, mismatches: mismatches, mmCount: String(mismatches.length),
+      onGoLive: function () { set({ stage: 'canli', view: 'live', prevNodes: liveNodes, liveNodes: nodes, liveAsg: asg, liveVer: nextVer, liveMm: mismatches.length, sel: null }); },
+
+      pCanli: isLiveStage, liveVer: liveVer,
+      liveText: 'Tetik noktaları güncellendi.',
+      onNewStudy: function () { set({ stage: 'draft', view: 'draft', nodes: self.clone(liveNodes), merges: [], asg: null, sel: null, ykNote: '' }); }
+    });
+  }
+
+  initAsg(nodes, liveAsg) {
+    const ids = {}; nodes.forEach(function (x) { ids[x.id] = 1; });
+    const A = {}; Object.keys(liveAsg).forEach(function (k) { A[k] = ids[liveAsg[k]] ? liveAsg[k] : null; });
+    return A;
+  }
+}
+</script>
+</body>
+</html>

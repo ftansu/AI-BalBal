@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Arama Sonuçları</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+
+<div style="width:560px;height:520px;box-sizing:border-box;display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;box-shadow:0 16px 40px rgba(19,33,25,0.22);overflow:hidden;font-family:'IBM Plex Sans',sans-serif;color:#132119;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #E9EDEA;flex-shrink:0;">
+    <div style="font-size:13px;color:#5B6B60;">{{headline}}</div>
+    <button aria-label="Kapat" onClick="{{onClose}}" style="width:30px;height:30px;border-radius:8px;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6B60" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+    </button>
+  </div>
+
+  <div style="flex:1;min-height:0;overflow-y:auto;padding:8px 8px 12px;">
+    <sc-if value="{{hasQuery}}" hint-placeholder-val="{{true}}">
+      <button onClick="{{onAsk}}" style="display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:#F0FAF3;border:1px solid #DCEEE2;border-radius:10px;padding:10px 12px;margin-bottom:6px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;color:#132119;">
+        <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:24px;height:24px;border-radius:50%;object-fit:cover;">
+        <span style="font-size:14px;">Balbal'a sor: <strong>{{query}}</strong></span>
+      </button>
+    </sc-if>
+
+    <sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+      <div style="padding:10px 8px 4px;font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;">{{g.label}}</div>
+      <sc-for list="{{g.items}}" as="it" hint-placeholder-count="3">
+        <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;">
+          <sc-if value="{{it.isDoc}}" hint-placeholder-val="{{true}}">
+            <span style="width:28px;height:32px;border-radius:5px;background:{{it.color}};display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#FFFFFF;flex-shrink:0;">{{it.ext}}</span>
+          </sc-if>
+          <sc-if value="{{it.isPerson}}" hint-placeholder-val="{{false}}">
+            <span style="width:30px;height:30px;border-radius:50%;background:{{it.color}};display:inline-flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;color:#FFFFFF;flex-shrink:0;">{{it.initials}}</span>
+          </sc-if>
+          <sc-if value="{{it.isProject}}" hint-placeholder-val="{{false}}">
+            <span style="width:30px;height:30px;border-radius:8px;background:#E7F3EB;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1E6B3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12 4 7M12 12l8-5M12 2v5"></path></svg>
+            </span>
+          </sc-if>
+          <div style="flex:1;min-width:0;">
+            <sc-if value="{{it.href}}" hint-placeholder-val="{{true}}">
+              <a href="{{it.href}}" style="display:block;font-size:14px;font-weight:600;color:#1E6B3E;text-decoration:underline;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{it.title}}</a>
+            </sc-if>
+            <sc-if value="{{it.noHref}}" hint-placeholder-val="{{false}}">
+              <div style="font-size:14px;font-weight:600;">{{it.title}}</div>
+            </sc-if>
+            <div style="font-size:12px;color:#8A968E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{it.meta}}</div>
+          </div>
+          <sc-if value="{{it.status}}" hint-placeholder-val="{{false}}">
+            <span style="{{it.statusStyle}}">{{it.status}}</span>
+          </sc-if>
+          <sc-if value="{{it.isDoc}}" hint-placeholder-val="{{true}}">
+            <a href="{{it.href}}" style="display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:600;color:#1E6B3E;text-decoration:underline;flex-shrink:0;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1E6B3E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>
+              İndir
+            </a>
+          </sc-if>
+        </div>
+      </sc-for>
+    </sc-for>
+
+    <sc-if value="{{noResults}}" hint-placeholder-val="{{false}}">
+      <div style="padding:30px 20px;text-align:center;font-size:13.5px;color:#8A968E;">Yetkiniz olan belgelerde eşleşme bulunamadı. Balbal'a sorarak içerikte arayabilirsiniz.</div>
+    </sc-if>
+  </div>
+
+  <div style="padding:10px 16px;border-top:1px solid #E9EDEA;font-size:11.5px;color:#8A968E;flex-shrink:0;">Yalnızca görme yetkiniz olan belgeler, projeler ve kişiler listelenir.</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"query":{"editor":"text","default":"karatepe"},"dept":{"editor":"enum","options":["finans","hukuk","enerji","ik"],"default":"finans"},"onClose":{"editor":null},"onAskBalbal":{"editor":null},"$preview":{"width":560,"height":520}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const self = this;
+    const dept = this.props.dept || 'finans';
+    const query = (this.props.query || '').trim();
+    const q = query.toLocaleLowerCase('tr');
+    const K = 'Sozlesme-Onizleme.dc.html';
+    const X = 'Excel-Onizleme.dc.html';
+    const C = 'Belge-Bildirim-CED.dc.html';
+    const DOCS = [
+      { title: 'IK_Izin_Formu_Sablonu_IK-F-03.docx', meta: 'İK formu · şablon · 2026 · v3', current: true, href: 'Izin-Talebi.dc.html', depts: ['ik'] },
+      { title: 'Kidem_Tazminati_Tavani_Genelgesi_2025-2.pdf', meta: 'Mevzuat · HMB Genelgesi · 01.07.2025 · değişiklik şüphesi', current: true, href: K, depts: ['ik'] },
+      { title: 'Hakan_Tunc_Is_Sozlesmesi.pdf', meta: 'Personel dosyası · işe giriş 03.03.2024 · v1', current: true, href: K, depts: ['ik'] },
+      { title: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', meta: 'Kredi sözleşmesi · Garanti BBVA · 12.01.2024 · v2', current: true, href: K, depts: ['finans', 'hukuk'] },
+      { title: 'Karatepe_RES_Kredi_Tadil_2.pdf', meta: 'Tadil sözleşmesi · Garanti BBVA · 15.03.2025 · v1', current: true, href: K, depts: ['finans', 'hukuk'] },
+      { title: 'Karatepe_RES_Kredi_Sozlesmesi_2022.pdf', meta: 'Kredi sözleşmesi · 20.06.2022 · v1', current: false, href: K, depts: ['finans', 'hukuk'] },
+      { title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', meta: 'Kredi sözleşmesi · Commerzbank AG · 03.06.2023 · v1', current: true, href: K, depts: ['finans', 'hukuk'] },
+      { title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', meta: 'Excel · Ödeme takvimi · 01.09.2026', href: X, depts: ['finans'] },
+      { title: 'Commerzbank_Annex_F_Taslak.xlsx', meta: 'Excel · Raporlama · 25.09.2026', href: X, depts: ['finans'] },
+      { title: 'Boztepe_RES_Sigorta_Policesi.pdf', meta: 'Sigorta poliçesi · 14.09.2026 · v1', current: true, href: K, depts: ['finans'] },
+      { title: 'Karatepe_RES_CED_Raporu_2026.pdf', meta: 'ÇED raporu · Bakanlık · 18.09.2026 · v1', current: true, href: C, depts: ['enerji', 'hukuk'] },
+      { title: 'Karatepe_RES_Bakim_Sozlesmesi.pdf', meta: 'Bakım sözleşmesi · 03.05.2023 · v1', current: true, href: K, depts: ['enerji'] },
+      { title: 'T07_Ariza_Raporu_2609.pdf', meta: 'Arıza raporu · Karatepe RES · 26.09.2026', current: true, href: C, depts: ['enerji'] },
+      { title: 'Boztepe_RES_Dava_Dosyasi.pdf', meta: 'Dava dosyası · 02.09.2026 · v4', current: true, href: 'Dava-Gecmisi.dc.html', depts: ['hukuk'] }
+    ];
+    const PROJECTS = [
+      { title: 'Karatepe RES', meta: 'İşletmede · 4 belge' },
+      { title: 'Yeşilova RES', meta: 'İşletmede · 3 belge' },
+      { title: 'Boztepe RES', meta: 'İşletmede · 2 belge' },
+      { title: 'Güneşalan GES', meta: 'İşletmede · 1 belge' },
+      { title: 'Kızılova RES', meta: 'Geliştirme · 12 belge' },
+      { title: 'Akyar GES', meta: 'Geliştirme · 8 belge' },
+      { title: 'Demirci RES', meta: 'Geliştirme · 13 belge' }
+    ];
+    const PEOPLE = [
+      { title: 'Kaan Turhan', meta: 'Proje Finans Müdürü · Proje Finans', initials: 'KT', color: '#2FA968' },
+      { title: 'Oğuz Tekin', meta: 'Proje Finans Uzmanı · Proje Finans', initials: 'OT', color: '#0891B2' },
+      { title: 'Elif Şahin', meta: 'Mali İşler Müdürü · Mali İşler', initials: 'EŞ', color: '#DB2777' },
+      { title: 'Selin Arslan', meta: 'Muhasebe Uzmanı · Mali İşler — Muhasebe', initials: 'SA', color: '#BE185D' },
+      { title: 'Gökhan Erdem', meta: 'Finansal Muhasebe Uzmanı · Mali İşler — Finansal Muhasebe', initials: 'GE', color: '#C026D3' },
+      { title: 'Ayşe Yılmaz', meta: 'Hukuk Müdürü · Hukuk', initials: 'AY', color: '#2563EB' },
+      { title: 'Burak Çelik', meta: 'Avukat · Hukuk', initials: 'BÇ', color: '#4F46E5' },
+      { title: 'Deniz Kaya', meta: 'İdari İşler Müdürü · İdari İşler', initials: 'DK', color: '#7C3AED' },
+      { title: 'Zeynep Koç', meta: 'İK Uzmanı · İK', initials: 'ZK', color: '#9333EA' },
+      { title: 'Kerem Aydın', meta: 'Enerji Grubu Müdürü · Enerji', initials: 'KA', color: '#0EA5A4' },
+      { title: 'Cem Aktaş', meta: 'Proje Geliştirme Uzmanı · Enerji — Proje Geliştirme', initials: 'CA', color: '#0F766E' },
+      { title: 'Onur Yıldız', meta: 'Saha Mühendisi · Enerji — İşletme ve Bakım', initials: 'OY', color: '#0D9488' },
+      { title: 'Hakan Tunç', meta: 'Şantiye Şefi · Enerji — İnşaat (EPC)', initials: 'HT', color: '#15803D' },
+      { title: 'Pınar Güler', meta: 'Piyasa Analisti · Enerji — Üretim / Piyasa', initials: 'PG', color: '#0369A1' },
+      { title: 'Levent Aksoy', meta: 'Genel Müdür · Tüm departmanlar', initials: 'LA', color: '#9A6B12' }
+    ];
+    const COLORS = { PDF: '#B23A3A', XLSX: '#1E6B3E', DOCX: '#2563EB' };
+    const ST = 'font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 6px;flex-shrink:0;';
+    const match = function (s) { return !q || s.toLocaleLowerCase('tr').indexOf(q) !== -1; };
+
+    const docs = DOCS.filter(function (d) { return d.depts.indexOf(dept) !== -1 && match(d.title + ' ' + d.meta); }).slice(0, q ? 8 : 4).map(function (d) {
+      const ext = d.title.split('.').pop().toUpperCase();
+      const hasStatus = d.current !== undefined;
+      return {
+        isDoc: true, isPerson: false, isProject: false,
+        title: d.title, meta: d.meta, href: d.href, noHref: false, ext: ext, color: COLORS[ext] || '#5B6B60',
+        status: hasStatus ? (d.current ? 'GÜNCEL' : 'TARİHSEL') : null,
+        statusStyle: ST + (d.current ? 'color:#1E6B3E;background:#E7F3EB;' : 'color:#9A6B12;background:#FBF1DE;')
+      };
+    });
+    const projects = q ? PROJECTS.filter(function (p) { return match(p.title); }).map(function (p) {
+      return { isDoc: false, isPerson: false, isProject: true, title: p.title, meta: p.meta, href: null, noHref: true, status: null };
+    }) : [];
+    const people = q ? PEOPLE.filter(function (p) { return match(p.title + ' ' + p.meta); }).map(function (p) {
+      return { isDoc: false, isPerson: true, isProject: false, title: p.title, meta: p.meta, initials: p.initials, color: p.color, href: null, noHref: true, status: null };
+    }) : [];
+
+    const groups = [];
+    if (docs.length) groups.push({ label: q ? 'Belgeler' : 'Son açılan belgeler', items: docs });
+    if (projects.length) groups.push({ label: 'Projeler', items: projects });
+    if (people.length) groups.push({ label: 'Kişiler', items: people });
+
+    return {
+      query: query,
+      hasQuery: !!q,
+      headline: q ? '“' + query + '” için sonuçlar' : 'Belge, proje veya kişi arayın',
+      groups: groups,
+      noResults: !!q && groups.length === 0,
+      onAsk: function () { if (self.props.onAskBalbal) self.props.onAskBalbal(query); },
+      onClose: this.props.onClose || function () {}
+    };
+  }
+}
+</script>
+</body>
+</html>

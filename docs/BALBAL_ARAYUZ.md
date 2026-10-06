@@ -3,8 +3,10 @@
 > **Bu, Balbal uygulamasının tam arayüzüdür; yalnızca Ürün 2'nin arayüzü değildir.** Projede iki frontend var: (1) **Ürün 1 arayüzü** — yalnızca Ürün 1 açıkken görünen sade ekran ([`URUN1_ARAYUZ.md`](URUN1_ARAYUZ.md)); (2) **Balbal arayüzü** — bu belge: uygulamanın bütün ekranları. Canvas'ın adı tarihsel olarak "X Platformu — Ürün 2"dir.
 
 **Kime:** Backend tarafı ve backend tarafının yapay zekâsı
-**Hazırlayan:** Ürün sahibi (Claude ile) · **Tarih:** 05.10.2026 · **Durum:** Tasarım onaylı (canvas) · **Backend tarafından uygulanacak**
-**Tasarım kaynağı:** Claude Design canvas **"X Platformu — Ürün 2"** (sürüm 39). Bağlantıyı ürün sahibi paylaşır. Bu belge ile canvas farklıysa **canvas esastır**.
+**Hazırlayan:** Ürün sahibi (Claude ile) · **Tarih:** 05.10.2026, güncelleme 06.10.2026 · **Durum:** Tasarım sürüyor — **tamamlanmadı** · **Backend tarafından uygulanacak**
+**Tasarım kaynağı:** Claude Design canvas **"X Platformu — Ürün 2"** (05.10: sürüm 39 · 06.10: `1791297325-0284`; anlık görüntü `tasarim/canvas/`). Bağlantıyı ürün sahibi paylaşır. Bu belge ile canvas farklıysa **canvas esastır**.
+
+> **⚠️ 06.10.2026: Ürün 2 / Balbal frontend'i tamamlanmadı.** Mali İşler, İdari İşler ve Akış Zincirleri eklendi; daha yapılacak çok iş var. Bugünkü ekranlar, kurallar ve backend beklentileri (B-37 … B-42 önerisi): [`NACI_NOTU_2026-10-06.md`](NACI_NOTU_2026-10-06.md). Bu belgenin aşağıdaki bölümleri 05.10 durumunu anlatır.
 **Belge önceliği:** Anayasa (v2.0) > Süreç haritası > `BACKEND_GAPS.md` > bu belge.
 
 > **KARAR (05.10.2026, ürün sahibi): Mevcut geliştirmelerin tamamı backend tarafından uygulanır.** Amaç ürün ayırmak değil, uygulamayı bitirmektir. Bu belgedeki ve canvas'taki her özellik — Ürün 3 olarak işaretlenenler dahil — ürün anahtarıyla (B-25) kapatılmadan geliştirilir. **Ürünlerin ayrılması, tüm arayüz ve backend tamamlandıktan sonra Anayasa'da veya uygulamada ayrıca yapılacaktır.** Ürün etiketleri bu ayrım için bilgi olarak korunur (T-11); bugün iş sırasını veya görünürlüğü belirlemez.
@@ -65,7 +67,7 @@
 
 ## 2. Ekran envanteri
 
-Canvas sayfaları: Proje Finans · Ürün 2 (Balbal penceresi ve onay akışları) · Hukuk · İK · Enerji · Sistem Yönetimi (admin) · Ortak Bileşenler. Mali İşler ve İdari İşler henüz tasarlanmadı.
+Canvas sayfaları: Proje Finans · Ürün 2 (Balbal penceresi ve onay akışları) · Hukuk · İK · Enerji · Sistem Yönetimi (admin) · Ortak Bileşenler. Mali İşler, İdari İşler ve Akış Zincirleri 06.10.2026'da eklendi (taslak) — bkz. [`NACI_NOTU_2026-10-06.md`](NACI_NOTU_2026-10-06.md) §1.
 
 | Ekran / bileşen (canvas dosyası) | Ürün | Ek-B atfı | Mevcut B kodu | Durum |
 |---|---|---|---|---|

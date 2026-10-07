@@ -18,6 +18,11 @@ export interface CurrentUser {
   /** B-09 / B-05 (Aşama C). */
   primary_department_slug: string | null;
   title: string | null;
+  /** Sistemin kendi "bugün"ü (ISO tarih) — company-ai ADR-026 `app.services.temporal.today()`.
+   * Yalnızca üst bardaki "Bugün" rozeti okur; arayüz kendi tarih hesabını yapmaz. */
+  today: string;
+  /** true = demo takvimi (DEMO_TODAY), false = gerçek takvim (ADR-026). */
+  demo_mode_enabled: boolean;
 }
 
 export interface Department {

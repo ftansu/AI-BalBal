@@ -4,7 +4,7 @@
 
 **Kime:** Backend tarafı ve backend tarafının yapay zekâsı
 **Hazırlayan:** Ürün sahibi (Claude ile) · **Tarih:** 05.10.2026, güncelleme 06.10.2026 · **Durum:** Tasarım sürüyor — **tamamlanmadı** · **Backend tarafından uygulanacak**
-**Tasarım kaynağı:** Claude Design canvas **"X Platformu — Ürün 2"** (05.10: sürüm 39 · 06.10: `1791297325-0284`; anlık görüntü `tasarim/canvas/`). Bağlantıyı ürün sahibi paylaşır. Bu belge ile canvas farklıysa **canvas esastır**.
+**Tasarım kaynağı:** Claude Design canvas **"X Platformu — Ürün 2"** (05.10: sürüm 39 · 06.10: `1791297325-0284` · 07.10: `1791363018-8719`; tek kopya `tasarim/canvas/` — PR #12, Ürün 2 ve sonrası; Ürün 1 ayrı arayüzde). Bağlantıyı ürün sahibi paylaşır. Bu belge ile canvas farklıysa **canvas esastır**.
 
 > **⚠️ 06.10.2026: Ürün 2 / Balbal frontend'i tamamlanmadı.** Mali İşler, İdari İşler ve Akış Zincirleri eklendi; daha yapılacak çok iş var. Bugünkü ekranlar, kurallar ve backend beklentileri (B-37 … B-42 önerisi): [`NACI_NOTU_2026-10-06.md`](NACI_NOTU_2026-10-06.md). Bu belgenin aşağıdaki bölümleri 05.10 durumunu anlatır.
 >

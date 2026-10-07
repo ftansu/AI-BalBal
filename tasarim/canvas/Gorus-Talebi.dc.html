@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Departmandan Görüş Talebi</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+
+<div style="width:1440px;height:1000px;box-sizing:border-box;display:flex;flex-direction:column;background:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;color:#132119;overflow:hidden;">
+
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="Main.dc.html" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#C9D3CC;">
+        <span aria-hidden="true">←</span> Ana Sayfaya Dön
+      </a>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;">Departmandan Görüş Talebi</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#2FA968;display:inline-block;"></span>
+      <div style="font-size:13px;font-weight:600;">Proje Finans Departmanı</div>
+    </div>
+  </div>
+
+  <div style="flex:1;display:flex;gap:24px;padding:26px 40px;box-sizing:border-box;min-height:0;">
+
+    <!-- Left: new request form -->
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:14px;min-height:0;overflow-y:auto;">
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:22px 24px;display:flex;flex-direction:column;gap:14px;">
+        <div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;">Yeni görüş talebi</div>
+          <div style="font-size:12.5px;color:#5B6B60;margin-top:4px;line-height:1.5;">Görüş ilgili departmanın personeline aittir; Balbal yalnızca iletir, ilgili belgeleri bağlar ve cevabı kurumsal hafızaya kaydeder.</div>
+        </div>
+
+        <div style="display:flex;gap:14px;">
+          <label style="flex:1;display:flex;flex-direction:column;gap:5px;font-size:11.5px;color:#5B6B60;font-weight:600;">Departman
+            <select style="font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;border:1px solid #E1E7E2;border-radius:10px;padding:10px 12px;background:#FFFFFF;color:#132119;">
+              <option>Hukuk</option>
+              <option>Mali İşler</option>
+              <option>Enerji</option>
+              <option>İdari İşler</option>
+              <option>İK</option>
+            </select>
+          </label>
+          <label style="width:200px;display:flex;flex-direction:column;gap:5px;font-size:11.5px;color:#5B6B60;font-weight:600;">Cevap için son tarih
+            <input type="date" value="2026-10-12" style="font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;border:1px solid #E1E7E2;border-radius:10px;padding:9px 12px;color:#132119;">
+          </label>
+        </div>
+
+        <label style="display:flex;flex-direction:column;gap:5px;font-size:11.5px;color:#5B6B60;font-weight:600;">Konu
+          <input type="text" value="Karatepe RES — teminat mektubu yenilemesinde bankaya bildirim yükümlülüğü" style="font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;border:1px solid #E1E7E2;border-radius:10px;padding:10px 12px;color:#132119;">
+        </label>
+
+        <label style="display:flex;flex-direction:column;gap:5px;font-size:11.5px;color:#5B6B60;font-weight:600;">Sorunuz
+          <textarea rows="5" style="font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;line-height:1.6;border:1px solid #E1E7E2;border-radius:10px;padding:10px 12px;color:#132119;resize:none;">2. Tadil md. 4 kapsamındaki teminat mektubunu Ocak 2027'de yenileyeceğiz. Yenileme öncesinde hisse rehni sözleşmesi md. 5'e göre bankaya yazılı bildirim gerekiyor mu, gerekiyorsa süresi nedir?</textarea>
+        </label>
+
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11.5px;color:#5B6B60;font-weight:600;margin-bottom:8px;">
+            <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:18px;height:18px;border-radius:50%;object-fit:contain;">
+            Balbal'ın bağladığı belgeler — gerekirse çıkarın
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <sc-for list="{{attached}}" as="att" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:10px;background:#F6F9F7;border:1px solid #E1E7E2;border-radius:10px;padding:9px 12px;">
+                <span style="width:26px;height:30px;border-radius:5px;background:#B23A3A;display:inline-flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:700;color:#FFFFFF;flex-shrink:0;">PDF</span>
+                <div style="flex:1;min-width:0;">
+                  <a href="{{att.href}}" style="font-size:13px;font-weight:600;color:#1E6B3E;text-decoration:underline;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;">{{att.title}}</a>
+                  <div style="font-size:11.5px;color:#8A968E;">{{att.meta}}</div>
+                </div>
+                <span style="font-size:10.5px;font-weight:600;color:#1D4ED8;background:#E8EFFD;border-radius:6px;padding:2px 7px;white-space:nowrap;">{{att.access}}</span>
+                <button onClick="{{att.remove}}" aria-label="Belgeyi çıkar" style="width:28px;height:28px;border-radius:8px;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B6B60" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+                </button>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding-top:6px;border-top:1px solid #F0F2F0;">
+          <div style="font-size:11.5px;color:#8A968E;line-height:1.5;">Talep ve cevap, konuya bağlı olarak kurumsal hafızaya kaydedilir. Karşı departman yalnızca görme yetkisi olduğu belgeleri açabilir; yetkisi yoksa belge "görünmez" olarak iletilir.</div>
+          <sc-if value="{{notSent}}" hint-placeholder-val="{{true}}">
+            <button onClick="{{onSend}}" style="background:#2FA968;color:#0E241D;border:none;border-radius:10px;padding:11px 18px;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer;white-space:nowrap;">Talebi gönder</button>
+          </sc-if>
+          <sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
+            <div style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#1E6B3E;background:#E7F3EB;border-radius:20px;padding:10px 14px;white-space:nowrap;">✓ Hukuk'a iletildi · hafızaya kaydedildi</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: my requests -->
+    <div style="width:420px;flex-shrink:0;display:flex;flex-direction:column;gap:12px;min-height:0;">
+      <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;padding:0 4px;">Görüş talepleriniz</div>
+      <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:10px;">
+        <sc-for list="{{requests}}" as="r" hint-placeholder-count="4">
+          <a href="{{r.href}}" style="display:block;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:12px;padding:14px 16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+              <span style="font-size:11.5px;color:#5B6B60;">{{r.route}}</span>
+              <span style="{{r.badgeStyle}}">{{r.status}}</span>
+            </div>
+            <div style="font-size:13.5px;font-weight:600;margin-top:6px;line-height:1.4;">{{r.subject}}</div>
+            <div style="font-size:11.5px;color:#8A968E;margin-top:4px;">{{r.meta}}</div>
+            <sc-if value="{{r.answer}}" hint-placeholder-val="{{false}}">
+              <div style="font-size:12.5px;line-height:1.5;color:#2A3A31;margin-top:8px;padding-top:8px;border-top:1px solid #F0F2F0;">{{r.answer}}</div>
+            </sc-if>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const self = this;
+    const st = this.state || {};
+    const K = 'Sozlesme-Onizleme.dc.html';
+    const removed = st.removed || {};
+    const DOCS = [
+      { id: 'd1', title: 'Karatepe_RES_Kredi_Tadil_2.pdf', meta: 's.3 · md. 4 · 15.03.2025 · GÜNCEL', href: K, access: 'Hukuk görebilir' },
+      { id: 'd2', title: 'Karatepe_RES_Hisse_Rehni_Sozlesmesi.pdf', meta: 's.5 · md. 5 · 12.01.2024', href: K, access: 'Hukuk görebilir' },
+      { id: 'd3', title: 'Karatepe_RES_Teminat_Mektubu_2026.pdf', meta: 'Vade 15.01.2027 · Proje Finans klasörü', href: K, access: 'Hukuk görebilir' }
+    ];
+    const attached = DOCS.filter(function (d) { return !removed[d.id]; }).map(function (d) {
+      return { title: d.title, meta: d.meta, href: d.href, access: d.access, remove: function () { const n = Object.assign({}, removed); n[d.id] = true; self.setState({ removed: n }); } };
+    });
+    const B = 'font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;';
+    const base = [
+      { route: 'Proje Finans → Hukuk', subject: 'Güneşalan GES bakım bütçesi aşımı — sözleşmesel dayanak', meta: 'Açıldı 25.09.2026 · son tarih 02.10.2026', status: 'Cevap bekliyor', badgeStyle: B + 'color:#9A6B12;background:#FBF1DE;', href: 'Ekip-Sohbet.dc.html' },
+      { route: 'Proje Finans → Hukuk', subject: '2. tadilde DSCR eşiğinin 1,20x\'e çekilmesi — teminat etkisi', meta: 'Açıldı 03.03.2025 · cevaplandı 06.03.2025', status: 'Cevaplandı', badgeStyle: B + 'color:#1E6B3E;background:#E7F3EB;', href: 'Ekip-Sohbet.dc.html', answer: '"Teminat sözleşmeleri DSCR eşiğine atıf yapmıyor; yalnızca kredi sözleşmesi tadili yeterli. Hisse rehni md. 5 bankaya bildirim öngörüyor."' },
+      { route: 'Enerji → Proje Finans', subject: 'Karatepe ÇED yükümlülüklerinin bütçeye etkisi', meta: 'Size geldi 24.09.2026 · cevapladınız 26.09.2026', status: 'Cevaplandı', badgeStyle: B + 'color:#1E6B3E;background:#E7F3EB;', href: 'Ekip-Sohbet.dc.html' }
+    ];
+    const sent = !!st.sent;
+    const requests = (sent ? [{ route: 'Proje Finans → Hukuk', subject: 'Karatepe RES — teminat mektubu yenilemesinde bankaya bildirim yükümlülüğü', meta: 'Açıldı 05.10.2026 · son tarih 12.10.2026', status: 'Cevap bekliyor', badgeStyle: B + 'color:#9A6B12;background:#FBF1DE;', href: 'Ekip-Sohbet.dc.html' }] : []).concat(base);
+    return {
+      attached: attached,
+      requests: requests,
+      notSent: !sent, sent: sent,
+      onSend: function () { self.setState({ sent: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

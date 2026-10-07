@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Gelen Belgeler</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+
+<div style="width:1440px;height:900px;box-sizing:border-box;display:flex;flex-direction:column;background:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;color:#132119;overflow:hidden;">
+
+  <!-- Top bar -->
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="Main.dc.html" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#C9D3CC;">
+        <span aria-hidden="true">←</span> Ana Sayfaya Dön
+      </a>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;">Gelen Belgeler</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#2FA968;display:inline-block;"></span>
+      <div style="font-size:13px;font-weight:600;">Proje Finans Departmanı</div>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div style="flex:1;display:flex;flex-direction:column;gap:20px;padding:28px 40px;box-sizing:border-box;min-height:0;overflow:hidden;">
+
+    <!-- How it works banner -->
+    <div style="background:#F0FAF3;border:1px solid #BFE3CC;border-radius:12px;padding:16px 20px;display:flex;gap:14px;align-items:flex-start;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#14401F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+      <div style="font-size:12.5px;line-height:1.6;color:#14401F;">
+        <strong>Nasıl çalışır:</strong> Önemli gördüğünüz bir e-postayı bilgisayarınıza kaydedip <strong>Ortak Alan / Gelen Belgeler</strong> klasörüne elle ekleyin. Sistem bu klasörü düzenli olarak tarar, yeni dosyaları okur ve aşağıdaki listede gösterir — herhangi bir hesap bağlantısı gerekmez.
+      </div>
+    </div>
+
+    <!-- Status summary -->
+    <div style="display:flex;gap:12px;">
+      <div style="flex:1;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:10px;">
+        <span style="width:9px;height:9px;border-radius:50%;background:#2FA968;display:inline-block;"></span>
+        <div style="font-size:13px;font-weight:600;">14 belge sistemde</div>
+      </div>
+      <div style="flex:1;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:10px;">
+        <span style="width:9px;height:9px;border-radius:50%;background:#D9A441;display:inline-block;"></span>
+        <div style="font-size:13px;font-weight:600;">3 belge işleniyor</div>
+      </div>
+      <div style="flex:1;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:10px;">
+        <span style="width:9px;height:9px;border-radius:50%;background:#D97706;display:inline-block;"></span>
+        <div style="font-size:13px;font-weight:600;">1 belge incelenmeli</div>
+      </div>
+    </div>
+
+    <!-- Document list -->
+    <div style="flex:1;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:8px 22px;overflow:hidden;display:flex;flex-direction:column;">
+      <div style="display:grid;grid-template-columns:1fr 160px 130px 140px 150px 70px;gap:12px;padding:12px 0;border-bottom:1px solid #E9EDEA;">
+        <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Dosya Adı</div>
+        <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Gönderen</div>
+        <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Geliş Tarihi</div>
+        <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Atanan Yer</div>
+        <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Durum</div>
+        <div></div>
+      </div>
+      <sc-for list="{{docs}}" as="doc" hint-placeholder-count="8">
+        <div style="display:grid;grid-template-columns:1fr 160px 130px 140px 150px 70px;gap:12px;padding:12px 0;border-bottom:1px solid #F0F2F0;align-items:center;">
+          <a href="{{doc.href}}" style="font-size:12.5px;font-weight:600;color:#1E6B3E;text-decoration:underline;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{doc.name}}</a>
+          <div style="font-size:12.5px;color:#5B6B60;">{{doc.sender}}</div>
+          <div style="font-size:12.5px;color:#5B6B60;">{{doc.date}}</div>
+          <div style="font-size:12.5px;color:#5B6B60;">{{doc.target}}</div>
+          <div>
+            <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:{{doc.badgeBg}};color:{{doc.badgeColor}};">{{doc.status}}</span>
+          </div>
+          <a href="{{doc.href}}" style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#1E6B3E;text-decoration:underline;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1E6B3E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>İndir</a>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const docs = [
+      { name: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', sender: 'A. Yılmaz (Garanti BBVA)', date: '15 Eyl 2026', target: 'Proje Finans', status: 'Sistemde', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+      { name: 'Boztepe_RES_Sigorta_Poliçesi.pdf', sender: 'Sigorta A.Ş.', date: '14 Eyl 2026', target: 'Proje Finans', status: 'Sistemde', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+      { name: 'Yesilova_Kamulaştırma_Yazışması.msg', sender: 'Hukuk Danışmanı', date: '14 Eyl 2026', target: 'Hukuk', status: 'Sistemde', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+      { name: 'Guneşalan_GES_Bakım_Raporu.pdf', sender: 'Saha Ekibi', date: '13 Eyl 2026', target: 'İdari İşler', status: 'Sistemde', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+      { name: 'Commerzbank_Yıllık_Raporlama.eml', sender: 'Commerzbank AG', date: '12 Eyl 2026', target: 'Proje Finans', status: 'İşleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
+      { name: 'Akbank_Faiz_Güncellemesi.eml', sender: 'Akbank Kurumsal', date: '12 Eyl 2026', target: 'Proje Finans', status: 'İşleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
+      { name: 'Personel_İzin_Formu_MA.pdf', sender: 'İK Servisi', date: '11 Eyl 2026', target: 'İdari İşler', status: 'İşleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
+      { name: 'Adsız_Belge_08423.eml', sender: 'Bilinmiyor', date: '10 Eyl 2026', target: '—', status: 'İncelenmeli', badgeBg: '#FCEBD8', badgeColor: '#9A4E0A' }
+    ];
+    docs.forEach(function (d) { d.href = /\.(xlsx|xls)$/i.test(d.name) ? 'Excel-Onizleme.dc.html' : 'Sozlesme-Onizleme.dc.html'; });
+    return { docs: docs };
+  }
+}
+</script>
+</body>
+</html>

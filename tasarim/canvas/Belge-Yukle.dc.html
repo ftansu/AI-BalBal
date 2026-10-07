@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Belge Yükle</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+a{color:inherit;text-decoration:none}
+input,select,textarea{font-family:'IBM Plex Sans',sans-serif;color:#132119}
+input:focus,select:focus,textarea:focus{outline:2px solid #2FA968;outline-offset:0}
+</style>
+</helmet>
+
+<div style="width:1440px;height:1000px;box-sizing:border-box;display:flex;flex-direction:column;background:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;color:#132119;overflow:hidden;">
+
+  <!-- Üst bar -->
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="Main.dc.html" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#C9D3CC;">
+        <span aria-hidden="true">←</span> Ana Sayfaya Dön
+      </a>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;">Belge Yükle</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#2FA968;display:inline-block;"></span>
+      <div style="font-size:13px;font-weight:600;">Proje Finans Departmanı</div>
+    </div>
+  </div>
+
+  <div style="flex:1;min-height:0;display:flex;gap:24px;padding:24px 40px;box-sizing:border-box;">
+
+    <!-- ============ SOL ============ -->
+    <div style="flex:1;min-width:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+
+      <!-- Dosya alanı -->
+      <div style="padding:18px 24px 0;">
+        <sc-if value="{{noFile}}" hint-placeholder-val="{{false}}">
+          <div style="border:2px dashed #BFE3CC;background:#F6FBF8;border-radius:12px;padding:44px 22px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;">
+            <div style="width:56px;height:56px;border-radius:14px;background:#E7F3EB;display:flex;align-items:center;justify-content:center;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1E6B3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"></path></svg>
+            </div>
+            <div style="font-size:16px;font-weight:600;">Dosyayı buraya bırakın — gerisini Balbal yapar</div>
+            <div style="font-size:13px;color:#5B6B60;max-width:560px;">Hiçbir alan doldurmanız gerekmez. Balbal belgeyi okur; yerini bulur ve belgeyi sonradan bulmak için gereken bilgileri yazar. Siz kontrol eder, isterseniz değiştirir ve onaylarsınız.</div>
+            <div style="display:flex;gap:8px;margin-top:4px;">
+              <button onClick="{{pickTadil}}" style="background:#2FA968;border:none;border-radius:10px;padding:10px 18px;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:600;color:#0E241D;cursor:pointer;">Örnek: sözleşme tadili</button>
+              <button onClick="{{pickFatura}}" style="background:#FFFFFF;border:1px solid #BFE3CC;border-radius:10px;padding:10px 18px;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:600;color:#1E6B3E;cursor:pointer;">Örnek: fatura</button>
+            </div>
+            <div style="font-size:12px;color:#8A968E;">PDF, Word, görsel (PNG/JPG), Excel veya CSV · en fazla 50 MB · taranmış belgeler de okunur (OCR)</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{hasFile}}" hint-placeholder-val="{{true}}">
+          <div style="display:flex;align-items:center;gap:14px;border:1px solid #E1E7E2;border-radius:12px;padding:12px 16px;background:#FAFBFA;">
+            <div style="width:40px;height:40px;border-radius:10px;background:#FDECEA;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#B3261E;flex-shrink:0;">PDF</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:14px;font-weight:600;">{{fileName}}</div>
+              <div style="font-size:12.5px;color:#8A968E;">{{fileMeta}} · yüklediğiniz dosya adı — kayıt adını Balbal önerir</div>
+            </div>
+            <button onClick="{{onReset}}" style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:8px;padding:7px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#5B6B60;cursor:pointer;">Başka dosya</button>
+          </div>
+        </sc-if>
+      </div>
+
+      <!-- Okuyor -->
+      <sc-if value="{{reading}}" hint-placeholder-val="{{false}}">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:40px;">
+          <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:64px;height:64px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px #BFE3CC;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;">Balbal belgeyi okuyor…</div>
+          <div style="font-size:13.5px;color:#5B6B60;">{{readingLine}}</div>
+        </div>
+      </sc-if>
+
+      <!-- Öneri formu -->
+      <sc-if value="{{showForm}}" hint-placeholder-val="{{true}}">
+        <div style="flex:1;min-height:0;overflow-y:auto;padding:16px 24px 20px;display:flex;flex-direction:column;gap:20px;">
+
+          <!-- 1. Konum -->
+          <div>
+            <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;">1 · Nereye kaydedilecek?</div>
+              
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:10px;">
+              <sc-for list="{{loc}}" as="l" hint-placeholder-count="3">
+                <div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+                    <label style="font-size:12.5px;font-weight:600;color:#5B6B60;">{{l.label}}</label>
+                    <span style="{{l.badgeStyle}}">{{l.badge}}</span>
+                  </div>
+                  <select value="{{l.value}}" onChange="{{l.onChange}}" style="{{l.boxStyle}}">
+                    <sc-for list="{{l.options}}" as="o" hint-placeholder-count="3">
+                      <option value="{{o}}">{{o}}</option>
+                    </sc-for>
+                  </select>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1E6B3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+              <span style="font-weight:600;color:#1E6B3E;">{{pathText}}</span>
+            </div>
+            <div style="font-size:12.5px;color:#5B6B60;margin-top:4px;"><b>Neden:</b> {{locReason}}</div>
+          </div>
+
+          <!-- 2. Kimlik -->
+          <div>
+            <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;">2 · Bu belge ne?</div>
+              
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:12px 14px;">
+              <sc-for list="{{core}}" as="f" hint-placeholder-count="3">
+                <div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;gap:6px;">
+                    <label style="font-size:12.5px;font-weight:600;color:#5B6B60;white-space:nowrap;">{{f.label}}</label>
+                    <span style="{{f.badgeStyle}}">{{f.badge}}</span>
+                  </div>
+                  <input type="text" value="{{f.value}}" onChange="{{f.onChange}}" style="{{f.boxStyle}}">
+                  <sc-if value="{{f.needsConfirm}}" hint-placeholder-val="{{false}}">
+                    <button onClick="{{f.confirm}}" style="{{f.confirmStyle}}"><span style="{{f.checkStyle}}">{{f.checkMark}}</span>Onaylıyorum</button>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+
+            <sc-if value="{{hasRelation}}" hint-placeholder-val="{{true}}">
+              <div style="margin-top:12px;border:1px solid #BFE3CC;background:#F6FBF8;border-radius:12px;padding:12px 14px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                  <div style="font-size:12.5px;font-weight:600;color:#14401F;">{{relLabel}}</div>
+                  <span style="{{relBadgeStyle}}">{{relBadge}}</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;margin-top:8px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E6B3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                  <a href="Sozlesme-Onizleme.dc.html" style="font-size:14px;font-weight:600;color:#1E6B3E;text-decoration:underline;">{{relValue}}</a>
+                </div>
+                <div style="font-size:12px;color:#5B6B60;margin-top:6px;">{{relHint}}</div>
+              </div>
+            </sc-if>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;margin:14px 0 5px;">
+              <label for="f-name" style="font-size:12.5px;font-weight:600;color:#5B6B60;">Belge adı</label>
+              <span style="{{nameBadgeStyle}}">{{nameBadge}}</span>
+            </div>
+            <input id="f-name" type="text" value="{{name}}" onChange="{{onName}}" style="{{nameBoxStyle}}">
+            
+
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;">
+              <div style="font-size:12.5px;font-weight:600;color:#5B6B60;margin-right:4px;">Etiketler</div>
+              <sc-for list="{{tags}}" as="t" hint-placeholder-count="3">
+                <span style="{{t.chipStyle}}">#{{t.text}}<button onClick="{{t.remove}}" aria-label="Etiketi kaldır" style="background:transparent;border:none;padding:0 0 0 6px;cursor:pointer;color:#5B6B60;font-size:13px;line-height:1;">×</button></span>
+              </sc-for>
+              <input type="text" value="{{tagDraft}}" onChange="{{onTagDraft}}" onKeyDown="{{onTagKey}}" placeholder="+ ekle" style="width:90px;border:1px dashed #BFE3CC;border-radius:999px;font-size:12.5px;padding:4px 10px;">
+              
+            </div>
+          </div>
+
+          <!-- 3. Türe özel -->
+          <div>
+            <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;">3 · {{extraTitle}}</div>
+              
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:12px 14px;">
+              <sc-for list="{{extra}}" as="f" hint-placeholder-count="3">
+                <div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;gap:6px;">
+                    <label style="font-size:12.5px;font-weight:600;color:#5B6B60;white-space:nowrap;">{{f.label}}</label>
+                    <span style="{{f.badgeStyle}}">{{f.badge}}</span>
+                  </div>
+                  <input type="text" value="{{f.value}}" onChange="{{f.onChange}}" style="{{f.boxStyle}}">
+                  <sc-if value="{{f.needsConfirm}}" hint-placeholder-val="{{false}}">
+                    <button onClick="{{f.confirm}}" style="{{f.confirmStyle}}"><span style="{{f.checkStyle}}">{{f.checkMark}}</span>Onaylıyorum</button>
+                  </sc-if>
+                </div>
+              </sc-for>
+              <sc-for list="{{manual}}" as="m" hint-placeholder-count="0">
+                <div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;gap:6px;">
+                    <label style="font-size:12.5px;font-weight:600;color:#5B6B60;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{m.label}}</label>
+                    <span style="display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;border-radius:999px;padding:2px 7px;white-space:nowrap;background:#E4ECF7;color:#1F4E8C;">Siz eklediniz<button onClick="{{m.remove}}" aria-label="Alanı kaldır" style="background:transparent;border:none;padding:0 0 0 2px;cursor:pointer;color:#1F4E8C;font-size:12px;line-height:1;">×</button></span>
+                  </div>
+                  <input type="text" value="{{m.value}}" onChange="{{m.onChange}}" style="width:100%;box-sizing:border-box;font-size:13.5px;padding:9px 11px;border-radius:8px;background:#FFFFFF;border:1px solid #9DB8DD;">
+                </div>
+              </sc-for>
+            </div>
+
+            <sc-if value="{{addClosed}}" hint-placeholder-val="{{true}}">
+              <button onClick="{{openAdd}}" style="margin-top:12px;display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;border:1px dashed #9DB8DD;border-radius:8px;padding:8px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;color:#1F4E8C;cursor:pointer;">+ Alan ekle</button>
+            </sc-if>
+            <sc-if value="{{addOpen}}" hint-placeholder-val="{{false}}">
+              <div style="margin-top:12px;display:flex;gap:10px;align-items:flex-end;background:#F5F8FC;border:1px solid #D5E1F1;border-radius:10px;padding:12px;">
+                <div style="flex:1;">
+                  <label style="display:block;font-size:12.5px;font-weight:600;color:#5B6B60;margin-bottom:5px;">Alan adı</label>
+                  <input type="text" list="alan-onerileri" value="{{draftLabel}}" onChange="{{onDraftLabel}}" placeholder="Ör. Temerrüt faizi" style="width:100%;box-sizing:border-box;font-size:13.5px;padding:9px 11px;border-radius:8px;border:1px solid #D5E1F1;background:#FFFFFF;">
+                  <datalist id="alan-onerileri">
+                    <sc-for list="{{fieldSuggestions}}" as="o" hint-placeholder-count="3"><option value="{{o}}"></option></sc-for>
+                  </datalist>
+                </div>
+                <div style="flex:1.4;">
+                  <label style="display:block;font-size:12.5px;font-weight:600;color:#5B6B60;margin-bottom:5px;">Değer</label>
+                  <input type="text" value="{{draftValue}}" onChange="{{onDraftValue}}" style="width:100%;box-sizing:border-box;font-size:13.5px;padding:9px 11px;border-radius:8px;border:1px solid #D5E1F1;background:#FFFFFF;">
+                </div>
+                <button onClick="{{closeAdd}}" style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:8px;padding:9px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;color:#5B6B60;cursor:pointer;">Vazgeç</button>
+                <button onClick="{{addField}}" style="{{addBtnStyle}}">Ekle</button>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+
+        <!-- Onay çubuğu -->
+        <div style="flex-shrink:0;border-top:1px solid #E1E7E2;padding:14px 24px;display:flex;align-items:center;gap:12px;background:#FAFBFA;">
+          <sc-if value="{{notSaved}}" hint-placeholder-val="{{true}}">
+            <div style="flex:1;font-size:12.5px;color:#5B6B60;">{{footerText}}</div>
+            <a href="Main.dc.html" style="border:1px solid #E1E7E2;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:600;color:#5B6B60;background:#FFFFFF;">Vazgeç</a>
+            <button onClick="{{onSave}}" style="{{saveBtnStyle}}">Onayla ve kaydet</button>
+          </sc-if>
+          <sc-if value="{{saved}}" hint-placeholder-val="{{false}}">
+            <div style="flex:1;display:flex;align-items:center;gap:10px;">
+              <span style="width:24px;height:24px;border-radius:50%;background:#2FA968;color:#0E241D;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;">✓</span>
+              <div>
+                <div style="font-size:14px;font-weight:600;color:#14401F;">Kaydedildi: {{pathText}}</div>
+                <div style="font-size:12.5px;color:#5B6B60;">Onaylayan siz · Balbal artık bu belgeden cevap verebilir</div>
+              </div>
+            </div>
+            <a href="Sozlesme-Onizleme.dc.html" style="border:1px solid #BFE3CC;border-radius:10px;padding:10px 16px;font-size:13.5px;font-weight:600;color:#1E6B3E;background:#FFFFFF;">Belgeyi aç</a>
+            <button onClick="{{onReset}}" style="background:#2FA968;border:none;border-radius:10px;padding:10px 18px;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:600;color:#0E241D;cursor:pointer;">Yeni belge yükle</button>
+          </sc-if>
+        </div>
+      </sc-if>
+    </div>
+
+    <!-- ============ SAĞ ============ -->
+    <div style="width:400px;flex-shrink:0;display:flex;flex-direction:column;gap:16px;min-height:0;overflow-y:auto;">
+
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:18px 20px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:24px;height:24px;border-radius:50%;object-fit:cover;">
+          <div style="font-size:13.5px;font-weight:600;">Balbal ne yaptı?</div>
+        </div>
+        <sc-for list="{{steps}}" as="s" hint-placeholder-count="6">
+          <div style="display:flex;gap:12px;align-items:flex-start;padding-bottom:11px;">
+            <span style="{{s.dotStyle}}">{{s.mark}}</span>
+            <div style="min-width:0;">
+              <div style="font-size:13.5px;font-weight:600;color:{{s.color}};">{{s.label}}</div>
+              <div style="font-size:12.5px;color:#5B6B60;">{{s.hint}}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{showQuestions}}" hint-placeholder-val="{{true}}">
+        <div style="background:#FFFFFF;border:1px solid #E8D3A6;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-size:13.5px;font-weight:600;">Balbal size soruyor</div>
+            <div style="font-size:12px;font-weight:600;color:#9A6B12;">{{qCount}}</div>
+          </div>
+          <sc-for list="{{questions}}" as="q" hint-placeholder-count="1">
+            <div style="{{q.boxStyle}}">
+              <div style="font-size:13px;line-height:1.45;">{{q.text}}</div>
+              <sc-if value="{{q.open}}" hint-placeholder-val="{{true}}">
+                <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px;">
+                  <sc-for list="{{q.options}}" as="o" hint-placeholder-count="2">
+                    <button onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{q.done}}" hint-placeholder-val="{{false}}">
+                <div style="margin-top:6px;font-size:12.5px;font-weight:600;color:#1E6B3E;">✓ {{q.answer}}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{noQuestions}}" hint-placeholder-val="{{false}}">
+        <div style="background:#F6F9F7;border:1px solid #E1E7E2;border-radius:14px;padding:16px 20px;font-size:12.5px;color:#5B6B60;line-height:1.5;">
+          <b style="color:#132119;">Balbal’ın sorusu yok.</b>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{noFile}}" hint-placeholder-val="{{false}}">
+        <div style="background:#F6F9F7;border:1px solid #E1E7E2;border-radius:14px;padding:16px 20px;font-size:12.5px;color:#5B6B60;line-height:1.5;">
+          <b style="color:#132119;">Son onay her zaman sizde.</b> Balbal hiçbir belgeyi siz onaylamadan kaydetmez.
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000},"ornek":{"editor":"enum","options":["Sözleşme tadili","Fatura"],"default":"Sözleşme tadili","section":"Görünüm"},"ekran":{"editor":"enum","options":["Boş","Okuyor","Öneri","Kaydedildi"],"default":"Öneri","section":"Görünüm"}}'>
+class Component extends DCLogic {
+  componentWillUnmount() { (this.timers || []).forEach(function (t) { clearTimeout(t); }); }
+
+  docs() {
+    return {
+      tadil: {
+        file: 'Akbank_imzali_0912.pdf', meta: '1,2 MB · 4 sayfa',
+        dept: 'Proje Finans', folder: 'Kredi Sözleşmeleri', sub: 'Karatepe RES',
+        reason: 'Belge bir kredi sözleşmesinin tadili; tarafları Akbank ve Karatepe Enerji A.Ş. Değiştirdiği sözleşme bu klasörde duruyor.',
+        core: [['company', 'Şirket / proje', 'Karatepe RES (Karatepe Enerji A.Ş.)', 97], ['topic', 'Konu', 'Proje finansmanı kredisi', 94], ['type', 'Belge', 'Sözleşme tadili — 2. tadil', 92]],
+        rel: { label: 'Hangi sözleşmenin tadili?', key: 'rel', pct: 68 },
+        name: 'Karatepe RES · PF Kredi Sözleşmesi · 2. Tadil · 2026-09',
+        tags: ['karatepe-res', 'pf-kredi', 'tadil', 'faiz-değişikliği'],
+        extraTitle: 'Tadile özel bilgiler',
+        suggest: ['Temerrüt faizi', 'Ön ödeme koşulu', 'Onay veren kurul kararı', 'Banka referans no'],
+        extra: [['party', 'Karşı taraf', 'Akbank T.A.Ş.', 98], ['signed', 'İmza tarihi', '12.09.2026', 95], ['eff', 'Yürürlük tarihi', '01.10.2026', 90]],
+        steps: ['Sözleşme tadili · 4 sayfa · Türkçe', 'Proje Finans — kredi sözleşmesi konusu', 'Kredi Sözleşmeleri', 'Karatepe RES', 'Şirket, konu, belge + tadil edilen sözleşme'],
+        questions: [{
+          key: 'rel',
+          text: 'Karatepe RES klasöründe iki kredi sözleşmesi var. Bu tadil hangisini değiştiriyor?',
+          options: [['v2', 'PF Kredi Sözleşmesi v2 (2024, yürürlükte)'], ['v1', 'PF Kredi Sözleşmesi v1 (2021, eski)']],
+          answers: { v2: 'PF Kredi Sözleşmesi v2’nin 2. tadili olarak bağlandı', v1: 'PF Kredi Sözleşmesi v1’e bağlandı' }
+        }]
+      },
+      fatura: {
+        file: 'fatura_20260915.pdf', meta: '180 KB · 1 sayfa',
+        dept: 'Proje Finans', folder: 'Hakediş ve Faturalar', sub: 'Karatepe RES',
+        reason: 'Faturayı Örnek Rüzgar Bakım Ltd. kesmiş; alıcı Karatepe Enerji A.Ş., açıklamada türbin bakımı yazıyor.',
+        core: [['company', 'Şirket / proje', 'Karatepe RES (Karatepe Enerji A.Ş.)', 96], ['topic', 'Konu', 'Türbin periyodik bakımı', 91], ['type', 'Belge', 'Fatura', 99]],
+        rel: null,
+        name: 'Karatepe RES · Türbin Bakımı · Fatura · Örnek Rüzgar Bakım · 2026-09',
+        tags: ['karatepe-res', 'bakim', 'fatura'],
+        extraTitle: 'Faturaya özel bilgiler',
+        suggest: ['Hakediş no', 'Sipariş / sözleşme no', 'Ödeme vadesi'],
+        extra: [['vendor', 'Faturayı kesen', 'Örnek Rüzgar Bakım Ltd. Şti.', 99], ['job', 'Hangi iş için?', 'Eylül 2026 periyodik bakım', 74], ['inv', 'Fatura tarihi', '15.09.2026', 99]],
+        steps: ['Fatura · 1 sayfa · Türkçe', 'Proje Finans — proje gideri', 'Hakediş ve Faturalar', 'Karatepe RES', 'Şirket, konu, belge + kesen firma ve iş'],
+        questions: []
+      }
+    };
+  }
+
+  startReading(kind) {
+    var self = this;
+    (this.timers || []).forEach(function (t) { clearTimeout(t); });
+    self.setState({ kind: kind, mode: 'reading', step: 0, answers: {}, confirms: {}, manual: [], adding: false, edits: {}, removed: {}, extraTags: [], tagDraft: '' });
+    self.timers = [1, 2, 3, 4, 5, 6].map(function (n) {
+      return setTimeout(function () { self.setState(n === 6 ? { step: 6, mode: 'form' } : { step: n }); }, n * 500);
+    });
+  }
+
+  renderVals() {
+    var self = this;
+    var st = this.state || {};
+    var kind = st.kind || (this.props.ornek === 'Fatura' ? 'fatura' : 'tadil');
+    var D = this.docs()[kind];
+    var propMode = { 'Boş': 'empty', 'Okuyor': 'reading', 'Öneri': 'form', 'Kaydedildi': 'saved' }[this.props.ekran || 'Öneri'] || 'form';
+    var mode = st.mode || propMode;
+    var step = st.step != null ? st.step : (mode === 'empty' ? -1 : (mode === 'reading' ? 3 : 6));
+    var edits = st.edits || {};
+    var confirms = st.confirms || {};
+    var pendingConfirms = 0;
+    var answers = st.answers || {};
+    if (mode === 'saved' && !st.mode) { answers = { rel: 'v2' }; confirms = { job: true }; }
+
+    var PILL = 'font-size:10.5px;font-weight:600;border-radius:999px;padding:2px 7px;white-space:nowrap;';
+    var BOX = 'width:100%;box-sizing:border-box;font-size:13.5px;padding:9px 11px;border-radius:8px;background:#FFFFFF;';
+    function badge(changed, pct, confirmed) {
+      if (changed) return { t: 'Siz değiştirdiniz', s: PILL + 'background:#E4ECF7;color:#1F4E8C;', b: 'border:1px solid #9DB8DD;' };
+      if (confirmed) return { t: 'Siz seçtiniz', s: PILL + 'background:#E4ECF7;color:#1F4E8C;', b: 'border:1px solid #9DB8DD;' };
+      if (pct < 80) return { t: 'Balbal · %' + pct + ' · onay gerekli', s: PILL + 'background:#FBF1DE;color:#9A6B12;', b: 'border:1px solid #E3C27A;background:#FFFCF5;' };
+      return { t: 'Balbal · %' + pct, s: PILL + 'background:#E7F3EB;color:#1E6B3E;', b: 'border:1px solid #BFE3CC;' };
+    }
+    function field(d) {
+      var k = d[0], changed = edits[k] != null && edits[k] !== d[2];
+      var low = d[3] < 80, ok = !!confirms[k];
+      if (low && !ok) pendingConfirms++;
+      var bd = ok ? { t: 'Siz onayladınız', s: PILL + 'background:#E4ECF7;color:#1F4E8C;', b: 'border:1px solid #9DB8DD;' } : badge(changed, d[3]);
+      return {
+        label: d[1], value: edits[k] != null ? edits[k] : d[2], badge: bd.t, badgeStyle: bd.s, boxStyle: BOX + bd.b,
+        needsConfirm: low, checkMark: ok ? '✓' : '',
+        confirm: function () { var c = Object.assign({}, st.confirms || {}); c[k] = !c[k]; self.setState({ confirms: c }); },
+        confirmStyle: "margin-top:6px;display:inline-flex;align-items:center;gap:7px;background:transparent;border:none;padding:0;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:" + (ok ? '#1F4E8C' : '#9A6B12') + ';',
+        checkStyle: 'width:16px;height:16px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;' + (ok ? 'background:#1F4E8C;color:#FFFFFF;border:1px solid #1F4E8C;' : 'background:#FFFFFF;border:1.5px solid #D9A441;'),
+        onChange: function (e) { var o = Object.assign({}, st.edits || {}); o[k] = e.target.value; self.setState({ edits: o }); }
+      };
+    }
+
+    // Konum
+    var FOLDERS = {
+      'Proje Finans': { 'Kredi Sözleşmeleri': ['Karatepe RES', 'Yeşilova RES', 'Genel'], 'Hakediş ve Faturalar': ['Karatepe RES', 'Yeşilova RES'], 'Sigorta': ['Poliçeler', 'Hasar dosyaları'] },
+      'Hukuk': { 'Proje Sözleşmeleri': ['Karatepe RES', 'Yeşilova RES'], 'Davalar': ['Kamulaştırma', 'Diğer'] },
+      'Mali İşler': { 'Faturalar': ['Gelen', 'Giden'], 'Vergi': ['Beyannameler'] },
+      'Enerji': { 'İzinler': ['ÇED', 'Lisans'], 'Üretim': ['Aylık raporlar'] }
+    };
+    var dept = edits.dept || D.dept; if (!FOLDERS[dept]) dept = D.dept;
+    var folders = Object.keys(FOLDERS[dept]);
+    var folder = folders.indexOf(edits.folder || D.folder) >= 0 ? (edits.folder || D.folder) : folders[0];
+    var subs = FOLDERS[dept][folder];
+    var sub = subs.indexOf(edits.sub || D.sub) >= 0 ? (edits.sub || D.sub) : subs[0];
+    function setLoc(k) {
+      return function (e) {
+        var o = Object.assign({}, st.edits || {}); o[k] = e.target.value;
+        if (k === 'dept') { o.folder = Object.keys(FOLDERS[e.target.value])[0]; o.sub = FOLDERS[e.target.value][o.folder][0]; }
+        if (k === 'folder') { o.sub = FOLDERS[o.dept || dept][e.target.value][0]; }
+        self.setState({ edits: o });
+      };
+    }
+    var loc = [['dept', 'Departman', dept, Object.keys(FOLDERS), 97, D.dept], ['folder', 'Klasör', folder, folders, 94, D.folder], ['sub', 'Alt klasör', sub, subs, 91, D.sub]].map(function (d) {
+      var bd = badge(d[2] !== d[5], d[4]);
+      return { label: d[1], value: d[2], options: d[3], onChange: setLoc(d[0]), badge: bd.t, badgeStyle: bd.s, boxStyle: BOX + bd.b };
+    });
+
+    // Kimlik + ilişki
+    var core = D.core.map(field);
+    var relAns = answers.rel;
+    var relBd = D.rel ? badge(false, D.rel.pct, !!relAns) : null;
+    var relValue = relAns === 'v1' ? 'Karatepe RES · PF Kredi Sözleşmesi v1 (2021)' : 'Karatepe RES · PF Kredi Sözleşmesi v2 (2024)';
+
+    var nameChanged = edits.name != null && edits.name !== D.name;
+    var nb = badge(nameChanged, 92);
+
+    // Etiketler
+    var removed = st.removed || {};
+    var tagList = D.tags.filter(function (t) { return !removed[t]; }).map(function (t) { return { text: t, mine: false }; })
+      .concat((st.extraTags || []).map(function (t) { return { text: t, mine: true }; }));
+    var tags = tagList.map(function (t) {
+      return {
+        text: t.text,
+        chipStyle: 'display:inline-flex;align-items:center;font-size:12.5px;font-weight:600;border-radius:999px;padding:4px 10px;' + (t.mine ? 'background:#E4ECF7;color:#1F4E8C;' : 'background:#E7F3EB;color:#1E6B3E;'),
+        remove: function () {
+          if (t.mine) self.setState({ extraTags: (st.extraTags || []).filter(function (x) { return x !== t.text; }) });
+          else { var r = Object.assign({}, removed); r[t.text] = true; self.setState({ removed: r }); }
+        }
+      };
+    });
+
+    var extra = D.extra.map(field);
+
+    // Sorular
+    var openCount = 0;
+    var questions = D.questions.map(function (q) {
+      var a = answers[q.key];
+      if (!a) openCount++;
+      return {
+        text: q.text, open: !a, done: !!a, answer: a ? q.answers[a] : '',
+        options: q.options.map(function (o, i) {
+          return {
+            label: o[1],
+            style: "text-align:left;border-radius:8px;padding:8px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;" + (i === 0 ? 'background:#2FA968;border:none;color:#0E241D;' : 'background:#FFFFFF;border:1px solid #E1E7E2;color:#5B6B60;'),
+            pick: function () { var n = Object.assign({}, st.answers || {}); n[q.key] = o[0]; self.setState({ answers: n }); }
+          };
+        }),
+        boxStyle: 'border-radius:10px;padding:12px 14px;' + (a ? 'background:#F6F9F7;border:1px solid #E1E7E2;' : 'background:#FFFCF5;border:1px solid #E8D3A6;')
+      };
+    });
+
+    // Adımlar
+    var SL = ['Belgeyi okudu', 'Departmanı buldu', 'Klasörü buldu', 'Alt klasörü buldu', 'Belgeyi tanımladı', 'Size soruyor'];
+    var DOT = 'width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;';
+    var steps = SL.map(function (label, i) {
+      var n = i + 1;
+      var done = step >= n || mode === 'saved';
+      var cur = mode === 'reading' && step === n - 1;
+      var hint = done ? (D.steps[i] || '') : (cur ? 'Çalışıyor…' : '');
+      if (n === 6 && done) hint = D.questions.length === 0 ? 'Sorusu yok' : (openCount ? openCount + ' soru cevap bekliyor' : 'Cevaplandı');
+      return {
+        label: label, hint: mode === 'empty' ? '' : hint, mark: done ? '✓' : String(n),
+        color: done || cur ? '#132119' : '#8A968E',
+        dotStyle: DOT + (done ? 'background:#2FA968;color:#0E241D;' : (cur ? 'background:#FBF1DE;color:#9A6B12;' : 'background:#F0F2F0;color:#8A968E;'))
+      };
+    });
+
+    var manualList = st.manual || [];
+    var manual = manualList.map(function (m, i) {
+      return {
+        label: m.label, value: m.value,
+        onChange: function (e) { var l = manualList.slice(); l[i] = { label: m.label, value: e.target.value }; self.setState({ manual: l }); },
+        remove: function () { self.setState({ manual: manualList.filter(function (_, j) { return j !== i; }) }); }
+      };
+    });
+    var draftOk = !!String(st.draftLabel || '').trim() && !!String(st.draftValue || '').trim();
+
+    var readingLines = ['Metin çıkarılıyor…', 'Departman aranıyor…', 'Klasör aranıyor…', 'Alt klasör aranıyor…', 'Belge tanımlanıyor…', 'Sorular hazırlanıyor…'];
+    var canSave = openCount === 0 && pendingConfirms === 0;
+    var waiting = openCount + pendingConfirms;
+    var formish = mode === 'form' || mode === 'saved';
+
+    return {
+      noFile: mode === 'empty',
+      hasFile: mode !== 'empty',
+      fileName: D.file, fileMeta: D.meta,
+      reading: mode === 'reading',
+      readingLine: readingLines[Math.max(0, Math.min(5, step))],
+      showForm: formish,
+      showQuestions: formish && D.questions.length > 0,
+      noQuestions: formish && D.questions.length === 0,
+      notSaved: mode !== 'saved',
+      saved: mode === 'saved',
+      loc: loc,
+      pathText: dept + ' › ' + folder + ' › ' + sub,
+      locReason: D.reason,
+      core: core,
+      hasRelation: !!D.rel,
+      relLabel: D.rel ? D.rel.label : '',
+      relValue: relValue,
+      relBadge: relBd ? relBd.t : '', relBadgeStyle: relBd ? relBd.s : '',
+      relHint: relAns ? 'Sözleşmeyi açan herkes bu tadili de görür.' : 'Sağdaki sorudan seçin.',
+      name: edits.name != null ? edits.name : D.name,
+      onName: function (e) { var o = Object.assign({}, st.edits || {}); o.name = e.target.value; self.setState({ edits: o }); },
+      nameBadge: nb.t, nameBadgeStyle: nb.s, nameBoxStyle: BOX + nb.b + 'font-weight:600;',
+      tags: tags,
+      tagDraft: st.tagDraft || '',
+      onTagDraft: function (e) { self.setState({ tagDraft: e.target.value }); },
+      onTagKey: function (e) {
+        if (e.key !== 'Enter' || tagList.length >= 6) return;
+        var v = String(st.tagDraft || '').trim().replace(/^#/, '').toLowerCase().replace(/\s+/g, '-');
+        if (!v) return;
+        self.setState({ extraTags: (st.extraTags || []).concat([v]), tagDraft: '' });
+      },
+      extraTitle: D.extraTitle,
+      extra: extra,
+      manual: manual,
+      addOpen: !!st.adding && mode !== 'saved',
+      addClosed: !st.adding && mode !== 'saved',
+      openAdd: function () { self.setState({ adding: true, draftLabel: '', draftValue: '' }); },
+      closeAdd: function () { self.setState({ adding: false }); },
+      draftLabel: st.draftLabel || '', draftValue: st.draftValue || '',
+      onDraftLabel: function (e) { self.setState({ draftLabel: e.target.value }); },
+      onDraftValue: function (e) { self.setState({ draftValue: e.target.value }); },
+      fieldSuggestions: D.suggest || [],
+      addBtnStyle: "border:none;border-radius:8px;padding:9px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;" + (draftOk ? 'background:#1F4E8C;color:#FFFFFF;cursor:pointer;' : 'background:#E9EDEA;color:#8A968E;cursor:default;'),
+      addField: function () {
+        if (!draftOk) return;
+        self.setState({ manual: manualList.concat([{ label: String(st.draftLabel).trim(), value: String(st.draftValue).trim() }]), adding: false, draftLabel: '', draftValue: '' });
+      },
+      steps: steps,
+      questions: questions,
+      qCount: openCount ? openCount + ' açık soru' : 'Tamamlandı',
+      footerText: canSave ? 'Onayladığınızda belge bu bilgilerle kaydedilir.' : waiting + ' alan sizin onayınızı bekliyor.',
+      saveBtnStyle: "border:none;border-radius:10px;padding:10px 20px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;" + (canSave ? 'background:#2FA968;color:#0E241D;cursor:pointer;' : 'background:#E9EDEA;color:#8A968E;cursor:not-allowed;'),
+      onSave: function () { if (canSave) self.setState({ mode: 'saved', answers: answers, confirms: confirms, kind: kind }); },
+      pickTadil: function () { self.startReading('tadil'); },
+      pickFatura: function () { self.startReading('fatura'); },
+      onReset: function () { (self.timers || []).forEach(function (t) { clearTimeout(t); }); self.setState({ mode: 'empty', step: -1, answers: {}, confirms: {}, manual: [], adding: false, edits: {}, removed: {}, extraTags: [], tagDraft: '' }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

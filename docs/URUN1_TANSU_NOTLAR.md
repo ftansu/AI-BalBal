@@ -1,6 +1,6 @@
 # Ürün 1 — Tansu Notları
 
-**Tarih:** 06.10.2026 · **Güncelleme:** 07.10.2026 (§1 proje adları kararı, §6 önlisans süreci eklendi) · **Kaynak:** ürün sahibinin web testi (Ürün 1 arayüzü, Balbal soru-cevap ve belge yükleme ekranları)
+**Tarih:** 06.10.2026 · **Güncelleme:** 07.10.2026 (§1 proje adları kararı, §6 önlisans süreci ve önkoşul ağacı eklendi) · **Kaynak:** ürün sahibinin web testi (Ürün 1 arayüzü, Balbal soru-cevap ve belge yükleme ekranları)
 **Kapsam:** Ürün 1 · Notlar mantığı anlatır; kurulum geliştiriciye aittir.
 
 > Öncelik sırası ürün sahibinindir: **4 (etiketler) acil**, ardından 2 (Balbal davranışı) ve 3 (belge yükleme). 1 (hesaplar) testlerin anlamlı olması için ön koşuldur.
@@ -197,6 +197,106 @@ Süreç tek bir çizgi değil, bir önkoşul ağıdır. Önlisans verildiği and
 - Teminat mektubunu Proje Finans (Kaan Turhan) bankadan aldırır.
 - Başvuru bedeli ödemeleri Finansal Muhasebe'den (Gökhan Erdem) çıkar.
 - Resmî başvurularda imza Genel Müdür (Levent Aksoy) ile Mali İşler Müdürü (Elif Şahin) çift imzadır.
+
+### 6.1a Önkoşul ağacı — hangi adım hangisine bağlı
+
+Bu bölüm, Enerji ana sayfasındaki iki görünümün arkasındaki mantığı anlatır: **Geliştirme çizelgesi** (yatay noktalı çizgi) ve **Süreç ağacı**. Backend'in bilmesi gereken üç şey var: adımlar, adımların önkoşulları ve her adımın durumunun nasıl türetildiği.
+
+**Birleşik ağ:** Kanvasta iki görünüm biraz farklı önkoşul tanımlıyor (`NODES` ve `TREE`). Örneğin TEA, çizelgede imarın önkoşulu, ağaçta ise yalnızca proje onayının önkoşulu. Askeri yazı, jeoteknik etüt ve kurum görüşleri ağaçta hiç yok. Aşağıdaki ağ ikisinin gerçekçi birleşimidir. **Backend tek veri olarak bunu esas alır.** Kanvas, ürün sahibinin onayından sonra bu ağa göre hizalanır; iki görünüm aynı veriden türer.
+
+```mermaid
+flowchart TD
+  classDef kritik fill:#FBE7E7,stroke:#B23A3A,color:#132119
+  classDef ops stroke-dasharray: 5 5
+  classDef son fill:#E7F3EB,stroke:#1E6B3E,color:#132119
+
+  subgraph A[A · Önlisans öncesi]
+    olcum[Rüzgâr/Güneş ölçümü<br/>≥12 ay, son 3 yıl] --> basvuru[Önlisans başvurusu<br/>EPDK · Ekim penceresi]
+    basvuru --> teknik[Teknik değerlendirme<br/>ETKB-YEGM]
+    teknik --> bgorus[Bağlantı görüşü<br/>TEİAŞ · 45 gün]
+    bgorus --> yarisma[Kapasite yarışması<br/>gerekirse]:::ops
+    bgorus --> onlisans
+    yarisma --> onlisans[ÖNLİSANS<br/>EPDK Kurul · 24 ay, 36'ya uzar]:::son
+  end
+
+  subgraph B[B · Önlisans dönemi yükümlülükleri]
+    onlisans --> saha[Saha hakları / edinim<br/>tapu · kira · irtifak]
+    onlisans --> cedb[ÇED başvurusu<br/>⏱ 90 gün]:::kritik
+    onlisans --> teib[TEA başvurusu · yalnız RES<br/>⏱ 180 gün]
+    onlisans --> askeri[Askeri yasak yazısı<br/>MSB]
+    onlisans --> jeo[Jeolojik-jeoteknik etüt]
+    onlisans --> bagb[Bağlantı anlaşmasına çağrı<br/>TEİAŞ · katkı payı]
+    saha --> arazi[Arazi izinleri<br/>orman · mera · tarım]
+    cedb --> cedk[ÇED kararı]:::kritik
+    teib --> teis[TEA sonucu<br/>yerleşim kesinleşir]
+    jeo --> kurum[Kurum görüşleri<br/>30+30 gün]
+    teis -. revizyon görüşleri bozar .-> kurum
+    kurum --> imar
+    cedk --> imar
+    teis --> imar
+    askeri --> imar
+    arazi --> imar[İMAR PLANI ONAYI<br/>ETKB · 30+15+15 gün]:::kritik
+    imar --> kamu[Kamulaştırma<br/>gerekirse]:::ops
+    imar --> proje[Ön / kati proje onayı<br/>ETKB]
+    saha --> proje
+    kamu --> yapi
+    proje --> yapi[YAPI RUHSATI<br/>30 gün]:::kritik
+    yapi --> sermaye[Sermaye artırımı<br/>yatırımın %20'si]:::kritik
+  end
+
+  subgraph C[C · Lisans ve sonrası]
+    sermaye --> lisans[LİSANS BAŞVURUSU<br/>önlisans bitmeden · 45 gün]:::son
+    bagb --> lisans
+    lisans --> imza[Bağlantı + sistem<br/>kullanım anlaşması]
+    imza --> devir[EPC'ye devir]:::son
+  end
+```
+
+Kırmızı kutular kritik yoldur; kesik çizgili kutular yalnızca gerektiğinde açılan adımlardır.
+
+**Önkoşul tablosu** (makine okunur liste; kod buna göre kurulur):
+
+| id | Adım | Önkoşullar | Kural |
+|---|---|---|---|
+| olcum | Rüzgâr / güneş ölçümü | — | En az 12 ay; başvurudan önceki son 3 yıl içinde |
+| basvuru | Önlisans başvurusu | olcum | Ekim penceresi: RES ilk 5, GES son 5 iş günü |
+| teknik | Teknik değerlendirme | basvuru | Olumsuzsa süreç biter |
+| bgorus | Bağlantı görüşü | teknik | 45 gün; 10 iş günü içinde kabul |
+| yarisma | Kapasite yarışması | bgorus | Opsiyonel: aynı noktaya birden çok başvuru varsa |
+| onlisans | Önlisans | bgorus (+ yarisma varsa) | Bütün B adımlarının saati bu tarihte başlar |
+| saha | Saha hakları / edinim | onlisans | GES'te özel arazide ≥10 yıl kira/irtifak, tapuya şerh |
+| arazi | Arazi izinleri | saha | Orman ön izni → kesin izin; mera tahsis değişikliği |
+| cedb | ÇED başvurusu | onlisans | **Son tarih: önlisans + 90 gün** |
+| cedk | ÇED kararı | cedb | Olumsuzsa imar bloke |
+| teib | TEA başvurusu | onlisans | Yalnız RES; **son tarih: önlisans + 180 gün**; GES'te "Gerekmez" |
+| teis | TEA sonucu | teib | Olumsuzsa yerleşim revizyonu → kurum görüşleri ve ÇED tadili gerekebilir |
+| askeri | Askeri yasak yazısı | onlisans | |
+| jeo | Jeolojik-jeoteknik etüt | onlisans | |
+| kurum | Kurum görüşleri | jeo (+ teis RES'te) | 30 gün (+30); cevapsız = itiraz yok |
+| imar | İmar planı onayı | kurum, cedk, teis (RES), askeri, arazi | 30 gün inceleme + 15 askı + 15 itiraz |
+| kamu | Kamulaştırma | imar | Opsiyonel: malikle anlaşma yoksa |
+| proje | Ön / kat'i proje onayı | imar, saha | |
+| yapi | Yapı ruhsatı | proje (+ kamu varsa) | 30 gün; inşaata 2 yılda başla, 5 yılda bitir |
+| sermaye | Sermaye artırımı | yapi | Yatırımın %20'si. Yasal önkoşul lisans başvurusudur; yapı ruhsatından sonra yapılması şirket tercihi |
+| bagb | Bağlantı anlaşmasına çağrı | onlisans | Ağaçta sol ray; ana çizgiye lisansta bağlanır |
+| lisans | Lisans başvurusu | sermaye, bagb | **Önlisans bitiş tarihinden önce** yapılmalı |
+| imza | Bağlantı ve sistem kullanım anlaşması | lisans | |
+| devir | EPC'ye devir | imza | Proje Enerji › Proje Geliştirme'den İnşaat ekibine geçer |
+
+**Durum mantığı** (backend hesaplar, elle girilmez):
+
+- **Durum değerleri:** Başlamadı · Devam Ediyor · Bekliyor · Tamamlandı · Olumsuz · Gerekmez.
+- **Durum belgeden türer.** Örneğin olumlu görüş yazısı yüklenip onaylandıysa adım "Tamamlandı" olur. Başvuru yazısı var ama sonuç yoksa "Devam Ediyor", olumsuz yazı varsa "Olumsuz". Adımın tarihleri de belgelerin tarihleridir.
+- **Hazır / bloke:** Bir adım, bütün önkoşulları "Tamamlandı" veya "Gerekmez" ise başlamaya hazırdır. Değilse blokedir ve ekranda hangi önkoşulun eksik olduğu görünür (ör. "Önkoşullar 3/5 tamam").
+- **Olumsuz sonuç:** Olumsuz bir adım, kendisine bağlı bütün adımları bloke eder. Olumsuz TEA, yerleşim değiştiği için daha önce tamamlanmış kurum görüşlerini ve ÇED'i de "yeniden değerlendirilecek" durumuna düşürebilir. Demirci RES bunun canlı örneğidir.
+- **Son tarih uyarısı:** ÇED (90 gün) ve TEA (180 gün) başvuru süreleri önlisans tarihinden sayılır. Süre dolmadan başvuru yoksa uyarı verilir. Önlisans bitiş tarihi her ekranda görünür; uzatma kararı varsa yeni bitiş tarihi geçerlidir.
+- **Proje türü:** "Yalnız RES" adımlar GES projelerinde otomatik olarak "Gerekmez" olur.
+
+**Ekranın backend'den bekledikleri:** Her proje ve her adım için şunlar gelir: durum, başlangıç/başvuru tarihi, sonuç tarihi, son belge (indirilebilir link), gerçekleşen olaylar listesi (her olay bir belge), olumsuzsa kısa sebep ve personelin adıma bıraktığı notlar. Notlara örnek, kanvastaki "Kurum görüş yazısı geldi, İDK Çarşamba" notu.
+
+Çizelgenin ana çizgisinde şu adımlar görünür: önlisans, edinim, imar, proje onayı, yapı ruhsatı, lisans, bağlantı anlaşması, EPC'ye devir. Diğer adımlar, bir adıma tıklandığında onun önkoşulları olarak açılır. Bu davranış ekranındır; backend yalnızca ağı ve durumları verir.
+
+**Balbal açısından değeri:** "Kızılova'da lisans başvurusunu ne engelliyor?" sorusunun cevabı bu ağdan okunur. Kızılova'da ÇED kararı yok, arazi izinleri sürüyor; bu yüzden imar ve sonrası bloke. Bu, kaynaklı bir tespittir, yorum değildir: hangi belgenin eksik olduğu gösterilir. Önlisans süresine yetişip yetişmeyeceği ise tahmindir ve Ürün 3'e aittir.
 
 ### 6.2 Proje bazlı belge seti
 

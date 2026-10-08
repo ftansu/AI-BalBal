@@ -1,6 +1,6 @@
 # Naci Notu — ÜRÜN 2 ve sonrası (Balbal tam arayüzü)
 
-**Kimden:** Ürün sahibi (Claude ile) · **Kime:** Naci ve Naci'nin AI'ı · **Son güncelleme:** 08.10.2026
+**Kimden:** Ürün sahibi (Claude ile) · **Kime:** Naci ve Naci'nin AI'ı · **Son güncelleme:** 09.10.2026 (veriler canvas ile tekleştirildi)
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ürün 2" (ad tarihsel; Balbal uygulamasının tam arayüzü). Repoda tek kopya `tasarim/canvas/` (PR #12, güncel sürüm `1791471743-c7f2`, v135); okuma kılavuzu `tasarim/README.md`. Canvas ile fark varsa **canvas esastır**.
 
 > ## ⛔ ONAY GELMEDEN BAŞLANMAZ
@@ -490,7 +490,7 @@ P-1 ile ilişkisi: P-1 "personel onayı olmadan işlem ilerlemez"in ödeme süre
 ### D.4 Zincir 6 (vergi / yasal yükümlülük) ve Zincir 7 (bordro)
 
 - **Zincir 6 sade kalır:** Muhasebe tahakkuk fişini gönderir, Finansal Muhasebe öder; onaycı isteğe bağlı. **Balbal'ın vergi için uyarısı yok**; yasal yükümlülükte Balbal'ın sorumluluğu yoktur, gecikmenin sorumluluğu şirkettedir. "Son gün geçerse uyarı" yalnızca Finansal Muhasebe'nin kendi tarih alanında görünür.
-- **Zincir 7 bordro:** İK bordro toplamlarını gönderir, onaycıyı kendisi seçer (personel gönderdiyse İK Müdürü onaylar — Mali İşler Müdürü değil); Finansal Muhasebe üç satırı (net maaş, SGK, muhtasar) ayrı tarihlerle ödeme listesine alır.
+- **Zincir 7 bordro:** İK bordro toplamlarını gönderir, onaycıyı kendisi seçer (personel gönderdiyse Genel Müdür onaylar (İK'nın bağlı olduğu yönetici; İK'da müdür yok) — Mali İşler Müdürü değil); Finansal Muhasebe üç satırı (net maaş, SGK, muhtasar) ayrı tarihlerle ödeme listesine alır.
 
 ---
 
@@ -604,7 +604,7 @@ P-1 ile ilişkisi: P-1 "personel onayı olmadan işlem ilerlemez"in ödeme süre
 
 1. **Vadesi geçmiş kredi kaydı alarmı yok.** KR-26-007 (Garanti BBVA, 412.500 USD, vade 07.10.2026) ödenmeden "Ödeme listesinde" duruyor. Vadesi geçen ve ödenmemiş kayıt kırmızıya dönmeli; Proje Finans'a ve Mali İşler Müdürü'ne bildirim.
 2. **Ürün 2 metinleri:** canvas'taki bazı Balbal notlarında neden-sonuç yorumu var ("baz oran yenilendi") → Ürün 3'e ait; Ürün 2 notu veri diliyle üretilmeli.
-3. Demo belge eklemeleri (Kredi 2021-YS, masraf belgeleri, banka ekstreleri, takvim düzeltmeleri) **Ürün 1 notu Bölüm E**'ye taşındı.
+3. Demo belge eklemeleri (Kredi 2023-YS, masraf belgeleri, banka ekstreleri, takvim düzeltmeleri) **Ürün 1 notu Bölüm E**'ye taşındı.
 
 ---
 

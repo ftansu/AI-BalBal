@@ -1,7 +1,8 @@
 # Naci Notu — ÜRÜN 1
 
-**Kimden:** Ürün sahibi (Claude ile) · **Kime:** Naci ve Naci'nin AI'ı · **Son güncelleme:** 08.10.2026
+**Kimden:** Ürün sahibi (Claude ile) · **Kime:** Naci ve Naci'nin AI'ı · **Son güncelleme:** 09.10.2026 (veriler canvas ile tekleştirildi)
 **Durum: ✅ HEMEN BAŞLANABİLİR.** Bu nottaki her iş için ürün sahibinden ayrıca onay beklenmez.
+Tek değer listesi: `docs/NACI_CEVAP_2026-10-08.md` §3 — canvas, bu not ve ledger aynı değerleri kullanır.
 
 > **Naci'ye yalnızca iki not var:** bu not (Ürün 1) ve [`NACI_NOTU_URUN2.md`](NACI_NOTU_URUN2.md) (Ürün 2 ve sonrası — ⛔ onay gelmeden başlanmaz). Önceki ayrı notlar (`URUN1_TANSU_NOTLAR.md`, `NACI_NOTU_2026-10-06.md`, `NACI_NOTU_2026-10-08.md`, `BALBAL_ARAYUZ.md`) bu iki nota taşındı; içerik kaybı yok.
 > **Referans belgeler (not değil, aynen geçerli):** `BACKEND_GAPS.md`, `BAGLANTI_YOL_HARITASI.md`, `URUN1_ARAYUZ.md`, Anayasa (`anayasa/`).
@@ -371,7 +372,7 @@ Aşağıdaki dosya adları kanvasta **link olarak** geçer. Bu adlarla üretilme
 
 **Test değeri:** Önlisans 15.01.2027'de bitiyor. ÇED sonuçlanmadı; imar, proje onayı, yapı ruhsatı ve sermaye artırımı başlamadı. Bu, süre uzatımı ihtiyacını gösteren gerçekçi bir risk senaryosu ve özellikle korunmalı.
 
-#### Akyar GES — 60 MW · önlisans 03.03.2026 · 24 ay (bitiş 03.03.2028)
+#### Akyar GES — 60 MWp · önlisans 03.03.2026 · 24 ay (bitiş 03.03.2028)
 
 | Adım | Durum | Belge(ler) — tarih | Not |
 |---|---|---|---|
@@ -410,8 +411,8 @@ Aşağıdaki dosya adları kanvasta **link olarak** geçer. Bu adlarla üretilme
 Bunlar kanvasta görülen tutarsızlıklar. Belge üretmeden önce ürün sahibine sorulmalı; tahminle düzeltilmemeli.
 
 1. **Otomatik "Basvuru_" dosya adları:** Kanvas, kendi belge listesi tanımlı olmayan adımlarda başvuru belgesini `Basvuru_` + sonuç belgesinin adı şeklinde üretiyor (ör. `Basvuru_YEGM_Teknik_Uygunluk_Kizilova.pdf`). Bu adlar gerçekçi değil. Öneri: Bu adımlara gerçek başvuru belgesi adı tanımlanır ve kanvas buna göre düzeltilir. Karar gelene kadar bu adlarla belge üretilmez.
-2. **ÇED yolu ve kapasite:** Kızılova RES (42 MW) ve Akyar GES (60 MW) için kanvasta İDK toplantısı, halkın katılımı ve "PTD inceleme komisyonu" gibi ÇED raporu süreci terimleri birlikte geçiyor. Güncel ÇED Yönetmeliği eşiklerine göre her projenin hangi yoldan (seçme-eleme ya da ÇED raporu) ilerlediği belirlenmeli. Belge zinciri o yola uygun kurulmalı. Kanvas gerekirse düzeltilir.
-3. **Kızılova'da şantiye kaydı:** İdari ve satın alma tarafında "Kızılova RES (şantiye)" ve "hafriyat metrajı" geçiyor. Oysa proje önlisans aşamasında; imar ve yapı ruhsatı yok. İnşaat öncesi saha işi mi (ör. ölçüm ya da etüt), yoksa hata mı?
+2. **ÇED yolu ve kapasite:** Kızılova RES (42 MW) ve Akyar GES (60 MWp) için kanvasta İDK toplantısı, halkın katılımı ve "PTD inceleme komisyonu" gibi ÇED raporu süreci terimleri birlikte geçiyor. Güncel ÇED Yönetmeliği eşiklerine göre her projenin hangi yoldan (seçme-eleme ya da ÇED raporu) ilerlediği belirlenmeli. Belge zinciri o yola uygun kurulmalı. Kanvas gerekirse düzeltilir.
+3. ~~**Kızılova'da şantiye kaydı**~~ — **Çözüldü (08.10):** Kızılova geliştirme aşamasında; EPC S-26-001 imzalı, LNTP (detay mühendislik + türbin rezervasyonu); saha işleri lisans + yapı ruhsatı + kullandırım sonrası. Canvas'ta 'şantiye' → 'saha' ("hafriyat metrajı" → "jeoteknik sondaj metrajı").
 4. **Kapasite birimleri:** Kanvas yalnızca "MW" yazıyor. Belgelerde MWm ve MWe ayrımı tutarlı olmalı. ÇED eşikleri MWm, lisans kapasitesi MWe üzerinden değerlendirilir.
 
 #### C.6.4 Bu setle Balbal'a sorulacak örnek sorular
@@ -434,24 +435,24 @@ Bunlar kanvasta görülen tutarsızlıklar. Belge üretmeden önce ürün sahibi
 
 ### D.1 Kurgu şirket grubu — tek kaynak ledger, içerik bu tablo
 
-Hepsi kurgusaldır (Ç-12, P-9). Gerçek kamu kurumları (EPDK, TEİAŞ, EPİAŞ, bakanlıklar, mahkemeler) süreç bağlamında geçebilir; özel şirket, banka ve kişi adları kurgusaldır. Canvas'ta farklı yazım varsa ("Karatepe Enerji A.Ş." gibi) **bu tablo esastır**; canvas sonra buna göre düzeltilir.
+Hepsi kurgusaldır (Ç-12, P-9). Gerçek kamu kurumları (EPDK, TEİAŞ, EPİAŞ, bakanlıklar, mahkemeler) süreç bağlamında geçebilir; özel şirket, banka ve kişi adları kurgusaldır. Canvas bu tabloyla tekleştirildi (09.10); ileride fark görülürse **bu tablo esastır** ve bize sorulur.
 
 #### D.1.1 Holding ve SPV'ler
 
-| Kısa ad | Ünvan | Tür | Durum | Kurulu güç (öneri) | Banka / finansman | Not |
+| Kısa ad | Ünvan | Tür | Durum | Kurulu güç | Banka / finansman | Not |
 |---|---|---|---|---|---|---|
-| **XYZ Enerji** | XYZ Enerji A.Ş. | Holding (ana şirket) | — | — | İş Bankası (TL işletme hesapları) | Tüm personel burada; SPV'lerin %100 hissedarı |
-| **Karatepe RES** | Karatepe RES Enerji Üretim A.Ş. | SPV | İşletmede | 60 MW | **Garanti BBVA** · USD proje kredisi; ilk sözleşme 20.06.2022, 1. tadil (konsolide metin) 12.01.2024, **2. tadil 15.03.2025** (DSCR 1,25x → **1,20x**) | Kamulaştırma süreci (Hukuk); bakım sözleşmesi Enercon Servis Türkiye; teminat mektubu yenilemesi Ocak 2027 |
-| **Yeşilova RES** | Yeşilova RES Enerji Üretim A.Ş. | SPV | İşletmede | 42 MW | **Commerzbank AG** · USD kredi, 03.06.2023; yıllık raporlama yükümlülüğü (Annex E yetkisi, **Annex F** belgeleri, bu yıl son gün 14.10.2026) | Tazminat davası (Hukuk); sigorta yenileme takibi |
-| **Boztepe RES** | Boztepe RES Enerji Üretim A.Ş. | SPV | İşletmede | 80 MW | Akbank · TL işletme kredisi (küçük) | İmar iptali davası, sonraki duruşma 28.10.2026; sigorta poliçesi 10.11.2026'da bitiyor |
-| **Güneşalan GES** | Güneşalan GES Enerji Üretim A.Ş. | SPV | İşletmede | 25 MWp | Özkaynak + Garanti BBVA TL | Bakım bütçesi aşımı (Enerji → PF görüş talebi) |
-| **Kızılova RES** | Kızılova RES Enerji Üretim A.Ş. | SPV | **İnşaat (şantiye)** | 48 MW | Garanti BBVA · USD yatırım kredisi (kullandırım dönemi) | **EPC sözleşmesi S-26-001** · ABC İnşaat A.Ş. · anahtar teslim · 12.000.000 USD · imza 15.09.2026 · %20 avans (2.400.000 USD, fatura ABC2026000000184) · avans teminat mektubu Akbank 2.000.000 USD vade 15.03.2028 |
-| **Akyar GES** | Akyar GES Enerji Üretim A.Ş. | SPV | Geliştirme | 30 MWp | Yok (özkaynak) | ÇED ve askeri görüş aşamasında; lisans/önlisans bitişi 15.01.2027 |
-| **Demirci RES** | Demirci RES Enerji Üretim A.Ş. | SPV | Geliştirme | 36 MW | Yok | **TEA başvurusu 08.09.2026 tarihli yazıyla olumsuz** (gerekçeli); itiraz süreci (Hukuk); önlisans bitişi 03.03.2028 |
+| **XYZ Enerji** | XYZ Enerji A.Ş. | Holding (ana şirket) | — | — | Akbank (TL), Garanti BBVA (TL/USD/EUR), İş Bankası (bordro/vergi) | Tüm personel burada; SPV'lerin %100 hissedarı |
+| **Karatepe RES** | Karatepe RES Enerji Üretim A.Ş. | SPV | İşletmede | 24 MW (YEKDEM 16) | **Garanti BBVA** · Kredi 2022-KT, USD proje kredisi; ilk sözleşme 20.06.2022, 1. tadil (konsolide metin) 12.01.2024, **2. tadil 15.03.2025** (Term SOFR + %3,25 → **+%2,90**; DSCR 1,25x → **1,20x**); 6 aylık 24 taksit, 8/24 = 412.500 USD vade 07.10.2026; DSRA 1.240.000 USD | Kamulaştırma/irtifak bedeli tespiti (Hukuk); bakım Enercon Servis Türkiye; Ocak 2027'de yenilenecek teminat mektubu = orman izni teminatı |
+| **Yeşilova RES** | Yeşilova RES Enerji Üretim A.Ş. | SPV | İşletmede | 22 MW | **Commerzbank AG** · Kredi 2023-YS, 03.06.2023, 2.352.000 USD (24 × 98.000), **3 aylık**; DSRA 702.000 USD; yıllık raporlama (Annex E yetkisi, **Annex F** belgeleri; talep maili 14.09.2026, son gün 14.10.2026) | Tazminat davası (Hukuk); poliçe YS-2026-04471 (bitiş 31.03.2027) ara dönem zeyilname talebi |
+| **Boztepe RES** | Boztepe RES Enerji Üretim A.Ş. | SPV | İşletmede | 30 MW | **Garanti BBVA** · Kredi 2024-BZ, USD, 20.02.2024; aylık faiz 84.300 USD | İmar iptali davası, sonraki duruşma 28.10.2026; sigorta poliçesi 10.11.2026'da bitiyor |
+| **Güneşalan GES** | Güneşalan GES Enerji Üretim A.Ş. | SPV | İşletmede | 18 MWp | Özkaynak (**kredi yok**) | Bakım bütçesi aşımı (Enerji → PF görüş talebi) |
+| **Kızılova RES** | Kızılova RES Enerji Üretim A.Ş. | SPV | **GELİŞTİRME** (önlisans, bitiş 15.01.2027) | 42 MW | Garanti BBVA · Kredi 2026-KZ, 30.000.000 USD yatırım kredisi, **imzalı, kullandırılmamış** (ön koşul lisans); faiz yok, taahhüt komisyonu 61.333 USD 05.01.2027 | **EPC sözleşmesi S-26-001** · ABC İnşaat A.Ş. · anahtar teslim · 10.000.000 USD KDV hariç · imza 15.09.2026 · LNTP (detay mühendislik + türbin rezervasyonu) · %20 avans 2.000.000 USD + KDV = 2.400.000 USD (fatura ABC2026000000184) · avans teminat mektubu Akbank 2.000.000 USD vade 15.03.2028 |
+| **Akyar GES** | Akyar GES Enerji Üretim A.Ş. | SPV | Geliştirme | 60 MWp | Yok (özkaynak) | ÇED ve askeri görüş aşamasında; önlisans bitişi 03.03.2028; dava yok (arazi bedeli müzakeresi) |
+| **Demirci RES** | Demirci RES Enerji Üretim A.Ş. | SPV | Geliştirme | 80 MW | Yok | **TEA 08.09.2026 tarihli yazıyla olumsuz** (gerekçeli); itiraz süreci (Hukuk); önlisans bitişi 10.10.2027 (36 ay) |
 
-Kurulu güçler öneridir; ledger'da sabitlenince canvas'taki rakamlar ona çekilir. Bütün belgelerde (lisans, kredi, sigorta, üretim) **aynı MW** geçmeli.
+Kurulu güçler canvas'taki üretim/KF/YEKDEM hesaplarıyla sabittir. Bütün belgelerde (lisans, kredi, sigorta, üretim) **aynı MW** geçmeli. Vergi dairesi her şirket için Çankaya VD.
 
-#### D.1.2 Personel (XYZ Enerji A.Ş. bordrosunda; 15 ofis + saha)
+#### D.1.2 Personel (XYZ Enerji A.Ş. bordrosunda; 36 kişi — §C.1 tek kaynak)
 
 | Departman / birim | Kişi | Unvan | Yöneticisi | Rol |
 |---|---|---|---|---|
@@ -463,34 +464,35 @@ Kurulu güçler öneridir; ledger'da sabitlenince canvas'taki rakamlar ona çeki
 | Mali İşler › Finansal Muhasebe | Gökhan Erdem | Finansal Muhasebe Uzmanı | Elif Şahin | employee |
 | Hukuk | Ayşe Yılmaz | Hukuk Müdürü | Genel Müdür | management (dept.) |
 | Hukuk | Burak Çelik | Avukat | Ayşe Yılmaz | employee |
-| İdari İşler | Deniz Kaya | İdari İşler Müdürü | Genel Müdür | management (dept.) |
-| İK | Zeynep Koç | İK Uzmanı | Genel Müdür | employee |
+| İdari İşler | Deniz Kaya | İdari İşler Sorumlusu | Genel Müdür | management (dept.) |
+| İK | Zeynep Koç | İK Uzmanı (İK'nın tek kişisi; departman başı, İK'da müdür yok) | Genel Müdür | management (dept.) |
 | Enerji | Kerem Aydın | Enerji Grubu Müdürü | Genel Müdür | management (dept.) |
 | Enerji › Proje Geliştirme | Cem Aktaş | Proje Geliştirme Uzmanı | Kerem Aydın | employee |
-| Enerji › İşletme ve Bakım | Onur Yıldız | Saha Mühendisi (O&M) | Kerem Aydın | employee |
-| Enerji › İnşaat (EPC) | Hakan Tunç | Şantiye Şefi | Kerem Aydın | employee |
-| Enerji › Üretim / Piyasa | Pınar Güler | Piyasa Analisti | Kerem Aydın | employee |
-| Enerji › Saha Operasyon | Murat Kılınç | Saha Operasyon Sorumlusu | Kerem Aydın | employee |
+| Enerji › O&M (İşletme ve Bakım) | Onur Yıldız | O&M Mühendisi | Kerem Aydın | employee |
+| Enerji › EPC (İnşaat) | Hakan Tunç | EPC Proje Mühendisi | Kerem Aydın | employee |
+| Enerji › Üretim/Piyasa | Pınar Güler | Üretim/Piyasa Uzmanı | Kerem Aydın | employee |
+| Enerji › Saha Operasyon | Murat Kılınç | Saha Operasyon Müdürü | Kerem Aydın | employee |
 | Enerji › Saha Operasyon | 4 santral × 4 Saha Teknisyeni (2 vardiya) | Saha Teknisyeni | Murat Kılınç | employee |
-| Enerji › İnşaat (EPC) | 1 İnşaat Mühendisi, 1 Elektrik Mühendisi, 2 EPC Teknikeri | — | Hakan Tunç | employee |
+| Enerji › EPC (İnşaat) | Caner Doğru (İnşaat Mühendisi), Melis Karaca (Elektrik Mühendisi), Halil Öztürk ve Semih Kaplan (EPC Teknikeri) | — | Hakan Tunç | employee |
 
-Saha personelinin adlarını sen üret (kurgusal, gerçek kişiyle eşleşmesin). Her belgede imzacı/yazışan bu listeden çıkar; listede olmayan çalışan adı hiçbir iç belgede geçmez. `admin` hesabı listeye dahil değil.
+Saha ve EPC personeli §C.1'deki adlarla; bordroda 36 kişi. Her belgede imzacı/yazışan bu listeden çıkar; listede olmayan çalışan adı hiçbir iç belgede geçmez. `admin` hesabı listeye dahil değil.
 
 #### D.1.3 Karşı taraflar (cari listesi çekirdeği)
 
 | Tür | Ad | SPV | Dayanak |
 |---|---|---|---|
-| Banka (kredi) | Garanti BBVA | Karatepe, Kızılova, Güneşalan | kredi sözleşmeleri |
-| Banka (kredi) | Commerzbank AG | Yeşilova | kredi sözleşmesi |
-| Banka (işletme/teminat) | Akbank, İş Bankası, QNB Finansbank | Holding, Boztepe | hesaplar, teminat mektupları |
+| Banka (kredi) | Garanti BBVA | Karatepe (2022-KT), Boztepe (2024-BZ), Kızılova (2026-KZ, kullandırılmadı) | kredi sözleşmeleri |
+| Banka (kredi) | Commerzbank AG | Yeşilova (2023-YS) | kredi sözleşmesi |
+| Banka (işletme/teminat) | Akbank (TL; Kızılova avans teminat mektubu), Garanti BBVA (TL/USD/EUR), İş Bankası (bordro/vergi) | Holding ve SPV'ler | hesaplar, teminat mektupları |
 | EPC yüklenici | ABC İnşaat A.Ş. (VKN 0010203040) | Kızılova | S-26-001 |
-| Türbin servisi | Enercon Servis Türkiye | Karatepe, Yeşilova, Boztepe | bakım sözleşmeleri (S-23-…, eskalasyonlu) |
-| GES O&M | kurgusal bir firma | Güneşalan | O&M sözleşmesi |
-| Sigorta | kurgusal sigorta şirketi + broker | hepsi | poliçeler |
+| Türbin servisi | Enercon Servis Türkiye | Karatepe, Boztepe (Enercon E-82) | bakım sözleşmeleri S-25-007/008, 38.500 EUR/ay (eskalasyonlu) |
+| Türbin servisi | Vestas Bakım Hizmetleri | Yeşilova (Vestas V136) | bakım sözleşmesi S-24-009 |
+| GES O&M | Solaris GES İşletme Hizmetleri Ltd. Şti. (kurgusal) | Güneşalan | O&M sözleşmesi |
+| Sigorta | STU Sigorta A.Ş. (kurgusal) + Sigorta Brokerliği | işletmedeki SPV'ler | poliçeler |
 | Yatırımcı/fon | GreenFund Capital Partners | Holding | portföy izleme talebi |
 | Kefalet | KGF | Boztepe | yıllık uygunluk belgesi talebi |
 | Bağımsız denetim | kurgusal denetim firması | Holding | ek belge talebi |
-| Kamu | EPDK, TEİAŞ, EPİAŞ, ÇŞİDB, MSB, belediyeler, vergi dairesi, SGK, orman idaresi | ilgili SPV | yazışma, beyanname, bedeller |
+| Kamu | EPDK, TEİAŞ, EPİAŞ, ÇŞİDB, MSB, belediyeler, vergi dairesi (Çankaya VD), SGK, orman idaresi | ilgili SPV | yazışma, beyanname, bedeller |
 | Mülk sahipleri | kurgusal kişiler/köy tüzel kişiliği | Karatepe, Kızılova | irtifak/kira |
 
 ---
@@ -515,7 +517,7 @@ Ortak Alan/
     Yeşilova RES/           {aynı}
     Boztepe RES/            {aynı}
     Güneşalan GES/          {aynı}
-    Kızılova RES/           {aynı + Kullandırım talepleri}
+    Kızılova RES/           {Finansman görüşmeleri / kredi sözleşmesi (kullandırılmadı), Hesaplar, Teminatlar, Banka yazışmaları}
     Akyar GES/, Demirci RES/{Fizibilite, Finansman görüşmeleri}
     Ortak/
   Mali İşler/
@@ -526,7 +528,7 @@ Ortak Alan/
   Enerji/
     Proje Geliştirme/ → her SPV: {Ölçüm, Önlisans, Lisans, TEİAŞ bağlantı, ÇED, İmar, Askeri görüş, Kurum görüşleri}
     İşletme ve Bakım/ → işletmedeki SPV'ler: {Bakım sözleşmesi, Arıza tutanakları, Bakım raporları, ÇED izleme}
-    İnşaat (EPC)/     → Kızılova: {EPC sözleşmesi, Hakedişler, İlerleme raporları, Teminatlar}
+    İnşaat (EPC)/     → Kızılova: {EPC sözleşmesi, Avans ve teminat, Mühendislik hakedişleri}
     Üretim-Piyasa/    → her işletme SPV: {Aylık üretim, EPİAŞ uzlaştırma, KGÜP}
   İK/
     Personel Dosyaları/<kişi>/   (SPV değil kişi bazlı — bordro Holding'de)
@@ -544,19 +546,19 @@ Belge adı kuralı (B-28b ile uyumlu): **şirket · konu · belge · dönem/vers
 
 Madde madde sözleşme yazmıyoruz; **belgede ne olması gerektiğini, hangi rakamların birbirini tutması gerektiğini ve Balbal'ın neyi bulabilmesi gerektiğini** yazıyoruz. Formatı webden araştır (banka kredi sözleşmesi, ECA kredisi, Türk bankası proje finansmanı sözleşme yapısı), içeriği buradan kur.
 
-#### D.3.1 Kredi sözleşmesi (Karatepe — Garanti BBVA; Yeşilova — Commerzbank; Kızılova — Garanti BBVA yatırım kredisi)
+#### D.3.1 Kredi sözleşmesi (Karatepe 2022-KT — Garanti BBVA; Yeşilova 2023-YS — Commerzbank; Boztepe 2024-BZ — Garanti BBVA; Kızılova 2026-KZ — Garanti BBVA yatırım kredisi, kullandırılmadı)
 
 Her kredi sözleşmesinde **mutlaka** bulunacak ve ödeme planı / hesap listesi / sigorta ile **tutarlı** olacak bilgiler:
 
 - **Taraflar:** SPV (borçlu), XYZ Enerji A.Ş. (sponsor/kefil), banka; ajan banka ve hesap bankası aynı ise belirt.
-- **Kredi tutarı ve para birimi:** Karatepe 14.000.000 USD (ödeme planı 13.600.000 USD gösterir — **bilerek bırakılan çelişki**, Ç-7 "Çelişkili Veri" testi için; sebep: 400.000 USD'lik dilim kullandırılmadı, bunu hiçbir belge açıkça yazmasın). Yeşilova 9.500.000 USD. Kızılova 30.000.000 USD yatırım kredisi, 2026–2027 kullandırım.
-- **Vade ve geri ödeme:** 10–12 yıl; **6 aylık** taksit; ilk taksit tarihi; anapara ödemesiz dönem (Kızılova için inşaat + 12 ay).
-- **Faiz:** değişken (kurgusal referans oran + marj) ya da sabit; faiz dönemi; temerrüt faizi; **Karatepe'de 2. tadille marj değişti** (ör. +3,25 → +2,90) — etiket `faiz-değişikliği`.
+- **Kredi tutarı ve para birimi:** Karatepe 14.000.000 USD (ödeme planı 13.600.000 USD gösterir — **bilerek bırakılan çelişki**, Ç-7 "Çelişkili Veri" testi için; sebep: 400.000 USD'lik dilim kullandırılmadı, bunu hiçbir belge açıkça yazmasın). Yeşilova 2.352.000 USD (24 × 98.000 eşit anapara). Kızılova 30.000.000 USD yatırım kredisi; imzalı, **kullandırılmadı** (ön koşul lisans) — faiz yok, 05.01.2027'de taahhüt komisyonu 61.333 USD (30 mn × %0,80 × 92/360).
+- **Vade ve geri ödeme:** Karatepe **6 aylık, 24 taksit**, değişken (heykel) anapara; taksit 8/24 = 412.500 USD vade 07.10.2026 (KR-26-007), sonraki 07.04.2027. Yeşilova **3 aylık**, her ayın 14'ü, #1 14.04.2024 … #24 14.01.2030. Boztepe aylık faiz 84.300 USD. Kızılova: anapara ödemesiz dönem (inşaat + 12 ay).
+- **Faiz:** değişken (referans oran + marj); faiz dönemi; temerrüt faizi; **Karatepe'de 2. tadille marj değişti** (Term SOFR + %3,25 → **+%2,90**) — etiket `faiz-değişikliği`. Yeşilova Term SOFR %3,89378 + %1,50 (referans oran asla EURIBOR değil).
 - **Erken ödeme:** izinli, ücret oranı ve bildirim süresi (Balbal sorusu: "Karatepe'de erken ödeme cezası var mı?").
-- **Kullandırım ön koşulları (CP):** lisans, ÇED, bağlantı anlaşması, EPC sözleşmesi, sigortalar, teminatların tesisi, özkaynak katkısı, teknik danışman raporu, hesapların açılması. Kızılova'da her dilim için teknik danışman hakediş onayı.
+- **Kullandırım ön koşulları (CP):** lisans, ÇED, bağlantı anlaşması, EPC sözleşmesi, sigortalar, teminatların tesisi, özkaynak katkısı, teknik danışman raporu, hesapların açılması. Kızılova kullandırımı lisans + yapı ruhsatına bağlı (henüz kullandırım yok).
 - **Proje hesapları ve bloke yapısı** → §D.3.3 ile birebir aynı liste.
-- **Nakit şelalesi (ödeme sırası):** 1 vergi ve zorunlu ödemeler → 2 işletme giderleri (bütçe sınırında) → 3 banka ücretleri → 4 faiz → 5 anapara → 6 DSRA tamamlama → 7 MRA tamamlama → 8 temettü (dağıtım testi geçerse).
-- **Finansal taahhütler:** **DSCR** (Karatepe: 1,25x ilk sözleşme → **1,20x 2. tadil**; test tarihi yıllık, 30 Haziran; iki dönem üst üste sağlanamazsa temerrüt), LLCR (isteğe bağlı), borç/özkaynak ≤ 70/30. **Temettü dağıtım koşulları:** DSCR ≥ 1,30x (Karatepe), DSRA dolu, temerrüt yok, ilk 2 yıl dağıtım yok.
+- **Nakit şelalesi (ödeme sırası):** 1 vergi ve zorunlu ödemeler → 2 işletme giderleri (bütçe sınırında) → 3 banka ücretleri → 4 faiz → 5 anapara → 6 DSRA tamamlama → 7 temettü (dağıtım testi geçerse). MRA canvas'ta yok, üretilmez.
+- **Finansal taahhütler:** **DSCR** (Karatepe: 1,25x ilk sözleşme → **1,20x 2. tadil**; test tarihi yıllık, 30 Haziran; iki dönem üst üste sağlanamazsa temerrüt; Yeşilova min 1,15x), LLCR (isteğe bağlı), borç/özkaynak ≤ 70/30. **Temettü dağıtım koşulları:** DSCR ≥ 1,30x (Karatepe), DSRA dolu, temerrüt yok, ilk 2 yıl dağıtım yok.
 - **Teminat paketi** → §D.3.4.
 - **Raporlama yükümlülükleri:** yıllık bağımsız denetimli mali tablolar (4 ay içinde), 6 aylık yönetim raporu ve üretim raporu, yıllık bütçe (Aralık), DSCR hesap formu, sigorta yenileme belgeleri, **Commerzbank: Annex E yetkisi + Annex F yıllık raporlama belgeleri (son gün 14.10)**, önemli olaylar (temerrüt, dava, lisans).
 - **Sigorta şartları:** zorunlu poliçeler listesi (§D.3.5), bankanın **dain-i mürtehin** olması, yenileme en az 15 gün önce ibraz.
@@ -567,7 +569,7 @@ Her kredi sözleşmesinde **mutlaka** bulunacak ve ödeme planı / hesap listesi
 
 #### D.3.2 Ödeme planı (Excel, her SPV ayrı)
 
-Sayfalar: **Özet** (kredi tutarı, kullanılan, kalan bakiye, sonraki taksit tarihi ve tutarı), **Plan** (dönem no, tarih, dönem başı bakiye, anapara, faiz, toplam taksit, dönem sonu bakiye — formüllü), **Faiz Varsayımları** (referans oran, marj, gün sayısı esası), **Gerçekleşen** (ödenen taksitler, valör, banka dekont no). Para birimi USD; TL karşılığı için TCMB kuru sütunu (kaynak tarihli). Karatepe Özet sayfasında 13.600.000 USD (bkz. §D.3.1 çelişki). Yeşilova planı 01.09.2026 tarihli güncel sürüm + Mart 2026 tarihli eski sürüm (versiyon testi).
+Sayfalar: **Özet** (kredi tutarı, kullanılan, kalan bakiye, sonraki taksit tarihi ve tutarı), **Plan** (dönem no, tarih, dönem başı bakiye, anapara, faiz, toplam taksit, dönem sonu bakiye — formüllü), **Faiz Varsayımları** (referans oran, marj, gün sayısı esası), **Gerçekleşen** (ödenen taksitler, valör, banka dekont no). Para birimi USD; TL karşılığı için TCMB kuru sütunu (kaynak tarihli). Karatepe Özet sayfasında 13.600.000 USD (bkz. §D.3.1 çelişki); 6 aylık 24 taksit. Yeşilova planı **3 aylık** (24 × 98.000 USD); 01.09.2026 tarihli güncel sürüm + Mart 2026 tarihli eski sürüm (versiyon testi; ikisi de 3 aylık). #11 (14.10.2026): ödeme takviminde faiz 18.240 / toplam 116.240 USD, banka bildiriminde 18.912 / 116.912 USD (kasıtlı fark).
 
 #### D.3.3 Şirket (proje) hesapları — hangileri bloke, kim çözer
 
@@ -576,16 +578,13 @@ Her SPV için **"Hesap Listesi"** belgesi (PDF) ve ledger'da `bank_accounts` kay
 | Hesap | Para birimi | Ne için | Bloke? | Kim onaylar / kural |
 |---|---|---|---|---|
 | **Tahsilat (Gelir) Hesabı** | TL | EPİAŞ/YEKDEM ve ikili anlaşma gelirleri yalnızca buraya yatar; alacak temliki bankaya | Kısmi: çıkış yalnızca şelale sırasıyla | Banka talimatla aktarır; SPV tek başına ödeme yapamaz |
-| **İşletme Giderleri Hesabı** | TL | Onaylı yıllık bütçe kadar aylık transfer; opex ödemeleri buradan | Hayır (bütçe sınırı var) | SPV imza yetkilileri; bütçe aşımı banka onayı |
-| **Borç Servisi Hesabı** | USD | Taksitten önceki 6 ayda biriktirme; faiz+anapara buradan | Evet: yalnızca bankaya ödeme | Banka otomatik tahsil eder |
-| **DSRA — Borç Servisi Rezerv Hesabı** | USD | Sonraki 6 aylık (1 taksit) borç servisi karşılığı | **Tam bloke** | Yalnızca ödeme temerrüdünde banka kullanır; eksilirse ilk şelale ile tamamlanır; faiz tahakkuku hesapta kalır |
-| **MRA — Bakım Rezerv Hesabı** | USD veya TL | Büyük bakım (dişli kutusu, kanat) için yıllık birikim | **Tam bloke** | Teknik danışman onaylı bakım faturası karşılığı banka çözer |
-| **Sigorta Tazminat Hesabı** | TL/USD | Hasar tazminatları buraya yatar | **Tam bloke** | Onarım hakedişine karşı banka çözer; büyük hasarda erken ödemeye sayılabilir |
-| **Kullandırım (Yatırım) Hesabı** — yalnız Kızılova | USD | Kredi dilimleri ve özkaynak buraya; EPC hakedişleri buradan | Evet | Her ödeme teknik danışman hakediş onayı + banka onayı |
-| **Temettü / Dağıtım Hesabı** | TL | Şelale sonunda kalan; dağıtım testi geçerse holding'e | Hayır (test şartlı) | DSCR ≥ 1,30x, DSRA dolu, temerrüt yok |
-| **Teminat Mektubu Karşılık Hesabı** (Holding/Boztepe) | TL | Teminat mektubu nakit karşılığı | Bloke | Mektup iade edilince çözülür |
+| **İşletme Hesabı** | TL | Onaylı yıllık bütçe kadar aylık transfer; opex ödemeleri buradan | Hayır (bütçe sınırı var) | SPV imza yetkilileri; bütçe aşımı banka onayı |
+| **Borç Servis Hesabı** | USD | Kredili SPV'ler: Karatepe (Garanti BBVA), Boztepe (Garanti BBVA), Yeşilova (Commerzbank, bakiye 84.500 USD); faiz+anapara buradan | Evet: yalnızca bankaya ödeme | Banka vade günü tahsil eder |
+| **DSRA — Borç Servisi Rezerv Hesabı** | USD | Karatepe 1.240.000 USD · Yeşilova 702.000 USD | **Tam bloke** | Yalnızca ödeme temerrüdünde banka kullanır; eksilirse ilk şelale ile tamamlanır |
+| **Yatırım Hesabı** — yalnız Kızılova | USD | Özkaynak; EPC avans/hakediş ödemeleri (kredi kullandırılmadı) | Hayır | Garanti BBVA; yanında Kızılova TL işletme hesabı (Garanti) |
+| ~~MRA, Sigorta Tazminat, Temettü/Dağıtım, Teminat Mektubu Karşılık~~ | — | **Canvas'ta yok, üretilmez.** Kızılova EUR "Yatırım hesabı · EPC" da kaldırıldı. | — | — |
 
-Kural: bloke hesaplardan ödeme **hiçbir zaman** ödeme listesine düşmez; Balbal ödeme talimatı hazırlarken ödeyen hesabı seçerken bloke hesapları **seçemez**, kısıtı gösterir (B-37 son kontrol maddesi 6). Her hesabın IBAN'ı kurgusal ama geçerli formatta (TR + 24 hane); Şirket Bilgileri ekranında doğrulanmış/doğrulanmamış durumu ile.
+Kural: bloke hesaplardan ödeme **hiçbir zaman** ödeme listesine düşmez; Balbal ödeme talimatı hazırlarken ödeyen hesabı seçerken bloke hesapları **seçemez**, kısıtı gösterir (B-37 son kontrol maddesi 6). IBAN'lar mod-97 geçerli (canvas'taki değerler); banka kodu hesabın bankasıyla aynı (Garanti 00062, Akbank 00046, İş Bankası 00064); Şirket Bilgileri ekranında doğrulanmış/doğrulanmamış durumu ile.
 
 #### D.3.4 Teminat paketi (her proje finansmanlı SPV için ayrı belge seti)
 
@@ -595,20 +594,20 @@ Kural: bloke hesaplardan ödeme **hiçbir zaman** ödeme listesine düşmez; Bal
 - **Ticari işletme rehni** (türbinler ve ekipman).
 - **Taşınmaz rehni / irtifak hakkı üzerinde ipotek** (Karatepe'ye 2. tadille eklendi).
 - **Sponsor desteği / kefalet** (XYZ Enerji A.Ş., tutar ve süre sınırlı).
-- **Teminat mektupları** tablosu: veren banka, lehtar, tutar, vade, amaç (Kızılova avans teminatı Akbank 2.000.000 USD vade 15.03.2028; Boztepe TEİAŞ bağlantı teminatı; Karatepe orman izni teminatı, Ocak 2027 yenileme). Balbal sorusu: "Ocak 2027'de yenilenecek teminat mektubu hangisi, bankaya bildirim gerekiyor mu?"
+- **Teminat mektupları** tablosu: veren banka, lehtar, tutar, vade, amaç (Kızılova avans teminatı Akbank 2.000.000 USD vade 15.03.2028; Boztepe TEİAŞ bağlantı teminatı; Karatepe **orman izni teminatı**, Ocak 2027 yenileme — DSRA yerine değil). Balbal sorusu: "Ocak 2027'de yenilenecek teminat mektubu hangisi, bankaya bildirim gerekiyor mu?"
 - Lisans rehnedilemez; "EPDK'ya bildirim" maddesi var.
 
-#### D.3.5 Sigorta poliçeleri (her işletme SPV'si; Kızılova için inşaat dönemi)
+#### D.3.5 Sigorta poliçeleri (her işletme SPV'si; STU Sigorta A.Ş. + Sigorta Brokerliği)
 
-- İşletme: **tüm riskler (property all risks)**, **makine kırılması**, **kâr kaybı (BI)** (tazminat süresi 12 ay), **üçüncü şahıs mali sorumluluk**, işveren sorumluluk; Kızılova: **inşaat all risks (CAR/EAR)**, nakliyat, gecikme (DSU).
+- İşletme: **tüm riskler (property all risks)**, **makine kırılması**, **kâr kaybı (BI)** (tazminat süresi 12 ay), **üçüncü şahıs mali sorumluluk**, işveren sorumluluk. Kızılova geliştirmede: CAR/EAR, nakliyat, DSU poliçesi **yok**, üretilmez.
 - Her poliçede: poliçe no, sigortalı (SPV), **dain-i mürtehin (banka)**, sigorta bedeli (MW ve yatırım tutarıyla tutarlı), muafiyet, başlangıç–bitiş, prim ve ödeme planı, broker.
-- Boztepe poliçesi **10.11.2026** bitiyor (bildirim testi); Yeşilova yenileme için sigorta şirketinin ek evrak talebi e-postası var (canvas: `Mail-Talep-Detay-Sigorta`).
+- Boztepe poliçesi **10.11.2026** bitiyor (bildirim testi; yenileme primi SÖ-26-006, 05.11.2026). Karatepe poliçesi 30.06.2026'da yenilendi (30.06.2027'ye kadar geçerli). Yeşilova poliçesi YS-2026-04471 bitiş 31.03.2027; Eylül'deki broker talebi **ara dönem zeyilnamesi** ek evrak talebidir, yenileme değil (canvas: `Mail-Talep-Detay-Sigorta`).
 
 #### D.3.6 Banka raporlama ve yazışmalar
 
-- **Commerzbank Annex F** (Yeşilova): yıllık raporlama formu Excel (boş şablon + geçen yılın dolu hali), istenen belge listesi (mali tablolar, DSCR hesabı, sigorta sertifikaları, **teminat mektubu belgesi — demo setinde bilerek eksik**, taşınmaz rehin sureti, dain-i mürtehin yazısı, imza sirküleri), 12.09.2026 tarihli talep e-postası (`.eml`), son gün 14.10.2026.
-- **Garanti BBVA** (Karatepe): DSCR hesap formu, 15.09.2026 tarihli "kredi sözleşmesi güncel kopyası" talebi, faiz güncelleme bildirimi (Akbank_Faiz_Güncellemesi için ayrı).
-- **Akbank, KGF, GreenFund, bağımsız denetim** talep e-postaları (canvas'taki Mail-Talep-Detay ekranlarıyla aynı içerik; her biri ekli belge listesi ve son tarihle).
+- **Commerzbank Annex F** (Yeşilova): yıllık raporlama formu Excel (boş şablon + geçen yılın dolu hali), istenen belge listesi (mali tablolar, DSCR hesabı, sigorta sertifikaları, **teminat mektubu belgesi — demo setinde bilerek eksik**, taşınmaz rehin sureti, dain-i mürtehin yazısı, imza sirküleri), **2025 raporlama yılı** (01.01–31.12.2025) verileri, 14.09.2026 tarihli talep e-postası (`.eml`), son gün 14.10.2026.
+- **Garanti BBVA** (Karatepe): DSCR hesap formu, 15.09.2026 tarihli "kredi sözleşmesi güncel kopyası" talebi, faiz belirleme bildirimi (`GarantiBBVA_Faiz_Belirleme_Bildirimi.pdf`).
+- **Garanti BBVA Kurumsal Bankacılık teminat belgeleri talebi (01.10.2026; canvas ekran adı `Mail-Talep-Detay-Akbank` tarihsel), KGF, GreenFund, bağımsız denetim** talep e-postaları (canvas'taki Mail-Talep-Detay ekranlarıyla aynı içerik; her biri ekli belge listesi ve son tarihle).
 - Her e-posta `.eml` olarak Gelen Belgeler'e düşer; ekleri ayrı belge olarak zincire bağlanır (B-24).
 
 #### D.3.7 Diğer PF belgeleri
@@ -617,30 +616,30 @@ Kural: bloke hesaplardan ödeme **hiçbir zaman** ödeme listesine düşmez; Bal
 - **DSCR hesabı** (Excel; tadil öncesi/sonrası eşikle karşılaştırma).
 - **Yatırımcı raporu** (Holding; çeyreklik; GreenFund formatı).
 - **Elektrik satış / YEKDEM** bilgileri: her SPV'nin YEKDEM'de mi, ikili anlaşmada mı olduğu; EPİAŞ uzlaştırma bildirimleri (Üretim-Piyasa klasöründe, PF görme yetkili).
-- **Kullandırım talepleri** (Kızılova): dilim no, tutar, CP kontrol listesi, teknik danışman onayı.
+- Kızılova kredisi kullandırılmadığı için kullandırım talebi belgesi **üretilmez**.
 
 ---
 
 ### D.4 Diğer departmanların belgeleri — içerik rehberi
 
 #### D.4.1 Mali İşler
-- **Holding ve her SPV için:** ticaret sicil gazetesi (kuruluş + son yönetim değişikliği), vergi levhası, faaliyet belgesi, **noter onaylı imza sirküleri** (A grubu: Genel Müdür, Mali İşler Müdürü; B grubu: PF Müdürü, Fin. Muh. Uzmanı; limitler: ≤ 250.000 TL tek B, ≤ 2.000.000 TL A+B, üstü iki A), KEP adresi, MERSİS.
+- **Holding ve her SPV için:** ticaret sicil gazetesi (kuruluş + son yönetim değişikliği), vergi levhası (Çankaya VD), faaliyet belgesi, **noter onaylı imza sirküleri** (A grubu: Levent Aksoy (Genel Müdür) + XYZ Enerji'de YK Başkanı Ahmet Karaman (sınırsız); B grubu: Elif Şahin, Kaan Turhan (A ile birlikte; kredi ve teminat işlemleri); Kerem Aydın yalnız Kızılova'da B, 2.000.000 TL; Gökhan Erdem'in imza yetkisi yok — imza toplar, belge teslimi vekâleti; limit: 500.000 TL (karşılığı) kadar tek A, üstü A+B), KEP adresi, MERSİS.
 - **Banka hesap listesi** (§D.3.3 ile aynı), her banka için **ödeme talimatı şablonu .docx** (havale/EFT ve SWIFT; alanlar `{{odeyen_unvan}}`, `{{odeyen_iban}}`, `{{lehtar_unvan}}`, `{{lehtar_iban}}`, `{{tutar}}`, `{{tutar_yazi}}`, `{{para_birimi}}`, `{{aciklama}}`, `{{valor}}`, `{{masraf}}`, `{{imza_1}}`, `{{imza_2}}`).
 - **Cari muavin dışa aktarımı** (Excel: 320 satıcılar, 329 diğer borçlar, 300 banka kredileri; SPV bazında; açık bakiyeler §D.1.3'teki karşı taraflarla tutarlı).
-- **e-Faturalar** (PDF + UBL benzeri XML özeti): ABC İnşaat avans faturası (2.400.000 USD, S-26-001), Enercon Servis bakım faturası **ve aynı faturanın mükerrer gönderimi** (ENR2026001121; itiraz süresi testi), Hızlı Kargo eşleşmeyen küçük fatura (1.840 TL, PO yok), Testo TR (PO-26-038), kiralık araç aylık faturası (sözleşme usulü).
-- **Beyannameler:** KDV (Eylül 2026, 26.10 son gün), muhtasar (23.10), geçici vergi; SGK tahakkuk.
-- **Bordro özeti** (İK'dan gelen, kişi bazlı tutar **yok** — toplam net/SGK/muhtasar; kişi bazlı maaş yalnız İK › Maaş'ta).
+- **e-Faturalar** (PDF + UBL benzeri XML özeti): ABC İnşaat avans faturası (2.000.000 USD + KDV = 2.400.000 USD, ABC2026000000184, S-26-001), Enercon Servis bakım faturası **ve aynı faturanın mükerrer gönderimi** (ENR2026001121, Boztepe; asıl 29.09.2026, mükerrer kopya 30.09.2026; itiraz süresi testi), Hızlı Kargo eşleşmeyen küçük fatura (1.840 TL, PO yok), Testo TR (PO-26-038), kiralık araç aylık faturası (sözleşme usulü).
+- **Beyannameler (Çankaya VD):** KDV (Eylül 2026, son gün 28.10.2026), muhtasar ve damga vergisi (son gün 26.10.2026), geçici vergi; SGK primi takip eden ay sonu (Eylül SGK 31.10.2026, Ekim SGK 30.11.2026).
+- **Bordro özeti** (İK'dan gelen, 36 aktif kişi, kişi bazlı tutar **yok** — toplam net/SGK/muhtasar; kişi bazlı maaş yalnız İK › Maaş'ta): Eylül 2026 (BR-26-009) net 2.139.565 TL (28.09.2026'da ödendi) · SGK (işçi+işveren+işsizlik) 1.097.452 TL · muhtasar (gelir + damga v.) 708.785 TL · toplam 3.945.802 TL. Ekim 2026 (BR-26-010) net 2.128.661 TL · SGK 1.097.452 TL · muhtasar 719.689 TL · toplam 3.945.802 TL; net ödeme 28.10.2026 (İK, Finansal Muhasebe'ye en geç 26.10'da iletir).
 
 #### D.4.2 Hukuk
-- **Davalar** (her biri aşamalarıyla, `legal_case_stages`): Boztepe RES imar iptali (idare mahkemesi; dilekçe, savunma, bilirkişi raporu, duruşma 28.10.2026), Yeşilova RES tazminat (mülk sahibi; arazi tahsis anlaşmazlığı), Karatepe RES kamulaştırma / irtifak bedeli tespit, Kızılova yüklenici ihtilafı (ihtarname aşamasında), Demirci TEA olumsuz görüşüne itiraz.
-- **Sözleşmeler** (SPV klasörlerinde; PF'ye görme yetkisi): EPC S-26-001 (Kızılova; avans %20, hakediş, teminat mektubu karşılığı 30 gün ödeme, gecikme cezası, kabul), O&M/bakım sözleşmeleri (Enercon; **yıllık eskalasyon maddesi**: sene devriyesi tarihi, ÜFE/EUR bazlı formül — türbin bakım eskalasyonu özelliği için), arazi irtifak/kira, TEİAŞ bağlantı anlaşması, sistem kullanım anlaşması, elektrik satış/ikili anlaşma, danışmanlık, kiralık araç çerçeve sözleşmesi (İdari).
+- **Davalar** (her biri aşamalarıyla, `legal_case_stages`): Boztepe RES imar iptali (idare mahkemesi; dilekçe, savunma, bilirkişi raporu, duruşma 28.10.2026), Yeşilova RES tazminat (mülk sahibi; arazi tahsis anlaşmazlığı), Karatepe RES kamulaştırma / irtifak bedeli tespit, Kızılova yüklenici ihtilafı (ihtarname aşamasında; ABC İnşaat'ın mühendislik teslim gecikmesi — ÇED itirazı değil), Demirci TEA olumsuz görüşüne itiraz. **Akyar: dava yok** (arazi bedeli müzakeresi / kamulaştırma ön değerlendirmesi, Enerji'de "değerlendirilecek"). **Güneşalan: dava yok.**
+- **Sözleşmeler** (SPV klasörlerinde; PF'ye görme yetkisi): EPC S-26-001 (Kızılova; avans %20, hakediş, teminat mektubu karşılığı 30 gün ödeme, gecikme cezası, kabul), O&M/bakım sözleşmeleri (Enercon S-25-007/008, Vestas S-24-009, Solaris; **yıllık eskalasyon maddesi**: sene devriyesi tarihi, ÜFE/EUR bazlı formül — türbin bakım eskalasyonu özelliği için), arazi irtifak/kira, TEİAŞ bağlantı anlaşması, sistem kullanım anlaşması, elektrik satış/ikili anlaşma, danışmanlık, kiralık araç çerçeve sözleşmesi (İdari).
 - **Kurum yazıları (KEP):** Demirci TEA olumsuz yazısı (08.09.2026, gerekçeli), ÇED karar yazısı Karatepe (18.09.2026, ÇED olumlu, yükümlülükler ve izleme takvimi — canvas `Belge-Bildirim-CED` ile aynı), orman izni, belediye imar yazısı.
-- **İhtarname** (ABC İnşaat'a gecikme), noter cevapları.
+- **İhtarname** (ABC İnşaat'a mühendislik teslim gecikmesi), noter cevapları.
 
 #### D.4.3 Enerji
 - **Proje geliştirme** (Kızılova, Akyar, Demirci; işletmedekilerin de tarihsel dosyası): rüzgar/güneş ölçüm raporu, önlisans başvurusu ve EPDK kararı, YEGM teknik uygunluk, TEİAŞ bağlantı görüşü ve bağlantıya çağrı mektubu, MSB askeri görüş, TEA başvurusu ve sonucu, ÇED başvurusu/ek bilgi/karar, jeoteknik etüt, kurum görüşleri, imar planı, kati proje onayı, yapı ruhsatı, üretim lisansı. **Her belgede başvuru tarihi, sonuç tarihi, sonuç, olumsuzsa gerekçe** (süreç çizelgesi bunları gösterir). Lisans bitişleri: Boztepe 2041, Karatepe 2039, Yeşilova 2040 (öneri).
-- **İşletme ve bakım:** bakım sözleşmeleri (Hukuk kopyası ile aynı belge, link), arıza tutanakları (T07 arıza 26.09.2026 Karatepe), yıllık bakım raporu, bakım bütçesi/gerçekleşen (Güneşalan aşım), ÇED izleme yükümlülükleri ve takvimi, vardiya planları (Saha Operasyon).
-- **EPC (Kızılova):** haftalık ilerleme raporları, hakediş dosyaları (No 1 avans, No 2 temel), test-devreye alma planı, saha İSG raporu, satın alma talepleri (haritalama dronu PO-26-042).
+- **İşletme ve bakım:** bakım sözleşmeleri (Hukuk kopyası ile aynı belge, link; türbinler: Karatepe 8 × Enercon E-82 3,0 MW, Boztepe 10 × Enercon E-82 3,0 MW → Enercon Servis Türkiye S-25-007/008, 38.500 EUR/ay; Yeşilova Vestas V136 → Vestas Bakım Hizmetleri S-24-009; Güneşalan → Solaris GES İşletme Hizmetleri), arıza tutanakları (T07 arıza 26.09.2026 Karatepe), yıllık bakım raporu, bakım bütçesi/gerçekleşen (Güneşalan aşım), ÇED izleme yükümlülükleri ve takvimi, vardiya planları (Saha Operasyon).
+- **EPC (Kızılova, LNTP):** mühendislik/tasarım ilerleme raporları, avans ve teminat dosyası, Hakediş 1 (SÖ-26-014, "Eylül 2026 mühendislik/tasarım işleri"), türbin rezervasyonu yazışması, satın alma talepleri (haritalama dronu PO-26-042). İnşaat ilerleme raporu, temel/hafriyat hakedişi ve test-devreye alma planı **üretilmez** (saha inşaatı NTP sonrası).
 - **Üretim / piyasa:** santral bazlı aylık üretim ve kapasite faktörü Excel'i (12 ay), EPİAŞ uzlaştırma bildirimi örnekleri, KGÜP/KÜPST tablosu, PTF ve YEKDEM fiyatları (kurgusal ama gerçekçi aralıkta). **Her proje ayrı, konsolide yok** (P-6).
 
 #### D.4.4 İK
@@ -700,11 +699,11 @@ Kural: bloke hesaplardan ödeme **hiçbir zaman** ödeme listesine düşmez; Bal
 
 Bölüm D'ye eklenir; belgeler bu değerleri **içerecek** şekilde üretilir (A/7).
 
-1. **Kredi 2021-YS (Yeşilova — Commerzbank) parametreleri, canvas ile aynı:** 24 eşit anapara taksiti × 98.000 USD; 11. taksit öncesi kalan anapara 1.372.000 USD; faiz dönemi 92 gün; Term SOFR %3,89378 + marj %1,50; faiz 18.912 USD; ödeme takvimindeki tutar 116.240 USD (faiz 18.240 — kasıtlı fark); borç servis hesabı bakiyesi 84.500 USD; DSRA 702.000 USD; sıradaki taksit 12/24, vade 14.01.2027. Belgeler: kredi sözleşmesi faiz maddesi, ödeme tablosu, bankanın faiz belirleme bildirimi, hesap ekstresi.
-2. **Kredi 2022-BZ faiz tarihi tutarsız:** faiz 01.10.2026'da ödenmiş, sıradaki faiz 26.10.2026 görünüyor. Aylıksa 01.11.2026 olmalı — demo düzeltilsin.
-3. **Muhasebe takvimi:** KDV son günü 28 Ekim (muhtasar ve damga 26 Ekim doğru); vergi dairesi adı tek biçim (Kavaklıdere / Çankaya karışık).
-4. **İmza yetkileri:** canvas kuralı "500.000 TL'ye kadar tek A grubu, üstü A+B". Demo imza sirküleri ve ödeme talimatı örnekleri buna göre (eski ≤250 bin / ≤2 mn önerisi geçersiz).
-5. **Masraf / avans belgeleri (Hakan Tunç):** açık avans AV-26-007 (15.000 TL, 25.09.2026, Kızılova saha ziyareti); 6 belge — konaklama (Kızılova Konuk Evi, 4.400 TL), akaryakıt (2.850 TL), yemek (1.260 TL; belge no daha önce MS-26-031'de verilmiş — kasıtlı mükerrer), Gökyolu Havacılık e-Arşiv XML (personel adına — kasıtlı "alıcı şirket değil"), Hotel Adler Hamburg (340 EUR; TCMB 22.09.2026 kuru 51,24), okunamayan bir fotoğraf (otopark). Ödeme hesabı: İK kaydındaki maaş hesabı.
+1. **Kredi 2023-YS (Yeşilova — Commerzbank) parametreleri, canvas ile aynı:** toplam 2.352.000 USD; 3 aylık, 24 eşit anapara taksiti × 98.000 USD; 11. taksit öncesi kalan anapara 1.372.000 USD; faiz dönemi 92 gün; Term SOFR %3,89378 + marj %1,50; faiz 18.912 USD; ödeme takvimindeki tutar 116.240 USD (faiz 18.240 — kasıtlı fark); borç servis hesabı bakiyesi 84.500 USD; DSRA 702.000 USD; sıradaki taksit 12/24, vade 14.01.2027. Belgeler: kredi sözleşmesi faiz maddesi, ödeme tablosu, bankanın faiz belirleme bildirimi, hesap ekstresi.
+2. **Kredi 2024-BZ (Boztepe — Garanti BBVA USD) faiz tarihi:** ~~faiz 01.10.2026'da ödenmiş, sıradaki faiz 26.10.2026 görünüyor~~ — **Çözüldü (08.10):** aylık faiz 84.300 USD; son faiz 01.10.2026 ödendi, sıradaki **02.11.2026** (01.11 pazar).
+3. **Muhasebe takvimi — Çözüldü (08.10):** KDV son günü 28.10.2026; muhtasar ve damga 26.10.2026; SGK takip eden ay sonu; vergi dairesi her şirkette Çankaya VD.
+4. **İmza yetkileri — Çözüldü (08.10):** 500.000 TL'ye kadar tek A grubu, üstü A+B; gruplar §D.4.1. Demo imza sirküleri ve ödeme talimatı örnekleri buna göre (eski kademeli öneri geçersiz).
+5. **Masraf / avans belgeleri (Hakan Tunç):** açık avans AV-26-007 (15.000 TL, 25.09.2026, Kızılova saha ziyareti); 6 belge — konaklama (Kızılova Konuk Evi, 4.400 TL), akaryakıt (2.850 TL), yemek (1.260 TL; belge no daha önce MS-26-031'de verilmiş — kasıtlı mükerrer), Gökyolu Havacılık e-Arşiv XML (personel adına — kasıtlı "alıcı şirket değil"), Hotel Adler Hamburg (340 EUR; TCMB 22.09.2026 EUR kuru 55,8513 → 18.989,44 TL; canvas TCMB serisi, eski 51,24 geçersiz; USD 48,7499, 23.09.2026), okunamayan bir fotoğraf (otopark). Ödeme hesabı: İK kaydındaki maaş hesabı.
 6. **Banka ekstresi örnekleri:** her SPV için bir aylık ekstre (MT940 ya da Excel) — içinde şirketler arası virman (iki bacak), döviz alım/satım, vadeli mevduat + stopaj, DSRA aktarımı, EFT ücreti + BSMV, teminat mektubu komisyonu, otomatik ödeme talimatlı elektrik/telefon faturası ve ödeme listesinde olmayan bir açıklamasız havale.
 
 ---
@@ -728,6 +727,7 @@ Bölüm D'ye eklenir; belgeler bu değerleri **içerecek** şekilde üretilir (A
 
 ### F.3 Açık sorular (ürün sahibine; toplu çözüm listesinde)
 
-- Kurulu güçler ve lisans tarihleri önerildiği gibi mi?
-- Güneşalan ve Boztepe'nin finansman yapısı (özkaynak / küçük TL kredi) uygun mu?
+- ~~Kurulu güçler ve lisans tarihleri önerildiği gibi mi?~~ → Çözüldü 08.10: canvas değerleri (§D.1.1).
+- ~~Güneşalan ve Boztepe'nin finansman yapısı uygun mu?~~ → Çözüldü 08.10: canvas değerleri (Güneşalan özkaynak, kredi yok; Boztepe Garanti BBVA USD 2024-BZ).
+- Açık: gerçek banka/OEM adları (Anayasa Ç-12 ile çelişiyor; karar gelene kadar adlar ledger’da tek tablodan yönetilsin); Yeşilova kredisinin 2,35 mn USD olması; Boztepe KGF kefaleti.
 - ~~İmza limitleri~~ → çözüldü: 500.000 TL'ye kadar tek A, üstü A+B (§E.4).

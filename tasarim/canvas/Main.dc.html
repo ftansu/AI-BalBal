@@ -684,11 +684,11 @@ a{color:inherit;text-decoration:none}
                             </div>
                           </div>
                           <div style="display:grid;grid-template-columns:88px 1fr 130px 120px;gap:2px 12px;">
-                            <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:8px;border-bottom:1px solid #E9EDEA;">Ay</div>
+                            <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:8px;border-bottom:1px solid #E9EDEA;">Vade</div>
                             <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:8px;border-bottom:1px solid #E9EDEA;">Proje</div>
                             <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:8px;border-bottom:1px solid #E9EDEA;">Banka</div>
                             <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:8px;border-bottom:1px solid #E9EDEA;text-align:right;">Tutar (USD)</div>
-                            <sc-for list="{{loans}}" as="loan" hint-placeholder-count="6">
+                            <sc-for list="{{loans}}" as="loan" hint-placeholder-count="8">
                               <div style="font-size:12.5px;font-weight:500;padding:7px 0;">{{loan.month}}</div>
                               <div style="font-size:12.5px;padding:7px 0;">{{loan.project}}</div>
                               <div style="font-size:12.5px;color:#5B6B60;padding:7px 0;">{{loan.bank}}</div>
@@ -1221,7 +1221,7 @@ class Component extends DCLogic {
         return { ay: monthNames[m], uretim: fmtInt(x.prod), hedef: partial ? fmtPct(r) + ' · devam' : fmtPct(r), hedefColor: partial ? '#8A968E' : hedefColor(r), ptf: fmtUsd(monthPtf[m]), yak: fmtUsd(x.cap) };
       });
       return {
-        name: p.name, meta: d.mw + ' MW · ' + (d.solar ? 'Güneş' : 'Rüzgar'),
+        name: p.name, meta: d.mw + (d.solar ? ' MWp' : ' MW') + ' · ' + (d.solar ? 'Güneş' : 'Rüzgar'),
         today: fmtInt(lastProd) + ' MWh', month: fmtInt(cur.prod) + ' MWh', year: fmtInt(yearProd) + ' MWh',
         expanded: expanded, chevron: expanded ? '▲' : '▼',
         cardStyle: 'background:#FFFFFF;border:1px solid ' + (expanded ? accent : '#E1E7E2') + ';border-radius:14px;overflow:hidden;',
@@ -1394,7 +1394,7 @@ class Component extends DCLogic {
       projects: projectsMeta.map(function (p) {
         return { name: p.name, style: p.id === satisProjId ? projBtnActive : projBtnInactive, select: function () { self.setState({ satisProj: p.id, satisMonth: null }); } };
       }),
-      title: projectsMeta.filter(function (p) { return p.id === satisProjId; })[0].name + ' · ' + sd.mw + ' MW · YEK ' + sd.tarife + ' USD/MWh',
+      title: projectsMeta.filter(function (p) { return p.id === satisProjId; })[0].name + ' · ' + sd.mw + (sd.solar ? ' MWp' : ' MW') + ' · YEK ' + sd.tarife + ' USD/MWh',
       usdStyle: !isTl ? projBtnActive : projBtnInactive,
       tlStyle: isTl ? projBtnActive : projBtnInactive,
       onUsd: function () { self.setState({ satisCur: 'usd' }); },
@@ -1405,7 +1405,7 @@ class Component extends DCLogic {
         { label: monthLong[lastMonth] + ' avans toplamı', value: money(sm[lastMonth].avans, monthCalcTl[lastMonth].avans), sub: '1–' + lastLabel + ' üretimleri · ' + monthDays[lastMonth].length + ' gün' }
       ],
       hasWarn: monthsLeft < 12,
-      warnText: 'YEKDEM ' + fmtDate(sd.yekEnd) + ' tarihinde bitiyor (yaklaşık ' + Math.max(0, Math.round(monthsLeft)) + ' ay). Sonrasında ' + sd.mw + ' MW\u2019ın tamamı PTF\u2019den satılacak. 2026\u2019da (Oca–' + monthShort[lastMonth] + ') YEKDEM farkının satışa katkısı: ' + fmtMoney(yekSupport) + '; satış içindeki payı ' + fmtPct(yekSupport / usdSum('satis')) + '.',
+      warnText: 'YEKDEM ' + fmtDate(sd.yekEnd) + ' tarihinde bitiyor (yaklaşık ' + Math.max(0, Math.round(monthsLeft)) + ' ay). Sonrasında ' + sd.mw + (sd.solar ? ' MWp\u2019ın' : ' MW\u2019ın') + ' tamamı PTF\u2019den satılacak. 2026\u2019da (Oca–' + monthShort[lastMonth] + ') YEKDEM farkının satışa katkısı: ' + fmtMoney(yekSupport) + '; satış içindeki payı ' + fmtPct(yekSupport / usdSum('satis')) + '.',
       listOpen: satisOpen,
       listToggleLabel: 'Aylık tablo ve günlük avanslar' + (satisOpen ? ' · gizle ▲' : ' · göster ▼'),
       onToggleList: function () { self.setState({ satisListOpen: !satisOpen }); },
@@ -1418,7 +1418,7 @@ class Component extends DCLogic {
         yek: isTl ? '–' : fmtUsd(sd.tarife),
         satis: money(usdSum('satis'), tlSum('satis')), avans: money(usdSum('avans'), tlSum('avans')), uzl: money(usdSum('uzl'), tlSum('uzl'))
       },
-      noteMw: 'Kurulu güç ' + sd.mw + ' MW · YEKDEM kapsamında ' + sd.yekMw + ' MW (' + sd.tarife + ' USD/MWh) · PTF\u2019ye satış ' + (sd.mw - sd.yekMw) + ' MW · YEKDEM bitiş: ' + fmtDate(sd.yekEnd)
+      noteMw: 'Kurulu güç ' + sd.mw + (sd.solar ? ' MWp' : ' MW') + ' · YEKDEM kapsamında ' + sd.yekMw + (sd.solar ? ' MWp' : ' MW') + ' (' + sd.tarife + ' USD/MWh) · PTF\u2019ye satış ' + (sd.mw - sd.yekMw) + (sd.solar ? ' MWp' : ' MW') + ' · YEKDEM bitiş: ' + fmtDate(sd.yekEnd)
     };
 
     // ---- Döviz kurları paneli (TCMB döviz alış). Liste butonla açılır; yıllıkta aya basınca o ayın tüm günleri. ----
@@ -1470,41 +1470,45 @@ class Component extends DCLogic {
       listToggleLabel: (fxPer === 'gunluk' ? 'Son 10 iş günü' : 'Aylık kurlar') + (fxListOpen ? ' · gizle ▲' : ' · göster ▼'),
       onToggleList: function () { self.setState({ fxListOpen: !fxListOpen }); }
     };
+    // Bugün 06.10.2026 · önümüzdeki 6 ay (Eki 2026 – Mar 2027). Karatepe 6 aylık (sonraki 9/24 07.04.2027, pencere dışı),
+    // Yeşilova 3 aylık (her ayın 14'ü), Boztepe aylık faiz. Güneşalan kredisiz (özkaynak).
     const loans = [
-      { month: 'Eki 2026', project: 'Karatepe RES', bank: 'Garanti BBVA', amount: '$125,000' },
-      { month: 'Kas 2026', project: 'Boztepe RES', bank: 'Akbank', amount: '$182,000' },
-      { month: 'Ara 2026', project: 'Yeşilova RES', bank: 'Commerzbank', amount: '$116,000' },
-      { month: 'Oca 2027', project: 'Karatepe RES', bank: 'Garanti BBVA', amount: '$125,000' },
-      { month: 'Şub 2027', project: 'Güneşalan GES', bank: 'QNB Finansbank', amount: '$53,500' },
-      { month: 'Mar 2027', project: 'Boztepe RES', bank: 'Akbank', amount: '$182,000' }
+      { month: '07.10.2026', project: 'Karatepe RES · taksit 8/24', bank: 'Garanti BBVA', amount: '$412.500' },
+      { month: '14.10.2026', project: 'Yeşilova RES · taksit 11/24', bank: 'Commerzbank', amount: '$116.240' },
+      { month: '02.11.2026', project: 'Boztepe RES · faiz', bank: 'Garanti BBVA', amount: '$84.300' },
+      { month: '01.12.2026', project: 'Boztepe RES · faiz', bank: 'Garanti BBVA', amount: '$84.300' },
+      { month: '04.01.2027', project: 'Boztepe RES · faiz', bank: 'Garanti BBVA', amount: '$84.300' },
+      { month: '14.01.2027', project: 'Yeşilova RES · taksit 12/24', bank: 'Commerzbank', amount: '$115.561' },
+      { month: '01.02.2027', project: 'Boztepe RES · faiz', bank: 'Garanti BBVA', amount: '$84.300' },
+      { month: '01.03.2027', project: 'Boztepe RES · faiz', bank: 'Garanti BBVA', amount: '$84.300' }
     ];
-    const loanTotal = '$783,500';
+    const loanTotal = '$1.065.801';
 
     const mailsDef = [
-      { title: 'Yillik_Raporlama_Talebi_Commerzbank.eml', meta: 'Commerzbank AG · 14 Eyl 2026', status: 'Taranmadı', badgeBg: '#EEF0EE', badgeColor: '#5B6B60', href: 'Mail-Talep-Detay.dc.html' },
+      { title: 'Portfoy_Izleme_Talebi_GreenFund.eml', meta: 'GreenFund Capital Partners · 5 Eki 2026', status: 'Taranmadı', badgeBg: '#EEF0EE', badgeColor: '#5B6B60', href: 'Mail-Talep-Detay-GreenFund.dc.html' },
+      { title: 'Teminat_Belgeleri_Talebi_GarantiBBVA.eml', meta: 'Garanti BBVA Kurumsal Bankacılık · 1 Eki 2026', status: 'Belgeler Eksik', badgeBg: '#FBE7E7', badgeColor: '#B23A3A', href: 'Mail-Talep-Detay-Akbank.dc.html' },
+      { title: 'Sigorta_Zeyilname_Ek_Evrak.eml', meta: 'Sigorta Brokerliği · 25 Eyl 2026', status: 'Belgeler Eksik', badgeBg: '#FBE7E7', badgeColor: '#B23A3A', href: 'Mail-Talep-Detay-Sigorta.dc.html' },
+      { title: 'Yillik_Raporlama_Talebi_Commerzbank.eml', meta: 'Commerzbank AG · 14 Eyl 2026 · son gün 14 Eki', status: 'Taranmadı', badgeBg: '#EEF0EE', badgeColor: '#5B6B60', href: 'Mail-Talep-Detay.dc.html' },
       { title: 'Ek_Belge_Talebi_Denetim.eml', meta: 'Bağımsız Denetim · 13 Eyl 2026', status: 'Belgeler Tam', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E', href: 'Mail-Talep-Detay-Denetim.dc.html' },
-      { title: 'Teminat_Belgeleri_Talebi_Akbank.eml', meta: 'Akbank Kurumsal · 12 Eyl 2026', status: 'Belgeler Eksik', badgeBg: '#FBE7E7', badgeColor: '#B23A3A', href: 'Mail-Talep-Detay-Akbank.dc.html' },
-      { title: 'Portfoy_Izleme_Talebi_GreenFund.eml', meta: 'GreenFund Capital Partners · 11 Eyl 2026', status: 'Taranmadı', badgeBg: '#EEF0EE', badgeColor: '#5B6B60', href: 'Mail-Talep-Detay-GreenFund.dc.html' },
-      { title: 'Yillik_Uygunluk_Belgesi_KGF.eml', meta: 'KGF Kurumsal · 10 Eyl 2026', status: 'Belgeler Tam', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E', href: 'Mail-Talep-Detay-KGF.dc.html' },
-      { title: 'Sigorta_Yenileme_Ek_Evrak.eml', meta: 'Sigorta Brokerliği · 9 Eyl 2026', status: 'Belgeler Eksik', badgeBg: '#FBE7E7', badgeColor: '#B23A3A', href: 'Mail-Talep-Detay-Sigorta.dc.html' }
+      { title: 'Yillik_Uygunluk_Belgesi_KGF.eml', meta: 'KGF Kurumsal · 10 Eyl 2026', status: 'Belgeler Tam', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E', href: 'Mail-Talep-Detay-KGF.dc.html' }
     ];
 
     const tasksDef = [
-      { title: 'Yeşilova RES Sigorta Yenileme Takibi', meta: 'Bitiş: 20 Eyl 2026', status: 'Devam Ediyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Gorev-Detay-SigortaYenileme.dc.html' },
-      { title: 'Q3 Bütçe Revizyonu', meta: 'Bitiş: 25 Eyl 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60', href: 'Main.dc.html' },
+      { title: 'Yeşilova RES Sigorta Zeyilnamesi Takibi', meta: 'Bitiş: 16 Eki 2026 · ara dönem zeyilname (poliçe 31.03.2027\'ye kadar geçerli)', status: 'Devam Ediyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Gorev-Detay-SigortaYenileme.dc.html' },
+      { title: 'Q4 Bütçe Revizyonu', meta: 'Bitiş: 23 Eki 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60', href: 'Main.dc.html' },
       { title: 'Denetim Hazırlık Toplantısı', meta: 'Bitiş: 16 Eyl 2026', status: 'Tamamlandı', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E', href: 'Main.dc.html' }
     ];
 
     const talepDef = [
-      { title: 'Hukuk Departmanı', meta: 'Karatepe RES kredi sözleşmesi kopyasını talep etti · 15 Eyl 2026', status: 'Bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Gelen-Talep-Detay-Hukuk.dc.html' },
-      { title: 'Muhasebe', meta: 'Q3 nakit akış tablosunu talep etti · 13 Eyl 2026', status: 'Tamamlandı', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E', href: 'Main.dc.html' }
+      { title: 'Hukuk Departmanı', meta: 'Karatepe RES kredi sözleşmesi kopyasını talep etti · 5 Eki 2026', status: 'Bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Gelen-Talep-Detay-Hukuk.dc.html' },
+      { title: 'Muhasebe', meta: 'Q3 nakit akış tablosunu talep etti · 1 Eki 2026', status: 'Tamamlandı', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E', href: 'Main.dc.html' }
     ];
 
     // Ürün 2 — Balbal'ın hazırladığı, insan onayı bekleyen çıktılar (şablon, taslak, hesap). Balbal göndermez, kayıt oluşturmaz.
     const balbalDef = [
       { title: 'Commerzbank Annex F formu dolduruldu', meta: 'Yeşilova RES · 2 alan onayınızı bekliyor · 1 alan boş', status: 'Onay bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Sablon-Doldur.dc.html' },
       { title: 'Commerzbank cevap yazısı taslağı', meta: 'Yeşilova RES · 5 kaynak · son gün 14 Eki 2026', status: 'Taslak', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Yazi-Taslagi.dc.html' },
-      { title: 'Hukuk\'a görüş talebi — teminat mektubu bildirimi', meta: 'Karatepe RES · Balbal 3 belge bağladı · göndermeden önce kontrol edin', status: 'Onay bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Gorus-Talebi.dc.html' }
+      { title: 'Hukuk\'a görüş talebi — orman izni teminat mektubu bildirimi', meta: 'Karatepe RES · Balbal 3 belge bağladı · göndermeden önce kontrol edin', status: 'Onay bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Gorus-Talebi.dc.html' }
     ];
     const balbalPending = balbalDef.filter(function (b) { return b.status !== 'Hazır'; }).length;
 
@@ -1536,16 +1540,16 @@ class Component extends DCLogic {
         id: 'kredi', label: 'Kredi Sözleşmeleri',
         messages: [
           { from: 'user', text: "Hangi projelerin kredisi Commerzbank'ta?" },
-          { from: 'ai', queryType: 'DOCUMENT', text: 'Yeşilova RES kredisi Commerzbank AG ile yapılandırılmış, aylık ödeme yaklaşık $116.000.', source: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', sourceHref: 'Sozlesme-Onizleme.dc.html', sourcePage: 2, sourceDate: '03.06.2023', sourceVersion: 1, sourceCurrent: true },
+          { from: 'ai', queryType: 'DOCUMENT', text: 'Yeşilova RES kredisi Commerzbank AG ile yapılandırılmış; 3 aylık taksitlerle ödeniyor (24 × $98.000 anapara + faiz, her ayın 14\'ü).', source: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', sourceHref: 'Sozlesme-Onizleme.dc.html', sourcePage: 2, sourceDate: '03.06.2023', sourceVersion: 1, sourceCurrent: true },
           { from: 'user', text: 'Yeşilova RES için bu ayki taksit tutarı ve kalan bakiye ne kadar?' },
-          { from: 'ai', queryType: 'DATA', text: 'Eylül taksiti $116.240, anapara bakiyesi $8.420.000 olarak görünüyor.', excelFile: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', excelSheet: 'Odeme Takvimi', excelRange: 'B14:D14', excelHref: 'Sozlesme-Onizleme.dc.html' }
+          { from: 'ai', queryType: 'DATA', text: 'Ekim taksiti (#11/24, vade 14.10.2026) $116.240 (anapara $98.000 + faiz $18.240); kalan anapara $1.372.000, taksit sonrası $1.274.000 olarak görünüyor.', excelFile: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', excelSheet: 'Odeme Takvimi', excelRange: 'B14:F14', excelHref: 'Sozlesme-Onizleme.dc.html' }
         ]
       },
       {
         id: 'uretim', label: 'Üretim Verileri',
         messages: [
-          { from: 'user', text: 'Bu ay portföyde toplam kaç MWh ürettik?' },
-          { from: 'ai', text: 'Bu ay (1–23 Eylül) portföy toplamı ' + fmtInt(portfolioSepProd) + ' MWh. En yüksek katkı ' + topSep.name + '\u2019ten (' + fmtInt(topSep.v) + ' MWh) geldi.' }
+          { from: 'user', text: 'Eylülde portföyde toplam kaç MWh ürettik?' },
+          { from: 'ai', text: 'Eylülde (1–23 Eylül, son veri) portföy toplamı ' + fmtInt(portfolioSepProd) + ' MWh. En yüksek katkı ' + topSep.name + '\u2019ten (' + fmtInt(topSep.v) + ' MWh) geldi.' }
         ]
       }
     ];
@@ -1610,8 +1614,8 @@ class Component extends DCLogic {
     const roster = [
       { id: 'ayse', name: 'Ayşe Yılmaz', dept: 'Hukuk', initials: 'AY', color: '#2563EB' },
       { id: 'deniz', name: 'Deniz Kaya', dept: 'İdari İşler', initials: 'DK', color: '#7C3AED' },
-      { id: 'elif', name: 'Elif Şahin', dept: 'Mali İşler', initials: 'ES', color: '#DB2777' },
-      { id: 'mehmet', name: 'Oğuz Tekin', dept: 'Proje Finans', initials: 'OT', color: '#0891B2' },
+      { id: 'elif', name: 'Elif Şahin', dept: 'Mali İşler', initials: 'EŞ', color: '#DB2777' },
+      { id: 'oguz', name: 'Oğuz Tekin', dept: 'Proje Finans', initials: 'OT', color: '#0891B2' },
       { id: 'lev', name: 'Levent Aksoy', dept: 'Tüm departmanlar', initials: 'LA', color: '#9A6B12' }
     ];
     const kaan = { id: 'kaan', name: 'Kaan Turhan', dept: 'Proje Finans', initials: 'KT', color: '#2FA968' };
@@ -1855,7 +1859,7 @@ class Component extends DCLogic {
         });
         if (tot[0] > 0) rows.push(['TOPLAM', tot[0], tot[1], tot[0] / tot[1], avgArr(months.map(function (m) { return monthPtf[m]; })), avgArr(months.map(function (m) { return monthPtfTl[m]; })), tot[2] === 0 ? 0 : sumArr(months.map(function (m) { return c.months[m].rev; })) / tot[0], d.tarife, avgArr(months.map(function (m) { return kurMonth[m]; })), tot[2], tot[3], tot[4], tot[5], tot[6], tot[7], '']);
         rows.push([]);
-        rows.push(['Kurulu güç ' + d.mw + ' MW · YEKDEM ' + d.yekMw + ' MW (' + d.tarife + ' USD/MWh) · PTF\u2019ye satış ' + (d.mw - d.yekMw) + ' MW · YEKDEM bitiş ' + fmtDate(d.yekEnd)]);
+        rows.push(['Kurulu güç ' + d.mw + (d.solar ? ' MWp' : ' MW') + ' · YEKDEM ' + d.yekMw + (d.solar ? ' MWp' : ' MW') + ' (' + d.tarife + ' USD/MWh) · PTF\u2019ye satış ' + (d.mw - d.yekMw) + (d.solar ? ' MWp' : ' MW') + ' · YEKDEM bitiş ' + fmtDate(d.yekEnd)]);
         rows.push(['* Eylül devam ediyor, tutarlar tahminidir. Satış geliri KDV hariç.']);
         X.utils.book_append_sheet(wb, mkSheet(X, rows, [null, F3, F0, FP, F2, F2, F2, F2, F4, F2, F2, F2, F2, F2, F2, null], [12, 14, 13, 9, 14, 14, 18, 20, 16, 18, 20, 16, 18, 20, 18, 18]), ('Satış - ' + p.name).slice(0, 31));
       });

@@ -37,7 +37,7 @@ a{color:inherit;text-decoration:none}
         <div style="font-size:13px;font-weight:600;line-height:1.2;">Zeynep Koç</div>
         <div style="font-size:11px;color:#9FB0A6;line-height:1.2;">İK Uzmanı · Departman yöneticisi</div>
       </div>
-      <button onClick="{{onToggleUserMenu}}" aria-label="Kullanıcı menüsü" style="border:none;cursor:pointer;padding:0;width:36px;height:36px;border-radius:50%;background:#D97706;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FFFFFF;">ZK</button>
+      <button onClick="{{onToggleUserMenu}}" aria-label="Kullanıcı menüsü" style="border:none;cursor:pointer;padding:0;width:36px;height:36px;border-radius:50%;background:#9333EA;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FFFFFF;">ZK</button>
     </div>
   </div>
 
@@ -505,11 +505,11 @@ a{color:inherit;text-decoration:none}
           </div>
           <div style="flex-shrink:0;display:flex;align-items:center;gap:12px;padding:12px 20px;border-top:1px solid #E9EDEA;background:#FBFCFB;">
             <sc-if value="{{payNotSent}}" hint-placeholder-val="{{true}}">
-              <div style="flex:1;font-size:12.5px;color:#5B6B60;line-height:1.45;">Bordroyu Finansal Muhasebe'ye (Gökhan Erdem) ödeme talimatı için iletin. İletim denetim kaydına yazılır; tutarlar yalnızca alıcıya açılır.</div>
+              <div style="flex:1;font-size:12.5px;color:#5B6B60;line-height:1.45;">Bordroyu (BR-26-010) Finansal Muhasebe'ye (Gökhan Erdem) ödeme talimatı için en geç 26.10.2026'da iletin; net ödeme 28.10.2026. İletim denetim kaydına yazılır; tutarlar yalnızca alıcıya açılır.</div>
               <button onClick="{{paySend}}" style="background:#2FA968;border:none;border-radius:10px;padding:10px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:600;color:#0E241D;cursor:pointer;">Finansal Muhasebe'ye ilet →</button>
             </sc-if>
             <sc-if value="{{paySent}}" hint-placeholder-val="{{false}}">
-              <div role="status" style="flex:1;font-size:13px;font-weight:600;color:#14401F;background:#E7F3EB;border-radius:10px;padding:10px 14px;">Ekim 2026 bordrosu Finansal Muhasebe'ye iletildi · Gökhan Erdem'in bildirimine düştü · ödeme talimatı bekliyor · denetim kaydına yazıldı.</div>
+              <div role="status" style="flex:1;font-size:13px;font-weight:600;color:#14401F;background:#E7F3EB;border-radius:10px;padding:10px 14px;">Ekim 2026 bordrosu (BR-26-010) Finansal Muhasebe'ye iletildi · Gökhan Erdem'in bildirimine düştü · net ödeme 28.10.2026 · ödeme talimatı bekliyor · denetim kaydına yazıldı.</div>
             </sc-if>
           </div>
         </div>
@@ -797,7 +797,7 @@ class Component extends DCLogic {
       ['elif', 'Elif Şahin', 'elif.sahin', 'mim', true, true], ['selin', 'Selin Arslan', 'selin.arslan', 'muh', true, false], ['gokhan', 'Gökhan Erdem', 'gokhan.erdem', 'fmu', true, false],
       ['ayse', 'Ayşe Yılmaz', 'ayse.yilmaz', 'hkm', true, true], ['burak', 'Burak Çelik', 'burak.celik', 'avu', true, false],
       ['deniz', 'Deniz Kaya', 'deniz.kaya', 'idr', true, true], ['stajyer', 'Eski Stajyer', 'stajyer.2025', 'stj', false, false],
-      ['zeynep', 'Zeynep Koç', 'zeynep.koc', 'ikuz', true, false],
+      ['zeynep', 'Zeynep Koç', 'zeynep.koc', 'ikuz', true, true],
       ['kerem', 'Kerem Aydın', 'kerem.aydin', 'enm', true, true], ['cem', 'Cem Aktaş', 'cem.aktas', 'pgu', true, false], ['onur', 'Onur Yıldız', 'onur.yildiz', 'om', true, false], ['hakan', 'Hakan Tunç', 'hakan.tunc', 'epc', true, true], ['pinar', 'Pınar Güler', 'pinar.guler', 'upu', true, false],
       ['murat', 'Murat Kılınç', 'murat.kilinc', 'sfm', true, true],
       ['emre', 'Emre Yalçın', 'emre.yalcin', 'kt-tek', true, false],
@@ -851,7 +851,8 @@ class Component extends DCLogic {
       halil: ['2021-11-15', 58000, 11, 0],
       semih: ['2024-08-05', 52000, 4, 0]
     };
-    const TODAY = new Date(2026, 9, 5); // 05.10.2026 — hesaplar her gün 06:00'da bu tarihe göre yenilenir
+    const TODAY = new Date(2026, 9, 6); // 06.10.2026 — hesaplar her gün 06:00'da bu tarihe göre yenilenir
+    const LAST_CHECK = new Date(2026, 9, 5); // son Pazartesi mevzuat güncellik kontrolü (05.10.2026)
     const KIDEM_TAVAN = 53919.68; // TL · İK parametresi (01.07–31.12.2025 tavanı; güncel değeri İK girer)
     const DAMGA = 0.00759;
     const fmtTL = function (n) { return Math.round(n).toLocaleString('tr-TR') + ' TL'; };
@@ -1338,7 +1339,7 @@ class Component extends DCLogic {
     pushK({ label: 'İzin Yönetimi', color: '#D97706', value: reqs.length + ' bekleyen talep', sub: reqs.filter(function (r) { return r.status.indexOf('yetersiz') >= 0; }).length + ' hak yetersiz · ' + reqs.filter(function (r) { return r.status.indexOf('Vekil') >= 0; }).length + ' vekil onayında · ' + reqs.filter(function (r) { return r.status.indexOf('İK kaydı') >= 0; }).length + ' İK kaydı bekliyor', select: go('izin') }, BG('warn', reqs.length + ' bekliyor'));
     pushK({ label: 'İzin Hakları', color: '#2FA968', value: totalLeft + ' gün kalan hak', sub: (neg ? neg + ' kişi ekside (' + actAll.filter(function (q) { const l = leaveOf(q); return l.ent && l.left < 0; }).map(shortName).join(', ') + ') · ' : 'Kimse ekside değil · ') + lvs.filter(function (l) { return l.ent && l.left >= 0 && l.left <= 2; }).length + ' kişide ≤2 gün', select: go('haklar') }, neg ? BG('bad', neg + ' ekside') : BG('ok', 'Normal'));
     pushK({ label: 'Kıdem ve İhbar', color: '#7A2323', value: fmtTL(svAll.reduce(function (a, x) { return a + x.s.total; }, 0)) + ' toplam yük', sub: 'Bugün tüm çalışanlar çıkarılsa · ' + svAll.filter(function (x) { return x.s.capped; }).length + ' kişide kıdem tavanı · son hesap ' + fmtD(TODAY) + ' 06:00', select: go('kidem') }, BG('gray', 'Günlük'));
-    pushK({ label: 'Mevzuat', color: '#9A6B12', value: mevStats.total + ' mevzuat · ' + mevStats.suspect + ' daha güncel olabilir', sub: 'Son güncellik kontrolü Pzt ' + fmtD(TODAY) + ' · sonraki Pzt 12.10.2026 · yeni sürümler Balbal önerisi ve İK onayıyla eklenir', select: go('mevzuat') }, mevStats.suspect ? BG('warn', 'Kontrol et') : BG('ok', 'Güncel'));
+    pushK({ label: 'Mevzuat', color: '#9A6B12', value: mevStats.total + ' mevzuat · ' + mevStats.suspect + ' daha güncel olabilir', sub: 'Son güncellik kontrolü Pzt ' + fmtD(LAST_CHECK) + ' · sonraki Pzt 12.10.2026 · yeni sürümler Balbal önerisi ve İK onayıyla eklenir', select: go('mevzuat') }, mevStats.suspect ? BG('warn', 'Kontrol et') : BG('ok', 'Güncel'));
     pushK({ label: 'Maaş (şifreli)', color: '#5B6B60', value: 'Ekim 2026 bordrosu', sub: paySent ? 'Finansal Muhasebe\'ye iletildi · ödeme talimatı bekliyor' : act.length + ' kişi hesaplandı (brüt→net) · henüz iletilmedi · tutarlar şifreyle açılır', select: go('maas') }, paySent ? BG('ok', 'İletildi') : BG('gray', 'Kilitli'));
     pushK({ label: 'Balbal (İK)', color: '#2FA968', value: 'Sorular mevzuata referanslı', sub: 'Örn. "Kıdem tavanı ne kadar?", "Ücretsiz izinde SGK primi?" — cevaplar ortak alandaki güncel mevzuattan, kaynaklı', select: go('mevzuat') }, BG('ok', 'Hazır'));
     pushK({ label: 'Değişiklik Geçmişi', color: '#8A968E', value: 'Son: 27.09 · şema', sub: 'Şema, atama, izin kuralı, mevzuat onayı ve bordro iletimi tek kayıtta; yönetim paneliyle ortak', select: go('sema') }, BG('gray', 'Kayıt'));
@@ -1394,7 +1395,7 @@ class Component extends DCLogic {
       tabs: tabs, isGenel: tab === 'genel', isIzin: tab === 'izin', isHaklar: tab === 'haklar', isKidem: tab === 'kidem',
       isMevzuat: tab === 'mevzuat', isMaas: tab === 'maas', payLocked: tab === 'maas' && !payUnlocked, payOpen: tab === 'maas' && payUnlocked,
       mevRows: mevRows, mevStats: mevStats,
-      mevBanner: 'Pazartesi ' + fmtD(TODAY) + ' 06:00 güncellik kontrolü: ' + mevStats.total + ' mevzuat sorgulandı, ' + mevStats.suspect + ' tanesinin daha güncel sürümü olabilir. Ayrıntı için satırdaki "Balbal\'a sor" düğmesini kullanın. Sonraki kontrol: Pazartesi 12.10.2026. Bu bildirim her Pazartesi İK\'ya gelir.',
+      mevBanner: 'Pazartesi ' + fmtD(LAST_CHECK) + ' 06:00 güncellik kontrolü: ' + mevStats.total + ' mevzuat sorgulandı, ' + mevStats.suspect + ' tanesinin daha güncel sürümü olabilir. Ayrıntı için satırdaki "Balbal\'a sor" düğmesini kullanın. Sonraki kontrol: Pazartesi 12.10.2026. Bu bildirim her Pazartesi İK\'ya gelir.',
       balAnswer: balAnswer, mvQ: st.mvQ || '', onMvQ: function (e) { self.setState({ mvQ: e.target.value }); }, onMvKey: function (e) { if (e.key === 'Enter') { e.preventDefault(); askText(e.target.value); } }, onMvAsk: function () { askText(st.mvQ); }, mvFound: mevVals.mvFound, mvFolder: mevVals.mvFolder, mvDone: mevVals.mvDone, mvRejected: mevVals.mvRejected, mv: mevVals.mv, mvAccept: mevVals.mvAccept, mvReject: mevVals.mvReject, mvFolderVal: mevVals.mvFolderVal, mvFolderOpts: mevVals.mvFolderOpts, onMvFolder: mevVals.onMvFolder, mvAdd: mevVals.mvAdd, mvDoneText: mevVals.mvDoneText, balHasQ: mevVals.balHasQ, balQText: mevVals.balQText,
       payPass: st.payPass || '', onPayPass: function (ev) { self.setState({ payPass: ev.target.value }); }, payUnlock: function () { if ((st.payPass || '') === '123456') { self.setState({ payUnlocked: true, payPass: '', payErr: false }); } else { self.setState({ payErr: true }); } }, payErr: !!st.payErr,
       payKpis: payKpis, payRows: payRows, paySent: paySent, payNotSent: !paySent, paySend: function () { if (lockMaas.length) return; self.setState({ paySent: true }); },

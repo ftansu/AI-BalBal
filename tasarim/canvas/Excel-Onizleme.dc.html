@@ -40,7 +40,7 @@ a{color:inherit;text-decoration:none}
         <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;">
           <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Proje</span><span style="font-weight:600;">Yeşilova RES</span></div>
           <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Departman</span><span style="font-weight:600;">Proje Finans</span></div>
-          <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Belge tarihi</span><span style="font-weight:600;">01.09.2026</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Belge tarihi</span><span style="font-weight:600;">01.09.2026 · güncel sürüm</span></div>
           <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Gizlilik</span><span style="font-weight:600;">Normal</span></div>
         </div>
       </div>
@@ -59,7 +59,7 @@ a{color:inherit;text-decoration:none}
         <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;margin-bottom:10px;">Dosya kontrolü</div>
         <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
           <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Adlandırılmış aralıklar</span><span style="font-weight:600;">Taksitler, Bakiye</span></div>
-          <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Formül hücresi</span><span style="font-weight:600;">312</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Formül hücresi</span><span style="font-weight:600;">72</span></div>
           <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Makro</span><span style="font-weight:600;color:#1E6B3E;">Yok</span></div>
           <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Yeniden hesaplama</span><span style="font-weight:600;color:#1E6B3E;">Gerekmiyor</span></div>
         </div>
@@ -71,23 +71,27 @@ a{color:inherit;text-decoration:none}
     <div style="flex:1;min-width:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
       <div style="display:flex;align-items:center;gap:10px;padding:12px 18px;background:#F0FAF3;border-bottom:1px solid #DCEEE2;">
         <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:cover;">
-        <div style="font-size:13px;color:#14401F;">Balbal son cevabında <strong>Ödeme Takvimi · B14:D14</strong> aralığını kullandı (işaretli satır).</div>
+        <div style="font-size:13px;color:#14401F;">Balbal son cevabında <strong>Ödeme Takvimi · B14:F14</strong> aralığını kullandı (işaretli satır).</div>
       </div>
       <div style="flex:1;min-height:0;overflow:auto;">
-        <div style="display:grid;grid-template-columns:48px 150px 160px 170px 170px 150px;font-size:13px;">
+        <div style="display:grid;grid-template-columns:48px 80px 120px 120px 110px 130px 150px 110px;font-size:13px;">
           <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;"></div>
           <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;color:#8A968E;text-align:center;">A</div>
           <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;color:#8A968E;text-align:center;">B</div>
           <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;color:#8A968E;text-align:center;">C</div>
           <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;color:#8A968E;text-align:center;">D</div>
-          <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;color:#8A968E;text-align:center;">E</div>
-          <sc-for list="{{rows}}" as="r" hint-placeholder-count="10">
+          <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;color:#8A968E;text-align:center;">E</div>
+          <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;color:#8A968E;text-align:center;">F</div>
+          <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;color:#8A968E;text-align:center;">G</div>
+          <sc-for list="{{rows}}" as="r" hint-placeholder-count="13">
             <div style="{{r.numStyle}}">{{r.n}}</div>
             <div style="{{r.cellStyle}}">{{r.a}}</div>
             <div style="{{r.hlStyle}}">{{r.b}}</div>
             <div style="{{r.hlStyle}}">{{r.c}}</div>
             <div style="{{r.hlStyle}}">{{r.d}}</div>
-            <div style="{{r.cellStyle}}">{{r.e}}</div>
+            <div style="{{r.hlStyle}}">{{r.e}}</div>
+            <div style="{{r.hlStyle}}">{{r.f}}</div>
+            <div style="{{r.cellStyle}}">{{r.g}}</div>
           </sc-for>
         </div>
       </div>
@@ -102,28 +106,34 @@ class Component extends DCLogic {
     const self = this;
     const st = this.state || {};
     const sheet = st.sheet || 'Ödeme Takvimi';
-    const SHEETS = [['Ödeme Takvimi', '120 × 6'], ['Faiz Varsayımları', '24 × 4'], ['Özet', '18 × 5']];
+    const SHEETS = [['Ödeme Takvimi', '27 × 7'], ['Faiz Varsayımları', '24 × 4'], ['Özet', '18 × 5']];
     const SH = "display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;border:none;border-radius:8px;padding:9px 10px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;color:#132119;";
     const sheets = SHEETS.map(function (s) {
       return { name: s[0], dims: s[1], style: SH + (s[0] === sheet ? 'background:#E7F3EB;font-weight:600;' : 'background:transparent;'), select: function () { self.setState({ sheet: s[0] }); } };
     });
-    const header = ['Taksit no', 'Vade tarihi', 'Taksit ($)', 'Kalan bakiye ($)', 'Durum'];
-    const data = [];
-    const months = ['03.2026', '04.2026', '05.2026', '06.2026', '07.2026', '08.2026', '09.2026', '10.2026', '11.2026', '12.2026', '01.2027', '02.2027'];
-    let bal = 9120000;
-    months.forEach(function (m, i) {
-      const pay = 116240;
-      bal -= 58000 + i * 400;
-      data.push([String(i + 1), '15.' + m, pay.toLocaleString('tr-TR'), bal.toLocaleString('tr-TR'), i < 6 ? 'Ödendi' : (i === 6 ? 'Bu ay' : 'Bekliyor')]);
-    });
-    data[6][3] = '8.420.000';
+    const header = ['Taksit no', 'Vade', 'Anapara ($)', 'Faiz ($)', 'Taksit ($)', 'Kalan anapara ($)', 'Durum'];
+    // Yeşilova RES · Commerzbank AG · 2023-YS · 2.352.000 USD = 24 × 98.000 eşit anapara, 3 aylık (her ayın 14'ü).
+    // Faiz = dönem başı bakiye × (Term SOFR %3,89378 + marj %1,50) × gün / 360. Satır no = taksit no + 3.
+    // Önizleme #4–#13 satırlarını gösterir. #11 faizi ödeme takviminde 18.240 yazıyor (banka bildirimi 18.912) — kasıtlı fark.
+    const data = [
+      ['4', '14.01.2025', '98.000', '28.368', '126.368', '1.960.000', 'Ödendi'],
+      ['5', '14.04.2025', '98.000', '26.430', '124.430', '1.862.000', 'Ödendi'],
+      ['6', '14.07.2025', '98.000', '25.387', '123.387', '1.764.000', 'Ödendi'],
+      ['7', '14.10.2025', '98.000', '24.315', '122.315', '1.666.000', 'Ödendi'],
+      ['8', '14.01.2026', '98.000', '22.964', '120.964', '1.568.000', 'Ödendi'],
+      ['9', '14.04.2026', '98.000', '21.144', '119.144', '1.470.000', 'Ödendi'],
+      ['10', '14.07.2026', '98.000', '20.042', '118.042', '1.372.000', 'Ödendi'],
+      ['11', '14.10.2026', '98.000', '18.240', '116.240', '1.274.000', 'Sıradaki'],
+      ['12', '14.01.2027', '98.000', '17.561', '115.561', '1.176.000', 'Bekliyor'],
+      ['13', '14.04.2027', '98.000', '15.858', '113.858', '1.078.000', 'Bekliyor']
+    ];
     const CELL = 'padding:8px 10px;border-bottom:1px solid #F0F2F0;border-right:1px solid #F0F2F0;white-space:nowrap;';
-    const rows = [{ n: 6, a: 'Yeşilova RES — Commerzbank AG kredi ödeme takvimi', b: '', c: '', d: '', e: '' }, { n: 7, a: header[0], b: header[1], c: header[2], d: header[3], e: header[4], head: true }]
-      .concat(data.map(function (r, i) { return { n: i + 8, a: r[0], b: r[1], c: r[2], d: r[3], e: r[4] }; }))
+    const rows = [{ n: 1, a: 'Yeşilova RES — Commerzbank AG kredi ödeme takvimi (2023-YS)', b: '', c: '', d: '', e: '', f: '', g: '' }, { n: 2, a: 'Sürüm 01.09.2026 (güncel)', b: '3 aylık', c: '24 taksit', d: 'SOFR+%1,50', e: '', f: 'Açılış 2.352.000', g: '' }, { n: 3, a: header[0], b: header[1], c: header[2], d: header[3], e: header[4], f: header[5], g: header[6], head: true }]
+      .concat(data.map(function (r) { return { n: Number(r[0]) + 3, a: r[0], b: r[1], c: r[2], d: r[3], e: r[4], f: r[5], g: r[6] }; }))
       .map(function (r) {
         const hl = r.n === 14;
         return {
-          n: r.n, a: r.a, b: r.b, c: r.c, d: r.d, e: r.e,
+          n: r.n, a: r.a, b: r.b, c: r.c, d: r.d, e: r.e, f: r.f, g: r.g,
           numStyle: 'background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;color:#8A968E;text-align:center;',
           cellStyle: CELL + (r.head ? 'font-weight:600;color:#5B6B60;' : ''),
           hlStyle: CELL + (r.head ? 'font-weight:600;color:#5B6B60;' : '') + (hl ? 'background:#E7F3EB;font-weight:600;box-shadow:inset 0 0 0 1px #2FA968;' : '')

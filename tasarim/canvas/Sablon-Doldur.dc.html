@@ -56,7 +56,7 @@ a{color:inherit;text-decoration:none}
         <div style="min-width:0;">
           <div style="font-size:11px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Doldurulan şablon</div>
           <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;margin-top:4px;">Commerzbank — Annex F Yıllık Raporlama Formu</div>
-          <div style="font-size:12.5px;color:#5B6B60;margin-top:3px;">Proje: Yeşilova RES · Dönem: 01.10.2025 – 30.09.2026 · Kaynak talep: <a href="Mail-Talep-Detay.dc.html" style="color:#1E6B3E;text-decoration:underline;">Yillik_Raporlama_Talebi_Commerzbank.eml</a></div>
+          <div style="font-size:12.5px;color:#5B6B60;margin-top:3px;">Proje: Yeşilova RES · Raporlama yılı: 2025 (01.01–31.12.2025) · Kaynak talep: <a href="Mail-Talep-Detay.dc.html" style="color:#1E6B3E;text-decoration:underline;">Yillik_Raporlama_Talebi_Commerzbank.eml</a></div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;">
           <span style="font-size:11px;font-weight:600;color:#9A6B12;background:#FBF1DE;border-radius:20px;padding:4px 11px;">{{summaryLabel}}</span>
@@ -110,7 +110,7 @@ a{color:inherit;text-decoration:none}
               <button onClick="{{onConfirm}}" style="{{confirmStyle}}">{{confirmLabel}}</button>
             </sc-if>
             <sc-if value="{{done}}" hint-placeholder-val="{{false}}">
-              <a href="Excel-Onizleme.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:#2FA968;color:#0E241D;border-radius:10px;padding:11px 18px;font-size:13.5px;font-weight:600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0E241D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>Annex_F_Yesilova_2026.xlsx indir</a>
+              <a href="Excel-Onizleme.dc.html" style="display:inline-flex;align-items:center;gap:8px;background:#2FA968;color:#0E241D;border-radius:10px;padding:11px 18px;font-size:13.5px;font-weight:600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0E241D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>Annex_F_Yesilova_2025.xlsx indir</a>
             </sc-if>
           </div>
         </div>
@@ -148,15 +148,15 @@ class Component extends DCLogic {
 
     const confirmed = st.confirmed || {};
     const FIELDS = [
-      { id: 'borclu', label: 'Borçlu', value: 'Yeşilova Enerji Üretim A.Ş.', conf: 99, sources: [{ title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf · s.1', href: K }] },
-      { id: 'donem', label: 'Raporlama dönemi', value: '01.10.2025 – 30.09.2026', conf: 97, sources: [{ title: 'Yillik_Raporlama_Talebi_Commerzbank.eml', href: 'Mail-Talep-Detay.dc.html' }] },
-      { id: 'anapara', label: 'Dönemde ödenen anapara', value: '$1.011.000', sub: 'Hesaplama katmanı · 12 taksit toplamı', conf: 96, sources: [{ title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx · Ödeme Takvimi!C3:C14', href: X }] },
-      { id: 'faiz', label: 'Dönemde ödenen faiz', value: '$383.880', sub: 'Hesaplama katmanı · 12 taksit toplamı', conf: 96, sources: [{ title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx · Ödeme Takvimi!D3:D14', href: X }] },
-      { id: 'bakiye', label: 'Dönem sonu anapara bakiyesi', value: '$8.420.000', conf: 98, sources: [{ title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx · Ödeme Takvimi!E14', href: X }] },
-      { id: 'dscr', label: 'Gerçekleşen DSCR', value: '1,34x', sub: 'Hesaplama katmanı · Ek-F tanımına göre', conf: 74, sources: [{ title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf · Ek-F tanım · s.23', href: K }, { title: 'Yesilova_RES_Nakit_Akis_2026.xlsx · Özet!F9', href: X }] },
-      { id: 'uretim', label: 'Dönem üretimi (MWh)', value: '61.420 MWh', conf: 95, sources: [{ title: 'EPİAŞ Şeffaflık Platformu · 01.10.2025–30.09.2026', href: EP }] },
+      { id: 'borclu', label: 'Borçlu', value: 'Yeşilova RES Enerji Üretim A.Ş.', conf: 99, sources: [{ title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf · s.1', href: K }] },
+      { id: 'donem', label: 'Raporlama dönemi', value: '2025 raporlama yılı · 01.01.2025 – 31.12.2025', conf: 97, sources: [{ title: 'Yillik_Raporlama_Talebi_Commerzbank.eml', href: 'Mail-Talep-Detay.dc.html' }] },
+      { id: 'anapara', label: 'Dönemde ödenen anapara', value: '$392.000', sub: 'Hesaplama katmanı · 4 taksit (#4–#7: 14.01, 14.04, 14.07, 14.10.2025) × $98.000', conf: 96, sources: [{ title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx · Ödeme Takvimi!C7:C10', href: X }] },
+      { id: 'faiz', label: 'Dönemde ödenen faiz', value: '$104.500', sub: 'Hesaplama katmanı · #4–#7: 28.368 + 26.430 + 25.387 + 24.315 · bakiye × (Term SOFR %3,89378 + %1,50) × gün/360', conf: 96, sources: [{ title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx · Ödeme Takvimi!D7:D10', href: X }] },
+      { id: 'bakiye', label: 'Dönem sonu anapara bakiyesi (31.12.2025)', value: '$1.666.000', sub: '2.352.000 − 7 × 98.000', conf: 98, sources: [{ title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx · Ödeme Takvimi!F10', href: X }] },
+      { id: 'dscr', label: 'Gerçekleşen DSCR', value: '1,34x', sub: 'Hesaplama katmanı · Ek-F tanımına göre · sözleşme asgarisi 1,15x', conf: 74, sources: [{ title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf · Ek-F tanım · s.23', href: K }, { title: 'Yesilova_RES_Nakit_Akis_2025.xlsx · Özet!F9', href: X }] },
+      { id: 'uretim', label: 'Dönem üretimi (MWh)', value: '61.420 MWh', conf: 95, sources: [{ title: 'EPİAŞ Şeffaflık Platformu · 01.01.2025–31.12.2025', href: EP }] },
       { id: 'sigorta', label: 'Sigorta poliçesi no / bitiş', value: 'YS-2026-04471 · 31.03.2027', conf: 71, sources: [{ title: 'Yesilova_RES_Sigorta_Policesi.pdf · s.1', href: K }] },
-      { id: 'teminat', label: 'Teminat mektubu tutarı', value: null, note: 'Teminat mektubu belgesi sistemde bulunamadı. Alan boş bırakıldı.', sources: [] }
+      { id: 'teminat', label: 'Teminat mektubu tutarı', value: null, note: 'Teminat mektubu belgesi sistemde yok. Alan boş bırakıldı.', sources: [] }
     ];
     const BADGE = 'display:inline-block;font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;';
     const ROW = 'display:grid;grid-template-columns:220px 1fr 1fr 150px;gap:0 14px;padding:12px 0;border-bottom:1px solid #F0F2F0;align-items:start;';

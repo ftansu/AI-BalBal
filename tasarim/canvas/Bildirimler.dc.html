@@ -82,11 +82,11 @@ class Component extends DCLogic {
       finans: [
         { id: 'a1', kind: 'approval', text: 'Balbal, Commerzbank Annex F formunu Yeşilova ödeme planından doldurdu. Kontrol edip onaylayın.', time: '10 dk önce', links: [{ label: 'Formu incele ve onayla', href: 'Sablon-Doldur.dc.html' }] },
         { id: 'a0', kind: 'approval', text: 'Balbal, Commerzbank talebine cevap yazısı taslağı hazırladı. Onaylamadan gönderilmez.', time: '25 dk önce', links: [{ label: 'Taslağı aç', href: 'Yazi-Taslagi.dc.html' }] },
-        { id: 'a2', kind: 'approval', text: 'Akbank_Faiz_Guncellemesi.pdf için Balbal etiket önerdi (departman, proje, belge türü). Onayınızı bekliyor.', time: '1 saat önce', links: [{ label: 'Öneriyi incele', href: U }] },
-        { id: 'r1', kind: 'request', text: 'Enerji departmanından görüş talebi: Güneşalan GES bakım bütçesi aşımı. Son tarih 02.10.2026.', time: 'Dün 16:05', action: 'team', actionLabel: 'Sohbeti aç' },
+        { id: 'a2', kind: 'approval', text: 'GarantiBBVA_Faiz_Belirleme_Bildirimi.pdf için Balbal etiket önerdi (departman, proje, belge türü). Onayınızı bekliyor.', time: '1 saat önce', links: [{ label: 'Öneriyi incele', href: U }] },
+        { id: 'r1', kind: 'request', text: 'Enerji departmanından görüş talebi: Güneşalan GES bakım bütçesi aşımı. Son tarih 09.10.2026.', time: 'Dün 16:05', action: 'team', actionLabel: 'Sohbeti aç' },
         { id: 'd1', kind: 'doc', text: 'Mali İşler evrak talebinizi karşıladı: Ticaret_Sicil_Gazetesi_2025.pdf', time: 'Dün 11:20', links: [{ label: 'Belgeyi aç', href: K }, { label: 'İndir', href: K }] },
-        { id: 't0', kind: 'deadline', text: 'Commerzbank Ek-F belgeleri için son gün 14.10.2026 (9 gün). Teminat mektubu belgesi hâlâ eksik.', time: 'Bugün 08:00', links: [{ label: 'Talebi aç', href: 'Mail-Talep-Detay.dc.html' }], action: 'balbal', ask: 'Yeşilova için Commerzbank talebinde hangi belgeler eksik?', actionLabel: 'Balbal\'a sor' },
-        { id: 't1', kind: 'deadline', text: 'Boztepe_RES_Sigorta_Policesi.pdf 45 gün içinde sona eriyor (10.11.2026).', time: '25.09.2026', links: [{ label: 'Belgeyi aç', href: K }, { label: 'İndir', href: K }], read: true },
+        { id: 't0', kind: 'deadline', text: 'Commerzbank Ek-F belgeleri için son gün 14.10.2026 (8 gün). Teminat mektubu belgesi hâlâ eksik.', time: 'Bugün 08:00', links: [{ label: 'Talebi aç', href: 'Mail-Talep-Detay.dc.html' }], action: 'balbal', ask: 'Yeşilova için Commerzbank talebinde hangi belgeler eksik?', actionLabel: 'Balbal\'a sor' },
+        { id: 't1', kind: 'deadline', text: 'Boztepe_RES_Sigorta_Policesi.pdf 46 gün içinde sona eriyor (10.11.2026).', time: '25.09.2026', links: [{ label: 'Belgeyi aç', href: K }, { label: 'İndir', href: K }], read: true },
         { id: 'd2', kind: 'doc', text: 'Karatepe_RES_Kredi_Tadil_2.pdf sisteme eklendi. Önceki DSCR hükmü artık tarihsel olarak işaretli.', time: '24.09.2026', links: [{ label: 'Belgeyi aç', href: K }, { label: 'İndir', href: K }], read: true }
       ],
       hukuk: [
@@ -99,28 +99,28 @@ class Component extends DCLogic {
         { id: 'k1', kind: 'approval', text: 'Haftalık mevzuat güncellik kontrolü (Pzt 05.10.2026 06:00): 8 kaynak sorgulandı, 3 tanesinde değişiklik şüphesi (kıdem tavanı, asgari ücret, gelir vergisi tarifesi). Onayınız bekleniyor.', time: '06:00', links: [{ label: 'Mevzuat sekmesini aç', href: 'Ana-Sayfa-IK.dc.html' }] },
         { id: 'k2', kind: 'approval', text: 'İzin talebi İK kaydı bekliyor: Burak Çelik · ücretli mazeret · 08.10.2026 · yönetici onayladı.', time: '09:40', links: [{ label: 'İzin Yönetimi', href: 'Ana-Sayfa-IK.dc.html' }] },
         { id: 'k3', kind: 'doc', text: 'Eksik belge: Hakan Tunç işe giriş dosyasında askerlik durum belgesi yok; personele hatırlatma gönderildi.', time: 'Dün 17:10', links: [{ label: 'Personel dosyası', href: 'Ana-Sayfa-IK.dc.html' }] },
-        { id: 'k4', kind: 'deadline', text: 'Ekim 2026 bordrosu Finansal Muhasebe\'ye en geç 28.10.2026 iletilmeli.', time: '01.10.2026', links: [{ label: 'Maaş sekmesi (şifreli)', href: 'Ana-Sayfa-IK.dc.html' }] },
+        { id: 'k4', kind: 'deadline', text: 'Ekim 2026 bordrosu (36 kişi) Finansal Muhasebe\'ye en geç 26.10.2026 iletilmeli · net maaş ödemesi 28.10.2026.', time: '01.10.2026', links: [{ label: 'Maaş sekmesi (şifreli)', href: 'Ana-Sayfa-IK.dc.html' }] },
         { id: 'k5', kind: 'request', text: 'Enerji: Hakan Tunç için Proje Finans klasörüne çapraz yetki tanımlandı; onay akışı güncellendi.', time: '30.09.2026', action: 'team', actionLabel: 'Sohbeti aç', read: true }
       ],
       idari: [
-        { id: 'iz', kind: 'doc', text: 'Varlık listesine eklendi: Logitech Rally Plus + Samsung 75" QM75 · Genel Merkez toplantı salonu (PO-26-044). Yıllık bakım ve garanti tarihleri açıldı.', time: '19.10.2026', links: [{ label: 'İncele', href: 'Ana-Sayfa-Idari.dc.html' }] },
-        { id: 'i0', kind: 'doc', text: 'Ödeme listesi: PO-26-044 Toplantı salonu video konferans sistemi · 186.000 TL · tahmini ödeme 12.10.2026.', time: '09.10.2026', links: [{ label: 'İncele', href: 'Ana-Sayfa-Idari.dc.html' }] },
-        { id: 'i1', kind: 'doc', text: 'Ödeme listesi: PO-26-042 Haritalama dronu · 168.000 TL · tahmini ödeme 09.10.2026.', time: '08.10.2026', links: [{ label: 'İncele', href: 'Ana-Sayfa-Idari.dc.html' }] },
+        { id: 'iz', kind: 'doc', text: 'Varlık listesine eklendi: Logitech Rally Plus + Samsung 75" QM75 · Genel Merkez toplantı salonu (PO-26-044). Yıllık bakım ve garanti tarihleri açıldı.', time: 'Senaryo sonu · 19.10.2026', links: [{ label: 'İncele', href: 'Ana-Sayfa-Idari.dc.html' }] },
+        { id: 'i0', kind: 'doc', text: 'Ödeme listesi: PO-26-044 Toplantı salonu video konferans sistemi · 186.000 TL · tahmini ödeme 12.10.2026.', time: 'Senaryo · 09.10.2026', links: [{ label: 'İncele', href: 'Ana-Sayfa-Idari.dc.html' }] },
+        { id: 'i1', kind: 'doc', text: 'Ödeme listesi: PO-26-042 Haritalama dronu · 168.000 TL · tahmini ödeme 09.10.2026.', time: 'Senaryo · 08.10.2026', links: [{ label: 'İncele', href: 'Ana-Sayfa-Idari.dc.html' }] },
         { id: 'i2', kind: 'approval', text: 'Yeni satın alma talebi: PO-26-042 Haritalama dronu · Hakan Tunç (EPC).', time: '03.10.2026', links: [{ label: 'İncele', href: 'Ana-Sayfa-Idari.dc.html' }], read: true }
       ],
       muhasebe: [
         { id: 'mu1', kind: 'approval', text: 'Yönlendirilecek fatura: ABC İnşaat A.Ş. · ABC2026000000184 · 2.400.000 USD · Balbal S-26-001 ile eşleştirdi (avans) · itiraz süresi 8 gün.', time: '06.10.2026', links: [{ label: 'İncele', href: 'Ana-Sayfa-Muhasebe.dc.html' }] },
-        { id: 'mu2', kind: 'deadline', text: 'İtiraz süresi dolmak üzere: Enercon Servis · ENR2026001121 mükerrer fatura · son gün 07.10.2026.', time: '06.10.2026', links: [{ label: 'İncele', href: 'Ana-Sayfa-Muhasebe.dc.html' }] },
-        { id: 'mu3', kind: 'doc', text: 'ERP eşitlemesi: Testo TR · TST-0921 kaydı ERP’de görüldü, kayıt önerisi kapatıldı (PO-26-038).', time: '06.10.2026 09:15', read: true },
+        { id: 'mu2', kind: 'deadline', text: 'İtiraz süresi dolmak üzere: Enercon Servis Türkiye · ENR2026001121 mükerrer kopya (30.09.2026; asıl fatura 29.09.2026) · son gün 08.10.2026.', time: '06.10.2026', links: [{ label: 'İncele', href: 'Ana-Sayfa-Muhasebe.dc.html' }] },
+        { id: 'mu3', kind: 'doc', text: 'ERP eşitlemesi: Testo TR · e-Fatura TST2026000418 kaydı ERP’de görüldü, kayıt önerisi kapatıldı (PO-26-038).', time: '06.10.2026 09:15', read: true },
         { id: 'mu4', kind: 'approval', text: 'Eşleşmeyen fatura: Hızlı Kargo A.Ş. · KRG-2026-55120 · 1.840 TL · PO/sözleşme yok · Balbal İdari İşler önerdi (%72).', time: '02.10.2026', links: [{ label: 'İncele', href: 'Ana-Sayfa-Muhasebe.dc.html' }] },
-        { id: 'mu5', kind: 'deadline', text: 'KDV beyannamesi (Eylül) · 26.10.2026 · 2.310.000 TL · Muhtasar 23.10.2026.', time: '01.10.2026', read: true }
+        { id: 'mu5', kind: 'deadline', text: 'KDV beyannamesi (Eylül) · son gün 28.10.2026 · 2.310.000 TL · Muhtasar son gün 26.10.2026.', time: '01.10.2026', read: true }
       ],
       mali: [
-        { id: 'm1', kind: 'approval', text: 'Ödeme talebi: PO-26-042 Haritalama dronu · 168.000 TL · İdari İşler iletti (Kızılova RES).', time: '08.10.2026', links: [{ label: 'İncele', href: 'Ana-Sayfa-Mali.dc.html' }] },
-        { id: 'm2', kind: 'doc', text: 'PO-26-038 Termal kamera · Onur Yıldız teslim aldı; satın alma tamamlandı.', time: '10.10.2026', read: true }
+        { id: 'm1', kind: 'approval', text: 'Ödeme talebi: PO-26-042 Haritalama dronu · 168.000 TL · İdari İşler iletti (Kızılova RES).', time: 'Senaryo · 08.10.2026', links: [{ label: 'İncele', href: 'Ana-Sayfa-Mali.dc.html' }] },
+        { id: 'm2', kind: 'doc', text: 'PO-26-038 Termal kamera · Onur Yıldız teslim aldı; satın alma tamamlandı.', time: 'Senaryo · 10.10.2026', read: true }
       ],
       enerji: [
-        { id: 'od1', kind: 'doc', text: 'Ödeme listesi: PO-26-042 Haritalama dronu · tahmini ödeme 09.10.2026.', time: '08.10.2026' },
+        { id: 'od1', kind: 'doc', text: 'Ödeme listesi: PO-26-042 Haritalama dronu · tahmini ödeme 09.10.2026.', time: 'Senaryo · 08.10.2026' },
         { id: 'izin1', kind: 'approval', text: 'İzin onayı bekliyor: Hakan Tunç · Yıllık izin · 06.10.2026 · 1 gün.', time: '5 dk önce', links: [{ label: 'İncele', href: 'Izin-Talebi.dc.html' }] },
         { id: 'a1', kind: 'approval', text: 'Balbal, EPİAŞ verisinden Eylül üretim raporu taslağını hazırladı (her santral ayrı). Onayınızı bekliyor.', time: '30 dk önce', links: [{ label: 'Raporu aç', href: X }, { label: 'İndir', href: X }] },
         { id: 'd1', kind: 'doc', text: 'Onur Yıldız yükledi: T07_Ariza_Raporu_2609.pdf', time: '08:15', links: [{ label: 'Belgeyi aç', href: C }, { label: 'İndir', href: C }] },

@@ -29,7 +29,7 @@ a{color:inherit;text-decoration:none}
       <div style="width:1px;height:22px;background:#28483A;"></div>
       <div style="display:flex;align-items:center;gap:8px;">
         <span style="width:7px;height:7px;border-radius:50%;background:{{accent}};display:inline-block;"></span>
-        <div style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;color:#F6F7F5;">Mali İşler · Finans</div>
+        <div style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;color:#F6F7F5;">Mali İşler · Finansal Muhasebe</div>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
@@ -308,7 +308,7 @@ a{color:inherit;text-decoration:none}
             <div onClick="{{r.open}}" title="{{r.hover}}" style="{{r.rowStyle}}">
               <button onClick="{{r.toggle}}" aria-label="Seç" style="{{r.box}}">{{r.mark}}</button>
               <div style="font-size:12.5px;font-weight:600;">{{r.date}}</div>
-              <div style="font-size:12px;font-weight:700;color:{{r.poColor}};">{{r.po}}</div>
+              <div style="min-width:0;"><span style="display:block;font-size:12px;font-weight:700;color:{{r.poColor}};">{{r.po}}</span><span style="display:block;font-size:10.5px;color:#8A968E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{r.src}}</span></div>
               <div style="min-width:0;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{r.desc}}</div>
               <div style="min-width:0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{r.party}}</div>
               <div style="min-width:0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{r.project}}</div>
@@ -650,7 +650,7 @@ class Component extends DCLogic {
     const PILLM = 'font-size:11px;font-weight:600;border-radius:20px;padding:4px 10px;white-space:nowrap;';
     const tlM = function (n) { return Math.round(n).toLocaleString('tr-TR') + ' TL'; };
     const PAYS = [
-      { no: 'T-26-042', item: 'Haritalama dronu (şantiye)', supplier: 'Drone Center', who: 'Hakan Tunç', whoSub: 'EPC Proje Mühendisi · Enerji', project: 'Kızılova RES (şantiye)', amount: 168000, sent: '08.10.2026', paid: null },
+      { no: 'T-26-042', item: 'Haritalama dronu (saha)', supplier: 'Drone Center Teknoloji Ltd.', who: 'Hakan Tunç', whoSub: 'EPC Proje Mühendisi · Enerji', project: 'Kızılova RES (saha)', amount: 168000, sent: '08.10.2026', paid: null },
       { no: 'T-26-038', item: 'Termal kamera (yedek)', supplier: 'Testo TR', who: 'Onur Yıldız', whoSub: 'O&M Mühendisi · Enerji', project: 'Karatepe RES', amount: 104000, sent: '25.09.2026', paid: '25.09.2026' },
       { no: 'T-26-044', item: 'Toplantı salonu video konferans sistemi', supplier: 'Logitech Kurumsal Bayi', who: 'Deniz Kaya', whoSub: 'İdari İşler talebi · Genel Müdür talimatı', project: 'Genel Merkez', amount: 186000, sent: '08.10.2026', paid: null },
       { no: 'T-26-036', item: 'Dizüstü bilgisayar', supplier: 'Dell Kurumsal', who: 'Burak Çelik', whoSub: 'Avukat · Hukuk', project: 'Genel Merkez', amount: 62000, sent: '14.09.2026', paid: '14.09.2026' }
@@ -671,29 +671,33 @@ class Component extends DCLogic {
     const dKey = function (d) { const p = d.split('.'); return p[2] + p[1] + p[0]; };
     const TODAY = '06.10.2026';
     const PLAN0 = [
-      { date: '14.09.2026', desc: 'Dizüstü bilgisayar', party: 'Dell Kurumsal', project: 'Genel Merkez', type: 'Satın alma', amt: 62000, cur: 'TL', paid: true, po: 'PO-26-036' },
-      { date: '25.09.2026', desc: 'Termal kamera (yedek)', party: 'Testo TR', project: 'Karatepe RES', type: 'Satın alma', amt: 104000, cur: 'TL', paid: true, po: 'PO-26-038' },
-      { date: '01.10.2026', desc: 'Kredi faizi', party: 'Garanti BBVA', project: 'Boztepe RES', type: 'Kredi', amt: 84300, cur: 'USD', paid: true , po: 'KR-26-006'},
-      { date: '02.10.2026', desc: 'İmza sirküleri suretleri', party: 'Ankara 12. Noterliği', project: 'Genel Merkez', type: 'Elle ödeme', amt: 3850, cur: 'TL', paid: true, po: 'AÖ-26-001', unm: true, iban: 'TR27 0001 2009 4520 0058 0004 31', by: 'Elif Şahin', paidBank: 'Akbank · TL' },
-      { date: '02.10.2026', desc: 'Sigorta primi', party: 'Anadolu Sigorta', project: 'Güneşalan GES', type: 'Sigorta', amt: 286000, cur: 'TL', paid: true , po: 'SÖ-26-005'},
-      { date: '07.10.2026', desc: 'Kredi taksidi', party: 'Garanti BBVA', project: 'Karatepe RES', type: 'Kredi', amt: 412500, cur: 'USD' , po: 'KR-26-007'},
-      { date: '08.10.2026', desc: 'Türbin bakım faturası (Eylül)', party: 'Enercon Servis', project: 'Boztepe RES', type: 'Sözleşme', amt: 38500, cur: 'EUR' , po: 'SÖ-26-010'},
-      { date: '10.10.2026', desc: 'SGK primleri (Eylül)', party: 'SGK', project: 'Genel Merkez', type: 'Vergi / SGK', amt: 1140000, cur: 'TL' , po: 'BR-26-009'},
-      { date: '14.10.2026', desc: 'Kredi taksidi', party: 'Commerzbank AG', project: 'Yeşilova RES', type: 'Kredi', amt: 116240, cur: 'USD' , po: 'KR-26-009'},
-      { date: '15.10.2026', desc: 'Arazi kirası (yıllık)', party: 'Orman İşletme Md.', project: 'Karatepe RES', type: 'Kira', amt: 420000, cur: 'TL' , po: 'SÖ-26-007'},
-      { date: '26.10.2026', desc: 'KDV (Eylül)', party: 'Vergi Dairesi', project: 'Genel Merkez', type: 'Vergi / SGK', amt: 2310000, cur: 'TL' , po: 'VG-26-006'},
-      { date: '28.10.2026', desc: 'Ekim bordrosu', party: 'Personel', project: 'Genel Merkez', type: 'Bordro', amt: 3850000, cur: 'TL' , po: 'BR-26-010'},
-      { date: '09.10.2026', desc: 'Jeoteknik etüt raporu (2. kısım)', party: 'Jeo-Etüt Mühendislik', project: 'Kızılova RES (şantiye)', type: 'Sözleşme', amt: 95000, cur: 'TL', po: 'SÖ-26-013' },
-      { date: '12.10.2026', desc: 'EPC avans faturası (%20)', party: 'ABC İnşaat A.Ş.', project: 'Kızılova RES (şantiye)', type: 'Sözleşme', amt: 2400000, cur: 'USD', po: 'SÖ-26-011' },
-      { date: '12.10.2026', desc: 'Toplantı salonu video konferans sistemi', party: 'Logitech Kurumsal Bayi', project: 'Genel Merkez', type: 'Satın alma', amt: 186000, cur: 'TL', po: 'PO-26-044' },
-      { date: '15.10.2026', desc: 'Türbin bakım faturası (Eylül)', party: 'Enercon Servis', project: 'Karatepe RES', type: 'Sözleşme', amt: 38500, cur: 'EUR', po: 'SÖ-26-012' },
-      { date: '16.10.2026', desc: 'Telsiz (el, 2 adet)', party: 'Telsiz Market', project: 'Boztepe RES', type: 'Satın alma', amt: 9800, cur: 'TL', po: 'PO-26-039' },
-      { date: '20.10.2026', desc: 'Kira (Ekim) · Genel Merkez ofis', party: 'Ankara Ofis Kiralama A.Ş.', project: 'Genel Merkez', type: 'Kira', amt: 310000, cur: 'TL', po: 'SÖ-26-008' },
-      { date: '23.10.2026', desc: 'Muhtasar ve prim hizmet beyannamesi (Eylül)', party: 'Vergi Dairesi', project: 'Genel Merkez', type: 'Vergi / SGK', amt: 684000, cur: 'TL' , po: 'BR-26-009'},
-      { date: '26.10.2026', desc: 'Kredi faizi', party: 'Garanti BBVA', project: 'Boztepe RES', type: 'Kredi', amt: 84300, cur: 'USD' , po: 'KR-26-008'},
-      { date: '30.10.2026', desc: 'Kızılova şantiye konteyner kirası (Kasım)', party: 'Konteyner Kiralama Ltd.', project: 'Kızılova RES (şantiye)', type: 'Kira', amt: 48000, cur: 'TL' , po: 'SÖ-26-009'},
-      { date: '03.11.2026', desc: 'Periyodik bakım · Ford Ranger 06 KRT 412', party: 'Ford Bayi Ankara', project: 'Karatepe RES', type: 'Fatura', amt: 14200, cur: 'TL' , po: 'FT-26-003'},
-      { date: '05.11.2026', desc: 'Sigorta primi (yenileme)', party: 'Anadolu Sigorta', project: 'Karatepe RES', type: 'Sigorta', amt: 294000, cur: 'TL' , po: 'SÖ-26-006'}
+      { date: '14.09.2026', desc: 'Dizüstü bilgisayar', party: 'Dell Kurumsal', project: 'Genel Merkez', type: 'Satın alma', amt: 62000, cur: 'TL', paid: true, po: 'PO-26-036', src: 'T-26-036 · proforma DL-55821', paidBank: 'Akbank · TL' },
+      { date: '25.09.2026', desc: 'Termal kamera (yedek)', party: 'Testo TR', project: 'Karatepe RES', type: 'Satın alma', amt: 104000, cur: 'TL', paid: true, po: 'PO-26-038', src: 'T-26-038 · proforma TT-0921', paidBank: 'Akbank · TL (XYZ Enerji)' },
+      { date: '28.09.2026', desc: 'Eylül bordrosu', party: 'Personel', project: 'Genel Merkez', type: 'Bordro', amt: 2139565, cur: 'TL', paid: true, po: 'BR-26-009', src: 'Bordro 2026-09 · 36 kişi · net', paidBank: 'İş Bankası · TL' },
+      { date: '01.10.2026', desc: 'Kredi faizi', party: 'Garanti BBVA', project: 'Boztepe RES', type: 'Kredi', amt: 84300, cur: 'USD', paid: true, po: 'KR-26-006', src: 'Kredi 2024-BZ', paidBank: 'Garanti BBVA · USD' },
+      { date: '02.10.2026', desc: 'İmza sirküleri suretleri', party: 'Ankara 12. Noterliği', project: 'Genel Merkez', type: 'Elle ödeme', amt: 3850, cur: 'TL', paid: true, po: 'AÖ-26-001', src: 'Elle ödeme · dayanak yok', unm: true, iban: 'TR82 0001 2009 4520 0058 0004 31', by: 'Elif Şahin', paidBank: 'Akbank · TL' },
+      { date: '02.10.2026', desc: 'Sigorta primi', party: 'STU Sigorta', project: 'Güneşalan GES', type: 'Sigorta', amt: 286000, cur: 'TL', paid: true, po: 'SÖ-26-005', src: 'Poliçe 2026-GN', paidBank: 'İş Bankası · TL' },
+      { date: '03.10.2026', desc: 'Acil tamir · trafo köşkü havalandırma fanı', party: 'Rüzgar Teknik Servis Ltd. Şti.', project: 'Karatepe RES', type: 'Elle ödeme', amt: 46800, cur: 'TL', paid: true, po: 'AÖ-26-002', src: 'Acil ödeme · Genel Müdür talimatı', unm: true, iban: 'TR29 0006 4000 0011 2345 6789 01', by: 'Levent Aksoy', paidBank: 'Akbank · TL (XYZ Enerji)' },
+      { date: '07.10.2026', desc: 'Kredi taksidi (8/24)', party: 'Garanti BBVA', project: 'Karatepe RES', type: 'Kredi', amt: 412500, cur: 'USD', po: 'KR-26-007', src: 'Kredi 2022-KT' },
+      { date: '08.10.2026', desc: 'Türbin bakım faturası (Eylül)', party: 'Enercon Servis Türkiye', project: 'Boztepe RES', type: 'Sözleşme', amt: 38500, cur: 'EUR', po: 'SÖ-26-010', src: 'S-25-008' },
+      { date: '09.10.2026', desc: 'Jeoteknik etüt raporu (2. kısım)', party: 'Jeo-Etüt Mühendislik', project: 'Kızılova RES (saha)', type: 'Sözleşme', amt: 95000, cur: 'TL', po: 'SÖ-26-013', src: 'S-26-004' },
+      { date: '12.10.2026', desc: 'EPC avans faturası (%20)', party: 'ABC İnşaat A.Ş.', project: 'Kızılova RES (saha)', type: 'Sözleşme', amt: 2400000, cur: 'USD', po: 'SÖ-26-011', src: 'S-26-001' },
+      { date: '12.10.2026', desc: 'Toplantı salonu video konferans sistemi', party: 'Logitech Kurumsal Bayi', project: 'Genel Merkez', type: 'Satın alma', amt: 186000, cur: 'TL', po: 'PO-26-044', src: 'T-26-044' },
+      { date: '14.10.2026', desc: 'Kredi taksidi (11/24)', party: 'Commerzbank AG', project: 'Yeşilova RES', type: 'Kredi', amt: 116240, cur: 'USD', po: 'KR-26-009', src: 'Kredi 2023-YS' },
+      { date: '15.10.2026', desc: 'Arazi kirası (yıllık)', party: 'Orman İşletme Müdürlüğü', project: 'Karatepe RES', type: 'Kira', amt: 420000, cur: 'TL', po: 'SÖ-26-007', src: 'S-24-002' },
+      { date: '15.10.2026', desc: 'Türbin bakım faturası (Eylül)', party: 'Enercon Servis Türkiye', project: 'Karatepe RES', type: 'Sözleşme', amt: 38500, cur: 'EUR', po: 'SÖ-26-012', src: 'S-25-007' },
+      { date: '16.10.2026', desc: 'Telsiz (el, 2 adet)', party: 'Telsiz Market', project: 'Boztepe RES', type: 'Satın alma', amt: 9800, cur: 'TL', po: 'PO-26-039', src: 'T-26-039' },
+      { date: '20.10.2026', desc: 'Kira (Ekim) · Genel Merkez ofis', party: 'Ankara Ofis Kiralama A.Ş.', project: 'Genel Merkez', type: 'Kira', amt: 310000, cur: 'TL', po: 'SÖ-26-008', src: 'S-21-001' },
+      { date: '26.10.2026', desc: 'Muhtasar ve prim hizmet beyannamesi (Eylül)', party: 'Vergi Dairesi (Çankaya)', project: 'Genel Merkez', type: 'Vergi / SGK', amt: 708785, cur: 'TL', po: 'BR-26-009', src: 'Muhtasar 2026-09 · gelir + damga v. · son gün 26.10' },
+      { date: '26.10.2026', desc: 'KDV (Eylül)', party: 'Vergi Dairesi (Çankaya)', project: 'Genel Merkez', type: 'Vergi / SGK', amt: 2310000, cur: 'TL', po: 'VG-26-006', src: 'KDV 2026-09 · son gün 28.10' },
+      { date: '28.10.2026', desc: 'Ekim bordrosu', party: 'Personel', project: 'Genel Merkez', type: 'Bordro', amt: 2128661, cur: 'TL', po: 'BR-26-010', src: 'Bordro 2026-10 · 36 kişi · net' },
+      { date: '30.10.2026', desc: 'Kızılova saha konteyner kirası (Kasım)', party: 'Konteyner Kiralama Ltd.', project: 'Kızılova RES (saha)', type: 'Kira', amt: 48000, cur: 'TL', po: 'SÖ-26-009', src: 'S-25-011' },
+      { date: '31.10.2026', desc: 'SGK primleri (Eylül)', party: 'SGK', project: 'Genel Merkez', type: 'Vergi / SGK', amt: 1097452, cur: 'TL', po: 'BR-26-009', src: 'Bordro 2026-09 · son gün ay sonu' },
+      { date: '02.11.2026', desc: 'Kredi faizi', party: 'Garanti BBVA', project: 'Boztepe RES', type: 'Kredi', amt: 84300, cur: 'USD', po: 'KR-26-008', src: 'Kredi 2024-BZ' },
+      { date: '03.11.2026', desc: 'Periyodik bakım · Ford Ranger 06 KRT 412', party: 'Ford Bayi Ankara', project: 'Karatepe RES', type: 'Fatura', amt: 14200, cur: 'TL', po: 'FT-26-003', src: 'Zimmet a1' },
+      { date: '05.11.2026', desc: 'Sigorta primi (yenileme)', party: 'STU Sigorta', project: 'Boztepe RES', type: 'Sigorta', amt: 294000, cur: 'TL', po: 'SÖ-26-006', src: 'Poliçe 2026-BZ' },
+      { date: '26.11.2026', desc: 'Muhtasar ve prim hizmet beyannamesi (Ekim)', party: 'Vergi Dairesi (Çankaya)', project: 'Genel Merkez', type: 'Vergi / SGK', amt: 719689, cur: 'TL', po: 'BR-26-010', src: 'Muhtasar 2026-10 · gelir + damga v. · son gün 26.11' },
+      { date: '30.11.2026', desc: 'SGK primleri (Ekim)', party: 'SGK', project: 'Genel Merkez', type: 'Vergi / SGK', amt: 1097452, cur: 'TL', po: 'BR-26-010', src: 'Bordro 2026-10 · son gün ay sonu' }
     ];
     // ---- Fatura ve zincir (fatura yalnızca entegratörden Muhasebe'ye girer; Balbal PO / sözleşme ile eşleştirir; önce de sonra da gelebilir) ----
     const Z1 = 'Zincir 1 · Satın alma talebi', Z2 = 'Zincir 2 · İdari İşler’in kendi alımı', Z3 = 'Zincir 3 · Sözleşme usulü ödeme';
@@ -706,7 +710,7 @@ class Component extends DCLogic {
       'SÖ-26-011': { z: Z3 + ' · S-26-001', st: 'in', no: 'e-Fatura ABC2026000000184', d: '06.10.2026', warn: 'Ödeme koşulu olan avans teminat mektubu belgelerde yok; Kerem Aydın Balbal sorusunu onayladı, Elif Şahin ek onay verdi. Belge eklenince bu not kendiliğinden güncellenir.' },
       'SÖ-26-013': { z: Z3 + ' · S-26-004', st: 'in', no: 'e-Fatura JEO2026000215', d: '28.09.2026' },
       'SÖ-26-012': { z: Z3 + ' · S-25-007', st: 'in', no: 'e-Fatura ENR2026001122', d: '06.10.2026' },
-      'SÖ-26-010': { z: Z3 + ' · S-25-008', st: 'in', no: 'e-Fatura ENR2026001121', d: '30.09.2026' },
+      'SÖ-26-010': { z: Z3 + ' · S-25-008', st: 'in', no: 'e-Fatura ENR2026001121', d: '29.09.2026' },
       'SÖ-26-009': { z: Z3 + ' · S-25-011', st: 'in', no: 'e-Fatura KNT2026000940', d: '30.09.2026' },
       'SÖ-26-008': { z: Z3 + ' · S-21-001', st: 'wait' },
       'SÖ-26-007': { z: Z3 + ' · S-24-002', st: 'na', naT: 'Kamu kira tahakkuku · fatura düzenlenmez' },
@@ -727,47 +731,52 @@ class Component extends DCLogic {
     // ---- Şirket bilgileri (ödeme yapan personelin ihtiyacı olan her şey; her şirket ayrı) ----
     const COS = [
       { id: 'xyz', n: 'XYZ Enerji A.Ş.', short: 'Genel Merkez', vd: 'Çankaya VD · 9870012345', mersis: '0987000123450015', sicil: 'Ankara · 412880', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'xyzenerji@hs01.kep.tr', tel: '0312 440 00 00', sirk: '12.03.2025',
-        accts: [['Akbank', 'Çankaya', 'TR12 0004 6000 0000 0000 1234 56', 'TL', 'Serbest hesap', '—'], ['Garanti BBVA', 'Kızılay Ticari', 'TR33 0006 2000 0000 0000 7788 99', 'TL', 'Serbest hesap', '—'], ['İş Bankası', 'Ankara Ticari', 'TR55 0006 4000 0010 0000 4455 66', 'TL', 'Bordro / vergi', '—'], ['Garanti BBVA', 'Kızılay Ticari', 'TR44 0006 2000 0000 0000 7789 00', 'USD', 'Serbest hesap', '—'], ['Garanti BBVA', 'Kızılay Ticari', 'TR66 0006 2000 0000 0000 7789 11', 'EUR', 'Serbest hesap', '—']] },
+        accts: [['Akbank', 'Çankaya', 'TR86 0004 6000 0000 0000 1234 56', 'TL', 'Serbest hesap', '—'], ['Garanti BBVA', 'Kızılay Ticari', 'TR73 0006 2000 0000 0000 7788 99', 'TL', 'Serbest hesap', '—'], ['İş Bankası', 'Ankara Ticari', 'TR60 0006 4000 0010 0000 4455 66', 'TL', 'Bordro / vergi', '—'], ['Garanti BBVA', 'Kızılay Ticari', 'TR46 0006 2000 0000 0000 7789 00', 'USD', 'Serbest hesap', '—'], ['Garanti BBVA', 'Kızılay Ticari', 'TR40 0006 2000 0000 0000 7789 11', 'EUR', 'Serbest hesap', '—']] },
       { id: 'kt', n: 'Karatepe RES Enerji Üretim A.Ş.', short: 'Karatepe RES', vd: 'Çankaya VD · 5210098765', mersis: '0521000987650012', sicil: 'Ankara · 398201', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'karatepeenerji@hs01.kep.tr', tel: '0312 440 00 01', sirk: '12.03.2025',
-        accts: [['Akbank', 'Çankaya', 'TR21 0004 6000 0000 0000 5566 77', 'TL', 'Proje hesabı (tahsilat)', 'Kredi sözleşmesi · banka onayı'], ['Garanti BBVA', 'Kızılay Ticari', 'TR09 0006 2000 0000 0000 3344 55', 'USD', 'DSRA', 'Bloke · yalnızca borç servisi'], ['Akbank', 'Çankaya', 'TR77 0004 6000 0000 0000 5566 88', 'TL', 'İşletme hesabı', '—']] },
+        accts: [['Garanti BBVA', 'Kızılay Ticari', 'TR35 0006 2000 0000 0000 5566 77', 'TL', 'Proje hesabı (tahsilat)', 'Kredi sözleşmesi · banka onayı'], ['Garanti BBVA', 'Kızılay Ticari', 'TR88 0006 2000 0000 0000 3344 66', 'USD', 'Borç servis hesabı (USD)', 'Bloke · yalnızca bankaya ödeme'], ['Garanti BBVA', 'Kızılay Ticari', 'TR94 0006 2000 0000 0000 3344 55', 'USD', 'DSRA', 'Bloke · yalnızca borç servisi'], ['Garanti BBVA', 'Kızılay Ticari', 'TR29 0006 2000 0000 0000 5566 88', 'TL', 'İşletme hesabı', '—']] },
       { id: 'bz', n: 'Boztepe RES Enerji Üretim A.Ş.', short: 'Boztepe RES', vd: 'Çankaya VD · 1870034567', mersis: '0187000345670019', sicil: 'Ankara · 401155', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'boztepeenerji@hs01.kep.tr', tel: '0312 440 00 02', sirk: '12.03.2025',
-        accts: [['Garanti BBVA', 'Kızılay Ticari', 'TR18 0006 2000 0000 0000 9900 11', 'TL', 'Proje hesabı (tahsilat)', 'Kredi sözleşmesi · banka onayı'], ['Garanti BBVA', 'Kızılay Ticari', 'TR90 0006 2000 0000 0000 9900 22', 'USD', 'DSRA', 'Bloke · yalnızca borç servisi'], ['Garanti BBVA', 'Kızılay Ticari', 'TR02 0006 2000 0000 0000 9900 33', 'EUR', 'Yüklenici ödeme hesabı', '—']] },
+        accts: [['Garanti BBVA', 'Kızılay Ticari', 'TR60 0006 2000 0000 0000 9900 11', 'TL', 'Proje hesabı (tahsilat)', 'Kredi sözleşmesi · banka onayı'], ['Garanti BBVA', 'Kızılay Ticari', 'TR42 0006 2000 0000 0000 9900 44', 'USD', 'Borç servis hesabı (USD)', 'Bloke · yalnızca bankaya ödeme'], ['Garanti BBVA', 'Kızılay Ticari', 'TR54 0006 2000 0000 0000 9900 22', 'USD', 'DSRA', 'Bloke · yalnızca borç servisi'], ['Garanti BBVA', 'Kızılay Ticari', 'TR48 0006 2000 0000 0000 9900 33', 'EUR', 'Yüklenici ödeme hesabı', '—']] },
       { id: 'ys', n: 'Yeşilova RES Enerji Üretim A.Ş.', short: 'Yeşilova RES', vd: 'Çankaya VD · 9450011223', mersis: '0945000112230017', sicil: 'Ankara · 387760', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'yesilovaenerji@hs01.kep.tr', tel: '0312 440 00 03', sirk: '12.03.2025',
-        accts: [['Commerzbank', 'Frankfurt', 'DE89 3704 0044 0532 0130 00', 'USD', 'Proje hesabı · kredi', 'Commerzbank · Annex E yetkisi'], ['Commerzbank', 'Frankfurt', 'DE12 3704 0044 0532 0130 11', 'USD', 'DSRA', 'Bloke'], ['Akbank', 'Çankaya', 'TR35 0004 6000 0000 0000 2211 44', 'TL', 'İşletme hesabı', '—']] },
+        accts: [['Commerzbank', 'Frankfurt', 'DE89 3704 0044 0532 0130 00', 'USD', 'Proje hesabı · kredi', 'Commerzbank · Annex E yetkisi'], ['Commerzbank', 'Frankfurt', 'DE77 3704 0044 0532 0130 22', 'USD', 'Borç servis hesabı (USD)', 'Bloke · yalnızca bankaya ödeme'], ['Commerzbank', 'Frankfurt', 'DE83 3704 0044 0532 0130 11', 'USD', 'DSRA', 'Bloke'], ['Akbank', 'Çankaya', 'TR37 0004 6000 0000 0000 2211 44', 'TL', 'İşletme hesabı', '—']] },
       { id: 'gn', n: 'Güneşalan GES Enerji Üretim A.Ş.', short: 'Güneşalan GES', vd: 'Çankaya VD · 3330056789', mersis: '0333000567890011', sicil: 'Ankara · 420913', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'gunesalanenerji@hs01.kep.tr', tel: '0312 440 00 04', sirk: '12.03.2025',
-        accts: [['İş Bankası', 'Ankara Ticari', 'TR60 0006 4000 0010 0000 6677 88', 'TL', 'Proje hesabı (tahsilat)', '—'], ['İş Bankası', 'Ankara Ticari', 'TR82 0006 4000 0010 0000 6677 99', 'TL', 'İşletme hesabı', '—']] },
-      { id: 'kz', n: 'Kızılova Enerji A.Ş.', short: 'Kızılova RES (şantiye)', vd: 'Çankaya VD · 7120077889', mersis: '0712000778890013', sicil: 'Ankara · 431002', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'kizilovaenerji@hs01.kep.tr', tel: '0312 440 00 05', sirk: '15.09.2026',
-        accts: [['Garanti BBVA', 'Kızılay Ticari', 'TR48 0006 2000 0000 0000 1122 33', 'USD', 'Yatırım hesabı · EPC', 'Kredi kullanımı · teknik danışman onayı'], ['Garanti BBVA', 'Kızılay Ticari', 'TR70 0006 2000 0000 0000 1122 44', 'TL', 'İşletme hesabı', '—']] }
+        accts: [['İş Bankası', 'Ankara Ticari', 'TR98 0006 4000 0010 0000 6677 88', 'TL', 'Proje hesabı (tahsilat)', '—'], ['İş Bankası', 'Ankara Ticari', 'TR92 0006 4000 0010 0000 6677 99', 'TL', 'İşletme hesabı', '—']] },
+      { id: 'kz', n: 'Kızılova RES Enerji Üretim A.Ş.', short: 'Kızılova RES (saha)', vd: 'Çankaya VD · 7120077889', mersis: '0712000778890013', sicil: 'Ankara · 431002', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'kizilovaenerji@hs01.kep.tr', tel: '0312 440 00 05', sirk: '15.09.2026',
+        accts: [['Garanti BBVA', 'Kızılay Ticari', 'TR56 0006 2000 0000 0000 1122 33', 'USD', 'Yatırım hesabı · EPC', 'Kredi kullanımı · teknik danışman onayı'], ['Garanti BBVA', 'Kızılay Ticari', 'TR50 0006 2000 0000 0000 1122 44', 'TL', 'İşletme hesabı', '—']] },
+      { id: 'ak', n: 'Akyar GES Enerji Üretim A.Ş.', short: 'Akyar GES', vd: 'Çankaya VD · 6040022113', mersis: '0604000221130016', sicil: 'Ankara · 436214', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'akyarenerji@hs01.kep.tr', tel: '0312 440 00 06', sirk: '12.03.2025',
+        accts: [['Garanti BBVA', 'Kızılay Ticari', 'TR28 0006 2000 0000 0000 6600 11', 'TL', 'İşletme hesabı', '—']] },
+      { id: 'dm', n: 'Demirci RES Enerji Üretim A.Ş.', short: 'Demirci RES', vd: 'Çankaya VD · 8150066442', mersis: '0815000664420014', sicil: 'Ankara · 438577', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'demircienerji@hs01.kep.tr', tel: '0312 440 00 07', sirk: '12.03.2025',
+        accts: [['Garanti BBVA', 'Kızılay Ticari', 'TR71 0006 2000 0000 0000 7700 11', 'TL', 'İşletme hesabı', '—']] }
     ];
-    const SIGN = [['Levent Aksoy', 'Genel Müdür', 'A', 'Tek başına 500.000 TL’ye kadar · üstü A+B'], ['Elif Şahin', 'Mali İşler Müdürü', 'B', 'A ile birlikte · sınırsız'], ['Kaan Turhan', 'Proje Finans Müdürü', 'B', 'A ile birlikte · kredi işlemleri'], ['Gökhan Erdem', 'Finansal Muhasebe Uzmanı', '—', 'İmza yetkisi yok · talimatı hazırlar, imzaları toplar']];
+    const SIGN = [['Ahmet Karaman', 'YK Başkanı', 'A', 'Sınırsız · yalnız XYZ Enerji imza sirkülerinde', 'xyz'], ['Levent Aksoy', 'Genel Müdür', 'A', 'Tek başına 500.000 TL’ye (karşılığı) kadar · üstü A+B'], ['Elif Şahin', 'Mali İşler Müdürü', 'B', 'A ile birlikte · sınırsız'], ['Kaan Turhan', 'Proje Finans Müdürü', 'B', 'A ile birlikte · kredi ve teminat işlemleri'], ['Kerem Aydın', 'Enerji Grubu Müdürü', 'B', 'Yalnız Kızılova RES · A ile birlikte 2.000.000 TL’ye kadar', 'kz'], ['Gökhan Erdem', 'Finansal Muhasebe Uzmanı', '—', 'İmza yetkisi yok · talimatı hazırlar, imzaları toplar · belge teslimi vekâleti']];
     const coId = (this.state && this.state.co) || 'kz'; const CO = COS.filter(function (c) { return c.id === coId; })[0] || COS[0];
     // ---- Cari hesaplar: o güne kadar biriken tüm karşı taraflar (muavin 320/329/300'den beslenir) · Balbal ödeme eşleştirmesini buradan yapar ----
     const CARI_BASE = [
-      ['kz', 'ABC İnşaat A.Ş.', 'Yüklenici · EPC', '0010203040', 'TR90 0006 2000 0000 0000 5544 11', 'USD', 2400000, '06.10.2026 · fatura', 'SÖ-26-011', 'ok'],
-      ['kz', 'Ford Bayi Ankara', 'Tedarikçi', '3890011222', 'TR12 0004 6000 0000 0000 9080 70', 'TL', 0, '—', '—', 'ok'],
-      ['kz', 'Drone Center Teknoloji Ltd.', 'Tedarikçi', '2770045678', 'TR41 0006 4000 0010 0000 3030 21', 'TL', 168000, '08.10.2026 · proforma', 'PO-26-042', 'ok'],
-      ['kz', 'Jeo-Etüt Mühendislik', 'Danışman', '6120078901', 'TR77 0001 5001 5800 7300 1122 33', 'TL', 95000, '28.09.2026 · fatura', 'SÖ-26-013', 'ok'],
-      ['kz', 'Garanti BBVA', 'Banka · kredi', '—', '—', 'USD', 0, '01.10.2026 · faiz', 'KR-26-005', 'ok'],
-      ['kt', 'Enercon Servis Türkiye', 'O&M yüklenicisi', '4450012345', 'TR33 0006 2000 0000 0000 6611 22', 'EUR', 38500, '08.10.2026 · fatura', 'SÖ-26-012', 'ok'],
-      ['kt', 'Orman İşletme Müdürlüğü', 'Kamu · kira', '—', 'TR55 0001 0000 0000 0012 3456 78', 'TL', 420000, '15.10.2025 · kira', 'SÖ-25-031', 'ok'],
-      ['kt', 'Anadolu Sigorta', 'Sigorta', '2340056789', 'TR06 0006 2000 0000 0000 7788 00', 'TL', 0, '02.10.2026 · prim', 'SÖ-26-004', 'ok'],
-      ['kt', 'Garanti BBVA', 'Banka · kredi', '—', '—', 'USD', 412500, '07.10.2026 · taksit', 'KR-26-007', 'ok'],
-      ['kt', 'Yüksek İş Güvenlik', 'Tedarikçi', '8800123456', '—', 'TL', 18400, '04.10.2026 · teklif', 'PO-26-041', 'wait'],
-      ['bz', 'Enercon Servis Türkiye', 'O&M yüklenicisi', '4450012345', 'TR33 0006 2000 0000 0000 6611 22', 'EUR', 38500, '08.10.2026 · fatura', 'SÖ-26-010', 'ok'],
-      ['bz', 'Garanti BBVA', 'Banka · kredi', '—', '—', 'USD', 0, '01.10.2026 · faiz', 'KR-26-006', 'ok'],
-      ['bz', 'Telsiz Market', 'Tedarikçi', '5560098765', 'TR20 0004 6000 0000 0000 4455 99', 'TL', 9800, '30.09.2026 · onay', 'PO-26-039', 'ok'],
-      ['ys', 'Commerzbank AG', 'Banka · kredi', '—', 'DE44 5004 0000 0123 4567 89', 'USD', 116240, '14.10.2026 · taksit', 'KR-26-009', 'ok'],
-      ['ys', 'Vestas Bakım Hizmetleri', 'O&M yüklenicisi', '7120033445', 'TR61 0006 2000 0000 0000 2200 44', 'EUR', 0, '12.09.2026 · fatura', 'S-24-009', 'ok'],
-      ['gn', 'Solar Temizlik Ltd.', 'Tedarikçi', '9980011223', 'TR15 0004 6000 0000 0000 1100 55', 'TL', 0, '17.09.2026 · ret', '—', 'ok'],
-      ['gn', 'Anadolu Sigorta', 'Sigorta', '2340056789', 'TR06 0006 2000 0000 0000 7788 00', 'TL', 0, '02.10.2026 · prim', 'SÖ-26-005', 'ok'],
-      ['xyz', 'Dell Kurumsal', 'Tedarikçi', '1230045678', 'TR88 0006 4000 0010 0000 9900 12', 'TL', 0, '14.09.2026 · ödendi', 'PO-26-036', 'ok'],
-      ['xyz', 'Logitech Kurumsal Bayi', 'Tedarikçi', '4410022334', 'TR29 0006 2000 0000 0000 8877 66', 'TL', 186000, '09.10.2026 · ödeme listesi', 'PO-26-044', 'ok'],
-      ['xyz', 'Testo TR', 'Tedarikçi', '6650034455', 'TR37 0004 6000 0000 0000 7766 55', 'TL', 0, '25.09.2026 · ödendi', 'PO-26-038', 'ok'],
-      ['xyz', 'SGK', 'Kamu', '—', 'TR63 0001 0000 0000 0000 1111 11', 'TL', 1140000, '10.10.2026 · tahakkuk', 'BR-26-009', 'ok'],
-      ['xyz', 'Vergi Dairesi (Çankaya)', 'Kamu', '—', 'TR84 0001 0000 0000 0000 2222 22', 'TL', 2994000, '26.10.2026 · beyanname', 'KDV + muhtasar 2026-09', 'ok'],
-      ['kz', 'Konteyner Kiralama Ltd.', 'Kiralama', '5120077889', 'TR58 0004 6000 0000 0000 3322 10', 'TL', 48000, '30.09.2026 · fatura', 'SÖ-26-009', 'ok'],
-      ['xyz', 'Personel (bordro)', 'Bordro · toplu', '—', 'Toplu maaş dosyası · İş Bankası', 'TL', 3850000, '28.09.2026 · bordro', 'BR-26-009', 'ok'],
-      ['xyz', 'Ankara Ofis Kiralama A.Ş.', 'Mülk sahibi · kira', '3340099887', '—', 'TL', 310000, '20.09.2026 · kira', 'SÖ-26-002', 'wait']
+      ['kz', 'ABC İnşaat A.Ş.', 'Yüklenici · EPC', '0010203040', 'TR10 0006 2000 0000 0000 5544 11', 'USD', 2400000, '06.10.2026 · fatura', 'SÖ-26-011 · S-26-001', 'ok'],
+      ['kz', 'Ford Bayi Ankara', 'Tedarikçi', '3890011222', 'TR17 0004 6000 0000 0000 9080 70', 'TL', 0, '—', '—', 'ok'],
+      ['kz', 'Drone Center Teknoloji Ltd.', 'Tedarikçi', '2770045678', 'TR09 0006 4000 0010 0000 3030 21', 'TL', 168000, '05.10.2026 · fatura', 'PO-26-042', 'ok'],
+      ['kz', 'Jeo-Etüt Mühendislik', 'Danışman', '6120078901', 'TR83 0001 5001 5800 7300 1122 33', 'TL', 95000, '28.09.2026 · fatura', 'SÖ-26-013 · S-26-004', 'ok'],
+      ['kz', 'Garanti BBVA', 'Banka · kredi', '—', '—', 'USD', 0, '—', 'Kredi 2026-KZ · kullandırılmadı', 'ok'],
+      ['kt', 'Enercon Servis Türkiye', 'O&M yüklenicisi', '4450012345', 'TR04 0006 2000 0000 0000 6611 22', 'EUR', 38500, '06.10.2026 · fatura', 'SÖ-26-012 · S-25-007', 'ok'],
+      ['kt', 'Orman İşletme Müdürlüğü', 'Kamu · kira', '—', 'TR85 0001 0000 0000 0012 3456 78', 'TL', 420000, '15.10.2025 · kira', 'SÖ-26-007 · S-24-002', 'ok'],
+      ['kt', 'STU Sigorta', 'Sigorta', '2340056789', 'TR30 0006 2000 0000 0000 7788 00', 'TL', 0, '30.06.2026 · prim (yenileme)', 'Poliçe 2026-KT', 'ok'],
+      ['kt', 'Garanti BBVA', 'Banka · kredi', '—', '—', 'USD', 412500, '07.10.2026 · taksit 8/24', 'KR-26-007 · Kredi 2022-KT', 'ok'],
+      ['kt', 'Yüksek İş Güvenlik', 'Tedarikçi', '8800123456', '—', 'TL', 0, '04.10.2026 · teklif (talep revizyonda)', 'PO-26-041', 'wait'],
+      ['kt', 'Testo TR', 'Tedarikçi', '6650034455', 'TR59 0004 6000 0000 0000 7766 55', 'TL', 0, '06.10.2026 · fatura', 'PO-26-038 · TST2026000418', 'ok'],
+      ['kt', 'Rüzgar Teknik Servis Ltd. Şti.', 'Tedarikçi · bakım', '7340056789', 'TR29 0006 4000 0011 2345 6789 01', 'TL', 0, '03.10.2026 · ödendi', 'AÖ-26-002', 'ok'],
+      ['bz', 'Enercon Servis Türkiye', 'O&M yüklenicisi', '4450012345', 'TR04 0006 2000 0000 0000 6611 22', 'EUR', 38500, '29.09.2026 · fatura', 'SÖ-26-010 · S-25-008', 'ok'],
+      ['bz', 'Garanti BBVA', 'Banka · kredi', '—', '—', 'USD', 84300, '01.10.2026 · faiz', 'KR-26-008 · Kredi 2024-BZ', 'ok'],
+      ['bz', 'Telsiz Market', 'Tedarikçi', '5560098765', 'TR21 0004 6000 0000 0000 4455 99', 'TL', 9800, '30.09.2026 · onay', 'PO-26-039', 'ok'],
+      ['ys', 'Commerzbank AG', 'Banka · kredi', '—', 'DE60 5004 0000 0123 4567 89', 'USD', 116240, '14.10.2026 · taksit 11/24', 'KR-26-009 · Kredi 2023-YS', 'ok'],
+      ['ys', 'Vestas Bakım Hizmetleri', 'O&M yüklenicisi', '7120033445', 'TR32 0006 2000 0000 0000 2200 44', 'EUR', 0, '12.09.2026 · fatura', 'S-24-009', 'ok'],
+      ['gn', 'Solar Temizlik Ltd.', 'Tedarikçi', '9980011223', 'TR06 0004 6000 0000 0000 1100 55', 'TL', 0, '17.09.2026 · ret', '—', 'ok'],
+      ['gn', 'STU Sigorta', 'Sigorta', '2340056789', 'TR30 0006 2000 0000 0000 7788 00', 'TL', 0, '02.10.2026 · prim', 'SÖ-26-005 · Poliçe 2026-GN', 'ok'],
+      ['xyz', 'Dell Kurumsal', 'Tedarikçi', '1230045678', 'TR77 0006 4000 0010 0000 9900 12', 'TL', 0, '14.09.2026 · ödendi', 'PO-26-036', 'ok'],
+      ['xyz', 'Logitech Kurumsal Bayi', 'Tedarikçi', '4410022334', 'TR55 0006 2000 0000 0000 8877 66', 'TL', 186000, '09.10.2026 · ödeme listesi', 'PO-26-044', 'ok'],
+      ['xyz', 'SGK', 'Kamu', '—', 'TR88 0001 0000 0000 0000 1111 11', 'TL', 1097452, '31.10.2026 · son gün', 'BR-26-009 · Bordro 2026-09', 'ok'],
+      ['xyz', 'Vergi Dairesi (Çankaya)', 'Kamu', '—', 'TR10 0001 0000 0000 0000 2222 22', 'TL', 3018785, '28.10.2026 · KDV son gün (muhtasar 26.10)', 'VG-26-006 · BR-26-009', 'ok'],
+      ['kz', 'Konteyner Kiralama Ltd.', 'Kiralama', '5120077889', 'TR10 0004 6000 0000 0000 3322 10', 'TL', 48000, '30.09.2026 · fatura', 'SÖ-26-009 · S-25-011', 'ok'],
+      ['xyz', 'Personel (bordro)', 'Bordro · toplu', '—', 'Toplu maaş dosyası · İş Bankası', 'TL', 0, '28.09.2026 · ödendi (Eylül net)', 'BR-26-009 · Bordro 2026-09', 'ok'],
+      ['xyz', 'Ankara Ofis Kiralama A.Ş.', 'Mülk sahibi · kira', '3340099887', '—', 'TL', 310000, '20.09.2026 · kira', 'SÖ-26-008 · S-21-001', 'wait']
     ];
     // ---- Başarıyla gerçekleşen ödemeler cari kaydını kendiliğinden günceller (son hareket, açık bakiye; farklı IBAN ile ödendiyse IBAN) ----
     const CU = (this.state && this.state.cariUpd) || {};
@@ -788,7 +797,7 @@ class Component extends DCLogic {
       .concat(EOR.map(function (r) { const pi = PAIDR[r.key] || r.paidInfo || null; return Object.assign({}, r, { paidInfo: pi, paid: !!pi }); })).concat(Object.keys(LISTED).map(function (id) { const x = LISTED[id]; return { key: id, tid: id, po: 'PO-' + id.slice(2), date: x.date, desc: x.item, party: x.supplier, project: x.project, type: 'Satın alma', amt: x.amount, cur: 'TL', isNew: true, paid: !!PAIDR[id], paidInfo: PAIDR[id] || null }; }))
       .sort(function (p1, p2) { return dKey(p1.date) < dKey(p2.date) ? -1 : (dKey(p1.date) > dKey(p2.date) ? 1 : 0); });
     const PK = (this.state && this.state.pk) || null;
-    const planRows = PLAN.map(function (x) { const past = dKey(x.date) < dKey(TODAY); const iv = invOf(x); return { inv: iv.st === 'unm' ? 'Eşleşmedi' + (iv.age ? ' · ' + iv.age + ' g' : '') : INV_ST[iv.st][0], invStyle: PILLM + INV_ST[iv.st][1], hover: iv.z + (x.po ? ' · ' + x.po : '') + ' · ' + invTxt(iv), open: function () { self.setState({ pk: x.key, pkF: null, pkFull: false }); }, po: x.po || '—', poColor: x.po ? '#132119' : '#B7C2BC', date: x.date, desc: x.desc, party: x.party, project: x.project, type: x.type, amount: fmtCur(x.amt, x.cur),
+    const planRows = PLAN.map(function (x) { const past = dKey(x.date) < dKey(TODAY); const iv = invOf(x); return { inv: iv.st === 'unm' ? 'Eşleşmedi' + (iv.age ? ' · ' + iv.age + ' g' : '') : INV_ST[iv.st][0], invStyle: PILLM + INV_ST[iv.st][1], hover: iv.z + (x.po ? ' · ' + x.po : '') + (x.src ? ' · ' + x.src : '') + ' · ' + invTxt(iv), open: function () { self.setState({ pk: x.key, pkF: null, pkFull: false }); }, po: x.po || '—', src: x.src || x.tid || '', poColor: x.po ? '#132119' : '#B7C2BC', date: x.date, desc: x.desc, party: x.party, project: x.project, type: x.type, amount: fmtCur(x.amt, x.cur),
       status: x.paid ? 'Ödendi' : (INSTR0[x.key] ? (INSTR0[x.key].ok ? 'Talimat hazır' : 'Talimat taslak') : 'Planlı'), statusStyle: PILLM + (x.paid ? 'color:#1E6B3E;background:#E7F3EB;' : (INSTR0[x.key] ? 'color:#9A6B12;background:#FBF1DE;' : 'color:#0E7490;background:#E0F2F7;')),
       box: boxSel(!!SEL[x.key], x.paid), mark: SEL[x.key] ? '✓' : '', toggle: x.paid ? function (e) { if (e && e.stopPropagation) e.stopPropagation(); } : function (e) { if (e && e.stopPropagation) e.stopPropagation(); const n = Object.assign({}, SEL); if (n[x.key]) delete n[x.key]; else n[x.key] = true; self.setState({ sel: n, bulkMsg: '' }); },
       rowStyle: "display:grid;grid-template-columns:28px 0.8fr 0.8fr 1.6fr 1.1fr 1.1fr 0.8fr 1fr 0.75fr 0.9fr;column-gap:12px;align-items:center;width:100%;box-sizing:border-box;text-align:left;padding:10px 20px;border-bottom:1px solid #F0F2F0;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;color:#132119;" + (SEL[x.key] ? 'background:#FFF8EF;' : (x.isNew && !x.paid ? 'background:#F2F9FB;' : 'background:#FFFFFF;')) + (past && x.paid ? 'opacity:0.65;' : '') }; });
@@ -799,14 +808,16 @@ class Component extends DCLogic {
     const nextList = nextAll.slice(0, 4).map(function (x) { return { date: x.date, desc: (x.po ? x.po + ' · ' : '') + x.desc, party: x.party, project: x.project, amount: fmtCur(x.amt, x.cur) }; });
     // ---- Bankalardan API ile gelen hareketler ----
     const BANK = [
-      { date: '06.10.2026 09:12', bank: 'Akbank · TL', desc: 'EPİAŞ tahsilat (avans)', project: 'Karatepe RES', amt: 4812300, cur: 'TL', match: 'Tahsilat' },
+      { date: '06.10.2026 09:12', bank: 'Garanti BBVA · TL', desc: 'EPİAŞ tahsilat (avans)', project: 'Karatepe RES', amt: 4812300, cur: 'TL', match: 'Tahsilat' },
       { date: '06.10.2026 08:47', bank: 'Garanti BBVA · TL', desc: 'EPİAŞ tahsilat (avans)', project: 'Boztepe RES', amt: 3920000, cur: 'TL', match: 'Tahsilat' },
       { date: '05.10.2026 16:20', bank: 'Commerzbank · USD', desc: 'DSRA faiz tahakkuku', project: 'Yeşilova RES', amt: 1840, cur: 'USD', match: 'Tahsilat' },
+      { date: '03.10.2026 15:05', bank: 'Akbank · TL', desc: 'Rüzgar Teknik Servis Ltd. Şti. · AÖ-26-002 · XYZ Enerji hesabından', project: 'Karatepe RES', amt: -46800, cur: 'TL', match: 'AÖ-26-002 · eşleşmeyen' },
       { date: '02.10.2026 11:40', bank: 'Akbank · TL', desc: 'Ankara 12. Noterliği · AÖ-26-001', project: 'Genel Merkez', amt: -3850, cur: 'TL', match: 'AÖ-26-001 · eşleşmeyen' },
-      { date: '02.10.2026 11:05', bank: 'İş Bankası · TL', desc: 'Anadolu Sigorta · poliçe primi', project: 'Güneşalan GES', amt: -286000, cur: 'TL', match: 'Ödeme listesi ✓' },
+      { date: '02.10.2026 11:05', bank: 'İş Bankası · TL', desc: 'STU Sigorta · poliçe primi', project: 'Güneşalan GES', amt: -286000, cur: 'TL', match: 'Ödeme listesi ✓' },
       { date: '01.10.2026 10:30', bank: 'Garanti BBVA · USD', desc: 'Kredi faizi', project: 'Boztepe RES', amt: -84300, cur: 'USD', match: 'Ödeme listesi ✓' },
       { date: '30.09.2026 15:42', bank: 'Akbank · TL', desc: 'Havale · açıklamasız', project: '—', amt: -12450, cur: 'TL', match: 'Eşleşmedi' },
-      { date: '25.09.2026 14:10', bank: 'Akbank · TL', desc: 'PO-26-038 · Testo TR · proforma TT-0921', project: 'Karatepe RES', amt: -104000, cur: 'TL', match: 'PO-26-038 ✓' }
+      { date: '28.09.2026 10:05', bank: 'İş Bankası · TL', desc: 'Toplu maaş · Eylül bordrosu · BR-26-009', project: 'Genel Merkez', amt: -2139565, cur: 'TL', match: 'BR-26-009 ✓' },
+      { date: '25.09.2026 14:10', bank: 'Akbank · TL', desc: 'PO-26-038 · Testo TR · proforma TT-0921 · XYZ Enerji hesabından', project: 'Karatepe RES', amt: -104000, cur: 'TL', match: 'PO-26-038 ✓' }
     ];
     const BANKX = ((this.state && this.state.bankAdd) || []).concat(BANK);
     const BL = (this.state && this.state.bankLink) || {};
@@ -825,7 +836,7 @@ class Component extends DCLogic {
     const co = {
       id: [{ k: 'Ünvan', v: CO.n }, { k: 'Vergi dairesi · no', v: CO.vd }, { k: 'MERSİS', v: CO.mersis }, { k: 'Ticaret sicil', v: CO.sicil }, { k: 'Adres', v: CO.adr }, { k: 'KEP', v: CO.kep }, { k: 'Telefon', v: CO.tel }, { k: 'İmza sirküleri', v: CO.sirk + ' · noter onaylı' }],
       spvId: CO.id, sicilDoc: 'Belgeler.dc.html', sirkDoc: 'Belgeler.dc.html', sirkDate: CO.sirk,
-      signers: SIGN.map(function (x) { return { n: x[0], pos: x[1], grp: x[2], lim: x[3], grpStyle: PILLM + (x[2] === 'A' ? 'color:#1E6B3E;background:#E7F3EB;' : (x[2] === 'B' ? 'color:#0E7490;background:#E0F2F7;' : 'color:#8A968E;background:#F0F2F0;')) }; }),
+      signers: SIGN.filter(function (x) { return !x[4] || x[4] === CO.id; }).map(function (x) { return { n: x[0], pos: x[1], grp: x[2], lim: x[3], grpStyle: PILLM + (x[2] === 'A' ? 'color:#1E6B3E;background:#E7F3EB;' : (x[2] === 'B' ? 'color:#0E7490;background:#E0F2F7;' : 'color:#8A968E;background:#F0F2F0;')) }; }),
       rule: 'Ödeme talimatı: 500.000 TL (karşılığı) üstü A+B çift imza · ıslak imzayı yalnızca Finansal Muhasebe toplar',
       bankNote: CO.accts.length + ' hesap · IBAN değişikliği ayrı onaya tabi',
       accts: CO.accts.map(function (a) { return { bank: a[0], branch: a[1], iban: a[2], cur: a[3], type: a[4], lim: a[5], who: sigWho(a[0]) }; })
@@ -845,7 +856,8 @@ class Component extends DCLogic {
     const pkFull = !!(this.state && this.state.pkFull);
     let pk = { hasInv: false, invName: '', invHref: '#', invMeta: '', hasNote: false, noteTxt: '', noteBoxStyle: '', needAck: false, acked: false, ackTxt: '', ackStyle: '', doAck: function () {}, icon: '₺', title: '', sub: '', status: '', statusStyle: '', facts: [], chip: '', chipStyle: '', edit: false, done: false, doneFacts: [], date: '', bank: '', banks: BANKS, onDate: function () {}, onBank: function () {}, doPay: function () {}, payStyle: '' };
     if (pkRow) {
-      const defBank = BANKS.filter(function (b) { return b.indexOf(pkRow.cur) !== -1; })[0] || BANKS[0];
+      const payCo = COS.filter(function (c) { return c.id === (pkRow.coId || coIdOf(pkRow.project)); })[0]; const payAc = payCo ? payCo.accts.filter(function (a) { return a[3] === pkRow.cur && a[5] === '—'; })[0] || payCo.accts.filter(function (a) { return a[3] === pkRow.cur; })[0] : null;
+      const defBank = (payAc && BANKS.indexOf(payAc[0] + ' · ' + pkRow.cur) !== -1) ? payAc[0] + ' · ' + pkRow.cur : (BANKS.filter(function (b) { return b.indexOf(pkRow.cur) !== -1; })[0] || BANKS[0]);
       const pDate = pkF.d !== undefined ? pkF.d : pkRow.date; const pBank = pkF.b || defBank;
       const bk = bankOf(pBank); const cr = cariOf(pkRow.party); const crBank = !!cr && cr[2].indexOf('Banka') === 0; const crOk = !!cr && cr[9] === 'ok' && (cr[4] !== '—' || crBank); const ibanOk = !!pkRow.iban; const useIban = ibanOk && !(crOk && !crBank && ibanN(cr[4]) === ibanN(pkRow.iban)); const tplOk = !!TPL[bk] && (crOk || ibanOk); const aprWait = (pkRow.apr || []).length > 0; const ins = INSTR[pkRow.key] || null; const sg = ins ? (ins.sigs || {}) : {}; const bigAmt = (pkRow.cur === 'TL' ? pkRow.amt : pkRow.amt * (pkRow.cur === 'USD' ? R_USD : R_EUR)) > 500000; const needSig = bigAmt ? ['Elif Şahin|B', 'Levent Aksoy|A'] : ['Levent Aksoy|A']; const sigDone = !!ins && needSig.every(function (k) { return !!sg[k]; });
       const pinfo = pkRow.paidInfo || (pkRow.paid ? { date: pkRow.date, bank: pkRow.paidBank || '—' } : null);
@@ -857,7 +869,7 @@ class Component extends DCLogic {
       pk = {
         title: (pkRow.po ? pkRow.po + ' · ' : '') + pkRow.desc, sub: pkRow.party + ' · ' + pkRow.project + ' · tahmini ' + pkRow.date,
         status: pinfo ? 'Ödendi' : (ins ? (!tOk ? 'Talimat taslak · onay bekliyor' : (sigDone ? 'İmzalı · ödemeye hazır' : 'Talimat hazır · imza bekliyor')) : 'Planlı'), statusStyle: CHP + 'padding:4px 9px;' + (pinfo ? 'color:#1E6B3E;background:#E7F3EB;' : (ins ? 'color:#9A6B12;background:#FBF1DE;' : 'color:#0E7490;background:#E0F2F7;')), icon: pkRow.cur === 'USD' ? '$' : (pkRow.cur === 'EUR' ? '€' : '₺'),
-        facts: [{ k: 'Zincir', v: iv.z }].concat(pkRow.po ? [{ k: 'Dayanak', v: pkRow.po }] : []).concat([{ k: 'Fatura', v: iv.st === 'in' ? 'Geldi · ' + iv.d + (iv.after ? ' · ödemeden sonra · Balbal ödenmiş PO ile eşleştirdi' : ' · ödemeden önce') : (iv.st === 'late' ? 'Gelmedi · süre aşıldı' : (iv.st === 'wait' ? 'Bekleniyor · gelince Balbal ' + (pkRow.po || 'dayanak') + ' ile eşleştirir' : iv.naT)) }]).concat(isPO ? [{ k: 'PO durumu', v: poMiss.length ? 'Açık · bekleyen: ' + poMiss.join(', ') : 'Kapandı · ödeme, teslim ve fatura eşleşti' }] : []).concat([{ k: 'Tahmini tarih', v: pkRow.date }, { k: 'Tutar', v: fmtCur(pkRow.amt, pkRow.cur) }, { k: 'Tür', v: pkRow.type }, { k: 'Karşı taraf', v: pkRow.party }, { k: 'Masraf yeri', v: pkRow.project }].concat(pkRow.unm || pkRow.elle ? [{ k: 'IBAN', v: pkRow.iban || '—' }].concat(pkRow.att && pkRow.att.length ? [{ k: 'Ekler', v: pkRow.att.map(function (a) { return a.name; }).join(' · ') }] : []).concat(pkRow.autoF ? [{ k: 'Balbal doldurdu', v: pkRow.autoF + (pkRow.okBy ? ' · ' + pkRow.okBy + ' onayladı' : '') }] : []).concat(pkRow.by ? [{ k: 'Talimatı veren', v: pkRow.by }] : []).concat(aprWait ? [{ k: 'Ani ödeme zinciri', v: 'Onay bekliyor · ' + pkRow.apr.join(' → ') + (pkRow.doc ? ' · belge eklendi' : '') }] : []) : []).concat(pkRow.tid ? [{ k: 'Kaynak', v: 'Satın alma talebi ' + pkRow.tid + ' · onaylı' }, { k: 'Banka açıklaması', v: pkRow.po + ' · ' + pkRow.party }] : [])),
+        facts: [{ k: 'Zincir', v: iv.z }].concat(pkRow.po ? [{ k: 'Dayanak', v: pkRow.po + (pkRow.src ? ' · ' + pkRow.src : '') }] : []).concat([{ k: 'Fatura', v: iv.st === 'in' ? 'Geldi · ' + iv.d + (iv.after ? ' · ödemeden sonra · Balbal ödenmiş PO ile eşleştirdi' : ' · ödemeden önce') : (iv.st === 'late' ? 'Gelmedi · süre aşıldı' : (iv.st === 'wait' ? 'Bekleniyor · gelince Balbal ' + (pkRow.po || 'dayanak') + ' ile eşleştirir' : iv.naT)) }]).concat(isPO ? [{ k: 'PO durumu', v: poMiss.length ? 'Açık · bekleyen: ' + poMiss.join(', ') : 'Kapandı · ödeme, teslim ve fatura eşleşti' }] : []).concat([{ k: 'Tahmini tarih', v: pkRow.date }, { k: 'Tutar', v: fmtCur(pkRow.amt, pkRow.cur) }, { k: 'Tür', v: pkRow.type }, { k: 'Karşı taraf', v: pkRow.party }, { k: 'Masraf yeri', v: pkRow.project }].concat(pkRow.unm || pkRow.elle ? [{ k: 'IBAN', v: pkRow.iban || '—' }].concat(pkRow.att && pkRow.att.length ? [{ k: 'Ekler', v: pkRow.att.map(function (a) { return a.name; }).join(' · ') }] : []).concat(pkRow.autoF ? [{ k: 'Balbal doldurdu', v: pkRow.autoF + (pkRow.okBy ? ' · ' + pkRow.okBy + ' onayladı' : '') }] : []).concat(pkRow.by ? [{ k: 'Talimatı veren', v: pkRow.by }] : []).concat(aprWait ? [{ k: 'Ani ödeme zinciri', v: 'Onay bekliyor · ' + pkRow.apr.join(' → ') + (pkRow.doc ? ' · belge eklendi' : '') }] : []) : []).concat(pkRow.tid ? [{ k: 'Kaynak', v: 'Satın alma talebi ' + pkRow.tid + ' · onaylı' }, { k: 'Banka açıklaması', v: pkRow.po + ' · ' + pkRow.party }] : [])),
         chip: pinfo ? '✓ Ödeme yapıldı · ' + pinfo.date : (aprWait ? 'Onay bekliyor · ' + pkRow.apr[0] : 'Bekliyor'), chipStyle: CHP + (pinfo ? 'color:#1E6B3E;background:#E7F3EB;' : 'color:#9A6B12;background:#FBF1DE;'),
         hasInv: iv.st === 'in', invName: iv.no ? iv.no + ' · ' + iv.d : '', invHref: 'Belgeler.dc.html', invMeta: 'Muhasebe · Gelen Evrak',
         hasNote: !!noteTxt, noteTxt: noteTxt, noteBoxStyle: 'display:flex;align-items:flex-start;gap:10px;border-radius:12px;padding:10px 12px;font-size:12.5px;line-height:1.5;' + (iv.st === 'late' ? 'background:#FBE7E7;color:#7A2424;' : 'background:#FBF1DE;color:#6B4A0C;'),
@@ -883,15 +895,15 @@ class Component extends DCLogic {
     // ---- Elle ödeme: Finansal Muhasebe ödeme listesine dayanaksız kayıt girer; Balbal zorlamaz, eşleşmeyen ödeme olarak izler ----
     const PPL_M = [['Levent Aksoy', 'Genel Müdür'], ['Elif Şahin', 'Mali İşler Müdürü'], ['Kerem Aydın', 'Enerji Grubu Müdürü'], ['Kaan Turhan', 'Proje Finans Müdürü'], ['Ayşe Yılmaz', 'Hukuk Müdürü'], ['Deniz Kaya', 'İdari İşler Sorumlusu'], ['Zeynep Koç', 'İK Uzmanı']];
     // Balbal'ın okuduğu belge ve mailler (demo): fatura yüklenince alanlar dolar ve belge ödemeye eklenir; mailde banka/şirket bilgisi varsa listelenir
-    const FT_DEMO = { name: 'RTS2026000412.pdf', no: 'RTS2026000412', d: '05.10.2026', co: 'kt', party: 'Rüzgar Teknik Servis', iban: 'TR64 0006 4000 0011 2345 6789 01', amt: '38.400', cur: 'TL', desc: 'Pitch motoru değişimi · T07', vkn: 'VKN 7340056789' };
-    const FT_BANK = { name: 'KD2026000918.pdf', no: 'KD2026000918', d: '29.09.2026', co: 'xyz', party: 'Kırtasiye Dünyası Ltd.', iban: 'TR35 0004 6000 0011 4455 6677 88', amt: '12.450', cur: 'TL', desc: 'Ofis sarf malzemesi (Eylül)', vkn: 'VKN 5120034567' };
-    const MAILS = [{ id: 'm1', from: 'Anadolu Vinç Ltd.', subj: 'Banka bilgilerimiz', d: '06.10.2026 10:14', party: 'Anadolu Vinç Ltd.', iban: 'TR56 0001 5001 5800 7301 2345 67', info: 'IBAN · VKN 0680012345 · Ostim VD' },
-      { id: 'm2', from: 'Enercon Servis Türkiye', subj: 'IBAN değişikliği', d: '03.10.2026 16:02', co: 'bz', party: 'Enercon Servis Türkiye', iban: 'TR11 0001 0000 0000 0000 9999 99', info: 'Yeni IBAN · Boztepe RES’e gönderildi' }];
+    const FT_DEMO = { name: 'RTS2026000412.pdf', no: 'RTS2026000412', d: '05.10.2026', co: 'kt', party: 'Rüzgar Teknik Servis Ltd. Şti.', iban: 'TR29 0006 4000 0011 2345 6789 01', amt: '38.400', cur: 'TL', desc: 'Pitch motoru değişimi · T07', vkn: 'VKN 7340056789' };
+    const FT_BANK = { name: 'KD2026000918.pdf', no: 'KD2026000918', d: '29.09.2026', co: 'xyz', party: 'Kırtasiye Dünyası Ltd.', iban: 'TR36 0004 6000 0011 4455 6677 88', amt: '12.450', cur: 'TL', desc: 'Ofis sarf malzemesi (Eylül)', vkn: 'VKN 5120034567' };
+    const MAILS = [{ id: 'm1', from: 'Anadolu Vinç Ltd.', subj: 'Banka bilgilerimiz', d: '06.10.2026 10:14', party: 'Anadolu Vinç Ltd.', iban: 'TR59 0001 5001 5800 7301 2345 67', info: 'IBAN · VKN 0680012345 · Ostim VD' },
+      { id: 'm2', from: 'Enercon Servis Türkiye', subj: 'IBAN değişikliği', d: '03.10.2026 16:02', co: 'bz', party: 'Enercon Servis Türkiye', iban: 'TR46 0001 0000 0000 0000 9999 99', info: 'Yeni IBAN · Boztepe RES’e gönderildi' }];
     const EO_DEMO = { acil: { co: 'kt', party: FT_DEMO.party, iban: FT_DEMO.iban, amt: FT_DEMO.amt, cur: 'TL', date: '06.10.2026', desc: FT_DEMO.desc, by: 'Kerem Aydın', chain: false, apr: [], acil: true, att: [{ t: 'fatura', name: FT_DEMO.name, no: FT_DEMO.no, d: FT_DEMO.d, info: FT_DEMO.vkn }], auto: { co: FT_DEMO.name, party: FT_DEMO.name, iban: FT_DEMO.name, amt: FT_DEMO.name, cur: FT_DEMO.name, desc: FT_DEMO.name } },
       yeni: { co: 'xyz', party: '', iban: '', amt: '', cur: 'TL', date: '06.10.2026', desc: '', by: '—', chain: false, apr: [], acil: true, att: [], auto: {}, mailOpen: true },
       banka: { co: 'xyz', party: '', iban: '', amt: '12.450', cur: 'TL', date: '30.09.2026', desc: '', by: '—', chain: false, apr: [], att: [], auto: {}, from: { key: '30.09.2026 15:42|-12450', date: '30.09.2026', bank: 'Akbank · TL', amt: 12450, cur: 'TL', desc: 'Havale · açıklamasız' } } };
     const eoSt = (this.state && this.state.eo !== undefined) ? this.state.eo : (this.props.elle ? (EO_DEMO[this.props.elle] || null) : null);
-    const eoNo = 'AÖ-26-' + String(2 + EOR.length).padStart(3, '0');
+    const eoNo = 'AÖ-26-' + String(3 + EOR.length).padStart(3, '0');
     const eoNum = function (v) { const n = parseFloat(String(v || '').replace(/\./g, '').replace(',', '.')); return isNaN(n) ? 0 : n; };
     let eo = {};
     if (eoSt) {
@@ -960,7 +972,7 @@ class Component extends DCLogic {
     const bkSt = (this.state && this.state.bk !== undefined) ? this.state.bk : (this.props.talimat === 'onay' ? { ok: false } : null);
     let bk = {};
     if (bkSt) {
-      const payerOf = function (x) { const co = COS.filter(function (c) { return c.id === (x.coId || coIdOf(x.project)); })[0]; const ac = co ? co.accts.filter(function (a) { return a[3] === x.cur; })[0] : null; return ac ? ac[0] + ' · ' + x.cur : (BANKS0.filter(function (q) { return q.indexOf(x.cur) !== -1; })[0] || BANKS0[0]); };
+      const payerOf = function (x) { const co = COS.filter(function (c) { return c.id === (x.coId || coIdOf(x.project)); })[0]; const ac = co ? (co.accts.filter(function (a) { return a[3] === x.cur && a[5] === '—'; })[0] || co.accts.filter(function (a) { return a[3] === x.cur; })[0]) : null; return ac ? ac[0] + ' · ' + x.cur : (BANKS0.filter(function (q) { return q.indexOf(x.cur) !== -1; })[0] || BANKS0[0]); };
       const bOk = !!bkSt.ok;
       bk = {
         title: 'Seçilileri öde · ' + bulkN + ' talimat', sub: 'Ödeme talimatı · Balbal doldurdu',
@@ -982,20 +994,24 @@ class Component extends DCLogic {
     const pkBody = (pkFull ? 'flex:1;min-height:0;overflow-y:auto;' : '') + 'padding:18px 22px;display:grid;grid-template-columns:minmax(0,1fr);align-content:start;gap:16px;';
     // ---- Projelerin bugünkü nakdi (her proje ayrı) · TCMB son bülten döviz alış (Döviz Kurları bileşeniyle aynı veri) ----
     const CASH = [
-      { name: 'Karatepe RES', tl: 18450000, usd: 1240000, eur: 0 },
-      { name: 'Boztepe RES', tl: 12870000, usd: 860000, eur: 214000 },
-      { name: 'Yeşilova RES', tl: 6320000, usd: 2115000, eur: 0 },
+      { name: 'Karatepe RES', tl: 18450000, usd: 1652500, eur: 0 },
+      { name: 'Boztepe RES', tl: 12870000, usd: 944300, eur: 214000 },
+      { name: 'Yeşilova RES', tl: 6320000, usd: 2266500, eur: 0 },
       { name: 'Güneşalan GES', tl: 4980000, usd: 0, eur: 0 },
-      { name: 'Kızılova RES', tl: 9740000, usd: 3600000, eur: 1250000 },
+      { name: 'Kızılova RES', tl: 9740000, usd: 3600000, eur: 0 },
+      { name: 'Akyar GES', tl: 1850000, usd: 0, eur: 0 },
+      { name: 'Demirci RES', tl: 2420000, usd: 0, eur: 0 },
       { name: 'Genel Merkez', tl: 7215000, usd: 95000, eur: 40000 }
     ];
     const mn = function (n) { return (n / 1e6).toLocaleString('tr-TR', { maximumFractionDigits: 2 }) + ' mn'; };
-    const ACCT_BAL = { 'Karatepe RES': [['Akbank', 'Proje hesabı (tahsilat)', 'TR21 0004 6000 0000 0000 5566 77', 'TL', 14120000, 'Kredi sözleşmesi · banka onayı'], ['Akbank', 'İşletme hesabı', 'TR77 0004 6000 0000 0000 5566 88', 'TL', 4330000, '—'], ['Garanti BBVA', 'DSRA', 'TR09 0006 2000 0000 0000 3344 55', 'USD', 1240000, 'Bloke · borç servisi']],
-      'Boztepe RES': [['Garanti BBVA', 'Proje hesabı (tahsilat)', 'TR18 0006 2000 0000 0000 9900 11', 'TL', 12870000, 'Kredi sözleşmesi · banka onayı'], ['Garanti BBVA', 'DSRA', 'TR90 0006 2000 0000 0000 9900 22', 'USD', 860000, 'Bloke · borç servisi'], ['Garanti BBVA', 'Yüklenici ödeme hesabı', 'TR02 0006 2000 0000 0000 9900 33', 'EUR', 214000, '—']],
-      'Yeşilova RES': [['Commerzbank', 'Proje hesabı · kredi', 'DE89 3704 0044 0532 0130 00', 'USD', 1480000, 'Annex E yetkisi'], ['Commerzbank', 'DSRA', 'DE12 3704 0044 0532 0130 11', 'USD', 635000, 'Bloke'], ['Akbank', 'İşletme hesabı', 'TR35 0004 6000 0000 0000 2211 44', 'TL', 6320000, '—']],
-      'Güneşalan GES': [['İş Bankası', 'Proje hesabı (tahsilat)', 'TR60 0006 4000 0010 0000 6677 88', 'TL', 3910000, '—'], ['İş Bankası', 'İşletme hesabı', 'TR82 0006 4000 0010 0000 6677 99', 'TL', 1070000, '—']],
-      'Kızılova RES': [['Garanti BBVA', 'Yatırım hesabı · EPC', 'TR48 0006 2000 0000 0000 1122 33', 'USD', 3600000, 'Kredi kullanımı · teknik danışman onayı'], ['Garanti BBVA', 'Yatırım hesabı · EPC (EUR)', 'TR48 0006 2000 0000 0000 1122 55', 'EUR', 1250000, 'Kredi kullanımı'], ['Garanti BBVA', 'İşletme hesabı', 'TR70 0006 2000 0000 0000 1122 44', 'TL', 9740000, '—']],
-      'Genel Merkez': [['Akbank', 'Serbest hesap', 'TR12 0004 6000 0000 0000 1234 56', 'TL', 2905000, '—'], ['Garanti BBVA', 'Serbest hesap', 'TR33 0006 2000 0000 0000 7788 99', 'TL', 1660000, '—'], ['İş Bankası', 'Bordro / vergi', 'TR55 0006 4000 0010 0000 4455 66', 'TL', 2650000, '—'], ['Garanti BBVA', 'Serbest hesap', 'TR44 0006 2000 0000 0000 7789 00', 'USD', 95000, '—'], ['Garanti BBVA', 'Serbest hesap', 'TR66 0006 2000 0000 0000 7789 11', 'EUR', 40000, '—']] };
+    const ACCT_BAL = { 'Karatepe RES': [['Garanti BBVA', 'Proje hesabı (tahsilat)', 'TR35 0006 2000 0000 0000 5566 77', 'TL', 14120000, 'Kredi sözleşmesi · banka onayı'], ['Garanti BBVA', 'İşletme hesabı', 'TR29 0006 2000 0000 0000 5566 88', 'TL', 4330000, '—'], ['Garanti BBVA', 'Borç servis hesabı (USD)', 'TR88 0006 2000 0000 0000 3344 66', 'USD', 412500, 'Bloke · bankaya ödeme'], ['Garanti BBVA', 'DSRA', 'TR94 0006 2000 0000 0000 3344 55', 'USD', 1240000, 'Bloke · borç servisi']],
+      'Boztepe RES': [['Garanti BBVA', 'Proje hesabı (tahsilat)', 'TR60 0006 2000 0000 0000 9900 11', 'TL', 12870000, 'Kredi sözleşmesi · banka onayı'], ['Garanti BBVA', 'Borç servis hesabı (USD)', 'TR42 0006 2000 0000 0000 9900 44', 'USD', 84300, 'Bloke · bankaya ödeme'], ['Garanti BBVA', 'DSRA', 'TR54 0006 2000 0000 0000 9900 22', 'USD', 860000, 'Bloke · borç servisi'], ['Garanti BBVA', 'Yüklenici ödeme hesabı', 'TR48 0006 2000 0000 0000 9900 33', 'EUR', 214000, '—']],
+      'Yeşilova RES': [['Commerzbank', 'Proje hesabı · kredi', 'DE89 3704 0044 0532 0130 00', 'USD', 1480000, 'Annex E yetkisi'], ['Commerzbank', 'Borç servis hesabı (USD)', 'DE77 3704 0044 0532 0130 22', 'USD', 84500, 'Bloke · bankaya ödeme'], ['Commerzbank', 'DSRA', 'DE83 3704 0044 0532 0130 11', 'USD', 702000, 'Bloke'], ['Akbank', 'İşletme hesabı', 'TR37 0004 6000 0000 0000 2211 44', 'TL', 6320000, '—']],
+      'Güneşalan GES': [['İş Bankası', 'Proje hesabı (tahsilat)', 'TR98 0006 4000 0010 0000 6677 88', 'TL', 3910000, '—'], ['İş Bankası', 'İşletme hesabı', 'TR92 0006 4000 0010 0000 6677 99', 'TL', 1070000, '—']],
+      'Kızılova RES': [['Garanti BBVA', 'Yatırım hesabı · EPC', 'TR56 0006 2000 0000 0000 1122 33', 'USD', 3600000, 'Kredi kullanımı · teknik danışman onayı'], ['Garanti BBVA', 'İşletme hesabı', 'TR50 0006 2000 0000 0000 1122 44', 'TL', 9740000, '—']],
+      'Akyar GES': [['Garanti BBVA', 'İşletme hesabı', 'TR28 0006 2000 0000 0000 6600 11', 'TL', 1850000, '—']],
+      'Demirci RES': [['Garanti BBVA', 'İşletme hesabı', 'TR71 0006 2000 0000 0000 7700 11', 'TL', 2420000, '—']],
+      'Genel Merkez': [['Akbank', 'Serbest hesap', 'TR86 0004 6000 0000 0000 1234 56', 'TL', 2905000, '—'], ['Garanti BBVA', 'Serbest hesap', 'TR73 0006 2000 0000 0000 7788 99', 'TL', 1660000, '—'], ['İş Bankası', 'Bordro / vergi', 'TR60 0006 4000 0010 0000 4455 66', 'TL', 2650000, '—'], ['Garanti BBVA', 'Serbest hesap', 'TR46 0006 2000 0000 0000 7789 00', 'USD', 95000, '—'], ['Garanti BBVA', 'Serbest hesap', 'TR40 0006 2000 0000 0000 7789 11', 'EUR', 40000, '—']] };
     const cashOpen = (this.state && this.state.cashOpen) || {};
     const cashRows = CASH.map(function (c) { const totTl = c.tl + c.usd * R_USD + c.eur * R_EUR; const mix = ['TL ' + mn(c.tl)].concat(c.usd ? ['USD ' + mn(c.usd)] : []).concat(c.eur ? ['EUR ' + mn(c.eur)] : []).join(' · '); const on = !!cashOpen[c.name];
       return { name: c.name, mix: mix, tl: fmtCur(totTl, 'TL'), usd: fmtCur(totTl / R_USD, 'USD'), eur: fmtCur(totTl / R_EUR, 'EUR'), open: on,

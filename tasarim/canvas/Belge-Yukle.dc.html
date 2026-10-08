@@ -301,35 +301,35 @@ class Component extends DCLogic {
   docs() {
     return {
       tadil: {
-        file: 'Akbank_imzali_0912.pdf', meta: '1,2 MB · 4 sayfa',
+        file: 'GarantiBBVA_Karatepe_2Tadil_imzali.pdf', meta: '1,2 MB · 4 sayfa',
         dept: 'Proje Finans', folder: 'Kredi Sözleşmeleri', sub: 'Karatepe RES',
-        reason: 'Belge bir kredi sözleşmesinin tadili; tarafları Akbank ve Karatepe Enerji A.Ş. Değiştirdiği sözleşme bu klasörde duruyor.',
-        core: [['company', 'Şirket / proje', 'Karatepe RES (Karatepe Enerji A.Ş.)', 97], ['topic', 'Konu', 'Proje finansmanı kredisi', 94], ['type', 'Belge', 'Sözleşme tadili — 2. tadil', 92]],
+        reason: 'Belge bir kredi sözleşmesinin tadili; tarafları Garanti BBVA ve Karatepe RES Enerji Üretim A.Ş. (Kredi 2022-KT). Değiştirdiği sözleşme bu klasörde duruyor.',
+        core: [['company', 'Şirket / proje', 'Karatepe RES (Karatepe RES Enerji Üretim A.Ş.)', 97], ['topic', 'Konu', 'Proje finansmanı kredisi', 94], ['type', 'Belge', 'Sözleşme tadili — 2. tadil', 92]],
         rel: { label: 'Hangi sözleşmenin tadili?', key: 'rel', pct: 68 },
-        name: 'Karatepe RES · PF Kredi Sözleşmesi · 2. Tadil · 2026-09',
-        tags: ['karatepe-res', 'pf-kredi', 'tadil', 'faiz-değişikliği'],
+        name: 'Karatepe RES · PF Kredi Sözleşmesi · 2. Tadil · 2025-03',
+        tags: ['karatepe-res', 'pf-kredi', 'tadil', 'faiz-değişikliği', 'teminat-yapısı-değişikliği'],
         extraTitle: 'Tadile özel bilgiler',
         suggest: ['Temerrüt faizi', 'Ön ödeme koşulu', 'Onay veren kurul kararı', 'Banka referans no'],
-        extra: [['party', 'Karşı taraf', 'Akbank T.A.Ş.', 98], ['signed', 'İmza tarihi', '12.09.2026', 95], ['eff', 'Yürürlük tarihi', '01.10.2026', 90]],
+        extra: [['party', 'Karşı taraf', 'Türkiye Garanti Bankası A.Ş. (Garanti BBVA)', 98], ['signed', 'İmza tarihi', '15.03.2025', 95], ['eff', 'Yürürlük tarihi', '15.03.2025', 90], ['margin', 'Faiz marjı', 'Term SOFR + %3,25 → + %2,90', 93], ['dscr', 'Asgari DSCR', '1,25x → 1,20x (yıllık test 30 Haziran)', 91]],
         steps: ['Sözleşme tadili · 4 sayfa · Türkçe', 'Proje Finans — kredi sözleşmesi konusu', 'Kredi Sözleşmeleri', 'Karatepe RES', 'Şirket, konu, belge + tadil edilen sözleşme'],
         questions: [{
           key: 'rel',
           text: 'Karatepe RES klasöründe iki kredi sözleşmesi var. Bu tadil hangisini değiştiriyor?',
-          options: [['v2', 'PF Kredi Sözleşmesi v2 (2024, yürürlükte)'], ['v1', 'PF Kredi Sözleşmesi v1 (2021, eski)']],
+          options: [['v2', 'PF Kredi Sözleşmesi v2 — 1. tadil / konsolide metin (12.01.2024, yürürlükte)'], ['v1', 'PF Kredi Sözleşmesi v1 — ilk sözleşme (20.06.2022, eski)']],
           answers: { v2: 'PF Kredi Sözleşmesi v2’nin 2. tadili olarak bağlandı', v1: 'PF Kredi Sözleşmesi v1’e bağlandı' }
         }]
       },
       fatura: {
-        file: 'fatura_20260915.pdf', meta: '180 KB · 1 sayfa',
+        file: 'fatura_ENR2026001122.pdf', meta: '180 KB · 1 sayfa',
         dept: 'Proje Finans', folder: 'Hakediş ve Faturalar', sub: 'Karatepe RES',
-        reason: 'Faturayı Örnek Rüzgar Bakım Ltd. kesmiş; alıcı Karatepe Enerji A.Ş., açıklamada türbin bakımı yazıyor.',
-        core: [['company', 'Şirket / proje', 'Karatepe RES (Karatepe Enerji A.Ş.)', 96], ['topic', 'Konu', 'Türbin periyodik bakımı', 91], ['type', 'Belge', 'Fatura', 99]],
+        reason: 'Faturayı Enercon Servis Türkiye kesmiş; alıcı Karatepe RES Enerji Üretim A.Ş., açıklamada türbin bakımı yazıyor (bakım sözleşmesi S-25-007).',
+        core: [['company', 'Şirket / proje', 'Karatepe RES (Karatepe RES Enerji Üretim A.Ş.)', 96], ['topic', 'Konu', 'Türbin periyodik bakımı', 91], ['type', 'Belge', 'Fatura', 99]],
         rel: null,
-        name: 'Karatepe RES · Türbin Bakımı · Fatura · Örnek Rüzgar Bakım · 2026-09',
+        name: 'Karatepe RES · Türbin Bakımı · Fatura · Enercon Servis Türkiye · 2026-10',
         tags: ['karatepe-res', 'bakim', 'fatura'],
         extraTitle: 'Faturaya özel bilgiler',
         suggest: ['Hakediş no', 'Sipariş / sözleşme no', 'Ödeme vadesi'],
-        extra: [['vendor', 'Faturayı kesen', 'Örnek Rüzgar Bakım Ltd. Şti.', 99], ['job', 'Hangi iş için?', 'Eylül 2026 periyodik bakım', 74], ['inv', 'Fatura tarihi', '15.09.2026', 99]],
+        extra: [['vendor', 'Faturayı kesen', 'Enercon Servis Türkiye', 99], ['job', 'Hangi iş için?', 'Eylül 2026 periyodik bakım (S-25-007)', 74], ['inv', 'Fatura no · tarih', 'ENR2026001122 · 06.10.2026', 99]],
         steps: ['Fatura · 1 sayfa · Türkçe', 'Proje Finans — proje gideri', 'Hakediş ve Faturalar', 'Karatepe RES', 'Şirket, konu, belge + kesen firma ve iş'],
         questions: []
       }
@@ -411,7 +411,7 @@ class Component extends DCLogic {
     var core = D.core.map(field);
     var relAns = answers.rel;
     var relBd = D.rel ? badge(false, D.rel.pct, !!relAns) : null;
-    var relValue = relAns === 'v1' ? 'Karatepe RES · PF Kredi Sözleşmesi v1 (2021)' : 'Karatepe RES · PF Kredi Sözleşmesi v2 (2024)';
+    var relValue = relAns === 'v1' ? 'Karatepe RES · PF Kredi Sözleşmesi v1 (20.06.2022)' : 'Karatepe RES · PF Kredi Sözleşmesi v2 — konsolide (12.01.2024)';
 
     var nameChanged = edits.name != null && edits.name !== D.name;
     var nb = badge(nameChanged, 92);

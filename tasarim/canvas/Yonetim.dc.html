@@ -757,7 +757,7 @@ class Component extends DCLogic {
     const DN = {}; DEPTS.forEach(function (d) { DN[d[0]] = d[1]; });
     const DEPTS7 = [['yon', 'Yönetim']].concat(DEPTS);
     const DNA = {}; DEPTS7.forEach(function (d) { DNA[d[0]] = d[1]; });
-    const SUBS = { yon: 'Üst yönetim', pf: 'Alt birim yok', mali: 'Muhasebe · Finansal Muhasebe', hukuk: 'Alt birim yok', idari: 'Alt birim yok', ik: 'Alt birim yok', enerji: 'Proje Geliştirme · O&M · EPC · Üretim/Piyasa' };
+    const SUBS = { yon: 'Üst yönetim', pf: 'Alt birim yok', mali: 'Muhasebe · Finansal Muhasebe', hukuk: 'Alt birim yok', idari: 'Alt birim yok', ik: 'Alt birim yok', enerji: 'Proje Geliştirme · O&M (İşletme ve Bakım) · EPC (İnşaat) · Üretim/Piyasa · Saha Operasyon' };
 
     const FOLDERS = [
       { id: 'pf', name: 'Proje Finans', parent: null, owner: 'pf', count: 42 },
@@ -823,7 +823,7 @@ class Component extends DCLogic {
       mim: { n: 'Mali İşler Müdürü', d: 'mali', l: 2 }, muh: { n: 'Muhasebe Uzmanı', d: 'mali', l: 3 }, fmu: { n: 'Finansal Muhasebe Uzmanı', d: 'mali', l: 3 },
       hkm: { n: 'Hukuk Müdürü', d: 'hukuk', l: 2 }, avu: { n: 'Avukat', d: 'hukuk', l: 3 },
       idr: { n: 'İdari İşler Sorumlusu', d: 'idari', l: 2 }, stj: { n: 'Stajyer', d: 'idari', l: 4 },
-      ikuz: { n: 'İK Uzmanı', d: 'ik', l: 3 },
+      ikuz: { n: 'İK Uzmanı', d: 'ik', l: 2 },
       enm: { n: 'Enerji Grubu Müdürü', d: 'enerji', l: 2 }, pgu: { n: 'Proje Geliştirme Uzmanı', d: 'enerji', l: 3 }, om: { n: 'O&M Mühendisi', d: 'enerji', l: 3 }, epc: { n: 'EPC Proje Mühendisi', d: 'enerji', l: 3 }, upu: { n: 'Üretim/Piyasa Uzmanı', d: 'enerji', l: 3 },
       sfm: { n: 'Saha Operasyon Müdürü', d: 'enerji', l: 3 }, 'kt-tek': { n: 'Saha Teknisyeni · Karatepe RES', d: 'enerji', l: 4 }, 'bz-tek': { n: 'Saha Teknisyeni · Boztepe RES', d: 'enerji', l: 4 }, 'ys-tek': { n: 'Saha Teknisyeni · Yeşilova RES', d: 'enerji', l: 4 }, 'gn-tek': { n: 'Saha Teknisyeni · Güneşalan GES', d: 'enerji', l: 4 },
       'epc-ins': { n: 'İnşaat Mühendisi', d: 'enerji', l: 4 }, 'epc-elk': { n: 'Elektrik Mühendisi', d: 'enerji', l: 4 }, 'epc-tkr': { n: 'EPC Teknikeri', d: 'enerji', l: 4 }
@@ -851,12 +851,12 @@ class Component extends DCLogic {
       { id: 'burak', name: 'Burak Çelik', user: 'burak.celik', pos: 'avu', dept: 'hukuk', sub: '', mgr: 'ayse', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
       { id: 'deniz', name: 'Deniz Kaya', user: 'deniz.kaya', pos: 'idr', dept: 'idari', sub: '', mgr: 'levent', own: true, all: false, scope: 'restricted', apprOn: true, deputy: null, xf: {}, active: true },
       { id: 'stajyer', name: 'Eski Stajyer', user: 'stajyer.2025', pos: 'stj', dept: 'idari', sub: '', mgr: 'deniz', own: false, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: false },
-      { id: 'zeynep', name: 'Zeynep Koç', user: 'zeynep.koc', pos: 'ikuz', dept: 'ik', sub: '', mgr: 'levent', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
+      { id: 'zeynep', name: 'Zeynep Koç', user: 'zeynep.koc', pos: 'ikuz', dept: 'ik', sub: '', mgr: 'levent', own: true, all: false, scope: 'restricted', apprOn: true, deputy: null, xf: {}, active: true },
       { id: 'kerem', name: 'Kerem Aydın', user: 'kerem.aydin', pos: 'enm', dept: 'enerji', sub: '', mgr: 'levent', own: true, all: false, scope: 'restricted', apprOn: true, deputy: null, xf: {}, active: true },
       { id: 'cem', name: 'Cem Aktaş', user: 'cem.aktas', pos: 'pgu', dept: 'enerji', sub: 'Proje Geliştirme', mgr: 'kerem', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
-      { id: 'onur', name: 'Onur Yıldız', user: 'onur.yildiz', pos: 'om', dept: 'enerji', sub: 'İşletme ve Bakım', mgr: 'kerem', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
-      { id: 'hakan', name: 'Hakan Tunç', user: 'hakan.tunc', pos: 'epc', dept: 'enerji', sub: 'İnşaat (EPC)', mgr: 'kerem', own: true, all: false, scope: 'own', apprOn: true, deputy: null, xf: { 'pf-rapor': { access: 'write', dual: true } }, active: true },
-      { id: 'pinar', name: 'Pınar Güler', user: 'pinar.guler', pos: 'upu', dept: 'enerji', sub: 'Üretim / Piyasa', mgr: 'kerem', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
+      { id: 'onur', name: 'Onur Yıldız', user: 'onur.yildiz', pos: 'om', dept: 'enerji', sub: 'O&M (İşletme ve Bakım)', mgr: 'kerem', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
+      { id: 'hakan', name: 'Hakan Tunç', user: 'hakan.tunc', pos: 'epc', dept: 'enerji', sub: 'EPC (İnşaat)', mgr: 'kerem', own: true, all: false, scope: 'own', apprOn: true, deputy: null, xf: { 'pf-rapor': { access: 'write', dual: true } }, active: true },
+      { id: 'pinar', name: 'Pınar Güler', user: 'pinar.guler', pos: 'upu', dept: 'enerji', sub: 'Üretim/Piyasa', mgr: 'kerem', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
       { id: 'murat', name: 'Murat Kılınç', user: 'murat.kilinc', pos: 'sfm', dept: 'enerji', sub: 'Saha Operasyon', mgr: 'kerem', own: true, all: false, scope: 'restricted', apprOn: true, deputy: null, xf: {}, active: true },
       { id: 'emre', name: 'Emre Yalçın', user: 'emre.yalcin', pos: 'kt-tek', dept: 'enerji', sub: 'Saha Operasyon — Karatepe RES · 1. vardiya', mgr: 'murat', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
       { id: 'furkan', name: 'Furkan Kurt', user: 'furkan.kurt', pos: 'kt-tek', dept: 'enerji', sub: 'Saha Operasyon — Karatepe RES · 1. vardiya', mgr: 'murat', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
@@ -874,10 +874,10 @@ class Component extends DCLogic {
       { id: 'yusuf', name: 'Yusuf Akın', user: 'yusuf.akin', pos: 'gn-tek', dept: 'enerji', sub: 'Saha Operasyon — Güneşalan GES · 1. vardiya', mgr: 'murat', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
       { id: 'ramazan', name: 'Ramazan Er', user: 'ramazan.er', pos: 'gn-tek', dept: 'enerji', sub: 'Saha Operasyon — Güneşalan GES · 2. vardiya', mgr: 'murat', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
       { id: 'nihat', name: 'Nihat Çetin', user: 'nihat.cetin', pos: 'gn-tek', dept: 'enerji', sub: 'Saha Operasyon — Güneşalan GES · 2. vardiya', mgr: 'murat', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
-      { id: 'caner', name: 'Caner Doğru', user: 'caner.dogru', pos: 'epc-ins', dept: 'enerji', sub: 'İnşaat (EPC)', mgr: 'hakan', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
-      { id: 'melis', name: 'Melis Karaca', user: 'melis.karaca', pos: 'epc-elk', dept: 'enerji', sub: 'İnşaat (EPC)', mgr: 'hakan', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
-      { id: 'halil', name: 'Halil Öztürk', user: 'halil.ozturk', pos: 'epc-tkr', dept: 'enerji', sub: 'İnşaat (EPC)', mgr: 'hakan', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
-      { id: 'semih', name: 'Semih Kaplan', user: 'semih.kaplan', pos: 'epc-tkr', dept: 'enerji', sub: 'İnşaat (EPC)', mgr: 'hakan', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
+      { id: 'caner', name: 'Caner Doğru', user: 'caner.dogru', pos: 'epc-ins', dept: 'enerji', sub: 'EPC (İnşaat)', mgr: 'hakan', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
+      { id: 'melis', name: 'Melis Karaca', user: 'melis.karaca', pos: 'epc-elk', dept: 'enerji', sub: 'EPC (İnşaat)', mgr: 'hakan', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
+      { id: 'halil', name: 'Halil Öztürk', user: 'halil.ozturk', pos: 'epc-tkr', dept: 'enerji', sub: 'EPC (İnşaat)', mgr: 'hakan', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
+      { id: 'semih', name: 'Semih Kaplan', user: 'semih.kaplan', pos: 'epc-tkr', dept: 'enerji', sub: 'EPC (İnşaat)', mgr: 'hakan', own: true, all: false, scope: 'own', apprOn: false, deputy: null, xf: {}, active: true },
       { id: 'admin', name: 'Sistem Yöneticisi', user: 'admin', pos: null, dept: null, sub: '', mgr: null, own: false, all: true, scope: 'all', apprOn: false, deputy: null, xf: {}, active: true, sys: true }
     ];
     const PB = {}; PEOPLE.forEach(function (q) { PB[q.id] = q; });
@@ -1277,7 +1277,7 @@ class Component extends DCLogic {
     const AUDIT = [
       { id: 1, time: '27.09 10:42', user: 'Kaan Turhan', q: 'Karatepe RES kredi sözleşmesinde erken ödeme cezası var mı?', type: 'DOCUMENT', ms: '2,1 sn', scope: 'Proje Finans · tüm projeler', answer: "Garanti BBVA kredi sözleşmesi madde 7.3'e göre ilk 24 ay içinde erken ödemede %2 ceza uygulanır.", sources: [{ title: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', meta: 's.4 · v2', href: K }], model: 'gemini-3.8-flash', tokens: '3.412 / 96', rid: 'a7f3…' },
       { id: 2, time: '27.09 09:15', user: 'Kaan Turhan', q: 'Karatepe RES’in güncel minimum DSCR şartı nedir?', type: 'DOCUMENT', ms: '2,8 sn', scope: 'Proje Finans · Karatepe RES', answer: 'Güncel minimum DSCR şartı 1,20x (2. Tadil, 15.03.2025). İlk sözleşmede 1,25x idi.', sources: [{ title: 'Karatepe_RES_Kredi_Tadil_2.pdf', meta: 's.2 · v1', href: K }, { title: 'Karatepe_RES_Kredi_Sozlesmesi_2022.pdf', meta: 's.11 · v1', href: K }], model: 'gemini-3.8-flash', tokens: '5.118 / 142', rid: 'c21d…' },
-      { id: 3, time: '26.09 16:20', user: 'Oğuz Tekin', q: 'Yeşilova RES bu ayki taksit ve bakiye?', type: 'DATA', ms: '1,6 sn', scope: 'Proje Finans · Yeşilova RES', answer: 'Eylül taksiti $116.240, kalan anapara bakiyesi $8.420.000.', sources: [{ title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', meta: 'Ödeme Takvimi · B14:D14', href: 'Excel-Onizleme.dc.html' }], model: 'gemini-3.8-flash', tokens: '1.980 / 64', rid: '9b0e…' },
+      { id: 3, time: '26.09 16:20', user: 'Oğuz Tekin', q: 'Yeşilova RES sıradaki taksit ve bakiye?', type: 'DATA', ms: '1,6 sn', scope: 'Proje Finans · Yeşilova RES', answer: 'Sıradaki taksit #11/24, vade 14.10.2026: $116.240 (anapara $98.000 + faiz $18.240, ödeme takvimine göre). Kalan anapara $1.372.000; taksit sonrası $1.274.000.', sources: [{ title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', meta: 'Ödeme Takvimi · 01.09.2026 sürümü · taksit #11', href: 'Excel-Onizleme.dc.html' }], model: 'gemini-3.8-flash', tokens: '1.980 / 64', rid: '9b0e…' },
       { id: 4, time: '26.09 11:05', user: 'Ayşe Yılmaz', q: 'Boztepe RES imar davasında sonraki duruşma ne zaman?', type: 'DOCUMENT', ms: '1,9 sn', scope: 'Hukuk · tüm projeler', answer: '28 Ekim 2026, Ankara 2. İdare Mahkemesi.', sources: [{ title: 'Boztepe_RES_Dava_Dosyasi.pdf', meta: 's.3 · v4', href: 'Dava-Gecmisi.dc.html' }], model: 'gemini-3.8-flash', tokens: '2.844 / 51', rid: '4e7a…' },
       { id: 5, time: '25.09 14:30', user: 'Kerem Aydın', q: 'Kapasite faktörü nedir?', type: 'GENERAL', ms: '1,1 sn', scope: 'Enerji · tüm projeler', answer: 'Kapasite faktörü, gerçekleşen üretimin tam kapasite üretimine oranıdır.', sources: [], model: 'gemini-3.8-flash', tokens: '420 / 58', rid: '1c9f…' },
       { id: 6, time: '22.09 10:02', user: 'Kaan Turhan', q: 'Boztepe RES üretim lisansı ne zaman bitiyor?', type: 'NONE', ms: '1,4 sn', scope: 'Proje Finans · tüm projeler', answer: 'Mevcut şirket kaynaklarında bu soruyu güvenilir şekilde cevaplamak için yeterli bilgi bulamadım.', sources: [], model: 'gemini-3.8-flash', tokens: '2.210 / 31', rid: '7d2b…' }
@@ -1314,7 +1314,7 @@ class Component extends DCLogic {
       return { name: p[0], code: p[1], stage: STAGE[p[2]][0], stageStyle: PILL + STAGE[p[2]][1], depts: p[3] };
     });
     const suggestions = [
-      { file: 'Akbank_Faiz_Guncellemesi.pdf', summary: 'Proje Finans · Karatepe RES · Faiz güncelleme yazısı', by: 'Kaan Turhan' },
+      { file: 'GarantiBBVA_Faiz_Belirleme_Bildirimi.pdf', summary: 'Proje Finans · Karatepe RES · Garanti BBVA faiz belirleme bildirimi', by: 'Kaan Turhan' },
       { file: 'T07_Ariza_Raporu_2609.pdf', summary: 'Enerji · Karatepe RES · Arıza raporu', by: 'Onur Yıldız' }
     ];
 

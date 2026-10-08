@@ -95,14 +95,14 @@ a{color:inherit;text-decoration:none}
 14.09.2026 tarihli e-postanızla, Yeşilova RES kredi sözleşmesinin Ek-F maddesi kapsamında talep edilen belgelere ilişkin bilgilerimiz aşağıdadır. [1]
 
 1. Güncel kredi sözleşmesi nüshası: 03.06.2023 tarihli sözleşmenin (v1, güncel) imzalı nüshası ekte sunulmuştur. [2]
-2. Son üç aya ait ödeme dekontları: Temmuz, Ağustos ve Eylül 2026 taksitlerine ait üç adet dekont ekte sunulmuştur. [3]
+2. Son üç aya ait ödeme dekontları: Kredi 3 aylık taksitlerle ödendiğinden bu dönemde tek ödeme yapılmıştır; 14.07.2026 tarihli 10/24 taksitine ait dekont ekte sunulmuştur. [3]
 3. Proje sigorta poliçesi: YS-2026-04471 numaralı, 31.03.2027 bitiş tarihli poliçe ekte sunulmuştur. [4]
 4. Teminat mektubu örneği: İlgili belge tarafımızca temin edilerek ayrıca iletilecektir.
 
-Ek-F formu, 01.10.2025 – 30.09.2026 dönemine ait gerçekleşen verilerle doldurulmuş olup ekte yer almaktadır. [5]
+Ek-F formu, 2025 raporlama yılına (01.01.2025 – 31.12.2025) ait gerçekleşen verilerle doldurulmuş olup ekte yer almaktadır. [5]
 
 Saygılarımızla,
-Yeşilova Enerji Üretim A.Ş. — Proje Finans</textarea>
+Yeşilova RES Enerji Üretim A.Ş. — Proje Finans</textarea>
         </div>
       </div>
 
@@ -138,17 +138,17 @@ class Component extends DCLogic {
     const B = 'display:inline-block;font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;flex-shrink:0;';
     const docs = [
       { label: 'Güncel kredi sözleşmesi nüshası', file: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', href: K, status: 'Sistemde', badgeStyle: B + 'color:#1E6B3E;background:#E7F3EB;' },
-      { label: 'Son 3 ay ödeme dekontları', file: 'Dekont_Commerzbank_2026-07/08/09.pdf', href: K, status: 'Sistemde', badgeStyle: B + 'color:#1E6B3E;background:#E7F3EB;' },
+      { label: 'Son 3 ay ödeme dekontları (3 aylık kredi · 1 taksit)', file: 'Dekont_Commerzbank_2026-07.pdf', href: K, status: 'Sistemde', badgeStyle: B + 'color:#1E6B3E;background:#E7F3EB;' },
       { label: 'Proje sigorta poliçesi', file: 'Yesilova_RES_Sigorta_Policesi.pdf', href: K, status: 'Sistemde', badgeStyle: B + 'color:#1E6B3E;background:#E7F3EB;' },
       { label: 'Teminat mektubu örneği', file: null, href: null, status: 'Eksik', badgeStyle: B + 'color:#7A2323;background:#FBE7E7;' },
-      { label: 'Annex F formu (doldurulmuş)', file: 'Annex_F_Yesilova_2026.xlsx', href: 'Sablon-Doldur.dc.html', status: 'Onay bekliyor', badgeStyle: B + 'color:#9A6B12;background:#FBF1DE;' }
+      { label: 'Annex F formu (doldurulmuş)', file: 'Annex_F_Yesilova_2025.xlsx', href: 'Sablon-Doldur.dc.html', status: 'Onay bekliyor', badgeStyle: B + 'color:#9A6B12;background:#FBF1DE;' }
     ];
     const sources = [
       { ref: 1, title: 'Yillik_Raporlama_Talebi_Commerzbank.eml', href: 'Mail-Talep-Detay.dc.html' },
       { ref: 2, title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf · s.1 · v1 · GÜNCEL', href: K },
-      { ref: 3, title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx · Ödeme Takvimi!B12:D14', href: X },
+      { ref: 3, title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx · Ödeme Takvimi!B13:F13 (10/24 · 14.07.2026)', href: X },
       { ref: 4, title: 'Yesilova_RES_Sigorta_Policesi.pdf · s.1', href: K },
-      { ref: 5, title: 'Annex_F_Yesilova_2026.xlsx (doldurulan şablon)', href: 'Sablon-Doldur.dc.html' }
+      { ref: 5, title: 'Annex_F_Yesilova_2025.xlsx (doldurulan şablon)', href: 'Sablon-Doldur.dc.html' }
     ];
     return {
       docs: docs,

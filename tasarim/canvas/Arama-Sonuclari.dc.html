@@ -98,7 +98,7 @@ class Component extends DCLogic {
       { title: 'Commerzbank_Annex_F_Taslak.xlsx', meta: 'Excel · Raporlama · 25.09.2026', href: X, depts: ['finans'] },
       { title: 'Boztepe_RES_Sigorta_Policesi.pdf', meta: 'Sigorta poliçesi · 14.09.2026 · v1', current: true, href: K, depts: ['finans'] },
       { title: 'Karatepe_RES_CED_Raporu_2026.pdf', meta: 'ÇED raporu · Bakanlık · 18.09.2026 · v1', current: true, href: C, depts: ['enerji', 'hukuk'] },
-      { title: 'Karatepe_RES_Bakim_Sozlesmesi.pdf', meta: 'Bakım sözleşmesi · 03.05.2023 · v1', current: true, href: K, depts: ['enerji'] },
+      { title: 'Karatepe_RES_Bakim_Sozlesmesi.pdf', meta: 'Bakım sözleşmesi · Enercon Servis Türkiye · S-25-007 · v1', current: true, href: K, depts: ['enerji'] },
       { title: 'T07_Ariza_Raporu_2609.pdf', meta: 'Arıza raporu · Karatepe RES · 26.09.2026', current: true, href: C, depts: ['enerji'] },
       { title: 'Boztepe_RES_Dava_Dosyasi.pdf', meta: 'Dava dosyası · 02.09.2026 · v4', current: true, href: 'Dava-Gecmisi.dc.html', depts: ['hukuk'] }
     ];
@@ -112,6 +112,7 @@ class Component extends DCLogic {
       { title: 'Demirci RES', meta: 'Geliştirme · 13 belge' }
     ];
     const PEOPLE = [
+      { title: 'Levent Aksoy', meta: 'Genel Müdür · Yönetim', initials: 'LA', color: '#9A6B12' },
       { title: 'Kaan Turhan', meta: 'Proje Finans Müdürü · Proje Finans', initials: 'KT', color: '#2FA968' },
       { title: 'Oğuz Tekin', meta: 'Proje Finans Uzmanı · Proje Finans', initials: 'OT', color: '#0891B2' },
       { title: 'Elif Şahin', meta: 'Mali İşler Müdürü · Mali İşler', initials: 'EŞ', color: '#DB2777' },
@@ -119,14 +120,34 @@ class Component extends DCLogic {
       { title: 'Gökhan Erdem', meta: 'Finansal Muhasebe Uzmanı · Mali İşler — Finansal Muhasebe', initials: 'GE', color: '#C026D3' },
       { title: 'Ayşe Yılmaz', meta: 'Hukuk Müdürü · Hukuk', initials: 'AY', color: '#2563EB' },
       { title: 'Burak Çelik', meta: 'Avukat · Hukuk', initials: 'BÇ', color: '#4F46E5' },
-      { title: 'Deniz Kaya', meta: 'İdari İşler Müdürü · İdari İşler', initials: 'DK', color: '#7C3AED' },
+      { title: 'Deniz Kaya', meta: 'İdari İşler Sorumlusu · İdari İşler', initials: 'DK', color: '#7C3AED' },
       { title: 'Zeynep Koç', meta: 'İK Uzmanı · İK', initials: 'ZK', color: '#9333EA' },
       { title: 'Kerem Aydın', meta: 'Enerji Grubu Müdürü · Enerji', initials: 'KA', color: '#0EA5A4' },
       { title: 'Cem Aktaş', meta: 'Proje Geliştirme Uzmanı · Enerji — Proje Geliştirme', initials: 'CA', color: '#0F766E' },
-      { title: 'Onur Yıldız', meta: 'Saha Mühendisi · Enerji — İşletme ve Bakım', initials: 'OY', color: '#0D9488' },
-      { title: 'Hakan Tunç', meta: 'Şantiye Şefi · Enerji — İnşaat (EPC)', initials: 'HT', color: '#15803D' },
-      { title: 'Pınar Güler', meta: 'Piyasa Analisti · Enerji — Üretim / Piyasa', initials: 'PG', color: '#0369A1' },
-      { title: 'Levent Aksoy', meta: 'Genel Müdür · Tüm departmanlar', initials: 'LA', color: '#9A6B12' }
+      { title: 'Onur Yıldız', meta: 'O&M Mühendisi · Enerji — O&M (İşletme ve Bakım)', initials: 'OY', color: '#0D9488' },
+      { title: 'Hakan Tunç', meta: 'EPC Proje Mühendisi · Enerji — EPC (İnşaat)', initials: 'HT', color: '#15803D' },
+      { title: 'Pınar Güler', meta: 'Üretim/Piyasa Uzmanı · Enerji — Üretim/Piyasa', initials: 'PG', color: '#0369A1' },
+      { title: 'Murat Kılınç', meta: 'Saha Operasyon Müdürü · Enerji — Saha Operasyon', initials: 'MK', color: '#0E7490' },
+      { title: 'Emre Yalçın', meta: 'Saha Teknisyeni · 1. vardiya · Enerji — Saha Operasyon — Karatepe RES', initials: 'EY', color: '#0F766E' },
+      { title: 'Furkan Kurt', meta: 'Saha Teknisyeni · 1. vardiya · Enerji — Saha Operasyon — Karatepe RES', initials: 'FK', color: '#0D9488' },
+      { title: 'Volkan Özdemir', meta: 'Saha Teknisyeni · 2. vardiya · Enerji — Saha Operasyon — Karatepe RES', initials: 'VÖ', color: '#15803D' },
+      { title: 'Serkan Doğan', meta: 'Saha Teknisyeni · 2. vardiya · Enerji — Saha Operasyon — Karatepe RES', initials: 'SD', color: '#166534' },
+      { title: 'Uğur Şimşek', meta: 'Saha Teknisyeni · 1. vardiya · Enerji — Saha Operasyon — Boztepe RES', initials: 'UŞ', color: '#047857' },
+      { title: 'Barış Ateş', meta: 'Saha Teknisyeni · 1. vardiya · Enerji — Saha Operasyon — Boztepe RES', initials: 'BA', color: '#065F46' },
+      { title: 'Sinan Polat', meta: 'Saha Teknisyeni · 2. vardiya · Enerji — Saha Operasyon — Boztepe RES', initials: 'SP', color: '#0E7490' },
+      { title: 'Tolga Aslan', meta: 'Saha Teknisyeni · 2. vardiya · Enerji — Saha Operasyon — Boztepe RES', initials: 'TA', color: '#155E75' },
+      { title: 'Mert Aydoğan', meta: 'Saha Teknisyeni · 1. vardiya · Enerji — Saha Operasyon — Yeşilova RES', initials: 'MA', color: '#0F766E' },
+      { title: 'Okan Yavuz', meta: 'Saha Teknisyeni · 1. vardiya · Enerji — Saha Operasyon — Yeşilova RES', initials: 'OY', color: '#115E59' },
+      { title: 'Gürkan Taş', meta: 'Saha Teknisyeni · 2. vardiya · Enerji — Saha Operasyon — Yeşilova RES', initials: 'GT', color: '#15803D' },
+      { title: 'Erkan Bulut', meta: 'Saha Teknisyeni · 2. vardiya · Enerji — Saha Operasyon — Yeşilova RES', initials: 'EB', color: '#166534' },
+      { title: 'Ece Duman', meta: 'Saha Teknisyeni · 1. vardiya · Enerji — Saha Operasyon — Güneşalan GES', initials: 'ED', color: '#047857' },
+      { title: 'Yusuf Akın', meta: 'Saha Teknisyeni · 1. vardiya · Enerji — Saha Operasyon — Güneşalan GES', initials: 'YA', color: '#065F46' },
+      { title: 'Ramazan Er', meta: 'Saha Teknisyeni · 2. vardiya · Enerji — Saha Operasyon — Güneşalan GES', initials: 'RE', color: '#0E7490' },
+      { title: 'Nihat Çetin', meta: 'Saha Teknisyeni · 2. vardiya · Enerji — Saha Operasyon — Güneşalan GES', initials: 'NÇ', color: '#155E75' },
+      { title: 'Caner Doğru', meta: 'İnşaat Mühendisi · Enerji — EPC (İnşaat)', initials: 'CD', color: '#166534' },
+      { title: 'Melis Karaca', meta: 'Elektrik Mühendisi · Enerji — EPC (İnşaat)', initials: 'MK', color: '#4D7C0F' },
+      { title: 'Halil Öztürk', meta: 'EPC Teknikeri · Enerji — EPC (İnşaat)', initials: 'HÖ', color: '#065F46' },
+      { title: 'Semih Kaplan', meta: 'EPC Teknikeri · Enerji — EPC (İnşaat)', initials: 'SK', color: '#0E7490' }
     ];
     const COLORS = { PDF: '#B23A3A', XLSX: '#1E6B3E', DOCX: '#2563EB' };
     const ST = 'font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 6px;flex-shrink:0;';

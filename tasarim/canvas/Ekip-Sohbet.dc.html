@@ -335,7 +335,7 @@ class Component extends DCLogic {
 
     const PEOPLE = [
       { id: 'kaan', name: 'Kaan Turhan', role: 'Proje Finans Müdürü', dept: 'Proje Finans', top: 'Proje Finans', initials: 'KT', color: '#2FA968' },
-      { id: 'mehmet', name: 'Oğuz Tekin', role: 'Proje Finans Uzmanı', dept: 'Proje Finans', top: 'Proje Finans', initials: 'OT', color: '#0891B2' },
+      { id: 'oguz', name: 'Oğuz Tekin', role: 'Proje Finans Uzmanı', dept: 'Proje Finans', top: 'Proje Finans', initials: 'OT', color: '#0891B2' },
       { id: 'elif', name: 'Elif Şahin', role: 'Mali İşler Müdürü', dept: 'Mali İşler', top: 'Mali İşler', initials: 'EŞ', color: '#DB2777' },
       { id: 'selin', name: 'Selin Arslan', role: 'Muhasebe Uzmanı', dept: 'Mali İşler — Muhasebe', top: 'Mali İşler', initials: 'SA', color: '#BE185D' },
       { id: 'gokhan', name: 'Gökhan Erdem', role: 'Finansal Muhasebe Uzmanı', dept: 'Mali İşler — Finansal Muhasebe', top: 'Mali İşler', initials: 'GE', color: '#C026D3' },
@@ -345,9 +345,9 @@ class Component extends DCLogic {
       { id: 'zeynep', name: 'Zeynep Koç', role: 'İK Uzmanı', dept: 'İK', top: 'İK', initials: 'ZK', color: '#9333EA' },
       { id: 'kerem', name: 'Kerem Aydın', role: 'Enerji Grubu Müdürü', dept: 'Enerji', top: 'Enerji', initials: 'KA', color: '#0EA5A4' },
       { id: 'cem', name: 'Cem Aktaş', role: 'Proje Geliştirme Uzmanı', dept: 'Enerji — Proje Geliştirme', top: 'Enerji', initials: 'CA', color: '#0F766E' },
-      { id: 'onur', name: 'Onur Yıldız', role: 'O&M Mühendisi', dept: 'Enerji — İşletme ve Bakım', top: 'Enerji', initials: 'OY', color: '#0D9488' },
-      { id: 'hakan', name: 'Hakan Tunç', role: 'EPC Proje Mühendisi', dept: 'Enerji — İnşaat (EPC)', top: 'Enerji', initials: 'HT', color: '#15803D' },
-      { id: 'pinar', name: 'Pınar Güler', role: 'Üretim/Piyasa Uzmanı', dept: 'Enerji — Üretim / Piyasa', top: 'Enerji', initials: 'PG', color: '#0369A1' },
+      { id: 'onur', name: 'Onur Yıldız', role: 'O&M Mühendisi', dept: 'Enerji — O&M (İşletme ve Bakım)', top: 'Enerji', initials: 'OY', color: '#0D9488' },
+      { id: 'hakan', name: 'Hakan Tunç', role: 'EPC Proje Mühendisi', dept: 'Enerji — EPC (İnşaat)', top: 'Enerji', initials: 'HT', color: '#15803D' },
+      { id: 'pinar', name: 'Pınar Güler', role: 'Üretim/Piyasa Uzmanı', dept: 'Enerji — Üretim/Piyasa', top: 'Enerji', initials: 'PG', color: '#0369A1' },
       { id: 'murat', name: 'Murat Kılınç', role: 'Saha Operasyon Müdürü', dept: 'Enerji — Saha Operasyon', top: 'Enerji', initials: 'MK', color: '#0E7490' },
       { id: 'emre', name: 'Emre Yalçın', role: 'Saha Teknisyeni · 1. vardiya', dept: 'Enerji — Saha Operasyon — Karatepe RES', top: 'Enerji', initials: 'EY', color: '#0F766E' },
       { id: 'furkan', name: 'Furkan Kurt', role: 'Saha Teknisyeni · 1. vardiya', dept: 'Enerji — Saha Operasyon — Karatepe RES', top: 'Enerji', initials: 'FK', color: '#0D9488' },
@@ -358,18 +358,18 @@ class Component extends DCLogic {
       { id: 'sinan', name: 'Sinan Polat', role: 'Saha Teknisyeni · 2. vardiya', dept: 'Enerji — Saha Operasyon — Boztepe RES', top: 'Enerji', initials: 'SP', color: '#0E7490' },
       { id: 'tolga', name: 'Tolga Aslan', role: 'Saha Teknisyeni · 2. vardiya', dept: 'Enerji — Saha Operasyon — Boztepe RES', top: 'Enerji', initials: 'TA', color: '#155E75' },
       { id: 'mert', name: 'Mert Aydoğan', role: 'Saha Teknisyeni · 1. vardiya', dept: 'Enerji — Saha Operasyon — Yeşilova RES', top: 'Enerji', initials: 'MA', color: '#0F766E' },
-      { id: 'okan', name: 'Okan Yavuz', role: 'Saha Teknisyeni · 1. vardiya', dept: 'Enerji — Saha Operasyon — Yeşilova RES', top: 'Enerji', initials: 'OY', color: '#0D9488' },
+      { id: 'okan', name: 'Okan Yavuz', role: 'Saha Teknisyeni · 1. vardiya', dept: 'Enerji — Saha Operasyon — Yeşilova RES', top: 'Enerji', initials: 'OY', color: '#115E59' },
       { id: 'gurkan', name: 'Gürkan Taş', role: 'Saha Teknisyeni · 2. vardiya', dept: 'Enerji — Saha Operasyon — Yeşilova RES', top: 'Enerji', initials: 'GT', color: '#15803D' },
       { id: 'erkan', name: 'Erkan Bulut', role: 'Saha Teknisyeni · 2. vardiya', dept: 'Enerji — Saha Operasyon — Yeşilova RES', top: 'Enerji', initials: 'EB', color: '#166534' },
       { id: 'ece', name: 'Ece Duman', role: 'Saha Teknisyeni · 1. vardiya', dept: 'Enerji — Saha Operasyon — Güneşalan GES', top: 'Enerji', initials: 'ED', color: '#047857' },
       { id: 'yusuf', name: 'Yusuf Akın', role: 'Saha Teknisyeni · 1. vardiya', dept: 'Enerji — Saha Operasyon — Güneşalan GES', top: 'Enerji', initials: 'YA', color: '#065F46' },
       { id: 'ramazan', name: 'Ramazan Er', role: 'Saha Teknisyeni · 2. vardiya', dept: 'Enerji — Saha Operasyon — Güneşalan GES', top: 'Enerji', initials: 'RE', color: '#0E7490' },
       { id: 'nihat', name: 'Nihat Çetin', role: 'Saha Teknisyeni · 2. vardiya', dept: 'Enerji — Saha Operasyon — Güneşalan GES', top: 'Enerji', initials: 'NÇ', color: '#155E75' },
-      { id: 'caner', name: 'Caner Doğru', role: 'İnşaat Mühendisi', dept: 'Enerji — İnşaat (EPC)', top: 'Enerji', initials: 'CD', color: '#166534' },
-      { id: 'melis', name: 'Melis Karaca', role: 'Elektrik Mühendisi', dept: 'Enerji — İnşaat (EPC)', top: 'Enerji', initials: 'MK', color: '#047857' },
-      { id: 'halil', name: 'Halil Öztürk', role: 'EPC Teknikeri', dept: 'Enerji — İnşaat (EPC)', top: 'Enerji', initials: 'HÖ', color: '#065F46' },
-      { id: 'semih', name: 'Semih Kaplan', role: 'EPC Teknikeri', dept: 'Enerji — İnşaat (EPC)', top: 'Enerji', initials: 'SK', color: '#0E7490' },
-      { id: 'gm', name: 'Levent Aksoy', role: 'Genel Müdür', dept: 'Tüm departmanlar', top: null, initials: 'LA', color: '#9A6B12' }
+      { id: 'caner', name: 'Caner Doğru', role: 'İnşaat Mühendisi', dept: 'Enerji — EPC (İnşaat)', top: 'Enerji', initials: 'CD', color: '#166534' },
+      { id: 'melis', name: 'Melis Karaca', role: 'Elektrik Mühendisi', dept: 'Enerji — EPC (İnşaat)', top: 'Enerji', initials: 'MK', color: '#4D7C0F' },
+      { id: 'halil', name: 'Halil Öztürk', role: 'EPC Teknikeri', dept: 'Enerji — EPC (İnşaat)', top: 'Enerji', initials: 'HÖ', color: '#065F46' },
+      { id: 'semih', name: 'Semih Kaplan', role: 'EPC Teknikeri', dept: 'Enerji — EPC (İnşaat)', top: 'Enerji', initials: 'SK', color: '#0E7490' },
+      { id: 'gm', name: 'Levent Aksoy', role: 'Genel Müdür', dept: 'Yönetim', top: null, initials: 'LA', color: '#9A6B12' }
     ];
     const byId = {};
     PEOPLE.forEach(function (p) { byId[p.id] = p; });
@@ -384,25 +384,25 @@ class Component extends DCLogic {
         { by: 'kaan', file: { name: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', meta: 'v2 · 12.01.2024 · GÜNCEL', href: KARATEPE }, time: '10:15' },
         { by: 'ayse', text: 'Teşekkürler, 12.1 fesih maddesine bakacağım.', time: '10:24' }
       ] },
-      { id: 'c3', title: 'Karatepe Refinansman', members: ['kaan', 'elif', 'ayse', 'mehmet'], ai: true, time: '09:40', unread: { kaan: 2, ayse: 2 }, messages: [
+      { id: 'c3', title: 'Karatepe Refinansman', members: ['kaan', 'elif', 'ayse', 'oguz'], ai: true, time: '09:40', unread: { kaan: 2, ayse: 2 }, messages: [
         { system: 'Kaan Turhan grubu oluşturdu' },
         { by: 'elif', text: 'Refinansman için bankaya gidecek evrak listesi hazır mı?', time: '09:31' },
-        { by: 'mehmet', text: '@Balbal sözleşmeye göre bankaya hangi belgeleri sunmamız gerekiyor?', time: '09:38' },
+        { by: 'oguz', text: '@Balbal sözleşmeye göre bankaya hangi belgeleri sunmamız gerekiyor?', time: '09:38' },
         { by: 'ai', text: 'Sözleşmenin 15.2 maddesine göre: denetlenmiş finansal tablolar, güncel sigorta poliçeleri, teminat değerleme raporu ve yönetim kurulu kararı.', file: { name: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', meta: 'Kaynak · s.17 · v2 · GÜNCEL', href: KARATEPE }, time: '09:38' },
         { by: 'elif', text: 'Finansal tablolar bizde hazır, bu hafta paylaşırım.', time: '09:40' }
       ] },
       { id: 'c4', request: { from: 'Enerji', to: 'Proje Finans', subject: 'Güneşalan GES bakım bütçesi aşımı', due: '02.10.2026', status: 'Cevap bekliyor' }, members: ['kerem', 'kaan'], time: 'Dün', unread: { kaan: 1 }, messages: [
         { system: 'Enerji departmanı görüş talebi açtı · kurumsal hafızaya kaydedilir' },
-        { by: 'kerem', text: 'Güneşalan GES bakım maliyeti yıllık bütçeyi aştı. Kredi sözleşmesindeki bakım rezerv hesabı açısından bir etkisi var mı?', time: 'Dün 16:05' },
+        { by: 'kerem', text: 'Güneşalan GES bakım maliyeti yıllık bütçeyi aştı. Güneşalan özkaynakla finanse edildi (kredisi yok); aşım nakit akış ve bütçe revizyonunda nasıl yansıtılmalı?', time: 'Dün 16:05' },
         { by: 'kerem', file: { name: 'Gunesalan_GES_Bakim_Maliyet_2026.xlsx', meta: 'Excel · 26.09.2026', href: 'Excel-Onizleme.dc.html' }, time: 'Dün 16:06' }
       ] },
       { id: 'c2', members: ['kaan', 'gm'], time: 'Dün', messages: [
         { by: 'gm', text: 'Karatepe refinansman sunumu yönetim kurulu toplantısına yetişir mi?', time: 'Dün 14:20' },
         { by: 'kaan', text: 'Evet, banka term sheet karşılaştırması cuma günü hazır olacak.', time: 'Dün 14:32' }
       ] },
-      { id: 'c7', members: ['kaan', 'mehmet'], time: '25.09', messages: [
-        { by: 'mehmet', text: 'Commerzbank yıllık raporlaması için Annex F taslağı hazır.', time: '25.09 11:10' },
-        { by: 'mehmet', file: { name: 'Commerzbank_Annex_F_Taslak.xlsx', meta: 'Excel · 25.09.2026', href: 'Excel-Onizleme.dc.html' }, time: '25.09 11:10' }
+      { id: 'c7', members: ['kaan', 'oguz'], time: '25.09', messages: [
+        { by: 'oguz', text: 'Commerzbank yıllık raporlaması için Annex F taslağı hazır.', time: '25.09 11:10' },
+        { by: 'oguz', file: { name: 'Commerzbank_Annex_F_Taslak.xlsx', meta: 'Excel · 25.09.2026', href: 'Excel-Onizleme.dc.html' }, time: '25.09 11:10' }
       ] },
       { id: 'c5', members: ['ayse', 'burak'], time: '09:05', unread: { ayse: 1 }, messages: [
         { by: 'burak', text: 'Boztepe davasında bilirkişi raporu dosyaya girdi, sisteme yükledim.', time: '09:05' },

@@ -16,7 +16,7 @@ body{margin:0}
 
 <div style="width:340px;height:520px;box-sizing:border-box;display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;box-shadow:0 16px 40px rgba(19,33,25,0.22);overflow:hidden;font-family:'IBM Plex Sans',sans-serif;color:#132119;">
   <div style="display:flex;align-items:center;gap:12px;padding:18px 18px 14px;border-bottom:1px solid #E9EDEA;">
-    <div style="width:46px;height:46px;border-radius:50%;background:{{color}};display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;color:#0E241D;flex-shrink:0;">{{initials}}</div>
+    <div style="width:46px;height:46px;border-radius:50%;background:{{color}};display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;color:#FFFFFF;flex-shrink:0;">{{initials}}</div>
     <div style="flex:1;min-width:0;">
       <div style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;">{{fullName}}</div>
       <div style="font-size:12.5px;color:#5B6B60;">{{title}}</div>
@@ -65,17 +65,19 @@ body{margin:0}
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"dept":{"editor":"enum","options":["finans","hukuk","enerji","ik","mali","muhasebe"],"default":"finans"},"onClose":{"editor":null},"$preview":{"width":340,"height":520}}'>
+<script type="text/x-dc" data-dc-script data-props='{"dept":{"editor":"enum","options":["finans","hukuk","enerji","epc","ik","idari","mali","muhasebe"],"default":"finans"},"onClose":{"editor":null},"$preview":{"width":340,"height":520}}'>
 class Component extends DCLogic {
   renderVals() {
     const dept = this.props.dept || 'finans';
     const U = {
       finans: { fullName: 'Kaan Turhan', title: 'Proje Finans Müdürü', username: 'kaan.turhan', initials: 'KT', color: '#2FA968', deptName: 'Proje Finans' },
-      hukuk: { fullName: 'Ayşe Yılmaz', title: 'Hukuk Müdürü', username: 'ayse.yilmaz', initials: 'AY', color: '#7FA8F5', deptName: 'Hukuk' },
-      enerji: { fullName: 'Kerem Aydın', title: 'Enerji Grubu Müdürü', username: 'kerem.aydin', initials: 'KA', color: '#5FD4D3', deptName: 'Enerji' },
-      mali: { fullName: 'Gökhan Erdem', title: 'Finansal Muhasebe Uzmanı', username: 'gokhan.erdem', initials: 'GE', color: '#E7A6F0', deptName: 'Mali İşler · Finansal Muhasebe' },
-      muhasebe: { fullName: 'Selin Arslan', title: 'Muhasebe Uzmanı', username: 'selin.arslan', initials: 'SA', color: '#0EA5A4', deptName: 'Mali İşler · Muhasebe' },
-      ik: { fullName: 'Zeynep Koç', title: 'İK Uzmanı · Departman yöneticisi', username: 'zeynep.koc', initials: 'ZK', color: '#D97706', deptName: 'İK' }
+      hukuk: { fullName: 'Ayşe Yılmaz', title: 'Hukuk Müdürü', username: 'ayse.yilmaz', initials: 'AY', color: '#2563EB', deptName: 'Hukuk' },
+      enerji: { fullName: 'Kerem Aydın', title: 'Enerji Grubu Müdürü', username: 'kerem.aydin', initials: 'KA', color: '#0EA5A4', deptName: 'Enerji' },
+      epc: { fullName: 'Hakan Tunç', title: 'EPC Proje Mühendisi', username: 'hakan.tunc', initials: 'HT', color: '#15803D', deptName: 'Enerji · EPC (İnşaat)' },
+      mali: { fullName: 'Gökhan Erdem', title: 'Finansal Muhasebe Uzmanı', username: 'gokhan.erdem', initials: 'GE', color: '#C026D3', deptName: 'Mali İşler · Finansal Muhasebe' },
+      muhasebe: { fullName: 'Selin Arslan', title: 'Muhasebe Uzmanı', username: 'selin.arslan', initials: 'SA', color: '#BE185D', deptName: 'Mali İşler · Muhasebe' },
+      idari: { fullName: 'Deniz Kaya', title: 'İdari İşler Sorumlusu', username: 'deniz.kaya', initials: 'DK', color: '#7C3AED', deptName: 'İdari İşler' },
+      ik: { fullName: 'Zeynep Koç', title: 'İK Uzmanı · Departman yöneticisi', username: 'zeynep.koc', initials: 'ZK', color: '#9333EA', deptName: 'İK' }
     };
     const u = U[dept] || U.finans;
     return Object.assign({}, u, { onClose: this.props.onClose || function () {} });

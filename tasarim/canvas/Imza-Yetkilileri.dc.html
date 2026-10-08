@@ -298,7 +298,7 @@ class Component extends DCLogic {
     const st = this.state || {};
     const mod = this.props.mod || 'duzenle';
     const accent = this.props.accent || '#2FA968';
-    const TODAY = '07.10.2026';
+    const TODAY = '06.10.2026';
     const toDate = function (s) { const m = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(String(s || '').trim()); return m ? new Date(+m[3], +m[2] - 1, +m[1]) : null; };
     const dayDiff = function (s) { const a = toDate(s), b = toDate(TODAY); return a && b ? Math.round((a - b) / 86400000) : null; };
 
@@ -310,7 +310,7 @@ class Component extends DCLogic {
     const KT = { n: 'Kaan Turhan', pos: 'Proje Finans Müdürü', grp: 'B', sekil: 'Müşterek', lim: 'A ile birlikte · sınırsız', kap: 'Kredi ve teminat işlemleri' };
     const DATA0 = {
       xyz: { unvan: 'XYZ Enerji A.Ş.', short: 'Genel Merkez', doc: 'XYZ_Enerji_Imza_Sirkuleri_2025.pdf', date: '12.03.2025', dayanak: 'YK kararı 03.03.2025 · TTSG 12.03.2025', noter: 'Ankara 12. Noterliği · 14.03.2025 · yevmiye 08812', yk: '31.03.2028', giren: 'Burak Çelik (Hukuk)', grpA: GA, grpB: GB,
-        signers: [{ n: 'Ahmet Öztürk', pos: 'YK Başkanı', grp: 'A', sekil: 'Münferit', lim: 'Sınırsız', kap: 'Tüm işlemler' }, LA, ES, KT],
+        signers: [{ n: 'Ahmet Karaman', pos: 'YK Başkanı', grp: 'A', sekil: 'Münferit', lim: 'Sınırsız', kap: 'Tüm işlemler' }, LA, ES, KT],
         poa: [{ n: 'Gökhan Erdem', kapsam: 'Banka şubelerinde evrak teslim ve tebellüğ', yapamaz: 'Ödeme talimatı imzalayamaz, para çekemez', bas: '02.01.2026', bitis: '31.12.2026', doc: 'Vekaletname_GErdem_2026.pdf', noter: 'Ankara 12. Noterliği · yevmiye 00214', ahzu: 'Yok', tevkil: 'Yok' }],
         prev: [{ doc: 'XYZ_Enerji_Imza_Sirkuleri_2023.pdf', date: '18.04.2023' }] },
       kt: { unvan: 'Karatepe RES Enerji Üretim A.Ş.', short: 'Karatepe RES', doc: 'Karatepe_RES_Imza_Sirkuleri_2025.pdf', date: '12.03.2025', dayanak: 'YK kararı 03.03.2025 · TTSG 12.03.2025', noter: 'Ankara 12. Noterliği · 14.03.2025 · yevmiye 08815', yk: '31.03.2027', giren: 'Burak Çelik (Hukuk)', grpA: GA, grpB: GB,
@@ -327,13 +327,17 @@ class Component extends DCLogic {
         prev: [] },
       gn: { unvan: 'Güneşalan GES Enerji Üretim A.Ş.', short: 'Güneşalan GES', doc: 'Gunesalan_GES_Imza_Sirkuleri_2025.pdf', date: '12.03.2025', dayanak: 'YK kararı 03.03.2025 · TTSG 12.03.2025', noter: 'Ankara 12. Noterliği · 14.03.2025 · yevmiye 08818', yk: '31.03.2028', giren: 'Selin Arslan (Muhasebe)', grpA: GA, grpB: GB,
         signers: [LA, ES, KT], poa: [], prev: [] },
-      kz: { unvan: 'Kızılova Enerji A.Ş.', short: 'Kızılova RES (şantiye)', doc: 'Kizilova_Imza_Sirkuleri_2026.pdf', date: '15.09.2026', dayanak: 'YK kararı 08.09.2026 · TTSG 15.09.2026', noter: 'Ankara 12. Noterliği · 16.09.2026 · yevmiye 21190', yk: '08.09.2029', giren: 'Burak Çelik (Hukuk)', grpA: GA, grpB: GB,
-        signers: [LA, ES, KT, { n: 'Kerem Aydın', pos: 'Enerji Grubu Müdürü', grp: 'B', sekil: 'Müşterek', lim: 'A ile birlikte · 2.000.000 TL’ye kadar', kap: 'EPC ve şantiye sözleşmeleri' }],
+      kz: { unvan: 'Kızılova RES Enerji Üretim A.Ş.', short: 'Kızılova RES (saha)', doc: 'Kizilova_Imza_Sirkuleri_2026.pdf', date: '15.09.2026', dayanak: 'YK kararı 08.09.2026 · TTSG 15.09.2026', noter: 'Ankara 12. Noterliği · 16.09.2026 · yevmiye 21190', yk: '08.09.2029', giren: 'Burak Çelik (Hukuk)', grpA: GA, grpB: GB,
+        signers: [LA, ES, KT, { n: 'Kerem Aydın', pos: 'Enerji Grubu Müdürü', grp: 'B', sekil: 'Müşterek', lim: 'A ile birlikte · 2.000.000 TL’ye kadar', kap: 'EPC ve saha sözleşmeleri' }],
         poa: [{ n: 'Hakan Tunç', kapsam: 'Belediye ve TEİAŞ nezdinde başvuru, tebellüğ', yapamaz: 'Sözleşme ve taahhüt imzalayamaz', bas: '16.09.2026', bitis: '15.03.2027', doc: 'Vekaletname_HTunc_Kamu.pdf', noter: 'Ankara 12. Noterliği · yevmiye 21204', ahzu: 'Yok', tevkil: 'Yok' }],
-        prev: [{ doc: 'Kizilova_Imza_Sirkuleri_2025.pdf', date: '12.03.2025' }] }
+        prev: [{ doc: 'Kizilova_Imza_Sirkuleri_2025.pdf', date: '12.03.2025' }] },
+      ak: { unvan: 'Akyar GES Enerji Üretim A.Ş.', short: 'Akyar GES', doc: 'Akyar_GES_Imza_Sirkuleri_2025.pdf', date: '12.03.2025', dayanak: 'YK kararı 03.03.2025 · TTSG 12.03.2025', noter: 'Ankara 12. Noterliği · 14.03.2025 · yevmiye 08819', yk: '31.03.2028', giren: 'Burak Çelik (Hukuk)', grpA: GA, grpB: GB,
+        signers: [LA, ES, KT], poa: [], prev: [] },
+      dm: { unvan: 'Demirci RES Enerji Üretim A.Ş.', short: 'Demirci RES', doc: 'Demirci_RES_Imza_Sirkuleri_2025.pdf', date: '12.03.2025', dayanak: 'YK kararı 03.03.2025 · TTSG 12.03.2025', noter: 'Ankara 12. Noterliği · 14.03.2025 · yevmiye 08820', yk: '31.03.2028', giren: 'Burak Çelik (Hukuk)', grpA: GA, grpB: GB,
+        signers: [LA, ES, KT], poa: [], prev: [] }
     };
-    const ORDER = ['xyz', 'kt', 'bz', 'ys', 'gn', 'kz'];
-    const PEOPLE = ['Levent Aksoy', 'Elif Şahin', 'Kaan Turhan', 'Oğuz Tekin', 'Gökhan Erdem', 'Selin Arslan', 'Ayşe Yılmaz', 'Burak Çelik', 'Deniz Kaya', 'Zeynep Koç', 'Kerem Aydın', 'Cem Aktaş', 'Onur Yıldız', 'Hakan Tunç', 'Pınar Güler'];
+    const ORDER = ['xyz', 'kt', 'bz', 'ys', 'gn', 'kz', 'ak', 'dm'];
+    const PEOPLE = ['Levent Aksoy', 'Elif Şahin', 'Kaan Turhan', 'Oğuz Tekin', 'Gökhan Erdem', 'Selin Arslan', 'Ayşe Yılmaz', 'Burak Çelik', 'Deniz Kaya', 'Zeynep Koç', 'Kerem Aydın', 'Cem Aktaş', 'Onur Yıldız', 'Hakan Tunç', 'Pınar Güler', 'Murat Kılınç', 'Caner Doğru', 'Melis Karaca', 'Halil Öztürk', 'Semih Kaplan'];
 
     const DATA = st.data || DATA0;
     const spvId = st.spv || this.props.spv || 'xyz';

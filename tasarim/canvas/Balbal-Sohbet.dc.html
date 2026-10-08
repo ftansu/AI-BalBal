@@ -290,8 +290,9 @@ class Component extends DCLogic {
     const KARATEPE = 'Sozlesme-Onizleme.dc.html';
     const EPIAS = 'https://seffaflik.epias.com.tr';
     const UNANSWERED = 'Mevcut şirket kaynaklarında bu soruyu güvenilir şekilde cevaplamak için yeterli bilgi bulamadım.';
-    const CALC_INPUTS = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl'].map(function (mn, i) {
-      return { period: mn + ' 2026', item: 'Taksit (anapara + faiz) · dekont eşleşti', amount: '$116.240', src: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx · D' + (6 + i) + ' · Dekont_2026-' + (i < 9 ? '0' : '') + (i + 1) + '.pdf', href: 'Excel-Onizleme.dc.html' };
+    // Yeşilova 2023-YS · 3 aylık, her ayın 14'ü · 2026'da ödenen #8–#10 (anapara 98.000 + faiz). Satır no = taksit no + 3.
+    const CALC_INPUTS = [['8/24 · 14.01.2026', '$120.964', 11, '01'], ['9/24 · 14.04.2026', '$119.144', 12, '04'], ['10/24 · 14.07.2026', '$118.042', 13, '07']].map(function (r) {
+      return { period: r[0], item: 'Taksit (anapara $98.000 + faiz) · dekont eşleşti', amount: r[1], src: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx · E' + r[2] + ' · Dekont_Commerzbank_2026-' + r[3] + '.pdf', href: 'Excel-Onizleme.dc.html' };
     });
 
     const DATA = {
@@ -305,7 +306,7 @@ class Component extends DCLogic {
               head: 'Şart', cols: ['Karatepe RES', 'Yeşilova RES'],
               rows: [
                 { label: 'Banka', cells: [{ value: 'Garanti BBVA', src: '[1] s.1' }, { value: 'Commerzbank AG', src: '[2] s.1' }] },
-                { label: 'Faiz', cells: [{ value: 'SOFR + %3,25', src: '[3] s.2' }, { value: 'EURIBOR + %2,90', src: '[2] s.5' }] },
+                { label: 'Faiz', cells: [{ value: 'Term SOFR + %2,90', src: '[3] s.2' }, { value: 'Term SOFR + %1,50', src: '[2] s.5' }] },
                 { label: 'Min. DSCR', cells: [{ value: '1,20x', src: '[3] s.2' }, { value: '1,15x', src: '[2] s.8' }] },
                 { label: 'Erken ödeme', cells: [{ value: 'İlk 24 ay %2', src: '[1] s.4' }, { value: 'Yok', src: '[2] s.6' }] }
               ] },
@@ -315,52 +316,53 @@ class Component extends DCLogic {
               { kind: 'doc', title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 1, date: '03.06.2023', version: 1, current: true },
               { kind: 'doc', title: 'Karatepe_RES_Kredi_Tadil_2.pdf', href: KARATEPE, page: 2, date: '15.03.2025', version: 1, current: true }
             ] },
-            { from: 'user', text: 'Boztepe\'nin kredi tutarı ne?' },
-            { from: 'ai', type: 'CONFLICT', text: 'İki yetkili kaynak farklı tutar veriyor; birini seçmedim:\nKredi sözleşmesi — $14.000.000\nÖdeme planı (Özet sayfası) — $13.600.000\nFark 400.000 USD. Hangisinin geçerli olduğunu belgelerden tespit edemiyorum; Mali İşler veya bankayla teyit gerekebilir.', sources: [
-              { kind: 'doc', title: 'Boztepe_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 3, date: '20.02.2024', version: 1, current: true },
-              { kind: 'excel', title: 'Boztepe_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Özet', range: 'B4' }
+            { from: 'user', text: 'Karatepe\'nin kredi tutarı ne?' },
+            { from: 'ai', type: 'CONFLICT', text: 'İki yetkili kaynak farklı tutar veriyor; birini seçmedim:\nKredi sözleşmesi (konsolide metin, 12.01.2024) — $14.000.000\nÖdeme planı (Özet sayfası) — $13.600.000\nFark 400.000 USD. Hangisinin geçerli olduğunu belgelerden tespit edemiyorum; Mali İşler veya Garanti BBVA ile teyit gerekebilir.', sources: [
+              { kind: 'doc', title: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 3, date: '12.01.2024', version: 2, current: true },
+              { kind: 'excel', title: 'Karatepe_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Özet', range: 'B4' }
             ] }
           ] },
           { id: 'u2', title: 'Yeşilova 2026 ödenen taksitler', when: 'Bugün 12:05', messages: [
             { from: 'user', text: 'Yeşilova için 2026\'da şimdiye kadar ne kadar taksit ödedik?' },
-            { from: 'ai', type: 'CALC', text: 'Ocak–Eylül 2026 arasında dekontla doğrulanan 9 taksit ödendi. Ekim–Aralık taksitleri henüz gerçekleşmediği için dahil etmedim.', calc: { label: 'Toplam ödenen (Oca–Eyl 2026)', result: '$1.046.160', method: '9 × $116.240 · ödeme planı satırları banka dekontlarıyla eşleştirildi · Toplam işlemi · hesaplama katmanı', inputs: CALC_INPUTS, note: 'Her taksit, ödeme planındaki tutar ile banka dekontundaki tutarın eşleşmesiyle gerçekleşmiş sayıldı. Ekim–Aralık taksitleri planda var, ödenmedi; dahil edilmedi.' }, sources: [
-              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'D6:D14' },
-              { kind: 'doc', title: 'Dekont_Commerzbank_2026-01…09.pdf (9 belge)', href: KARATEPE, page: 1, date: '2026', version: 1, current: true }
+            { from: 'ai', type: 'CALC', text: 'Kredi 3 aylık ödeniyor (her ayın 14\'ü). 2026\'da dekontla doğrulanan 3 taksit ödendi: #8 (14.01), #9 (14.04), #10 (14.07). #11 (14.10.2026) henüz gerçekleşmediği için dahil etmedim.', calc: { label: 'Toplam ödenen (2026, #8–#10)', result: '$358.150', method: '$120.964 + $119.144 + $118.042 · anapara 3 × $98.000 = $294.000, faiz $64.150 · ödeme planı satırları banka dekontlarıyla eşleştirildi · Toplam işlemi · hesaplama katmanı', inputs: CALC_INPUTS, note: 'Her taksit, ödeme planındaki tutar ile banka dekontundaki tutarın eşleşmesiyle gerçekleşmiş sayıldı. #11 (14.10.2026) planda var, henüz ödenmedi; dahil edilmedi.' }, sources: [
+              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'C11:E13' },
+              { kind: 'doc', title: 'Dekont_Commerzbank_2026-01/04/07.pdf (3 belge)', href: KARATEPE, page: 1, date: '2026', version: 1, current: true }
             ] },
             { from: 'user', text: 'Yıl sonunda toplam ne kadar ödemiş olacağız?' },
-            { from: 'ai', type: 'LIMIT', text: 'Yıl sonu toplamı bir tahmin olur; gerçekleşmemiş veriyle hesap yapmıyorum. Yapabildiğim:\nGerçekleşen (Oca–Eyl): $1.046.160\nPlanda yazan kalan 3 taksit (Eki–Ara): $348.720 — bu "planlanan" tutardır, ödenmiş değildir.\nİkisini toplamıyorum; isterseniz planlanan taksitleri ayrı tablo olarak verebilirim.', sources: [
-              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'D15:D17' }
+            { from: 'ai', type: 'LIMIT', text: 'Yıl sonu toplamı bir tahmin olur; gerçekleşmemiş veriyle hesap yapmıyorum. Yapabildiğim:\nGerçekleşen (#8–#10): $358.150\nPlanda yazan kalan 1 taksit (#11, 14.10.2026): $116.240 — bu "planlanan" tutardır, ödenmiş değildir. Banka bildirimi aynı taksit için $116.912 diyor; fark faiz satırında.\nİkisini toplamıyorum; isterseniz planlanan taksiti ayrı gösterebilirim.', sources: [
+              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'C14:E14' }
             ] }
           ] },
           { id: 'u3', title: 'Annex F formu', when: 'Bugün 10:10', messages: [
             { from: 'user', text: 'Commerzbank Annex F formunu doldur.' },
-            { from: 'ai', type: 'TEMPLATE', text: 'Şirket şablonu "Commerzbank Annex F — Yıllık Raporlama"yı Yeşilova RES için 01.10.2025–30.09.2026 dönemi gerçekleşen verileriyle doldurdum.\n9 alandan 6\'sı kesin veri; 2 alanda eminliğim %80\'in altında (DSCR, sigorta poliçe no) — onayınız gerekiyor; 1 alan boş (teminat mektubu belgesi sistemde yok).\nDosya onayınızdan önce oluşturulmaz.', actions: [{ label: 'Formu incele ve onayla', href: 'Sablon-Doldur.dc.html' }, { label: 'Cevap yazısı taslağı', href: 'Yazi-Taslagi.dc.html' }], sources: [
+            { from: 'ai', type: 'TEMPLATE', text: 'Şirket şablonu "Commerzbank Annex F — Yıllık Raporlama"yı Yeşilova RES için 2025 raporlama yılı (01.01–31.12.2025) gerçekleşen verileriyle doldurdum.\n9 alandan 6\'sı kesin veri; 2 alanda eminliğim %80\'in altında (DSCR, sigorta poliçe no) — onayınız gerekiyor; 1 alan boş (teminat mektubu belgesi sistemde yok).\nDosya onayınızdan önce oluşturulmaz.', actions: [{ label: 'Formu incele ve onayla', href: 'Sablon-Doldur.dc.html' }, { label: 'Cevap yazısı taslağı', href: 'Yazi-Taslagi.dc.html' }], sources: [
               { kind: 'doc', title: 'Yillik_Raporlama_Talebi_Commerzbank.eml', href: 'Mail-Talep-Detay.dc.html', page: 1, date: '14.09.2026', version: 1, current: true },
-              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'C3:E14' }
+              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'C7:F10' }
             ] },
             { from: 'user', text: 'Bu konuda daha önce ne konuşulmuş?' },
-            { from: 'ai', type: 'MEMORY', text: 'Kurumsal hafızada "Yeşilova RES · Raporlama" konusunda 3 kayıt var; yorum eklemeden sıraladım:\n14.09.2026 — Commerzbank talebi (bayraklı mail)\n12.03.2026 — Geçen yılki Annex F dosyası (onaylı belge)\n18.03.2026 — Personel notu: "Banka, üretim verisini EPİAŞ kaynaklı istedi; şirket Excel\'i kabul edilmedi."', list: [{ label: 'Yeşilova RES · Raporlama — kurumsal hafıza', items: [
+            { from: 'ai', type: 'MEMORY', text: 'Kurumsal hafızada "Yeşilova RES · Raporlama" konusunda 3 kayıt var; yorum eklemeden sıraladım:\n14.09.2026 — Commerzbank talebi (bayraklı mail)\n18.03.2026 — Personel notu: "Banka, üretim verisini EPİAŞ kaynaklı istedi; şirket Excel\'i kabul edilmedi."\n12.10.2025 — Geçen yılki (2024 raporlama yılı) Annex F dosyası (onaylı belge)', list: [{ label: 'Yeşilova RES · Raporlama — kurumsal hafıza', items: [
               { lead: '14.09.26', title: 'Commerzbank yıllık raporlama talebi (bayraklı mail)', src: 'Yillik_Raporlama_Talebi_Commerzbank.eml', href: 'Mail-Talep-Detay.dc.html', badge: 'Belge', badgeStyle: 'color:#1E6B3E;background:#E7F3EB;' },
               { lead: '18.03.26', title: 'Personel notu: banka üretim verisini EPİAŞ kaynaklı istedi', src: 'Bilgi_Notu_AnnexF_2026.docx', href: KARATEPE, badge: 'Not', badgeStyle: 'color:#9A6B12;background:#FBF1DE;' },
-              { lead: '12.03.26', title: 'Geçen yılın Annex F dosyası (onaylı belge)', src: 'Annex_F_Yesilova_2025.xlsx', href: 'Excel-Onizleme.dc.html', badge: 'Belge', badgeStyle: 'color:#1E6B3E;background:#E7F3EB;' }
+              { lead: '12.10.25', title: 'Geçen yılın Annex F dosyası (2024 raporlama yılı · onaylı belge)', src: 'Annex_F_Yesilova_2024.xlsx', href: 'Excel-Onizleme.dc.html', badge: 'Belge', badgeStyle: 'color:#1E6B3E;background:#E7F3EB;' }
             ] }], actions: [{ label: 'Tam ekranda aç', full: true }], sources: [
-              { kind: 'doc', title: 'Annex_F_Yesilova_2025.xlsx', href: 'Excel-Onizleme.dc.html', page: 1, date: '12.03.2026', version: 1, current: false, supersededBy: 'Annex_F_Yesilova_2026.xlsx (hazırlanıyor)', supersededHref: 'Sablon-Doldur.dc.html' },
+              { kind: 'doc', title: 'Annex_F_Yesilova_2024.xlsx', href: 'Excel-Onizleme.dc.html', page: 1, date: '12.10.2025', version: 1, current: false, supersededBy: 'Annex_F_Yesilova_2025.xlsx (hazırlanıyor)', supersededHref: 'Sablon-Doldur.dc.html' },
               { kind: 'doc', title: 'Bilgi_Notu_AnnexF_2026.docx', href: KARATEPE, page: 1, date: '18.03.2026', version: 1, current: true }
             ] }
           ] },
           { id: 'u4', title: 'Yaklaşan son tarihler', when: 'Dün 17:20', messages: [
             { from: 'user', text: 'Önümüzdeki 3 ayda hangi son tarihler var?' },
-            { from: 'ai', type: 'LIST', text: 'Yetkili olduğunuz belgelerde yazan tarihleri sıraladım; belgede olmayan bir tarihi tahmin etmedim. Her proje ayrı:', list: [
+            { from: 'ai', type: 'LIST', text: 'Yetkili olduğunuz belgelerde yazan tarihleri sıraladım; belgede olmayan bir tarihi tahmin etmedim. Karatepe DSCR testi yıllık 30 Haziran\'da (2. Tadil md. 3); sıradaki test 30.06.2027, bu pencerenin dışında. Her proje ayrı:', list: [
               { label: 'Yeşilova RES', items: [
                 { lead: '14 Eki', leadColor: '#B23A3A', title: 'Commerzbank Ek-F belgeleri teslimi (14.09 + 30 gün)', src: 'Yillik_Raporlama_Talebi_Commerzbank.eml · Kredi Sözleşmesi s.22', href: 'Mail-Talep-Detay.dc.html', badge: '9 gün', badgeStyle: 'color:#7A2323;background:#FBE7E7;' },
-                { lead: '15 Oca', title: 'Teminat mektubu vade sonu', src: 'Yesilova_RES_Kredi_Sozlesmesi.pdf · s.12 · md. 11.4', href: KARATEPE, badge: '102 gün' }
+                { lead: '14 Oca', title: 'Kredi taksiti 12/24 vadesi', src: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx · Ödeme Takvimi · satır 15', href: 'Excel-Onizleme.dc.html', badge: '101 gün' }
               ] },
               { label: 'Boztepe RES', items: [
                 { lead: '31 Eki', leadColor: '#9A6B12', title: 'Ek-C 6 aylık raporlama dönemi', src: 'Boztepe_RES_Kredi_Sozlesmesi.pdf · s.18 · Ek-C', href: KARATEPE, badge: '26 gün', badgeStyle: 'color:#5E430C;background:#FBF1DE;' },
                 { lead: '10 Kas', leadColor: '#9A6B12', title: 'Sigorta poliçesi bitiş', src: 'Boztepe_RES_Sigorta_Policesi.pdf · s.1', href: KARATEPE, badge: '36 gün', badgeStyle: 'color:#5E430C;background:#FBF1DE;' }
               ] },
               { label: 'Karatepe RES', items: [
-                { lead: '31 Ara', title: 'DSCR test tarihi (yıllık)', src: 'Karatepe_RES_Kredi_Tadil_2.pdf · s.2 · md. 3', href: KARATEPE, badge: '87 gün' }
+                { lead: '07 Eki', leadColor: '#B23A3A', title: 'Kredi taksiti 8/24 vadesi (412.500 USD)', src: 'Karatepe_RES_Kredi_Odeme_Plani.xlsx · Ödeme Takvimi', href: 'Excel-Onizleme.dc.html', badge: '2 gün', badgeStyle: 'color:#7A2323;background:#FBE7E7;' },
+                { lead: '15 Oca', title: 'Orman izni teminat mektubu vade sonu (Ocak 2027 yenileme)', src: 'Karatepe_RES_Kredi_Tadil_2.pdf · s.3 · md. 4', href: KARATEPE, badge: '102 gün' }
               ] }
             ], actions: [{ label: 'Hatırlatma kur (30 gün önce)', href: 'Bildirimler.dc.html' }, { label: 'Excel\'e aktar', href: 'Excel-Onizleme.dc.html' }], sources: [
               { kind: 'doc', title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 22, date: '03.06.2023', version: 1, current: true },
@@ -372,8 +374,9 @@ class Component extends DCLogic {
             { from: 'user', text: 'Karatepe RES için kredi sözleşmesinin istediği belgelerden hangileri sistemde eksik?' },
             { from: 'ai', type: 'LIST', text: 'Sözleşmede "sunulacak / bulundurulacak" diye yazan belgeleri sistemdeki belgelerle karşılaştırdım. Bir belgenin önemli olup olmadığı hakkında yorum yapmıyorum:', list: [
               { label: 'Karatepe RES — kredi sözleşmesi yükümlülükleri', items: [
-                { title: 'Teminat mektubu (DSRA yerine)', src: 'Karatepe_RES_Kredi_Tadil_2.pdf · s.3 · md. 4', href: KARATEPE, badge: 'Eksik', badgeStyle: 'color:#7A2323;background:#FBE7E7;' },
-                { title: 'Sigorta poliçesi — bitiş 30.06.2026, yeni poliçe sistemde yok', src: 'Karatepe_RES_Kredi_Sozlesmesi.pdf · s.19 · md. 18.2', href: KARATEPE, badge: 'Süresi dolmuş', badgeStyle: 'color:#5E430C;background:#FBF1DE;' },
+                { title: 'Teminat mektubu (orman izni teminatı) — vade 15.01.2027, Ocak 2027\'de yenilenecek', src: 'Karatepe_RES_Teminat_Mektubu_2026.pdf · Karatepe_RES_Kredi_Tadil_2.pdf · s.3 · md. 4', href: KARATEPE, badge: 'Sistemde', badgeStyle: 'color:#1E6B3E;background:#E7F3EB;' },
+                { title: 'Sigorta poliçesi — 30.06.2026\'da yenilendi, 30.06.2027\'ye kadar geçerli', src: 'Karatepe_RES_Sigorta_Policesi_2026-27.pdf · Kredi sözleşmesi s.19 · md. 18.2', href: KARATEPE, badge: 'Sistemde', badgeStyle: 'color:#1E6B3E;background:#E7F3EB;' },
+                { title: 'DSCR uyum sertifikası (30.06.2026 testi)', src: 'Karatepe_RES_Kredi_Tadil_2.pdf · s.2 · md. 3', href: KARATEPE, badge: 'Eksik', badgeStyle: 'color:#7A2323;background:#FBE7E7;' },
                 { title: 'Yıllık raporlama paketi 2025', src: 'Karatepe_Yillik_Rapor_2025.pdf', href: KARATEPE, badge: 'Sistemde', badgeStyle: 'color:#1E6B3E;background:#E7F3EB;' },
                 { title: 'Üretim lisansı — Enerji departmanında, görme yetkiniz var', src: 'Karatepe_RES_Uretim_Lisansi.pdf', href: KARATEPE, badge: 'Sistemde', badgeStyle: 'color:#1E6B3E;background:#E7F3EB;' }
               ] }
@@ -388,9 +391,9 @@ class Component extends DCLogic {
               { kind: 'doc', title: 'Karatepe_RES_Kredi_Tadil_2.pdf', href: KARATEPE, page: 2, date: '15.03.2025', version: 1, current: true },
               { kind: 'doc', title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 8, date: '03.06.2023', version: 1, current: true }
             ] },
-            { from: 'user', text: 'Yeşilova’nın eylül taksiti ne kadar?' },
-            { from: 'ai', type: 'DATA', text: 'Yeşilova RES eylül taksiti $116.240.', sources: [
-              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'B14:D14' }
+            { from: 'user', text: 'Yeşilova’nın sıradaki taksiti ne kadar?' },
+            { from: 'ai', type: 'DATA', text: 'Yeşilova RES taksit 11/24, vade 14.10.2026: $116.240 (anapara $98.000 + faiz $18.240, ödeme takvimine göre).', sources: [
+              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'B14:F14' }
             ] }
           ] },
           { id: 'f1', title: 'Karatepe erken ödeme cezası', when: 'Bugün 10:42', messages: [
@@ -414,13 +417,13 @@ class Component extends DCLogic {
               { kind: 'doc', title: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', href: KARATEPE, page: 2, date: '03.06.2023', version: 1, current: true }
             ] },
             { from: 'user', text: 'Yeşilova RES için bu ayki taksit tutarı ve kalan bakiye ne kadar?' },
-            { from: 'ai', type: 'DATA', text: 'Eylül taksiti $116.240, kalan anapara bakiyesi $8.420.000.', sources: [
-              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'B14:D14' }
+            { from: 'ai', type: 'DATA', text: 'Ekim taksiti (11/24, vade 14.10.2026) $116.240; taksit öncesi kalan anapara $1.372.000, taksit sonrası $1.274.000. Kredi 3 aylık ödendiği için Eylül\'de taksit yoktu.', sources: [
+              { kind: 'excel', title: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', href: 'Excel-Onizleme.dc.html', sheet: 'Ödeme Takvimi', range: 'B14:F14' }
             ] }
           ] },
           { id: 'f4', title: 'Eylül üretimi (EPİAŞ)', when: 'Dün', messages: [
-            { from: 'user', text: 'Bu ay projelerimiz kaç MWh üretti?' },
-            { from: 'ai', type: 'LIVE', text: '1–23 Eylül 2026 gerçekleşen üretim:\nKaratepe RES — 6.210 MWh\nYeşilova RES — 4.980 MWh\nBoztepe RES — 3.740 MWh\nGüneşalan GES — 2.480 MWh', sources: [
+            { from: 'user', text: 'Eylülde projelerimiz kaç MWh üretti?' },
+            { from: 'ai', type: 'LIVE', text: '1–23 Eylül 2026 gerçekleşen üretim:\nKaratepe RES — 4.100 MWh\nYeşilova RES — 4.026 MWh\nBoztepe RES — 5.018 MWh\nGüneşalan GES — 1.638 MWh', sources: [
               { kind: 'live', title: 'EPİAŞ Şeffaflık Platformu — Gerçek zamanlı üretim', href: EPIAS, period: '01–23.09.2026' }
             ] }
           ] },
@@ -488,8 +491,9 @@ class Component extends DCLogic {
         convs: [
           { id: 'e0', title: 'Geliştirme projelerinde son durum', when: 'Bugün 09:30', messages: [
             { from: 'user', text: 'Kızılova, Akyar ve Demirci’de izin süreçlerinin son durumu nedir?' },
-            { from: 'ai', type: 'DOCUMENT', text: 'Her proje ayrı:\nKızılova RES — ÇED süreci devam ediyor; son yazı 12.09.2026 tarihli kurum görüşü. Önlisans bitişi 15.01.2027.\nAkyar GES — ÇED ve askeri görüş başvuruları yapıldı, arazi edinimi için malik görüşmesi sürüyor. Önlisans bitişi 03.03.2028.\nDemirci RES — TEA başvurusu 08.09.2026 tarihli yazıyla olumsuz sonuçlandı. Önlisans bitişi 10.10.2027.', sources: [
+            { from: 'ai', type: 'DOCUMENT', text: 'Her proje ayrı:\nKızılova RES — Geliştirme aşamasında; ÇED süreci devam ediyor, son yazı 12.09.2026 tarihli kurum görüşü. Önlisans bitişi 15.01.2027. EPC (S-26-001, ABC İnşaat) 15.09.2026\'da imzalandı; yalnız sınırlı işe başlama talimatı (LNTP: detay mühendislik + türbin rezervasyonu) verildi. Saha inşaatı lisans, yapı ruhsatı ve kredi kullandırımına (2026-KZ, Garanti BBVA, kullandırılmadı) bağlı.\nAkyar GES — ÇED ve askeri görüş başvuruları yapıldı, arazi edinimi için malik görüşmesi sürüyor. Önlisans bitişi 03.03.2028.\nDemirci RES — TEA başvurusu 08.09.2026 tarihli yazıyla olumsuz sonuçlandı. Önlisans bitişi 10.10.2027.', sources: [
               { kind: 'doc', title: 'CED_Kurum_Gorus_Yazisi_Kizilova.pdf', href: KARATEPE, page: 1, date: '12.09.2026', version: 1, current: true },
+              { kind: 'doc', title: 'S-26-001_EPC_Sozlesmesi.pdf', href: KARATEPE, page: 1, date: '15.09.2026', version: 1, current: true },
               { kind: 'doc', title: 'Akyar_Arazi_Sahibi_Gorusme_Tutanagi.pdf', href: KARATEPE, page: 1, date: '05.09.2026', version: 1, current: true },
               { kind: 'doc', title: 'TEA_Olumsuz_Gorus_Demirci.pdf', href: KARATEPE, page: 1, date: '08.09.2026', version: 1, current: true }
             ] }
@@ -501,8 +505,8 @@ class Component extends DCLogic {
             ] }
           ] },
           { id: 'e2', title: 'Güneşalan GES Eylül üretimi', when: 'Dün', messages: [
-            { from: 'user', text: 'Bu ay Güneşalan GES kaç MWh üretti?' },
-            { from: 'ai', type: 'LIVE', text: 'Güneşalan GES 1–23 Eylül 2026 arasında 2.480 MWh üretti.', sources: [
+            { from: 'user', text: 'Eylülde Güneşalan GES kaç MWh üretti?' },
+            { from: 'ai', type: 'LIVE', text: 'Güneşalan GES 1–23 Eylül 2026 arasında 1.638 MWh üretti.', sources: [
               { kind: 'live', title: 'EPİAŞ Şeffaflık Platformu — Gerçek zamanlı üretim', href: EPIAS, period: '01–23.09.2026' }
             ] }
           ] },

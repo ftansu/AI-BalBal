@@ -712,7 +712,7 @@ class Component extends DCLogic {
       epc: ['İnşaat halindeki yeni projelerin EPC ekibini yönetir; yüklenici ve iş programını takip eder.', ['İnşaat ve elektrik mühendislerini yönetir', 'Milestone, hakediş ve metraj kontrolünü onaylar', 'Saha toplantı tutanaklarını hazırlar']],
       'epc-ins': ['Yeni projelerin inşaat işlerinin (yol, temel, platform) teknik takibini yapar.', ['Yüklenici imalatlarını ve metrajı kontrol eder', 'İnşaat iş programını izler', 'Saha İSG uygulamasını denetler']],
       'epc-elk': ['Yeni projelerin elektrik işlerinin (şalt, OG hat, trafo) teknik takibini yapar.', ['Elektrik montajını ve test/devreye alma adımlarını izler', 'TEİAŞ bağlantı süreçlerine teknik destek verir', 'Elektrik iş programını kontrol eder']],
-      'epc-tkr': ['Şantiyede mühendislere imalat kontrolü ve ölçüm desteği verir.', ['Saha ölçüm ve kontrol kayıtlarını tutar', 'Malzeme teslim ve zimmetini takip eder', 'Günlük saha raporunu hazırlar']],
+      'epc-tkr': ['Sahada mühendislere imalat kontrolü ve ölçüm desteği verir.', ['Saha ölçüm ve kontrol kayıtlarını tutar', 'Malzeme teslim ve zimmetini takip eder', 'Günlük saha raporunu hazırlar']],
       n1: ['İnsan kaynakları ve idari işler süreçlerini birlikte yönetir.', ['İK ve idari işler bütçesini yönetir', 'İşe alım ve özlük süreçlerini onaylar', 'Destek hizmetlerini koordine eder']],
       n3: ['Şirketin bilgi sistemleri, donanım ve kullanıcı destek süreçlerinden sorumludur.', ['Kullanıcı hesapları ve donanım envanterini yönetir', 'Yedekleme ve bilgi güvenliği kontrollerini yapar', 'Yazılım lisanslarını takip eder']]
     };
@@ -945,7 +945,7 @@ class Component extends DCLogic {
     const selInfo = sn ? { name: sn.n, typeLbl: TL[sn.t], facts: facts, typeStyle: 'font-size:10.5px;font-weight:700;border-radius:6px;padding:2px 7px;color:#F6F7F5;background:#0E241D;' } : { name: '', typeLbl: '', facts: [], typeStyle: '' };
 
     // ---- kişi kartı ----
-    const HR = D.HR; const TODAY = new Date(2026, 9, 5);
+    const HR = D.HR; const TODAY = new Date(2026, 9, 6);
     const fmtTL = function (n) { return Math.round(n).toLocaleString('tr-TR') + ' TL'; };
     const fmtD = function (d) { return d.toLocaleDateString('tr-TR'); };
     // Bordro (İK Maaş sekmesiyle aynı hesap; Ekim 2026, kümülatif matrah)

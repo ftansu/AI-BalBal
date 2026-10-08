@@ -90,13 +90,13 @@ a{color:inherit;text-decoration:none}
 class Component extends DCLogic {
   renderVals() {
     const docs = [
-      { name: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', sender: 'A. Yılmaz (Garanti BBVA)', date: '15 Eyl 2026', target: 'Proje Finans', status: 'Sistemde', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
-      { name: 'Boztepe_RES_Sigorta_Poliçesi.pdf', sender: 'Sigorta A.Ş.', date: '14 Eyl 2026', target: 'Proje Finans', status: 'Sistemde', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
-      { name: 'Yesilova_Kamulaştırma_Yazışması.msg', sender: 'Hukuk Danışmanı', date: '14 Eyl 2026', target: 'Hukuk', status: 'Sistemde', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
-      { name: 'Guneşalan_GES_Bakım_Raporu.pdf', sender: 'Saha Ekibi', date: '13 Eyl 2026', target: 'İdari İşler', status: 'Sistemde', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
-      { name: 'Commerzbank_Yıllık_Raporlama.eml', sender: 'Commerzbank AG', date: '12 Eyl 2026', target: 'Proje Finans', status: 'İşleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
-      { name: 'Akbank_Faiz_Güncellemesi.eml', sender: 'Akbank Kurumsal', date: '12 Eyl 2026', target: 'Proje Finans', status: 'İşleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
-      { name: 'Personel_İzin_Formu_MA.pdf', sender: 'İK Servisi', date: '11 Eyl 2026', target: 'İdari İşler', status: 'İşleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
+      { name: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', sender: 'Garanti BBVA Kurumsal Bankacılık', date: '15 Eyl 2026', target: 'Proje Finans', status: 'Sistemde', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+      { name: 'Commerzbank_Yıllık_Raporlama.eml', sender: 'Commerzbank AG', date: '14 Eyl 2026', target: 'Proje Finans', status: 'İşleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
+      { name: 'Boztepe_RES_Sigorta_Poliçesi.pdf', sender: 'STU Sigorta', date: '14 Eyl 2026', target: 'Proje Finans', status: 'Sistemde', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+      { name: 'Yesilova_Arazi_Tahsis_Tazminat_Yazışması.msg', sender: 'Hukuk Danışmanı', date: '14 Eyl 2026', target: 'Hukuk', status: 'Sistemde', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+      { name: 'Guneşalan_GES_Bakım_Raporu.pdf', sender: 'Saha Ekibi', date: '13 Eyl 2026', target: 'Enerji', status: 'Sistemde', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+      { name: 'GarantiBBVA_Faiz_Belirleme_Bildirimi.eml', sender: 'Garanti BBVA Kurumsal Bankacılık', date: '12 Eyl 2026', target: 'Proje Finans', status: 'İşleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
+      { name: 'Personel_İzin_Formu_MK.pdf', sender: 'İK Servisi', date: '11 Eyl 2026', target: 'İK', status: 'İşleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
       { name: 'Adsız_Belge_08423.eml', sender: 'Bilinmiyor', date: '10 Eyl 2026', target: '—', status: 'İncelenmeli', badgeBg: '#FCEBD8', badgeColor: '#9A4E0A' }
     ];
     docs.forEach(function (d) { d.href = /\.(xlsx|xls)$/i.test(d.name) ? 'Excel-Onizleme.dc.html' : 'Sozlesme-Onizleme.dc.html'; });

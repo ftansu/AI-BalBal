@@ -42,7 +42,7 @@ a{color:inherit;text-decoration:none}
         <div style="font-size:13px;font-weight:600;line-height:1.2;">{{meName}}</div>
         <div style="font-size:11px;color:#9FB0A6;line-height:1.2;">{{mePos}}</div>
       </div>
-      <button onClick="{{onToggleUserMenu}}" aria-label="Kullanıcı menüsü" style="border:none;cursor:pointer;padding:0;width:36px;height:36px;border-radius:50%;background:#0EA5A4;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FFFFFF;">{{meIni}}</button>
+      <button onClick="{{onToggleUserMenu}}" aria-label="Kullanıcı menüsü" style="border:none;cursor:pointer;padding:0;width:36px;height:36px;border-radius:50%;background:{{meColor}};display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FFFFFF;">{{meIni}}</button>
     </div>
   </div>
 
@@ -1085,7 +1085,7 @@ a{color:inherit;text-decoration:none}
     </sc-if>
     <sc-if value="{{userMenuOpen}}" hint-placeholder-val="{{false}}">
       <div style="position:absolute;top:70px;right:24px;z-index:20;">
-        <dc-import name="Kullanici-Menusu" dept="enerji" on-close="{{onCloseUserMenu}}" hint-size="340px,520px"></dc-import>
+        <dc-import name="Kullanici-Menusu" dept="{{meMenuDept}}" on-close="{{onCloseUserMenu}}" hint-size="340px,520px"></dc-import>
       </div>
     </sc-if>
 
@@ -1716,10 +1716,10 @@ class Component extends DCLogic {
 
     // Santral teknik ve sözleşme bilgileri (bakım sözleşmesi -> ilgili klasör/önizleme linki)
     const turbineInfo = [
-      { project: 'Karatepe RES', brand: 'Vestas V150', lastMaint: '12 Ağu 2026', amount: '$18.000 / yıl', href: 'Sozlesme-Onizleme.dc.html' },
-      { project: 'Boztepe RES', brand: 'Siemens Gamesa SG 145', lastMaint: '5 Eyl 2026', amount: '$22.000 / yıl', href: 'Sozlesme-Onizleme.dc.html' },
-      { project: 'Güneşalan GES', brand: 'Jinko Solar Panel / Huawei İnvertör', lastMaint: '20 Ağu 2026', amount: '$9.500 / yıl', href: 'Sozlesme-Onizleme.dc.html' },
-      { project: 'Yeşilova RES', brand: 'Vestas V136', lastMaint: '1 Eyl 2026', amount: '$16.000 / yıl', href: 'Sozlesme-Onizleme.dc.html' }
+      { project: 'Karatepe RES', brand: 'Enercon E-82 E4 · 8 × 3,0 MW · bakım: Enercon Servis Türkiye (S-25-007)', lastMaint: '12 Ağu 2026', amount: '462.000 EUR / yıl', href: 'Sozlesme-Onizleme.dc.html' },
+      { project: 'Boztepe RES', brand: 'Enercon E-82 E4 · 10 × 3,0 MW · bakım: Enercon Servis Türkiye (S-25-008)', lastMaint: '25 Eyl 2026', amount: '462.000 EUR / yıl', href: 'Sozlesme-Onizleme.dc.html' },
+      { project: 'Güneşalan GES', brand: 'Jinko Solar panel / Huawei invertör · bakım: Solaris GES İşletme Hizmetleri Ltd. Şti.', lastMaint: '20 Ağu 2026', amount: '3.240.000 TL / yıl', href: 'Sozlesme-Onizleme.dc.html' },
+      { project: 'Yeşilova RES', brand: 'Vestas V136 · bakım: Vestas Bakım Hizmetleri (S-24-009)', lastMaint: '1 Eyl 2026', amount: '396.000 EUR / yıl', href: 'Sozlesme-Onizleme.dc.html' }
     ];
 
     // İlgili hukuki süreçler — Hukuk modülündeki aynı proje-dava verisi
@@ -1727,7 +1727,7 @@ class Component extends DCLogic {
       {
         id: 'karatepe', name: 'Karatepe RES',
         cases: [
-          { name: 'Kamulaştırma Davası', court: 'Ankara 4. İdare Mahkemesi', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+          { name: 'Kamulaştırma ve İrtifak Bedeli Tespiti Davası', court: 'Ankara 4. İdare Mahkemesi', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
           { name: 'Elektrik Direği İhlali Davası', court: 'Ankara 1. Asliye Hukuk Mahkemesi', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' }
         ]
       },
@@ -1738,15 +1738,9 @@ class Component extends DCLogic {
         ]
       },
       {
-        id: 'gunesalan', name: 'Güneşalan GES',
-        cases: [
-          { name: 'Yüklenici Sözleşme İhtilafı', court: 'Ankara 3. Asliye Ticaret Mahkemesi', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' }
-        ]
-      },
-      {
         id: 'yesilova', name: 'Yeşilova RES',
         cases: [
-          { name: 'Tazminat Davası', court: 'Çanakkale Asliye Hukuk Mahkemesi', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
+          { name: 'Tazminat Davası (Arazi Tahsis)', court: 'Çanakkale Asliye Hukuk Mahkemesi', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
           { name: 'Sınır İhlali Davası', court: 'Çanakkale 2. Asliye Hukuk Mahkemesi', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' }
         ]
       }
@@ -1770,7 +1764,7 @@ class Component extends DCLogic {
     });
 
     const docNotices = [
-      { title: 'Karatepe_RES_CED_Raporu_2026.pdf', type: 'ÇED Raporu', project: 'Karatepe RES', added: '2 gün önce', highlight: 'Geçerlilik süresi: 5 yıl (2031\u2019e kadar)', href: 'Belge-Bildirim-CED.dc.html' },
+      { title: 'Karatepe_RES_CED_Raporu_2026.pdf', type: 'ÇED Raporu', project: 'Karatepe RES', added: '18 gün önce', highlight: 'Geçerlilik süresi: 5 yıl (2031\u2019e kadar)', href: 'Belge-Bildirim-CED.dc.html' },
       { title: 'Boztepe_RES_Yillik_Bakim_Raporu.pdf', type: 'Yıllık Bakım Raporu', project: 'Boztepe RES', added: '5 gün önce', highlight: 'Sonraki planlı bakım: Mart 2027', href: 'Main.dc.html' },
       { title: 'Yesilova_RES_Ariza_Tutanagi_0912.pdf', type: 'Arıza Tutanağı', project: 'Yeşilova RES', added: '1 gün önce', highlight: 'Arıza süresi: 3 saat 40 dakika', href: 'Main.dc.html' }
     ];
@@ -1779,7 +1773,7 @@ class Component extends DCLogic {
     // Süreç tek bir çizgi değil: her adımın önkoşulları var, önkoşulu tamam olan adımlar paralel yürür.
     // Kaynak: Elektrik Piyasası Lisans Yönetmeliği (önlisans süresinde tamamlanacak iş ve işlemler),
     // 24.07.2026 tarihli imar/ruhsat yönetmeliği, TEİAŞ bağlantı süreçleri.
-    const TODAY = new Date(2026, 8, 27);
+    const TODAY = new Date(2026, 9, 6);
     const AYLAR = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
     function pd(s) { const a = s.split('-'); return new Date(+a[0], +a[1] - 1, +a[2]); }
     function fd(d) { return d.getDate() + ' ' + AYLAR[d.getMonth()] + ' ' + d.getFullYear(); }
@@ -1848,7 +1842,7 @@ class Component extends DCLogic {
         }
       },
       {
-        id: 'akyar', name: 'Akyar GES', type: 'GES', capacity: '60 MW', start: '2026-03-03', months: 24,
+        id: 'akyar', name: 'Akyar GES', type: 'GES', capacity: '60 MWp', start: '2026-03-03', months: 24,
         st: {
           olcum: { s: 'Tamamlandı', since: '2023-08-01', u: '2024-08-31', doc: D('Akyar_Gunes_Olcum_Raporu.pdf', 'Ölçüm danışmanı') },
           basvuru: { s: 'Tamamlandı', since: '2024-10-28', u: '2024-11-12', doc: D('Akyar_Onlisans_Basvurusu.pdf', 'EPDK') },
@@ -2466,8 +2460,8 @@ class Component extends DCLogic {
 
     const BG = !!this.props.belge; const bgDone = !!(this.state && this.state.bgDone); const bgFile = (this.state && this.state.bgFile !== undefined) ? this.state.bgFile : 'Akbank_Avans_Teminat_Mektubu_ABC.pdf';
     const tasksList = (TE ? (this.props.onay === 'yeni' ? [] : (BG ? [{ title: 'Belge isteği · Avans teminat mektubu · ABC İnşaat · S-26-001', meta: 'Kerem Aydın istedi · Balbal aracılığıyla · fatura ABC2026000000184 · son gün 14.10.2026', status: bgDone ? 'Yüklendi · Balbal okudu' : 'Belge ekle', badgeBg: bgDone ? '#E7F3EB' : '#2FA968', badgeColor: bgDone ? '#1E6B3E' : '#0E241D', bg: true }] : []).concat([
-      this.props.onay === 'red' ? { title: 'Satın alma talebim · PO-26-042 Haritalama dronu', meta: 'Kerem Aydın reddetti · 06.10.2026 · gerekçeyi görüp aynı PO’da düzeltin', status: 'Düzelt', badgeBg: '#FBE7E7', badgeColor: '#B23A3A', onay: 'red' } : { title: 'Satın alma talebim · PO-26-042 Haritalama dronu', meta: 'Kızılova RES (şantiye) · 03.10.2026', status: 'Teslim bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', onay: 'T-26-042' }])).concat([
-      { title: 'Kızılova RES hafriyat metrajı (Ekim)', meta: 'Bitiş: 31 Eki 2026', status: 'Devam Ediyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' }
+      this.props.onay === 'red' ? { title: 'Satın alma talebim · PO-26-042 Haritalama dronu', meta: 'Kerem Aydın reddetti · 06.10.2026 · gerekçeyi görüp aynı PO’da düzeltin', status: 'Düzelt', badgeBg: '#FBE7E7', badgeColor: '#B23A3A', onay: 'red' } : { title: 'Satın alma talebim · PO-26-042 Haritalama dronu', meta: 'Kızılova RES (saha) · 03.10.2026', status: 'Teslim bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', onay: 'T-26-042' }])).concat([
+      { title: 'Kızılova RES jeoteknik sondaj metrajı (Ekim)', meta: 'Bitiş: 31 Eki 2026', status: 'Devam Ediyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' }
     ]) : [
       { title: 'Satın alma onayı · PO-26-042 Haritalama dronu', meta: 'Hakan Tunç · EPC · İdari İşler hazırladı · 4 Eki 2026 · onay sırası: siz → Levent Aksoy', status: 'Onayım bekleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', onay: 'T-26-042' },
       { title: 'Satın alma onayı · PO-26-043 Vibrasyon analiz cihazı', meta: 'Onur Yıldız · O&M · İdari İşler hazırladı · 5 Eki 2026', status: 'Onayım bekleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', onay: 'T-26-043' },
@@ -2489,7 +2483,7 @@ class Component extends DCLogic {
 
     const ariza = [
       { project: 'Yeşilova RES', type: 'Arıza', date: '19 Eyl 2026', status: 'Kapatıldı', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
-      { project: 'Boztepe RES', type: 'Planlı Bakım', date: '25 Eyl 2026', status: 'Planlandı', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' },
+      { project: 'Boztepe RES', type: 'Planlı Bakım', date: '25 Eyl 2026', status: 'Tamamlandı', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
       { project: 'Karatepe RES', type: 'Arıza', date: '20 Eyl 2026', status: 'Devam Ediyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' }
     ];
 
@@ -2930,7 +2924,7 @@ class Component extends DCLogic {
       onReceive: function (x) { self.setState({ z44: x }); },
       bgOpen: !!(this.state && this.state.bgOpen), bgDone: bgDone, bgEdit: !bgDone, bgFile: bgFile, bgOnFile: function (e) { self.setState({ bgFile: e.target.value }); }, bgClose: function () { self.setState({ bgOpen: false }); }, bgStop: function (e) { if (e && e.stopPropagation) e.stopPropagation(); },
       bgUploadStyle: "border-radius:12px;padding:12px 20px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;border:none;" + (bgFile.trim() ? 'background:#2FA968;color:#0E241D;cursor:pointer;' : 'background:#F0F2F0;color:#8A968E;cursor:default;'), bgUpload: bgFile.trim() ? function () { self.setState({ bgDone: true }); } : function () {},
-      tasksList: tasksList, isTE: TE, meName: TE ? 'Hakan Tunç' : 'Kerem Aydın', mePos: TE ? 'EPC Proje Mühendisi' : 'Enerji Grubu Müdürü', meIni: TE ? 'HT' : 'KA', onayKisi: TE ? 'hakan' : 'kerem',
+      tasksList: tasksList, isTE: TE, meName: TE ? 'Hakan Tunç' : 'Kerem Aydın', mePos: TE ? 'EPC Proje Mühendisi' : 'Enerji Grubu Müdürü', meIni: TE ? 'HT' : 'KA', meColor: TE ? '#15803D' : '#0EA5A4', meMenuDept: TE ? 'epc' : 'enerji', onayKisi: TE ? 'hakan' : 'kerem',
       onayTabLabel: TE ? (onayId === 'yeni' ? 'Yeni talep' : 'Talep · ' + onayId) : 'Onay · ' + onayId,
       newTalep: function () { self.setState({ onayId: 'yeni', onayFull: false, notifOpen: false, userMenuOpen: false, searchOpen: false }); },
       mailsList: mailsList,

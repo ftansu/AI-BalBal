@@ -32,6 +32,23 @@
 | Ortak Bileşenler | `Arama-Sonuclari`, `Balbal-Sohbet`, `Bildirimler`, `Doviz-Kurlari`, `Ekip-Sohbet`, `Giris`, `Kullanici-Menusu`, `Fatura-Odeme` (fatura kartı), `Sozlesme-Karti`, `Imza-Yetkilileri`, `Odeme-Zinciri` (PO kartı altyapısı; Zincir 4–7 bunun üstünde), `Yeni-Odeme-Talebi` (ödeme talepleri listesi + tür → kayıt → talep; **08.10: üst bar menüsünden pencere olarak açılır**), **`Masraf-Formu`** (08.10 yeni: personel masrafı / iş avansı; demo panoları `Masraf-Demo-Tablo`, `Masraf-Demo-Onayli`, `Masraf-Demo-Avans`) |
 | Akış Zincirleri | `Zincir1-*` satın alma talebi (red → revize dahil) · `Zincir2-*` İdari İşler'in kendi alımı · `Zincir3-*` sözleşme usulü ödeme (B1–B3 fatura yolu dahil) · `Zincir4-*` eşleşmeyen fatura · `Zincir5-*` kredi ödemesi · `Zincir6-*` vergi / yasal yükümlülük · `Zincir7-*` bordro · `YeniTalep-*` + Yeni ödeme talebi akışı. Hazine, banka masrafı, otomatik ödeme talimatlı faturalar için zincir yok (banka ekstresinden otomatik — bkz. `NACI_NOTU_URUN2.md` §D.6). Masraf/avans zinciri (Z8) henüz çizilmedi |
 
+## 09.10.2026 veri tekleştirmesi
+
+Bu klasördeki demo veriler, canvas'ın kendi içindeki çelişkiler giderilerek **tek değere indirildi**. Tek değer listesi: `docs/NACI_CEVAP_2026-10-08.md` §3 (PR #13). Canvas, `NACI_NOTU_URUN1/2.md` ve geliştiricinin ledger'ı aynı değerleri kullanır.
+
+**Değişen başlıca değerler:**
+- Kurulu güç: Karatepe 24, Yeşilova 22, Boztepe 30 MW, Güneşalan 18 MWp. Kızılova 42 MW (geliştirme), Akyar 60 MWp, Demirci 80 MW.
+- Kredi kodları imza yılına göre: 2022-KT, 2023-YS, 2024-BZ, 2026-KZ.
+- Kızılova önlisans aşamasında ("şantiye" yerine "saha"). EPC'de yalnız sınırlı işe başlama (LNTP) var. Kredi kullandırılmadı; 61.333 USD taahhüt komisyonu.
+- Yeşilova kredisi 3 aylık ödeniyor.
+- Bordro 36 kişi.
+- KDV son günü 28.10, muhtasar 26.10.
+- EUR kuru 55,8513.
+- Şirketlerin ünvan biçimi "… RES/GES Enerji Üretim A.Ş.".
+- IBAN'lar mod-97 kontrolünden geçecek şekilde yeniden üretildi.
+
+**Uyarı:** Esas olan canlı canvas'tır. Bu düzeltmeler canlı canvas'a da işlenmeden yeni bir canvas kopyası buraya alınırsa düzeltmeler kaybolur. Önce canlı canvas güncellenmeli.
+
 ## 08.10.2026 çıkışında değişenler (özet)
 
 - **Her ana ekranın üst barında "+ Ödeme talebi ▾" menüsü** (Enerji, Proje Finans, İK, İdari İşler, Muhasebe, Finansal Muhasebe, Hukuk). Menü: Taleplerim + departmanın açabileceği ödeme türleri. Tür listesi `Yeni-Odeme-Talebi` ile aynı kaynaktan gelir; iki ayrı liste yoktur.

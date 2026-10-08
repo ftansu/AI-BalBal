@@ -7,7 +7,7 @@
 **Alındığı an:** 08.10.2026, canvas sürümü `1791471743-c7f2` (v135). Önceki kopya: 07.10.2026 `1791363018-8719`.
 **Esas olan:** Canlı canvas. Bu klasör, canvas'a erişimi olmayan geliştirici ve AI'ı için **salt okunur referanstır**; buradan canvas'a geri yazılmaz. Canvas değiştikçe bu klasör yeni bir PR ile yenilenir (eskisinin üzerine; yeni kopya açılmaz).
 
-> **Durum: Balbal frontend tasarımı TAMAMLANMADI.** Bu dosyalar kodlamaya hazır ekranlar listesi değildir; mantığı ve yönü gösterir. Açık işler `docs/NACI_NOTU_2026-10-06.md` §1'de; ödeme zincirleri ve masraf/avans için `docs/NACI_NOTU_2026-10-08.md`.
+> **Durum: Balbal frontend tasarımı TAMAMLANMADI.** Bu dosyalar kodlamaya hazır ekranlar listesi değildir; mantığı ve yönü gösterir. Backend beklentileri ve açık işler: `docs/NACI_NOTU_URUN2.md` (PR #13) — ⛔ ürün sahibinin onayı gelmeden başlanmaz. Ürün 1 işleri: `docs/NACI_NOTU_URUN1.md`.
 
 ## Dosyaları okumak
 
@@ -30,7 +30,7 @@
 | Enerji | `Ana-Sayfa-Enerji` (**07.10 yeni: Proje Geliştirme sekmesi** — COD'si tamamlanmamış projeler, önlisans→lisans süreç ağacı, alt süreçler, belge penceresi, personel notları, sürece özel Balbal), `Belge-Bildirim-CED`, `Talep-Onay-Yonetici` |
 | Sistem Yönetimi | `Yonetim`, `Yonetim-Kisi-Karti`, `Yonetim-Kisiler`, `Yonetim-Onay-Kurallari`, `Yonetim-Yapi-Uyum` |
 | Ortak Bileşenler | `Arama-Sonuclari`, `Balbal-Sohbet`, `Bildirimler`, `Doviz-Kurlari`, `Ekip-Sohbet`, `Giris`, `Kullanici-Menusu`, `Fatura-Odeme` (fatura kartı), `Sozlesme-Karti`, `Imza-Yetkilileri`, `Odeme-Zinciri` (PO kartı altyapısı; Zincir 4–7 bunun üstünde), `Yeni-Odeme-Talebi` (ödeme talepleri listesi + tür → kayıt → talep; **08.10: üst bar menüsünden pencere olarak açılır**), **`Masraf-Formu`** (08.10 yeni: personel masrafı / iş avansı; demo panoları `Masraf-Demo-Tablo`, `Masraf-Demo-Onayli`, `Masraf-Demo-Avans`) |
-| Akış Zincirleri | `Zincir1-*` satın alma talebi (red → revize dahil) · `Zincir2-*` İdari İşler'in kendi alımı · `Zincir3-*` sözleşme usulü ödeme (B1–B3 fatura yolu dahil) · `Zincir4-*` eşleşmeyen fatura · `Zincir5-*` kredi ödemesi · `Zincir6-*` vergi / yasal yükümlülük · `Zincir7-*` bordro · `YeniTalep-*` + Yeni ödeme talebi akışı. Hazine, banka masrafı, otomatik ödeme talimatlı faturalar için zincir yok (banka ekstresinden otomatik — bkz. Naci notu 08.10). Masraf/avans zinciri (Z8) henüz çizilmedi |
+| Akış Zincirleri | `Zincir1-*` satın alma talebi (red → revize dahil) · `Zincir2-*` İdari İşler'in kendi alımı · `Zincir3-*` sözleşme usulü ödeme (B1–B3 fatura yolu dahil) · `Zincir4-*` eşleşmeyen fatura · `Zincir5-*` kredi ödemesi · `Zincir6-*` vergi / yasal yükümlülük · `Zincir7-*` bordro · `YeniTalep-*` + Yeni ödeme talebi akışı. Hazine, banka masrafı, otomatik ödeme talimatlı faturalar için zincir yok (banka ekstresinden otomatik — bkz. `NACI_NOTU_URUN2.md` §D.6). Masraf/avans zinciri (Z8) henüz çizilmedi |
 
 ## 08.10.2026 çıkışında değişenler (özet)
 

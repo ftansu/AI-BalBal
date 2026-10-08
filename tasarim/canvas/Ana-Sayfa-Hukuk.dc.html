@@ -32,7 +32,7 @@ a{color:inherit;text-decoration:none}
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-right:14px;"><div style="display:flex;align-items:center;gap:8px;width:340px;height:38px;box-sizing:border-box;background:#1D3329;border:1px solid #2E4A3D;border-radius:10px;padding:0 12px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><label for="top-search" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Belge, proje veya kişi ara</label><input id="top-search" type="text" onInput="{{onSearchInput}}" onFocus="{{onSearchFocus}}" placeholder="Belge, proje veya kişi ara" style="flex:1;min-width:0;background:transparent;border:none;outline:none;color:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;font-size:14px;"></div><a href="Belge-Yukle.dc.html" style="height:38px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;border:1px solid #2E4A3D;color:#F6F7F5;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"></path></svg>Belge yükle</a><button onClick="{{onToggleNotif}}" aria-label="Bildirimler" style="position:relative;width:38px;height:38px;flex-shrink:0;border-radius:10px;border:1px solid #2E4A3D;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg><span style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;box-sizing:border-box;border-radius:9px;background:#2FA968;color:#0E241D;font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;">3</span></button></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-right:14px;"><div style="display:flex;align-items:center;gap:8px;width:340px;height:38px;box-sizing:border-box;background:#1D3329;border:1px solid #2E4A3D;border-radius:10px;padding:0 12px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><label for="top-search" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Belge, proje veya kişi ara</label><input id="top-search" type="text" onInput="{{onSearchInput}}" onFocus="{{onSearchFocus}}" placeholder="Belge, proje veya kişi ara" style="flex:1;min-width:0;background:transparent;border:none;outline:none;color:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;font-size:14px;"></div><a href="Belge-Yukle.dc.html" style="height:38px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;border:1px solid #2E4A3D;color:#F6F7F5;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"></path></svg>Belge yükle</a><div style="position:relative;"><button onClick="{{otToggle}}" aria-haspopup="menu" aria-expanded="{{otMenuOpen}}" style="height:38px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;border:1px solid #2FA968;background:#2FA968;color:#0E241D;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">+ Ödeme talebi<span aria-hidden="true" style="font-size:10px;">▾</span></button><sc-if value="{{otMenu}}" hint-placeholder-val="{{false}}"><div role="menu" aria-label="Ödeme talebi" style="position:absolute;top:calc(100% + 6px);right:0;z-index:80;width:290px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;box-shadow:0 16px 40px rgba(14,36,29,0.18);padding:6px;display:flex;flex-direction:column;gap:2px;color:#132119;"><button role="menuitem" onClick="{{otMine}}" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;border:none;border-radius:10px;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;background:#F6F9F7;color:#132119;cursor:pointer;"><span style="font-size:13.5px;font-weight:700;">Taleplerim</span><span style="font-size:11.5px;font-weight:500;color:#5B6B60;">Açtığın ödeme talepleri ve durumları</span></button><div aria-hidden="true" style="height:1px;background:#F0F2F0;margin:4px 6px;"></div><sc-for list="{{otItems}}" as="t" hint-placeholder-count="3"><button role="menuitem" onClick="{{t.pick}}" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;border:none;border-radius:10px;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;background:#FFFFFF;color:#132119;cursor:pointer;"><span style="font-size:13.5px;font-weight:700;">{{t.lbl}}</span><span style="font-size:11.5px;font-weight:500;color:#5B6B60;">{{t.sub}}</span></button></sc-for></div></sc-if></div><button onClick="{{onToggleNotif}}" aria-label="Bildirimler" style="position:relative;width:38px;height:38px;flex-shrink:0;border-radius:10px;border:1px solid #2E4A3D;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg><span style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;box-sizing:border-box;border-radius:9px;background:#2FA968;color:#0E241D;font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;">3</span></button></div>
       <div style="text-align:right;">
         <div style="font-size:13px;font-weight:600;line-height:1.2;">Ayşe Yılmaz</div>
         <div style="font-size:11px;color:#9FB0A6;line-height:1.2;">Hukuk Müdürü</div>
@@ -48,6 +48,7 @@ a{color:inherit;text-decoration:none}
     <div style="display:flex;gap:8px;flex-shrink:0;">
       <button style="{{pageGenelBtnStyle}}" onClick="{{onSelectPageGenel}}">Genel Bakış</button>
       <button style="{{pagePozisyonBtnStyle}}" onClick="{{onSelectPagePozisyon}}">Pozisyon</button>
+      <button style="{{pageImzaBtnStyle}}" onClick="{{onSelectPageImza}}">İmza Yetkileri</button>
       <sc-if value="{{balbalTab}}" hint-placeholder-val="{{false}}">
         <button style="{{balbalTabStyle}}" onClick="{{onSelectBalbalTab}}"><img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:18px;height:18px;border-radius:50%;object-fit:contain;background:#FFFFFF;">Balbal</button>
       </sc-if>
@@ -190,6 +191,9 @@ a{color:inherit;text-decoration:none}
                         </div>
               </div>
               </sc-if>
+              <sc-if value="{{g.isImza}}" hint-placeholder-val="{{false}}">
+                <dc-import name="Imza-Yetkilileri" mod="kart" gadget="{{true}}" accent="{{accent}}" hint-size="100%,420px"></dc-import>
+              </sc-if>
             </div>
           </sc-for>
           <sc-if value="{{col.isEmpty}}" hint-placeholder-val="{{false}}">
@@ -200,6 +204,10 @@ a{color:inherit;text-decoration:none}
     </div>
 
     <div style="font-size:11px;color:#8A968E;line-height:1.5;">Veriler Resmi Gazete, EPDK ve ilgili bakanlık kaynaklarından otomatik çekilmektedir.</div>
+    </sc-if>
+
+    <sc-if value="{{pageIsImza}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Imza-Yetkilileri" mod="duzenle" dept="hukuk" accent="{{accent}}" hint-size="100%,860px"></dc-import>
     </sc-if>
 
     <sc-if value="{{pageIsPozisyon}}" hint-placeholder-val="{{true}}">
@@ -374,13 +382,41 @@ a{color:inherit;text-decoration:none}
 
 
   </div>
+
+  <!-- Ödeme talebi menüsü (üst bar) · pencere -->
+  <sc-if value="{{otMenu}}" hint-placeholder-val="{{false}}"><div onClick="{{otMenuClose}}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:75;"></div></sc-if>
+  <sc-if value="{{otOv}}" hint-placeholder-val="{{false}}">
+  <div onClick="{{otBackdrop}}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:70;background:rgba(14,36,29,0.45);overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:24px;box-sizing:border-box;">
+    <sc-if value="{{otIsMs}}" hint-placeholder-val="{{false}}"><dc-import name="Masraf-Formu" embedded="{{true}}" kisi="{{otKisi}}" mod="{{otMod}}" on-close="{{otClose}}" hint-size="1280px,1210px"></dc-import></sc-if>
+    <sc-if value="{{otIsYot}}" hint-placeholder-val="{{false}}"><dc-import name="Yeni-Odeme-Talebi" embedded="{{true}}" kisi="{{otKisi}}" tur="{{otTur}}" adim="{{otAdim}}" on-close="{{otClose}}" hint-size="900px,700px"></dc-import></sc-if>
+  </div>
+  </sc-if>
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2FA968","options":["#2FA968","#0E241D","#D97706","#2563EB"]},"$preview":{"width":1440,"height":980}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2FA968","options":["#2FA968","#0E241D","#D97706","#2563EB"]},"sekme":{"editor":null},"$preview":{"width":1440,"height":980}}'>
 class Component extends DCLogic {
+  renderVals() { return Object.assign(this._rv0.apply(this, arguments), this._ot()); }
+  // Üst bar · Ödeme talebi menüsü: departmanın açabileceği tüm ödeme talepleri (Yeni-Odeme-Talebi türleriyle aynı)
+  _ot() {
+    const self = this; const st = this.state || {}; const set = function (o) { self.setState(o); };
+    const K = 'ayse';
+    const T = { masraf: ['Masraf', 'Fiş / fatura yükle · Balbal tabloyu çıkarır'], avans: ['Avans', 'İleride harcanacak tutar için'], po: ['Ürün / hizmet satın alma', 'Satın alma talebi formu'], soz: ['Sözleşmeye istinaden ödeme', 'Erişebildiğin klasörlerdeki sözleşmeler'], kredi: ['Kredi ödemesi', 'Bankalar ve krediler'], vergi: ['Vergi / yasal yükümlülük', 'Muhasebe tahakkukları'], bordro: ['Bordro', 'Kapanmış bordro dönemleri'], idari: ['İdari İşler talebi', 'Talep ve teklif tek ekranda'] };
+    const L = ['masraf', 'avans'];
+    const o = st.otOpen || null; const isMs = o === 'masraf' || o === 'avans';
+    return {
+      otMenu: !!st.otMenu, otMenuOpen: st.otMenu ? 'true' : 'false',
+      otToggle: function () { set({ otMenu: !st.otMenu }); }, otMenuClose: function () { set({ otMenu: false }); },
+      otMine: function () { set({ otMenu: false, otOpen: 'liste' }); },
+      otItems: L.map(function (v) { return { lbl: T[v][0], sub: T[v][1], pick: function () { if (v === 'idari') set({ otMenu: false, zfOpen: true, zfFull: false }); else set({ otMenu: false, otOpen: v }); } }; }),
+      otOv: !!o, otIsMs: isMs, otIsYot: !!o && !isMs, otKisi: K, otMod: o === 'avans' ? 'avans' : 'masraf',
+      otTur: o && o !== 'liste' && !isMs ? o : '', otAdim: o === 'liste' ? 'liste' : 'kayit',
+      otClose: function () { set({ otOpen: null }); },
+      otBackdrop: function (e) { if (e && e.target === e.currentTarget) set({ otOpen: null }); }
+    };
+  }
   gzStoreKey() { return 'xplatform-layout-hukuk'; }
-  gzAreas() { return { genel: { top: [['durusma'], ['mevzuat', 'bakanlik']], full: [] }, pozisyon: { top: [['gorevler', 'mailler'], ['talepler', 'davalar']], full: [] } }; }
+  gzAreas() { return { genel: { top: [['durusma'], ['mevzuat', 'bakanlik', 'imza']], full: [] }, pozisyon: { top: [['gorevler', 'mailler'], ['talepler', 'davalar']], full: [] } }; }
   // ---- Gadget sürükle-bırak motoru (tutamaçtan tut, sürükle, bırak; diğerleri kayar, bırakılan yerine oturur) ----
   // Her "alan" (genel / pozisyon) kendi düzenini bağımsız tutar.
   componentDidMount() {
@@ -555,11 +591,11 @@ class Component extends DCLogic {
       }, 380);
     });
   }
-  renderVals() {
+  _rv0() {
     const accent = this.props.accent ?? '#2FA968';
     const self = this;
 
-    const pageTab = (this.state && this.state.pageTab) || 'genel';
+    const pageTab = (this.state && this.state.pageTab) || this.props.sekme || 'genel';
     const pageBaseBtn = "font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:20px;padding:10px 20px;cursor:pointer;";
     const pageActiveBtn = pageBaseBtn + 'background:#0E241D;color:#F6F7F5;';
     const pageInactiveBtn = pageBaseBtn + 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;';
@@ -730,7 +766,7 @@ class Component extends DCLogic {
         return item;
       });
     };
-    const gzGenelTop = gzBuildTop('genel', { durusma: 'isDurusma', mevzuat: 'isMevzuat', bakanlik: 'isBakanlik' }, ['1.3', '1']);
+    const gzGenelTop = gzBuildTop('genel', { durusma: 'isDurusma', mevzuat: 'isMevzuat', bakanlik: 'isBakanlik', imza: 'isImza' }, ['1.3', '1']);
     const gzPozTop = gzBuildTop('pozisyon', { gorevler: 'isGorevler', mailler: 'isMailler', talepler: 'isTalepler', davalar: 'isDavalar' }, ['1', '1']);
 
     const chatOpen = !!(this.state && this.state.chatOpen);
@@ -790,6 +826,9 @@ class Component extends DCLogic {
       accent: accent,
       pageIsGenel: pageTab === 'genel',
       pageIsPozisyon: pageTab === 'pozisyon',
+      pageIsImza: pageTab === 'imza',
+      pageImzaBtnStyle: pageTab === 'imza' ? pageActiveBtn : pageInactiveBtn,
+      onSelectPageImza: function () { self.setState({ pageTab: 'imza' }); },
       pageGenelBtnStyle: pageTab === 'genel' ? pageActiveBtn : pageInactiveBtn,
       pagePozisyonBtnStyle: pageTab === 'pozisyon' ? pageActiveBtn : pageInactiveBtn,
       onSelectPageGenel: function () { self.setState({ pageTab: 'genel' }); },

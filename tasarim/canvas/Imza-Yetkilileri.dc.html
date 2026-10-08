@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>İmza Yetkilileri</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#1E6B3E}a:hover{color:#14401F}
+</style>
+</helmet>
+
+<div style="width:100%;box-sizing:border-box;font-family:'IBM Plex Sans',sans-serif;color:#132119;">
+
+  <!-- ===== KART: Hukuk / Mali İşler / Muhasebe Genel Bakış ===== -->
+  <sc-if value="{{isKart}}" hint-placeholder-val="{{true}}">
+    <div style="{{kartPad}}">
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 22px;display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">İmza Yetkilileri</div>
+          <span style="flex:1;"></span>
+          <sc-for list="{{alerts}}" as="w" hint-placeholder-count="1">
+            <span style="font-size:11px;font-weight:700;color:#9A6B12;background:#FBF1DE;border-radius:6px;padding:3px 8px;">{{w}}</span>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <sc-for list="{{spvTabs}}" as="c" hint-placeholder-count="6">
+            <button onClick="{{c.go}}" style="{{c.style}}">{{c.label}}<sc-if value="{{c.warn}}" hint-placeholder-val="{{false}}"><span style="width:6px;height:6px;border-radius:50%;background:#D97706;display:inline-block;margin-left:6px;vertical-align:middle;"></span></sc-if></button>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;">
+          <sc-for list="{{signers}}" as="p" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:6px;border-bottom:1px solid #F0F2F0;">
+              <button onClick="{{p.open}}" style="flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:8px 0;background:transparent;border:none;cursor:pointer;text-align:left;font-family:'IBM Plex Sans',sans-serif;color:#132119;">
+                <span style="flex:1;min-width:0;">
+                  <span style="display:block;font-size:13px;font-weight:600;">{{p.n}}</span>
+                  <span style="display:block;font-size:11.5px;color:#5B6B60;">{{p.pos}}</span>
+                </span>
+                <span style="text-align:right;min-width:0;">
+                  <span style="{{p.grpStyle}}">{{p.grpLabel}}</span>
+                  <span style="display:block;font-size:11.5px;color:#5B6B60;margin-top:3px;">{{p.yetki}}</span>
+                </span>
+              </button>
+              <a href="Belgeler.dc.html" aria-label="{{p.refLabel}}" title="{{p.refLabel}}" style="flex-shrink:0;width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:13px;font-weight:700;">↗</a>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{hasPoa}}" hint-placeholder-val="{{true}}">
+          <div style="display:flex;flex-direction:column;">
+            <div style="font-size:11px;font-weight:600;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:4px;">Vekaletnameler</div>
+            <sc-for list="{{poa}}" as="v" hint-placeholder-count="1">
+              <div style="{{v.rowStyle}}">
+                <button onClick="{{v.open}}" style="flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:7px 0;background:transparent;border:none;cursor:pointer;text-align:left;font-family:'IBM Plex Sans',sans-serif;color:#132119;">
+                  <span style="flex:1;min-width:0;">
+                    <span style="display:block;font-size:12.5px;font-weight:600;">{{v.n}}</span>
+                    <span style="display:block;font-size:11.5px;color:#5B6B60;">{{v.kapsam}}</span>
+                  </span>
+                  <span style="text-align:right;">
+                    <span style="{{v.stStyle}}">{{v.st}}</span>
+                    <span style="display:block;font-size:11px;color:#8A968E;margin-top:3px;">{{v.bitisLabel}}</span>
+                  </span>
+                </button>
+                <a href="Belgeler.dc.html" aria-label="{{v.refLabel}}" title="{{v.refLabel}}" style="flex-shrink:0;width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:13px;font-weight:700;">↗</a>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;color:#8A968E;">
+          <a href="Belgeler.dc.html" style="font-size:12px;font-weight:600;text-decoration:underline;">{{cur.doc}}</a>
+          <span>{{cur.date}} · {{cur.giren}}</span>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== TABLO: Mali İşler › Şirket Bilgileri (salt okunur) ===== -->
+  <sc-if value="{{isTablo}}" hint-placeholder-val="{{false}}">
+    <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid #F0F2F0;">
+        <span style="font-size:13.5px;font-weight:700;">İmza yetkilileri</span>
+        <sc-for list="{{alerts}}" as="w" hint-placeholder-count="1">
+          <span style="font-size:11px;font-weight:700;color:#9A6B12;background:#FBF1DE;border-radius:6px;padding:3px 8px;">{{w}}</span>
+        </sc-for>
+        <span style="flex:1;"></span>
+        <a href="Belgeler.dc.html" style="font-size:12px;text-decoration:underline;font-weight:500;">İmza sirküleri · {{cur.date}} ↗</a>
+      </div>
+      <div style="display:grid;grid-template-columns:1.4fr 0.5fr 1.6fr 28px;column-gap:10px;font-size:11px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding:8px 16px;border-bottom:1px solid #E9EDEA;"><span>Kişi</span><span>Grup</span><span>Yetki</span><span></span></div>
+      <sc-for list="{{signers}}" as="p" hint-placeholder-count="3">
+        <div style="display:grid;grid-template-columns:1fr 28px;column-gap:10px;align-items:center;padding:0 16px;border-bottom:1px solid #F6F8F6;">
+          <button onClick="{{p.open}}" style="display:grid;grid-template-columns:1.4fr 0.5fr 1.6fr;column-gap:10px;align-items:center;padding:8px 0;background:transparent;border:none;cursor:pointer;text-align:left;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;color:#132119;">
+            <span><span style="display:block;font-weight:600;">{{p.n}}</span><span style="display:block;font-size:11.5px;color:#5B6B60;">{{p.pos}}</span></span>
+            <span><span style="{{p.grpStyle}}">{{p.grp}}</span></span>
+            <span style="color:#5B6B60;">{{p.yetkiFull}}</span>
+          </button>
+          <a href="Belgeler.dc.html" aria-label="{{p.refLabel}}" title="{{p.refLabel}}" style="width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:13px;font-weight:700;">↗</a>
+        </div>
+      </sc-for>
+      <sc-if value="{{hasPoa}}" hint-placeholder-val="{{false}}">
+        <div style="font-size:11px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding:10px 16px 4px;">Vekaletnameler</div>
+        <sc-for list="{{poa}}" as="v" hint-placeholder-count="1">
+          <div style="display:grid;grid-template-columns:1fr 28px;column-gap:10px;align-items:center;padding:0 16px;border-bottom:1px solid #F6F8F6;">
+            <button onClick="{{v.open}}" style="display:grid;grid-template-columns:1.4fr 2.1fr;column-gap:10px;align-items:center;padding:6px 0;background:transparent;border:none;cursor:pointer;text-align:left;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;color:#132119;">
+              <span style="font-weight:600;">{{v.n}}</span>
+              <span style="color:#5B6B60;">{{v.kapsam}} · <span style="{{v.stStyle}}">{{v.st}}</span></span>
+            </button>
+            <a href="Belgeler.dc.html" aria-label="{{v.refLabel}}" title="{{v.refLabel}}" style="width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:13px;font-weight:700;">↗</a>
+          </div>
+        </sc-for>
+      </sc-if>
+      <div style="padding:8px 16px;font-size:12px;color:#5B6B60;">{{ruleLine}}</div>
+    </div>
+  </sc-if>
+
+  <!-- ===== DÜZENLE: Hukuk / Muhasebe elle giriş ===== -->
+  <sc-if value="{{isDuzenle}}" hint-placeholder-val="{{false}}">
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:600;">İmza Yetkileri</div>
+        <span style="flex:1;"></span>
+        <sc-if value="{{dirty}}" hint-placeholder-val="{{false}}">
+          <span style="font-size:11.5px;font-weight:700;color:#9A6B12;background:#FBF1DE;border-radius:6px;padding:4px 9px;">Kaydedilmedi</span>
+        </sc-if>
+        <span style="font-size:12px;color:#8A968E;">{{savedLabel}}</span>
+        <button onClick="{{onSave}}" style="{{saveStyle}}">Kaydet</button>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <sc-for list="{{spvTabs}}" as="c" hint-placeholder-count="6">
+          <button onClick="{{c.go}}" style="{{c.style}}">{{c.label}}<sc-if value="{{c.warn}}" hint-placeholder-val="{{false}}"><span style="width:6px;height:6px;border-radius:50%;background:#D97706;display:inline-block;margin-left:6px;vertical-align:middle;"></span></sc-if></button>
+        </sc-for>
+      </div>
+
+      <!-- Sirküler -->
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid #F0F2F0;">
+          <span style="font-size:14px;font-weight:700;">{{cur.unvan}} · imza sirküleri</span>
+          <sc-for list="{{alerts}}" as="w" hint-placeholder-count="1">
+            <span style="font-size:11px;font-weight:700;color:#9A6B12;background:#FBF1DE;border-radius:6px;padding:3px 8px;">{{w}}</span>
+          </sc-for>
+          <span style="flex:1;"></span>
+          <button onClick="{{onToggleNew}}" style="{{ghostBtn}}">Yeni sirküler yükle</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:12px;padding:12px 18px;">
+          <div style="min-width:0;"><div style="font-size:11px;color:#8A968E;">Belge</div><a href="Belgeler.dc.html" style="display:block;font-size:12.5px;font-weight:600;text-decoration:underline;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{cur.doc}}</a></div>
+          <div><div style="font-size:11px;color:#8A968E;">Sirküler tarihi</div><div style="font-size:12.5px;font-weight:600;">{{cur.date}}</div></div>
+          <div style="min-width:0;"><div style="font-size:11px;color:#8A968E;">Dayanak</div><div style="font-size:12.5px;">{{cur.dayanak}}</div></div>
+          <div style="min-width:0;"><div style="font-size:11px;color:#8A968E;">Noter tasdiki</div><div style="font-size:12.5px;">{{cur.noter}}</div></div>
+          <div><div style="font-size:11px;color:#8A968E;">YK görev süresi bitişi</div><div style="font-size:12.5px;font-weight:600;">{{cur.yk}}</div></div>
+          <div><div style="font-size:11px;color:#8A968E;">Giren</div><div style="font-size:12.5px;">{{cur.giren}}</div></div>
+        </div>
+        <sc-if value="{{newOpen}}" hint-placeholder-val="{{false}}">
+          <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:12px;padding:12px 18px;border-top:1px solid #F0F2F0;background:#F6FBF8;">
+            <label style="{{lbl}}">Dosya<input type="text" value="{{nw.doc}}" onInput="{{onNwDoc}}" placeholder="..._Imza_Sirkuleri.pdf" style="{{inp}}"></label>
+            <label style="{{lbl}}">Sirküler tarihi<input type="text" value="{{nw.date}}" onInput="{{onNwDate}}" placeholder="gg.aa.yyyy" style="{{inp}}"></label>
+            <label style="{{lbl}}">Dayanak (YK kararı / TTSG)<input type="text" value="{{nw.dayanak}}" onInput="{{onNwDay}}" style="{{inp}}"></label>
+            <label style="{{lbl}}">Noter tasdiki<input type="text" value="{{nw.noter}}" onInput="{{onNwNoter}}" style="{{inp}}"></label>
+            <label style="{{lbl}}">YK görev süresi bitişi<input type="text" value="{{nw.yk}}" onInput="{{onNwYk}}" placeholder="gg.aa.yyyy" style="{{inp}}"></label>
+          </div>
+        </sc-if>
+        <sc-if value="{{hasPrev}}" hint-placeholder-val="{{true}}">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 18px 12px;font-size:12px;color:#8A968E;">
+            <span>Önceki sirkülerler</span>
+            <sc-for list="{{prev}}" as="o" hint-placeholder-count="1">
+              <a href="Belgeler.dc.html" style="color:#8A968E;text-decoration:underline;">{{o.doc}} · {{o.date}}</a>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+
+      <!-- Grup tanımları -->
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;">
+        <div style="padding:12px 18px;border-bottom:1px solid #F0F2F0;font-size:14px;font-weight:700;">Grup tanımları</div>
+        <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:12px;padding:12px 18px;">
+          <label style="{{lbl}}">A grubu<input type="text" value="{{grpA}}" onInput="{{onGrpA}}" style="{{inp}}"></label>
+          <label style="{{lbl}}">B grubu<input type="text" value="{{grpB}}" onInput="{{onGrpB}}" style="{{inp}}"></label>
+        </div>
+      </div>
+
+      <!-- Yetkililer -->
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid #F0F2F0;">
+          <span style="font-size:14px;font-weight:700;">Yetkililer</span>
+          <span style="flex:1;"></span>
+          <button onClick="{{onAddSigner}}" style="{{ghostBtn}}">+ Kişi ekle</button>
+        </div>
+        <div style="overflow-x:auto;">
+          <div style="min-width:900px;">
+            <div style="display:grid;grid-template-columns:1.4fr 1.3fr 0.6fr 1fr 1.3fr 1.6fr 40px;column-gap:10px;font-size:11px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding:8px 18px;border-bottom:1px solid #E9EDEA;"><span>Ad Soyad</span><span>Pozisyon</span><span>Grup</span><span>Yetki şekli</span><span>Limit</span><span>Kapsam</span><span></span></div>
+            <sc-for list="{{editRows}}" as="r" hint-placeholder-count="3">
+              <div style="display:grid;grid-template-columns:1.4fr 1.3fr 0.6fr 1fr 1.3fr 1.6fr 40px;column-gap:10px;align-items:center;padding:7px 18px;border-bottom:1px solid #F6F8F6;">
+                <input type="text" list="imza-kisiler" aria-label="Ad Soyad" value="{{r.n}}" onInput="{{r.onN}}" style="{{inp}}">
+                <input type="text" aria-label="Pozisyon" value="{{r.pos}}" onInput="{{r.onPos}}" style="{{inp}}">
+                <select aria-label="Grup" value="{{r.grp}}" onChange="{{r.onGrp}}" style="{{inp}}"><option value="A">A</option><option value="B">B</option></select>
+                <select aria-label="Yetki şekli" value="{{r.sekil}}" onChange="{{r.onSekil}}" style="{{inp}}"><option value="Münferit">Münferit</option><option value="Müşterek">Müşterek</option></select>
+                <input type="text" aria-label="Limit" value="{{r.lim}}" onInput="{{r.onLim}}" style="{{inp}}">
+                <input type="text" aria-label="Kapsam" value="{{r.kap}}" onInput="{{r.onKap}}" style="{{inp}}">
+                <button aria-label="Satırı kaldır" onClick="{{r.onDel}}" style="width:32px;height:32px;border-radius:8px;border:1px solid #E1E7E2;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A968E" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <datalist id="imza-kisiler"><sc-for list="{{people}}" as="k" hint-placeholder-count="3"><option value="{{k}}">{{k}}</option></sc-for></datalist>
+      </div>
+
+      <!-- Vekaletnameler -->
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid #F0F2F0;">
+          <span style="font-size:14px;font-weight:700;">Vekaletnameler</span>
+          <span style="flex:1;"></span>
+          <button onClick="{{onAddPoa}}" style="{{ghostBtn}}">+ Vekaletname ekle</button>
+        </div>
+        <div style="overflow-x:auto;">
+          <div style="min-width:1040px;">
+            <div style="display:grid;grid-template-columns:1.2fr 1.9fr 0.9fr 1.4fr 0.7fr 0.7fr 0.9fr 40px;column-gap:10px;font-size:11px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding:8px 18px;border-bottom:1px solid #E9EDEA;"><span>Vekil</span><span>Kapsam</span><span>Bitiş</span><span>Belge</span><span>Ahzu kabz</span><span>Tevkil</span><span>Durum</span><span></span></div>
+            <sc-for list="{{editPoa}}" as="v" hint-placeholder-count="2">
+              <div style="display:grid;grid-template-columns:1.2fr 1.9fr 0.9fr 1.4fr 0.7fr 0.7fr 0.9fr 40px;column-gap:10px;align-items:center;padding:7px 18px;border-bottom:1px solid #F6F8F6;">
+                <input type="text" list="imza-kisiler" aria-label="Vekil" value="{{v.n}}" onInput="{{v.onN}}" style="{{inp}}">
+                <input type="text" aria-label="Kapsam" value="{{v.kapsam}}" onInput="{{v.onKap}}" style="{{inp}}">
+                <input type="text" aria-label="Bitiş" value="{{v.bitis}}" onInput="{{v.onBitis}}" placeholder="gg.aa.yyyy" style="{{inp}}">
+                <input type="text" aria-label="Belge" value="{{v.doc}}" onInput="{{v.onDoc}}" style="{{inp}}">
+                <select aria-label="Ahzu kabz" value="{{v.ahzu}}" onChange="{{v.onAhzu}}" style="{{inp}}"><option value="Yok">Yok</option><option value="Var">Var</option></select>
+                <select aria-label="Tevkil" value="{{v.tevkil}}" onChange="{{v.onTevkil}}" style="{{inp}}"><option value="Yok">Yok</option><option value="Var">Var</option></select>
+                <span><span style="{{v.stStyle}}">{{v.st}}</span></span>
+                <button aria-label="{{v.azlLabel}}" title="{{v.azlLabel}}" onClick="{{v.onAzl}}" style="width:32px;height:32px;border-radius:8px;border:1px solid #E1E7E2;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A968E" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M5.6 5.6l12.8 12.8"></path></svg></button>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== ÖZET PENCERESİ (kart ve tablo satırından) ===== -->
+  <sc-if value="{{popOpen}}" hint-placeholder-val="{{false}}">
+    <div style="position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;">
+      <button aria-label="Kapat" onClick="{{onPopClose}}" style="position:absolute;inset:0;background:rgba(14,36,29,0.38);border:none;cursor:default;"></button>
+      <div role="dialog" aria-modal="true" aria-label="{{pop.title}}" style="position:relative;width:600px;max-width:100%;max-height:88vh;overflow-y:auto;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:16px;box-shadow:0 24px 60px rgba(14,36,29,0.28);font-family:'IBM Plex Sans',sans-serif;color:#132119;">
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:18px 22px 14px;border-bottom:1px solid #F0F2F0;">
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:11.5px;color:#8A968E;">{{pop.kicker}}</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:600;margin-top:2px;">{{pop.title}}</div>
+            <div style="font-size:12.5px;color:#5B6B60;margin-top:2px;">{{pop.sub}}</div>
+          </div>
+          <span style="{{pop.badgeStyle}}">{{pop.badge}}</span>
+          <button aria-label="Kapat" onClick="{{onPopClose}}" style="width:32px;height:32px;border-radius:8px;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6B60" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+        </div>
+
+        <sc-for list="{{pop.alerts}}" as="w" hint-placeholder-count="1">
+          <div style="margin:12px 22px 0;padding:9px 12px;border-radius:10px;background:#FBF1DE;color:#7A5410;font-size:12.5px;font-weight:600;">{{w}}</div>
+        </sc-for>
+
+        <div style="padding:14px 22px;display:flex;flex-direction:column;gap:6px;">
+          <sc-for list="{{pop.facts}}" as="f" hint-placeholder-count="5">
+            <div style="display:flex;gap:12px;font-size:12.5px;line-height:1.5;"><span style="width:150px;flex-shrink:0;color:#8A968E;">{{f.k}}</span><span style="min-width:0;font-weight:500;">{{f.v}}</span></div>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{pop.isSigner}}" hint-placeholder-val="{{true}}">
+          <div style="padding:0 22px 14px;">
+            <div style="font-size:11px;font-weight:600;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding:6px 0;">Grup tanımları</div>
+            <sc-for list="{{pop.groups}}" as="g" hint-placeholder-count="2">
+              <div style="{{g.style}}"><span style="{{g.pill}}">{{g.k}}</span><span style="font-size:12.5px;line-height:1.5;">{{g.v}}</span></div>
+            </sc-for>
+            <div style="font-size:11px;font-weight:600;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding:12px 0 6px;">Geçerli imza kombinasyonları</div>
+            <div style="border:1px solid #E9EDEA;border-radius:10px;overflow:hidden;">
+              <sc-for list="{{pop.combos}}" as="c" hint-placeholder-count="3">
+                <div style="display:grid;grid-template-columns:90px 110px 1fr;column-gap:10px;padding:8px 12px;border-bottom:1px solid #F0F2F0;font-size:12.5px;align-items:center;">
+                  <span style="font-weight:700;">{{c.k}}</span>
+                  <span><span style="{{c.style}}">{{c.st}}</span></span>
+                  <span style="color:#5B6B60;">{{c.v}}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 22px 18px;border-top:1px solid #F0F2F0;">
+          <span style="font-size:11.5px;color:#8A968E;">{{pop.src}}</span>
+          <span style="flex:1;"></span>
+          <a href="Belgeler.dc.html" style="font-size:12.5px;font-weight:600;text-decoration:underline;">{{pop.linkLabel}} ↗</a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"mod":{"editor":"enum","options":["kart","tablo","duzenle"],"default":"duzenle"},"spv":{"editor":null},"gadget":{"editor":null},"dept":{"editor":"enum","options":["hukuk","muhasebe"],"default":"hukuk"},"note":{"editor":null},"accent":{"editor":"color","default":"#2FA968"},"$preview":{"width":1120,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const self = this;
+    const st = this.state || {};
+    const mod = this.props.mod || 'duzenle';
+    const accent = this.props.accent || '#2FA968';
+    const TODAY = '07.10.2026';
+    const toDate = function (s) { const m = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(String(s || '').trim()); return m ? new Date(+m[3], +m[2] - 1, +m[1]) : null; };
+    const dayDiff = function (s) { const a = toDate(s), b = toDate(TODAY); return a && b ? Math.round((a - b) / 86400000) : null; };
+
+    // ---- Tek kaynak: imza sirkülerleri ve vekaletnameler (Hukuk / Muhasebe elle girer) ----
+    const GA = 'Tek başına 500.000 TL’ye (karşılığı) kadar; üstü için B grubundan biriyle birlikte';
+    const GB = 'Tek başına imza yetkisi yok; yalnızca A grubundan biriyle birlikte';
+    const LA = { n: 'Levent Aksoy', pos: 'Genel Müdür', grp: 'A', sekil: 'Münferit', lim: '500.000 TL’ye kadar · üstü B ile müşterek', kap: 'Tüm işlemler' };
+    const ES = { n: 'Elif Şahin', pos: 'Mali İşler Müdürü', grp: 'B', sekil: 'Müşterek', lim: 'A ile birlikte · sınırsız', kap: 'Banka ve ödeme işlemleri' };
+    const KT = { n: 'Kaan Turhan', pos: 'Proje Finans Müdürü', grp: 'B', sekil: 'Müşterek', lim: 'A ile birlikte · sınırsız', kap: 'Kredi ve teminat işlemleri' };
+    const DATA0 = {
+      xyz: { unvan: 'XYZ Enerji A.Ş.', short: 'Genel Merkez', doc: 'XYZ_Enerji_Imza_Sirkuleri_2025.pdf', date: '12.03.2025', dayanak: 'YK kararı 03.03.2025 · TTSG 12.03.2025', noter: 'Ankara 12. Noterliği · 14.03.2025 · yevmiye 08812', yk: '31.03.2028', giren: 'Burak Çelik (Hukuk)', grpA: GA, grpB: GB,
+        signers: [{ n: 'Ahmet Öztürk', pos: 'YK Başkanı', grp: 'A', sekil: 'Münferit', lim: 'Sınırsız', kap: 'Tüm işlemler' }, LA, ES, KT],
+        poa: [{ n: 'Gökhan Erdem', kapsam: 'Banka şubelerinde evrak teslim ve tebellüğ', yapamaz: 'Ödeme talimatı imzalayamaz, para çekemez', bas: '02.01.2026', bitis: '31.12.2026', doc: 'Vekaletname_GErdem_2026.pdf', noter: 'Ankara 12. Noterliği · yevmiye 00214', ahzu: 'Yok', tevkil: 'Yok' }],
+        prev: [{ doc: 'XYZ_Enerji_Imza_Sirkuleri_2023.pdf', date: '18.04.2023' }] },
+      kt: { unvan: 'Karatepe RES Enerji Üretim A.Ş.', short: 'Karatepe RES', doc: 'Karatepe_RES_Imza_Sirkuleri_2025.pdf', date: '12.03.2025', dayanak: 'YK kararı 03.03.2025 · TTSG 12.03.2025', noter: 'Ankara 12. Noterliği · 14.03.2025 · yevmiye 08815', yk: '31.03.2027', giren: 'Burak Çelik (Hukuk)', grpA: GA, grpB: GB,
+        signers: [LA, ES, KT],
+        poa: [{ n: 'Kaan Turhan', kapsam: 'Garanti BBVA nezdinde kredi kullanım ve teminat işlemleri', yapamaz: 'Yeni kredi sözleşmesi imzalayamaz; yalnızca mevcut kredi kapsamında', bas: '01.11.2025', bitis: '31.10.2026', doc: 'Vekaletname_KTurhan_GarantiBBVA.pdf', noter: 'Ankara 12. Noterliği · yevmiye 19740', ahzu: 'Var', tevkil: 'Yok' }],
+        prev: [] },
+      bz: { unvan: 'Boztepe RES Enerji Üretim A.Ş.', short: 'Boztepe RES', doc: 'Boztepe_RES_Imza_Sirkuleri_2025.pdf', date: '12.03.2025', dayanak: 'YK kararı 03.03.2025 · TTSG 12.03.2025', noter: 'Ankara 12. Noterliği · 14.03.2025 · yevmiye 08816', yk: '31.03.2028', giren: 'Burak Çelik (Hukuk)', grpA: GA, grpB: GB,
+        signers: [LA, ES, KT],
+        poa: [{ n: 'Burak Çelik', kapsam: 'Dava vekaleti · Boztepe RES imar davası', yapamaz: 'Sulh ve feragat için ayrıca yetki gerekir', bas: '05.02.2025', bitis: '', doc: 'Vekaletname_BCelik_Dava.pdf', noter: 'Ankara 4. Noterliği · yevmiye 03311', ahzu: 'Var', tevkil: 'Var' }],
+        prev: [] },
+      ys: { unvan: 'Yeşilova RES Enerji Üretim A.Ş.', short: 'Yeşilova RES', doc: 'Yesilova_RES_Imza_Sirkuleri_2025.pdf', date: '12.03.2025', dayanak: 'YK kararı 03.03.2025 · TTSG 12.03.2025', noter: 'Ankara 12. Noterliği · 14.03.2025 · yevmiye 08817', yk: '31.03.2028', giren: 'Selin Arslan (Muhasebe)', grpA: GA, grpB: GB,
+        signers: [LA, ES, KT],
+        poa: [{ n: 'Kaan Turhan', kapsam: 'Commerzbank AG raporlama yazışmaları', yapamaz: 'Kredi ve ödeme işlemi yapamaz', bas: '01.07.2025', bitis: '30.06.2026', doc: 'Vekaletname_KTurhan_Commerzbank.pdf', noter: 'Ankara 12. Noterliği · yevmiye 14402', ahzu: 'Yok', tevkil: 'Yok' }],
+        prev: [] },
+      gn: { unvan: 'Güneşalan GES Enerji Üretim A.Ş.', short: 'Güneşalan GES', doc: 'Gunesalan_GES_Imza_Sirkuleri_2025.pdf', date: '12.03.2025', dayanak: 'YK kararı 03.03.2025 · TTSG 12.03.2025', noter: 'Ankara 12. Noterliği · 14.03.2025 · yevmiye 08818', yk: '31.03.2028', giren: 'Selin Arslan (Muhasebe)', grpA: GA, grpB: GB,
+        signers: [LA, ES, KT], poa: [], prev: [] },
+      kz: { unvan: 'Kızılova Enerji A.Ş.', short: 'Kızılova RES (şantiye)', doc: 'Kizilova_Imza_Sirkuleri_2026.pdf', date: '15.09.2026', dayanak: 'YK kararı 08.09.2026 · TTSG 15.09.2026', noter: 'Ankara 12. Noterliği · 16.09.2026 · yevmiye 21190', yk: '08.09.2029', giren: 'Burak Çelik (Hukuk)', grpA: GA, grpB: GB,
+        signers: [LA, ES, KT, { n: 'Kerem Aydın', pos: 'Enerji Grubu Müdürü', grp: 'B', sekil: 'Müşterek', lim: 'A ile birlikte · 2.000.000 TL’ye kadar', kap: 'EPC ve şantiye sözleşmeleri' }],
+        poa: [{ n: 'Hakan Tunç', kapsam: 'Belediye ve TEİAŞ nezdinde başvuru, tebellüğ', yapamaz: 'Sözleşme ve taahhüt imzalayamaz', bas: '16.09.2026', bitis: '15.03.2027', doc: 'Vekaletname_HTunc_Kamu.pdf', noter: 'Ankara 12. Noterliği · yevmiye 21204', ahzu: 'Yok', tevkil: 'Yok' }],
+        prev: [{ doc: 'Kizilova_Imza_Sirkuleri_2025.pdf', date: '12.03.2025' }] }
+    };
+    const ORDER = ['xyz', 'kt', 'bz', 'ys', 'gn', 'kz'];
+    const PEOPLE = ['Levent Aksoy', 'Elif Şahin', 'Kaan Turhan', 'Oğuz Tekin', 'Gökhan Erdem', 'Selin Arslan', 'Ayşe Yılmaz', 'Burak Çelik', 'Deniz Kaya', 'Zeynep Koç', 'Kerem Aydın', 'Cem Aktaş', 'Onur Yıldız', 'Hakan Tunç', 'Pınar Güler'];
+
+    const DATA = st.data || DATA0;
+    const spvId = st.spv || this.props.spv || 'xyz';
+    const D = DATA[spvId] || DATA.xyz;
+    const dept = this.props.dept || 'hukuk';
+    const ME = dept === 'muhasebe' ? 'Selin Arslan (Muhasebe)' : 'Burak Çelik (Hukuk)';
+
+    const PILL = 'font-size:11px;font-weight:700;border-radius:6px;padding:2px 7px;display:inline-block;';
+    const grpStyle = function (g) { return PILL + (g === 'A' ? 'color:#1E6B3E;background:#E7F3EB;' : 'color:#0E7490;background:#E0F2F7;'); };
+    const ST_STYLE = { ok: PILL + 'color:#1E6B3E;background:#E7F3EB;', warn: PILL + 'color:#9A6B12;background:#FBF1DE;', bad: PILL + 'color:#B23A3A;background:#FBE7E7;' };
+    const poaState = function (v) {
+      if (v.azl) return { st: 'Azledildi', cls: 'bad', live: false };
+      if (!v.bitis) return { st: 'Süresiz', cls: 'ok', live: true };
+      const d = dayDiff(v.bitis);
+      if (d === null) return { st: 'Tarih?', cls: 'warn', live: true };
+      if (d < 0) return { st: 'Süresi doldu', cls: 'bad', live: false };
+      if (d <= 30) return { st: d + ' gün kaldı', cls: 'warn', live: true };
+      return { st: 'Yürürlükte', cls: 'ok', live: true };
+    };
+    const ykLeft = function (d) { return dayDiff(d.yk); };
+    const ykWarn = function (d) { const x = ykLeft(d); return x !== null && x <= 180; };
+    const poaWarn = function (d) { return (d.poa || []).some(function (v) { return poaState(v).cls === 'warn'; }); };
+    const warnOf = function (d) { return poaWarn(d) || ykWarn(d); };
+    const alertsOf = function (d) {
+      const a = [];
+      if (ykWarn(d)) a.push('YK görev süresi ' + ykLeft(d) + ' gün içinde bitiyor');
+      (d.poa || []).forEach(function (v) { const s = poaState(v); if (s.cls === 'warn') a.push(v.n + ' vekaletnamesi · ' + s.st); });
+      return a;
+    };
+
+    const CHIP = "font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;border-radius:20px;padding:5px 11px;cursor:pointer;";
+    const spvTabs = ORDER.map(function (id) {
+      const on = id === spvId;
+      return { label: DATA[id].short, warn: warnOf(DATA[id]), style: CHIP + (on ? 'background:#0E241D;color:#F6F7F5;border:1px solid #0E241D;' : 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;'), go: function () { self.setState({ spv: id, newOpen: false, pop: null }); } };
+    });
+
+    const signers = D.signers.map(function (p, i) {
+      const yetki = p.sekil === 'Münferit' ? 'Münferit · ' + p.lim : p.lim;
+      return { n: p.n, pos: p.pos, grp: p.grp, grpLabel: p.grp + ' grubu', grpStyle: grpStyle(p.grp), yetki: yetki, yetkiFull: yetki + ' · ' + p.kap,
+        refLabel: 'Kaynak: ' + D.doc, open: function () { self.setState({ pop: { t: 's', i: i } }); } };
+    });
+    const poa = (D.poa || []).map(function (v, i) {
+      const s = poaState(v);
+      return { n: v.n, kapsam: v.kapsam, st: s.st, stStyle: ST_STYLE[s.cls], bitisLabel: v.bitis ? 'Bitiş ' + v.bitis : 'Süresiz',
+        refLabel: 'Kaynak: ' + v.doc, open: function () { self.setState({ pop: { t: 'v', i: i } }); },
+        rowStyle: 'display:flex;align-items:center;gap:6px;border-bottom:1px solid #F0F2F0;' + (s.live ? '' : 'opacity:0.55;') };
+    });
+
+    // ---- Özet penceresi ----
+    const P = st.pop;
+    let pop = { title: '', kicker: '', sub: '', badge: '', badgeStyle: '', facts: [], alerts: [], isSigner: false, groups: [], combos: [], src: '', linkLabel: '' };
+    if (P && P.t === 's' && D.signers[P.i]) {
+      const p = D.signers[P.i];
+      const others = D.signers.filter(function (x, j) { return j !== P.i; });
+      const partners = p.grp === 'A' ? others.filter(function (x) { return x.grp === 'B'; }) : others.filter(function (x) { return x.grp === 'A'; });
+      const OKS = ST_STYLE.ok, BADS = ST_STYLE.bad;
+      pop = {
+        kicker: D.unvan + ' · imza yetkilisi', title: p.n, sub: p.pos,
+        badge: p.grp + ' grubu', badgeStyle: grpStyle(p.grp),
+        alerts: ykWarn(D) ? ['Yönetim kurulu görev süresi ' + D.yk + ' tarihinde bitiyor (' + ykLeft(D) + ' gün). Yeni seçimle sirküler yenilenmeli.'] : [],
+        facts: [
+          { k: 'Yetki şekli', v: p.sekil === 'Münferit' ? 'Münferit (tek başına)' : 'Müşterek (birlikte)' },
+          { k: 'Limit', v: p.lim },
+          { k: 'Kapsam', v: p.kap },
+          { k: 'Birlikte imzalayabilir', v: partners.length ? partners.map(function (x) { return x.n; }).join(', ') : '—' },
+          { k: 'Sirküler', v: D.date + ' · ' + D.dayanak },
+          { k: 'Noter tasdiki', v: D.noter },
+          { k: 'YK görev süresi', v: D.yk + ' tarihine kadar' }
+        ],
+        isSigner: true,
+        groups: [['A', D.grpA], ['B', D.grpB]].map(function (g) {
+          const me = g[0] === p.grp;
+          return { k: g[0] + ' grubu', v: g[1], pill: grpStyle(g[0]) + 'flex-shrink:0;', style: 'display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;margin-bottom:6px;' + (me ? 'background:#F6FBF8;border:1px solid #BFE3CC;' : 'background:#FFFFFF;border:1px solid #F0F2F0;') };
+        }),
+        combos: [
+          { k: 'A', st: 'Geçerli', style: OKS, v: '500.000 TL’ye (karşılığı) kadar' },
+          { k: 'A + B', st: 'Geçerli', style: OKS, v: 'Sınırsız · kişinin kapsamı içinde' },
+          { k: 'B', st: 'Geçersiz', style: BADS, v: 'Tek başına imza yok' },
+          { k: 'B + B', st: 'Geçersiz', style: BADS, v: 'A grubundan imza şart' }
+        ],
+        src: 'Giren: ' + D.giren, linkLabel: 'İmza sirkülerini aç'
+      };
+    } else if (P && P.t === 'v' && D.poa && D.poa[P.i]) {
+      const v = D.poa[P.i];
+      const s = poaState(v);
+      const left = v.bitis ? dayDiff(v.bitis) : null;
+      pop = {
+        kicker: D.unvan + ' · vekaletname', title: v.n, sub: v.kapsam,
+        badge: s.st, badgeStyle: ST_STYLE[s.cls],
+        alerts: s.cls === 'warn' ? ['Vekaletname ' + v.bitis + ' tarihinde sona eriyor. Yenilenmezse bu işlemler vekil tarafından yürütülemez.'] : (s.cls === 'bad' ? ['Bu vekaletname geçerli değil. Vekil adına işlem yapılamaz.'] : []),
+        facts: [
+          { k: 'Yetkiler', v: v.kapsam },
+          { k: 'Yapamayacakları', v: v.yapamaz || '—' },
+          { k: 'Ahzu kabz (tahsil)', v: v.ahzu === 'Var' ? 'Var · şirket adına para alabilir' : 'Yok' },
+          { k: 'Tevkil (alt vekil)', v: v.tevkil === 'Var' ? 'Var · başkasını vekil atayabilir' : 'Yok' },
+          { k: 'Geçerlilik', v: (v.bas || '—') + ' – ' + (v.bitis || 'süresiz') + (left !== null && left >= 0 ? ' · ' + left + ' gün kaldı' : '') },
+          { k: 'Noter', v: v.noter || '—' },
+          { k: 'Veren', v: D.unvan + ' · A grubu yetkilisi' }
+        ],
+        isSigner: false, groups: [], combos: [],
+        src: 'Giren: ' + D.giren, linkLabel: 'Vekaletnameyi aç'
+      };
+    }
+
+    // ---- Düzenleme ----
+    const upd = function (fn) { const nd = JSON.parse(JSON.stringify(DATA)); fn(nd[spvId]); self.setState({ data: nd, dirty: true }); };
+    const editRows = D.signers.map(function (p, i) {
+      const set = function (k) { return function (e) { const v = e.target.value; upd(function (d) { d.signers[i][k] = v; }); }; };
+      return { n: p.n, pos: p.pos, grp: p.grp, sekil: p.sekil, lim: p.lim, kap: p.kap,
+        onN: set('n'), onPos: set('pos'), onGrp: set('grp'), onSekil: set('sekil'), onLim: set('lim'), onKap: set('kap'),
+        onDel: function () { upd(function (d) { d.signers.splice(i, 1); }); } };
+    });
+    const editPoa = (D.poa || []).map(function (v, i) {
+      const set = function (k) { return function (e) { const val = e.target.value; upd(function (d) { d.poa[i][k] = val; }); }; };
+      const s = poaState(v);
+      return { n: v.n, kapsam: v.kapsam, bitis: v.bitis, doc: v.doc, ahzu: v.ahzu || 'Yok', tevkil: v.tevkil || 'Yok', st: s.st, stStyle: ST_STYLE[s.cls],
+        azlLabel: v.azl ? 'Azli geri al' : 'Azledildi olarak işaretle',
+        onN: set('n'), onKap: set('kapsam'), onBitis: set('bitis'), onDoc: set('doc'), onAhzu: set('ahzu'), onTevkil: set('tevkil'),
+        onAzl: function () { upd(function (d) { d.poa[i].azl = !d.poa[i].azl; }); } };
+    });
+    const nw = st.nw || { doc: '', date: '', dayanak: '', noter: '', yk: '' };
+    const setNw = function (k) { return function (e) { const o = Object.assign({}, nw); o[k] = e.target.value; self.setState({ nw: o, dirty: true }); }; };
+    const setGrp = function (k) { return function (e) { const v = e.target.value; upd(function (d) { d[k] = v; }); }; };
+    const INP = "box-sizing:border-box;width:100%;border:1px solid #D6E4DA;border-radius:10px;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;color:#132119;background:#FFFFFF;";
+    const dirty = !!st.dirty;
+    const saved = st.saved || null;
+
+    return {
+      accent: accent,
+      isKart: mod === 'kart', isTablo: mod === 'tablo', isDuzenle: mod === 'duzenle',
+      kartPad: this.props.gadget ? 'padding-top:18px;' : '',
+      spvTabs: spvTabs, signers: signers, poa: poa, hasPoa: poa.length > 0,
+      cur: { unvan: D.unvan, doc: D.doc, date: D.date, dayanak: D.dayanak, noter: D.noter, yk: D.yk, giren: D.giren },
+      alerts: alertsOf(D),
+      ruleLine: 'A grubu tek başına 500.000 TL’ye kadar · üstü A+B çift imza' + (this.props.note ? ' · ' + this.props.note : ''),
+      popOpen: !!(P && pop.title), pop: pop, onPopClose: function () { self.setState({ pop: null }); },
+      prev: D.prev || [], hasPrev: (D.prev || []).length > 0,
+      grpA: D.grpA, grpB: D.grpB, onGrpA: setGrp('grpA'), onGrpB: setGrp('grpB'),
+      editRows: editRows, editPoa: editPoa, people: PEOPLE,
+      newOpen: !!st.newOpen, nw: nw,
+      onToggleNew: function () { self.setState({ newOpen: !st.newOpen }); },
+      onNwDoc: setNw('doc'), onNwDate: setNw('date'), onNwDay: setNw('dayanak'), onNwNoter: setNw('noter'), onNwYk: setNw('yk'),
+      onAddSigner: function () { upd(function (d) { d.signers.push({ n: '', pos: '', grp: 'B', sekil: 'Müşterek', lim: '', kap: '' }); }); },
+      onAddPoa: function () { upd(function (d) { d.poa = d.poa || []; d.poa.push({ n: '', kapsam: '', bitis: '', doc: '', ahzu: 'Yok', tevkil: 'Yok' }); }); },
+      dirty: dirty,
+      savedLabel: saved ? 'Son kayıt: ' + saved : 'Son kayıt: ' + D.giren + ' · ' + D.date,
+      saveStyle: "font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:700;border:none;border-radius:10px;padding:9px 18px;cursor:pointer;" + (dirty ? 'background:' + accent + ';color:#0E241D;' : 'background:#EEF0EE;color:#8A968E;'),
+      onSave: function () {
+        if (!dirty) return;
+        const nd = JSON.parse(JSON.stringify(DATA));
+        const d = nd[spvId];
+        if (st.newOpen && nw.doc && nw.date) {
+          d.prev = [{ doc: d.doc, date: d.date }].concat(d.prev || []);
+          d.doc = nw.doc; d.date = nw.date; d.dayanak = nw.dayanak || d.dayanak; d.noter = nw.noter || d.noter; d.yk = nw.yk || d.yk;
+        }
+        d.giren = ME;
+        self.setState({ data: nd, dirty: false, newOpen: false, nw: null, saved: ME + ' · ' + TODAY });
+      },
+      ghostBtn: "font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;border:1px solid #D6E4DA;border-radius:10px;padding:7px 12px;background:#FFFFFF;color:#1E6B3E;cursor:pointer;",
+      inp: INP,
+      lbl: 'font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;'
+    };
+  }
+}
+</script>
+</body>
+</html>

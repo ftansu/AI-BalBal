@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Masraf · Avans — personel masraf ve iş avansı formu</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+<div style="{{rootStyle}}">
+  <div role="dialog" aria-modal="true" aria-label="{{title}}" onClick="{{stop}}" style="width:1280px;max-width:100%;flex-shrink:0;border-radius:18px;background:#F6F9F7;box-shadow:0 24px 60px rgba(14,36,29,0.35);display:flex;flex-direction:column;overflow:hidden;font-family:'IBM Plex Sans',sans-serif;color:#132119;">
+
+    <!-- Başlık -->
+    <div style="flex-shrink:0;display:flex;align-items:center;gap:14px;padding:16px 22px;background:#0E241D;color:#F6F7F5;">
+      <div aria-hidden="true" style="width:46px;height:46px;border-radius:12px;background:#2FA968;color:#0E241D;font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">+</div>
+      <div style="flex:1;min-width:0;"><div style="font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;line-height:1.2;">{{title}}</div><div style="font-size:12.5px;color:#C9D3CC;margin-top:2px;">{{sub}}</div></div>
+      <span style="font-size:12px;color:#C9D3CC;white-space:nowrap;">{{meLine}}</span>
+      <span style="font-size:11.5px;font-weight:700;border-radius:6px;padding:4px 9px;color:#F6F7F5;background:#1D3329;border:1px solid #2E4A3D;white-space:nowrap;">{{no}}</span>
+      <button onClick="{{close}}" aria-label="Kapat" style="width:34px;height:34px;border-radius:9px;border:1px solid #2E4A3D;background:transparent;color:#F6F7F5;cursor:pointer;font-size:16px;">×</button>
+    </div>
+
+    <!-- FORM -->
+    <sc-if value="{{showForm}}" hint-placeholder-val="{{true}}">
+    <div style="padding:18px 22px;display:flex;flex-direction:column;gap:14px;">
+
+      <div style="display:flex;align-items:center;gap:6px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:12px;padding:4px;align-self:flex-start;">
+        <button onClick="{{pickMasraf}}" aria-pressed="{{masrafPressed}}" style="{{segMasraf}}"><span style="display:block;font-size:13.5px;font-weight:700;">Masraf</span><span style="display:block;font-size:11.5px;font-weight:500;opacity:0.8;">harcandı · fiş / fatura var</span></button>
+        <button onClick="{{pickAvans}}" aria-pressed="{{avansPressed}}" style="{{segAvans}}"><span style="display:block;font-size:13.5px;font-weight:700;">Avans</span><span style="display:block;font-size:11.5px;font-weight:500;opacity:0.8;">ileride harcanacak</span></button>
+      </div>
+
+      <!-- MASRAF -->
+      <sc-if value="{{isMasraf}}" hint-placeholder-val="{{true}}">
+        <sc-if value="{{noDocs}}" hint-placeholder-val="{{false}}">
+          <div style="border:2px dashed #C7D6CB;border-radius:16px;background:#FFFFFF;padding:36px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#2FA968" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"></path><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"></path></svg>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;">Fiş ve faturaları yükle</div>
+            <div style="font-size:12.5px;color:#5B6B60;">Fotoğraf · PDF · e-Arşiv / e-Fatura XML · birden çok belge</div>
+            <button onClick="{{upload}}" style="border-radius:12px;padding:12px 22px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;border:none;background:#0E241D;color:#F6F7F5;cursor:pointer;">+ Belge yükle</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{hasDocs}}" hint-placeholder-val="{{true}}">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <button onClick="{{addMore}}" style="{{addMoreStyle}}">+ Belge ekle</button>
+            <span style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:#5E430C;background:#FFF8EF;border:1px solid #F0DDB5;border-radius:999px;padding:4px 12px 4px 4px;"><span aria-hidden="true" style="width:22px;height:22px;border-radius:50%;background:#FFFFFF;box-shadow:0 0 0 2px #D97706;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;"><img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:78%;height:78%;object-fit:contain;"></span>{{readLine}}</span>
+          </div>
+
+          <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;">
+            <div style="display:grid;grid-template-columns:150px 104px minmax(0,1fr) 130px 120px 172px 112px 96px 78px 34px;gap:8px;align-items:center;padding:10px 12px;background:#F6F9F7;border-bottom:1px solid #E1E7E2;font-size:11.5px;font-weight:700;color:#5B6B60;">
+              <span>Belge</span><span>Tarih</span><span>Satıcı · VKN</span><span>Belge no</span><span>Kategori</span><span>Masraf yeri / proje</span><span style="text-align:right;">Tutar</span><span style="text-align:right;">KDV</span><span>Para b.</span><span></span>
+            </div>
+            <sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
+              <div style="border-bottom:1px solid #F0F2F0;padding:8px 12px;display:flex;flex-direction:column;gap:6px;">
+                <div style="display:grid;grid-template-columns:150px 104px minmax(0,1fr) 130px 120px 172px 112px 96px 78px 34px;gap:8px;align-items:center;">
+                  <span style="display:flex;align-items:center;gap:6px;min-width:0;"><span style="font-size:10.5px;font-weight:700;border-radius:5px;padding:2px 6px;background:#EEF2EF;color:#5B6B60;flex-shrink:0;">{{r.kind}}</span><span style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{r.file}}">{{r.file}}</span></span>
+                  <input type="text" aria-label="{{r.lblDate}}" value="{{r.date}}" placeholder="gg.aa.yyyy" onInput="{{r.onDate}}" style="{{r.fs.date}}">
+                  <span style="display:flex;flex-direction:column;gap:2px;min-width:0;"><input type="text" aria-label="{{r.lblVendor}}" value="{{r.vendor}}" placeholder="Satıcı" onInput="{{r.onVendor}}" style="{{r.fs.vendor}}"><span style="font-size:10.5px;color:#8A968E;padding-left:2px;">{{r.vkn}}</span></span>
+                  <input type="text" aria-label="{{r.lblNo}}" value="{{r.no}}" placeholder="Belge no" onInput="{{r.onNo}}" style="{{r.fs.no}}">
+                  <select aria-label="{{r.lblCat}}" value="{{r.cat}}" onChange="{{r.onCat}}" style="{{r.fs.cat}}"><sc-for list="{{cats}}" as="o" hint-placeholder-count="5"><option value="{{o}}">{{o}}</option></sc-for></select>
+                  <select aria-label="{{r.lblProj}}" value="{{r.proj}}" onChange="{{r.onProj}}" style="{{r.fs.proj}}"><sc-for list="{{projs}}" as="o" hint-placeholder-count="6"><option value="{{o}}">{{o}}</option></sc-for></select>
+                  <input type="text" aria-label="{{r.lblAmt}}" value="{{r.amt}}" placeholder="0,00" onInput="{{r.onAmt}}" style="{{r.fs.amt}}">
+                  <input type="text" aria-label="{{r.lblKdv}}" value="{{r.kdv}}" placeholder="0,00" onInput="{{r.onKdv}}" style="{{r.fs.kdv}}">
+                  <select aria-label="{{r.lblCur}}" value="{{r.cur}}" onChange="{{r.onCur}}" style="{{r.fs.cur}}"><option value="TL">TL</option><option value="USD">USD</option><option value="EUR">EUR</option></select>
+                  <button aria-label="{{r.delLabel}}" onClick="{{r.remove}}" style="width:30px;height:30px;border-radius:8px;border:1px solid #E1E7E2;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8A968E" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+                </div>
+                <sc-if value="{{r.hasWarn}}" hint-placeholder-val="{{false}}">
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;padding-left:158px;">
+                    <sc-for list="{{r.warns}}" as="w" hint-placeholder-count="1"><span style="{{w.style}}">{{w.t}}</span></sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+            <div style="display:flex;align-items:center;justify-content:flex-end;gap:18px;flex-wrap:wrap;padding:12px 16px;background:#F6F9F7;font-size:13px;">
+              <sc-for list="{{subTotals}}" as="t" hint-placeholder-count="1"><span style="font-weight:600;color:#5B6B60;">{{t.v}}</span></sc-for>
+              <span style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;">Toplam {{grand}}</span>
+            </div>
+          </div>
+
+          <sc-if value="{{hasOpenAv}}" hint-placeholder-val="{{false}}">
+            <button onClick="{{toggleAv}}" aria-pressed="{{avPressed}}" style="{{avRow}}"><span style="{{avBox}}">{{avMark}}</span><span style="flex:1;">{{avLine}}</span><span style="font-size:12.5px;font-weight:700;">{{avResult}}</span></button>
+          </sc-if>
+        </sc-if>
+      </sc-if>
+
+      <!-- AVANS -->
+      <sc-if value="{{isAvans}}" hint-placeholder-val="{{false}}">
+        <sc-if value="{{hasOpenAv}}" hint-placeholder-val="{{false}}"><div style="font-size:12.5px;font-weight:600;color:#9A6B12;background:#FBF1DE;border-radius:10px;padding:8px 12px;align-self:flex-start;">{{avOpenWarn}}</div></sc-if>
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
+          <div style="display:grid;grid-template-columns:1fr 96px;gap:10px;min-width:0;"><label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">Tutar<input type="text" value="{{av.amt}}" placeholder="0,00" onInput="{{av.onAmt}}" style="{{av.fs.amt}}"></label><label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">Para birimi<select value="{{av.cur}}" onChange="{{av.onCur}}" style="{{av.fs.cur}}"><option value="TL">TL</option><option value="USD">USD</option><option value="EUR">EUR</option></select></label></div>
+          <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">Harcama tarihi<input type="text" value="{{av.date}}" placeholder="gg.aa.yyyy" onInput="{{av.onDate}}" style="{{av.fs.date}}"></label>
+          <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">Masraf yeri / proje<select value="{{av.proj}}" onChange="{{av.onProj}}" style="{{av.fs.proj}}"><sc-for list="{{projs}}" as="o" hint-placeholder-count="6"><option value="{{o}}">{{o}}</option></sc-for></select></label>
+          <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;grid-column:1 / -1;">Amaç<input type="text" value="{{av.purpose}}" placeholder="Ne için harcanacak" onInput="{{av.onPurpose}}" style="{{av.fs.purpose}}"></label>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:#5B6B60;">
+        <span style="font-weight:700;color:#132119;">Ödeme hesabı</span><span>{{payLine}}</span>
+      </div>
+
+      <!-- Onaycılar -->
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:13.5px;font-weight:700;">Onaylayacaklar</div>
+        <sc-if value="{{aprEmpty}}" hint-placeholder-val="{{true}}"><div style="font-size:12.5px;color:#8A968E;">Onaycı yok · doğrudan Finansal Muhasebe</div></sc-if>
+        <sc-for list="{{aprList}}" as="a" hint-placeholder-count="1">
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:#F6F9F7;">
+            <span style="width:22px;height:22px;border-radius:50%;background:#0E241D;color:#F6F7F5;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">{{a.num}}</span>
+            <span style="flex:1;min-width:0;"><span style="display:block;font-size:13px;font-weight:600;">{{a.n}}</span><span style="display:block;font-size:11.5px;color:#5B6B60;">{{a.pos}} · {{a.dept}}</span></span>
+            <button aria-label="{{a.delLbl}}" onClick="{{a.remove}}" style="width:28px;height:28px;border-radius:8px;border:1px solid #E1E7E2;background:#FFFFFF;cursor:pointer;color:#8A968E;">✕</button>
+          </div>
+        </sc-for>
+        <div style="display:grid;grid-template-columns:1fr 1.4fr auto;gap:10px;align-items:end;max-width:760px;">
+          <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;">Departman<select value="{{aprDept}}" onChange="{{onAprDept}}" style="width:100%;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:10px;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#132119;background:#FFFFFF;"><sc-for list="{{aprDepts}}" as="o" hint-placeholder-count="5"><option value="{{o}}">{{o}}</option></sc-for></select></label>
+          <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;">Kişi<select value="{{aprPick}}" onChange="{{onAprPick}}" style="width:100%;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:10px;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#132119;background:#FFFFFF;"><sc-for list="{{aprPeople}}" as="o" hint-placeholder-count="3"><option value="{{o.v}}">{{o.l}}</option></sc-for></select></label>
+          <button onClick="{{addApr}}" style="{{addAprStyle}}">+ Onaycı ekle</button>
+        </div>
+      </div>
+
+      <sc-if value="{{needOk}}" hint-placeholder-val="{{true}}">
+        <button onClick="{{doOk}}" aria-pressed="{{okPressed}}" style="{{okRow}}"><span style="{{okBox}}">{{okMark}}</span><span style="flex:1;">Yukarıda Balbal tarafından doldurulan bilgilerin doğruluğunu onaylıyorum</span></button>
+      </sc-if>
+
+      <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;">
+        <button onClick="{{close}}" style="border-radius:12px;padding:12px 20px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;border:1px solid #D6E4DA;background:#FFFFFF;color:#132119;cursor:pointer;">Vazgeç</button>
+        <button onClick="{{submit}}" aria-disabled="{{submitDisabled}}" style="{{submitStyle}}">{{submitLbl}}</button>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- GÖNDERİLDİ -->
+    <sc-if value="{{showSent}}" hint-placeholder-val="{{false}}">
+    <div style="padding:22px;display:flex;flex-direction:column;gap:18px;">
+      <div style="display:flex;align-items:center;gap:12px;"><span aria-hidden="true" style="width:34px;height:34px;border-radius:50%;background:#2FA968;color:#0E241D;font-weight:700;display:inline-flex;align-items:center;justify-content:center;">✓</span><span style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;">{{sentTitle}}</span></div>
+      <div style="display:flex;align-items:flex-start;">
+        <sc-for list="{{steps}}" as="s" hint-placeholder-count="4">
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;text-align:center;">
+            <span style="position:absolute;top:16px;left:50%;width:100%;height:2px;{{s.lineStyle}}"></span>
+            <span style="{{s.circle}}">{{s.mark}}</span>
+            <span style="font-size:12.5px;font-weight:700;">{{s.label}}</span>
+            <span style="font-size:11.5px;color:#5B6B60;">{{s.who}}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
+        <sc-for list="{{facts}}" as="f" hint-placeholder-count="6"><div style="display:flex;flex-direction:column;gap:2px;min-width:0;"><span style="font-size:11.5px;font-weight:600;color:#5B6B60;">{{f.k}}</span><span style="font-size:13.5px;font-weight:600;">{{f.v}}</span></div></sc-for>
+      </div>
+      <div style="display:flex;justify-content:flex-end;"><button onClick="{{close}}" style="border-radius:12px;padding:12px 20px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;border:none;background:#0E241D;color:#F6F7F5;cursor:pointer;">Kapat</button></div>
+    </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"kisi":{"editor":"enum","options":["hakan","kerem","oguz","kaan","selin","gokhan","zeynep","deniz","ayse"],"default":"hakan"},"mod":{"editor":"enum","options":["masraf","avans"],"default":"masraf"},"durum":{"editor":"enum","options":["bos","tablo","onayli","gonderildi"],"default":"bos"},"embedded":{"editor":null},"onClose":{"editor":null},"$preview":{"width":1440,"height":1280}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const self = this;
+    const P = this.props || {};
+    const kisi = P.kisi || 'hakan';
+    const mod0 = P.mod === 'avans' ? 'avans' : 'masraf';
+    const durum = ['bos', 'tablo', 'onayli', 'gonderildi'].indexOf(P.durum) !== -1 ? P.durum : 'bos';
+    const embedded = !!P.embedded;
+
+    // İK şeması (Yeni-Odeme-Talebi ile aynı)
+    const PPL = [['Levent Aksoy', 'Genel Müdür', 'Yönetim', ''], ['Kerem Aydın', 'Enerji Grubu Müdürü', 'Enerji', 'Levent Aksoy'], ['Cem Aktaş', 'Proje Geliştirme Uzmanı', 'Enerji', 'Kerem Aydın'], ['Onur Yıldız', 'O&M Mühendisi', 'Enerji', 'Kerem Aydın'], ['Pınar Güler', 'Piyasa Analisti', 'Enerji', 'Kerem Aydın'], ['Hakan Tunç', 'EPC Proje Mühendisi', 'Enerji', 'Kerem Aydın'], ['Kaan Turhan', 'Proje Finans Müdürü', 'Proje Finans', 'Levent Aksoy'], ['Oğuz Tekin', 'Proje Finans Uzmanı', 'Proje Finans', 'Kaan Turhan'], ['Elif Şahin', 'Mali İşler Müdürü', 'Mali İşler', 'Levent Aksoy'], ['Gökhan Erdem', 'Finansal Muhasebe Uzmanı', 'Mali İşler', 'Elif Şahin'], ['Selin Arslan', 'Muhasebe Uzmanı', 'Mali İşler', 'Elif Şahin'], ['Ayşe Yılmaz', 'Hukuk Müdürü', 'Hukuk', 'Levent Aksoy'], ['Burak Çelik', 'Avukat', 'Hukuk', 'Ayşe Yılmaz'], ['Deniz Kaya', 'İdari İşler Sorumlusu', 'İdari İşler', 'Levent Aksoy'], ['Zeynep Koç', 'İK Uzmanı', 'İK', 'Levent Aksoy']];
+    const pOf = function (n) { return PPL.filter(function (p) { return p[0] === n; })[0] || [n, '', '', '']; };
+    const DEPTS = PPL.map(function (p) { return p[2]; }).filter(function (x, i, a) { return a.indexOf(x) === i; });
+    const MEM = { hakan: ['Hakan Tunç', 'Kızılova RES (şantiye)', '4417'], oguz: ['Oğuz Tekin', 'Genel Merkez', '2086'], selin: ['Selin Arslan', 'Genel Merkez', '7731'], gokhan: ['Gökhan Erdem', 'Genel Merkez', '5590'], zeynep: ['Zeynep Koç', 'Genel Merkez', '3018'], deniz: ['Deniz Kaya', 'Genel Merkez', '6642'], ayse: ['Ayşe Yılmaz', 'Genel Merkez', '1275'], kerem: ['Kerem Aydın', 'Genel Merkez', '8320'], kaan: ['Kaan Turhan', 'Genel Merkez', '9154'] };
+    const M0 = MEM[kisi] || MEM.hakan; const ME = { n: M0[0], pos: pOf(M0[0])[1], dept: pOf(M0[0])[2], mgr: pOf(M0[0])[3], proj: M0[1], acct: M0[2] };
+    const PROJS = ['Genel Merkez', 'Karatepe RES', 'Boztepe RES', 'Yeşilova RES', 'Güneşalan GES', 'Kızılova RES (şantiye)'];
+    const CATS = ['Yol', 'Konaklama', 'Yemek', 'Akaryakıt', 'Diğer'];
+    const KUR = { EUR: { r: 51.24, d: '22.09.2026' }, USD: { r: 43.41, d: '08.10.2026' } };
+    const OPEN_AV = kisi === 'hakan' ? { no: 'AV-26-007', amt: 15000, d: '25.09.2026', purpose: 'Kızılova saha ziyareti' } : null;
+
+    const num = function (s) { if (s === null || s === undefined) return null; const t = String(s).trim().replace(/\s/g, '').replace(/\./g, '').replace(',', '.'); if (!t) return null; const v = parseFloat(t); return isNaN(v) ? null : v; };
+    const fmt = function (v) { return Number(v || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+
+    // Balbal'ın belgelerden okuduğu demo satırlar
+    const ALL = ['date', 'vendor', 'no', 'cat', 'proj', 'amt', 'kdv', 'cur'];
+    const auto = function (ks) { const o = {}; ks.forEach(function (k) { o[k] = true; }); return o; };
+    const DOC = function (id, file, kind, date, vendor, vkn, no, cat, amt, kdv, cur, extra) { return Object.assign({ id: id, file: file, kind: kind, date: date, vendor: vendor, vkn: vkn, no: no, cat: cat, proj: ME.proj, amt: amt, kdv: kdv, cur: cur, auto: auto(ALL) }, extra || {}); };
+    const DOCS = [
+      DOC('d1', 'otel-kizilova.jpg', 'Foto', '29.09.2026', 'Kızılova Konuk Evi', 'VKN 5820417736', 'A-002318', 'Konaklama', '4.400,00', '400,00', 'TL'),
+      DOC('d2', 'yakit-0110.jpg', 'Foto', '01.10.2026', 'Yıldız Petrol Ltd. Şti.', 'VKN 9640118823', 'F-118204', 'Akaryakıt', '2.850,00', '475,00', 'TL'),
+      DOC('d3', 'yemek-0110.pdf', 'PDF', '01.10.2026', 'Kervan Lokantası', 'VKN 5410082291', 'Y-55120', 'Yemek', '1.260,00', '114,55', 'TL', { dupOf: 'MS-26-031' }),
+      DOC('d4', 'GKY2026000188214.xml', 'XML', '28.09.2026', 'Gökyolu Havacılık A.Ş.', 'VKN 4120339957', 'GKY2026000188214', 'Yol', '3.480,00', '580,00', 'TL', { buyer: ME.n }),
+      DOC('d5', 'adler-hamburg.pdf', 'PDF', '22.09.2026', 'Hotel Adler Hamburg', 'yurt dışı', 'R-77431', 'Konaklama', '340,00', '0,00', 'EUR'),
+      { id: 'd6', file: 'IMG_2214.jpg', kind: 'Foto', date: '', vendor: '', vkn: '', no: '', cat: 'Diğer', proj: ME.proj, amt: '', kdv: '', cur: 'TL', auto: auto(['proj']), unread: true }
+    ];
+    const EXTRA = DOC('d7', 'taksi-0210.jpg', 'Foto', '02.10.2026', 'Kent Taksi Kooperatifi', 'VKN 3380045120', 'T-90311', 'Yol', '340,00', '0,00', 'TL');
+    const FILLED6 = Object.assign({}, DOCS[5], { date: '02.10.2026', vendor: 'Otopark · Ulus', no: 'O-4471', amt: '120,00', kdv: '20,00', cat: 'Diğer', auto: { proj: true } });
+
+    // Durum (prop değişince yeniden kurulur)
+    const key = kisi + '|' + mod0 + '|' + durum;
+    const seed = function () {
+      const loaded = durum !== 'bos';
+      const done = durum === 'onayli' || durum === 'gonderildi';
+      const rows = !loaded ? [] : (done ? DOCS.slice(0, 5).concat([FILLED6]) : DOCS.slice());
+      return { k: key, mod: mod0, rows: rows, extraUsed: false, ok: done, sent: durum === 'gonderildi', avClose: done && !!OPEN_AV,
+        apr: done && ME.mgr ? [ME.mgr] : [], aprDept: null, aprPick: null,
+        av: loaded ? { amt: '8.000,00', cur: 'TL', date: '15.10.2026', proj: ME.proj, purpose: 'Boztepe RES saha ölçümü · konaklama ve yol', auto: { proj: true } } : { amt: '', cur: 'TL', date: '', proj: ME.proj, purpose: '', auto: { proj: true } } };
+    };
+    const S = (this.state && this.state.k === key) ? this.state : seed();
+    const set = function (patch) { self.setState(Object.assign({}, S, patch, { k: key })); };
+    const isMasraf = S.mod === 'masraf';
+
+    // Stil yardımcıları
+    const CELL = "box-sizing:border-box;width:100%;min-width:0;border:1px solid #D6E4DA;border-radius:8px;padding:7px 8px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;color:#132119;background:#FFFFFF;";
+    const IS = "box-sizing:border-box;width:100%;border:1px solid #D6E4DA;border-radius:10px;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#132119;background:#FFFFFF;";
+    const AUTO = 'border-color:#F0B45A;background:#FFF8EF;';
+    const WARN = 'font-size:11.5px;font-weight:600;border-radius:6px;padding:3px 9px;color:#9A6B12;background:#FBF1DE;';
+    const BLOCK = 'font-size:11.5px;font-weight:700;border-radius:6px;padding:3px 9px;color:#9B1C1C;background:#FDECEC;';
+
+    // Satırlar
+    const updRow = function (id, f, v) { set({ rows: S.rows.map(function (r) { if (r.id !== id) return r; const a = Object.assign({}, r.auto); delete a[f]; const o = Object.assign({}, r, { auto: a }); o[f] = v; return o; }) }); };
+    const rowAmtTL = function (r) { const v = num(r.amt); if (v === null) return 0; return r.cur === 'TL' ? v : v * (KUR[r.cur] ? KUR[r.cur].r : 1); };
+    const rows = S.rows.map(function (r) {
+      const fs = {}; ALL.forEach(function (k) { fs[k] = CELL + (r.auto[k] ? AUTO : '') + (k === 'amt' || k === 'kdv' ? 'text-align:right;' : ''); });
+      const missing = r.unread && (num(r.amt) === null || !(r.date || '').trim());
+      const warns = [];
+      if (missing) warns.push({ t: 'Okunamadı · elle doldur ya da çıkar', style: BLOCK });
+      if (r.dupOf) warns.push({ t: 'Mükerrer · aynı belge no ' + r.dupOf + ' talebinde verildi', style: WARN });
+      if (r.buyer) warns.push({ t: 'Alıcı şirket değil · fatura ' + r.buyer + ' adına', style: WARN });
+      if (r.cur !== 'TL' && KUR[r.cur] && num(r.amt) !== null) warns.push({ t: 'Yabancı para · kur ' + fmt(KUR[r.cur].r) + ' (TCMB ' + KUR[r.cur].d + ') · ≈ ' + fmt(rowAmtTL(r)) + ' TL', style: WARN });
+      const h = function (f) { return function (e) { updRow(r.id, f, e.target.value); }; };
+      return { file: r.file, kind: r.kind, date: r.date, vendor: r.vendor, vkn: r.vkn || '—', no: r.no, cat: r.cat, proj: r.proj, amt: r.amt, kdv: r.kdv, cur: r.cur, fs: fs,
+        onDate: h('date'), onVendor: h('vendor'), onNo: h('no'), onCat: h('cat'), onProj: h('proj'), onAmt: h('amt'), onKdv: h('kdv'), onCur: h('cur'),
+        lblDate: r.file + ' tarih', lblVendor: r.file + ' satıcı', lblNo: r.file + ' belge no', lblCat: r.file + ' kategori', lblProj: r.file + ' masraf yeri', lblAmt: r.file + ' tutar', lblKdv: r.file + ' KDV', lblCur: r.file + ' para birimi',
+        warns: warns, hasWarn: warns.length > 0, missing: missing,
+        delLabel: r.file + ' çıkar', remove: function () { set({ rows: S.rows.filter(function (x) { return x.id !== r.id; }) }); } };
+    });
+    const missingN = rows.filter(function (r) { return r.missing; }).length;
+    const tlSum = S.rows.filter(function (r) { return r.cur === 'TL'; }).reduce(function (a, r) { return a + (num(r.amt) || 0); }, 0);
+    const fxCurs = ['EUR', 'USD'].filter(function (c) { return S.rows.some(function (r) { return r.cur === c && num(r.amt) !== null; }); });
+    const subTotals = fxCurs.length ? [{ v: fmt(tlSum) + ' TL' }].concat(fxCurs.map(function (c) { const s = S.rows.filter(function (r) { return r.cur === c; }).reduce(function (a, r) { return a + (num(r.amt) || 0); }, 0); return { v: fmt(s) + ' ' + c + ' ≈ ' + fmt(s * KUR[c].r) + ' TL' }; })) : [];
+    const grandN = S.rows.reduce(function (a, r) { return a + rowAmtTL(r); }, 0);
+    const grand = (fxCurs.length ? '≈ ' : '') + fmt(grandN) + ' TL';
+
+    // Avans kapama
+    const avDiff = OPEN_AV ? grandN - OPEN_AV.amt : 0;
+    const avResult = !OPEN_AV ? '' : (avDiff >= 0 ? 'Personele ödenecek ' + fmt(avDiff) + ' TL' : 'Şirkete iade ' + fmt(-avDiff) + ' TL');
+    const avOn = !!S.avClose && !!OPEN_AV;
+
+    // Avans formu
+    const AV = S.av;
+    const updAv = function (f, v) { const a = Object.assign({}, AV.auto); delete a[f]; const o = Object.assign({}, AV, { auto: a }); o[f] = v; set({ av: o }); };
+    const avFs = {}; ['amt', 'cur', 'date', 'proj', 'purpose'].forEach(function (k) { avFs[k] = IS + (AV.auto[k] ? AUTO : ''); });
+
+    // Balbal dolgusu var mı → onay şart
+    const anyAuto = isMasraf ? S.rows.some(function (r) { return Object.keys(r.auto).length > 0; }) : Object.keys(AV.auto).length > 0;
+    const needOk = anyAuto; const isOk = !!S.ok;
+
+    // Belge yükleme: Balbal yeni şey doldurur → onay sıfırlanır
+    const upload = function () { set({ rows: DOCS.slice(), ok: false }); };
+    const canMore = !S.extraUsed;
+    const addMore = canMore ? function () { set({ rows: S.rows.concat([EXTRA]), extraUsed: true, ok: false }); } : function () {};
+    const readLine = S.rows.length + ' belge · Balbal okudu' + (missingN ? ' · ' + missingN + ' belge okunamadı' : '');
+
+    // Onaycılar (personel istediği kadar seçer; sonraki aşamalar araya ekleyebilir)
+    const apr = S.apr || [];
+    const aDept = S.aprDept || ME.dept;
+    const inDept = PPL.filter(function (p) { return p[2] === aDept && p[0] !== ME.n; });
+    const aPick = S.aprPick && inDept.some(function (p) { return p[0] === S.aprPick; }) ? S.aprPick : (inDept.filter(function (p) { return apr.indexOf(p[0]) === -1; })[0] || inDept[0] || [''])[0];
+    const canAdd = !!aPick && apr.indexOf(aPick) === -1;
+
+    // Gönder
+    const avAmt = num(AV.amt);
+    const block = isMasraf
+      ? (!S.rows.length ? 'Belge yükleyin' : (missingN ? 'Okunamayan belgeyi doldurun' : (grandN <= 0 ? 'Tutar yok' : null)))
+      : (!(avAmt > 0) ? 'Tutarı girin' : (!(AV.purpose || '').trim() ? 'Amacı yazın' : null));
+    const canSubmit = !block && (!needOk || isOk);
+    const submitLbl = block || (needOk && !isOk ? 'Balbal doldurmalarını onaylayın' : (apr[0] ? '✓ Gönder · ' + apr[0] + ' onayına' : '✓ Gönder · Finansal Muhasebe'));
+    const BTN = "border-radius:12px;padding:12px 22px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;border:none;white-space:nowrap;";
+
+    // Gönderildi
+    const no = isMasraf ? 'MS-26-034' : 'AV-26-012';
+    const stepsDefs = [['Talep', ME.n]].concat(apr.map(function (n, i) { return [(i + 1) + '. onay', n]; })).concat([['Finansal Muhasebe', 'Gökhan Erdem'], ['Ödendi', 'maaş hesabı']]);
+    const steps = stepsDefs.map(function (s, i) { const done = i === 0; const cur2 = i === 1;
+      return { label: s[0], who: s[1], mark: done ? '✓' : String(i + 1), circle: 'width:34px;height:34px;box-sizing:border-box;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;position:relative;z-index:1;' + (done ? 'background:#2FA968;color:#0E241D;' : (cur2 ? 'background:#D97706;color:#132119;box-shadow:0 0 0 5px #FBF1DE;' : 'background:#FFFFFF;border:2px solid #D5DDD8;color:#8A968E;')),
+        lineStyle: i === stepsDefs.length - 1 ? 'display:none;' : 'background:' + (done ? '#2FA968' : '#E1E7E2') + ';' }; });
+    const payLine = 'Maaş hesabı · İK kaydı · ••• ' + ME.acct;
+    const facts = isMasraf
+      ? [{ k: 'Süreç no', v: no }, { k: 'Belgeler', v: S.rows.length + ' belge' }, { k: 'Toplam', v: grand }, { k: 'Avans', v: avOn ? OPEN_AV.no + ' kapanır · ' + (avDiff >= 0 ? 'personele ödenecek ' + fmt(avDiff) : 'şirkete iade ' + fmt(-avDiff)) + ' TL' : '—' }, { k: 'Ödeme hesabı', v: payLine }, { k: 'Sıradaki', v: apr[0] ? apr[0] + ' · onay' : 'Finansal Muhasebe · Gökhan Erdem' }]
+      : [{ k: 'Süreç no', v: no }, { k: 'Tutar', v: (AV.amt || '0,00') + ' ' + AV.cur }, { k: 'Amaç', v: AV.purpose || '—' }, { k: 'Harcama tarihi', v: AV.date || '—' }, { k: 'Ödeme hesabı', v: payLine }, { k: 'Sıradaki', v: apr[0] ? apr[0] + ' · onay' : 'Finansal Muhasebe · Gökhan Erdem' }];
+
+    const SEG = "border:none;border-radius:9px;padding:8px 16px;cursor:pointer;text-align:left;font-family:'IBM Plex Sans',sans-serif;";
+    const segOn = SEG + 'background:#0E241D;color:#F6F7F5;'; const segOff = SEG + 'background:transparent;color:#132119;';
+    const OKROW = "display:flex;align-items:center;gap:10px;width:100%;text-align:left;border-radius:12px;padding:11px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;";
+    const OKBOX = 'width:18px;height:18px;border-radius:5px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;';
+
+    const close = function () { if (embedded && typeof P.onClose === 'function') { P.onClose(); return; } self.setState(Object.assign({}, seed(), { mod: S.mod })); };
+
+    return {
+      rootStyle: embedded ? 'display:flex;justify-content:center;' : "width:1440px;min-height:1280px;box-sizing:border-box;padding:40px 80px;background:#EEF6F0;display:flex;justify-content:center;align-items:flex-start;font-family:'IBM Plex Sans',sans-serif;",
+      stop: function (e) { if (e && e.stopPropagation) e.stopPropagation(); },
+      title: isMasraf ? 'Masraf' : 'Avans', sub: isMasraf ? 'Fiş ve faturaları yükle · Balbal tabloyu çıkarır' : 'İleride harcanacak tutar için avans talebi',
+      meLine: ME.n + ' · ' + ME.dept, no: no, close: close,
+      showForm: !S.sent, showSent: !!S.sent,
+      pickMasraf: function () { set({ mod: 'masraf' }); }, pickAvans: function () { set({ mod: 'avans' }); },
+      masrafPressed: isMasraf ? 'true' : 'false', avansPressed: isMasraf ? 'false' : 'true', segMasraf: isMasraf ? segOn : segOff, segAvans: isMasraf ? segOff : segOn,
+      isMasraf: isMasraf, isAvans: !isMasraf,
+      noDocs: S.rows.length === 0, hasDocs: S.rows.length > 0, upload: upload,
+      addMore: addMore, addMoreStyle: "border-radius:10px;padding:8px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;border:1px solid #D6E4DA;background:#FFFFFF;color:#132119;white-space:nowrap;" + (canMore ? 'cursor:pointer;' : 'opacity:0.5;cursor:default;'),
+      readLine: readLine, rows: rows, cats: CATS, projs: PROJS, subTotals: subTotals, grand: grand,
+      hasOpenAv: !!OPEN_AV,
+      avOpenWarn: OPEN_AV ? 'Açık avans var · ' + OPEN_AV.no + ' · ' + fmt(OPEN_AV.amt) + ' TL' : '',
+      toggleAv: function () { set({ avClose: !S.avClose }); }, avPressed: avOn ? 'true' : 'false', avMark: avOn ? '✓' : '',
+      avLine: OPEN_AV ? 'Açık avans ' + OPEN_AV.no + ' · ' + fmt(OPEN_AV.amt) + ' TL · bu masrafla kapanır' : '', avResult: avOn ? avResult : '',
+      avRow: OKROW + (avOn ? 'background:#F1F8F3;border:1px solid #CDE7D6;color:#1E6B3E;' : 'background:#FFFFFF;border:1px solid #E1E7E2;color:#132119;'),
+      avBox: OKBOX + (avOn ? 'background:#2FA968;color:#0E241D;' : 'background:#FFFFFF;border:1px solid #D6E4DA;'),
+      av: { amt: AV.amt, cur: AV.cur, date: AV.date, proj: AV.proj, purpose: AV.purpose, fs: avFs,
+        onAmt: function (e) { updAv('amt', e.target.value); }, onCur: function (e) { updAv('cur', e.target.value); }, onDate: function (e) { updAv('date', e.target.value); }, onProj: function (e) { updAv('proj', e.target.value); }, onPurpose: function (e) { updAv('purpose', e.target.value); } },
+      payLine: payLine,
+      aprEmpty: apr.length === 0,
+      aprList: apr.map(function (n, i) { const p = pOf(n); return { num: String(i + 1), n: n, pos: p[1], dept: p[2], delLbl: n + ' onaycılardan çıkar', remove: function () { set({ apr: apr.filter(function (x) { return x !== n; }), aprPick: null }); } }; }),
+      aprDepts: DEPTS, aprDept: aDept, onAprDept: function (e) { set({ aprDept: e.target.value, aprPick: null }); },
+      aprPeople: inDept.map(function (p) { return { v: p[0], l: p[0] + ' · ' + p[1] + (apr.indexOf(p[0]) !== -1 ? ' (eklendi)' : '') }; }), aprPick: aPick, onAprPick: function (e) { set({ aprPick: e.target.value }); },
+      addApr: canAdd ? function () { set({ apr: apr.concat([aPick]), aprPick: null }); } : function () {},
+      addAprStyle: "border-radius:10px;padding:9px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;border:none;white-space:nowrap;" + (canAdd ? 'background:#0E241D;color:#F6F7F5;cursor:pointer;' : 'background:#E1E7E2;color:#8A968E;cursor:default;'),
+      needOk: needOk, okPressed: isOk ? 'true' : 'false', okMark: isOk ? '✓' : '', doOk: function () { set({ ok: !isOk }); },
+      okRow: OKROW + (isOk ? 'background:#F1F8F3;border:1px solid #CDE7D6;color:#1E6B3E;' : 'background:#FFF8EF;border:1px solid #F0B45A;color:#5E430C;'),
+      okBox: OKBOX + (isOk ? 'background:#2FA968;color:#0E241D;' : 'background:#FFFFFF;border:1px solid #D6B27A;'),
+      submit: canSubmit ? function () { set({ sent: true }); } : function () {}, submitDisabled: canSubmit ? 'false' : 'true', submitLbl: submitLbl,
+      submitStyle: BTN + (canSubmit ? 'background:#2FA968;color:#0E241D;cursor:pointer;' : 'background:#E1E7E2;color:#8A968E;cursor:default;'),
+      sentTitle: no + ' açıldı · ' + (apr[0] ? apr[0] + ' onayına gitti' : 'Finansal Muhasebe’ye gitti'),
+      steps: steps, facts: facts
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -33,7 +33,7 @@ a{color:inherit;text-decoration:none}
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-right:14px;"><div style="display:flex;align-items:center;gap:8px;width:340px;height:38px;box-sizing:border-box;background:#1D3329;border:1px solid #2E4A3D;border-radius:10px;padding:0 12px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><label for="top-search" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Belge, proje veya kişi ara</label><input id="top-search" type="text" onInput="{{onSearchInput}}" onFocus="{{onSearchFocus}}" placeholder="Belge, proje veya kişi ara" style="flex:1;min-width:0;background:transparent;border:none;outline:none;color:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;font-size:14px;"></div><a href="Belge-Yukle.dc.html" style="height:38px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;border:1px solid #2E4A3D;color:#F6F7F5;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"></path></svg>Belge yükle</a><button onClick="{{onToggleNotif}}" aria-label="Bildirimler" style="position:relative;width:38px;height:38px;flex-shrink:0;border-radius:10px;border:1px solid #2E4A3D;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg><span style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;box-sizing:border-box;border-radius:9px;background:#2FA968;color:#0E241D;font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;">3</span></button></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-right:14px;"><div style="display:flex;align-items:center;gap:8px;width:340px;height:38px;box-sizing:border-box;background:#1D3329;border:1px solid #2E4A3D;border-radius:10px;padding:0 12px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><label for="top-search" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Belge, proje veya kişi ara</label><input id="top-search" type="text" onInput="{{onSearchInput}}" onFocus="{{onSearchFocus}}" placeholder="Belge, proje veya kişi ara" style="flex:1;min-width:0;background:transparent;border:none;outline:none;color:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;font-size:14px;"></div><a href="Belge-Yukle.dc.html" style="height:38px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;border:1px solid #2E4A3D;color:#F6F7F5;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"></path></svg>Belge yükle</a><div style="position:relative;"><button onClick="{{otToggle}}" aria-haspopup="menu" aria-expanded="{{otMenuOpen}}" style="height:38px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;border:1px solid #2FA968;background:#2FA968;color:#0E241D;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">+ Ödeme talebi<span aria-hidden="true" style="font-size:10px;">▾</span></button><sc-if value="{{otMenu}}" hint-placeholder-val="{{false}}"><div role="menu" aria-label="Ödeme talebi" style="position:absolute;top:calc(100% + 6px);right:0;z-index:80;width:290px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;box-shadow:0 16px 40px rgba(14,36,29,0.18);padding:6px;display:flex;flex-direction:column;gap:2px;color:#132119;"><button role="menuitem" onClick="{{otMine}}" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;border:none;border-radius:10px;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;background:#F6F9F7;color:#132119;cursor:pointer;"><span style="font-size:13.5px;font-weight:700;">Taleplerim</span><span style="font-size:11.5px;font-weight:500;color:#5B6B60;">Açtığın ödeme talepleri ve durumları</span></button><div aria-hidden="true" style="height:1px;background:#F0F2F0;margin:4px 6px;"></div><sc-for list="{{otItems}}" as="t" hint-placeholder-count="3"><button role="menuitem" onClick="{{t.pick}}" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;border:none;border-radius:10px;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;background:#FFFFFF;color:#132119;cursor:pointer;"><span style="font-size:13.5px;font-weight:700;">{{t.lbl}}</span><span style="font-size:11.5px;font-weight:500;color:#5B6B60;">{{t.sub}}</span></button></sc-for></div></sc-if></div><button onClick="{{onToggleNotif}}" aria-label="Bildirimler" style="position:relative;width:38px;height:38px;flex-shrink:0;border-radius:10px;border:1px solid #2E4A3D;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg><span style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;box-sizing:border-box;border-radius:9px;background:#2FA968;color:#0E241D;font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;">3</span></button></div>
       <div style="text-align:right;">
         <div style="font-size:13px;font-weight:600;line-height:1.2;">Selin Arslan</div>
         <div style="font-size:11px;color:#9FB0A6;line-height:1.2;">Muhasebe Uzmanı</div>
@@ -52,6 +52,7 @@ a{color:inherit;text-decoration:none}
       <button style="{{pageKayitBtnStyle}}" onClick="{{onSelectPageKayit}}">Kayıt Önerileri · {{kayitCount}}</button>
       <button style="{{pageCariBtnStyle}}" onClick="{{onSelectPageCari}}">Cari Hesaplar</button>
       <button style="{{pageKontrolBtnStyle}}" onClick="{{onSelectPageKontrol}}">Kontroller</button>
+      <button style="{{pageImzaBtnStyle}}" onClick="{{onSelectPageImza}}">İmza Yetkileri</button>
       <sc-if value="{{balbalTab}}" hint-placeholder-val="{{false}}">
         <button style="{{balbalTabStyle}}" onClick="{{onSelectBalbalTab}}"><img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:18px;height:18px;border-radius:50%;object-fit:contain;background:#FFFFFF;">Balbal</button>
       </sc-if>
@@ -128,6 +129,10 @@ a{color:inherit;text-decoration:none}
     </sc-if>
 
     <!-- GENEL BAKIŞ -->
+    <sc-if value="{{pageIsImza}}" hint-placeholder-val="{{false}}">
+      <dc-import name="Imza-Yetkilileri" mod="duzenle" dept="muhasebe" accent="{{accent}}" hint-size="100%,860px"></dc-import>
+    </sc-if>
+
     <sc-if value="{{pageIsGenel}}" hint-placeholder-val="{{true}}">
     <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:24px;align-items:start;flex-shrink:0;">
       <div style="min-width:0;display:flex;flex-direction:column;gap:24px;">
@@ -164,6 +169,7 @@ a{color:inherit;text-decoration:none}
             <sc-for list="{{calRows}}" as="c" hint-placeholder-count="5"><div style="display:flex;align-items:center;gap:10px;border-bottom:1px solid #F0F2F0;padding:8px 0;"><span style="{{c.dayStyle}}">{{c.day}}</span><span style="flex:1;min-width:0;"><span style="display:block;font-size:12.5px;font-weight:600;">{{c.t}}</span><span style="display:block;font-size:11px;color:#8A968E;">{{c.m}}</span></span><span style="{{c.stStyle}}">{{c.st}}</span></div></sc-for>
           </div>
         </div>
+        <dc-import name="Imza-Yetkilileri" mod="kart" accent="{{accent}}" hint-size="100%,420px"></dc-import>
       </div>
     </div>
       <div style="min-width:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;padding:16px 22px;">
@@ -330,11 +336,39 @@ a{color:inherit;text-decoration:none}
 
 
   </div>
+
+  <!-- Ödeme talebi menüsü (üst bar) · pencere -->
+  <sc-if value="{{otMenu}}" hint-placeholder-val="{{false}}"><div onClick="{{otMenuClose}}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:75;"></div></sc-if>
+  <sc-if value="{{otOv}}" hint-placeholder-val="{{false}}">
+  <div onClick="{{otBackdrop}}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:70;background:rgba(14,36,29,0.45);overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:24px;box-sizing:border-box;">
+    <sc-if value="{{otIsMs}}" hint-placeholder-val="{{false}}"><dc-import name="Masraf-Formu" embedded="{{true}}" kisi="{{otKisi}}" mod="{{otMod}}" on-close="{{otClose}}" hint-size="1280px,1210px"></dc-import></sc-if>
+    <sc-if value="{{otIsYot}}" hint-placeholder-val="{{false}}"><dc-import name="Yeni-Odeme-Talebi" embedded="{{true}}" kisi="{{otKisi}}" tur="{{otTur}}" adim="{{otAdim}}" on-close="{{otClose}}" hint-size="900px,700px"></dc-import></sc-if>
+  </div>
+  </sc-if>
 </div>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"sekme":{"editor":null},"evrak":{"editor":null},"odeme":{"editor":null},"accent":{"editor":"color","default":"#2FA968","options":["#2FA968","#0E241D","#D97706","#2563EB"]},"$preview":{"width":1440,"height":980}}'>
 class Component extends DCLogic {
+  renderVals() { return Object.assign(this._rv0.apply(this, arguments), this._ot()); }
+  // Üst bar · Ödeme talebi menüsü: departmanın açabileceği tüm ödeme talepleri (Yeni-Odeme-Talebi türleriyle aynı)
+  _ot() {
+    const self = this; const st = this.state || {}; const set = function (o) { self.setState(o); };
+    const K = 'selin';
+    const T = { masraf: ['Masraf', 'Fiş / fatura yükle · Balbal tabloyu çıkarır'], avans: ['Avans', 'İleride harcanacak tutar için'], po: ['Ürün / hizmet satın alma', 'Satın alma talebi formu'], soz: ['Sözleşmeye istinaden ödeme', 'Erişebildiğin klasörlerdeki sözleşmeler'], kredi: ['Kredi ödemesi', 'Bankalar ve krediler'], vergi: ['Vergi / yasal yükümlülük', 'Muhasebe tahakkukları'], bordro: ['Bordro', 'Kapanmış bordro dönemleri'], idari: ['İdari İşler talebi', 'Talep ve teklif tek ekranda'] };
+    const L = ['masraf', 'avans', 'vergi'];
+    const o = st.otOpen || null; const isMs = o === 'masraf' || o === 'avans';
+    return {
+      otMenu: !!st.otMenu, otMenuOpen: st.otMenu ? 'true' : 'false',
+      otToggle: function () { set({ otMenu: !st.otMenu }); }, otMenuClose: function () { set({ otMenu: false }); },
+      otMine: function () { set({ otMenu: false, otOpen: 'liste' }); },
+      otItems: L.map(function (v) { return { lbl: T[v][0], sub: T[v][1], pick: function () { if (v === 'idari') set({ otMenu: false, zfOpen: true, zfFull: false }); else set({ otMenu: false, otOpen: v }); } }; }),
+      otOv: !!o, otIsMs: isMs, otIsYot: !!o && !isMs, otKisi: K, otMod: o === 'avans' ? 'avans' : 'masraf',
+      otTur: o && o !== 'liste' && !isMs ? o : '', otAdim: o === 'liste' ? 'liste' : 'kayit',
+      otClose: function () { set({ otOpen: null }); },
+      otBackdrop: function (e) { if (e && e.target === e.currentTarget) set({ otOpen: null }); }
+    };
+  }
   gzStoreKey() { return 'xplatform-layout-hukuk'; }
   gzAreas() { return { genel: { top: [['durusma'], ['mevzuat', 'bakanlik']], full: [] }, pozisyon: { top: [['gorevler', 'mailler'], ['talepler', 'davalar']], full: [] } }; }
   // ---- Gadget sürükle-bırak motoru (tutamaçtan tut, sürükle, bırak; diğerleri kayar, bırakılan yerine oturur) ----
@@ -511,7 +545,7 @@ class Component extends DCLogic {
       }, 380);
     });
   }
-  renderVals() {
+  _rv0() {
     const accent = this.props.accent ?? '#2FA968';
     const self = this;
 
@@ -726,125 +760,6 @@ class Component extends DCLogic {
     const pageActiveBtn = pageBaseBtn + 'background:#0E241D;color:#F6F7F5;';
     const pageInactiveBtn = pageBaseBtn + 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;';
 
-    const projectCasesDef = [
-      {
-        id: 'karatepe',
-        name: 'Karatepe RES',
-        cases: [
-          { name: 'Kamulaştırma Davası', court: 'Ankara 4. İdare Mahkemesi', date: '14 Eki 2026', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
-          { name: 'Elektrik Direği İhlali Davası', court: 'Ankara 1. Asliye Hukuk Mahkemesi', date: '20 Kas 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' }
-        ]
-      },
-      {
-        id: 'boztepe',
-        name: 'Boztepe RES',
-        cases: [
-          { name: 'İmar İptali Davası', court: 'Ankara 2. İdare Mahkemesi', date: '28 Eki 2026', status: 'Bilirkişi Bekleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' }
-        ]
-      },
-      {
-        id: 'gunesalan',
-        name: 'Güneşalan GES',
-        cases: [
-          { name: 'Yüklenici Sözleşme İhtilafı', court: 'Ankara 3. Asliye Ticaret Mahkemesi', date: '22 Kas 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' }
-        ]
-      },
-      {
-        id: 'yesilova',
-        name: 'Yeşilova RES',
-        cases: [
-          { name: 'Tazminat Davası', court: 'Çanakkale Asliye Hukuk Mahkemesi', date: '5 Kas 2026', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
-          { name: 'Sınır İhlali Davası', court: 'Çanakkale 2. Asliye Hukuk Mahkemesi', date: '18 Ara 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' }
-        ]
-      }
-    ];
-
-    const devProjectCasesDef = [
-      {
-        id: 'kizilova',
-        name: 'Kızılova RES (Geliştirme)',
-        cases: [
-          { name: 'ÇED İtiraz Süreci', court: 'Çevre, Şehircilik ve İklim Değişikliği Bakanlığı', date: '30 Eki 2026', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
-          { name: 'Arazi Tahsis Anlaşmazlığı', court: 'Tarım ve Orman Bakanlığı — Bölge Müdürlüğü', date: '12 Kas 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' }
-        ]
-      },
-      {
-        id: 'akyar',
-        name: 'Akyar GES (Geliştirme)',
-        cases: [
-          { name: 'İrtifak Bedeli Tespit Davası', court: 'Asliye Hukuk Mahkemesi', date: '25 Eki 2026', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' }
-        ]
-      },
-      {
-        id: 'demirci',
-        name: 'Demirci RES (Geliştirme)',
-        cases: [
-          { name: 'TEA Olumsuz Görüşüne İtiraz', court: 'ETKB / TEİAŞ', date: '8 Kas 2026', status: 'Bilirkişi Bekleniyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
-          { name: 'Kamulaştırma Ön İnceleme Süreci', court: 'Ankara 6. İdare Mahkemesi', date: '2 Ara 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' }
-        ]
-      }
-    ];
-
-    const expandedProjects = (this.state && this.state.expandedProjects) || {};
-    function buildProjectCases(defs) {
-      return defs.map(function (p) {
-        const isExpanded = !!expandedProjects[p.id];
-        return {
-          id: p.id,
-          name: p.name,
-          cases: p.cases,
-          countLabel: p.cases.length + ' Süreç',
-          chevron: isExpanded ? '▲' : '▼',
-          expanded: isExpanded,
-          toggle: function () {
-            const next = Object.assign({}, expandedProjects);
-            next[p.id] = !isExpanded;
-            self.setState({ expandedProjects: next });
-          }
-        };
-      });
-    }
-    const projectCases = buildProjectCases(projectCasesDef);
-    const devProjectCases = buildProjectCases(devProjectCasesDef);
-
-    const mevzuat = [
-      { title: "Elektrik Piyasası Lisans Yönetmeliği'nde Değişiklik", date: '18 Eyl 2026', source: 'Resmi Gazete' },
-      { title: 'YEKDEM Tarife Güncellemesi Tebliği', date: '10 Eyl 2026', source: 'EPDK' },
-      { title: 'Çevresel Etki Değerlendirmesi Yönetmeliği Ek Madde', date: '2 Eyl 2026', source: 'Resmi Gazete' }
-    ];
-
-    const bakanlik = [
-      { title: 'Enerji ve Tabii Kaynaklar Bakanlığı — RES/GES Kapasite Artırım Duyurusu', date: '15 Eyl 2026' },
-      { title: 'Çevre, Şehircilik ve İklim Değişikliği Bakanlığı — ÇED Süreç Duyurusu', date: '8 Eyl 2026' },
-      { title: 'Hazine ve Maliye Bakanlığı — Yabancı Yatırım Teşvik Duyurusu', date: '1 Eyl 2026' }
-    ];
-
-    const tasksList = [
-      { title: 'Boztepe RES İmar Davası Dilekçe Hazırlığı', meta: 'Bitiş: 22 Eyl 2026', status: 'Devam Ediyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
-      { title: 'Yıllık Sözleşme Taraması', meta: 'Bitiş: 30 Eyl 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' },
-      { title: 'Denetim Hazırlık Toplantısı', meta: 'Bitiş: 16 Eyl 2026', status: 'Tamamlandı', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' }
-    ];
-
-    const mailsList = [
-      { title: 'Kamulaştırma_Itiraz_Sureci.eml', meta: 'Ankara 4. İdare Mahkemesi Kalemi · 15 Eyl 2026', status: 'Taranmadı', badgeBg: '#EEF0EE', badgeColor: '#5B6B60' },
-      { title: 'Sozlesme_Inceleme_Talebi.eml', meta: 'Proje Finans · 13 Eyl 2026', status: 'Belgeler Tam', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
-      { title: 'Dava_Dosyasi_Guncelleme.eml', meta: 'Karşı Taraf Avukatı · 10 Eyl 2026', status: 'Belgeler Eksik', badgeBg: '#FBE7E7', badgeColor: '#B23A3A' }
-    ];
-
-    const talepList = [
-      { title: 'Proje Finans', meta: 'Karatepe RES kredi sözleşmesi kopyasını talep etti · 15 Eyl 2026', status: 'Bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Main.dc.html' },
-      { title: 'Mali İşler', meta: 'İmza sirküleri örneği talep etti · 12 Eyl 2026', status: 'Tamamlandı', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E', href: 'Main.dc.html' }
-    ];
-
-    const davalar = [
-      { name: 'Karatepe RES Kamulaştırma', opponent: 'İdare', next: 'Duruşma 14 Eki', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' },
-      { name: 'Boztepe RES İmar İptali', opponent: 'Belediye', next: 'Bilirkişi Raporu', status: 'Bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12' },
-      { name: 'Yeşilova RES Tazminat', opponent: 'Şahıs', next: 'Duruşma 5 Kas', status: 'Devam Ediyor', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E' }
-    ];
-
-    const tasksPending = tasksList.filter(function (t) { return t.status !== 'Tamamlandı'; }).length;
-    const mailsPending = mailsList.filter(function (m) { return m.status === 'Taranmadı'; }).length;
-    const talepPending = talepList.filter(function (t) { return t.status !== 'Tamamlandı'; }).length;
 
     // ---- Gadget düzeni (alan bazlı: genel + pozisyon) ----
     const gzLayoutState = (this.state && this.state.gzLayout) || {};
@@ -939,17 +854,20 @@ class Component extends DCLogic {
     // Evrak: ERP / entegratörden çekilen (Balbal: eşleşme, departman önerisi, kayıt önerisi) — kurgusal
     const DOCS0 = [
       { id: 'e1', date: '06.10.2026', kind: 'e-Fatura', no: 'ABC2026000000184', party: 'ABC İnşaat A.Ş.', co: 'Kızılova Enerji A.Ş.', amt: 2400000, cur: 'USD', match: 'S-26-001', dept: 'enerji', conf: 97, obj: '14.10.2026', st: 'yonlendir',
-        checks: [['Sözleşme', 'S-26-001 Kızılova RES EPC · avans kalemi %20 · tutar uyumlu', 'ok'], ['Ödeme koşulu', 'Avans teminat mektubu · belgelerde bulunamadı', 'missing'], ['Cari', 'ABC İnşaat A.Ş. · VKN 0010203040 · IBAN doğrulanmış', 'ok'], ['KDV', '%20 · 400.000 USD · tevkifat yok (yurt içi yüklenici)', 'ok'], ['Mükerrer', 'Aynı sözleşme ve tutarda başka fatura yok', 'ok']],
+        checks: [['Sözleşme', 'S-26-001 Kızılova RES EPC · avans kalemi %20 · tutar uyumlu', 'ok'], ['Ödeme koşulu', 'Avans teminat mektubu · belgelerde bulunamadı', 'missing'], ['Ödeme takvimi', 'S-26-001 avans kalemi · ödeme planında 12.10.2026 (tahmini) · henüz ödenmedi', 'ok'], ['Cari', 'ABC İnşaat A.Ş. · VKN 0010203040 · IBAN doğrulanmış', 'ok'], ['KDV', '%20 · 400.000 USD · tevkifat yok (yurt içi yüklenici)', 'ok'], ['Mükerrer', 'Aynı sözleşme ve tutarda başka fatura yok', 'ok']],
         src: 'S-26-001 EPC sözleşmesi (imza 15.09.2026, Hukuk onayı 20.09.2026) · e-Fatura ABC2026000000184 · cari listesi (muavin 320)',
         lines: [['259', 'Verilen avanslar · Kızılova RES EPC (%20)', 2000000, 0], ['191', 'İndirilecek KDV %20', 400000, 0], ['320.001', 'ABC İnşaat A.Ş.', 0, 2400000]], cost: 'Kızılova RES · yatırım', basis: 'Sözleşme usulü · avans 259’a; hakedişlerde 258’e aktarılır · geçmiş kayıt yok (ilk fatura) · şirket hesap planı', kconf: 84, kst: 'oneri' },
       { id: 'e2', date: '06.10.2026', kind: 'e-Fatura', no: 'ENR2026001122', party: 'Enercon Servis Türkiye', co: 'Karatepe RES Enerji Üretim A.Ş.', amt: 38500, cur: 'EUR', match: 'S-25-007', dept: 'om', conf: 95, obj: '14.10.2026', st: 'yonlendir',
-        checks: [['Sözleşme', 'S-25-007 O&M sözleşmesi · Eylül dönemi · endeksli bedel 38.500 EUR · uyumlu', 'ok'], ['Cari', 'Enercon Servis Türkiye · IBAN doğrulanmış', 'ok'], ['KDV', '%20 · hizmet · uyumlu', 'ok'], ['Mükerrer', 'Eylül dönemi için başka fatura yok', 'ok']],
+        checks: [['Sözleşme', 'S-25-007 O&M sözleşmesi · Eylül dönemi · endeksli bedel 38.500 EUR · uyumlu', 'ok'], ['Ödeme takvimi', 'Ödeme listesinde · 15.10.2026 · henüz ödenmedi', 'ok'], ['Cari', 'Enercon Servis Türkiye · IBAN doğrulanmış', 'ok'], ['KDV', '%20 · hizmet · uyumlu', 'ok'], ['Mükerrer', 'Eylül dönemi için başka fatura yok', 'ok']],
         src: 'S-25-007 O&M sözleşmesi · son 11 ay faturaları (muavin 770.03) · e-Fatura ENR2026001122',
         lines: [['770.03', 'Türbin bakım gideri · Karatepe', 38500, 0], ['191', 'İndirilecek KDV %20', 7700, 0], ['320.014', 'Enercon Servis Türkiye', 0, 46200]], cost: 'Karatepe RES · işletme', basis: 'Son 11 fatura 770.03’e işlenmiş · aynı kalıp', kconf: 96, kst: 'oneri' },
       { id: 'e3', date: '05.10.2026', kind: 'e-Fatura', no: 'DRN2026000733', party: 'Drone Center Teknoloji Ltd.', co: 'Kızılova Enerji A.Ş.', amt: 168000, cur: 'TL', match: 'PO-26-042', dept: 'enerji', conf: 99, obj: '13.10.2026', st: 'liste',
-        checks: [['Sipariş', 'PO-26-042 · onaylı 168.000 TL · fatura 168.000 TL · fark yok', 'ok'], ['Teslim', 'Teslim alındı · Hakan Tunç · 15.10.2026 bekleniyor (sipariş-teslim-fatura)', 'wait'], ['Cari', 'Drone Center · IBAN doğrulanmış', 'ok'], ['KDV', '%20 · uyumlu', 'ok']],
+        checks: [['Sipariş', 'PO-26-042 · onaylı 168.000 TL · fatura 168.000 TL · fark yok', 'ok'], ['Ödeme takvimi', 'Fatura ödemeden önce geldi · PO-26-042 ödeme listesinde · tahmini 09.10.2026 (Finansal Muhasebe)', 'ok'], ['Teslim', 'Teslim bekleniyor · Hakan Tunç · tahmini 15.10.2026', 'wait'], ['Cari', 'Drone Center · IBAN doğrulanmış', 'ok'], ['KDV', '%20 · uyumlu', 'ok']],
         src: 'PO-26-042 satın alma kaydı · proforma DC-2026-1184 · e-Fatura DRN2026000733',
-        lines: [['255', 'Demirbaşlar · haritalama dronu', 140000, 0], ['191', 'İndirilecek KDV %20', 28000, 0], ['320.021', 'Drone Center Teknoloji Ltd.', 0, 168000]], cost: 'Kızılova RES · demirbaş', basis: 'Sipariş usulü · demirbaş sınırı üstü → 255 · amortisman 4 yıl', kconf: 91, kst: 'onayli' },
+        lines: [['255', 'Demirbaşlar · haritalama dronu', 140000, 0], ['191', 'İndirilecek KDV %20', 28000, 0], ['320.021', 'Drone Center Teknoloji Ltd.', 0, 168000]], cost: 'Kızılova RES · demirbaş', basis: 'Sipariş usulü · fatura ödemeden önce geldi → satıcı borcu 320 · demirbaş sınırı üstü → 255 · amortisman 4 yıl', kconf: 91, kst: 'onayli' },
+      { id: 'e12', date: '03.10.2026', kind: 'e-Fatura', no: 'TLS2026000287', party: 'Telsiz Market', co: 'Boztepe RES Enerji Üretim A.Ş.', amt: 10150, cur: 'TL', match: 'PO-26-039', dept: 'saha', conf: 97, obj: '11.10.2026', st: 'liste',
+        checks: [['Sipariş', 'PO-26-039 · onaylı 9.800 TL · fatura 10.150 TL · fark 350 TL (kargo bedeli faturaya eklenmiş)', 'wait'], ['Ödeme takvimi', 'Fatura ödemeden önce geldi · ödeme listesinde · 16.10.2026 · fark Finansal Muhasebe’ye not olarak iletildi', 'ok'], ['Teslim', 'Teslim alındı · 02.10.2026', 'ok'], ['Cari', 'Telsiz Market · IBAN doğrulanmış', 'ok'], ['KDV', '%20 · uyumlu', 'ok']],
+        src: 'PO-26-039 satın alma kaydı · e-Fatura TLS2026000287 · ödeme listesi', lines: [['770.05', 'Saha sarf malzemesi · telsiz (2 adet)', 8458, 0], ['191', 'İndirilecek KDV %20', 1692, 0], ['320.033', 'Telsiz Market', 0, 10150]], cost: 'Boztepe RES · işletme', basis: 'Sipariş usulü · fatura ödemeden önce geldi → satıcı borcu 320 · demirbaş sınırı altı → gider', kconf: 88, kst: 'oneri' },
       { id: 'e4', date: '03.10.2026', kind: 'e-İrsaliye', no: 'IRS-2026-0912', party: 'Yüksek İş Güvenlik', co: 'Karatepe RES Enerji Üretim A.Ş.', amt: 0, cur: 'TL', match: 'PO-26-041', dept: 'saha', conf: 88, obj: '—', st: 'irsaliye',
         checks: [['Sipariş', 'PO-26-041 · 2 set · irsaliye 2 set · uyumlu', 'ok'], ['Fatura', 'Fatura henüz gelmedi · 7 gün içinde beklenir', 'wait'], ['Cari', 'Yüksek İş Güvenlik · IBAN doğrulama bekliyor', 'missing']],
         src: 'PO-26-041 · e-İrsaliye IRS-2026-0912', lines: [], cost: 'Karatepe RES', basis: 'Fatura gelince önerilir', kconf: 0, kst: 'bekle' },
@@ -965,28 +883,31 @@ class Component extends DCLogic {
       { id: 'e8', date: '29.09.2026', kind: 'e-Fatura', no: 'ENR2026001121', party: 'Enercon Servis Türkiye', co: 'Boztepe RES Enerji Üretim A.Ş.', amt: 38500, cur: 'EUR', match: 'S-25-008', dept: 'om', conf: 40, obj: '07.10.2026', st: 'mukerrer',
         checks: [['Mükerrer', 'Aynı fatura no ve tutar 30.09.2026 tarihli kayıtla aynı · tedarikçi iki kez gönderdi', 'missing'], ['Sözleşme', 'S-25-008 · dönem aynı', 'ok']],
         src: 'e-Fatura ENR2026001121 (2 kez) · muavin 320.014', lines: [], cost: 'Boztepe RES', basis: 'Kayıt önerilmez · mükerrer', kconf: 0, kst: 'bekle' },
-      { id: 'e9', date: '25.09.2026', kind: 'e-Fatura', no: 'TST-0921', party: 'Testo TR', co: 'Karatepe RES Enerji Üretim A.Ş.', amt: 104000, cur: 'TL', match: 'PO-26-038', dept: 'om', conf: 99, obj: '—', st: 'odendi',
-        checks: [['Sipariş', 'PO-26-038 · 104.000 TL · fark yok', 'ok'], ['Teslim', 'Onur Yıldız teslim aldı · 10.10.2026', 'ok'], ['Ödeme', 'Ödendi 25.09.2026 · Akbank TL · banka hareketi eşleşti', 'ok']],
-        src: 'PO-26-038 · e-Fatura TST-0921 · banka API', lines: [['255', 'Demirbaşlar · termal kamera', 86667, 0], ['191', 'İndirilecek KDV %20', 17333, 0], ['320.031', 'Testo TR', 0, 104000]], cost: 'Karatepe RES · demirbaş', basis: 'Sipariş usulü', kconf: 93, kst: 'erp' },
+      { id: 'e9', date: '06.10.2026', kind: 'e-Fatura', no: 'TST2026000418', party: 'Testo TR', co: 'Karatepe RES Enerji Üretim A.Ş.', amt: 104000, cur: 'TL', match: 'PO-26-038', dept: 'om', conf: 99, obj: '14.10.2026', st: 'odendi',
+        checks: [['Ödeme', 'Fatura ödemeden sonra geldi · PO-26-038 25.09.2026’de proforma TT-0921 karşılığı ödendi (Akbank TL) · ödeme 159’da bekliyor', 'ok'], ['Sipariş', 'PO-26-038 · ödenen 104.000 TL · fatura 104.000 TL · fark yok', 'ok'], ['Teslim', 'Teslim bekleniyor · Onur Yıldız · tahmini 10.10.2026', 'wait'], ['KDV', '%20 · uyumlu', 'ok']],
+        src: 'PO-26-038 satın alma kaydı · proforma TT-0921 · banka API (25.09.2026) · e-Fatura TST2026000418', lines: [['255', 'Demirbaşlar · termal kamera', 86667, 0], ['191', 'İndirilecek KDV %20', 17333, 0], ['159.012', 'Verilen sipariş avansları · Testo TR', 0, 104000]], cost: 'Karatepe RES · demirbaş', basis: 'Sipariş usulü · ödeme faturadan önce yapıldı → ödeme 159’a kaydedilmişti; fatura gelince 159 kapatılır, 320 kullanılmaz', kconf: 93, kst: 'oneri' },
       { id: 'e10', date: '26.09.2026', kind: 'Gider pusulası', no: 'GP-2026-017', party: 'Mehmet Y. (arazi sahibi)', co: 'Güneşalan GES Enerji Üretim A.Ş.', amt: 12500, cur: 'TL', match: 'S-23-004', dept: 'saha', conf: 90, obj: '—', st: 'liste',
         checks: [['Sözleşme', 'S-23-004 arazi kira · yıllık · uyumlu', 'ok'], ['Stopaj', '%20 kira stopajı · 2.500 TL · muhtasara girer', 'ok'], ['Cari', 'IBAN doğrulanmış', 'ok']],
-        src: 'S-23-004 kira sözleşmesi · muavin 770.11', lines: [['770.11', 'Arazi kira gideri · Güneşalan', 12500, 0], ['360', 'Ödenecek stopaj %20', 0, 2500], ['320.052', 'Mehmet Y.', 0, 10000]], cost: 'Güneşalan GES · işletme', basis: 'Geçen yılın aynı kaydı · stopaj kuralı', kconf: 90, kst: 'onayli' }
+        src: 'S-23-004 kira sözleşmesi · muavin 770.11', lines: [['770.11', 'Arazi kira gideri · Güneşalan', 12500, 0], ['360', 'Ödenecek stopaj %20', 0, 2500], ['320.052', 'Mehmet Y.', 0, 10000]], cost: 'Güneşalan GES · işletme', basis: 'Geçen yılın aynı kaydı · stopaj kuralı', kconf: 90, kst: 'onayli' },
+      { id: 'e13', date: '14.09.2026', kind: 'Dekont', no: 'AKB-2026-09-14', party: 'Dell Kurumsal', co: 'XYZ Enerji A.Ş.', amt: 62000, cur: 'TL', match: 'PO-26-036', dept: 'idari', conf: 99, obj: '—', st: 'faturasiz',
+        checks: [['Ödeme', 'PO-26-036 · 14.09.2026’de proforma DL-55821 karşılığı ödendi · Akbank TL', 'ok'], ['Teslim', 'Burak Çelik teslim aldı · 22.09.2026', 'ok'], ['Fatura', 'Gelmedi · yasal düzenleme süresi (teslimden 7 gün) 29.09.2026’da doldu · tedarikçiden istenmeli', 'missing']],
+        src: 'PO-26-036 satın alma kaydı · banka API dekontu · e-Fatura entegratörü (eşleşen fatura yok)', lines: [['159.009', 'Verilen sipariş avansları · Dell Kurumsal', 62000, 0], ['102.01', 'Akbank TL', 0, 62000]], cost: 'Genel Merkez · demirbaş', basis: 'Ödeme faturadan önce yapıldı → 159 · fatura gelince 255 + 191 / 159 kapanışı önerilecek', kconf: 97, kst: 'erp' }
     ];
     const RT = mst.rt || {}; const KS = mst.ks || {};
     const DOCS = DOCS0.map(function (d) { const r = RT[d.id]; return Object.assign({}, d, { dept0: d.dept, st: r ? 'teyit' : d.st, dept: r ? r.dept : d.dept, kst: KS[d.id] || d.kst }); });
     const DB = {}; DOCS.forEach(function (d) { DB[d.id] = d; });
-    const STM2 = { yonlendir: ['Yönlendirilecek', 'wait'], teyit: ['Teyitte', 'list'], liste: ['Ödeme listesinde', 'list'], odendi: ['Ödendi', 'ok'], eslesmedi: ['Eşleşmedi', 'bad'], irsaliye: ['Fatura bekleniyor', 'off'], mukerrer: ['Mükerrer', 'bad'] };
+    const STM2 = { yonlendir: ['Yönlendirilecek', 'wait'], teyit: ['Teyitte', 'list'], liste: ['Ödeme listesinde', 'list'], odendi: ['Ödendi', 'ok'], eslesmedi: ['Eşleşmedi', 'bad'], irsaliye: ['Fatura bekleniyor', 'off'], mukerrer: ['Mükerrer', 'bad'], faturasiz: ['Ödendi · fatura gelmedi', 'bad'] };
     const KST_M = { oneri: ['Öneri · onay bekliyor', 'wait'], onayli: ['Onaylandı · ERP’de kaydedilmeyi bekliyor', 'list'], erp: ['ERP’de kaydedildi ✓', 'ok'], bekle: ['Kayıt önerilmez', 'off'] };
     const daysTo = function (d) { if (!d || d === '—') return null; const p = d.split('.'); const t = TODAY.split('.'); return Math.round((new Date(+p[2], +p[1] - 1, +p[0]) - new Date(+t[2], +t[1] - 1, +t[0])) / 86400000); };
     const openDoc = function (id) { return function () { self.setState({ ek: id, ekFull: false, ekDept: null }); }; };
     const evF = mst.evF || 'acik';
     const evFilters = [['acik', 'Açık işler'], ['tum', 'Tümü'], ['fatura', 'e-Fatura / e-Arşiv'], ['irsaliye', 'e-İrsaliye'], ['dekont', 'Dekont / pusula']].map(function (f) { const on = evF === f[0]; return { label: f[1], style: "font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;border-radius:9px;padding:6px 12px;cursor:pointer;border:none;" + (on ? 'background:#0E241D;color:#F6F7F5;' : 'background:transparent;color:#5B6B60;'), go: function () { self.setState({ evF: f[0] }); } }; });
-    const evList = DOCS.filter(function (d) { if (evF === 'acik') return ['yonlendir', 'eslesmedi', 'mukerrer', 'irsaliye'].indexOf(d.st) !== -1; if (evF === 'fatura') return d.kind === 'e-Fatura' || d.kind === 'e-Arşiv'; if (evF === 'irsaliye') return d.kind === 'e-İrsaliye'; if (evF === 'dekont') return d.kind === 'Dekont' || d.kind === 'Gider pusulası'; return true; });
+    const evList = DOCS.filter(function (d) { if (evF === 'acik') return ['yonlendir', 'eslesmedi', 'mukerrer', 'irsaliye', 'faturasiz'].indexOf(d.st) !== -1; if (evF === 'fatura') return d.kind === 'e-Fatura' || d.kind === 'e-Arşiv'; if (evF === 'irsaliye') return d.kind === 'e-İrsaliye'; if (evF === 'dekont') return d.kind === 'Dekont' || d.kind === 'Gider pusulası'; return true; });
     const evRows = evList.map(function (d) { const stt = STM2[d.st]; const dd = daysTo(d.obj); const objT = dd === null ? '—' : (dd < 0 ? 'geçti' : dd + ' gün'); const act = ['yonlendir', 'eslesmedi', 'mukerrer'].indexOf(d.st) !== -1;
       return { open: openDoc(d.id), date: d.date, kind: d.kind, no: d.no, party: d.party, co: d.co.replace(' Enerji Üretim A.Ş.', '').replace(' A.Ş.', ''), amount: d.amt ? fmtCur(d.amt, d.cur) : '—', match: d.match, matchColor: d.match === '—' ? '#B23A3A' : '#132119', dept: (DM[d.dept] ? DM[d.dept].s : '—') + ' · %' + d.conf,
         obj: objT, objStyle: PILLM + (dd !== null && dd <= 3 && act ? 'color:#B23A3A;background:#FBE7E7;' : (dd !== null && act ? 'color:#9A6B12;background:#FBF1DE;' : 'color:#8A968E;background:#F0F2F0;')), status: stt[0], statusStyle: CHM(stt[1]),
         rowStyle: "display:grid;grid-template-columns:" + '0.75fr 0.8fr 1.1fr 1.5fr 1.1fr 0.95fr 1.1fr 1.2fr 0.8fr 0.95fr' + ";column-gap:12px;align-items:center;width:100%;text-align:left;padding:10px 20px;border:none;border-bottom:1px solid #F0F2F0;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;color:#132119;" + (act ? 'background:#FFFFFF;' : 'background:#FAFBFA;') }; });
-    const evCount = DOCS.filter(function (d) { return ['yonlendir', 'eslesmedi', 'mukerrer', 'irsaliye'].indexOf(d.st) !== -1; }).length;
+    const evCount = DOCS.filter(function (d) { return ['yonlendir', 'eslesmedi', 'mukerrer', 'irsaliye', 'faturasiz'].indexOf(d.st) !== -1; }).length;
     // Kayıt önerileri
     const kayitRows = DOCS.filter(function (d) { return d.lines.length; }).map(function (d) { const k = KST_M[d.kst]; return { open: openDoc(d.id), date: d.date, party: d.party, no: d.no, amount: fmtCur(d.amt, d.cur), co: d.co.replace(' Enerji Üretim A.Ş.', '').replace(' A.Ş.', ''), accs: d.lines.map(function (l) { return l[0]; }).join(' / '), cost: d.cost, conf: '%' + d.kconf, confStyle: CHM(d.kconf >= 80 ? 'ok' : 'wait'), st: k[0], stStyle: CHM(k[1]) }; });
     const kayitCount = DOCS.filter(function (d) { return d.kst === 'oneri'; }).length;
@@ -996,7 +917,7 @@ class Component extends DCLogic {
     const cariRowsM = CARI_ALL.filter(function (c) { return c[0] === cariCo; }).map(function (c) { const ok = c[9] === 'ok'; const req = !!VER[c[1]]; return { n: c[1], kind: c[2], vkn: c[3], iban: c[4], cur: c[5], bal: c[6] ? fmtCur(c[6], c[5]) : '—', last: c[7], src: c[8], canVerify: !ok && !req, noVerify: ok || req, verify: function () { const n = Object.assign({}, VER); n[c[1]] = true; self.setState({ ver: n }); }, st: ok ? 'Doğrulandı' : 'Doğrulama onayda · Elif Şahin', stStyle: CHM(ok ? 'ok' : 'wait') }; });
     // Kontroller
     const ctrlDefs = [
-      ['3’lü eşleşme', 'sipariş · irsaliye · fatura', DOCS.filter(function (d) { return d.st === 'irsaliye' || (d.match.indexOf('PO-') === 0 && d.checks.some(function (c) { return c[0] === 'Teslim' && c[2] === 'wait'; })); })],
+      ['3’lü eşleşme', 'sipariş · ödeme · teslim · fatura', DOCS.filter(function (d) { return d.st === 'irsaliye' || d.st === 'faturasiz' || (d.match.indexOf('PO-') === 0 && d.checks.some(function (c) { return c[0] === 'Teslim' && c[2] === 'wait'; })); })],
       ['Mükerrer fatura', 'aynı no, tutar, tedarikçi', DOCS.filter(function (d) { return d.st === 'mukerrer'; })],
       ['Eşleşmeyen fatura', 'PO ya da sözleşme yok', DOCS.filter(function (d) { return d.st === 'eslesmedi'; })],
       ['İtiraz süresi', '8 gün · dolmak üzere', DOCS.filter(function (d) { const dd = daysTo(d.obj); return dd !== null && dd <= 3 && ['yonlendir', 'eslesmedi', 'mukerrer'].indexOf(d.st) !== -1; })],
@@ -1006,7 +927,7 @@ class Component extends DCLogic {
     const ctrlCards = ctrlDefs.map(function (x) { const n = x[2].length; return { k: x[0], s: x[1], chip: n ? n + ' kayıt' : 'Temiz', chipStyle: CHM(n ? (x[0] === 'Mükerrer fatura' || x[0] === 'İtiraz süresi' ? 'bad' : 'wait') : 'ok'), empty: !n, rows: x[2].map(function (d) { const stt = STM2[d.st]; return { open: openDoc(d.id), t: d.party + ' · ' + d.no, m: d.co.replace(' Enerji Üretim A.Ş.', '').replace(' A.Ş.', '') + ' · ' + (d.amt ? fmtCur(d.amt, d.cur) : d.kind) + ' · ' + d.date, dot: 'width:9px;height:9px;border-radius:50%;flex-shrink:0;background:' + (stt[1] === 'bad' ? '#B23A3A' : '#D97706') + ';', st: stt[0], stStyle: CHM(stt[1]) }; }) }; });
     const ctrlTiles = ctrlCards.map(function (c) { return { k: c.k, v: c.empty ? '✓' : String(c.rows.length), s: c.empty ? 'temiz' : c.s, color: c.empty ? '#1E6B3E' : (c.chipStyle.indexOf('B23A3A') !== -1 ? '#B23A3A' : '#9A6B12'), style: "text-align:left;background:#F6F9F7;border:1px solid #E1E7E2;border-radius:12px;padding:10px 12px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;", go: function () { self.setState({ pageTab: 'kontrol' }); } }; });
     // Genel bakış
-    const muhPend = DOCS.filter(function (d) { return ['yonlendir', 'eslesmedi', 'mukerrer'].indexOf(d.st) !== -1 || d.kst === 'oneri'; }).slice(0, 6).map(function (d) { const stt = d.kst === 'oneri' && ['yonlendir', 'eslesmedi', 'mukerrer'].indexOf(d.st) === -1 ? ['Kayıt önerisi · onay', 'wait'] : STM2[d.st]; const dd = daysTo(d.obj); return { open: openDoc(d.id), title: d.party + ' · ' + d.kind + ' ' + d.no, meta: d.co.replace(' Enerji Üretim A.Ş.', '').replace(' A.Ş.', '') + ' · ' + d.match + (dd !== null && dd >= 0 ? ' · itiraz ' + dd + ' gün' : ''), amount: d.amt ? fmtCur(d.amt, d.cur) : '—', status: stt[0], statusStyle: CHM(stt[1]) }; });
+    const muhPend = DOCS.filter(function (d) { return ['yonlendir', 'eslesmedi', 'mukerrer', 'faturasiz'].indexOf(d.st) !== -1 || d.kst === 'oneri'; }).slice(0, 6).map(function (d) { const stt = d.kst === 'oneri' && ['yonlendir', 'eslesmedi', 'mukerrer'].indexOf(d.st) === -1 ? ['Kayıt önerisi · onay', 'wait'] : STM2[d.st]; const dd = daysTo(d.obj); return { open: openDoc(d.id), title: d.party + ' · ' + d.kind + ' ' + d.no, meta: d.co.replace(' Enerji Üretim A.Ş.', '').replace(' A.Ş.', '') + ' · ' + d.match + (dd !== null && dd >= 0 ? ' · itiraz ' + dd + ' gün' : ''), amount: d.amt ? fmtCur(d.amt, d.cur) : '—', status: stt[0], statusStyle: CHM(stt[1]) }; });
     const recentDocs = DOCS.slice(0, 5).map(function (d) { const stt = STM2[d.st]; return { open: openDoc(d.id), title: d.party + ' · ' + d.no, meta: d.kind + ' · ' + d.date + ' · ' + d.co.replace(' Enerji Üretim A.Ş.', '').replace(' A.Ş.', ''), amount: d.amt ? fmtCur(d.amt, d.cur) : '—', st: stt[0], stStyle: CHM(stt[1]) }; });
     const calRows = [['10 Eki', 'SGK prim bildirgesi (Eylül)', 'ödeme 31 Eki', 4, 'ok'], ['23 Eki', 'Muhtasar ve prim hizmet beyannamesi (Eylül)', 'ödeme 26 Eki · stopaj dahil', 17, 'wait'], ['26 Eki', 'KDV beyannamesi (Eylül)', 'ödeme 26 Eki · 2.310.000 TL', 20, 'wait'], ['31 Eki', 'Ba-Bs formları (Eylül)', 'e-Fatura dışı 5.000 TL üstü', 25, 'wait'], ['17 Kas', 'Geçici vergi (3. dönem)', 'beyanname + ödeme', 42, 'off']].map(function (c) { return { day: c[0], dayStyle: 'min-width:52px;text-align:center;font-size:11px;font-weight:700;border-radius:6px;padding:4px 6px;' + (c[3] <= 7 ? 'background:#FBF1DE;color:#9A6B12;' : 'background:#F0F2F0;color:#5B6B60;'), t: c[1], m: c[2], st: c[4] === 'ok' ? 'Hazır' : (c[4] === 'wait' ? 'Hazırlanıyor' : 'Sırada'), stStyle: CHM(c[4]) }; });
     // Evrak kartı
@@ -1099,24 +1020,16 @@ class Component extends DCLogic {
       onCloseTeamChat: function () { self.setState({ teamChatOpen: false }); },
       accent: accent,
       pageIsGenel: pageTab === 'genel',
+      pageIsImza: pageTab === 'imza',
+      pageImzaBtnStyle: pageTab === 'imza' ? pageActiveBtn : pageInactiveBtn,
+      onSelectPageImza: function () { self.setState({ pageTab: 'imza' }); },
       pageIsPozisyon: pageTab === 'pozisyon',
       pageGenelBtnStyle: pageTab === 'genel' ? pageActiveBtn : pageInactiveBtn,
       pagePozisyonBtnStyle: pageTab === 'pozisyon' ? pageActiveBtn : pageInactiveBtn,
       onSelectPageGenel: function () { self.setState({ pageTab: 'genel' }); },
       onSelectPagePozisyon: function () { self.setState({ pageTab: 'pozisyon' }); },
-      projectCases: projectCases,
-      devProjectCases: devProjectCases,
-      mevzuat: mevzuat,
-      bakanlik: bakanlik,
-      tasksList: tasksList,
-      mailsList: mailsList,
-      talepList: talepList,
-      davalar: davalar,
       gzGenelTop: gzGenelTop,
       gzPozTop: gzPozTop,
-      tasksPendingLabel: tasksPending + ' Bekliyor',
-      mailsPendingLabel: mailsPending + ' Bekliyor',
-      talepPendingLabel: talepPending + ' Bekliyor',
       chatOpen: chatOpen,
       teamChatOpen: teamChatOpen,
       anyModalClosed: anyModalClosed,

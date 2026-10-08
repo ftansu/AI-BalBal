@@ -6,6 +6,9 @@
 - **Ürünün arayüzü bu repodur.** `ntoydem/company-ai` içindeki `frontend/` klasörü yalnızca backend'i denemek için kullanılan test arayüzüdür.
 - **Backend:** `ntoydem/company-ai` (backend tarafı). Bu repo backend koduna dokunmaz, aynı API sözleşmesini kullanır.
 - **Backend'e eklenmesi gerekenler:** [`docs/BACKEND_GAPS.md`](docs/BACKEND_GAPS.md)
+- **Naci'ye notlar (yalnızca iki not):**
+  - [`docs/NACI_NOTU_URUN1.md`](docs/NACI_NOTU_URUN1.md) — **Ürün 1 · ✅ hemen başlanabilir** (Balbal davranışı, etiketler, belge yükleme, hesaplar, demo veri kütüphanesi B-18, test planı)
+  - [`docs/NACI_NOTU_URUN2.md`](docs/NACI_NOTU_URUN2.md) — **Ürün 2 ve sonrası · ⛔ ürün sahibinin yazılı onayı gelmeden başlanmaz** (Balbal tam arayüzü, B-29…B-42, ödeme zincirleri, Finansal Muhasebe, banka ekstresi, masraf/avans)
 
 ## Ekranlar
 

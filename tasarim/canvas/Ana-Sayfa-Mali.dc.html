@@ -1,0 +1,1171 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Mali İşler — Ana Sayfa</title>
+<script src="./support.js"></script>
+<script src="/_blob/f1f205a745519547a1ab4b96d887efd3"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+@keyframes genie{0%{transform:scale(.12) translate(40%,40%);opacity:0}70%{opacity:1}100%{transform:scale(1) translate(0,0);opacity:1}}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+
+<div style="width:1440px;height:980px;box-sizing:border-box;display:flex;flex-direction:column;background:#EEF6F0;font-family:'IBM Plex Sans',sans-serif;color:#132119;overflow:hidden;position:relative;">
+
+  <!-- Top bar -->
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <img src="/_blob/971aff4c7613d55ac58efe53b0a7a61a" alt="XYZ Enerji" style="width:34px;height:34px;border-radius:8px;object-fit:cover;flex-shrink:0;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;letter-spacing:0.2px;">XYZ Enerji A.Ş. Platformu</div>
+      </div>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:{{accent}};display:inline-block;"></span>
+        <div style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;color:#F6F7F5;">Mali İşler · Finans</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-right:14px;"><div style="display:flex;align-items:center;gap:8px;width:340px;height:38px;box-sizing:border-box;background:#1D3329;border:1px solid #2E4A3D;border-radius:10px;padding:0 12px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><label for="top-search" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Belge, proje veya kişi ara</label><input id="top-search" type="text" onInput="{{onSearchInput}}" onFocus="{{onSearchFocus}}" placeholder="Belge, proje veya kişi ara" style="flex:1;min-width:0;background:transparent;border:none;outline:none;color:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;font-size:14px;"></div><a href="Belge-Yukle.dc.html" style="height:38px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;border:1px solid #2E4A3D;color:#F6F7F5;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"></path></svg>Belge yükle</a><div style="position:relative;"><button onClick="{{otToggle}}" aria-haspopup="menu" aria-expanded="{{otMenuOpen}}" style="height:38px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;border:1px solid #2FA968;background:#2FA968;color:#0E241D;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">+ Ödeme talebi<span aria-hidden="true" style="font-size:10px;">▾</span></button><sc-if value="{{otMenu}}" hint-placeholder-val="{{false}}"><div role="menu" aria-label="Ödeme talebi" style="position:absolute;top:calc(100% + 6px);right:0;z-index:80;width:290px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;box-shadow:0 16px 40px rgba(14,36,29,0.18);padding:6px;display:flex;flex-direction:column;gap:2px;color:#132119;"><button role="menuitem" onClick="{{otMine}}" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;border:none;border-radius:10px;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;background:#F6F9F7;color:#132119;cursor:pointer;"><span style="font-size:13.5px;font-weight:700;">Taleplerim</span><span style="font-size:11.5px;font-weight:500;color:#5B6B60;">Açtığın ödeme talepleri ve durumları</span></button><div aria-hidden="true" style="height:1px;background:#F0F2F0;margin:4px 6px;"></div><sc-for list="{{otItems}}" as="t" hint-placeholder-count="3"><button role="menuitem" onClick="{{t.pick}}" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;border:none;border-radius:10px;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;background:#FFFFFF;color:#132119;cursor:pointer;"><span style="font-size:13.5px;font-weight:700;">{{t.lbl}}</span><span style="font-size:11.5px;font-weight:500;color:#5B6B60;">{{t.sub}}</span></button></sc-for></div></sc-if></div><button onClick="{{onToggleNotif}}" aria-label="Bildirimler" style="position:relative;width:38px;height:38px;flex-shrink:0;border-radius:10px;border:1px solid #2E4A3D;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg><span style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;box-sizing:border-box;border-radius:9px;background:#2FA968;color:#0E241D;font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;">3</span></button></div>
+      <div style="text-align:right;">
+        <div style="font-size:13px;font-weight:600;line-height:1.2;">Gökhan Erdem</div>
+        <div style="font-size:11px;color:#9FB0A6;line-height:1.2;">Finansal Muhasebe Uzmanı</div>
+      </div>
+      <button onClick="{{onToggleUserMenu}}" aria-label="Kullanıcı menüsü" style="border:none;cursor:pointer;padding:0;width:36px;height:36px;border-radius:50%;background:#C026D3;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FFFFFF;">GE</button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div style="{{bodyStyle}}">
+
+    <!-- Page tabs -->
+    <div style="display:flex;gap:8px;flex-shrink:0;">
+      <button style="{{pageGenelBtnStyle}}" onClick="{{onSelectPageGenel}}">Genel Bakış</button>
+      <button style="{{pageOdemeBtnStyle}}" onClick="{{onSelectPageOdeme}}">Ödeme Talepleri</button>
+      <button style="{{pageListeBtnStyle}}" onClick="{{onSelectPageListe}}">Ödeme Listesi</button>
+      <button style="{{pageSirketBtnStyle}}" onClick="{{onSelectPageSirket}}">Şirket Bilgileri</button>
+      <sc-if value="{{balbalTab}}" hint-placeholder-val="{{false}}">
+        <button style="{{balbalTabStyle}}" onClick="{{onSelectBalbalTab}}"><img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:18px;height:18px;border-radius:50%;object-fit:contain;background:#FFFFFF;">Balbal</button>
+      </sc-if>
+      <sc-if value="{{onayTab}}" hint-placeholder-val="{{false}}">
+        <div style="{{onayTabWrap}}">
+          <button onClick="{{onSelectOnayTab}}" style="{{onayTabStyle}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>Ödeme · {{onayId}}</button>
+          <button onClick="{{onayCloseTab}}" aria-label="Ödeme sekmesini kapat" style="border:none;background:transparent;cursor:pointer;padding:0 10px 0 2px;font-size:15px;line-height:1;color:#9A6B12;">×</button>
+        </div>
+      </sc-if>
+    </div>
+
+
+    <!-- ÖDEME (ödeme listesinden açılır): Finansal Muhasebe ödemeyi yapar -->
+    <sc-if value="{{pkOpen}}" hint-placeholder-val="{{false}}">
+    <div onClick="{{pkBackdrop}}" style="{{pkWrap}}">
+      <div role="dialog" aria-modal="true" aria-label="{{pk.title}}" onClick="{{pkStop}}" style="{{pkBox}}">
+        <div style="flex-shrink:0;display:flex;align-items:center;gap:14px;padding:16px 22px;background:#0E241D;color:#F6F7F5;">
+          <div aria-hidden="true" style="width:46px;height:46px;border-radius:12px;background:#2FA968;color:#0E241D;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">{{pk.icon}}</div>
+          <div style="flex:1;min-width:0;"><div style="font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;line-height:1.2;">{{pk.title}}</div><div style="font-size:12.5px;color:#C9D3CC;margin-top:2px;">{{pk.sub}}</div></div>
+          <span style="{{pk.statusStyle}}">{{pk.status}}</span>
+          <button onClick="{{pkFullBtn}}" aria-label="{{pkFullLabel}}" title="{{pkFullLabel}}" style="width:34px;height:34px;border-radius:9px;border:1px solid #2E4A3D;background:transparent;color:#F6F7F5;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg></button>
+          <button onClick="{{pkClose}}" aria-label="Kapat" style="width:34px;height:34px;border-radius:9px;border:1px solid #2E4A3D;background:transparent;color:#F6F7F5;cursor:pointer;font-size:16px;">×</button>
+        </div>
+        <div style="{{pkBody}}">
+          <div style="flex-shrink:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid #F0F2F0;"><span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;flex-shrink:0;background:#0E241D;color:#F6F7F5;">1</span><span style="font-size:13.5px;font-weight:700;">Ödeme listesi kaydı</span></div>
+            <div style="padding:12px 16px;display:flex;flex-direction:column;gap:6px;">
+              <sc-for list="{{pk.facts}}" as="f" hint-placeholder-count="5"><div style="display:flex;gap:8px;font-size:12.5px;line-height:1.45;"><span style="width:112px;flex-shrink:0;color:#8A968E;">{{f.k}}</span><span style="color:#132119;font-weight:500;">{{f.v}}</span></div></sc-for>
+              <sc-if value="{{pk.hasInv}}" hint-placeholder-val="{{false}}"><div style="display:flex;align-items:center;gap:8px;font-size:12.5px;padding-top:4px;"><span style="width:112px;flex-shrink:0;color:#8A968E;">Referans</span><a href="{{pk.invHref}}" style="display:inline-flex;align-items:center;gap:6px;border:1px solid #D6E4DA;border-radius:8px;padding:5px 10px;color:#1E6B3E;font-weight:600;text-decoration:none;background:#FFFFFF;">Faturayı aç ↗</a><span style="color:#8A968E;">{{pk.invName}} · {{pk.invMeta}}</span></div></sc-if>
+              <sc-if value="{{pk.hasNote}}" hint-placeholder-val="{{false}}"><div style="{{pk.noteBoxStyle}}"><span aria-hidden="true" style="width:24px;height:24px;border-radius:50%;background:#FFFFFF;box-shadow:0 0 0 2px #D97706;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;"><img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:78%;height:78%;object-fit:contain;"></span><span style="flex:1;min-width:0;">{{pk.noteTxt}}</span><sc-if value="{{pk.needAck}}" hint-placeholder-val="{{false}}"><button onClick="{{pk.doAck}}" style="{{pk.ackStyle}}">{{pk.ackTxt}}</button></sc-if></div></sc-if>
+            </div>
+          </div>
+          <div style="flex-shrink:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid #F0F2F0;"><span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;flex-shrink:0;background:#0E241D;color:#F6F7F5;">2</span><span style="font-size:13.5px;font-weight:700;">Ödeme · Gökhan Erdem</span><span style="flex:1;"></span><span style="{{pk.chipStyle}}">{{pk.chip}}</span></div>
+            <div style="padding:12px 16px;display:flex;flex-direction:column;gap:10px;">
+              <sc-if value="{{pk.edit}}" hint-placeholder-val="{{true}}">
+                <div style="display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;">
+                  <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;width:170px;">Ödeme tarihi<input type="text" value="{{pk.date}}" onInput="{{pk.onDate}}" style="box-sizing:border-box;width:100%;border:1px solid #D6E4DA;border-radius:10px;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#132119;background:#FFFFFF;"></label>
+                  <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;flex:1;">Banka hesabı<select value="{{pk.bank}}" onChange="{{pk.onBank}}" style="box-sizing:border-box;width:100%;border:1px solid #D6E4DA;border-radius:10px;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#132119;background:#FFFFFF;"><sc-for list="{{pk.banks}}" as="b" hint-placeholder-count="6"><option value="{{b}}">{{b}}</option></sc-for></select></label>
+                </div>
+                <div style="background:#F6F9F7;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;">
+                  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><span style="font-size:13px;font-weight:700;">Ödeme talimatı</span><span style="{{pk.tplChipStyle}}">{{pk.tplChip}}</span><span style="flex:1;"></span><sc-if value="{{pk.canFill}}" hint-placeholder-val="{{true}}"><button onClick="{{pk.doFill}}" style="{{pk.fillStyle}}"><span aria-hidden="true" style="width:30px;height:30px;border-radius:50%;background:#FFFFFF;box-shadow:0 0 0 2px #D97706;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;"><img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:78%;height:78%;object-fit:contain;"></span><span>{{pk.fillLbl}}</span></button></sc-if></div>
+                  <sc-if value="{{pk.hasDoc}}" hint-placeholder-val="{{false}}">
+                    <div style="display:flex;align-items:center;gap:10px;font-size:12.5px;"><span>📄</span><a href="{{pk.docHref}}" style="color:#1E6B3E;text-decoration:underline;font-weight:500;">{{pk.docName}} ↗</a><span style="color:#8A968E;">· Balbal doldurdu · {{pk.docSrc}}</span></div><button onClick="{{pk.tOkDo}}" aria-pressed="{{pk.okPressed}}" style="{{pk.okRow}}"><span style="{{pk.okBox}}">{{pk.okMark}}</span><span style="flex:1;">{{pk.okLine}}</span></button>
+                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-size:12.5px;color:#5B6B60;">Islak imza</span><sc-for list="{{pk.sigs}}" as="g" hint-placeholder-count="2"><button onClick="{{g.toggle}}" style="{{g.style}}">{{g.mark}} {{g.n}} · {{g.grp}}</button></sc-for><span style="flex:1;"></span><span style="font-size:12px;color:#5B6B60;">{{pk.sigHint}}</span></div>
+                  </sc-if>
+                </div>
+                <div style="display:flex;justify-content:flex-end;"><button onClick="{{pk.doPay}}" style="{{pk.payStyle}}">✓ Ödeme yapıldı</button></div>
+              </sc-if>
+              <sc-if value="{{pk.done}}" hint-placeholder-val="{{false}}">
+                <sc-for list="{{pk.doneFacts}}" as="f" hint-placeholder-count="2"><div style="display:flex;gap:8px;font-size:12.5px;line-height:1.45;"><span style="width:112px;flex-shrink:0;color:#8A968E;">{{f.k}}</span><span style="color:#132119;font-weight:500;">{{f.v}}</span></div></sc-for>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- SEÇİLİLERİ ÖDE (Balbal talimatları doldurur; Finansal Muhasebe onaylamadan talimat oluşmaz) -->
+    <sc-if value="{{bkOpen}}" hint-placeholder-val="{{false}}">
+    <div onClick="{{bk.cancel}}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:56;background:rgba(14,36,29,0.45);overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:24px;box-sizing:border-box;">
+      <div role="dialog" aria-modal="true" aria-label="Seçilileri öde" onClick="{{pkStop}}" style="width:940px;max-width:100%;flex-shrink:0;border-radius:18px;background:#F6F9F7;box-shadow:0 24px 60px rgba(14,36,29,0.35);display:flex;flex-direction:column;overflow:hidden;">
+        <div style="flex-shrink:0;display:flex;align-items:center;gap:14px;padding:16px 22px;background:#0E241D;color:#F6F7F5;"><div aria-hidden="true" style="width:46px;height:46px;border-radius:12px;background:#2FA968;color:#0E241D;font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">₺</div><div style="flex:1;min-width:0;"><div style="font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;line-height:1.2;">{{bk.title}}</div><div style="font-size:12.5px;color:#C9D3CC;margin-top:2px;">{{bk.sub}}</div></div><button onClick="{{bk.cancel}}" aria-label="Kapat" style="width:34px;height:34px;border-radius:9px;border:1px solid #2E4A3D;background:transparent;color:#F6F7F5;cursor:pointer;font-size:16px;">×</button></div>
+        <div style="padding:18px 22px;display:flex;flex-direction:column;gap:14px;">
+          <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;"><div style="display:grid;grid-template-columns:0.9fr 1.4fr 2fr 1.1fr 0.9fr;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid #F0F2F0;"><span style="font-size:11px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;color:#8A968E;">Dayanak</span><span style="font-size:11px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;color:#8A968E;">Karşı taraf</span><span style="font-size:11px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;color:#8A968E;">IBAN</span><span style="font-size:11px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;color:#8A968E;">Ödeyen hesap</span><span style="font-size:11px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;color:#8A968E;text-align:right;">Tutar</span></div><sc-for list="{{bk.rows}}" as="r" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:0.9fr 1.4fr 2fr 1.1fr 0.9fr;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid #F6F8F6;"><span style="font-size:12.5px;color:#132119;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;">{{r.po}}</span><span style="font-size:12.5px;color:#132119;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{r.party}}</span><span style="min-width:0;display:flex;flex-direction:column;gap:1px;"><span style="font-size:12.5px;color:#132119;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:0.2px;">{{r.iban}}</span><span style="font-size:11px;color:#8A968E;">{{r.ibanSrc}}</span></span><span style="min-width:0;display:flex;flex-direction:column;gap:1px;"><span style="font-size:12.5px;color:#132119;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{r.payer}}</span><span style="font-size:11px;color:#8A968E;">{{r.payerCo}}</span></span><span style="font-size:12.5px;color:#132119;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right;font-weight:700;">{{r.amt}}</span></div></sc-for></div>
+          <sc-if value="{{bk.skipShow}}" hint-placeholder-val="{{false}}"><div style="display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:#9A6B12;background:#FBF1DE;border-radius:12px;padding:10px 14px;"><sc-for list="{{bk.skip}}" as="k" hint-placeholder-count="1"><span>Atlanır · {{k.t}}</span></sc-for></div></sc-if>
+          <button onClick="{{bk.doOk}}" aria-pressed="{{bk.okPressed}}" style="{{bk.okRow}}"><span style="{{bk.okBox}}">{{bk.okMark}}</span><span style="flex:1;">{{bk.okLine}}</span></button>
+          <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;"><button onClick="{{bk.cancel}}" style="border-radius:12px;padding:12px 20px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;border:1px solid #D6E4DA;background:#FFFFFF;color:#132119;cursor:pointer;">Vazgeç</button><button onClick="{{bk.save}}" style="{{bk.saveStyle}}">{{bk.saveLbl}}</button></div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+    <!-- ELLE ÖDEME (Finansal Muhasebe ödeme listesine dayanaksız kayıt girer; Balbal eşleşmeyen ödeme olarak izler, zorlamaz) -->
+    <sc-if value="{{eoOpen}}" hint-placeholder-val="{{false}}">
+    <div onClick="{{eo.cancel}}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:56;background:rgba(14,36,29,0.45);overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:24px;box-sizing:border-box;">
+      <div role="dialog" aria-modal="true" aria-label="Elle ödeme" onClick="{{pkStop}}" style="width:760px;max-width:100%;flex-shrink:0;border-radius:18px;background:#F6F9F7;box-shadow:0 24px 60px rgba(14,36,29,0.35);display:flex;flex-direction:column;overflow:hidden;">
+        <div style="flex-shrink:0;display:flex;align-items:center;gap:14px;padding:16px 22px;background:#0E241D;color:#F6F7F5;">
+          <div aria-hidden="true" style="width:46px;height:46px;border-radius:12px;background:#2FA968;color:#0E241D;font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">+</div>
+          <div style="flex:1;min-width:0;"><div style="font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;line-height:1.2;">{{eo.title}}</div><div style="font-size:12.5px;color:#C9D3CC;margin-top:2px;">{{eo.sub}}</div></div>
+          <span style="font-size:11.5px;font-weight:700;border-radius:6px;padding:4px 9px;color:#F6F7F5;background:#1D3329;border:1px solid #2E4A3D;white-space:nowrap;">{{eo.no}}</span>
+          <button onClick="{{eo.cancel}}" aria-label="Kapat" style="width:34px;height:34px;border-radius:9px;border:1px solid #2E4A3D;background:transparent;color:#F6F7F5;cursor:pointer;font-size:16px;">×</button>
+        </div>
+        <div style="padding:18px 22px;display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;flex-direction:column;gap:8px;"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><button onClick="{{eo.addDoc}}" style="{{eo.docBtnStyle}}">+ Belge ekle</button><button onClick="{{eo.mailToggle}}" aria-expanded="{{eo.mailOpen}}" style="{{eo.mailBtnStyle}}">✉ Mailden al</button><sc-for list="{{eo.att}}" as="f" hint-placeholder-count="1"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#1E6B3E;background:#E7F3EB;border-radius:8px;padding:4px 4px 4px 10px;"><span>{{f.label}}</span><button aria-label="{{f.delLabel}}" onClick="{{f.remove}}" style="border:none;background:transparent;cursor:pointer;color:#5B6B60;font-size:14px;line-height:1;padding:2px 6px;">×</button></span></sc-for></div><sc-if value="{{eo.mailOpen}}" hint-placeholder-val="{{false}}"><div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:12px;padding:6px;display:flex;flex-direction:column;gap:2px;"><sc-if value="{{eo.mailEmpty}}" hint-placeholder-val="{{false}}"><div style="font-size:12.5px;color:#8A968E;padding:8px 10px;">Banka bilgisi içeren mail yok</div></sc-if><sc-for list="{{eo.mails}}" as="m" hint-placeholder-count="2"><button onClick="{{m.pick}}" style="display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:none;background:transparent;border-radius:8px;padding:8px 10px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;"><span aria-hidden="true" style="font-size:14px;color:#5B6B60;">✉</span><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;"><span style="font-size:13px;font-weight:700;color:#132119;">{{m.head}}</span><span style="font-size:11.5px;color:#5B6B60;">{{m.info}}</span></span><span style="font-size:11.5px;color:#8A968E;white-space:nowrap;">{{m.d}}</span></button></sc-for></div></sc-if></div>
+          <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+            <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">Şirket<select value="{{eo.co}}" onChange="{{eo.onCo}}" style="{{eo.fs.co}}"><sc-for list="{{eo.coOpts}}" as="o" hint-placeholder-count="6"><option value="{{o.v}}">{{o.l}}</option></sc-for></select></label>
+            <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">Karşı taraf<input type="text" value="{{eo.party}}" onInput="{{eo.onParty}}" style="{{eo.fs.party}}"></label>
+            <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">IBAN<input type="text" value="{{eo.iban}}" onInput="{{eo.onIban}}" style="{{eo.fs.iban}}"></label>
+            <div style="display:grid;grid-template-columns:1fr 96px;gap:10px;min-width:0;"><label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">Tutar<input type="text" value="{{eo.amt}}" onInput="{{eo.onAmt}}" style="{{eo.fs.amt}}"></label><label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">Para birimi<select value="{{eo.cur}}" onChange="{{eo.onCur}}" style="{{eo.fs.cur}}"><option value="TL">TL</option><option value="USD">USD</option><option value="EUR">EUR</option></select></label></div>
+            <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">{{eo.dateLbl}}<input type="text" value="{{eo.date}}" onInput="{{eo.onDate}}" style="{{eo.fs.date}}"></label>
+            <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">Talimatı veren (isteğe bağlı)<select value="{{eo.by}}" onChange="{{eo.onBy}}" style="box-sizing:border-box;width:100%;border:1px solid #D6E4DA;border-radius:10px;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#132119;background:#FFFFFF;"><sc-for list="{{eo.byOpts}}" as="o" hint-placeholder-count="6"><option value="{{o.v}}">{{o.l}}</option></sc-for></select></label>
+            <sc-if value="{{eo.acil}}" hint-placeholder-val="{{false}}"><label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">Ödeyen hesap<select value="{{eo.payer}}" onChange="{{eo.onPayer}}" style="{{eo.fs.payer}}"><sc-for list="{{eo.payerOpts}}" as="o" hint-placeholder-count="2"><option value="{{o}}">{{o}}</option></sc-for></select></label></sc-if><label style="{{eo.descLbl}}">Açıklama<input type="text" value="{{eo.desc}}" onInput="{{eo.onDesc}}" style="{{eo.fs.desc}}"></label>
+          </div>
+          <sc-if value="{{eo.hasNotes}}" hint-placeholder-val="{{true}}"><div style="display:flex;gap:10px;align-items:flex-start;border-radius:12px;padding:10px 14px;background:#FFF8EF;border:1px solid #F0DDB5;font-size:13px;line-height:1.5;color:#5E430C;"><span aria-hidden="true" style="width:24px;height:24px;border-radius:50%;background:#FFFFFF;box-shadow:0 0 0 2px #D97706;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;"><img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:78%;height:78%;object-fit:contain;"></span><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;"><sc-for list="{{eo.notes}}" as="n" hint-placeholder-count="1"><span>{{n.t}}</span></sc-for></span></div></sc-if><sc-if value="{{eo.needOk}}" hint-placeholder-val="{{true}}"><button onClick="{{eo.doOk}}" aria-pressed="{{eo.okPressed}}" style="{{eo.okRow}}"><span style="{{eo.okBox}}">{{eo.okMark}}</span><span style="flex:1;">{{eo.okLine}}</span></button></sc-if>
+          <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;">
+            <button onClick="{{eo.onChain}}" aria-pressed="{{eo.chain}}" style="{{eo.chainStyle}}"><span style="{{eo.chainBox}}">{{eo.chainMark}}</span><span style="flex:1;">Hızlı ani ödeme zinciri oluştur</span><span style="font-size:11.5px;font-weight:500;color:#8A968E;">onaycı</span></button>
+            <sc-if value="{{eo.chain}}" hint-placeholder-val="{{false}}">
+              <div style="padding:12px 16px;display:flex;flex-direction:column;gap:10px;border-top:1px solid #F0F2F0;">
+                <sc-if value="{{eo.aprEmpty}}" hint-placeholder-val="{{true}}"><div style="font-size:12.5px;color:#8A968E;">Onaycı yok · doğrudan ödeme listesi</div></sc-if>
+                <sc-for list="{{eo.apr}}" as="a" hint-placeholder-count="1"><div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:#F6F9F7;"><span style="width:22px;height:22px;border-radius:50%;background:#0E241D;color:#F6F7F5;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">{{a.num}}</span><span style="flex:1;min-width:0;font-size:13px;font-weight:600;">{{a.n}} <span style="font-size:11.5px;font-weight:400;color:#5B6B60;">· {{a.pos}}</span></span><button aria-label="{{a.delLabel}}" onClick="{{a.remove}}" style="width:28px;height:28px;border-radius:8px;border:1px solid #E1E7E2;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A968E" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></div></sc-for>
+                <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;"><label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">Onaycı<select value="{{eo.aprPick}}" onChange="{{eo.onAprPick}}" style="box-sizing:border-box;width:100%;border:1px solid #D6E4DA;border-radius:10px;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#132119;background:#FFFFFF;"><sc-for list="{{eo.aprPeople}}" as="o" hint-placeholder-count="5"><option value="{{o.v}}">{{o.l}}</option></sc-for></select></label><button onClick="{{eo.addApr}}" style="{{eo.addAprStyle}}">+ Onaycı ekle</button></div>
+                
+              </div>
+            </sc-if>
+          </div>
+          <div style="display:flex;justify-content:flex-end;align-items:center;gap:8px;"><button onClick="{{eo.cancel}}" style="border-radius:12px;padding:12px 20px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;border:1px solid #D6E4DA;background:#FFFFFF;color:#132119;cursor:pointer;">Vazgeç</button><button onClick="{{eo.save}}" style="{{eo.saveStyle}}">{{eo.saveLbl}}</button></div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ÖDEME KARTI (ortak bileşen Talep-Onay-Yonetici, Finansal Muhasebe görünümü: ortada pencere ya da sekmede tam ekran) -->
+    <sc-if value="{{onayMounted}}" hint-placeholder-val="{{false}}">
+      <div onClick="{{onayBackdrop}}" style="{{onayWrap}}">
+        <dc-import name="Talep-Onay-Yonetici" embedded="{{true}}" kisi="gokhan" talep="{{onayId}}" liste="{{onayListe}}" odendi="{{onayOdendi}}" on-pay="{{onPay}}" full="{{onayIsFull}}" on-full="{{onayGoFull}}" on-window="{{onayToWindow}}" on-close="{{onayClose}}" w="{{onayW}}" h="{{onayH}}" hint-size="900px,760px"></dc-import>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{pageIsBalbal}}" hint-placeholder-val="{{false}}">
+    <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+        <div style="font-size:12.5px;color:#5B6B60;">Balbal tam ekran · diğer sekmelere geçince konuşma açık kalır</div>
+        <div style="display:flex;gap:8px;">
+          <button onClick="{{onBalbalToWindow}}" style="display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:8px;padding:7px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#132119;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H3v6M15 21h6v-6M3 3l7 7M21 21l-7-7"></path></svg>Pencereye küçült</button>
+          <button onClick="{{onBalbalCloseFull}}" style="display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:8px;padding:7px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#5B6B60;cursor:pointer;">Kapat</button>
+        </div>
+      </div>
+      <dc-import name="Balbal-Sohbet" dept="mali" ask="{{chatAsk}}" w="{{fullW}}" h="{{fullH}}" on-full="{{onBalbalFull}}" hint-size="1360px,740px"></dc-import>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{pageIsGenel}}" hint-placeholder-val="{{true}}">
+    <div style="display:flex;gap:24px;align-items:flex-start;flex-shrink:0;">
+      <!-- Projelerin bugünkü nakdi: her proje ayrı, konsolide toplam yok -->
+      <div style="flex:1.25;min-width:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 22px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;">Projelerin nakdi</div></div><div style="font-size:11px;color:#8A968E;">{{cashCaption}}</div></div>
+        <div style="display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;column-gap:12px;padding:12px 0 8px;border-bottom:1px solid #E9EDEA;font-size:11px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">
+          <div>Proje</div><div style="text-align:right;">TL karşılığı</div><div style="text-align:right;">USD karşılığı</div><div style="text-align:right;">EUR karşılığı</div>
+        </div>
+        <sc-for list="{{cashRows}}" as="c" hint-placeholder-count="6">
+          <button onClick="{{c.toggle}}" style="{{c.rowStyle}}">
+            <div style="min-width:0;display:flex;align-items:center;gap:8px;"><span style="{{c.caret}}">▸</span><span style="min-width:0;"><span style="display:block;font-size:13px;font-weight:600;">{{c.name}}</span><span style="display:block;font-size:11px;color:#8A968E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{c.mix}}</span></span></div>
+            <div style="text-align:right;font-size:13px;font-weight:700;">{{c.tl}}</div>
+            <div style="text-align:right;font-size:13px;font-weight:600;">{{c.usd}}</div>
+            <div style="text-align:right;font-size:13px;font-weight:600;">{{c.eur}}</div>
+          </button>
+          <sc-if value="{{c.open}}" hint-placeholder-val="{{false}}">
+            <div style="background:#F6F9F7;border-radius:10px;padding:6px 12px 8px;margin:2px 0 8px;">
+              <sc-for list="{{c.accts}}" as="a" hint-placeholder-count="3">
+                <div style="display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;column-gap:12px;align-items:center;padding:6px 0;border-bottom:1px solid #EEF2EF;font-size:12px;">
+                  <div style="min-width:0;"><span style="display:block;font-weight:600;">{{a.bank}} · {{a.type}}</span><span style="display:block;font-size:11px;color:#8A968E;letter-spacing:0.3px;">{{a.iban}}</span></div>
+                  <div style="text-align:right;font-weight:700;">{{a.amt}}</div>
+                  <div style="grid-column:3 / 5;text-align:right;color:#5B6B60;font-size:11.5px;">{{a.lim}}</div>
+                </div>
+              </sc-for>
+              <div style="display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;column-gap:12px;align-items:center;padding:8px 0 2px;font-size:12.5px;">
+                <div style="font-weight:700;">Dip toplamı</div>
+                <div style="text-align:right;font-weight:700;">{{c.tl}}</div>
+                <div style="text-align:right;font-weight:600;">{{c.usd}}</div>
+                <div style="text-align:right;font-weight:600;">{{c.eur}}</div>
+              </div>
+            </div>
+          </sc-if>
+        </sc-for>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <dc-import name="Doviz-Kurlari" dept="Mali İşler" accent="{{accent}}" hint-size="560px,300px"></dc-import>
+        <div style="margin-top:24px;"><dc-import name="Imza-Yetkilileri" mod="kart" accent="{{accent}}" hint-size="100%,420px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:24px;align-items:flex-start;flex-shrink:0;">
+      <div style="flex:1;min-width:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 22px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;">Ödeme bekleyen</div></div><div style="font-size:11px;font-weight:600;border-radius:20px;padding:4px 11px;white-space:nowrap;background:#FBF1DE;color:#9A6B12;">{{pendLabel}}</div></div>
+        <div style="display:flex;flex-direction:column;margin-top:10px;">
+            <sc-for list="{{pendList}}" as="item" hint-placeholder-count="3">
+              <button onClick="{{item.open}}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;background:none;border:none;border-bottom:1px solid #F0F2F0;padding:10px 4px 10px 0;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;color:#132119;">
+                <span style="min-width:0;"><span style="display:block;font-size:12.5px;font-weight:600;">{{item.title}}</span><span style="display:block;font-size:11px;color:#8A968E;margin-top:2px;">{{item.meta}}</span></span>
+                <span style="display:flex;align-items:center;gap:10px;flex-shrink:0;"><span style="font-size:12.5px;font-weight:700;">{{item.amount}}</span><span style="{{item.statusStyle}}">{{item.status}}</span></span>
+              </button>
+            </sc-for>
+        </div>
+      </div>
+      <div style="flex:1;min-width:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 22px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;">Yaklaşan ödemeler</div></div><button onClick="{{onSelectPageListe}}" style="font-size:11px;font-weight:600;border-radius:20px;padding:4px 11px;white-space:nowrap;background:#E0F2F7;color:#0E7490;border:none;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;">{{nextLabel}}</button></div>
+        <div style="display:flex;flex-direction:column;margin-top:10px;">
+          <sc-for list="{{nextList}}" as="n" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #F0F2F0;padding:10px 4px 10px 0;">
+              <span style="min-width:0;"><span style="display:block;font-size:12.5px;font-weight:600;">{{n.desc}}</span><span style="display:block;font-size:11px;color:#8A968E;margin-top:2px;">{{n.date}} · {{n.party}} · {{n.project}}</span></span>
+              <span style="font-size:12.5px;font-weight:700;flex-shrink:0;">{{n.amount}}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ŞİRKET BİLGİLERİ (ödeme yapan personelin ihtiyacı olan her şey; şirket seçilir, bilgiler değişir) -->
+    <sc-if value="{{pageIsSirket}}" hint-placeholder-val="{{false}}">
+    <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;overflow-y:auto;">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex-shrink:0;">
+        <sc-for list="{{coTabs}}" as="c" hint-placeholder-count="6"><button onClick="{{c.go}}" style="{{c.style}}">{{c.label}}</button></sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:12px;flex-shrink:0;">
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid #F0F2F0;"><span style="font-size:13.5px;font-weight:700;">Kimlik</span><span style="flex:1;"></span><a href="{{co.sicilDoc}}" style="font-size:12px;color:#1E6B3E;text-decoration:underline;font-weight:500;">Sicil gazetesi ↗</a></div>
+          <div style="padding:10px 16px;display:flex;flex-direction:column;gap:5px;">
+            <sc-for list="{{co.id}}" as="f" hint-placeholder-count="8"><div style="display:flex;gap:8px;font-size:12.5px;line-height:1.45;"><span style="width:130px;flex-shrink:0;color:#8A968E;">{{f.k}}</span><span style="color:#132119;font-weight:500;min-width:0;">{{f.v}}</span></div></sc-for>
+          </div>
+        </div>
+        <dc-import name="Imza-Yetkilileri" mod="tablo" spv="{{co.spvId}}" note="ıslak imzayı yalnızca Finansal Muhasebe toplar" hint-size="100%,300px"></dc-import>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;flex-shrink:0;">
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid #F0F2F0;"><span style="font-size:13.5px;font-weight:700;">Açık cariler · ödenecekler</span><span style="font-size:11.5px;color:#8A968E;">{{cariNote}}</span><span style="flex:1;"></span><a href="Ana-Sayfa-Muhasebe.dc.html" style="font-size:12px;color:#1E6B3E;text-decoration:underline;font-weight:500;">Kaynak: Muhasebe · Cari Hesaplar ↗</a></div>
+        <div style="display:grid;grid-template-columns:1.6fr 0.9fr 1.7fr 0.5fr 1fr 1fr 1fr 0.9fr;column-gap:12px;font-size:11px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding:8px 16px;border-bottom:1px solid #E9EDEA;"><span>Cari</span><span>VKN</span><span>Doğrulanmış IBAN</span><span>PB</span><span style="text-align:right;">Açık bakiye</span><span>Son hareket</span><span>Dayanak</span><span>Durum</span></div>
+        <sc-for list="{{cariRows}}" as="c" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:1.6fr 0.9fr 1.7fr 0.5fr 1fr 1fr 1fr 0.9fr;column-gap:12px;align-items:center;padding:9px 16px;border-bottom:1px solid #F6F8F6;font-size:12.5px;"><span><span style="display:block;font-weight:600;">{{c.n}}</span><span style="display:block;font-size:11.5px;color:#5B6B60;">{{c.kind}}</span></span><span style="color:#5B6B60;">{{c.vkn}}</span><span style="letter-spacing:0.3px;">{{c.iban}}</span><span style="font-weight:600;">{{c.cur}}</span><span style="text-align:right;font-weight:700;">{{c.bal}}</span><span style="color:#5B6B60;font-size:12px;">{{c.last}}</span><span style="font-size:12px;">{{c.src}}</span><span><span style="{{c.stStyle}}">{{c.st}}</span></span></div></sc-for>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;flex-shrink:0;">
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid #F0F2F0;"><span style="font-size:13.5px;font-weight:700;">Banka hesapları</span><span style="flex:1;"></span><span style="font-size:11.5px;color:#8A968E;">{{co.bankNote}}</span></div>
+        <div style="display:grid;grid-template-columns:1fr 0.9fr 1.9fr 0.45fr 1.1fr 1.3fr 1.4fr;column-gap:12px;font-size:11px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding:8px 16px;border-bottom:1px solid #E9EDEA;"><span>Banka</span><span>Şube</span><span>IBAN</span><span>PB</span><span>Hesap türü</span><span>Kısıt</span><span>Yetkili</span></div>
+        <sc-for list="{{co.accts}}" as="a" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:1fr 0.9fr 1.9fr 0.45fr 1.1fr 1.3fr 1.4fr;column-gap:12px;align-items:center;padding:9px 16px;border-bottom:1px solid #F6F8F6;font-size:12.5px;"><span style="font-weight:600;">{{a.bank}}</span><span style="color:#5B6B60;">{{a.branch}}</span><span style="font-family:'IBM Plex Sans',sans-serif;letter-spacing:0.3px;">{{a.iban}}</span><span style="font-weight:600;">{{a.cur}}</span><span>{{a.type}}</span><span style="color:#5B6B60;font-size:12px;">{{a.lim}}</span><span style="font-size:12px;">{{a.who}}</span></div></sc-for>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;overflow:hidden;flex-shrink:0;">
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid #F0F2F0;"><span style="font-size:13.5px;font-weight:700;">Ödeme talimatı şablonları</span><span style="font-size:11.5px;color:#8A968E;">her banka için bir Word şablonu · Balbal ödeme listesinden doldurur</span><span style="flex:1;"></span><button onClick="{{tplAddOpen}}" style="background:#2FA968;border:none;border-radius:10px;padding:8px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;color:#0E241D;cursor:pointer;">+ Şablon ekle</button></div>
+        <sc-if value="{{tplForm}}" hint-placeholder-val="{{false}}">
+          <div style="display:grid;grid-template-columns:1fr 1.6fr auto auto;gap:10px;align-items:end;padding:12px 16px;background:#F6F9F7;border-bottom:1px solid #E9EDEA;">
+            <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">Banka<select value="{{tplBank}}" onChange="{{onTplBank}}" style="box-sizing:border-box;width:100%;border:1px solid #D6E4DA;border-radius:10px;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#132119;background:#FFFFFF;"><sc-for list="{{tplBankOpts}}" as="o" hint-placeholder-count="4"><option value="{{o}}">{{o}}</option></sc-for></select></label>
+            <label style="font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;">Dosya (.docx)<input type="text" value="{{tplFile}}" onInput="{{onTplFile}}" style="box-sizing:border-box;width:100%;border:1px solid #D6E4DA;border-radius:10px;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#132119;background:#FFFFFF;"></label>
+            <button onClick="{{tplAddClose}}" style="border-radius:10px;padding:9px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;border:1px solid #D6E4DA;background:#FFFFFF;color:#132119;cursor:pointer;">Vazgeç</button>
+            <button onClick="{{tplSave}}" style="{{tplSaveStyle}}">✓ Ekle</button>
+          </div>
+        </sc-if>
+        <div style="display:grid;grid-template-columns:1.1fr 2fr 1.2fr 1.2fr 1fr;column-gap:12px;font-size:11px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding:8px 16px;border-bottom:1px solid #E9EDEA;"><span>Banka</span><span>Şablon</span><span>Ekleyen</span><span>Alanlar</span><span>Durum</span></div>
+        <sc-for list="{{tplRows}}" as="t" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:1.1fr 2fr 1.2fr 1.2fr 1fr;column-gap:12px;align-items:center;padding:9px 16px;border-bottom:1px solid #F6F8F6;font-size:12.5px;"><span style="font-weight:600;">{{t.bank}}</span><span><sc-if value="{{t.has}}" hint-placeholder-val="{{true}}"><a href="{{t.href}}" style="color:#1E6B3E;text-decoration:underline;font-weight:500;">{{t.file}} ↗</a></sc-if><sc-if value="{{t.none}}" hint-placeholder-val="{{false}}"><span style="color:#B7C2BC;">—</span></sc-if></span><span style="color:#5B6B60;">{{t.by}}</span><span style="color:#5B6B60;font-size:12px;">{{t.fields}}</span><span><span style="{{t.stStyle}}">{{t.st}}</span></span></div></sc-for>
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{pageIsListe}}" hint-placeholder-val="{{false}}">
+    <div style="flex:1;min-height:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:8px;padding:12px 20px;border-bottom:1px solid #E9EDEA;flex-shrink:0;flex-wrap:wrap;">
+        <div role="tablist" style="display:flex;gap:4px;background:#F6F9F7;border:1px solid #E1E7E2;border-radius:12px;padding:4px;">
+          <button role="tab" onClick="{{lvPlan}}" style="{{lvPlanStyle}}">Ödeme listesi · {{planCount}}</button>
+          <button role="tab" onClick="{{lvBank}}" style="{{lvBankStyle}}">Banka hareketleri · {{bankCount}}</button>
+        </div>
+        <span style="flex:1;"></span>
+        <sc-if value="{{lvIsBank}}" hint-placeholder-val="{{false}}"><sc-if value="{{nlShow}}" hint-placeholder-val="{{false}}"><span style="{{unmStyle}}">{{nlTxt}}</span></sc-if><span style="font-size:11.5px;color:#8A968E;">{{bankSync}}</span></sc-if>
+        <sc-if value="{{lvIsPlan}}" hint-placeholder-val="{{true}}"><sc-if value="{{unmShow}}" hint-placeholder-val="{{false}}"><span style="{{unmStyle}}">{{unmTxt}}</span></sc-if><sc-if value="{{bulkMsg}}" hint-placeholder-val="{{false}}"><span role="status" style="font-size:12.5px;font-weight:600;color:#14401F;background:#E7F3EB;border-radius:8px;padding:6px 12px;">{{bulkTxt}}</span></sc-if><div style="position:relative;"><button onClick="{{tmToggle}}" aria-haspopup="menu" aria-expanded="{{tmOpen}}" style="{{bulkStyle}}"><span aria-hidden="true" style="width:30px;height:30px;border-radius:50%;background:#FFFFFF;box-shadow:0 0 0 2px #D97706;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;"><img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:78%;height:78%;object-fit:contain;"></span><span>{{bulkLbl}}</span><span aria-hidden="true" style="font-size:10px;margin-left:2px;">▾</span></button><sc-if value="{{tmOpen}}" hint-placeholder-val="{{false}}"><div role="menu" aria-label="Talimat oluştur" style="position:absolute;top:calc(100% + 6px);right:0;z-index:40;width:260px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;box-shadow:0 16px 40px rgba(14,36,29,0.18);padding:6px;display:flex;flex-direction:column;gap:2px;"><button role="menuitem" onClick="{{tmSel}}" style="{{tmSelStyle}}"><span style="font-size:13.5px;font-weight:700;">Seçilileri öde</span><span style="font-size:11.5px;font-weight:500;color:#8A968E;">{{tmSelSub}}</span></button><button role="menuitem" onClick="{{tmAcil}}" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;border:none;border-radius:10px;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;background:#FFF8EF;color:#132119;cursor:pointer;"><span style="font-size:13.5px;font-weight:700;color:#9A4E0A;">Acil öde</span><span style="font-size:11.5px;font-weight:500;color:#8A968E;">Listede olmayan ödeme · kayıt + talimat</span></button></div></sc-if></div></sc-if>
+      </div>
+      <sc-if value="{{lvIsPlan}}" hint-placeholder-val="{{true}}">
+        <div style="display:grid;grid-template-columns:28px 0.8fr 0.8fr 1.6fr 1.1fr 1.1fr 0.8fr 1fr 0.75fr 0.9fr;column-gap:12px;padding:8px 20px;border-bottom:1px solid #E9EDEA;font-size:11px;color:#8A968E;flex-shrink:0;text-transform:uppercase;letter-spacing:0.4px;align-items:center;">
+          <button onClick="{{selAll}}" aria-label="Tümünü seç" style="{{selAllBox}}">{{selAllMark}}</button><div>Tarih</div><div>Dayanak</div><div>Açıklama</div><div>Karşı taraf</div><div>Masraf yeri</div><div>Tür</div><div style="text-align:right;">Tutar</div><div>Fatura</div><div>Durum</div>
+        </div>
+        <div style="flex:1;min-height:0;overflow-y:auto;">
+          <sc-for list="{{planRows}}" as="r" hint-placeholder-count="8">
+            <div onClick="{{r.open}}" title="{{r.hover}}" style="{{r.rowStyle}}">
+              <button onClick="{{r.toggle}}" aria-label="Seç" style="{{r.box}}">{{r.mark}}</button>
+              <div style="font-size:12.5px;font-weight:600;">{{r.date}}</div>
+              <div style="font-size:12px;font-weight:700;color:{{r.poColor}};">{{r.po}}</div>
+              <div style="min-width:0;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{r.desc}}</div>
+              <div style="min-width:0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{r.party}}</div>
+              <div style="min-width:0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{r.project}}</div>
+              <div style="font-size:12px;color:#5B6B60;">{{r.type}}</div>
+              <div style="text-align:right;font-size:12.5px;font-weight:700;">{{r.amount}}</div>
+              <div><span style="{{r.invStyle}}">{{r.inv}}</span></div>
+              <div><span style="{{r.statusStyle}}">{{r.status}}</span></div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{lvIsBank}}" hint-placeholder-val="{{false}}">
+        <div style="display:grid;grid-template-columns:1fr 1.1fr 1.7fr 1fr 0.9fr 1.9fr;column-gap:12px;padding:8px 20px;border-bottom:1px solid #E9EDEA;font-size:11px;color:#8A968E;flex-shrink:0;text-transform:uppercase;letter-spacing:0.4px;">
+          <div>Tarih</div><div>Banka · hesap</div><div>Açıklama</div><div>Proje</div><div style="text-align:right;">Tutar</div><div>Eşleşme</div>
+        </div>
+        <div style="flex:1;min-height:0;overflow-y:auto;">
+          <sc-for list="{{bankRows}}" as="m" hint-placeholder-count="8">
+            <div style="display:grid;grid-template-columns:1fr 1.1fr 1.7fr 1fr 0.9fr 1.9fr;column-gap:12px;align-items:center;padding:10px 20px;border-bottom:1px solid #F0F2F0;">
+              <div style="font-size:12.5px;font-weight:600;">{{m.date}}</div>
+              <div style="font-size:12.5px;">{{m.bank}}</div>
+              <div style="min-width:0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{m.desc}}</div>
+              <div style="min-width:0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{m.project}}</div>
+              <div style="{{m.amtStyle}}">{{m.amount}}</div>
+              <div style="display:flex;align-items:center;gap:8px;min-width:0;"><span style="{{m.matchStyle}}">{{m.match}}</span><sc-if value="{{m.canAdd}}" hint-placeholder-val="{{false}}"><button onClick="{{m.add}}" style="border-radius:8px;padding:4px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #D6E4DA;background:#FFFFFF;color:#132119;white-space:nowrap;">Listeye ekle</button></sc-if></div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{pageIsOdeme}}" hint-placeholder-val="{{false}}">
+    <div style="flex:1;min-height:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="display:grid;grid-template-columns:0.7fr 1.6fr 1.3fr 1.2fr 0.9fr 0.9fr;column-gap:12px;padding:10px 20px;border-bottom:1px solid #E9EDEA;font-size:11px;color:#8A968E;flex-shrink:0;text-transform:uppercase;letter-spacing:0.4px;">
+        <div>PO · talep</div><div>Ürün · tedarikçi</div><div>Talep eden</div><div>Masraf yeri</div><div>Tutar</div><div>Durum</div>
+      </div>
+      <div style="flex:1;min-height:0;overflow-y:auto;">
+        <sc-for list="{{allRows}}" as="r" hint-placeholder-count="3">
+          <button onClick="{{r.open}}" style="display:grid;grid-template-columns:0.7fr 1.6fr 1.3fr 1.2fr 0.9fr 0.9fr;column-gap:12px;align-items:center;width:100%;text-align:left;padding:10px 20px;border:none;border-bottom:1px solid #F0F2F0;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;color:#132119;background:#FFFFFF;">
+            <div style="min-width:0;"><span style="display:block;font-size:12px;font-weight:700;color:#132119;">{{r.po}}</span><span style="display:block;font-size:11px;color:#8A968E;">{{r.no}}</span></div>
+            <div style="min-width:0;"><span style="display:block;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{r.item}}</span><span style="display:block;font-size:11px;color:#8A968E;">{{r.supplier}}</span></div>
+            <div style="min-width:0;"><span style="display:block;font-size:12.5px;">{{r.who}}</span><span style="display:block;font-size:11px;color:#8A968E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{r.whoSub}}</span></div>
+            <div style="font-size:12.5px;">{{r.project}}</div>
+            <div style="font-size:12.5px;font-weight:700;">{{r.amount}}</div>
+            <div><span style="{{r.statusStyle}}">{{r.status}}</span></div>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- Two round chat buttons -->
+    <sc-if value="{{anyModalClosed}}" hint-placeholder-val="{{true}}">
+      <button aria-label="Ekip Sohbetini Aç" onClick="{{onOpenTeamChat}}" style="position:absolute;right:36px;bottom:112px;width:56px;height:56px;border-radius:50%;background:{{accent}};border:none;box-shadow:0 8px 22px rgba(19,33,25,0.2);cursor:pointer;display:flex;align-items:center;justify-content:center;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+      </button>
+      <button aria-label="Balbal'ı Aç" onClick="{{onOpenChat}}" style="position:absolute;right:36px;bottom:36px;width:64px;height:64px;border-radius:50%;background:#FFFFFF;border:none;box-shadow:0 8px 22px rgba(19,33,25,0.28), 0 0 0 2px {{accent}};cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;">
+        <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="Balbal" style="width:78%;height:78%;object-fit:contain;">
+      </button>
+    </sc-if>
+
+    <!-- Balbal penceresi (ortak bileşen: Balbal-Sohbet.dc.html) — yüzen / yan panel / tam ekran sekme -->
+    <sc-if value="{{chatOpen}}" hint-placeholder-val="{{false}}">
+      <div style="{{chatWin.style}}">
+        <div onPointerDown="{{chatWin.onGrab}}" style="{{chatWin.barStyle}}">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#C9D3CC;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><path d="M5 9h14M5 15h14"></path></svg>
+            {{chatWin.hint}}
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;">
+            <button onClick="{{chatWin.onFloat}}" aria-label="Yüzen pencere" title="Yüzen pencere" style="{{chatWin.floatBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="12" rx="2"></rect></svg></button>
+            <button onClick="{{chatWin.onSide}}" aria-label="Yan panel" title="Yan panel" style="{{chatWin.sideBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M14 4v16"></path></svg></button>
+            <button onClick="{{onBalbalFull}}" aria-label="Tam ekran sekme" title="Tam ekran sekme" style="{{chatWin.fullBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg></button>
+            <button onClick="{{onCloseChat}}" aria-label="Kapat" style="{{chatWin.closeBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+          </div>
+        </div>
+        <dc-import name="Balbal-Sohbet" dept="mali" ask="{{chatAsk}}" w="{{chatWin.w}}" h="{{chatWin.h}}" on-close="{{onCloseChat}}" on-full="{{onBalbalFull}}" hint-size="760px,560px"></dc-import>
+        <sc-if value="{{chatWin.isFloat}}" hint-placeholder-val="{{true}}">
+          <button onPointerDown="{{chatWin.onResize}}" aria-label="Pencereyi boyutlandır" title="Köşeden tutup boyutlandırın" style="position:absolute;right:2px;bottom:2px;width:22px;height:22px;border:none;background:transparent;cursor:nwse-resize;touch-action:none;padding:0;display:flex;align-items:flex-end;justify-content:flex-end;"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M13 1 1 13M13 7l-6 6" stroke="#A9B6AE" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- Ekip sohbeti penceresi (ortak bileşen: Ekip-Sohbet.dc.html) — aynı pencere davranışı -->
+    <sc-if value="{{teamChatOpen}}" hint-placeholder-val="{{false}}">
+      <div style="{{teamWin.style}}">
+        <div onPointerDown="{{teamWin.onGrab}}" style="{{teamWin.barStyle}}">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#C9D3CC;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><path d="M5 9h14M5 15h14"></path></svg>
+            {{teamWin.hint}}
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;">
+            <button onClick="{{teamWin.onFloat}}" aria-label="Yüzen pencere" title="Yüzen pencere" style="{{teamWin.floatBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="12" rx="2"></rect></svg></button>
+            <button onClick="{{teamWin.onSide}}" aria-label="Yan panel" title="Yan panel" style="{{teamWin.sideBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M14 4v16"></path></svg></button>
+            <button onClick="{{onCloseTeamChat}}" aria-label="Kapat" style="{{teamWin.closeBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+          </div>
+        </div>
+        <dc-import name="Ekip-Sohbet" dept="mali" w="{{teamWin.w}}" h="{{teamWin.h}}" on-close="{{onCloseTeamChat}}" hint-size="760px,560px"></dc-import>
+        <sc-if value="{{teamWin.isFloat}}" hint-placeholder-val="{{true}}">
+          <button onPointerDown="{{teamWin.onResize}}" aria-label="Pencereyi boyutlandır" title="Köşeden tutup boyutlandırın" style="position:absolute;right:2px;bottom:2px;width:22px;height:22px;border:none;background:transparent;cursor:nwse-resize;touch-action:none;padding:0;display:flex;align-items:flex-end;justify-content:flex-end;"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M13 1 1 13M13 7l-6 6" stroke="#A9B6AE" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- Üst bar panelleri -->
+    <sc-if value="{{searchOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;top:70px;left:640px;z-index:20;">
+        <dc-import name="Arama-Sonuclari" dept="mali" query="{{searchQ}}" on-close="{{onCloseSearch}}" on-ask-balbal="{{onAskFromSearch}}" hint-size="560px,520px"></dc-import>
+      </div>
+    </sc-if>
+    <sc-if value="{{notifOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;top:70px;right:120px;z-index:20;">
+        <dc-import name="Bildirimler" dept="mali" on-close="{{onCloseNotif}}" on-open-team-chat="{{onNotifOpenTeam}}" on-open-balbal="{{onNotifOpenBalbal}}" hint-size="420px,560px"></dc-import>
+      </div>
+    </sc-if>
+    <sc-if value="{{userMenuOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;top:70px;right:24px;z-index:20;">
+        <dc-import name="Kullanici-Menusu" dept="mali" on-close="{{onCloseUserMenu}}" hint-size="340px,520px"></dc-import>
+      </div>
+    </sc-if>
+
+
+  </div>
+
+  <!-- Ödeme talebi menüsü (üst bar) · pencere -->
+  <sc-if value="{{otMenu}}" hint-placeholder-val="{{false}}"><div onClick="{{otMenuClose}}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:75;"></div></sc-if>
+  <sc-if value="{{otOv}}" hint-placeholder-val="{{false}}">
+  <div onClick="{{otBackdrop}}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:70;background:rgba(14,36,29,0.45);overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:24px;box-sizing:border-box;">
+    <sc-if value="{{otIsMs}}" hint-placeholder-val="{{false}}"><dc-import name="Masraf-Formu" embedded="{{true}}" kisi="{{otKisi}}" mod="{{otMod}}" on-close="{{otClose}}" hint-size="1280px,1210px"></dc-import></sc-if>
+    <sc-if value="{{otIsYot}}" hint-placeholder-val="{{false}}"><dc-import name="Yeni-Odeme-Talebi" embedded="{{true}}" kisi="{{otKisi}}" tur="{{otTur}}" adim="{{otAdim}}" on-close="{{otClose}}" hint-size="900px,700px"></dc-import></sc-if>
+  </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"sekme":{"editor":null},"odeme":{"editor":null},"elle":{"editor":null},"lv":{"editor":null},"talimat":{"editor":null},"accent":{"editor":"color","default":"#2FA968","options":["#2FA968","#0E241D","#D97706","#2563EB"]},"$preview":{"width":1440,"height":980}}'>
+class Component extends DCLogic {
+  renderVals() { return Object.assign(this._rv0.apply(this, arguments), this._ot()); }
+  // Üst bar · Ödeme talebi menüsü: departmanın açabileceği tüm ödeme talepleri (Yeni-Odeme-Talebi türleriyle aynı)
+  _ot() {
+    const self = this; const st = this.state || {}; const set = function (o) { self.setState(o); };
+    const K = 'gokhan';
+    const T = { masraf: ['Masraf', 'Fiş / fatura yükle · Balbal tabloyu çıkarır'], avans: ['Avans', 'İleride harcanacak tutar için'], po: ['Ürün / hizmet satın alma', 'Satın alma talebi formu'], soz: ['Sözleşmeye istinaden ödeme', 'Erişebildiğin klasörlerdeki sözleşmeler'], kredi: ['Kredi ödemesi', 'Bankalar ve krediler'], vergi: ['Vergi / yasal yükümlülük', 'Muhasebe tahakkukları'], bordro: ['Bordro', 'Kapanmış bordro dönemleri'], idari: ['İdari İşler talebi', 'Talep ve teklif tek ekranda'] };
+    const L = ['masraf', 'avans'];
+    const o = st.otOpen || null; const isMs = o === 'masraf' || o === 'avans';
+    return {
+      otMenu: !!st.otMenu, otMenuOpen: st.otMenu ? 'true' : 'false',
+      otToggle: function () { set({ otMenu: !st.otMenu }); }, otMenuClose: function () { set({ otMenu: false }); },
+      otMine: function () { set({ otMenu: false, otOpen: 'liste' }); },
+      otItems: L.map(function (v) { return { lbl: T[v][0], sub: T[v][1], pick: function () { if (v === 'idari') set({ otMenu: false, zfOpen: true, zfFull: false }); else set({ otMenu: false, otOpen: v }); } }; }),
+      otOv: !!o, otIsMs: isMs, otIsYot: !!o && !isMs, otKisi: K, otMod: o === 'avans' ? 'avans' : 'masraf',
+      otTur: o && o !== 'liste' && !isMs ? o : '', otAdim: o === 'liste' ? 'liste' : 'kayit',
+      otClose: function () { set({ otOpen: null }); },
+      otBackdrop: function (e) { if (e && e.target === e.currentTarget) set({ otOpen: null }); }
+    };
+  }
+  gzStoreKey() { return 'xplatform-layout-hukuk'; }
+  gzAreas() { return { genel: { top: [['durusma'], ['mevzuat', 'bakanlik']], full: [] }, pozisyon: { top: [['gorevler', 'mailler'], ['talepler', 'davalar']], full: [] } }; }
+  // ---- Gadget sürükle-bırak motoru (tutamaçtan tut, sürükle, bırak; diğerleri kayar, bırakılan yerine oturur) ----
+  // Her "alan" (genel / pozisyon) kendi düzenini bağımsız tutar.
+  componentDidMount() {
+    try {
+      const raw = window.localStorage.getItem(this.gzStoreKey());
+      if (raw) {
+        const all = JSON.parse(raw);
+        const defs = this.gzAreas();
+        const merged = {};
+        Object.keys(defs).forEach(function (area) { const v = all[area]; if (v) merged[area] = v; });
+        let ok = false;
+        Object.keys(merged).forEach(function (area) { if (this.gzValid(area, merged[area])) ok = true; else delete merged[area]; }, this);
+        if (ok) this.setState({ gzLayout: merged });
+      }
+    } catch (err) { /* depolama yoksa varsayılan düzen */ }
+  }
+  componentWillUnmount() { this.gzDetach(); this.winDetach(); }
+  // ---- Pencere motoru: yüzen pencere taşıma/boyutlandırma (Balbal ve ekip sohbeti). Konum/boyut kullanıcı bazında tutulur.
+  winDetach() {
+    if (this._wMove) window.removeEventListener('pointermove', this._wMove);
+    if (this._wUp) { window.removeEventListener('pointerup', this._wUp); window.removeEventListener('pointercancel', this._wUp); }
+    this._wMove = null; this._wUp = null;
+    try { document.body.style.userSelect = ''; } catch (err) {}
+  }
+  winStart(key, mode, e) {
+    const self = this;
+    const st = (this.state && this.state[key]) || {};
+    const def = this.winDefaults()[key];
+    const RH = 980;
+    const start = { x: e.clientX, y: e.clientY, left: st.x !== undefined ? st.x : def.x, top: st.y !== undefined ? st.y : def.y, w: st.w || def.w, h: st.h || def.h };
+    this.winDetach();
+    try { document.body.style.userSelect = 'none'; } catch (err) {}
+    this._wMove = function (ev) {
+      const dx = ev.clientX - start.x, dy = ev.clientY - start.y;
+      const cur = Object.assign({}, (self.state && self.state[key]) || {});
+      if (mode === 'move') { cur.x = Math.max(0, Math.min(1440 - 240, start.left + dx)); cur.y = Math.max(0, Math.min(RH - 120, start.top + dy)); }
+      else { cur.w = Math.max(420, Math.min(1400, start.w + dx)); cur.h = Math.max(360, Math.min(900, start.h + dy)); }
+      const patch = {}; patch[key] = cur; self.setState(patch);
+    };
+    this._wUp = function () { self.winDetach(); };
+    window.addEventListener('pointermove', this._wMove);
+    window.addEventListener('pointerup', this._wUp);
+    window.addEventListener('pointercancel', this._wUp);
+    e.preventDefault();
+  }
+  winDefaults() { return { chatWin: { x: 400, y: 120, w: 980, h: 760 }, teamWin: { x: 360, y: 150, w: 980, h: 720 } }; }
+  winBuild(key, hint) {
+    const self = this;
+    const def = this.winDefaults()[key];
+    const st = (this.state && this.state[key]) || {};
+    const RH = 980;
+    const mode = st.mode || 'float';
+    const isFloat = mode === 'float';
+    const w = isFloat ? (st.w || def.w) : 520;
+    const h = isFloat ? (st.h || def.h) : (RH - 69 - 34);
+    const x = st.x !== undefined ? st.x : def.x;
+    const y = st.y !== undefined ? st.y : def.y;
+    const base = 'position:absolute;z-index:10;display:flex;flex-direction:column;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.28);overflow:hidden;background:#FFFFFF;';
+    const style = isFloat
+      ? base + 'left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;height:' + (h + 34) + 'px;transform-origin:100% 100%;animation:genie 320ms cubic-bezier(.2,.8,.2,1);'
+      : base + 'right:0;top:69px;bottom:0;width:' + w + 'px;border-radius:0;box-shadow:-8px 0 24px rgba(19,33,25,0.12);';
+    const BTN = 'width:26px;height:26px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;';
+    const on = BTN + 'background:#2FA968;color:#0E241D;';
+    const off = BTN + 'background:transparent;color:#C9D3CC;';
+    const setMode = function (m) { return function () { const cur = Object.assign({}, st, { mode: m }); const patch = {}; patch[key] = cur; self.setState(patch); }; };
+    return {
+      style: style, w: w, h: h, isFloat: isFloat,
+      barStyle: 'height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 14px;background:#0E241D;cursor:' + (isFloat ? 'grab' : 'default') + ';touch-action:none;user-select:none;',
+      hint: isFloat ? hint + ' · tutup taşıyın, köşeden boyutlandırın' : hint + ' · yan panel',
+      floatBtn: isFloat ? on : off, sideBtn: isFloat ? off : on, fullBtn: off, closeBtn: off,
+      onFloat: setMode('float'), onSide: setMode('side'),
+      onGrab: function (e) { if (isFloat && e.target && !e.target.closest('button,a')) self.winStart(key, 'move', e); },
+      onResize: function (e) { self.winStart(key, 'resize', e); }
+    };
+  }
+  gzValid(area, v) {
+    const d = this.gzAreas()[area];
+    if (!d) return false;
+    const flat = function (x) { return x.top[0].concat(x.top[1], x.full || []).slice().sort().join(','); };
+    return v && v.top && v.top.length === 2 && flat(v) === flat(d);
+  }
+  gzDetach() {
+    if (this._gzMove) window.removeEventListener('pointermove', this._gzMove);
+    if (this._gzUp) { window.removeEventListener('pointerup', this._gzUp); window.removeEventListener('pointercancel', this._gzUp); }
+    this._gzMove = null; this._gzUp = null;
+    try { document.body.style.userSelect = ''; document.body.style.cursor = ''; } catch (err) {}
+  }
+  gzStart(area, zone, id, e) {
+    if (e.button != null && e.button !== 0) return;
+    e.preventDefault();
+    const zoneEl = e.currentTarget.closest('[data-gz="' + zone + '"]');
+    if (!zoneEl) return;
+    const colEls = zone === 'full' ? [zoneEl] : Array.prototype.slice.call(zoneEl.querySelectorAll('[data-gcol="' + zone + '"]'));
+    let fromCol = -1, fromIdx = -1, item = null;
+    const cols = colEls.map(function (c, ci) {
+      const cr = c.getBoundingClientRect();
+      const items = Array.prototype.slice.call(c.querySelectorAll('[data-gi="' + zone + '"]')).map(function (el, ii) {
+        const r = el.getBoundingClientRect();
+        const o = { id: el.getAttribute('data-gid'), top: r.top, left: r.left, w: r.width, h: r.height, mid: r.top + r.height / 2 };
+        if (o.id === id) { fromCol = ci; fromIdx = ii; item = o; }
+        return o;
+      });
+      return { left: cr.left, right: cr.right, items: items };
+    });
+    if (!item) return;
+    const gap = zone === 'full' ? 24 : 16;
+    this._drag = { area: area, zone: zone, id: id, zoneEl: zoneEl, x0: e.clientX, y0: e.clientY, cols: cols, fromCol: fromCol, fromIdx: fromIdx, item: item, h: item.h + gap };
+    this._gzMove = this.gzMove.bind(this);
+    this._gzUp = this.gzEnd.bind(this);
+    window.addEventListener('pointermove', this._gzMove);
+    window.addEventListener('pointerup', this._gzUp);
+    window.addEventListener('pointercancel', this._gzUp);
+    try { document.body.style.userSelect = 'none'; document.body.style.cursor = 'grabbing'; } catch (err) {}
+    this.setState({ gzDrag: { dx: 0, dy: 0, col: fromCol, idx: fromIdx } });
+  }
+  gzMove(e) {
+    const D = this._drag;
+    if (!D) return;
+    const dx = e.clientX - D.x0, dy = e.clientY - D.y0;
+    const cx = D.item.left + dx + D.item.w / 2, cy = D.item.top + dy + D.item.h / 2;
+    let col = 0, best = Infinity;
+    D.cols.forEach(function (c, ci) {
+      const dist = cx < c.left ? c.left - cx : (cx > c.right ? cx - c.right : 0);
+      if (dist < best) { best = dist; col = ci; }
+    });
+    const others = D.cols[col].items.filter(function (o) { return o.id !== D.id; });
+    let idx = 0;
+    others.forEach(function (o) { if (o.mid < cy) idx++; });
+    this.setState({ gzDrag: { dx: dx, dy: dy, col: col, idx: idx } });
+  }
+  gzEnd() {
+    const D = this._drag, g = this.state && this.state.gzDrag;
+    this.gzDetach();
+    if (!D || !g) { this._drag = null; return; }
+    const area = D.area;
+    const cur = (this.state && this.state.gzLayout && this.state.gzLayout[area]) || this.gzAreas()[area];
+    const next = { top: [cur.top[0].slice(), cur.top[1].slice()], full: (cur.full || []).slice() };
+    const lists = D.zone === 'full' ? [next.full] : next.top;
+    lists[D.fromCol].splice(lists[D.fromCol].indexOf(D.id), 1);
+    lists[g.col].splice(g.idx, 0, D.id);
+    this._settle = { zoneEl: D.zoneEl, zone: D.zone, id: D.id, top: D.item.top + g.dy, left: D.item.left + g.dx };
+    this._drag = null;
+    const allLayout = Object.assign({}, this.state && this.state.gzLayout);
+    allLayout[area] = next;
+    try {
+      const raw = {}; const defs = this.gzAreas();
+      Object.keys(defs).forEach(function (a) { raw[a] = allLayout[a] || defs[a]; });
+      window.localStorage.setItem(this.gzStoreKey(), JSON.stringify(raw));
+    } catch (err) {}
+    this.setState({ gzLayout: allLayout, gzDrag: null, gzNoAnim: true });
+  }
+  componentDidUpdate() {
+    const s = this._settle;
+    if (!s) return;
+    this._settle = null;
+    const self = this;
+    const el = s.zoneEl && s.zoneEl.querySelector('[data-gi="' + s.zone + '"][data-gid="' + s.id + '"]');
+    if (!el) { this.setState({ gzNoAnim: false }); return; }
+    const r = el.getBoundingClientRect();
+    el.style.transition = 'none';
+    el.style.zIndex = '40';
+    el.style.transform = 'translate(' + (s.left - r.left) + 'px,' + (s.top - r.top) + 'px) scale(1.015)';
+    el.style.boxShadow = '0 18px 40px rgba(14,36,29,0.18)';
+    el.getBoundingClientRect();
+    requestAnimationFrame(function () {
+      el.style.transition = 'transform 340ms cubic-bezier(.2,.9,.3,1.12), box-shadow 340ms ease';
+      el.style.transform = 'translate(0px,0px) scale(1)';
+      el.style.boxShadow = '0 0 0 rgba(14,36,29,0)';
+      setTimeout(function () {
+        el.style.transition = ''; el.style.transform = ''; el.style.boxShadow = ''; el.style.zIndex = '';
+        self.setState({ gzNoAnim: false });
+      }, 380);
+    });
+  }
+  _rv0() {
+    const accent = this.props.accent ?? '#2FA968';
+    const self = this;
+
+    const pageTab = (this.state && this.state.pageTab) || (this.props.sekme || 'genel');
+    // ---- Ödeme talepleri (Finansal Muhasebe) — kart: Talep-Onay-Yonetici kisi=gokhan ----
+    const PILLM = 'font-size:11px;font-weight:600;border-radius:20px;padding:4px 10px;white-space:nowrap;';
+    const tlM = function (n) { return Math.round(n).toLocaleString('tr-TR') + ' TL'; };
+    const PAYS = [
+      { no: 'T-26-042', item: 'Haritalama dronu (şantiye)', supplier: 'Drone Center', who: 'Hakan Tunç', whoSub: 'EPC Proje Mühendisi · Enerji', project: 'Kızılova RES (şantiye)', amount: 168000, sent: '08.10.2026', paid: null },
+      { no: 'T-26-038', item: 'Termal kamera (yedek)', supplier: 'Testo TR', who: 'Onur Yıldız', whoSub: 'O&M Mühendisi · Enerji', project: 'Karatepe RES', amount: 104000, sent: '25.09.2026', paid: '25.09.2026' },
+      { no: 'T-26-044', item: 'Toplantı salonu video konferans sistemi', supplier: 'Logitech Kurumsal Bayi', who: 'Deniz Kaya', whoSub: 'İdari İşler talebi · Genel Müdür talimatı', project: 'Genel Merkez', amount: 186000, sent: '08.10.2026', paid: null },
+      { no: 'T-26-036', item: 'Dizüstü bilgisayar', supplier: 'Dell Kurumsal', who: 'Burak Çelik', whoSub: 'Avukat · Hukuk', project: 'Genel Merkez', amount: 62000, sent: '14.09.2026', paid: '14.09.2026' }
+    ];
+    const LISTED = (this.state && this.state.listed) || {};
+    const onayId = (this.state && this.state.onayId !== undefined) ? this.state.onayId : (this.props.odeme || null);
+    const onayFull = !!(this.state && this.state.onayFull) && !!onayId;
+    const onayWrap = !onayId ? 'display:none;' : (onayFull ? (pageTab === 'onay' ? 'flex:1;min-height:0;display:flex;' : 'display:none;') : 'position:absolute;top:0;left:0;right:0;bottom:0;z-index:50;background:rgba(14,36,29,0.45);overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:24px;box-sizing:border-box;');
+    const openPay = function (no) { return function () { self.setState({ onayId: no, onayFull: false, notifOpen: false, userMenuOpen: false, searchOpen: false }); }; };
+    const PAIDR0 = (this.state && this.state.paidRows) || {};
+    const payState = function (x) { return (x.paid || PAIDR0[x.no]) ? 'paid' : (LISTED[x.no] ? 'listed' : 'pend'); };
+    const ST_M = { paid: ['Ödendi', 'color:#1E6B3E;background:#E7F3EB;'], listed: ['Ödeme listesinde', 'color:#0E7490;background:#E0F2F7;'], pend: ['Onayımı bekliyor', 'color:#9A6B12;background:#FBF1DE;'] };
+    const payRow = function (x) { const k = payState(x); return { title: 'PO-' + x.no.slice(2) + ' · ' + x.item, meta: x.who + ' · ' + x.project + ' · ' + (k === 'paid' ? 'ödendi ' + (x.paid || PAIDR0[x.no].date) : (k === 'listed' ? 'tahmini ' + LISTED[x.no].date : 'iletildi ' + x.sent)), amount: tlM(x.amount), status: ST_M[k][0], statusStyle: PILLM + ST_M[k][1], open: openPay(x.no) }; };
+    const pendList = PAYS.filter(function (x) { return payState(x) === 'pend'; }).map(payRow);
+    const allRows = PAYS.map(function (x) { const pr = payRow(x); return { po: 'PO-' + x.no.slice(2), no: x.no, item: x.item, supplier: x.supplier, who: x.who, whoSub: x.whoSub, project: x.project, amount: pr.amount, status: pr.status, statusStyle: pr.statusStyle, open: pr.open }; });
+    // ---- Şirket ödeme listesi: tarih sırası, Finansal Muhasebe'nin girdiği tahmini ödeme tarihi yeri belirler ----
+    const fmtCur = function (n, c) { const s2 = Math.round(n).toLocaleString('tr-TR'); return c === 'TL' ? s2 + ' TL' : (c === 'USD' ? '$' + s2 : '€' + s2); };
+    const dKey = function (d) { const p = d.split('.'); return p[2] + p[1] + p[0]; };
+    const TODAY = '06.10.2026';
+    const PLAN0 = [
+      { date: '14.09.2026', desc: 'Dizüstü bilgisayar', party: 'Dell Kurumsal', project: 'Genel Merkez', type: 'Satın alma', amt: 62000, cur: 'TL', paid: true, po: 'PO-26-036' },
+      { date: '25.09.2026', desc: 'Termal kamera (yedek)', party: 'Testo TR', project: 'Karatepe RES', type: 'Satın alma', amt: 104000, cur: 'TL', paid: true, po: 'PO-26-038' },
+      { date: '01.10.2026', desc: 'Kredi faizi', party: 'Garanti BBVA', project: 'Boztepe RES', type: 'Kredi', amt: 84300, cur: 'USD', paid: true , po: 'KR-26-006'},
+      { date: '02.10.2026', desc: 'İmza sirküleri suretleri', party: 'Ankara 12. Noterliği', project: 'Genel Merkez', type: 'Elle ödeme', amt: 3850, cur: 'TL', paid: true, po: 'AÖ-26-001', unm: true, iban: 'TR27 0001 2009 4520 0058 0004 31', by: 'Elif Şahin', paidBank: 'Akbank · TL' },
+      { date: '02.10.2026', desc: 'Sigorta primi', party: 'Anadolu Sigorta', project: 'Güneşalan GES', type: 'Sigorta', amt: 286000, cur: 'TL', paid: true , po: 'SÖ-26-005'},
+      { date: '07.10.2026', desc: 'Kredi taksidi', party: 'Garanti BBVA', project: 'Karatepe RES', type: 'Kredi', amt: 412500, cur: 'USD' , po: 'KR-26-007'},
+      { date: '08.10.2026', desc: 'Türbin bakım faturası (Eylül)', party: 'Enercon Servis', project: 'Boztepe RES', type: 'Sözleşme', amt: 38500, cur: 'EUR' , po: 'SÖ-26-010'},
+      { date: '10.10.2026', desc: 'SGK primleri (Eylül)', party: 'SGK', project: 'Genel Merkez', type: 'Vergi / SGK', amt: 1140000, cur: 'TL' , po: 'BR-26-009'},
+      { date: '14.10.2026', desc: 'Kredi taksidi', party: 'Commerzbank AG', project: 'Yeşilova RES', type: 'Kredi', amt: 116240, cur: 'USD' , po: 'KR-26-009'},
+      { date: '15.10.2026', desc: 'Arazi kirası (yıllık)', party: 'Orman İşletme Md.', project: 'Karatepe RES', type: 'Kira', amt: 420000, cur: 'TL' , po: 'SÖ-26-007'},
+      { date: '26.10.2026', desc: 'KDV (Eylül)', party: 'Vergi Dairesi', project: 'Genel Merkez', type: 'Vergi / SGK', amt: 2310000, cur: 'TL' , po: 'VG-26-006'},
+      { date: '28.10.2026', desc: 'Ekim bordrosu', party: 'Personel', project: 'Genel Merkez', type: 'Bordro', amt: 3850000, cur: 'TL' , po: 'BR-26-010'},
+      { date: '09.10.2026', desc: 'Jeoteknik etüt raporu (2. kısım)', party: 'Jeo-Etüt Mühendislik', project: 'Kızılova RES (şantiye)', type: 'Sözleşme', amt: 95000, cur: 'TL', po: 'SÖ-26-013' },
+      { date: '12.10.2026', desc: 'EPC avans faturası (%20)', party: 'ABC İnşaat A.Ş.', project: 'Kızılova RES (şantiye)', type: 'Sözleşme', amt: 2400000, cur: 'USD', po: 'SÖ-26-011' },
+      { date: '12.10.2026', desc: 'Toplantı salonu video konferans sistemi', party: 'Logitech Kurumsal Bayi', project: 'Genel Merkez', type: 'Satın alma', amt: 186000, cur: 'TL', po: 'PO-26-044' },
+      { date: '15.10.2026', desc: 'Türbin bakım faturası (Eylül)', party: 'Enercon Servis', project: 'Karatepe RES', type: 'Sözleşme', amt: 38500, cur: 'EUR', po: 'SÖ-26-012' },
+      { date: '16.10.2026', desc: 'Telsiz (el, 2 adet)', party: 'Telsiz Market', project: 'Boztepe RES', type: 'Satın alma', amt: 9800, cur: 'TL', po: 'PO-26-039' },
+      { date: '20.10.2026', desc: 'Kira (Ekim) · Genel Merkez ofis', party: 'Ankara Ofis Kiralama A.Ş.', project: 'Genel Merkez', type: 'Kira', amt: 310000, cur: 'TL', po: 'SÖ-26-008' },
+      { date: '23.10.2026', desc: 'Muhtasar ve prim hizmet beyannamesi (Eylül)', party: 'Vergi Dairesi', project: 'Genel Merkez', type: 'Vergi / SGK', amt: 684000, cur: 'TL' , po: 'BR-26-009'},
+      { date: '26.10.2026', desc: 'Kredi faizi', party: 'Garanti BBVA', project: 'Boztepe RES', type: 'Kredi', amt: 84300, cur: 'USD' , po: 'KR-26-008'},
+      { date: '30.10.2026', desc: 'Kızılova şantiye konteyner kirası (Kasım)', party: 'Konteyner Kiralama Ltd.', project: 'Kızılova RES (şantiye)', type: 'Kira', amt: 48000, cur: 'TL' , po: 'SÖ-26-009'},
+      { date: '03.11.2026', desc: 'Periyodik bakım · Ford Ranger 06 KRT 412', party: 'Ford Bayi Ankara', project: 'Karatepe RES', type: 'Fatura', amt: 14200, cur: 'TL' , po: 'FT-26-003'},
+      { date: '05.11.2026', desc: 'Sigorta primi (yenileme)', party: 'Anadolu Sigorta', project: 'Karatepe RES', type: 'Sigorta', amt: 294000, cur: 'TL' , po: 'SÖ-26-006'}
+    ];
+    // ---- Fatura ve zincir (fatura yalnızca entegratörden Muhasebe'ye girer; Balbal PO / sözleşme ile eşleştirir; önce de sonra da gelebilir) ----
+    const Z1 = 'Zincir 1 · Satın alma talebi', Z2 = 'Zincir 2 · İdari İşler’in kendi alımı', Z3 = 'Zincir 3 · Sözleşme usulü ödeme';
+    const INV = {
+      'PO-26-036': { z: Z1, st: 'late', tes: '22.09.2026', note: 'Ödendi 14.09.2026 (proforma DL-55821), teslim alındı 22.09.2026; fatura gelmedi. Yasal düzenleme süresi (teslimden 7 gün) 29.09.2026’da doldu. Tedarikçiden istenmeli; Muhasebe’ye de bildirildi.' },
+      'PO-26-038': { z: Z1, st: 'in', no: 'e-Fatura TST2026000418', d: '06.10.2026', after: true },
+      'PO-26-039': { z: Z1, st: 'in', no: 'e-Fatura TLS2026000287', d: '03.10.2026', tes: '02.10.2026', diff: 'Fatura 10.150 TL, sipariş 9.800 TL · fark 350 TL (kargo bedeli faturaya eklenmiş). Ödenecek tutar faturaya göre güncellenmeli.' },
+      'PO-26-042': { z: Z1, st: 'in', no: 'e-Fatura DRN2026000733', d: '05.10.2026' },
+      'PO-26-044': { z: Z2, st: 'wait' },
+      'SÖ-26-011': { z: Z3 + ' · S-26-001', st: 'in', no: 'e-Fatura ABC2026000000184', d: '06.10.2026', warn: 'Ödeme koşulu olan avans teminat mektubu belgelerde yok; Kerem Aydın Balbal sorusunu onayladı, Elif Şahin ek onay verdi. Belge eklenince bu not kendiliğinden güncellenir.' },
+      'SÖ-26-013': { z: Z3 + ' · S-26-004', st: 'in', no: 'e-Fatura JEO2026000215', d: '28.09.2026' },
+      'SÖ-26-012': { z: Z3 + ' · S-25-007', st: 'in', no: 'e-Fatura ENR2026001122', d: '06.10.2026' },
+      'SÖ-26-010': { z: Z3 + ' · S-25-008', st: 'in', no: 'e-Fatura ENR2026001121', d: '30.09.2026' },
+      'SÖ-26-009': { z: Z3 + ' · S-25-011', st: 'in', no: 'e-Fatura KNT2026000940', d: '30.09.2026' },
+      'SÖ-26-008': { z: Z3 + ' · S-21-001', st: 'wait' },
+      'SÖ-26-007': { z: Z3 + ' · S-24-002', st: 'na', naT: 'Kamu kira tahakkuku · fatura düzenlenmez' },
+      'FT-26-003': { z: 'Zincir 4 · Eşleşmeyen fatura · araç bakımı, zimmet a1 (İdari İşler)', st: 'wait' }
+    };
+    const ZT = { 'Kredi': 'Finansman · kredi ödeme takvimi', 'Vergi / SGK': 'Vergi / yasal yükümlülük', 'Bordro': 'Bordro · İK', 'Sigorta': 'Sözleşme usulü · poliçe' };
+    const dNum = function (d) { const p = String(d).split('.'); return new Date(+p[2], +p[1] - 1, +p[0]).getTime(); };
+    const ageOf = function (x) { return x.paid ? Math.max(0, Math.round((dNum(TODAY) - dNum((x.paidInfo && x.paidInfo.date) || x.date)) / 86400000)) : 0; };
+    const invOf = function (x) { if (x.inv) return { z: 'Acil öde · fatura ekli', st: 'in', d: x.inv.d, no: x.inv.no }; if (x.unm) { const ag = ageOf(x); return { z: 'Elle ödeme · eşleşmeyen ödeme', st: 'unm', age: ag, note: 'Eşleşmeyen ödeme' + (ag ? ' · ' + ag + ' gün' : '') + ' · PO, sözleşme ya da fatura yok · dayanak gelince Balbal eşleştirir.', naT: 'Dayanak yok · gelince Balbal eşleştirir' }; } const i = INV[x.po] || (x.tid ? INV['PO-' + x.tid.slice(2)] : null); if (i) return i; const ZP = { 'KR': 'Zincir 5 · Kredi ödemesi', 'VG': 'Zincir 6 · Vergi / yasal yükümlülük', 'BR': 'Zincir 7 · Bordro', 'FT': 'Zincir 4 · Eşleşmeyen fatura', 'SÖ': 'Zincir 3 · Sözleşme usulü ödeme' }; const zp = x.po ? ZP[String(x.po).slice(0, 2)] : null; return { z: zp ? zp + (x.type === 'Sigorta' ? ' · poliçe' : '') : (ZT[x.type] || x.type), st: 'na', naT: 'Fatura beklenmez' }; };
+    const INV_ST = { unm: ['Eşleşmedi', 'color:#9A6B12;background:#FBF1DE;'], 'in': ['✓ Geldi', 'color:#1E6B3E;background:#E7F3EB;'], wait: ['Bekleniyor', 'color:#5B6B60;background:#F0F2F0;'], late: ['Gecikti', 'color:#B23A3A;background:#FBE7E7;'], na: ['—', 'color:#B7C2BC;background:transparent;'] };
+    const invTxt = function (i) { return i.st === 'in' ? 'fatura geldi ' + i.d + ' · ' + i.no + (i.after ? ' · ödemeden sonra' : '') : (i.st === 'late' ? 'fatura gelmedi · süre aşıldı' : (i.st === 'wait' ? 'fatura bekleniyor' : (i.naT || 'fatura yok'))); };
+    const ACK = (this.state && this.state.ack) || {};
+    const BANKS0 = ['Akbank · TL', 'Garanti BBVA · TL', 'İş Bankası · TL', 'Garanti BBVA · USD', 'Commerzbank · USD', 'Garanti BBVA · EUR'];
+    const PAIDR = (this.state && this.state.paidRows) || {};
+    const INSTR0 = (this.state && this.state.instr) || {};
+    const SEL = (this.state && this.state.sel) || (this.props.talimat === 'onay' ? { '08.10.2026|Türbin bakım faturası (Eylül)': true, '09.10.2026|Jeoteknik etüt raporu (2. kısım)': true, '16.10.2026|Telsiz (el, 2 adet)': true, '15.10.2026|Arazi kirası (yıllık)': true } : {});
+    const boxSel = function (on, dis) { return 'width:18px;height:18px;border-radius:5px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:none;padding:0;cursor:' + (dis ? 'default' : 'pointer') + ';' + (on ? 'background:#D97706;color:#132119;' : (dis ? 'background:#F0F2F0;' : 'background:#FFFFFF;border:1px solid #D6E4DA;')); };
+    // ---- Şirket bilgileri (ödeme yapan personelin ihtiyacı olan her şey; her şirket ayrı) ----
+    const COS = [
+      { id: 'xyz', n: 'XYZ Enerji A.Ş.', short: 'Genel Merkez', vd: 'Çankaya VD · 9870012345', mersis: '0987000123450015', sicil: 'Ankara · 412880', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'xyzenerji@hs01.kep.tr', tel: '0312 440 00 00', sirk: '12.03.2025',
+        accts: [['Akbank', 'Çankaya', 'TR12 0004 6000 0000 0000 1234 56', 'TL', 'Serbest hesap', '—'], ['Garanti BBVA', 'Kızılay Ticari', 'TR33 0006 2000 0000 0000 7788 99', 'TL', 'Serbest hesap', '—'], ['İş Bankası', 'Ankara Ticari', 'TR55 0006 4000 0010 0000 4455 66', 'TL', 'Bordro / vergi', '—'], ['Garanti BBVA', 'Kızılay Ticari', 'TR44 0006 2000 0000 0000 7789 00', 'USD', 'Serbest hesap', '—'], ['Garanti BBVA', 'Kızılay Ticari', 'TR66 0006 2000 0000 0000 7789 11', 'EUR', 'Serbest hesap', '—']] },
+      { id: 'kt', n: 'Karatepe RES Enerji Üretim A.Ş.', short: 'Karatepe RES', vd: 'Çankaya VD · 5210098765', mersis: '0521000987650012', sicil: 'Ankara · 398201', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'karatepeenerji@hs01.kep.tr', tel: '0312 440 00 01', sirk: '12.03.2025',
+        accts: [['Akbank', 'Çankaya', 'TR21 0004 6000 0000 0000 5566 77', 'TL', 'Proje hesabı (tahsilat)', 'Kredi sözleşmesi · banka onayı'], ['Garanti BBVA', 'Kızılay Ticari', 'TR09 0006 2000 0000 0000 3344 55', 'USD', 'DSRA', 'Bloke · yalnızca borç servisi'], ['Akbank', 'Çankaya', 'TR77 0004 6000 0000 0000 5566 88', 'TL', 'İşletme hesabı', '—']] },
+      { id: 'bz', n: 'Boztepe RES Enerji Üretim A.Ş.', short: 'Boztepe RES', vd: 'Çankaya VD · 1870034567', mersis: '0187000345670019', sicil: 'Ankara · 401155', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'boztepeenerji@hs01.kep.tr', tel: '0312 440 00 02', sirk: '12.03.2025',
+        accts: [['Garanti BBVA', 'Kızılay Ticari', 'TR18 0006 2000 0000 0000 9900 11', 'TL', 'Proje hesabı (tahsilat)', 'Kredi sözleşmesi · banka onayı'], ['Garanti BBVA', 'Kızılay Ticari', 'TR90 0006 2000 0000 0000 9900 22', 'USD', 'DSRA', 'Bloke · yalnızca borç servisi'], ['Garanti BBVA', 'Kızılay Ticari', 'TR02 0006 2000 0000 0000 9900 33', 'EUR', 'Yüklenici ödeme hesabı', '—']] },
+      { id: 'ys', n: 'Yeşilova RES Enerji Üretim A.Ş.', short: 'Yeşilova RES', vd: 'Çankaya VD · 9450011223', mersis: '0945000112230017', sicil: 'Ankara · 387760', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'yesilovaenerji@hs01.kep.tr', tel: '0312 440 00 03', sirk: '12.03.2025',
+        accts: [['Commerzbank', 'Frankfurt', 'DE89 3704 0044 0532 0130 00', 'USD', 'Proje hesabı · kredi', 'Commerzbank · Annex E yetkisi'], ['Commerzbank', 'Frankfurt', 'DE12 3704 0044 0532 0130 11', 'USD', 'DSRA', 'Bloke'], ['Akbank', 'Çankaya', 'TR35 0004 6000 0000 0000 2211 44', 'TL', 'İşletme hesabı', '—']] },
+      { id: 'gn', n: 'Güneşalan GES Enerji Üretim A.Ş.', short: 'Güneşalan GES', vd: 'Çankaya VD · 3330056789', mersis: '0333000567890011', sicil: 'Ankara · 420913', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'gunesalanenerji@hs01.kep.tr', tel: '0312 440 00 04', sirk: '12.03.2025',
+        accts: [['İş Bankası', 'Ankara Ticari', 'TR60 0006 4000 0010 0000 6677 88', 'TL', 'Proje hesabı (tahsilat)', '—'], ['İş Bankası', 'Ankara Ticari', 'TR82 0006 4000 0010 0000 6677 99', 'TL', 'İşletme hesabı', '—']] },
+      { id: 'kz', n: 'Kızılova Enerji A.Ş.', short: 'Kızılova RES (şantiye)', vd: 'Çankaya VD · 7120077889', mersis: '0712000778890013', sicil: 'Ankara · 431002', adr: 'Mustafa Kemal Mah. 2151. Cad. No:18 Çankaya / Ankara', kep: 'kizilovaenerji@hs01.kep.tr', tel: '0312 440 00 05', sirk: '15.09.2026',
+        accts: [['Garanti BBVA', 'Kızılay Ticari', 'TR48 0006 2000 0000 0000 1122 33', 'USD', 'Yatırım hesabı · EPC', 'Kredi kullanımı · teknik danışman onayı'], ['Garanti BBVA', 'Kızılay Ticari', 'TR70 0006 2000 0000 0000 1122 44', 'TL', 'İşletme hesabı', '—']] }
+    ];
+    const SIGN = [['Levent Aksoy', 'Genel Müdür', 'A', 'Tek başına 500.000 TL’ye kadar · üstü A+B'], ['Elif Şahin', 'Mali İşler Müdürü', 'B', 'A ile birlikte · sınırsız'], ['Kaan Turhan', 'Proje Finans Müdürü', 'B', 'A ile birlikte · kredi işlemleri'], ['Gökhan Erdem', 'Finansal Muhasebe Uzmanı', '—', 'İmza yetkisi yok · talimatı hazırlar, imzaları toplar']];
+    const coId = (this.state && this.state.co) || 'kz'; const CO = COS.filter(function (c) { return c.id === coId; })[0] || COS[0];
+    // ---- Cari hesaplar: o güne kadar biriken tüm karşı taraflar (muavin 320/329/300'den beslenir) · Balbal ödeme eşleştirmesini buradan yapar ----
+    const CARI_BASE = [
+      ['kz', 'ABC İnşaat A.Ş.', 'Yüklenici · EPC', '0010203040', 'TR90 0006 2000 0000 0000 5544 11', 'USD', 2400000, '06.10.2026 · fatura', 'SÖ-26-011', 'ok'],
+      ['kz', 'Ford Bayi Ankara', 'Tedarikçi', '3890011222', 'TR12 0004 6000 0000 0000 9080 70', 'TL', 0, '—', '—', 'ok'],
+      ['kz', 'Drone Center Teknoloji Ltd.', 'Tedarikçi', '2770045678', 'TR41 0006 4000 0010 0000 3030 21', 'TL', 168000, '08.10.2026 · proforma', 'PO-26-042', 'ok'],
+      ['kz', 'Jeo-Etüt Mühendislik', 'Danışman', '6120078901', 'TR77 0001 5001 5800 7300 1122 33', 'TL', 95000, '28.09.2026 · fatura', 'SÖ-26-013', 'ok'],
+      ['kz', 'Garanti BBVA', 'Banka · kredi', '—', '—', 'USD', 0, '01.10.2026 · faiz', 'KR-26-005', 'ok'],
+      ['kt', 'Enercon Servis Türkiye', 'O&M yüklenicisi', '4450012345', 'TR33 0006 2000 0000 0000 6611 22', 'EUR', 38500, '08.10.2026 · fatura', 'SÖ-26-012', 'ok'],
+      ['kt', 'Orman İşletme Müdürlüğü', 'Kamu · kira', '—', 'TR55 0001 0000 0000 0012 3456 78', 'TL', 420000, '15.10.2025 · kira', 'SÖ-25-031', 'ok'],
+      ['kt', 'Anadolu Sigorta', 'Sigorta', '2340056789', 'TR06 0006 2000 0000 0000 7788 00', 'TL', 0, '02.10.2026 · prim', 'SÖ-26-004', 'ok'],
+      ['kt', 'Garanti BBVA', 'Banka · kredi', '—', '—', 'USD', 412500, '07.10.2026 · taksit', 'KR-26-007', 'ok'],
+      ['kt', 'Yüksek İş Güvenlik', 'Tedarikçi', '8800123456', '—', 'TL', 18400, '04.10.2026 · teklif', 'PO-26-041', 'wait'],
+      ['bz', 'Enercon Servis Türkiye', 'O&M yüklenicisi', '4450012345', 'TR33 0006 2000 0000 0000 6611 22', 'EUR', 38500, '08.10.2026 · fatura', 'SÖ-26-010', 'ok'],
+      ['bz', 'Garanti BBVA', 'Banka · kredi', '—', '—', 'USD', 0, '01.10.2026 · faiz', 'KR-26-006', 'ok'],
+      ['bz', 'Telsiz Market', 'Tedarikçi', '5560098765', 'TR20 0004 6000 0000 0000 4455 99', 'TL', 9800, '30.09.2026 · onay', 'PO-26-039', 'ok'],
+      ['ys', 'Commerzbank AG', 'Banka · kredi', '—', 'DE44 5004 0000 0123 4567 89', 'USD', 116240, '14.10.2026 · taksit', 'KR-26-009', 'ok'],
+      ['ys', 'Vestas Bakım Hizmetleri', 'O&M yüklenicisi', '7120033445', 'TR61 0006 2000 0000 0000 2200 44', 'EUR', 0, '12.09.2026 · fatura', 'S-24-009', 'ok'],
+      ['gn', 'Solar Temizlik Ltd.', 'Tedarikçi', '9980011223', 'TR15 0004 6000 0000 0000 1100 55', 'TL', 0, '17.09.2026 · ret', '—', 'ok'],
+      ['gn', 'Anadolu Sigorta', 'Sigorta', '2340056789', 'TR06 0006 2000 0000 0000 7788 00', 'TL', 0, '02.10.2026 · prim', 'SÖ-26-005', 'ok'],
+      ['xyz', 'Dell Kurumsal', 'Tedarikçi', '1230045678', 'TR88 0006 4000 0010 0000 9900 12', 'TL', 0, '14.09.2026 · ödendi', 'PO-26-036', 'ok'],
+      ['xyz', 'Logitech Kurumsal Bayi', 'Tedarikçi', '4410022334', 'TR29 0006 2000 0000 0000 8877 66', 'TL', 186000, '09.10.2026 · ödeme listesi', 'PO-26-044', 'ok'],
+      ['xyz', 'Testo TR', 'Tedarikçi', '6650034455', 'TR37 0004 6000 0000 0000 7766 55', 'TL', 0, '25.09.2026 · ödendi', 'PO-26-038', 'ok'],
+      ['xyz', 'SGK', 'Kamu', '—', 'TR63 0001 0000 0000 0000 1111 11', 'TL', 1140000, '10.10.2026 · tahakkuk', 'BR-26-009', 'ok'],
+      ['xyz', 'Vergi Dairesi (Çankaya)', 'Kamu', '—', 'TR84 0001 0000 0000 0000 2222 22', 'TL', 2994000, '26.10.2026 · beyanname', 'KDV + muhtasar 2026-09', 'ok'],
+      ['kz', 'Konteyner Kiralama Ltd.', 'Kiralama', '5120077889', 'TR58 0004 6000 0000 0000 3322 10', 'TL', 48000, '30.09.2026 · fatura', 'SÖ-26-009', 'ok'],
+      ['xyz', 'Personel (bordro)', 'Bordro · toplu', '—', 'Toplu maaş dosyası · İş Bankası', 'TL', 3850000, '28.09.2026 · bordro', 'BR-26-009', 'ok'],
+      ['xyz', 'Ankara Ofis Kiralama A.Ş.', 'Mülk sahibi · kira', '3340099887', '—', 'TL', 310000, '20.09.2026 · kira', 'SÖ-26-002', 'wait']
+    ];
+    // ---- Başarıyla gerçekleşen ödemeler cari kaydını kendiliğinden günceller (son hareket, açık bakiye; farklı IBAN ile ödendiyse IBAN) ----
+    const CU = (this.state && this.state.cariUpd) || {};
+    const ibanN = function (v) { return String(v || '').replace(/\s/g, '').toUpperCase(); };
+    const sameCari = function (c, coId, name) { return c[0] === coId && (c[1] === name || c[1].split(' ')[0] === String(name).split(' ')[0]); };
+    const CARI_ALL = CARI_BASE.map(function (c) { return c.slice(); });
+    Object.keys(CU).forEach(function (k) { const u = CU[k]; const ix = CARI_ALL.findIndex(function (c) { return sameCari(c, u.coId, u.party); });
+      if (ix >= 0) { const c = CARI_ALL[ix]; const chg = !!u.iban && ibanN(u.iban) !== ibanN(c[4]) && c[2].indexOf('Banka') !== 0; if (chg) c[4] = u.iban; c[7] = u.date + ' · ödendi'; c[8] = u.src; if (c[5] === u.cur) c[6] = Math.max(0, c[6] - u.amt); c[10] = { chg: chg, isNew: false, src: u.src }; }
+      else CARI_ALL.push([u.coId, u.party, 'Elle ödemeyle eklendi', '—', u.iban || '—', u.cur, 0, u.date + ' · ödendi', u.src, 'ok', { chg: false, isNew: true, src: u.src }]); });
+    const coIdOf = function (project) { const c = COS.filter(function (q) { return q.short === project; })[0]; return c ? c.id : 'xyz'; };
+    const CARI = CARI_ALL.filter(function (c) { return c[0] === CO.id; });
+    const CARI_IDX = {}; CARI_ALL.forEach(function (c) { CARI_IDX[c[1]] = c; });
+    const cariOf = function (name) { const k = Object.keys(CARI_IDX).filter(function (n) { return n.indexOf(name) === 0 || name.indexOf(n) === 0 || n.split(' ')[0] === name.split(' ')[0]; })[0]; return k ? CARI_IDX[k] : null; };
+    const cariRows = CARI.filter(function (c) { return c[6] > 0 || !!c[10]; }).map(function (c) { const ok = c[9] === 'ok'; const up = c[10] || null; return { n: c[1], kind: c[2], vkn: c[3], iban: c[4], cur: c[5], bal: c[6] ? fmtCur(c[6], c[5]) : '—', last: c[7], src: c[8], st: up && up.chg ? 'IBAN güncellendi · ' + up.src : (up && up.isNew ? 'Yeni cari · ' + up.src : (ok ? 'Doğrulandı' : 'IBAN doğrulama bekliyor')), stStyle: PILLM + (up && (up.chg || up.isNew) ? 'color:#0E7490;background:#E0F2F7;' : (ok ? 'color:#1E6B3E;background:#E7F3EB;' : 'color:#9A6B12;background:#FBF1DE;')) }; });
+    const cariOpen = CARI.filter(function (c) { return c[6] > 0; }).length;
+    const EOR = (this.state && this.state.eoRecs) || [];
+    const PLAN = PLAN0.map(function (x) { const k = x.date + '|' + x.desc; return Object.assign({}, x, { key: k, paidInfo: PAIDR[k] || null, paid: x.paid || !!PAIDR[k] }); })
+      .concat(EOR.map(function (r) { const pi = PAIDR[r.key] || r.paidInfo || null; return Object.assign({}, r, { paidInfo: pi, paid: !!pi }); })).concat(Object.keys(LISTED).map(function (id) { const x = LISTED[id]; return { key: id, tid: id, po: 'PO-' + id.slice(2), date: x.date, desc: x.item, party: x.supplier, project: x.project, type: 'Satın alma', amt: x.amount, cur: 'TL', isNew: true, paid: !!PAIDR[id], paidInfo: PAIDR[id] || null }; }))
+      .sort(function (p1, p2) { return dKey(p1.date) < dKey(p2.date) ? -1 : (dKey(p1.date) > dKey(p2.date) ? 1 : 0); });
+    const PK = (this.state && this.state.pk) || null;
+    const planRows = PLAN.map(function (x) { const past = dKey(x.date) < dKey(TODAY); const iv = invOf(x); return { inv: iv.st === 'unm' ? 'Eşleşmedi' + (iv.age ? ' · ' + iv.age + ' g' : '') : INV_ST[iv.st][0], invStyle: PILLM + INV_ST[iv.st][1], hover: iv.z + (x.po ? ' · ' + x.po : '') + ' · ' + invTxt(iv), open: function () { self.setState({ pk: x.key, pkF: null, pkFull: false }); }, po: x.po || '—', poColor: x.po ? '#132119' : '#B7C2BC', date: x.date, desc: x.desc, party: x.party, project: x.project, type: x.type, amount: fmtCur(x.amt, x.cur),
+      status: x.paid ? 'Ödendi' : (INSTR0[x.key] ? (INSTR0[x.key].ok ? 'Talimat hazır' : 'Talimat taslak') : 'Planlı'), statusStyle: PILLM + (x.paid ? 'color:#1E6B3E;background:#E7F3EB;' : (INSTR0[x.key] ? 'color:#9A6B12;background:#FBF1DE;' : 'color:#0E7490;background:#E0F2F7;')),
+      box: boxSel(!!SEL[x.key], x.paid), mark: SEL[x.key] ? '✓' : '', toggle: x.paid ? function (e) { if (e && e.stopPropagation) e.stopPropagation(); } : function (e) { if (e && e.stopPropagation) e.stopPropagation(); const n = Object.assign({}, SEL); if (n[x.key]) delete n[x.key]; else n[x.key] = true; self.setState({ sel: n, bulkMsg: '' }); },
+      rowStyle: "display:grid;grid-template-columns:28px 0.8fr 0.8fr 1.6fr 1.1fr 1.1fr 0.8fr 1fr 0.75fr 0.9fr;column-gap:12px;align-items:center;width:100%;box-sizing:border-box;text-align:left;padding:10px 20px;border-bottom:1px solid #F0F2F0;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;color:#132119;" + (SEL[x.key] ? 'background:#FFF8EF;' : (x.isNew && !x.paid ? 'background:#F2F9FB;' : 'background:#FFFFFF;')) + (past && x.paid ? 'opacity:0.65;' : '') }; });
+    const nextAll = PLAN.filter(function (x) { return !x.paid && dKey(x.date) >= dKey(TODAY); });
+    const TPLX = Object.assign({ 'Akbank': 1, 'Garanti BBVA': 1, 'İş Bankası': 1, 'Commerzbank': 1 }, (this.state && this.state.tpl) || {});
+    const selRows = PLAN.filter(function (x) { return SEL[x.key] && !x.paid; });
+    const bulkAll = selRows.filter(function (x) { return !INSTR0[x.key]; }); const bulkRows = bulkAll.filter(function (x) { const b = (BANKS0.filter(function (q) { return q.indexOf(x.cur) !== -1; })[0] || BANKS0[0]).split(' · ')[0]; const c = cariOf(x.party); return !!TPLX[b] && ((!!c && c[9] === 'ok' && (c[4] !== '—' || c[2].indexOf('Banka') === 0)) || !!x.iban); }); const bulkN = bulkRows.length; const bulkSkip = bulkAll.length - bulkN;
+    const nextList = nextAll.slice(0, 4).map(function (x) { return { date: x.date, desc: (x.po ? x.po + ' · ' : '') + x.desc, party: x.party, project: x.project, amount: fmtCur(x.amt, x.cur) }; });
+    // ---- Bankalardan API ile gelen hareketler ----
+    const BANK = [
+      { date: '06.10.2026 09:12', bank: 'Akbank · TL', desc: 'EPİAŞ tahsilat (avans)', project: 'Karatepe RES', amt: 4812300, cur: 'TL', match: 'Tahsilat' },
+      { date: '06.10.2026 08:47', bank: 'Garanti BBVA · TL', desc: 'EPİAŞ tahsilat (avans)', project: 'Boztepe RES', amt: 3920000, cur: 'TL', match: 'Tahsilat' },
+      { date: '05.10.2026 16:20', bank: 'Commerzbank · USD', desc: 'DSRA faiz tahakkuku', project: 'Yeşilova RES', amt: 1840, cur: 'USD', match: 'Tahsilat' },
+      { date: '02.10.2026 11:40', bank: 'Akbank · TL', desc: 'Ankara 12. Noterliği · AÖ-26-001', project: 'Genel Merkez', amt: -3850, cur: 'TL', match: 'AÖ-26-001 · eşleşmeyen' },
+      { date: '02.10.2026 11:05', bank: 'İş Bankası · TL', desc: 'Anadolu Sigorta · poliçe primi', project: 'Güneşalan GES', amt: -286000, cur: 'TL', match: 'Ödeme listesi ✓' },
+      { date: '01.10.2026 10:30', bank: 'Garanti BBVA · USD', desc: 'Kredi faizi', project: 'Boztepe RES', amt: -84300, cur: 'USD', match: 'Ödeme listesi ✓' },
+      { date: '30.09.2026 15:42', bank: 'Akbank · TL', desc: 'Havale · açıklamasız', project: '—', amt: -12450, cur: 'TL', match: 'Eşleşmedi' },
+      { date: '25.09.2026 14:10', bank: 'Akbank · TL', desc: 'PO-26-038 · Testo TR · proforma TT-0921', project: 'Karatepe RES', amt: -104000, cur: 'TL', match: 'PO-26-038 ✓' }
+    ];
+    const BANKX = ((this.state && this.state.bankAdd) || []).concat(BANK);
+    const BL = (this.state && this.state.bankLink) || {};
+    const bankRows = BANKX.map(function (m) { const neg = m.amt < 0; const bk = m.date + '|' + m.amt; const link = BL[bk] || null; const notIn = neg && m.match === 'Eşleşmedi' && !link; const inc = m.match === 'Tahsilat';
+      const mt = link ? link + (EOR.some(function (r) { return r.key === link && !r.unm; }) ? ' ✓' : ' · eşleşmeyen') : (notIn ? 'Ödeme listesinde yok' : m.match); const unmL = mt.indexOf('eşleşmeyen') !== -1;
+      return { date: m.date, bank: m.bank, desc: m.desc, project: m.project, amount: (neg ? '−' : '+') + fmtCur(Math.abs(m.amt), m.cur),
+        amtStyle: 'text-align:right;font-size:12.5px;font-weight:700;color:' + (neg ? '#132119' : '#1E6B3E') + ';', match: mt,
+        matchStyle: PILLM + (notIn ? 'color:#B23A3A;background:#FBE7E7;' : (unmL ? 'color:#9A6B12;background:#FBF1DE;' : (inc ? 'color:#5B6B60;background:#F0F2F0;' : 'color:#1E6B3E;background:#E7F3EB;'))),
+        canAdd: notIn, add: function () { self.setState({ eo: { co: 'xyz', party: '', iban: '', amt: Math.abs(m.amt).toLocaleString('tr-TR'), cur: m.cur, date: m.date.split(' ')[0], desc: '', by: '—', chain: false, apr: [], att: [], auto: {}, from: { key: bk, date: m.date.split(' ')[0], bank: m.bank, amt: Math.abs(m.amt), cur: m.cur, desc: m.desc } } }); } }; });
+    const nlCount = bankRows.filter(function (r) { return r.canAdd; }).length;
+
+    // ---- Ödeme (listeden): ödeme tarihi + banka hesabı → ödendi; banka hareketi oluşur ----
+    const BANKS = BANKS0; const R_USD = 48.7499, R_EUR = 55.6521;
+    const coTabs = COS.map(function (c) { const on = c.id === CO.id; return { label: c.short, style: "font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;border-radius:20px;padding:6px 12px;cursor:pointer;" + (on ? 'background:#0E241D;color:#F6F7F5;border:1px solid #0E241D;' : 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;'), go: function () { self.setState({ co: c.id }); } }; });
+    const sigWho = function (bank) { return 'Elif Şahin (B) + Levent Aksoy (A)'; };
+    const co = {
+      id: [{ k: 'Ünvan', v: CO.n }, { k: 'Vergi dairesi · no', v: CO.vd }, { k: 'MERSİS', v: CO.mersis }, { k: 'Ticaret sicil', v: CO.sicil }, { k: 'Adres', v: CO.adr }, { k: 'KEP', v: CO.kep }, { k: 'Telefon', v: CO.tel }, { k: 'İmza sirküleri', v: CO.sirk + ' · noter onaylı' }],
+      spvId: CO.id, sicilDoc: 'Belgeler.dc.html', sirkDoc: 'Belgeler.dc.html', sirkDate: CO.sirk,
+      signers: SIGN.map(function (x) { return { n: x[0], pos: x[1], grp: x[2], lim: x[3], grpStyle: PILLM + (x[2] === 'A' ? 'color:#1E6B3E;background:#E7F3EB;' : (x[2] === 'B' ? 'color:#0E7490;background:#E0F2F7;' : 'color:#8A968E;background:#F0F2F0;')) }; }),
+      rule: 'Ödeme talimatı: 500.000 TL (karşılığı) üstü A+B çift imza · ıslak imzayı yalnızca Finansal Muhasebe toplar',
+      bankNote: CO.accts.length + ' hesap · IBAN değişikliği ayrı onaya tabi',
+      accts: CO.accts.map(function (a) { return { bank: a[0], branch: a[1], iban: a[2], cur: a[3], type: a[4], lim: a[5], who: sigWho(a[0]) }; })
+    };
+    // ---- Ödeme talimatı şablonları (her banka bir Word; personel ekler, Balbal doldurur) ----
+    const TPL_BANKS = ['Akbank', 'Garanti BBVA', 'İş Bankası', 'Commerzbank'];
+    const TPL0 = { 'Akbank': { file: 'Akbank_Odeme_Talimati_Sablon.docx', by: 'Gökhan Erdem · 01.10.2026', fields: '13 alan eşlendi' }, 'Garanti BBVA': { file: 'Garanti_BBVA_Odeme_Talimati_Sablon.docx', by: 'Gökhan Erdem · 01.10.2026', fields: '14 alan eşlendi' }, 'İş Bankası': { file: 'Is_Bankasi_Odeme_Talimati_Sablon.docx', by: 'Selin Arslan · 02.10.2026', fields: '12 alan eşlendi' }, 'Commerzbank': { file: 'Commerzbank_SWIFT_Odeme_Talimati_Sablon.docx', by: 'Gökhan Erdem · 03.10.2026', fields: '16 alan eşlendi' } };
+    const TPL = Object.assign({}, TPL0, (this.state && this.state.tpl) || {});
+    const tplForm = !!(this.state && this.state.tplForm); const tplBank = (this.state && this.state.tplBank) || TPL_BANKS.filter(function (b) { return !TPL[b]; })[0] || TPL_BANKS[0]; const tplFile = (this.state && this.state.tplFile) || '';
+    const tplRows = TPL_BANKS.map(function (b) { const t = TPL[b]; return { bank: b, has: !!t, none: !t, file: t ? t.file : '', href: t ? 'Belgeler.dc.html' : '#', by: t ? t.by : '—', fields: t ? t.fields : '—', st: t ? 'Hazır' : 'Şablon bekleniyor', stStyle: PILLM + (t ? 'color:#1E6B3E;background:#E7F3EB;' : 'color:#9A6B12;background:#FBF1DE;') }; });
+    const tplSaveOk = !!tplFile.trim();
+    const bankOf = function (b) { return (b || '').split(' · ')[0]; };
+    // ---- Talimat doldurma durumu (ödeme başına) ----
+    const INSTR = (this.state && this.state.instr) || {};
+    const pkRow = PK ? PLAN.filter(function (x) { return x.key === PK; })[0] : null;
+    const pkF = (this.state && this.state.pkF) || {};
+    const pkFull = !!(this.state && this.state.pkFull);
+    let pk = { hasInv: false, invName: '', invHref: '#', invMeta: '', hasNote: false, noteTxt: '', noteBoxStyle: '', needAck: false, acked: false, ackTxt: '', ackStyle: '', doAck: function () {}, icon: '₺', title: '', sub: '', status: '', statusStyle: '', facts: [], chip: '', chipStyle: '', edit: false, done: false, doneFacts: [], date: '', bank: '', banks: BANKS, onDate: function () {}, onBank: function () {}, doPay: function () {}, payStyle: '' };
+    if (pkRow) {
+      const defBank = BANKS.filter(function (b) { return b.indexOf(pkRow.cur) !== -1; })[0] || BANKS[0];
+      const pDate = pkF.d !== undefined ? pkF.d : pkRow.date; const pBank = pkF.b || defBank;
+      const bk = bankOf(pBank); const cr = cariOf(pkRow.party); const crBank = !!cr && cr[2].indexOf('Banka') === 0; const crOk = !!cr && cr[9] === 'ok' && (cr[4] !== '—' || crBank); const ibanOk = !!pkRow.iban; const useIban = ibanOk && !(crOk && !crBank && ibanN(cr[4]) === ibanN(pkRow.iban)); const tplOk = !!TPL[bk] && (crOk || ibanOk); const aprWait = (pkRow.apr || []).length > 0; const ins = INSTR[pkRow.key] || null; const sg = ins ? (ins.sigs || {}) : {}; const bigAmt = (pkRow.cur === 'TL' ? pkRow.amt : pkRow.amt * (pkRow.cur === 'USD' ? R_USD : R_EUR)) > 500000; const needSig = bigAmt ? ['Elif Şahin|B', 'Levent Aksoy|A'] : ['Levent Aksoy|A']; const sigDone = !!ins && needSig.every(function (k) { return !!sg[k]; });
+      const pinfo = pkRow.paidInfo || (pkRow.paid ? { date: pkRow.date, bank: pkRow.paidBank || '—' } : null);
+      const iv = invOf(pkRow); const isPO = !!pkRow.po && pkRow.po.indexOf('PO-') === 0;
+      const noteTxt = iv.st === 'late' || iv.st === 'unm' ? iv.note : (iv.diff || iv.warn || ''); const needAck = !!(iv.diff || iv.warn) && !pinfo; const acked = !!ACK[pkRow.key];
+      const tOk = !!ins && !!ins.ok; const ok = !!pDate.trim() && tOk && sigDone && (!needAck || acked) && !aprWait;
+      const poMiss = isPO ? [].concat(pinfo ? [] : ['ödeme']).concat(iv.tes ? [] : ['teslim']).concat(iv.st === 'in' ? [] : ['fatura']) : [];
+      const CHP = 'font-size:11.5px;font-weight:700;border-radius:6px;padding:3px 9px;';
+      pk = {
+        title: (pkRow.po ? pkRow.po + ' · ' : '') + pkRow.desc, sub: pkRow.party + ' · ' + pkRow.project + ' · tahmini ' + pkRow.date,
+        status: pinfo ? 'Ödendi' : (ins ? (!tOk ? 'Talimat taslak · onay bekliyor' : (sigDone ? 'İmzalı · ödemeye hazır' : 'Talimat hazır · imza bekliyor')) : 'Planlı'), statusStyle: CHP + 'padding:4px 9px;' + (pinfo ? 'color:#1E6B3E;background:#E7F3EB;' : (ins ? 'color:#9A6B12;background:#FBF1DE;' : 'color:#0E7490;background:#E0F2F7;')), icon: pkRow.cur === 'USD' ? '$' : (pkRow.cur === 'EUR' ? '€' : '₺'),
+        facts: [{ k: 'Zincir', v: iv.z }].concat(pkRow.po ? [{ k: 'Dayanak', v: pkRow.po }] : []).concat([{ k: 'Fatura', v: iv.st === 'in' ? 'Geldi · ' + iv.d + (iv.after ? ' · ödemeden sonra · Balbal ödenmiş PO ile eşleştirdi' : ' · ödemeden önce') : (iv.st === 'late' ? 'Gelmedi · süre aşıldı' : (iv.st === 'wait' ? 'Bekleniyor · gelince Balbal ' + (pkRow.po || 'dayanak') + ' ile eşleştirir' : iv.naT)) }]).concat(isPO ? [{ k: 'PO durumu', v: poMiss.length ? 'Açık · bekleyen: ' + poMiss.join(', ') : 'Kapandı · ödeme, teslim ve fatura eşleşti' }] : []).concat([{ k: 'Tahmini tarih', v: pkRow.date }, { k: 'Tutar', v: fmtCur(pkRow.amt, pkRow.cur) }, { k: 'Tür', v: pkRow.type }, { k: 'Karşı taraf', v: pkRow.party }, { k: 'Masraf yeri', v: pkRow.project }].concat(pkRow.unm || pkRow.elle ? [{ k: 'IBAN', v: pkRow.iban || '—' }].concat(pkRow.att && pkRow.att.length ? [{ k: 'Ekler', v: pkRow.att.map(function (a) { return a.name; }).join(' · ') }] : []).concat(pkRow.autoF ? [{ k: 'Balbal doldurdu', v: pkRow.autoF + (pkRow.okBy ? ' · ' + pkRow.okBy + ' onayladı' : '') }] : []).concat(pkRow.by ? [{ k: 'Talimatı veren', v: pkRow.by }] : []).concat(aprWait ? [{ k: 'Ani ödeme zinciri', v: 'Onay bekliyor · ' + pkRow.apr.join(' → ') + (pkRow.doc ? ' · belge eklendi' : '') }] : []) : []).concat(pkRow.tid ? [{ k: 'Kaynak', v: 'Satın alma talebi ' + pkRow.tid + ' · onaylı' }, { k: 'Banka açıklaması', v: pkRow.po + ' · ' + pkRow.party }] : [])),
+        chip: pinfo ? '✓ Ödeme yapıldı · ' + pinfo.date : (aprWait ? 'Onay bekliyor · ' + pkRow.apr[0] : 'Bekliyor'), chipStyle: CHP + (pinfo ? 'color:#1E6B3E;background:#E7F3EB;' : 'color:#9A6B12;background:#FBF1DE;'),
+        hasInv: iv.st === 'in', invName: iv.no ? iv.no + ' · ' + iv.d : '', invHref: 'Belgeler.dc.html', invMeta: 'Muhasebe · Gelen Evrak',
+        hasNote: !!noteTxt, noteTxt: noteTxt, noteBoxStyle: 'display:flex;align-items:flex-start;gap:10px;border-radius:12px;padding:10px 12px;font-size:12.5px;line-height:1.5;' + (iv.st === 'late' ? 'background:#FBE7E7;color:#7A2424;' : 'background:#FBF1DE;color:#6B4A0C;'),
+        needAck: needAck || (!!(iv.diff || iv.warn) && acked), acked: acked, ackTxt: acked ? '✓ Onaylandı · Gökhan Erdem' : 'Onaylıyorum', ackStyle: "flex-shrink:0;border-radius:9px;padding:6px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:700;" + (acked ? 'background:#E7F3EB;border:1px solid #CDE7D6;color:#1E6B3E;cursor:default;' : 'background:#FFFFFF;border:1px solid #D6B27A;color:#6B4A0C;cursor:pointer;'), doAck: acked || pinfo ? function () {} : function () { const n = Object.assign({}, ACK); n[pkRow.key] = true; self.setState({ ack: n }); },
+        edit: !pinfo, done: !!pinfo, doneFacts: pinfo ? [{ k: 'Ödeme tarihi', v: pinfo.date }, { k: 'Banka hesabı', v: pinfo.bank }].concat(acked ? [{ k: 'Balbal notu', v: (iv.diff ? 'Tutar farkı' : 'Avans teminat mektubu eksik') + ' · Gökhan Erdem onayladı' }] : []).concat(ins ? [{ k: 'Ödeme talimatı', v: ins.doc + ' · imzalı' + (ins.okBy ? ' · Balbal doldurdu, ' + ins.okBy.split(' · ')[0] + ' onayladı' : '') }] : []) : [],
+        date: pDate, bank: pBank, banks: BANKS,
+        tplChip: ins ? (tOk ? 'Talimat hazır · ' : 'Taslak · onay bekliyor · ') + bk : (!cr && !ibanOk ? pkRow.party + ' cari listesinde yok' : (!crOk && !ibanOk ? pkRow.party + ' · IBAN doğrulanmamış' : (TPL[bk] ? bk + ' şablonu hazır · ' + (useIban ? 'elle girilen IBAN' : 'cari eşleşti') : bk + ' şablonu yok · Şirket Bilgileri’nden ekleyin'))), tplChipStyle: PILLM + (ins ? 'color:#1E6B3E;background:#E7F3EB;' : (tplOk ? 'color:#0E7490;background:#E0F2F7;' : 'color:#9A6B12;background:#FBF1DE;')),
+        canFill: !ins, fillLbl: 'Talimat oluştur', fillStyle: "display:inline-flex;align-items:center;gap:10px;border-radius:12px;padding:5px 16px 5px 5px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;border:none;" + (tplOk ? 'background:#0E241D;color:#F6F7F5;cursor:pointer;' : 'background:#E1E7E2;color:#8A968E;cursor:default;'),
+        doFill: tplOk ? function () { const n = Object.assign({}, INSTR); n[pkRow.key] = { doc: 'Odeme_Talimati_' + bk.replace(/ /g, '_') + '_' + (pkRow.po || pkRow.date.replace(/\./g, '')) + '.docx', bank: pBank, sigs: {}, ok: false }; self.setState({ instr: n }); } : function () {},
+        hasDoc: !!ins, docName: ins ? ins.doc : '', docHref: ins ? 'Belgeler.dc.html' : '#', docSrc: ins ? 'kaynak: ödeme listesi, ' + (pkRow.po ? pkRow.po + ', ' : '') + (useIban ? 'elle girilen IBAN ' + pkRow.iban : 'cari ' + (cr ? cr[1] + (crBank ? ' (kredi hesabı · banka tahsil eder)' : ' (' + cr[4] + ')') : '')) + ', Şirket Bilgileri (ödeyen IBAN, imza sirküleri)' : '',
+        sigs: needSig.map(function (k) { const p = k.split('|'); const on = !!sg[k]; return { n: p[0], grp: p[1] + ' grubu', mark: on ? '✓' : '○', style: "border-radius:8px;padding:5px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;" + (!tOk ? 'background:#F0F2F0;border:1px solid #E1E7E2;color:#B7C2BC;cursor:default;' : 'cursor:pointer;' + (on ? 'background:#E7F3EB;border:1px solid #CDE7D6;color:#1E6B3E;' : 'background:#FFFFFF;border:1px solid #D6E4DA;color:#132119;')), toggle: !tOk ? function () {} : function () { const n = Object.assign({}, INSTR); const cur = Object.assign({}, ins); const ss = Object.assign({}, sg); ss[k] = !on; cur.sigs = ss; n[pkRow.key] = cur; self.setState({ instr: n }); } }; }),
+        sigHint: !tOk ? 'Önce talimatı onayla' : sigDone ? 'İmzalar alındı · bankaya iletilebilir' : (bigAmt ? '500.000 TL üstü · A+B çift imza' : 'Tek imza · A grubu'),
+        tOkBox: 'display:flex;align-items:center;gap:10px;border-radius:10px;padding:8px 10px 8px 12px;font-size:12.5px;line-height:1.45;' + (tOk ? 'background:#F6F9F7;color:#5B6B60;border:1px solid #E1E7E2;' : 'background:#FFF8EF;color:#5E430C;border:1px solid #F0B45A;'),
+        tOkTxt: tOk ? 'Balbal’ın doldurduğu talimat onaylandı' + (ins.okBy ? ' · ' + ins.okBy : '') : 'Balbal talimatı doldurdu · karşı taraf, IBAN, tutar, ödeyen hesap ve imza yetkililerini kontrol et',
+        tOkLbl: tOk ? '✓ Onaylandı' : 'Onaylıyorum', tOkStyle: "flex-shrink:0;border-radius:9px;padding:6px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:700;" + (tOk ? 'background:#E7F3EB;border:1px solid #CDE7D6;color:#1E6B3E;cursor:default;' : 'background:#FFFFFF;border:1px solid #D6B27A;color:#6B4A0C;cursor:pointer;'),
+        tOk: tOk, okPressed: tOk ? 'true' : 'false', okLine: 'Balbal tarafından doldurulan talimat bilgilerinin doğruluğunu onaylıyorum', okMark: tOk ? '✓' : '', okRow: "display:flex;align-items:center;gap:10px;width:100%;text-align:left;border-radius:12px;padding:11px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;" + (tOk ? 'background:#F1F8F3;border:1px solid #CDE7D6;color:#1E6B3E;' : 'background:#FFF8EF;border:1px solid #F0B45A;color:#5E430C;'), okBox: 'width:18px;height:18px;border-radius:5px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;' + (tOk ? 'background:#2FA968;color:#0E241D;' : 'background:#FFFFFF;border:1px solid #D6B27A;'),
+        tOkDo: !ins || tOk || pinfo ? function () {} : function () { const n = Object.assign({}, INSTR); n[pkRow.key] = Object.assign({}, ins, { ok: true, okBy: 'Gökhan Erdem · ' + TODAY }); self.setState({ instr: n }); },
+        onDate: function (e) { self.setState({ pkF: Object.assign({}, pkF, { d: e.target.value }) }); }, onBank: function (e) { self.setState({ pkF: Object.assign({}, pkF, { b: e.target.value }) }); },
+        payStyle: "border-radius:12px;padding:12px 20px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;border:none;" + (ok ? 'background:#2FA968;color:#0E241D;cursor:pointer;' : 'background:#F0F2F0;color:#8A968E;cursor:default;'),
+        doPay: ok ? function () { const pr = Object.assign({}, PAIDR); pr[pkRow.key] = { date: pDate.trim(), bank: pBank }; const add = [{ date: pDate.trim(), bank: pBank, desc: (pkRow.po ? pkRow.po + ' · ' : '') + pkRow.party + ' · ' + pkRow.desc, project: pkRow.project, amt: -pkRow.amt, cur: pkRow.cur, match: pkRow.unm ? pkRow.po + ' · eşleşmeyen' : (pkRow.po ? pkRow.po + ' ✓' : 'Ödeme listesi ✓') }].concat((self.state && self.state.bankAdd) || []); const cu = Object.assign({}, (self.state && self.state.cariUpd) || {}); const cid = pkRow.coId || coIdOf(pkRow.project); cu[cid + '|' + pkRow.party] = { coId: cid, party: pkRow.party, iban: pkRow.iban || '', date: pDate.trim(), src: pkRow.po || 'ödeme listesi', amt: pkRow.amt, cur: pkRow.cur }; self.setState({ paidRows: pr, bankAdd: add, cariUpd: cu }); } : function () {}
+      };
+    }
+    // ---- Elle ödeme: Finansal Muhasebe ödeme listesine dayanaksız kayıt girer; Balbal zorlamaz, eşleşmeyen ödeme olarak izler ----
+    const PPL_M = [['Levent Aksoy', 'Genel Müdür'], ['Elif Şahin', 'Mali İşler Müdürü'], ['Kerem Aydın', 'Enerji Grubu Müdürü'], ['Kaan Turhan', 'Proje Finans Müdürü'], ['Ayşe Yılmaz', 'Hukuk Müdürü'], ['Deniz Kaya', 'İdari İşler Sorumlusu'], ['Zeynep Koç', 'İK Uzmanı']];
+    // Balbal'ın okuduğu belge ve mailler (demo): fatura yüklenince alanlar dolar ve belge ödemeye eklenir; mailde banka/şirket bilgisi varsa listelenir
+    const FT_DEMO = { name: 'RTS2026000412.pdf', no: 'RTS2026000412', d: '05.10.2026', co: 'kt', party: 'Rüzgar Teknik Servis', iban: 'TR64 0006 4000 0011 2345 6789 01', amt: '38.400', cur: 'TL', desc: 'Pitch motoru değişimi · T07', vkn: 'VKN 7340056789' };
+    const FT_BANK = { name: 'KD2026000918.pdf', no: 'KD2026000918', d: '29.09.2026', co: 'xyz', party: 'Kırtasiye Dünyası Ltd.', iban: 'TR35 0004 6000 0011 4455 6677 88', amt: '12.450', cur: 'TL', desc: 'Ofis sarf malzemesi (Eylül)', vkn: 'VKN 5120034567' };
+    const MAILS = [{ id: 'm1', from: 'Anadolu Vinç Ltd.', subj: 'Banka bilgilerimiz', d: '06.10.2026 10:14', party: 'Anadolu Vinç Ltd.', iban: 'TR56 0001 5001 5800 7301 2345 67', info: 'IBAN · VKN 0680012345 · Ostim VD' },
+      { id: 'm2', from: 'Enercon Servis Türkiye', subj: 'IBAN değişikliği', d: '03.10.2026 16:02', co: 'bz', party: 'Enercon Servis Türkiye', iban: 'TR11 0001 0000 0000 0000 9999 99', info: 'Yeni IBAN · Boztepe RES’e gönderildi' }];
+    const EO_DEMO = { acil: { co: 'kt', party: FT_DEMO.party, iban: FT_DEMO.iban, amt: FT_DEMO.amt, cur: 'TL', date: '06.10.2026', desc: FT_DEMO.desc, by: 'Kerem Aydın', chain: false, apr: [], acil: true, att: [{ t: 'fatura', name: FT_DEMO.name, no: FT_DEMO.no, d: FT_DEMO.d, info: FT_DEMO.vkn }], auto: { co: FT_DEMO.name, party: FT_DEMO.name, iban: FT_DEMO.name, amt: FT_DEMO.name, cur: FT_DEMO.name, desc: FT_DEMO.name } },
+      yeni: { co: 'xyz', party: '', iban: '', amt: '', cur: 'TL', date: '06.10.2026', desc: '', by: '—', chain: false, apr: [], acil: true, att: [], auto: {}, mailOpen: true },
+      banka: { co: 'xyz', party: '', iban: '', amt: '12.450', cur: 'TL', date: '30.09.2026', desc: '', by: '—', chain: false, apr: [], att: [], auto: {}, from: { key: '30.09.2026 15:42|-12450', date: '30.09.2026', bank: 'Akbank · TL', amt: 12450, cur: 'TL', desc: 'Havale · açıklamasız' } } };
+    const eoSt = (this.state && this.state.eo !== undefined) ? this.state.eo : (this.props.elle ? (EO_DEMO[this.props.elle] || null) : null);
+    const eoNo = 'AÖ-26-' + String(2 + EOR.length).padStart(3, '0');
+    const eoNum = function (v) { const n = parseFloat(String(v || '').replace(/\./g, '').replace(',', '.')); return isNaN(n) ? 0 : n; };
+    let eo = {};
+    if (eoSt) {
+      const E = eoSt; const upd = function (o) { self.setState({ eo: Object.assign({}, E, o) }); };
+      const ECO = COS.filter(function (c) { return c.id === E.co; })[0] || COS[0];
+      const pty = (E.party || '').trim(); const ec = pty ? CARI_ALL.filter(function (c) { return sameCari(c, ECO.id, pty); })[0] : null;
+      const fromB = E.from || null; const amtN = eoNum(E.amt);
+      const ATT = E.att || []; const AUTO = E.auto || {}; const ftA = ATT.filter(function (a) { return a.t === 'fatura'; })[0] || null; const mlA = ATT.filter(function (a) { return a.t === 'mail'; })[0] || null;
+      const FLBL = { co: 'Şirket', party: 'Karşı taraf', iban: 'IBAN', amt: 'Tutar', cur: 'Para birimi', desc: 'Açıklama' };
+      const edit = function (k, o) { const au = Object.assign({}, AUTO); delete au[k]; upd(Object.assign({ auto: au }, o)); };
+      const IS = "box-sizing:border-box;width:100%;border:1px solid #D6E4DA;border-radius:10px;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#132119;background:#FFFFFF;";
+      const fs = {}; ['co', 'party', 'iban', 'amt', 'cur', 'date', 'desc'].forEach(function (k) { fs[k] = IS + (AUTO[k] ? 'border-color:#F0B45A;background:#FFF8EF;' : '') + (k === 'iban' ? 'letter-spacing:0.3px;' : ''); });
+      const ftSrc = fromB ? FT_BANK : FT_DEMO;
+      const autoNotes = ATT.map(function (a) { const ks = Object.keys(FLBL).filter(function (k) { return AUTO[k] === a.name; }); return ks.length ? { t: 'Balbal doldurdu · ' + ks.map(function (k) { return FLBL[k]; }).join(', ') + ' · ' + (a.t === 'mail' ? 'mail: ' : '') + a.name + (a.info ? ' (' + a.info + ')' : '') } : null; }).filter(Boolean)
+        .concat(Object.keys(FLBL).filter(function (k) { return AUTO[k] === 'cari'; }).length ? [{ t: 'Balbal doldurdu · ' + Object.keys(FLBL).filter(function (k) { return AUTO[k] === 'cari'; }).map(function (k) { return FLBL[k]; }).join(', ') + ' · cari listesi' }] : []);
+      const payerOpts = ECO.accts.filter(function (a) { return a[3] === (E.cur || 'TL'); }).map(function (a) { return a[0] + ' · ' + a[3]; }).filter(function (v, i, arr) { return arr.indexOf(v) === i; }); const payerList = payerOpts.length ? payerOpts : BANKS0.filter(function (q) { return q.indexOf(E.cur || 'TL') !== -1; });
+      const payerE = (E.payer && payerList.indexOf(E.payer) !== -1) ? E.payer : (payerList[0] || BANKS0[0]); const payerAuto = !(E.payer && payerList.indexOf(E.payer) !== -1);
+      const needOk = autoNotes.length > 0 || !!E.acil; const isOk = !!E.ok; fs.payer = IS + (payerAuto ? 'border-color:#F0B45A;background:#FFF8EF;' : '');
+      const ftAmtDiff = ftA && fromB && eoNum(ftA.amt) && eoNum(ftA.amt) !== fromB.amt;
+      const notes = (ftA ? [] : [{ t: 'Eşleşmeyen ödeme · dayanak yok' }])
+        .concat(ftAmtDiff ? [{ t: 'Fatura tutarı ' + fmtCur(eoNum(ftA.amt), ftA.cur || 'TL') + ' · banka çıkışı ' + fmtCur(fromB.amt, fromB.cur) + ' · farklı' }] : [])
+        .concat(pty && ec && E.iban && ec[4] !== '—' && ibanN(E.iban) !== ibanN(ec[4]) ? [{ t: 'Kayıtlı IBAN farklı: ' + ec[4] + (AUTO.iban && mlA && AUTO.iban === mlA.name ? ' · mailden geldi, karşı tarafla teyit et' : '') }] : []);
+      const canFill = !!pty && amtN > 0 && !!(E.date || '').trim() && (!E.acil || !!(E.iban || '').trim()); const canSave = canFill && (!needOk || isOk);
+      const aprList = E.apr || []; const aPick = E.aprPick || PPL_M.filter(function (x) { return aprList.indexOf(x[0]) === -1; }).map(function (x) { return x[0]; })[0] || '';
+      eo = {
+        no: eoNo, title: fromB ? 'Elle ödeme · banka hareketinden' : (E.acil ? 'Acil öde' : 'Elle ödeme'), sub: E.acil ? 'Ödeme listesine kayıt + banka talimatı' : (ftA ? 'Ödeme listesine kayıt · fatura ekli' : 'Ödeme listesine dayanaksız kayıt'), saveLbl: E.acil ? '✓ Kaydet ve talimat oluştur' : '✓ Ödeme listesine ekle',
+        co: ECO.id, coOpts: COS.map(function (c) { return { v: c.id, l: c.short }; }), onCo: function (e) { edit('co', E.acil ? { co: e.target.value, ok: false } : { co: e.target.value }); },
+        party: E.party || '', onParty: function (e) { const v = e.target.value; const c2 = v.trim() ? CARI_ALL.filter(function (c) { return sameCari(c, ECO.id, v.trim()); })[0] : null; const au2 = Object.assign({}, AUTO); delete au2.party; const fillI = c2 && !E.iban && c2[4] !== '—'; if (fillI) au2.iban = 'cari'; upd(Object.assign({ party: v, auto: au2 }, fillI ? { iban: c2[4], ok: false } : {})); },
+        iban: E.iban || '', onIban: function (e) { edit('iban', { iban: e.target.value }); },
+        amt: E.amt || '', onAmt: function (e) { edit('amt', { amt: e.target.value }); }, cur: E.cur || 'TL', onCur: function (e) { edit('cur', E.acil ? { cur: e.target.value, ok: false } : { cur: e.target.value }); },
+        dateLbl: (fromB || E.acil) ? 'Ödeme tarihi' : 'Tahmini ödeme tarihi', date: E.date || '', onDate: function (e) { edit('date', { date: e.target.value }); },
+        by: E.by || '—', byOpts: [{ v: '—', l: '—' }].concat(PPL_M.map(function (x) { return { v: x[0], l: x[0] + ' · ' + x[1] }; })), onBy: function (e) { upd({ by: e.target.value }); },
+        desc: E.desc || '', onDesc: function (e) { edit('desc', { desc: e.target.value }); },
+        notes: notes,
+        chain: !!E.chain, onChain: function () { upd({ chain: !E.chain }); }, chainMark: E.chain ? '✓' : '',
+        chainStyle: "display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:12px 16px;border:none;background:" + (E.chain ? '#FFF8EF' : '#FFFFFF') + ";cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:700;color:#132119;",
+        chainBox: 'width:18px;height:18px;border-radius:5px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;' + (E.chain ? 'background:#D97706;color:#132119;' : 'background:#FFFFFF;border:1px solid #D6E4DA;'),
+        aprEmpty: !aprList.length, apr: aprList.map(function (n, i) { const pp = PPL_M.filter(function (x) { return x[0] === n; })[0] || [n, '']; return { num: String(i + 1), n: n, pos: pp[1], delLabel: n + ' onaycılardan çıkar', remove: function () { upd({ apr: aprList.filter(function (x) { return x !== n; }), aprPick: null }); } }; }),
+        aprPeople: PPL_M.map(function (x) { return { v: x[0], l: x[0] + ' · ' + x[1] + (aprList.indexOf(x[0]) !== -1 ? ' (eklendi)' : '') }; }), aprPick: aPick, onAprPick: function (e) { upd({ aprPick: e.target.value }); },
+        addApr: aPick && aprList.indexOf(aPick) === -1 ? function () { upd({ apr: aprList.concat([aPick]), aprPick: null }); } : function () {},
+        addAprStyle: "border-radius:10px;padding:9px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;border:none;white-space:nowrap;" + (aPick && aprList.indexOf(aPick) === -1 ? 'background:#0E241D;color:#F6F7F5;cursor:pointer;' : 'background:#E1E7E2;color:#8A968E;cursor:default;'),
+        fs: fs, needOk: needOk, hasNotes: notes.length > 0, acil: !!E.acil, payer: payerE, payerOpts: payerList, onPayer: function (e) { upd({ payer: e.target.value }); },
+        descLbl: "font-size:11.5px;font-weight:600;color:#5B6B60;display:flex;flex-direction:column;gap:4px;min-width:0;" + (E.acil ? '' : 'grid-column:1 / -1;'),
+        isOk: isOk, okPressed: isOk ? 'true' : 'false', okLine: 'Yukarıda Balbal tarafından doldurulan bilgilerin doğruluğunu onaylıyorum', okMark: isOk ? '✓' : '', okRow: "display:flex;align-items:center;gap:10px;width:100%;text-align:left;border-radius:12px;padding:11px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;" + (isOk ? 'background:#F1F8F3;border:1px solid #CDE7D6;color:#1E6B3E;' : 'background:#FFF8EF;border:1px solid #F0B45A;color:#5E430C;'), okBox: 'width:18px;height:18px;border-radius:5px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;' + (isOk ? 'background:#2FA968;color:#0E241D;' : 'background:#FFFFFF;border:1px solid #D6B27A;'),
+        noteBox: 'display:flex;gap:10px;align-items:flex-start;border-radius:12px;padding:10px 14px;font-size:13px;line-height:1.5;' + (needOk && !isOk ? 'background:#FFF8EF;border:1px solid #F0B45A;color:#5E430C;' : 'background:#FFF8EF;border:1px solid #F0DDB5;color:#5E430C;'),
+        okTxt: isOk ? '✓ Onaylandı' : 'Onaylıyorum', okStyle: "flex-shrink:0;align-self:center;border-radius:9px;padding:6px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:700;" + (isOk ? 'background:#E7F3EB;border:1px solid #CDE7D6;color:#1E6B3E;cursor:default;' : 'background:#FFFFFF;border:1px solid #D6B27A;color:#6B4A0C;cursor:pointer;'),
+        doOk: function () { upd({ ok: !isOk }); },
+        hasHint: needOk && !isOk && canFill, hint: 'Önce Balbal doldurmalarını onayla',
+        docBtnStyle: "border-radius:10px;padding:8px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;border:1px solid #D6E4DA;background:#FFFFFF;color:#132119;white-space:nowrap;" + (ftA ? 'opacity:0.5;cursor:default;' : 'cursor:pointer;'),
+        addDoc: ftA ? function () {} : function () { const F = ftSrc; const au = Object.assign({}, AUTO); const o = { co: F.co, party: F.party, iban: F.iban, desc: F.desc }; if (!fromB) { o.amt = F.amt; o.cur = F.cur; } Object.keys(o).forEach(function (k) { au[k] = F.name; }); upd(Object.assign(o, { auto: au, ok: false, mailOpen: false, att: ATT.concat([{ t: 'fatura', name: F.name, no: F.no, d: F.d, info: F.vkn, amt: F.amt, cur: F.cur }]) })); },
+        mailOpen: !!E.mailOpen, mailToggle: function () { upd({ mailOpen: !E.mailOpen }); }, mailBtnStyle: "border-radius:10px;padding:8px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;border:1px solid #D6E4DA;background:#FFFFFF;color:#132119;cursor:pointer;white-space:nowrap;" + (E.mailOpen ? 'background:#0E241D;color:#F6F7F5;border-color:#0E241D;' : ''),
+        mails: MAILS.filter(function (m) { return !ATT.some(function (a) { return a.id === m.id; }); }).map(function (m) { return { head: m.from + ' · ' + m.subj, info: m.info, d: m.d, pick: function () { const au = Object.assign({}, AUTO); const nm = m.from + ' · ' + m.subj; const o = { party: m.party, iban: m.iban }; if (m.co) o.co = m.co; Object.keys(o).forEach(function (k) { au[k] = nm; }); upd(Object.assign(o, { auto: au, ok: false, mailOpen: false, att: ATT.concat([{ t: 'mail', id: m.id, name: nm, info: m.info.split(' · ').filter(function (q) { return q !== 'IBAN'; }).join(' · ') }]) })); } }; }),
+        mailEmpty: MAILS.every(function (m) { return ATT.some(function (a) { return a.id === m.id; }); }),
+        att: ATT.map(function (a) { return { label: (a.t === 'mail' ? '✉ ' : '📄 ') + a.name, delLabel: a.name + ' ekini kaldır', remove: function () { const au = Object.assign({}, AUTO); Object.keys(au).forEach(function (k) { if (au[k] === a.name) delete au[k]; }); upd({ att: ATT.filter(function (q) { return q !== a; }), auto: au }); } }; }),
+        saveStyle: "border-radius:12px;padding:12px 20px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;border:none;" + (canSave ? 'background:#2FA968;color:#0E241D;cursor:pointer;' : 'background:#F0F2F0;color:#8A968E;cursor:default;'),
+        cancel: function () { self.setState({ eo: null }); },
+        save: canSave ? function () {
+          const rec = { key: eoNo, po: eoNo, date: E.date.trim(), desc: (E.desc || '').trim() || 'Elle ödeme', party: pty, project: ECO.short, coId: ECO.id, type: 'Elle ödeme', amt: amtN, cur: E.cur || 'TL', unm: !ftA, elle: true, okBy: needOk ? 'Gökhan Erdem' : '', autoF: autoNotes.map(function (n) { return n.t.replace('Balbal doldurdu · ', ''); }).join(' · '), inv: ftA ? { no: ftA.no, d: ftA.d } : null, att: ATT, iban: (E.iban || '').trim(), by: E.by && E.by !== '—' ? E.by : '', apr: E.chain ? aprList : [], doc: ATT.length > 0, isNew: true, paidInfo: fromB ? { date: fromB.date, bank: fromB.bank } : null };
+          const patch = { eoRecs: EOR.concat([rec]), eo: null };
+          if (E.acil) { const ab = bankOf(payerE); if (TPLX[ab]) { const ni = Object.assign({}, INSTR0); ni[eoNo] = { doc: 'Odeme_Talimati_' + ab.replace(/ /g, '_') + '_' + eoNo + '.docx', bank: ab, sigs: {}, ok: true, okBy: 'Gökhan Erdem · ' + TODAY }; patch.instr = ni; patch.bulkMsg = eoNo + ' · acil ödeme talimatı hazırlandı'; } else { patch.bulkMsg = eoNo + ' listeye eklendi · ' + ab + ' talimat şablonu yok'; } }
+          if (fromB) { const bl = Object.assign({}, BL); bl[fromB.key] = eoNo; patch.bankLink = bl; const cu = Object.assign({}, CU); cu[ECO.id + '|' + pty] = { coId: ECO.id, party: pty, iban: rec.iban, date: fromB.date, src: eoNo, amt: amtN, cur: rec.cur }; patch.cariUpd = cu; }
+          self.setState(patch); } : function () {}
+      };
+    }
+    // ---- Seçilileri öde: Balbal talimatları doldurur; kullanıcı onaylamadan talimat oluşmaz ----
+    const bkSt = (this.state && this.state.bk !== undefined) ? this.state.bk : (this.props.talimat === 'onay' ? { ok: false } : null);
+    let bk = {};
+    if (bkSt) {
+      const payerOf = function (x) { const co = COS.filter(function (c) { return c.id === (x.coId || coIdOf(x.project)); })[0]; const ac = co ? co.accts.filter(function (a) { return a[3] === x.cur; })[0] : null; return ac ? ac[0] + ' · ' + x.cur : (BANKS0.filter(function (q) { return q.indexOf(x.cur) !== -1; })[0] || BANKS0[0]); };
+      const bOk = !!bkSt.ok;
+      bk = {
+        title: 'Seçilileri öde · ' + bulkN + ' talimat', sub: 'Ödeme talimatı · Balbal doldurdu',
+        rows: bulkRows.map(function (x) { const c = cariOf(x.party); const kr = !!c && c[2].indexOf('Banka') === 0; return { po: x.po || '—', party: x.party, iban: x.iban ? x.iban : (kr ? 'Kredi hesabı · banka tahsil eder' : (c ? c[4] : '—')), ibanSrc: x.iban ? 'elle girilen' : (kr ? 'kredi sözleşmesi' : 'cari listesi'), payer: payerOf(x), payerCo: x.project, amt: fmtCur(x.amt, x.cur) }; }),
+        skipShow: bulkSkip > 0, skip: bulkAll.filter(function (x) { return bulkRows.indexOf(x) === -1; }).map(function (x) { return { t: (x.po ? x.po + ' · ' : '') + x.party + ' · ' + (INSTR0[x.key] ? 'talimat zaten var' : 'cari / IBAN doğrulanmadı') }; }),
+        note: 'Balbal doldurdu · karşı taraf IBAN’ı (cari listesi ya da elle girilen), ödeyen hesap ve imza yetkilileri (Şirket Bilgileri), tutar (ödeme listesi).',
+        okTxt: bOk ? '✓ Onaylandı · Gökhan Erdem' : 'Onaylıyorum', okStyle: "flex-shrink:0;border-radius:9px;padding:6px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:700;" + (bOk ? 'background:#E7F3EB;border:1px solid #CDE7D6;color:#1E6B3E;cursor:default;' : 'background:#FFFFFF;border:1px solid #D6B27A;color:#6B4A0C;cursor:pointer;'),
+        noteBox: 'display:flex;gap:10px;align-items:center;border-radius:12px;padding:10px 14px;font-size:13px;line-height:1.5;' + (bOk ? 'background:#F6F9F7;border:1px solid #E1E7E2;color:#5B6B60;' : 'background:#FFF8EF;border:1px solid #F0B45A;color:#5E430C;'),
+        doOk: function () { self.setState({ bk: { ok: !bOk } }); }, isOk: bOk, okPressed: bOk ? 'true' : 'false', okLine: 'Yukarıda Balbal tarafından doldurulan bilgilerin doğruluğunu onaylıyorum', okMark: bOk ? '✓' : '', okRow: "display:flex;align-items:center;gap:10px;width:100%;text-align:left;border-radius:12px;padding:11px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;" + (bOk ? 'background:#F1F8F3;border:1px solid #CDE7D6;color:#1E6B3E;' : 'background:#FFF8EF;border:1px solid #F0B45A;color:#5E430C;'), okBox: 'width:18px;height:18px;border-radius:5px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;' + (bOk ? 'background:#2FA968;color:#0E241D;' : 'background:#FFFFFF;border:1px solid #D6B27A;'),
+        hint: bOk ? '' : 'Önce Balbal doldurmalarını onayla', hasHint: !bOk && bulkN > 0,
+        saveLbl: '✓ ' + bulkN + ' talimat oluştur', saveStyle: "border-radius:12px;padding:12px 20px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;border:none;" + (bOk && bulkN ? 'background:#2FA968;color:#0E241D;cursor:pointer;' : 'background:#F0F2F0;color:#8A968E;cursor:default;'),
+        save: bOk && bulkN ? function () { const n = Object.assign({}, INSTR0); bulkRows.forEach(function (x) { const b = bankOf(payerOf(x)); n[x.key] = { doc: 'Odeme_Talimati_' + b.replace(/ /g, '_') + '_' + (x.po || x.date.replace(/\./g, '')) + '.docx', bank: b, sigs: {}, ok: true, okBy: 'Gökhan Erdem · ' + TODAY }; }); self.setState({ instr: n, sel: {}, bk: null, bulkMsg: bulkN + ' talimat hazırlandı' + (bulkSkip ? ' · ' + bulkSkip + ' ödeme atlandı' : '') }); } : function () {},
+        cancel: function () { self.setState({ bk: null }); }
+      };
+    }
+    const unmN = PLAN.filter(function (x) { return x.unm; }).length;
+    const pkWrap = pkFull ? 'position:absolute;top:72px;left:0;right:0;bottom:0;z-index:55;background:#EEF6F0;display:flex;padding:20px 40px;box-sizing:border-box;' : 'position:absolute;top:0;left:0;right:0;bottom:0;z-index:55;background:rgba(14,36,29,0.45);overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:24px;box-sizing:border-box;';
+    const pkBox = (pkFull ? 'flex:1;min-width:0;width:100%;border-radius:14px;' : 'width:760px;max-width:100%;flex-shrink:0;border-radius:18px;') + 'background:#F6F9F7;box-shadow:0 24px 60px rgba(14,36,29,0.35);display:flex;flex-direction:column;overflow:hidden;';
+    const pkBody = (pkFull ? 'flex:1;min-height:0;overflow-y:auto;' : '') + 'padding:18px 22px;display:grid;grid-template-columns:minmax(0,1fr);align-content:start;gap:16px;';
+    // ---- Projelerin bugünkü nakdi (her proje ayrı) · TCMB son bülten döviz alış (Döviz Kurları bileşeniyle aynı veri) ----
+    const CASH = [
+      { name: 'Karatepe RES', tl: 18450000, usd: 1240000, eur: 0 },
+      { name: 'Boztepe RES', tl: 12870000, usd: 860000, eur: 214000 },
+      { name: 'Yeşilova RES', tl: 6320000, usd: 2115000, eur: 0 },
+      { name: 'Güneşalan GES', tl: 4980000, usd: 0, eur: 0 },
+      { name: 'Kızılova RES', tl: 9740000, usd: 3600000, eur: 1250000 },
+      { name: 'Genel Merkez', tl: 7215000, usd: 95000, eur: 40000 }
+    ];
+    const mn = function (n) { return (n / 1e6).toLocaleString('tr-TR', { maximumFractionDigits: 2 }) + ' mn'; };
+    const ACCT_BAL = { 'Karatepe RES': [['Akbank', 'Proje hesabı (tahsilat)', 'TR21 0004 6000 0000 0000 5566 77', 'TL', 14120000, 'Kredi sözleşmesi · banka onayı'], ['Akbank', 'İşletme hesabı', 'TR77 0004 6000 0000 0000 5566 88', 'TL', 4330000, '—'], ['Garanti BBVA', 'DSRA', 'TR09 0006 2000 0000 0000 3344 55', 'USD', 1240000, 'Bloke · borç servisi']],
+      'Boztepe RES': [['Garanti BBVA', 'Proje hesabı (tahsilat)', 'TR18 0006 2000 0000 0000 9900 11', 'TL', 12870000, 'Kredi sözleşmesi · banka onayı'], ['Garanti BBVA', 'DSRA', 'TR90 0006 2000 0000 0000 9900 22', 'USD', 860000, 'Bloke · borç servisi'], ['Garanti BBVA', 'Yüklenici ödeme hesabı', 'TR02 0006 2000 0000 0000 9900 33', 'EUR', 214000, '—']],
+      'Yeşilova RES': [['Commerzbank', 'Proje hesabı · kredi', 'DE89 3704 0044 0532 0130 00', 'USD', 1480000, 'Annex E yetkisi'], ['Commerzbank', 'DSRA', 'DE12 3704 0044 0532 0130 11', 'USD', 635000, 'Bloke'], ['Akbank', 'İşletme hesabı', 'TR35 0004 6000 0000 0000 2211 44', 'TL', 6320000, '—']],
+      'Güneşalan GES': [['İş Bankası', 'Proje hesabı (tahsilat)', 'TR60 0006 4000 0010 0000 6677 88', 'TL', 3910000, '—'], ['İş Bankası', 'İşletme hesabı', 'TR82 0006 4000 0010 0000 6677 99', 'TL', 1070000, '—']],
+      'Kızılova RES': [['Garanti BBVA', 'Yatırım hesabı · EPC', 'TR48 0006 2000 0000 0000 1122 33', 'USD', 3600000, 'Kredi kullanımı · teknik danışman onayı'], ['Garanti BBVA', 'Yatırım hesabı · EPC (EUR)', 'TR48 0006 2000 0000 0000 1122 55', 'EUR', 1250000, 'Kredi kullanımı'], ['Garanti BBVA', 'İşletme hesabı', 'TR70 0006 2000 0000 0000 1122 44', 'TL', 9740000, '—']],
+      'Genel Merkez': [['Akbank', 'Serbest hesap', 'TR12 0004 6000 0000 0000 1234 56', 'TL', 2905000, '—'], ['Garanti BBVA', 'Serbest hesap', 'TR33 0006 2000 0000 0000 7788 99', 'TL', 1660000, '—'], ['İş Bankası', 'Bordro / vergi', 'TR55 0006 4000 0010 0000 4455 66', 'TL', 2650000, '—'], ['Garanti BBVA', 'Serbest hesap', 'TR44 0006 2000 0000 0000 7789 00', 'USD', 95000, '—'], ['Garanti BBVA', 'Serbest hesap', 'TR66 0006 2000 0000 0000 7789 11', 'EUR', 40000, '—']] };
+    const cashOpen = (this.state && this.state.cashOpen) || {};
+    const cashRows = CASH.map(function (c) { const totTl = c.tl + c.usd * R_USD + c.eur * R_EUR; const mix = ['TL ' + mn(c.tl)].concat(c.usd ? ['USD ' + mn(c.usd)] : []).concat(c.eur ? ['EUR ' + mn(c.eur)] : []).join(' · '); const on = !!cashOpen[c.name];
+      return { name: c.name, mix: mix, tl: fmtCur(totTl, 'TL'), usd: fmtCur(totTl / R_USD, 'USD'), eur: fmtCur(totTl / R_EUR, 'EUR'), open: on,
+        toggle: function () { const n = Object.assign({}, cashOpen); if (n[c.name]) delete n[c.name]; else n[c.name] = true; self.setState({ cashOpen: n }); },
+        caret: 'display:inline-block;width:14px;flex-shrink:0;color:#8A968E;font-size:12px;transition:transform .15s;' + (on ? 'transform:rotate(90deg);' : ''),
+        rowStyle: "display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;column-gap:12px;align-items:center;width:100%;text-align:left;padding:10px 0;border:none;border-bottom:1px solid #F0F2F0;background:transparent;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;color:#132119;",
+        accts: (ACCT_BAL[c.name] || []).map(function (a) { return { bank: a[0], type: a[1], iban: a[2], amt: fmtCur(a[4], a[3]), lim: a[5] }; }) }; });
+    const pageBaseBtn = "font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:20px;padding:10px 20px;cursor:pointer;";
+    const pageActiveBtn = pageBaseBtn + 'background:#0E241D;color:#F6F7F5;';
+    const pageInactiveBtn = pageBaseBtn + 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;';
+
+
+    // ---- Gadget düzeni (alan bazlı: genel + pozisyon) ----
+    const gzLayoutState = (this.state && this.state.gzLayout) || {};
+    const gzDragSt = this.state && this.state.gzDrag;
+    const gzD = this._drag;
+    const gzNoAnim = !!(this.state && this.state.gzNoAnim);
+    const gzEase = 'transition:transform 240ms cubic-bezier(.2,.8,.2,1);';
+    const gzAreaDefs = this.gzAreas();
+    const gzItemStyle = function (area, zone, lists, ci, ii, id, gapPx) {
+      const base = 'position:relative;min-width:0;';
+      if (gzDragSt && gzD && gzD.area === area && gzD.zone === zone) {
+        if (id === gzD.id) {
+          return base + 'z-index:40;transform:translate(' + gzDragSt.dx + 'px,' + gzDragSt.dy + 'px) scale(1.015);box-shadow:0 18px 40px rgba(14,36,29,0.18);border-radius:14px;opacity:0.97;transition:box-shadow 160ms ease;';
+        }
+        const others = lists[ci].filter(function (x) { return x !== gzD.id; });
+        let shift = 0;
+        if (ci === gzD.fromCol && ii > gzD.fromIdx) shift -= gzD.h;
+        if (ci === gzDragSt.col && others.indexOf(id) >= gzDragSt.idx) shift += gzD.h;
+        return base + 'transform:translateY(' + shift + 'px);' + gzEase;
+      }
+      return base + (gzNoAnim ? 'transition:none;' : gzEase);
+    };
+    const gzGrab = function (area, zone, id) { return function (e) { self.gzStart(area, zone, id, e); }; };
+    const gzBuildTop = function (area, idFlags, colWidths) {
+      const layout = gzLayoutState[area] || gzAreaDefs[area];
+      const dragging = gzDragSt && gzD && gzD.area === area && gzD.zone === 'top';
+      return layout.top.map(function (ids, ci) {
+        const target = dragging && gzDragSt.col === ci;
+        return {
+          style: 'flex:' + (colWidths ? colWidths[ci] : '1') + ';min-width:0;display:flex;flex-direction:column;gap:16px;min-height:100px;border-radius:16px;transition:outline-color 200ms ease;' + (dragging ? 'outline:2px dashed ' + (target ? accent : '#D5DDD8') + ';outline-offset:8px;' : 'outline:2px dashed transparent;outline-offset:8px;'),
+          isEmpty: ids.length === 0,
+          items: ids.map(function (id, ii) {
+            const item = { id: id, style: gzItemStyle(area, 'top', layout.top, ci, ii, id, 16), onGrab: gzGrab(area, 'top', id) };
+            if (idFlags[id]) item[idFlags[id]] = true;
+            return item;
+          })
+        };
+      });
+    };
+    const gzBuildFull = function (area, idFlags) {
+      const layout = gzLayoutState[area] || gzAreaDefs[area];
+      return (layout.full || []).map(function (id, ii) {
+        const item = { id: id, style: gzItemStyle(area, 'full', [layout.full], 0, ii, id, 24), onGrab: gzGrab(area, 'full', id) };
+        if (idFlags[id]) item[idFlags[id]] = true;
+        return item;
+      });
+    };
+    const gzGenelTop = gzBuildTop('genel', { durusma: 'isDurusma', mevzuat: 'isMevzuat', bakanlik: 'isBakanlik' }, ['1.3', '1']);
+    const gzPozTop = gzBuildTop('pozisyon', { gorevler: 'isGorevler', mailler: 'isMailler', talepler: 'isTalepler', davalar: 'isDavalar' }, ['1', '1']);
+
+    const chatOpen = !!(this.state && this.state.chatOpen);
+    const teamChatOpen = !!(this.state && this.state.teamChatOpen);
+    const anyModalClosed = !chatOpen && !teamChatOpen;
+    const aiAdded = !!(this.state && this.state.aiAdded);
+    const teamNamesLabel = 'Ayşe Yılmaz, Kaan Turhan' + (aiAdded ? ', Balbal' : '');
+
+
+    // Üst bar panelleri + ortak sohbet bileşenleri
+    const shellSt = this.state || {};
+    const searchQ = shellSt.searchQ || '';
+    const searchOpen = !!shellSt.searchOpen;
+    const notifOpen = !!shellSt.notifOpen;
+    const userMenuOpen = !!shellSt.userMenuOpen;
+    const chatAsk = shellSt.chatAsk || '';
+
+    const chatWin = this.winBuild('chatWin', 'Balbal');
+    const teamWin = this.winBuild('teamWin', 'Ekip sohbeti');
+    const sidePad = ((chatOpen && !chatWin.isFloat) || (teamChatOpen && !teamWin.isFloat)) ? 520 : 0;
+    const chatFull = !!(this.state && this.state.chatFull);
+    const pageIsBalbal = chatFull && pageTab === 'balbal';
+    const prevTab = (this.state && this.state.prevTab) || 'genel';
+    const TABB = "font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:20px;padding:8px 18px 8px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;";
+    const balbalVals = {
+      chatWin: chatWin, teamWin: teamWin,
+      balbalTab: chatFull,
+      pageIsBalbal: pageIsBalbal,
+      balbalTabStyle: TABB + (pageIsBalbal ? 'background:#D97706;color:#132119;' : 'background:#FFF4E5;color:#9A4E0A;border:1px solid #F5C892;'),
+      onSelectBalbalTab: function () { self.setState({ pageTab: 'balbal' }); },
+      onBalbalFull: function () { const cur = pageTab; self.setState({ chatFull: true, chatOpen: false, pageTab: 'balbal', prevTab: cur === 'balbal' ? prevTab : cur, notifOpen: false, userMenuOpen: false, searchOpen: false }); },
+      onBalbalToWindow: function () { self.setState({ chatFull: false, chatOpen: true, pageTab: prevTab, chatWin: Object.assign({}, (self.state && self.state.chatWin) || {}, { mode: 'float' }) }); },
+      onBalbalCloseFull: function () { self.setState({ chatFull: false, chatAsk: '', pageTab: prevTab }); },
+      fullW: 1360, fullH: 740,
+      bodyStyle: 'flex: 1; display: flex; flex-direction: column; gap: 24px; padding: 28px ' + (sidePad + 40) + 'px 28px 40px; box-sizing: border-box; min-height: 0; overflow-y: auto; overflow-x: hidden;  transition: padding 220ms ease;',
+      onNotifOpenBalbal: function (q) { self.setState({ notifOpen: false, chatOpen: true, chatFull: false, chatAsk: q || '' }); }
+    };
+    return Object.assign(balbalVals, {
+      pendList: pendList, allRows: allRows, pendLabel: pendList.length + ' Bekliyor', nextList: nextList, nextLabel: nextAll.length + ' Planlı', cashRows: cashRows, cashCaption: '06.10.2026 · TCMB 23.09.2026 döviz alış',
+      selAll: function () { const all = {}; const any = Object.keys(SEL).length > 0; if (!any) nextAll.forEach(function (x) { all[x.key] = true; }); self.setState({ sel: all, bulkMsg: '' }); }, selAllBox: boxSel(Object.keys(SEL).length > 0 && Object.keys(SEL).length >= nextAll.length, false), selAllMark: Object.keys(SEL).length ? (Object.keys(SEL).length >= nextAll.length ? '✓' : '–') : '',
+      bulkLbl: 'Talimat oluştur' + (selRows.length ? ' · ' + selRows.length + ' seçili' : ''), bulkStyle: "display:inline-flex;align-items:center;gap:10px;border-radius:12px;padding:5px 16px 5px 5px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;border:none;" + 'background:#0E241D;color:#F6F7F5;cursor:pointer;', bulkFill: bulkN ? function () { const n = Object.assign({}, INSTR); bulkRows.forEach(function (x) { const b = bankOf(BANKS.filter(function (q) { return q.indexOf(x.cur) !== -1; })[0] || BANKS[0]); n[x.key] = { doc: 'Odeme_Talimati_' + b.replace(/ /g, '_') + '_' + (x.po || x.date.replace(/\./g, '')) + '.docx', bank: b, sigs: {} }; }); self.setState({ instr: n, sel: {}, bulkMsg: bulkN + ' talimat hazırlandı' + (bulkSkip ? ' · ' + bulkSkip + ' ödeme atlandı (cari eşleşmedi ya da zaten hazır)' : '') }); } : function () {}, bulkMsg: !!(this.state && this.state.bulkMsg),
+      tmOpen: (this.state && this.state.tm !== undefined) ? !!this.state.tm : this.props.talimat === 'menu', tmToggle: function () { const cur = (self.state && self.state.tm !== undefined) ? !!self.state.tm : self.props.talimat === 'menu'; self.setState({ tm: !cur }); },
+      tmSelSub: bulkN ? bulkN + ' ödeme seçili' + (bulkSkip ? ' · ' + bulkSkip + ' atlanır' : '') : (selRows.length ? 'Seçilenlerin talimatı hazır ya da cari eşleşmedi' : 'Listeden ödeme seç'),
+      tmSelStyle: "display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;border:none;border-radius:10px;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;background:#FFFFFF;" + (bulkN ? 'color:#132119;cursor:pointer;' : 'color:#8A968E;cursor:default;'),
+      tmSel: bulkN ? function () { self.setState({ tm: false, bk: { ok: false } }); } : function () {},
+      tmSelOld: bulkN ? function () { self.setState({ tm: false }); const n = Object.assign({}, INSTR); bulkRows.forEach(function (x) { const b = bankOf(BANKS.filter(function (q) { return q.indexOf(x.cur) !== -1; })[0] || BANKS[0]); n[x.key] = { doc: 'Odeme_Talimati_' + b.replace(/ /g, '_') + '_' + (x.po || x.date.replace(/\./g, '')) + '.docx', bank: b, sigs: {} }; }); self.setState({ instr: n, sel: {}, bulkMsg: bulkN + ' talimat hazırlandı' + (bulkSkip ? ' · ' + bulkSkip + ' ödeme atlandı (cari eşleşmedi ya da zaten hazır)' : '') }); } : function () {},
+      tmAcil: function () { self.setState({ tm: false, eo: { co: 'xyz', party: '', iban: '', amt: '', cur: 'TL', date: TODAY, desc: '', by: '—', chain: false, apr: [], att: [], auto: {}, acil: true } }); }, bulkTxt: (this.state && this.state.bulkMsg) || '',
+      pageIsSirket: pageTab === 'sirket', pageSirketBtnStyle: pageTab === 'sirket' ? pageActiveBtn : pageInactiveBtn, onSelectPageSirket: function () { self.setState({ pageTab: 'sirket' }); },
+      cariRows: cariRows, cariNote: cariOpen + ' açık cari · Muhasebe’den · salt okunur', cariSync: 'Muhasebe (muavin 320 · 329 · 300) · son eşitleme ' + TODAY + ' 09:15',
+      coTabs: coTabs, co: co, tplRows: tplRows, tplForm: tplForm, tplBank: tplBank, tplBankOpts: TPL_BANKS, onTplBank: function (e) { self.setState({ tplBank: e.target.value }); }, tplFile: tplFile, onTplFile: function (e) { self.setState({ tplFile: e.target.value }); }, tplAddOpen: function () { self.setState({ tplForm: true }); }, tplAddClose: function () { self.setState({ tplForm: false, tplFile: '' }); },
+      tplSaveStyle: "border-radius:10px;padding:9px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;border:none;" + (tplSaveOk ? 'background:#2FA968;color:#0E241D;cursor:pointer;' : 'background:#E1E7E2;color:#8A968E;cursor:default;'), tplSave: tplSaveOk ? function () { const n = Object.assign({}, (self.state && self.state.tpl) || {}); n[tplBank] = { file: tplFile.trim(), by: 'Gökhan Erdem · ' + TODAY, fields: 'Balbal alanları eşledi' }; self.setState({ tpl: n, tplForm: false, tplFile: '' }); } : function () {},
+      planRows: planRows, bankRows: bankRows, planCount: planRows.length, bankCount: bankRows.length, bankSync: 'Banka API · son eşitleme 06.10.2026 09:15',
+      pageIsListe: pageTab === 'liste', pageListeBtnStyle: pageTab === 'liste' ? pageActiveBtn : pageInactiveBtn, onSelectPageListe: function () { self.setState({ pageTab: 'liste' }); },
+      lvIsPlan: ((this.state && this.state.lv) || this.props.lv || 'plan') === 'plan', lvIsBank: ((this.state && this.state.lv) || this.props.lv) === 'bank',
+      eoOpen: !!eoSt, eo: eo, bkOpen: !!bkSt, bk: bk, eoNew: function () { self.setState({ eo: { co: 'xyz', party: '', iban: '', amt: '', cur: 'TL', date: '', desc: '', by: '—', chain: false, apr: [], doc: false } }); },
+      unmShow: unmN + nlCount > 0, unmTxt: 'Eşleşmeyen ödeme · ' + unmN + (nlCount ? ' · listede olmayan banka çıkışı · ' + nlCount : ''), unmStyle: PILLM + 'color:#9A6B12;background:#FBF1DE;', nlShow: nlCount > 0, nlTxt: nlCount + ' çıkış ödeme listesinde yok',
+      lvPlan: function () { self.setState({ lv: 'plan' }); }, lvBank: function () { self.setState({ lv: 'bank' }); },
+      lvPlanStyle: "display:inline-flex;align-items:center;border:none;border-radius:9px;padding:6px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;" + (((this.state && this.state.lv) || 'plan') === 'plan' ? 'background:#0E241D;color:#F6F7F5;' : 'background:transparent;color:#5B6B60;'),
+      lvBankStyle: "display:inline-flex;align-items:center;border:none;border-radius:9px;padding:6px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;" + ((this.state && this.state.lv) === 'bank' ? 'background:#0E241D;color:#F6F7F5;' : 'background:transparent;color:#5B6B60;'),
+      pkOpen: !!pkRow, pk: pk, pkWrap: pkWrap, pkBox: pkBox, pkBody: pkBody, pkFullLabel: pkFull ? 'Pencereye küçült' : 'Sekmede tam ekran aç',
+      pkFullBtn: function () { self.setState({ pkFull: !pkFull }); }, pkClose: function () { self.setState({ pk: null, pkFull: false }); },
+      pkBackdrop: function (e) { if (!pkFull && e && e.target === e.currentTarget) self.setState({ pk: null }); }, pkStop: function (e) { if (e && e.stopPropagation) e.stopPropagation(); },
+      onayListe: (onayId && LISTED[onayId]) ? LISTED[onayId].date : '', onayOdendi: (onayId && PAIDR0[onayId]) ? PAIDR0[onayId].date + ' · ' + PAIDR0[onayId].bank : '',
+      onPay: function (x) { const l = Object.assign({}, (self.state && self.state.listed) || {}); l[x.id] = Object.assign({}, l[x.id] || {}, x); self.setState({ listed: l }); },
+      pageIsOdeme: pageTab === 'odeme', pageOdemeBtnStyle: pageTab === 'odeme' ? pageActiveBtn : pageInactiveBtn, onSelectPageOdeme: function () { self.setState({ pageTab: 'odeme' }); },
+      onayId: onayId, onayMounted: !!onayId, onayIsFull: onayFull, onayTab: onayFull, onayWrap: onayWrap, onayW: 1360, onayH: 980 - 72 - 28 - 44 - 24 - 28,
+      onayBackdrop: function (e) { if (!onayFull && e && e.target === e.currentTarget) self.setState({ onayId: null }); },
+      onayClose: function () { self.setState({ onayId: null, onayFull: false, pageTab: pageTab === 'onay' ? 'genel' : pageTab }); },
+      onayGoFull: function () { self.setState({ onayFull: true, pageTab: 'onay', onayPrev: pageTab }); },
+      onayToWindow: function () { self.setState({ onayFull: false, pageTab: (self.state && self.state.onayPrev) || 'genel' }); },
+      onSelectOnayTab: function () { self.setState({ pageTab: 'onay' }); },
+      onayCloseTab: function () { self.setState({ onayId: null, onayFull: false, pageTab: pageTab === 'onay' ? ((self.state && self.state.onayPrev) || 'genel') : pageTab }); },
+      onayTabWrap: 'display:inline-flex;align-items:center;border-radius:10px;' + (pageTab === 'onay' ? 'background:#F7C78E;border:1px solid #F7C78E;' : 'background:#FFF8EF;border:1px solid #F5D3A8;'),
+      onayTabStyle: "display:inline-flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;padding:8px 6px 8px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:600;" + (pageTab === 'onay' ? 'color:#5E3A06;' : 'color:#9A6B12;'),
+      chatAsk: chatAsk,
+      searchQ: searchQ,
+      searchOpen: searchOpen,
+      notifOpen: notifOpen,
+      userMenuOpen: userMenuOpen,
+      onSearchInput: function (e) { self.setState({ searchQ: e.target.value, searchOpen: true, notifOpen: false, userMenuOpen: false }); },
+      onSearchFocus: function () { self.setState({ searchOpen: true, notifOpen: false, userMenuOpen: false }); },
+      onCloseSearch: function () { self.setState({ searchOpen: false }); },
+      onAskFromSearch: function (q) { self.setState({ searchOpen: false, chatOpen: true, chatAsk: q }); },
+      onToggleNotif: function () { self.setState({ notifOpen: !notifOpen, userMenuOpen: false, searchOpen: false }); },
+      onCloseNotif: function () { self.setState({ notifOpen: false }); },
+      onNotifOpenTeam: function () { self.setState({ notifOpen: false, teamChatOpen: true }); },
+      onToggleUserMenu: function () { self.setState({ userMenuOpen: !userMenuOpen, notifOpen: false, searchOpen: false }); },
+      onCloseUserMenu: function () { self.setState({ userMenuOpen: false }); },
+      onOpenChat: function () { self.setState({ chatOpen: true, chatAsk: '', notifOpen: false, userMenuOpen: false, searchOpen: false }); },
+      onCloseChat: function () { self.setState({ chatOpen: false, chatAsk: '' }); },
+      onOpenTeamChat: function () { self.setState({ teamChatOpen: true, notifOpen: false, userMenuOpen: false, searchOpen: false }); },
+      onCloseTeamChat: function () { self.setState({ teamChatOpen: false }); },
+      accent: accent,
+      pageIsGenel: pageTab === 'genel',
+      pageIsPozisyon: pageTab === 'pozisyon',
+      pageGenelBtnStyle: pageTab === 'genel' ? pageActiveBtn : pageInactiveBtn,
+      pagePozisyonBtnStyle: pageTab === 'pozisyon' ? pageActiveBtn : pageInactiveBtn,
+      onSelectPageGenel: function () { self.setState({ pageTab: 'genel' }); },
+      onSelectPagePozisyon: function () { self.setState({ pageTab: 'pozisyon' }); },
+      gzGenelTop: gzGenelTop,
+      gzPozTop: gzPozTop,
+      chatOpen: chatOpen,
+      teamChatOpen: teamChatOpen,
+      anyModalClosed: anyModalClosed,
+      aiAdded: aiAdded,
+      aiAddable: !aiAdded,
+      teamNamesLabel: teamNamesLabel,
+      onAddAi: function () { self.setState({ aiAdded: true }); }
+    });
+  }
+}
+</script>
+</body>
+</html>

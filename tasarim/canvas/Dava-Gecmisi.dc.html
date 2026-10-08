@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Dava Geçmişi</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+
+<div style="width:1440px;height:1020px;box-sizing:border-box;display:flex;flex-direction:column;background:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;color:#132119;overflow:hidden;">
+
+  <!-- Top bar -->
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="Ana-Sayfa-Hukuk.dc.html" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#C9D3CC;">
+        <span aria-hidden="true">←</span> Ana Sayfaya Dön
+      </a>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;">Karatepe RES — Kamulaştırma Davası</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#2FA968;display:inline-block;"></span>
+      <div style="font-size:13px;font-weight:600;">Hukuk Departmanı</div>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div style="flex:1;display:flex;justify-content:center;padding:32px 40px;box-sizing:border-box;min-height:0;overflow:hidden;">
+    <div style="width:780px;display:flex;flex-direction:column;gap:20px;overflow:hidden;">
+
+      <!-- Case header -->
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:20px 24px;">
+        <div style="font-size:11px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Ankara 4. İdare Mahkemesi · Esas No: 2025/412</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;margin-top:6px;">Kamulaştırma Bedeli İtirazı Davası</div>
+        <div style="font-size:12.5px;color:#5B6B60;margin-top:4px;">Davacı: XYZ Enerji A.Ş. · Davalı: Enerji ve Tabii Kaynaklar Bakanlığı</div>
+      </div>
+
+      <!-- Compiled-from-filings notice -->
+      <div style="background:#F0FAF3;border:1px solid #BFE3CC;border-radius:12px;padding:14px 18px;display:flex;gap:12px;align-items:flex-start;">
+        <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:22px;height:22px;border-radius:50%;object-fit:contain;flex-shrink:0;">
+        <div style="font-size:12.5px;line-height:1.6;color:#14401F;">
+          Bu kronoloji, dava dosyasındaki dilekçe, tutanak ve bilirkişi raporlarından derlenmiştir. Balbal yalnızca belgelerde yazılanları tarih sırasına koyar, yorum veya tahmin eklemez.
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:24px 28px;flex:1;overflow-y:auto;">
+        <div style="font-size:13px;font-weight:600;color:#132119;margin-bottom:16px;">Dava Süreci — Kronolojik Özet</div>
+        <div style="display:flex;flex-direction:column;">
+          <sc-for list="{{events}}" as="ev" hint-placeholder-count="6">
+            <div style="display:flex;gap:16px;">
+              <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:14px;">
+                <div style="width:10px;height:10px;border-radius:50%;background:{{ev.dotColor}};margin-top:4px;"></div>
+                <div style="flex:1;width:2px;background:#E9EDEA;"></div>
+              </div>
+              <div style="padding-bottom:22px;">
+                <div style="font-size:11.5px;font-weight:600;color:#8A968E;">{{ev.date}}</div>
+                <div style="font-size:14px;font-weight:600;margin-top:2px;">{{ev.title}}</div>
+                <div style="font-size:13px;color:#2A3A31;margin-top:4px;line-height:1.5;">{{ev.detail}}</div>
+                <sc-if value="{{ev.doc}}" hint-placeholder-val="{{true}}">
+                  <div style="display:flex;align-items:center;gap:10px;margin-top:6px;font-size:12.5px;"><span style="color:#8A968E;">Kaynak:</span><a href="Sozlesme-Onizleme.dc.html" style="color:#1E6B3E;font-weight:600;text-decoration:underline;">{{ev.doc}}</a><a href="Sozlesme-Onizleme.dc.html" style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#1E6B3E;text-decoration:underline;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1E6B3E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>İndir</a></div>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1020}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const events = [
+      { date: '12 Şub 2025', title: 'Dava Açıldı', detail: 'XYZ Enerji A.Ş., kamulaştırma bedelinin düşük belirlendiği gerekçesiyle Ankara 4. İdare Mahkemesi\u2019nde dava açtı.', dotColor: '#2FA968' , doc: 'Dava_Dilekcesi_2025-02-12.pdf' },
+      { date: '3 Nis 2025', title: 'Davalı Savunması Sunuldu', detail: 'İdare, kamulaştırma bedelinin ilgili mevzuata uygun hesaplandığını savundu.', dotColor: '#2FA968' , doc: 'Savunma_Dilekcesi_2025-04-03.pdf' },
+      { date: '20 Haz 2025', title: 'Bilirkişi İncelemesi Talep Edildi', detail: 'Mahkeme, arazi değerinin yeniden incelenmesi için bilirkişi heyeti görevlendirilmesine karar verdi.', dotColor: '#2FA968' , doc: 'Ara_Karar_Bilirkisi_2025-06-20.pdf' },
+      { date: '15 Eyl 2025', title: 'Bilirkişi Raporu Sunuldu', detail: 'Bilirkişi heyeti, kamulaştırma bedelinin piyasa değerinin altında belirlendiğini tespit etti.', dotColor: '#2FA968' , doc: 'Bilirkisi_Raporu_2025-09-15.pdf' },
+      { date: '10 Oca 2026', title: 'Ek Bilirkişi Talebi Reddedildi', detail: 'Davalı idarenin ek bilirkişi incelemesi talebi mahkemece reddedildi.', dotColor: '#2FA968' , doc: 'Ara_Karar_2026-01-10.pdf' },
+      { date: '14 Eki 2026', title: 'Sonraki Duruşma', detail: 'Taraflardan nihai beyanlarını sunmaları istenecek.', dotColor: '#9A6B12', doc: 'Durusma_Tutanagi_2026-01-10.pdf' }
+    ];
+    return { events: events };
+  }
+}
+</script>
+</body>
+</html>

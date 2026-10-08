@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>İzin Talebi — Balbal doldurur, personel onaylar, İK akışı işler</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+
+<div style="width:1440px;height:1000px;box-sizing:border-box;display:flex;flex-direction:column;background:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;color:#132119;overflow:hidden;">
+
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="Ana-Sayfa-Enerji.dc.html" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#C9D3CC;"><span aria-hidden="true">←</span> Ana Sayfaya Dön</a>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;">İzin Talebi — Balbal doldurur, siz onaylarsınız, İK akışı işler</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#2FA968;display:inline-block;"></span>
+      <div style="font-size:13px;font-weight:600;">Hakan Tunç · EPC Proje Mühendisi · Enerji</div>
+    </div>
+  </div>
+
+  <div style="flex:1;display:flex;gap:24px;padding:24px 40px;box-sizing:border-box;min-height:0;">
+
+    <!-- Sol: Balbal konuşması -->
+    <div style="width:520px;flex-shrink:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="padding:12px 18px;border-bottom:1px solid #E9EDEA;display:flex;align-items:center;gap:10px;">
+        <span style="width:26px;height:26px;border-radius:50%;background:#2FA968;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#0E241D;">B</span>
+        <div style="font-size:13.5px;font-weight:600;">Balbal</div>
+        <span style="margin-left:auto;font-size:11.5px;color:#8A968E;">Eksik bilgi varsa sorar; form hazır olunca onayınıza sunar</span>
+      </div>
+      <div style="flex:1;min-height:0;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:10px;">
+        <sc-for list="{{msgs}}" as="m" hint-placeholder-count="6">
+          <div style="{{m.wrap}}">
+            <div style="{{m.bubble}}">{{m.text}}</div>
+            <sc-if value="{{m.hasChips}}" hint-placeholder-val="{{false}}">
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+                <sc-for list="{{m.chips}}" as="ch" hint-placeholder-count="3">
+                  <button onClick="{{ch.select}}" style="{{ch.style}}">{{ch.label}}</button>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+      <div style="padding:10px 14px;border-top:1px solid #E9EDEA;display:flex;gap:8px;">
+        <div style="flex:1;height:38px;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:10px;padding:0 12px;display:flex;align-items:center;font-size:13px;color:#8A968E;">Balbal'a yazın…</div>
+        <button style="background:#2FA968;border:none;border-radius:10px;padding:0 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;color:#0E241D;cursor:pointer;">Gönder</button>
+      </div>
+    </div>
+
+    <!-- Sağ: doldurulmuş izin formu + akış -->
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:14px;min-height:0;">
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:18px 22px;display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:#0E241D;">İzin Formu</div>
+          <span style="{{formBadgeStyle}}">{{formBadge}}</span>
+          <span style="margin-left:auto;font-size:11.5px;color:#8A968E;">Şirket şablonu: İK-F-03 · Balbal doldurdu</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:10px 18px;">
+          <sc-for list="{{fields}}" as="f" hint-placeholder-count="9">
+            <div style="{{f.style}}">
+              <div style="font-size:11px;color:#8A968E;margin-bottom:2px;">{{f.label}}</div>
+              <div style="font-size:13.5px;font-weight:600;">{{f.value}}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;border-top:1px solid #F0F2F0;padding-top:12px;">
+          <div style="flex:1;font-size:12.5px;color:#5B6B60;line-height:1.5;">{{footNote}}</div>
+          <sc-if value="{{canConfirm}}" hint-placeholder-val="{{true}}">
+            <button onClick="{{confirm}}" style="background:#132119;border:none;border-radius:10px;padding:10px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:600;color:#FFFFFF;cursor:pointer;">Onaylıyorum, gönder</button>
+          </sc-if>
+          <sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
+            <span role="status" style="font-size:12.5px;font-weight:600;color:#14401F;background:#E7F3EB;border-radius:8px;padding:8px 12px;">Gönderildi · İK onay akışına girdi</span>
+          </sc-if>
+        </div>
+      </div>
+
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:1.2fr 1fr;gap:14px;">
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
+          <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;">Onay akışı · İK belirler, hiyerarşi şemasından kişiler gelir</div>
+          <sc-for list="{{steps}}" as="s" hint-placeholder-count="3">
+            <div style="display:flex;gap:12px;align-items:flex-start;">
+              <span style="{{s.numStyle}}">{{s.num}}</span>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:13.5px;font-weight:600;">{{s.title}}</div>
+                <div style="font-size:12.5px;color:#5B6B60;line-height:1.5;">{{s.text}}</div>
+              </div>
+              <span style="{{s.stStyle}}">{{s.status}}</span>
+            </div>
+          </sc-for>
+          <div style="font-size:12px;color:#8A968E;line-height:1.5;border-top:1px solid #F0F2F0;padding-top:10px;">Bu akış belge yükleme onayından ayrıdır; İK portalında tanımlanır ve izlenir. Onaylar ilgili yöneticinin bildirimlerinde çıkar. Yönetici izinde ya da ayrılmışsa İK'nın atadığı vekil onaylar.</div>
+        </div>
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
+          <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;">İzin hakkınız · İK kayıtlarından</div>
+          <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:8px;">
+            <sc-for list="{{balance}}" as="b" hint-placeholder-count="3">
+              <div style="background:#F6F9F7;border-radius:10px;padding:10px 12px;">
+                <div style="font-size:11px;color:#8A968E;">{{b.label}}</div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;{{b.valStyle}}">{{b.value}}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font-size:12.5px;color:#5B6B60;line-height:1.5;">{{balanceNote}}</div>
+          <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;margin-top:4px;">Yöneticinin bildirimi (önizleme)</div>
+          <div style="border:1px solid #F0DDB5;background:#FFFDF8;border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.5;">
+            <strong>İzin onayı bekliyor:</strong> {{notifText}}
+            <div style="display:flex;gap:6px;margin-top:8px;">
+              <span style="font-size:12px;font-weight:600;color:#14401F;background:#E7F3EB;border-radius:6px;padding:4px 10px;">Onayla</span>
+              <span style="font-size:12px;font-weight:600;color:#7A2323;background:#FBE7E7;border-radius:6px;padding:4px 10px;">Reddet</span>
+              <span style="font-size:12px;font-weight:600;color:#5B6B60;background:#F0F2F0;border-radius:6px;padding:4px 10px;">Formu aç</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const self = this;
+    const st = this.state || {};
+    const type = st.type || null;      // yillik | ucretli | ucretsiz
+    const reason = st.reason || null;  // only for ucretli/ucretsiz
+    const sent = !!st.sent;
+    const TYPES = { yillik: 'Yıllık izin', ucretli: 'Ücretli mazeret izni', ucretsiz: 'Ücretsiz izin' };
+    const REASONS = ['Sağlık / doktor', 'Aile', 'Resmî işlem', 'Diğer'];
+    const CH = "border-radius:14px;padding:5px 11px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;";
+    const chip = function (label, on, fn) { return { label: label, style: CH + (on ? 'background:#0E241D;color:#F6F7F5;border:1px solid #0E241D;' : 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;'), select: fn }; };
+    const U = 'display:flex;flex-direction:column;align-items:flex-end;';
+    const B = 'display:flex;flex-direction:column;align-items:flex-start;';
+    const ub = 'max-width:86%;background:#0E241D;color:#F6F7F5;border-radius:14px 14px 4px 14px;padding:9px 13px;font-size:13px;line-height:1.5;';
+    const bb = 'max-width:92%;background:#F0FAF3;border:1px solid #DCEEE2;color:#132119;border-radius:14px 14px 14px 4px;padding:9px 13px;font-size:13px;line-height:1.5;';
+    const msgs = [
+      { wrap: U, bubble: ub, text: 'Yarın izin kullanacağım.', hasChips: false, chips: [] },
+      { wrap: B, bubble: bb, text: 'Tamam Hakan Bey. İzin formunu hazırlıyorum: 06.10.2026 (Salı), 1 gün. Önce izin türünü seçer misiniz?', hasChips: !type, chips: ['yillik', 'ucretli', 'ucretsiz'].map(function (k) { return chip(TYPES[k], type === k, function () { self.setState({ type: k, reason: null, sent: false }); }); }) }
+    ];
+    if (type) msgs.push({ wrap: U, bubble: ub, text: TYPES[type], hasChips: false, chips: [] });
+    if (type === 'yillik') {
+      msgs.push({ wrap: B, bubble: bb, text: 'Yıllık izinde sebep gerekmez. 2026 hakkınız 14 gün, kullanılan 9, kalan 5 gün; bu talep sonrası 4 gün kalır. Formu doldurdum, sağda görebilirsiniz. Doğruysa "Onaylıyorum, gönder" deyin; talebiniz İK\'nın belirlediği onay akışına girer.', hasChips: false, chips: [] });
+    } else if (type) {
+      msgs.push({ wrap: B, bubble: bb, text: (type === 'ucretli' ? 'Ücretli mazeret izni' : 'Ücretsiz izin') + ' için izin sebebi gerekli. Hangisi?', hasChips: !reason, chips: REASONS.map(function (r) { return chip(r, reason === r, function () { self.setState({ reason: r, sent: false }); }); }) });
+      if (reason) {
+        msgs.push({ wrap: U, bubble: ub, text: reason, hasChips: false, chips: [] });
+        msgs.push({ wrap: B, bubble: bb, text: 'Teşekkürler. Formu doldurdum; yıllık izin hakkınızdan düşmez' + (type === 'ucretsiz' ? ', ücret kesintisi 1 gün olarak İK tarafından işlenir' : '') + '. Doğruysa "Onaylıyorum, gönder" deyin.', hasChips: false, chips: [] });
+      }
+    }
+    if (sent) msgs.push({ wrap: B, bubble: bb, text: 'Gönderildi. 1. adım: Kerem Aydın (Enerji Grubu Müdürü) bildirim aldı. Sonuç size bildirimlerden gelir; İK portalında da izlenir.', hasChips: false, chips: [] });
+
+    const ready = type === 'yillik' || (type && reason);
+    const F = 'background:#F6F9F7;border-radius:10px;padding:8px 12px;';
+    const FM = 'background:#FBF1DE;border:1px dashed #D97706;border-radius:10px;padding:8px 12px;';
+    const fields = [
+      { label: 'Ad soyad', value: 'Hakan Tunç', style: F }, { label: 'Pozisyon · departman', value: 'EPC Proje Mühendisi · Enerji', style: F }, { label: 'Yöneticisi (şemadan)', value: 'Kerem Aydın', style: F },
+      { label: 'İzin türü', value: type ? TYPES[type] : 'Eksik — Balbal soruyor', style: type ? F : FM },
+      { label: 'Başlangıç', value: '06.10.2026 Salı', style: F }, { label: 'Bitiş · süre', value: '06.10.2026 · 1 iş günü', style: F },
+      { label: 'İzin sebebi', value: type === 'yillik' ? 'Gerekmez' : (reason || (type ? 'Eksik — Balbal soruyor' : '—')), style: (type && type !== 'yillik' && !reason) ? FM : F },
+      { label: 'İşe dönüş', value: '07.10.2026 Çarşamba', style: F }, { label: 'Adres / ulaşılabilirlik', value: 'Ankara · cep telefonu açık', style: F }
+    ];
+    const formBadge = sent ? 'Gönderildi' : (ready ? 'Onayınızı bekliyor' : 'Eksik bilgi var');
+    const formBadgeStyle = 'font-size:11.5px;font-weight:600;border-radius:6px;padding:3px 8px;' + (sent ? 'color:#14401F;background:#E7F3EB;' : (ready ? 'color:#9A6B12;background:#FBF1DE;' : 'color:#7A2323;background:#FBE7E7;'));
+    const footNote = sent ? 'Talep İK portalında "Bekleyen izin talepleri" listesine düştü; yöneticinin kararı bildirimlerinizde görünür.' : (ready ? 'Formu Balbal doldurdu; sorumluluk sizde. Onaylayınca İK\'nın belirlediği onay akışı başlar.' : 'Form eksik: Balbal soldaki sohbette eksik bilgiyi soruyor. Tamamlanmadan gönderilemez.');
+
+    const NUM = 'width:24px;height:24px;flex-shrink:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;';
+    const PILL = 'font-size:11.5px;font-weight:600;border-radius:6px;padding:3px 8px;white-space:nowrap;';
+    const stepStatus = function (i) {
+      if (!sent) return ['Bekliyor', PILL + 'color:#8A968E;background:#F0F2F0;'];
+      if (i === 0) return ['Bildirim gönderildi', PILL + 'color:#9A6B12;background:#FBF1DE;'];
+      return ['Sırada', PILL + 'color:#8A968E;background:#F0F2F0;'];
+    };
+    const steps = [
+      ['Yönetici onayı', 'Kerem Aydın · Enerji Grubu Müdürü (hiyerarşi şemasından). İzinde veya ayrılmışsa İK\'nın atadığı vekil: Elif Şahin.'],
+      ['İK kaydı', 'Zeynep Koç · İK. ' + (type === 'yillik' ? 'Yıllık izin bakiyesinden düşer.' : (type === 'ucretsiz' ? 'Ücret kesintisi bordroya işlenir.' : 'Mazeret izni kaydı tutulur, bakiyeden düşmez.'))],
+      ['Personele bildirim', 'Sonuç Hakan Tunç\'a bildirimlerden gider; onaylı form İK dosyasına kaydedilir.']
+    ].map(function (s, i) { const ss = stepStatus(i); return { num: String(i + 1), numStyle: NUM + (sent && i === 0 ? 'background:#D97706;color:#FFFFFF;' : 'background:#E9EDEA;color:#5B6B60;'), title: s[0], text: s[1], status: ss[0], stStyle: ss[1] }; });
+
+    const after = type === 'yillik' ? 4 : 5;
+    const balance = [
+      { label: '2026 hakkı', value: '14 gün', valStyle: 'color:#132119;' },
+      { label: 'Kullanılan', value: '9 gün', valStyle: 'color:#132119;' },
+      { label: 'Kalan (talep sonrası)', value: after + ' gün', valStyle: after < 0 ? 'color:#7A2323;' : 'color:#1E6B3E;' }
+    ];
+    const balanceNote = type === 'yillik' ? 'Bu talep onaylanırsa kalan hak 4 güne iner. Kıdem: 2 yıl 7 ay (işe giriş 03.03.2024).' : 'Yıllık izin hakkı bu talepten etkilenmez. Kıdem: 2 yıl 7 ay (işe giriş 03.03.2024).';
+    const notifText = 'Hakan Tunç · ' + (type ? TYPES[type] : 'izin') + ' · 06.10.2026 · 1 gün' + (reason ? ' · ' + reason : '') + '. Kalan yıllık izin: ' + after + ' gün. Ekip takvimi: aynı gün başka izin yok.';
+
+    return {
+      msgs: msgs, fields: fields, formBadge: formBadge, formBadgeStyle: formBadgeStyle, footNote: footNote,
+      canConfirm: !!ready && !sent, sent: sent, confirm: function () { self.setState({ sent: true }); },
+      steps: steps, balance: balance, balanceNote: balanceNote, notifText: notifText
+    };
+  }
+}
+</script>
+</body>
+</html>

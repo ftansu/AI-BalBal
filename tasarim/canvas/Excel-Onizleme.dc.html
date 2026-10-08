@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Excel Önizleme</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+
+<div style="width:1440px;height:900px;box-sizing:border-box;display:flex;flex-direction:column;background:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;color:#132119;overflow:hidden;">
+
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="Main.dc.html" style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#C9D3CC;">
+        <span aria-hidden="true">←</span> Ana Sayfaya Dön
+      </a>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;">Yesilova_RES_Kredi_Odeme_Plani.xlsx</div>
+    </div>
+    <a href="#" style="display:flex;align-items:center;gap:8px;background:#2FA968;color:#0E241D;border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:600;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0E241D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>
+      İndir
+    </a>
+  </div>
+
+  <div style="flex:1;min-height:0;display:flex;gap:22px;padding:24px 40px;box-sizing:border-box;">
+
+    <!-- Sol: dosya yapısı -->
+    <div style="width:330px;flex-shrink:0;display:flex;flex-direction:column;gap:14px;overflow-y:auto;">
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 18px;">
+        <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;margin-bottom:10px;">Belge bilgisi</div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;">
+          <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Proje</span><span style="font-weight:600;">Yeşilova RES</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Departman</span><span style="font-weight:600;">Proje Finans</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Belge tarihi</span><span style="font-weight:600;">01.09.2026</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Gizlilik</span><span style="font-weight:600;">Normal</span></div>
+        </div>
+      </div>
+
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 18px;">
+        <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;margin-bottom:10px;">Sayfalar</div>
+        <sc-for list="{{sheets}}" as="s" hint-placeholder-count="3">
+          <button onClick="{{s.select}}" style="{{s.style}}">
+            <span>{{s.name}}</span>
+            <span style="font-size:12px;color:#8A968E;">{{s.dims}}</span>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 18px;">
+        <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;margin-bottom:10px;">Dosya kontrolü</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+          <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Adlandırılmış aralıklar</span><span style="font-weight:600;">Taksitler, Bakiye</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Formül hücresi</span><span style="font-weight:600;">312</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Makro</span><span style="font-weight:600;color:#1E6B3E;">Yok</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:#5B6B60;">Yeniden hesaplama</span><span style="font-weight:600;color:#1E6B3E;">Gerekmiyor</span></div>
+        </div>
+        <div style="font-size:12px;color:#8A968E;margin-top:10px;line-height:1.5;">Hesaplamalar dosyadaki değerler üzerinden sistem tarafından yapılır; yapay zekâ hesap yapmaz.</div>
+      </div>
+    </div>
+
+    <!-- Sağ: tablo önizleme -->
+    <div style="flex:1;min-width:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 18px;background:#F0FAF3;border-bottom:1px solid #DCEEE2;">
+        <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:cover;">
+        <div style="font-size:13px;color:#14401F;">Balbal son cevabında <strong>Ödeme Takvimi · B14:D14</strong> aralığını kullandı (işaretli satır).</div>
+      </div>
+      <div style="flex:1;min-height:0;overflow:auto;">
+        <div style="display:grid;grid-template-columns:48px 150px 160px 170px 170px 150px;font-size:13px;">
+          <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;"></div>
+          <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;color:#8A968E;text-align:center;">A</div>
+          <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;color:#8A968E;text-align:center;">B</div>
+          <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;color:#8A968E;text-align:center;">C</div>
+          <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;color:#8A968E;text-align:center;">D</div>
+          <div style="background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;color:#8A968E;text-align:center;">E</div>
+          <sc-for list="{{rows}}" as="r" hint-placeholder-count="10">
+            <div style="{{r.numStyle}}">{{r.n}}</div>
+            <div style="{{r.cellStyle}}">{{r.a}}</div>
+            <div style="{{r.hlStyle}}">{{r.b}}</div>
+            <div style="{{r.hlStyle}}">{{r.c}}</div>
+            <div style="{{r.hlStyle}}">{{r.d}}</div>
+            <div style="{{r.cellStyle}}">{{r.e}}</div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const self = this;
+    const st = this.state || {};
+    const sheet = st.sheet || 'Ödeme Takvimi';
+    const SHEETS = [['Ödeme Takvimi', '120 × 6'], ['Faiz Varsayımları', '24 × 4'], ['Özet', '18 × 5']];
+    const SH = "display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;border:none;border-radius:8px;padding:9px 10px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;color:#132119;";
+    const sheets = SHEETS.map(function (s) {
+      return { name: s[0], dims: s[1], style: SH + (s[0] === sheet ? 'background:#E7F3EB;font-weight:600;' : 'background:transparent;'), select: function () { self.setState({ sheet: s[0] }); } };
+    });
+    const header = ['Taksit no', 'Vade tarihi', 'Taksit ($)', 'Kalan bakiye ($)', 'Durum'];
+    const data = [];
+    const months = ['03.2026', '04.2026', '05.2026', '06.2026', '07.2026', '08.2026', '09.2026', '10.2026', '11.2026', '12.2026', '01.2027', '02.2027'];
+    let bal = 9120000;
+    months.forEach(function (m, i) {
+      const pay = 116240;
+      bal -= 58000 + i * 400;
+      data.push([String(i + 1), '15.' + m, pay.toLocaleString('tr-TR'), bal.toLocaleString('tr-TR'), i < 6 ? 'Ödendi' : (i === 6 ? 'Bu ay' : 'Bekliyor')]);
+    });
+    data[6][3] = '8.420.000';
+    const CELL = 'padding:8px 10px;border-bottom:1px solid #F0F2F0;border-right:1px solid #F0F2F0;white-space:nowrap;';
+    const rows = [{ n: 6, a: 'Yeşilova RES — Commerzbank AG kredi ödeme takvimi', b: '', c: '', d: '', e: '' }, { n: 7, a: header[0], b: header[1], c: header[2], d: header[3], e: header[4], head: true }]
+      .concat(data.map(function (r, i) { return { n: i + 8, a: r[0], b: r[1], c: r[2], d: r[3], e: r[4] }; }))
+      .map(function (r) {
+        const hl = r.n === 14;
+        return {
+          n: r.n, a: r.a, b: r.b, c: r.c, d: r.d, e: r.e,
+          numStyle: 'background:#F0F2F0;padding:8px;border-bottom:1px solid #E1E7E2;border-right:1px solid #E1E7E2;color:#8A968E;text-align:center;',
+          cellStyle: CELL + (r.head ? 'font-weight:600;color:#5B6B60;' : ''),
+          hlStyle: CELL + (r.head ? 'font-weight:600;color:#5B6B60;' : '') + (hl ? 'background:#E7F3EB;font-weight:600;box-shadow:inset 0 0 0 1px #2FA968;' : '')
+        };
+      });
+    return { sheets: sheets, rows: rows };
+  }
+}
+</script>
+</body>
+</html>

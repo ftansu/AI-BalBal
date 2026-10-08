@@ -1,0 +1,2138 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>X Platformu — Ana Sayfa</title>
+<script src="./support.js"></script>
+<script src="/_blob/f1f205a745519547a1ab4b96d887efd3"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+a{color:inherit;text-decoration:none}
+@keyframes pulse-dot{0%{opacity:1}50%{opacity:.35}100%{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes genie{0%{transform:scale(.12) translate(40%,40%);opacity:0}70%{opacity:1}100%{transform:scale(1) translate(0,0);opacity:1}}
+</style>
+</helmet>
+
+<div style="width:1440px;height:980px;box-sizing:border-box;display:flex;flex-direction:column;background:#EEF6F0;font-family:'IBM Plex Sans',sans-serif;color:#132119;overflow:hidden;position:relative;">
+
+  <!-- Top bar -->
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <img src="/_blob/971aff4c7613d55ac58efe53b0a7a61a" alt="XYZ Enerji" style="width:34px;height:34px;border-radius:8px;object-fit:cover;flex-shrink:0;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;letter-spacing:0.2px;">XYZ Enerji A.Ş. Platformu</div>
+      </div>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:{{accent}};display:inline-block;"></span>
+        <div style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;color:#F6F7F5;">Proje Finans Departmanı</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-right:14px;"><div style="display:flex;align-items:center;gap:8px;width:340px;height:38px;box-sizing:border-box;background:#1D3329;border:1px solid #2E4A3D;border-radius:10px;padding:0 12px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><label for="top-search" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Belge, proje veya kişi ara</label><input id="top-search" type="text" onInput="{{onSearchInput}}" onFocus="{{onSearchFocus}}" placeholder="Belge, proje veya kişi ara" style="flex:1;min-width:0;background:transparent;border:none;outline:none;color:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;font-size:14px;"></div><a href="Belge-Yukle.dc.html" style="height:38px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;border:1px solid #2E4A3D;color:#F6F7F5;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"></path></svg>Belge yükle</a><div style="position:relative;"><button onClick="{{otToggle}}" aria-haspopup="menu" aria-expanded="{{otMenuOpen}}" style="height:38px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;border:1px solid #2FA968;background:#2FA968;color:#0E241D;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">+ Ödeme talebi<span aria-hidden="true" style="font-size:10px;">▾</span></button><sc-if value="{{otMenu}}" hint-placeholder-val="{{false}}"><div role="menu" aria-label="Ödeme talebi" style="position:absolute;top:calc(100% + 6px);right:0;z-index:80;width:290px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;box-shadow:0 16px 40px rgba(14,36,29,0.18);padding:6px;display:flex;flex-direction:column;gap:2px;color:#132119;"><button role="menuitem" onClick="{{otMine}}" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;border:none;border-radius:10px;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;background:#F6F9F7;color:#132119;cursor:pointer;"><span style="font-size:13.5px;font-weight:700;">Taleplerim</span><span style="font-size:11.5px;font-weight:500;color:#5B6B60;">Açtığın ödeme talepleri ve durumları</span></button><div aria-hidden="true" style="height:1px;background:#F0F2F0;margin:4px 6px;"></div><sc-for list="{{otItems}}" as="t" hint-placeholder-count="3"><button role="menuitem" onClick="{{t.pick}}" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;border:none;border-radius:10px;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;background:#FFFFFF;color:#132119;cursor:pointer;"><span style="font-size:13.5px;font-weight:700;">{{t.lbl}}</span><span style="font-size:11.5px;font-weight:500;color:#5B6B60;">{{t.sub}}</span></button></sc-for></div></sc-if></div><button onClick="{{onToggleNotif}}" aria-label="Bildirimler" style="position:relative;width:38px;height:38px;flex-shrink:0;border-radius:10px;border:1px solid #2E4A3D;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg><span style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;box-sizing:border-box;border-radius:9px;background:#2FA968;color:#0E241D;font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;">3</span></button></div>
+      <div style="text-align:right;">
+        <div style="font-size:13px;font-weight:600;line-height:1.2;">Kaan Turhan</div>
+        <div style="font-size:11px;color:#9FB0A6;line-height:1.2;">Proje Finans Müdürü</div>
+      </div>
+      <button onClick="{{onToggleUserMenu}}" aria-label="Kullanıcı menüsü" style="border:none;cursor:pointer;padding:0;width:36px;height:36px;border-radius:50%;background:#2FA968;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FFFFFF;">KT</button>
+    </div>
+  </div>
+
+
+  <!-- Body -->
+  <div style="{{bodyStyle}}">
+
+    <!-- Page tabs -->
+    <div style="display:flex;gap:8px;flex-shrink:0;">
+      <button style="{{pageGenelBtnStyle}}" onClick="{{onSelectPageGenel}}">Genel Bakış</button>
+      <button style="{{pagePozisyonBtnStyle}}" onClick="{{onSelectPagePozisyon}}">Pozisyon</button>
+      <sc-if value="{{balbalTab}}" hint-placeholder-val="{{false}}">
+        <button style="{{balbalTabStyle}}" onClick="{{onSelectBalbalTab}}"><img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:18px;height:18px;border-radius:50%;object-fit:contain;background:#FFFFFF;">Balbal</button>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{pageIsBalbal}}" hint-placeholder-val="{{false}}">
+    <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+        <div style="font-size:12.5px;color:#5B6B60;">Balbal tam ekran · diğer sekmelere geçince konuşma açık kalır</div>
+        <div style="display:flex;gap:8px;">
+          <button onClick="{{onBalbalToWindow}}" style="display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:8px;padding:7px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#132119;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H3v6M15 21h6v-6M3 3l7 7M21 21l-7-7"></path></svg>Pencereye küçült</button>
+          <button onClick="{{onBalbalCloseFull}}" style="display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:8px;padding:7px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#5B6B60;cursor:pointer;">Kapat</button>
+        </div>
+      </div>
+      <dc-import name="Balbal-Sohbet" dept="finans" ask="{{chatAsk}}" w="{{fullW}}" h="{{fullH}}" on-full="{{onBalbalFull}}" hint-size="1360px,740px"></dc-import>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{pageIsGenel}}" hint-placeholder-val="{{true}}">
+    <!-- Gadget alanı: her gadget üstteki tutamaçtan sürüklenerek yeniden yerleştirilir -->
+    <div data-gz="full" style="display:flex;flex-direction:column;gap:24px;flex-shrink:0;">
+      <sc-for list="{{gzGenelFull}}" as="fg" hint-placeholder-count="2">
+        <div data-gi="full" data-gid="{{fg.id}}" style="{{fg.style}}">
+          <sc-if value="{{fg.isGrid}}" hint-placeholder-val="{{true}}">
+            <div data-gz="top" style="display:flex;gap:28px;align-items:flex-start;">
+              <sc-for list="{{gzGenelTop}}" as="col" hint-placeholder-count="2">
+                <div data-gcol="top" style="{{col.style}}">
+                  <sc-for list="{{col.items}}" as="g" hint-placeholder-count="2">
+                    <div data-gi="top" data-gid="{{g.id}}" style="{{g.style}}">
+                      <button aria-label="Gadget'ı taşı" title="Tutup sürükleyerek yerini değiştirin" onPointerDown="{{g.onGrab}}" style="position:absolute;top:3px;left:50%;transform:translateX(-50%);width:56px;height:16px;border:none;background:transparent;cursor:grab;touch-action:none;display:flex;align-items:center;justify-content:center;padding:0;z-index:3;"><svg width="30" height="8" viewBox="0 0 30 8" aria-hidden="true"><g fill="#A9B6AE"><circle cx="3" cy="2" r="1.5"></circle><circle cx="9" cy="2" r="1.5"></circle><circle cx="15" cy="2" r="1.5"></circle><circle cx="21" cy="2" r="1.5"></circle><circle cx="27" cy="2" r="1.5"></circle><circle cx="3" cy="6" r="1.5"></circle><circle cx="9" cy="6" r="1.5"></circle><circle cx="15" cy="6" r="1.5"></circle><circle cx="21" cy="6" r="1.5"></circle><circle cx="27" cy="6" r="1.5"></circle></g></svg></button>
+                      <sc-if value="{{g.isUretim}}" hint-placeholder-val="{{false}}">
+                      <div style="padding-top:18px;display:flex;flex-direction:column;gap:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:600;">Portföy Üretim Verileri</div>
+            <div style="font-size:12px;color:#5B6B60;margin-top:2px;">EPİAŞ Şeffaflık Platformu</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <button aria-label="Excel'e aktar" title="Excel'e aktar" onClick="{{expUretim.onClick}}" style="{{expUretim.style}}">
+                          <sc-if value="{{expUretim.isIdle}}" hint-placeholder-val="{{true}}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="2" width="18" height="20" rx="2" stroke="#1E6B3E" stroke-width="1.6"></rect><path d="M3 9h18M9 9v13" stroke="#1E6B3E" stroke-width="1.6"></path><path d="M12 12.5v5M12 17.5l-1.8-1.8M12 17.5l1.8-1.8" stroke="#1E6B3E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                          </sc-if>
+                          <sc-if value="{{expUretim.isBusy}}" hint-placeholder-val="{{false}}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="animation:spin 0.8s linear infinite;"><circle cx="12" cy="12" r="8" stroke="#B7C2BC" stroke-width="2.2" opacity="0.35"></circle><path d="M20 12a8 8 0 0 0-8-8" stroke="#1E6B3E" stroke-width="2.2" stroke-linecap="round"></path></svg>
+                          </sc-if>
+                          <sc-if value="{{expUretim.isDone}}" hint-placeholder-val="{{false}}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4 10-10" stroke="#1E6B3E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                          </sc-if>
+                          <sc-if value="{{expUretim.isError}}" hint-placeholder-val="{{false}}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8v5M12 17h.01" stroke="#B23A3A" stroke-width="2.4" stroke-linecap="round"></path><circle cx="12" cy="12" r="9" stroke="#B23A3A" stroke-width="1.6"></circle></svg>
+                          </sc-if>
+                        </button>
+          <div style="display:flex;align-items:center;gap:6px;background:#E7F3EB;border-radius:20px;padding:6px 12px;">
+            <span style="width:7px;height:7px;border-radius:50%;background:{{accent}};display:inline-block;animation:pulse-dot 1.6s ease-in-out infinite;"></span>
+            <span style="font-size:11px;font-weight:600;color:#1E6B3E;letter-spacing:0.3px;">CANLI</span>
+          </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <sc-for list="{{projects}}" as="proj" hint-placeholder-count="4">
+            <div style="{{proj.cardStyle}}">
+              <button onClick="{{proj.toggle}}" style="width:100%;background:transparent;border:none;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;text-align:left;font-family:'IBM Plex Sans',sans-serif;color:#132119;">
+                <div>
+                  <div style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;">{{proj.name}}</div>
+                  <div style="font-size:12px;color:#5B6B60;margin-top:3px;">{{proj.meta}}</div>
+                </div>
+                <div style="display:flex;gap:28px;align-items:center;">
+                  <div style="text-align:right;">
+                    <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Son Gün</div>
+                    <div style="font-size:15px;font-weight:600;margin-top:2px;">{{proj.today}}</div>
+                  </div>
+                  <div style="width:1px;height:32px;background:#E9EDEA;"></div>
+                  <div style="text-align:right;">
+                    <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Bu Ay</div>
+                    <div style="font-size:15px;font-weight:600;margin-top:2px;">{{proj.month}}</div>
+                  </div>
+                  <div style="width:1px;height:32px;background:#E9EDEA;"></div>
+                  <div style="text-align:right;">
+                    <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;">Bu Yıl</div>
+                    <div style="font-size:15px;font-weight:600;margin-top:2px;">{{proj.year}}</div>
+                  </div>
+                  <span style="font-size:12px;color:#8A968E;width:14px;text-align:center;">{{proj.chevron}}</span>
+                </div>
+              </button>
+
+              <sc-if value="{{proj.expanded}}" hint-placeholder-val="{{true}}">
+                <div style="border-top:1px solid #F0F2F0;padding:16px 22px 20px;display:flex;flex-direction:column;gap:14px;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div style="display:flex;gap:6px;">
+                      <button style="{{proj.gunlukStyle}}" onClick="{{proj.onGunluk}}">Günlük</button>
+                      <button style="{{proj.aylikStyle}}" onClick="{{proj.onAylik}}">Aylık</button>
+                      <button style="{{proj.yillikStyle}}" onClick="{{proj.onYillik}}">Yıllık</button>
+                    </div>
+                    <span style="font-size:10.5px;color:#8A968E;">Tüm fiyatlar USD/MWh · EPİAŞ</span>
+                  </div>
+
+                  <!-- Günlük -->
+                  <sc-if value="{{proj.isGunluk}}" hint-placeholder-val="{{true}}">
+                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+                      <sc-for list="{{proj.gunlukMetrics}}" as="mt" hint-placeholder-count="4">
+                        <div style="background:#F6F9F7;border:1px solid #E9EDEA;border-radius:10px;padding:12px 14px;">
+                          <div style="font-size:10.5px;color:#5B6B60;">{{mt.label}}</div>
+                          <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-top:4px;color:#0E241D;">{{mt.value}}</div>
+                          <div style="font-size:10px;color:#8A968E;margin-top:3px;">{{mt.sub}}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+
+                  <!-- Aylık -->
+                  <sc-if value="{{proj.isAylik}}" hint-placeholder-val="{{true}}">
+                    <div style="display:flex;flex-direction:column;gap:14px;">
+                      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+                        <sc-for list="{{proj.aylikMetrics}}" as="mt" hint-placeholder-count="3">
+                          <div style="background:#F6F9F7;border:1px solid #E9EDEA;border-radius:10px;padding:12px 14px;">
+                            <div style="font-size:10.5px;color:#5B6B60;">{{mt.label}}</div>
+                            <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-top:4px;color:#0E241D;">{{mt.value}}</div>
+                            <div style="font-size:10px;color:#8A968E;margin-top:3px;">{{mt.sub}}</div>
+                          </div>
+                        </sc-for>
+                      </div>
+                      <div>
+                        <div style="display:flex;justify-content:space-between;font-size:10.5px;color:#5B6B60;">
+                          <span>Ay hedefine ilerleme</span>
+                          <span style="font-weight:600;color:#132119;">{{proj.progressLabel}}</span>
+                        </div>
+                        <div style="height:8px;background:#EEF0EE;border-radius:6px;margin-top:6px;overflow:hidden;">
+                          <div style="height:100%;width:{{proj.progressPct}}%;background:{{accent}};border-radius:6px;"></div>
+                        </div>
+                      </div>
+                      <div style="border:1px solid #E9EDEA;border-radius:10px;overflow:hidden;">
+                        <div style="max-height:300px;overflow-y:auto;">
+                          <div style="display:grid;grid-template-columns:1fr 1.3fr 1fr 1.1fr 1.1fr;background:#F6F9F7;padding:9px 14px;font-size:10.5px;font-weight:600;color:#5B6B60;position:sticky;top:0;">
+                            <span>Gün</span><span style="text-align:right;">Üretim (MWh)</span><span style="text-align:right;">Hedef %</span><span style="text-align:right;">PTF Ort.</span><span style="text-align:right;">Yakalama</span>
+                          </div>
+                          <sc-for list="{{proj.aylikRows}}" as="yr" hint-placeholder-count="24">
+                            <div style="display:grid;grid-template-columns:1fr 1.3fr 1fr 1.1fr 1.1fr;padding:8px 14px;font-size:12px;border-top:1px solid #F0F2F0;">
+                              <span style="font-weight:600;">{{yr.ay}}</span>
+                              <span style="text-align:right;">{{yr.uretim}}</span>
+                              <span style="text-align:right;font-weight:600;color:{{yr.hedefColor}};">{{yr.hedef}}</span>
+                              <span style="text-align:right;">{{yr.ptf}}</span>
+                              <span style="text-align:right;">{{yr.yak}}</span>
+                            </div>
+                          </sc-for>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1.3fr 1fr 1.1fr 1.1fr;padding:10px 14px;font-size:12px;font-weight:700;border-top:1px solid #E1E7E2;background:#F6F9F7;">
+                          <span>1–23 Eyl</span>
+                          <span style="text-align:right;">{{proj.aylikTotUretim}}</span>
+                          <span style="text-align:right;">{{proj.aylikTotHedef}}</span>
+                          <span style="text-align:right;">{{proj.aylikTotPtf}}</span>
+                          <span style="text-align:right;">{{proj.aylikTotYak}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="font-size:10px;color:#8A968E;">Günlük hedef %: ay hedefinin 30'a bölünmesiyle bulunan günlük beklenen üretime göre. Toplam satırdaki hedef %: ay hedefine göre ilerleme.</div>
+                  </sc-if>
+
+                  <!-- Yıllık -->
+                  <sc-if value="{{proj.isYillik}}" hint-placeholder-val="{{true}}">
+                    <div style="border:1px solid #E9EDEA;border-radius:10px;overflow:hidden;">
+                      <div style="display:grid;grid-template-columns:1fr 1.3fr 1fr 1.1fr 1.1fr;background:#F6F9F7;padding:9px 14px;font-size:10.5px;font-weight:600;color:#5B6B60;">
+                        <span>Ay</span><span style="text-align:right;">Üretim (MWh)</span><span style="text-align:right;">Hedef %</span><span style="text-align:right;">PTF Ort.</span><span style="text-align:right;">Yakalama</span>
+                      </div>
+                      <sc-for list="{{proj.yillikRows}}" as="yr" hint-placeholder-count="9">
+                        <div style="display:grid;grid-template-columns:1fr 1.3fr 1fr 1.1fr 1.1fr;padding:8px 14px;font-size:12px;border-top:1px solid #F0F2F0;">
+                          <span style="font-weight:600;">{{yr.ay}}</span>
+                          <span style="text-align:right;">{{yr.uretim}}</span>
+                          <span style="text-align:right;font-weight:600;color:{{yr.hedefColor}};">{{yr.hedef}}</span>
+                          <span style="text-align:right;">{{yr.ptf}}</span>
+                          <span style="text-align:right;">{{yr.yak}}</span>
+                        </div>
+                      </sc-for>
+                      <div style="display:grid;grid-template-columns:1fr 1.3fr 1fr 1.1fr 1.1fr;padding:10px 14px;font-size:12px;font-weight:700;border-top:1px solid #E1E7E2;background:#F6F9F7;">
+                        <span>2026 YTD</span>
+                        <span style="text-align:right;">{{proj.ytdUretim}}</span>
+                        <span style="text-align:right;">{{proj.ytdHedef}}</span>
+                        <span style="text-align:right;">{{proj.ytdPtf}}</span>
+                        <span style="text-align:right;">{{proj.ytdYak}}</span>
+                      </div>
+                    </div>
+                    <div style="font-size:10px;color:#8A968E;">Eylül ayı devam ediyor (1–23 Eyl, son veri). YTD hedef %: yıllık hedefe ({{proj.annualLabel}}) göre ilerleme. Yakalama fiyatı üretim ağırlıklıdır.</div>
+                  </sc-if>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+                      </div>
+                      </sc-if>
+                      <sc-if value="{{g.isPtf}}" hint-placeholder-val="{{false}}">
+        <!-- PTF card -->
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:20px 22px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+            <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">PTF / Yakalama Fiyatı</div></div>
+            <button aria-label="Excel'e aktar" title="Excel'e aktar" onClick="{{expPtf.onClick}}" style="{{expPtf.style}}">
+                          <sc-if value="{{expPtf.isIdle}}" hint-placeholder-val="{{true}}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="2" width="18" height="20" rx="2" stroke="#1E6B3E" stroke-width="1.6"></rect><path d="M3 9h18M9 9v13" stroke="#1E6B3E" stroke-width="1.6"></path><path d="M12 12.5v5M12 17.5l-1.8-1.8M12 17.5l1.8-1.8" stroke="#1E6B3E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                          </sc-if>
+                          <sc-if value="{{expPtf.isBusy}}" hint-placeholder-val="{{false}}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="animation:spin 0.8s linear infinite;"><circle cx="12" cy="12" r="8" stroke="#B7C2BC" stroke-width="2.2" opacity="0.35"></circle><path d="M20 12a8 8 0 0 0-8-8" stroke="#1E6B3E" stroke-width="2.2" stroke-linecap="round"></path></svg>
+                          </sc-if>
+                          <sc-if value="{{expPtf.isDone}}" hint-placeholder-val="{{false}}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4 10-10" stroke="#1E6B3E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                          </sc-if>
+                          <sc-if value="{{expPtf.isError}}" hint-placeholder-val="{{false}}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8v5M12 17h.01" stroke="#B23A3A" stroke-width="2.4" stroke-linecap="round"></path><circle cx="12" cy="12" r="9" stroke="#B23A3A" stroke-width="1.6"></circle></svg>
+                          </sc-if>
+                        </button>
+          </div>
+          <div style="font-size:11px;color:#8A968E;margin-top:2px;">Portföy geneli · {{ptfPanel.caption}}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;">
+            <div style="display:flex;gap:6px;">
+              <button style="{{ptfPanel.gunlukStyle}}" onClick="{{ptfPanel.onGunluk}}">{{ptfPanel.gunlukLabel}}</button>
+              <button style="{{ptfPanel.yillikStyle}}" onClick="{{ptfPanel.onYillik}}">{{ptfPanel.yillikLabel}}</button>
+            </div>
+            <span style="font-size:10.5px;color:#8A968E;">EPİAŞ</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;">
+            <div style="background:#F6F9F7;border:1px solid #E9EDEA;border-radius:10px;padding:12px 14px;">
+              <div style="font-size:10.5px;color:#5B6B60;">PTF (USD/MWh)</div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-top:4px;color:#0E241D;">{{ptfPanel.value}}</div>
+              <div style="font-size:10px;color:{{ptfPanel.changeColor}};font-weight:600;margin-top:3px;">{{ptfPanel.change}}</div>
+            </div>
+            <div style="background:#F6F9F7;border:1px solid #E9EDEA;border-radius:10px;padding:12px 14px;">
+              <div style="font-size:10.5px;color:#5B6B60;">PTF (TL/MWh)</div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-top:4px;color:#0E241D;">{{ptfPanel.tl}}</div>
+              <div style="font-size:10px;color:#8A968E;margin-top:3px;">EPİAŞ yayımlanan fiyat</div>
+            </div>
+            <div style="background:#F6F9F7;border:1px solid #E9EDEA;border-radius:10px;padding:12px 14px;">
+              <div style="font-size:10.5px;color:#5B6B60;">Yakalama Fiyatı</div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-top:4px;color:#0E241D;">{{ptfPanel.yak}}</div>
+              <div style="font-size:10px;color:#8A968E;margin-top:3px;">{{ptfPanel.yakSub}}</div>
+            </div>
+          </div>
+
+          <sc-if value="{{ptfPanel.showHour}}" hint-placeholder-val="{{true}}">
+            <div style="border:1px solid #E9EDEA;border-radius:10px;overflow:hidden;margin-top:10px;">
+              <div style="max-height:260px;overflow-y:auto;">
+                <div style="display:grid;grid-template-columns:0.8fr 1fr 1fr 1.2fr;background:#F6F9F7;padding:9px 14px;font-size:10.5px;font-weight:600;color:#5B6B60;position:sticky;top:0;">
+                  <span>Saat</span><span style="text-align:right;">PTF (TL)</span><span style="text-align:right;">PTF (USD)</span><span style="text-align:right;">Portföy Üretim (MWh)</span>
+                </div>
+                <sc-for list="{{ptfPanel.hourRows}}" as="r" hint-placeholder-count="24">
+                  <div style="display:grid;grid-template-columns:0.8fr 1fr 1fr 1.2fr;padding:8px 14px;font-size:12px;border-top:1px solid #F0F2F0;">
+                    <span style="font-weight:600;">{{r.ay}}</span>
+                    <span style="text-align:right;">{{r.tl}}</span>
+                    <span style="text-align:right;">{{r.ptf}}</span>
+                    <span style="text-align:right;">{{r.uretim}}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:grid;grid-template-columns:0.8fr 1fr 1fr 1.2fr;padding:10px 14px;font-size:12px;font-weight:700;border-top:1px solid #E1E7E2;background:#F6F9F7;">
+                <span>{{ptfPanel.hourTot.label}}</span>
+                <span style="text-align:right;">{{ptfPanel.hourTot.tl}}</span>
+                <span style="text-align:right;">{{ptfPanel.hourTot.ptf}}</span>
+                <span style="text-align:right;">{{ptfPanel.hourTot.uretim}}</span>
+              </div>
+            </div>
+            <div style="font-size:10px;color:#8A968E;margin-top:8px;">PTF (USD) = PTF (TL) ÷ günlük dolar kuru. Portföy üretimi tüm santrallerin toplamıdır.</div>
+          </sc-if>
+
+          <sc-if value="{{ptfPanel.showMonth}}" hint-placeholder-val="{{true}}">
+            <div style="border:1px solid #E9EDEA;border-radius:10px;overflow:hidden;margin-top:10px;">
+              <div style="max-height:340px;overflow-y:auto;">
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1.3fr 1fr;background:#F6F9F7;padding:9px 14px;font-size:10.5px;font-weight:600;color:#5B6B60;position:sticky;top:0;z-index:1;">
+                  <span>Ay</span><span style="text-align:right;">PTF Ort. (TL)</span><span style="text-align:right;">PTF Ort. (USD)</span><span style="text-align:right;">Portföy Üretim (MWh)</span><span style="text-align:right;">Yakalama</span>
+                </div>
+                <sc-for list="{{ptfPanel.monthRows}}" as="r" hint-placeholder-count="9">
+                  <button onClick="{{r.toggle}}" style="{{r.rowStyle}}">
+                    <span style="font-weight:600;">{{r.ay}}</span>
+                    <span style="text-align:right;">{{r.tl}}</span>
+                    <span style="text-align:right;">{{r.ptf}}</span>
+                    <span style="text-align:right;">{{r.uretim}}</span>
+                    <span style="text-align:right;">{{r.yak}}</span>
+                  </button>
+                  <sc-if value="{{r.open}}" hint-placeholder-val="{{false}}">
+                    <div style="background:#FAFCFB;border-top:1px solid #F0F2F0;">
+                      <div style="padding:6px 14px 2px 28px;font-size:10px;color:#8A968E;">{{r.dayCount}} · günlük ortalama PTF ve portföy üretimi</div>
+                      <sc-for list="{{r.days}}" as="dy" hint-placeholder-count="20">
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1.3fr 1fr;padding:6px 14px 6px 28px;font-size:11.5px;color:#3E4F45;">
+                          <span>{{dy.ay}}</span>
+                          <span style="text-align:right;">{{dy.tl}}</span>
+                          <span style="text-align:right;">{{dy.ptf}}</span>
+                          <span style="text-align:right;">{{dy.uretim}}</span>
+                          <span style="text-align:right;">{{dy.yak}}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </sc-for>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1.3fr 1fr;padding:10px 14px;font-size:12px;font-weight:700;border-top:1px solid #E1E7E2;background:#F6F9F7;">
+                <span>2026 YTD</span>
+                <span style="text-align:right;">{{ptfPanel.monthTot.tl}}</span>
+                <span style="text-align:right;">{{ptfPanel.monthTot.ptf}}</span>
+                <span style="text-align:right;">{{ptfPanel.monthTot.uretim}}</span>
+                <span style="text-align:right;">{{ptfPanel.monthTot.yak}}</span>
+              </div>
+            </div>
+            <div style="font-size:10px;color:#8A968E;margin-top:8px;">* Eylül ayı devam ediyor. Yakalama fiyatı portföy üretimiyle ağırlıklıdır. Projelerin YEKDEM fiyatları Elektrik Satış Özeti tablosunda proje bazında gösterilir.</div>
+          </sc-if>
+        </div>
+                      </sc-if>
+                      <sc-if value="{{g.isFx}}" hint-placeholder-val="{{false}}">
+        <!-- FX card -->
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:20px 22px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+            <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">Döviz Kurları</div></div>
+            <button aria-label="Excel'e aktar" title="Excel'e aktar" onClick="{{expFx.onClick}}" style="{{expFx.style}}">
+                          <sc-if value="{{expFx.isIdle}}" hint-placeholder-val="{{true}}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="2" width="18" height="20" rx="2" stroke="#1E6B3E" stroke-width="1.6"></rect><path d="M3 9h18M9 9v13" stroke="#1E6B3E" stroke-width="1.6"></path><path d="M12 12.5v5M12 17.5l-1.8-1.8M12 17.5l1.8-1.8" stroke="#1E6B3E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                          </sc-if>
+                          <sc-if value="{{expFx.isBusy}}" hint-placeholder-val="{{false}}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="animation:spin 0.8s linear infinite;"><circle cx="12" cy="12" r="8" stroke="#B7C2BC" stroke-width="2.2" opacity="0.35"></circle><path d="M20 12a8 8 0 0 0-8-8" stroke="#1E6B3E" stroke-width="2.2" stroke-linecap="round"></path></svg>
+                          </sc-if>
+                          <sc-if value="{{expFx.isDone}}" hint-placeholder-val="{{false}}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4 10-10" stroke="#1E6B3E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                          </sc-if>
+                          <sc-if value="{{expFx.isError}}" hint-placeholder-val="{{false}}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8v5M12 17h.01" stroke="#B23A3A" stroke-width="2.4" stroke-linecap="round"></path><circle cx="12" cy="12" r="9" stroke="#B23A3A" stroke-width="1.6"></circle></svg>
+                          </sc-if>
+                        </button>
+          </div>
+          <div style="font-size:11px;color:#8A968E;margin-top:2px;">{{fxPanel.caption}}</div>
+          <div style="display:flex;gap:6px;margin-top:14px;">
+            <button style="{{fxPanel.gunlukStyle}}" onClick="{{fxPanel.onGunluk}}">{{fxPanel.gunlukLabel}}</button>
+            <button style="{{fxPanel.yillikStyle}}" onClick="{{fxPanel.onYillik}}">{{fxPanel.yillikLabel}}</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;">
+            <sc-for list="{{fxPanel.boxes}}" as="b" hint-placeholder-count="3">
+              <div style="background:#F6F9F7;border:1px solid #E9EDEA;border-radius:10px;padding:12px 14px;">
+                <div style="font-size:10.5px;color:#5B6B60;">{{b.label}}</div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-top:4px;color:#0E241D;">{{b.value}}</div>
+                <div style="font-size:10px;font-weight:600;color:{{b.subColor}};margin-top:3px;">{{b.sub}}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{fxPanel.showDays}}" hint-placeholder-val="{{true}}">
+            <div style="border:1px solid #E9EDEA;border-radius:10px;overflow:hidden;margin-top:10px;">
+              <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;background:#F6F9F7;padding:9px 14px;font-size:10.5px;font-weight:600;color:#5B6B60;">
+                <span>Tarih</span><span style="text-align:right;">USD/TRY</span><span style="text-align:right;">EUR/TRY</span><span style="text-align:right;">EUR/USD</span>
+              </div>
+              <sc-for list="{{fxPanel.dayRows}}" as="r" hint-placeholder-count="10">
+                <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;padding:8px 14px;font-size:12px;border-top:1px solid #F0F2F0;">
+                  <span style="font-weight:600;">{{r.tarih}}</span>
+                  <span style="text-align:right;">{{r.usd}}</span>
+                  <span style="text-align:right;">{{r.eur}}</span>
+                  <span style="text-align:right;">{{r.eurusd}}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{fxPanel.showMonths}}" hint-placeholder-val="{{true}}">
+            <div style="border:1px solid #E9EDEA;border-radius:10px;overflow:hidden;margin-top:10px;">
+              <div style="max-height:320px;overflow-y:auto;">
+                <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;background:#F6F9F7;padding:9px 14px;font-size:10.5px;font-weight:600;color:#5B6B60;position:sticky;top:0;">
+                  <span>Ay (ort.)</span><span style="text-align:right;">USD/TRY</span><span style="text-align:right;">EUR/TRY</span><span style="text-align:right;">EUR/USD</span>
+                </div>
+                <sc-for list="{{fxPanel.monthRows}}" as="r" hint-placeholder-count="9">
+                  <button onClick="{{r.toggle}}" style="{{r.rowStyle}}">
+                    <span style="font-weight:600;">{{r.tarih}}</span>
+                    <span style="text-align:right;">{{r.usd}}</span>
+                    <span style="text-align:right;">{{r.eur}}</span>
+                    <span style="text-align:right;">{{r.eurusd}}</span>
+                  </button>
+                  <sc-if value="{{r.open}}" hint-placeholder-val="{{false}}">
+                    <div style="background:#FAFCFB;border-top:1px solid #F0F2F0;">
+                      <div style="padding:6px 14px 2px 28px;font-size:10px;color:#8A968E;">{{r.dayCount}} · günlük TCMB döviz alış</div>
+                      <sc-for list="{{r.days}}" as="dy" hint-placeholder-count="20">
+                        <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;padding:6px 14px 6px 28px;font-size:11.5px;color:#3E4F45;">
+                          <span>{{dy.tarih}}</span>
+                          <span style="text-align:right;">{{dy.usd}}</span>
+                          <span style="text-align:right;">{{dy.eur}}</span>
+                          <span style="text-align:right;">{{dy.eurusd}}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </sc-for>
+              </div>
+              <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;padding:10px 14px;font-size:12px;font-weight:700;border-top:1px solid #E1E7E2;background:#F6F9F7;">
+                <span>{{fxPanel.tot.tarih}}</span>
+                <span style="text-align:right;">{{fxPanel.tot.usd}}</span>
+                <span style="text-align:right;">{{fxPanel.tot.eur}}</span>
+                <span style="text-align:right;">{{fxPanel.tot.eurusd}}</span>
+              </div>
+            </div>
+          </sc-if>
+          <div style="font-size:10px;color:#8A968E;margin-top:10px;">Kurlar TCMB döviz alış kurlarıdır. Hafta sonu ve resmi tatillerde kur yayımlanmaz.</div>
+        </div>
+                      </sc-if>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{col.isEmpty}}" hint-placeholder-val="{{false}}">
+                    <div style="border:2px dashed #D5DDD8;border-radius:14px;height:120px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#8A968E;">Gadget'ı buraya bırakın</div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{fg.isSatis}}" hint-placeholder-val="{{false}}">
+          <button aria-label="Gadget'ı taşı" title="Tutup sürükleyerek yerini değiştirin" onPointerDown="{{fg.onGrab}}" style="position:absolute;top:3px;left:50%;transform:translateX(-50%);width:56px;height:16px;border:none;background:transparent;cursor:grab;touch-action:none;display:flex;align-items:center;justify-content:center;padding:0;z-index:3;"><svg width="30" height="8" viewBox="0 0 30 8" aria-hidden="true"><g fill="#A9B6AE"><circle cx="3" cy="2" r="1.5"></circle><circle cx="9" cy="2" r="1.5"></circle><circle cx="15" cy="2" r="1.5"></circle><circle cx="21" cy="2" r="1.5"></circle><circle cx="27" cy="2" r="1.5"></circle><circle cx="3" cy="6" r="1.5"></circle><circle cx="9" cy="6" r="1.5"></circle><circle cx="15" cy="6" r="1.5"></circle><circle cx="21" cy="6" r="1.5"></circle><circle cx="27" cy="6" r="1.5"></circle></g></svg></button>
+    <!-- Elektrik Satış Özeti -->
+    <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:20px 22px;flex-shrink:0;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">Elektrik Satış Özeti · 2026</div></div>
+          <div style="font-size:11px;color:#8A968E;margin-top:2px;">Üretim ayına göre · {{satisPanel.unitLabel}} · aya basınca günlük avanslar açılır</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:12px;">
+          <button aria-label="Excel'e aktar" title="Excel'e aktar" onClick="{{expSatis.onClick}}" style="{{expSatis.style}}">
+                        <sc-if value="{{expSatis.isIdle}}" hint-placeholder-val="{{true}}">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="2" width="18" height="20" rx="2" stroke="#1E6B3E" stroke-width="1.6"></rect><path d="M3 9h18M9 9v13" stroke="#1E6B3E" stroke-width="1.6"></path><path d="M12 12.5v5M12 17.5l-1.8-1.8M12 17.5l1.8-1.8" stroke="#1E6B3E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                        </sc-if>
+                        <sc-if value="{{expSatis.isBusy}}" hint-placeholder-val="{{false}}">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="animation:spin 0.8s linear infinite;"><circle cx="12" cy="12" r="8" stroke="#B7C2BC" stroke-width="2.2" opacity="0.35"></circle><path d="M20 12a8 8 0 0 0-8-8" stroke="#1E6B3E" stroke-width="2.2" stroke-linecap="round"></path></svg>
+                        </sc-if>
+                        <sc-if value="{{expSatis.isDone}}" hint-placeholder-val="{{false}}">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4 10-10" stroke="#1E6B3E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                        </sc-if>
+                        <sc-if value="{{expSatis.isError}}" hint-placeholder-val="{{false}}">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8v5M12 17h.01" stroke="#B23A3A" stroke-width="2.4" stroke-linecap="round"></path><circle cx="12" cy="12" r="9" stroke="#B23A3A" stroke-width="1.6"></circle></svg>
+                        </sc-if>
+                      </button>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
+            <sc-for list="{{satisPanel.projects}}" as="sp" hint-placeholder-count="4">
+              <button style="{{sp.style}}" onClick="{{sp.select}}">{{sp.name}}</button>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;">{{satisPanel.title}}</div>
+        <div style="display:flex;gap:6px;">
+          <button style="{{satisPanel.usdStyle}}" onClick="{{satisPanel.onUsd}}">USD</button>
+          <button style="{{satisPanel.tlStyle}}" onClick="{{satisPanel.onTl}}">TL</button>
+        </div>
+      </div>
+
+      <sc-if value="{{satisPanel.hasWarn}}" hint-placeholder-val="{{true}}">
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#FBF1DE;border:1px solid #F0DDB5;border-radius:10px;padding:10px 14px;margin-top:10px;">
+          <span style="font-size:10.5px;font-weight:700;color:#FFFFFF;background:#9A6B12;border-radius:6px;padding:2px 8px;flex-shrink:0;">Uyarı</span>
+          <span style="font-size:12px;color:#5E430C;line-height:1.5;">{{satisPanel.warnText}}</span>
+        </div>
+      </sc-if>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;">
+        <sc-for list="{{satisPanel.boxes}}" as="b" hint-placeholder-count="3">
+          <div style="background:#F6F9F7;border:1px solid #E9EDEA;border-radius:10px;padding:12px 14px;">
+            <div style="font-size:10.5px;color:#5B6B60;">{{b.label}}</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-top:4px;color:#0E241D;">{{b.value}}</div>
+            <div style="font-size:10px;color:#8A968E;margin-top:3px;">{{b.sub}}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <button onClick="{{satisPanel.onToggleList}}" style="margin-top:12px;width:100%;background:#FFFFFF;border:1px dashed #C9D3CD;border-radius:8px;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;color:#1E6B3E;cursor:pointer;">{{satisPanel.listToggleLabel}}</button>
+
+      <sc-if value="{{satisPanel.listOpen}}" hint-placeholder-val="{{true}}">
+      <div style="border:1px solid #E9EDEA;border-radius:10px;overflow:hidden;margin-top:10px;">
+        <div style="display:grid;grid-template-columns:0.9fr 1fr 0.9fr 0.9fr 0.9fr 1.15fr 1.15fr 1.15fr 1.3fr;background:#F6F9F7;padding:9px 14px;font-size:10.5px;font-weight:600;color:#5B6B60;">
+          <span>Ay</span><span style="text-align:right;">Üretim (MWh)</span><span style="text-align:right;">PTF</span><span style="text-align:right;">Yakalama</span><span style="text-align:right;">Proje YEKDEM</span><span style="text-align:right;">Satış Geliri</span><span style="text-align:right;">Günlük Avans Top.</span><span style="text-align:right;">Uzlaştırma</span><span style="text-align:right;">Durum</span>
+        </div>
+        <sc-for list="{{satisPanel.rows}}" as="r" hint-placeholder-count="12">
+          <sc-if value="{{r.canOpen}}" hint-placeholder-val="{{true}}">
+            <button onClick="{{r.toggle}}" style="{{r.rowStyle}}">
+              <span style="font-weight:600;">{{r.ay}}</span>
+              <span style="text-align:right;">{{r.uretim}}</span>
+              <span style="text-align:right;">{{r.ptf}}</span>
+              <span style="text-align:right;">{{r.yak}}</span>
+              <span style="text-align:right;">{{r.yek}}</span>
+              <span style="text-align:right;">{{r.satis}}</span>
+              <span style="text-align:right;">{{r.avans}}</span>
+              <span style="text-align:right;font-weight:600;">{{r.uzl}}</span>
+              <span style="text-align:right;font-weight:600;color:{{r.durumColor}};">{{r.durum}}</span>
+            </button>
+          </sc-if>
+          <sc-if value="{{r.open}}" hint-placeholder-val="{{false}}">
+            <div style="background:#FAFCFB;border-top:1px solid #F0F2F0;padding:8px 14px 10px 28px;">
+              <div style="font-size:10px;color:#8A968E;margin-bottom:4px;">Günlük avanslar · G+1 yatar</div>
+              <div style="max-height:260px;overflow-y:auto;border:1px solid #EEF0EE;border-radius:8px;background:#FFFFFF;">
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1.1fr 1.2fr;padding:7px 12px;font-size:10.5px;font-weight:600;color:#5B6B60;background:#F6F9F7;position:sticky;top:0;">
+                  <span>Üretim Günü</span><span style="text-align:right;">Üretim (MWh)</span><span style="text-align:right;">KGÜP (MWh)</span><span style="text-align:right;">PTF</span><span style="text-align:right;">Avans</span><span style="text-align:right;">Yatış Tarihi</span>
+                </div>
+                <sc-for list="{{r.days}}" as="dy" hint-placeholder-count="10">
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1.1fr 1.2fr;padding:6px 12px;font-size:11.5px;border-top:1px solid #F4F6F4;color:#3E4F45;">
+                    <span>{{dy.gun}}</span>
+                    <span style="text-align:right;">{{dy.uretim}}</span>
+                    <span style="text-align:right;">{{dy.kgup}}</span>
+                    <span style="text-align:right;">{{dy.ptf}}</span>
+                    <span style="text-align:right;font-weight:600;">{{dy.avans}}</span>
+                    <span style="text-align:right;">{{dy.yatis}}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{r.isFuture}}" hint-placeholder-val="{{false}}">
+            <div style="{{r.rowStyle}}">
+              <span>{{r.ay}}</span><span style="text-align:right;">–</span><span style="text-align:right;">–</span><span style="text-align:right;">–</span><span style="text-align:right;">–</span><span style="text-align:right;">–</span><span style="text-align:right;">–</span><span style="text-align:right;">–</span><span style="text-align:right;">–</span>
+            </div>
+          </sc-if>
+        </sc-for>
+        <div style="display:grid;grid-template-columns:0.9fr 1fr 0.9fr 0.9fr 0.9fr 1.15fr 1.15fr 1.15fr 1.3fr;padding:10px 14px;font-size:12px;font-weight:700;border-top:1px solid #E1E7E2;background:#F6F9F7;">
+          <span>TOPLAM</span>
+          <span style="text-align:right;">{{satisPanel.tot.uretim}}</span>
+          <span style="text-align:right;">{{satisPanel.tot.ptf}}</span>
+          <span style="text-align:right;">{{satisPanel.tot.yak}}</span>
+          <span style="text-align:right;">{{satisPanel.tot.yek}}</span>
+          <span style="text-align:right;">{{satisPanel.tot.satis}}</span>
+          <span style="text-align:right;">{{satisPanel.tot.avans}}</span>
+          <span style="text-align:right;">{{satisPanel.tot.uzl}}</span>
+          <span></span>
+        </div>
+      </div>
+      <div style="font-size:10px;color:#8A968E;margin-top:8px;line-height:1.5;">1) Satış geliri KDV hariç: UEVM × yakalama − yönetim bedeli + YEKDEM payı × UEVM × (YEK tarifesi − 0,97 × PTF). 2) Günlük avans = KGÜP × PTF × 0,9649, üretimden 1 gün sonra (G+1) yatar; KGÜP üretimin %60'ı olarak tahmin edilmiştir. 3) Uzlaştırma = KDV dahil fatura − ay içi avanslar; ertesi ayın 26'sında yatar. 4) TL görünümü: günlük tutarlar o günün TCMB döviz alış kuruyla, aylık satış ve YEKDEM ayın ortalama kuruyla çevrilir. 5) * Eylül devam ediyor, tutarlar tahminidir. PTF: EPİAŞ.</div>
+      </sc-if>
+      <div style="font-size:10.5px;color:#5B6B60;margin-top:10px;font-weight:600;">{{satisPanel.noteMw}}</div>
+    </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+        <div style="font-size:11px;color:#8A968E;line-height:1.5;">Veriler EPİAŞ Şeffaflık Platformu ve TCMB kaynaklarından otomatik çekilmektedir. Gadget'ların yerini üstlerindeki tutamaçtan tutup sürükleyerek değiştirebilirsiniz.</div>
+    </sc-if>
+
+    <sc-if value="{{pageIsPozisyon}}" hint-placeholder-val="{{true}}">
+    <!-- Position row -->
+        <div data-gz="top" style="display:flex;gap:28px;align-items:flex-start;flex-shrink:0;">
+      <sc-for list="{{gzPozTop}}" as="col" hint-placeholder-count="2">
+        <div data-gcol="top" style="{{col.style}}">
+          <sc-for list="{{col.items}}" as="g" hint-placeholder-count="2">
+            <div data-gi="top" data-gid="{{g.id}}" style="{{g.style}}">
+              <button aria-label="Gadget'ı taşı" title="Tutup sürükleyerek yerini değiştirin" onPointerDown="{{g.onGrab}}" style="position:absolute;top:3px;left:50%;transform:translateX(-50%);width:56px;height:16px;border:none;background:transparent;cursor:grab;touch-action:none;display:flex;align-items:center;justify-content:center;padding:0;z-index:3;"><svg width="30" height="8" viewBox="0 0 30 8" aria-hidden="true"><g fill="#A9B6AE"><circle cx="3" cy="2" r="1.5"></circle><circle cx="9" cy="2" r="1.5"></circle><circle cx="15" cy="2" r="1.5"></circle><circle cx="21" cy="2" r="1.5"></circle><circle cx="27" cy="2" r="1.5"></circle><circle cx="3" cy="6" r="1.5"></circle><circle cx="9" cy="6" r="1.5"></circle><circle cx="15" cy="6" r="1.5"></circle><circle cx="21" cy="6" r="1.5"></circle><circle cx="27" cy="6" r="1.5"></circle></g></svg></button>
+              <sc-if value="{{g.isBalbal}}" hint-placeholder-val="{{false}}">
+              <div style="padding-top:18px;">
+                <div style="background:#FFFFFF;border:1px solid #BFE3CC;border-radius:14px;padding:16px 22px;">
+                          <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <div style="display:flex;align-items:center;gap:8px;"><img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:contain;flex-shrink:0;"><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">Onayınızı Bekleyen Balbal Çıktıları</div></div>
+                            <div style="font-size:11px;font-weight:600;background:#FBF1DE;color:#9A6B12;border-radius:20px;padding:4px 11px;white-space:nowrap;">{{balbalPendingLabel}}</div>
+                          </div>
+                          <div style="display:flex;flex-direction:column;margin-top:10px;max-height:230px;overflow-y:auto;">
+                            <sc-for list="{{balbalList}}" as="item" hint-placeholder-count="4">
+                              <a href="{{item.href}}" style="display:flex;align-items:center;justify-content:space-between;padding:10px 4px 10px 0;border-bottom:1px solid #F0F2F0;">
+                                <div>
+                                  <div style="font-size:12.5px;font-weight:600;color:#132119;">{{item.title}}</div>
+                                  <div style="font-size:11px;color:#8A968E;margin-top:2px;">{{item.meta}}</div>
+                                </div>
+                                <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:{{item.badgeBg}};color:{{item.badgeColor}};white-space:nowrap;">{{item.status}}</span>
+                              </a>
+                            </sc-for>
+                          </div>
+                          <div style="font-size:11px;color:#8A968E;margin-top:10px;">Balbal taslak hazırlar; onaylamadan hiçbir dosya oluşmaz, hiçbir şey gönderilmez.</div>
+                        </div>
+              </div>
+              </sc-if>
+              <sc-if value="{{g.isGorevler}}" hint-placeholder-val="{{false}}">
+              <div style="padding-top:18px;">
+                <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 22px;">
+                          <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">Görevler</div></div>
+                            <div style="font-size:11px;font-weight:600;background:#FBF1DE;color:#9A6B12;border-radius:20px;padding:4px 11px;white-space:nowrap;">{{tasksPendingLabel}}</div>
+                          </div>
+                          <div style="display:flex;flex-direction:column;margin-top:10px;max-height:230px;overflow-y:auto;">
+                            <sc-for list="{{tasksList}}" as="item" hint-placeholder-count="3">
+                              <a href="{{item.href}}" style="display:flex;align-items:center;justify-content:space-between;padding:10px 4px 10px 0;border-bottom:1px solid #F0F2F0;">
+                                <div>
+                                  <div style="font-size:12.5px;font-weight:600;color:#132119;">{{item.title}}</div>
+                                  <div style="font-size:11px;color:#8A968E;margin-top:2px;">{{item.meta}}</div>
+                                </div>
+                                <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:{{item.badgeBg}};color:{{item.badgeColor}};white-space:nowrap;">{{item.status}}</span>
+                              </a>
+                            </sc-for>
+                          </div>
+                        </div>
+              </div>
+              </sc-if>
+              <sc-if value="{{g.isMailler}}" hint-placeholder-val="{{false}}">
+              <div style="padding-top:18px;">
+                <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 22px;">
+                          <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">Bayraklı Mailler</div></div>
+                            <div style="font-size:11px;font-weight:600;background:#FBF1DE;color:#9A6B12;border-radius:20px;padding:4px 11px;white-space:nowrap;">{{mailsPendingLabel}}</div>
+                          </div>
+                          <div style="display:flex;flex-direction:column;margin-top:10px;max-height:230px;overflow-y:auto;">
+                            <sc-for list="{{mailsList}}" as="item" hint-placeholder-count="6">
+                              <a href="{{item.href}}" style="display:flex;align-items:center;justify-content:space-between;padding:10px 4px 10px 0;border-bottom:1px solid #F0F2F0;">
+                                <div>
+                                  <div style="font-size:12.5px;font-weight:600;color:#132119;">{{item.title}}</div>
+                                  <div style="font-size:11px;color:#8A968E;margin-top:2px;">{{item.meta}}</div>
+                                </div>
+                                <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:{{item.badgeBg}};color:{{item.badgeColor}};white-space:nowrap;">{{item.status}}</span>
+                              </a>
+                            </sc-for>
+                          </div>
+                        </div>
+              </div>
+              </sc-if>
+              <sc-if value="{{g.isTalepler}}" hint-placeholder-val="{{false}}">
+              <div style="padding-top:18px;">
+                <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 22px;">
+                          <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">Gelen Talepler</div></div>
+                            <div style="font-size:11px;font-weight:600;background:#FBF1DE;color:#9A6B12;border-radius:20px;padding:4px 11px;white-space:nowrap;">{{talepPendingLabel}}</div>
+                          </div>
+                          <div style="display:flex;flex-direction:column;margin-top:10px;max-height:230px;overflow-y:auto;">
+                            <sc-for list="{{talepList}}" as="item" hint-placeholder-count="3">
+                              <a href="{{item.href}}" style="display:flex;align-items:center;justify-content:space-between;padding:10px 4px 10px 0;border-bottom:1px solid #F0F2F0;">
+                                <div>
+                                  <div style="font-size:12.5px;font-weight:600;color:#132119;">{{item.title}}</div>
+                                  <div style="font-size:11px;color:#8A968E;margin-top:2px;">{{item.meta}}</div>
+                                </div>
+                                <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:{{item.badgeBg}};color:{{item.badgeColor}};white-space:nowrap;">{{item.status}}</span>
+                              </a>
+                            </sc-for>
+                          </div>
+                        </div>
+              </div>
+              </sc-if>
+              <sc-if value="{{g.isKredi}}" hint-placeholder-val="{{false}}">
+              <div style="padding-top:18px;">
+                <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:18px 22px;">
+                          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
+                            <div>
+                              <div style="display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:2px;background:{{accent}};display:inline-block;flex-shrink:0;"></span><div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:#0E241D;letter-spacing:0.1px;">Önümüzdeki 6 Aylık Kredi Geri Ödeme Planı</div></div>
+                              <div style="font-size:11px;color:#8A968E;margin-top:2px;">Kaynak: Ortak Alan · kredi_odeme_takvimi.xlsx (USD)</div>
+                            </div>
+                          </div>
+                          <div style="display:grid;grid-template-columns:88px 1fr 130px 120px;gap:2px 12px;">
+                            <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:8px;border-bottom:1px solid #E9EDEA;">Ay</div>
+                            <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:8px;border-bottom:1px solid #E9EDEA;">Proje</div>
+                            <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:8px;border-bottom:1px solid #E9EDEA;">Banka</div>
+                            <div style="font-size:10px;color:#8A968E;text-transform:uppercase;letter-spacing:0.4px;padding-bottom:8px;border-bottom:1px solid #E9EDEA;text-align:right;">Tutar (USD)</div>
+                            <sc-for list="{{loans}}" as="loan" hint-placeholder-count="6">
+                              <div style="font-size:12.5px;font-weight:500;padding:7px 0;">{{loan.month}}</div>
+                              <div style="font-size:12.5px;padding:7px 0;">{{loan.project}}</div>
+                              <div style="font-size:12.5px;color:#5B6B60;padding:7px 0;">{{loan.bank}}</div>
+                              <div style="font-size:12.5px;font-weight:600;padding:7px 0;text-align:right;">{{loan.amount}}</div>
+                            </sc-for>
+                            <div style="grid-column:1/3;font-size:12.5px;font-weight:600;padding-top:10px;border-top:1px solid #E9EDEA;margin-top:2px;">Toplam (6 Ay)</div>
+                            <div style="grid-column:3/4;padding-top:10px;border-top:1px solid #E9EDEA;margin-top:2px;"></div>
+                            <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;padding-top:10px;border-top:1px solid #E9EDEA;margin-top:2px;text-align:right;">{{loanTotal}}</div>
+                          </div>
+                        </div>
+              </div>
+              </sc-if>
+            </div>
+          </sc-for>
+          <sc-if value="{{col.isEmpty}}" hint-placeholder-val="{{false}}">
+            <div style="border:2px dashed #D5DDD8;border-radius:14px;height:120px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#8A968E;">Gadget'ı buraya bırakın</div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+    <sc-if value="{{showTeamLauncher}}" hint-placeholder-val="{{true}}">
+      <button aria-label="Ekip Sohbetini Aç" onClick="{{onOpenTeamChat}}" style="position:absolute;right:36px;bottom:112px;width:56px;height:56px;border-radius:50%;background:{{accent}};border:none;box-shadow:0 8px 22px rgba(19,33,25,0.2);cursor:pointer;display:flex;align-items:center;justify-content:center;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+      </button>
+    </sc-if>
+    <sc-if value="{{anyModalClosed}}" hint-placeholder-val="{{true}}">
+      <button aria-label="Balbal'ı Aç" onClick="{{onOpenChat}}" style="position:absolute;right:36px;bottom:36px;width:64px;height:64px;border-radius:50%;background:#FFFFFF;border:none;box-shadow:0 8px 22px rgba(19,33,25,0.28), 0 0 0 2px {{accent}};cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;">
+        <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="Balbal" style="width:78%;height:78%;object-fit:contain;">
+      </button>
+    </sc-if>
+
+    <!-- Excel'e aktar modalı: tarih aralığı seçimi -->
+    <sc-if value="{{expModal.open}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(14,36,29,0.45);display:flex;align-items:center;justify-content:center;z-index:30;">
+        <div style="width:440px;background:#FFFFFF;border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,0.28);padding:24px;display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:#0E241D;">{{expModal.title}}</div>
+            <button aria-label="Kapat" onClick="{{expModal.onClose}}" style="width:28px;height:28px;border-radius:8px;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6B60" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+            </button>
+          </div>
+          <div style="font-size:11.5px;color:#8A968E;">Sistemdeki veri aralığı: {{expModal.rangeLabel}}</div>
+          <div style="display:flex;gap:12px;">
+            <label style="flex:1;display:flex;flex-direction:column;gap:5px;font-size:11.5px;color:#5B6B60;font-weight:600;">Başlangıç
+              <input type="date" value="{{expModal.from}}" onChange="{{expModal.onFromChange}}" style="border:1px solid #D6E4DA;border-radius:8px;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#132119;">
+            </label>
+            <label style="flex:1;display:flex;flex-direction:column;gap:5px;font-size:11.5px;color:#5B6B60;font-weight:600;">Bitiş
+              <input type="date" value="{{expModal.to}}" onChange="{{expModal.onToChange}}" style="border:1px solid #D6E4DA;border-radius:8px;padding:8px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#132119;">
+            </label>
+          </div>
+          <sc-if value="{{expModal.warnFrom}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;gap:8px;align-items:flex-start;background:#FBF1DE;border:1px solid #F0DDB5;border-radius:10px;padding:9px 12px;">
+              <span style="font-size:10px;font-weight:700;color:#FFFFFF;background:#9A6B12;border-radius:6px;padding:2px 7px;flex-shrink:0;">Uyarı</span>
+              <span style="font-size:11.5px;color:#5E430C;line-height:1.5;">{{expModal.warnFromText}}</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{expModal.warnTo}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;gap:8px;align-items:flex-start;background:#FBF1DE;border:1px solid #F0DDB5;border-radius:10px;padding:9px 12px;">
+              <span style="font-size:10px;font-weight:700;color:#FFFFFF;background:#9A6B12;border-radius:6px;padding:2px 7px;flex-shrink:0;">Uyarı</span>
+              <span style="font-size:11.5px;color:#5E430C;line-height:1.5;">{{expModal.warnToText}}</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{expModal.invalid}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;gap:8px;align-items:flex-start;background:#FBE7E7;border:1px solid #F0C6C6;border-radius:10px;padding:9px 12px;">
+              <span style="font-size:10px;font-weight:700;color:#FFFFFF;background:#B23A3A;border-radius:6px;padding:2px 7px;flex-shrink:0;">Hata</span>
+              <span style="font-size:11.5px;color:#7A2323;line-height:1.5;">{{expModal.invalidText}}</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{expModal.hasNote}}" hint-placeholder-val="{{false}}">
+            <div style="font-size:10.5px;color:#8A968E;line-height:1.5;">{{expModal.note}}</div>
+          </sc-if>
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px;">
+            <button onClick="{{expModal.onClose}}" style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;border:1px solid #E1E7E2;border-radius:20px;padding:9px 18px;background:#FFFFFF;color:#5B6B60;cursor:pointer;">Vazgeç</button>
+            <button onClick="{{expModal.onConfirm}}" style="{{expModal.confirmStyle}}">Excel'e Aktar</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- Balbal penceresi (ortak bileşen: Balbal-Sohbet.dc.html) — yüzen / yan panel / tam ekran sekme -->
+    <sc-if value="{{chatOpen}}" hint-placeholder-val="{{false}}">
+      <div style="{{chatWin.style}}">
+        <div onPointerDown="{{chatWin.onGrab}}" style="{{chatWin.barStyle}}">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#C9D3CC;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><path d="M5 9h14M5 15h14"></path></svg>
+            {{chatWin.hint}}
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;">
+            <button onClick="{{chatWin.onFloat}}" aria-label="Yüzen pencere" title="Yüzen pencere" style="{{chatWin.floatBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="12" rx="2"></rect></svg></button>
+            <button onClick="{{chatWin.onSide}}" aria-label="Yan panel" title="Yan panel" style="{{chatWin.sideBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M14 4v16"></path></svg></button>
+            <button onClick="{{onBalbalFull}}" aria-label="Tam ekran sekme" title="Tam ekran sekme" style="{{chatWin.fullBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg></button>
+            <button onClick="{{onCloseChat}}" aria-label="Kapat" style="{{chatWin.closeBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+          </div>
+        </div>
+        <dc-import name="Balbal-Sohbet" dept="finans" ask="{{chatAsk}}" w="{{chatWin.w}}" h="{{chatWin.h}}" on-close="{{onCloseChat}}" on-full="{{onBalbalFull}}" hint-size="760px,560px"></dc-import>
+        <sc-if value="{{chatWin.isFloat}}" hint-placeholder-val="{{true}}">
+          <button onPointerDown="{{chatWin.onResize}}" aria-label="Pencereyi boyutlandır" title="Köşeden tutup boyutlandırın" style="position:absolute;right:2px;bottom:2px;width:22px;height:22px;border:none;background:transparent;cursor:nwse-resize;touch-action:none;padding:0;display:flex;align-items:flex-end;justify-content:flex-end;"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M13 1 1 13M13 7l-6 6" stroke="#A9B6AE" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- Ekip sohbeti penceresi (ortak bileşen: Ekip-Sohbet.dc.html) — aynı pencere davranışı -->
+    <sc-if value="{{teamChatOpen}}" hint-placeholder-val="{{false}}">
+      <div style="{{teamWin.style}}">
+        <div onPointerDown="{{teamWin.onGrab}}" style="{{teamWin.barStyle}}">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#C9D3CC;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><path d="M5 9h14M5 15h14"></path></svg>
+            {{teamWin.hint}}
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;">
+            <button onClick="{{teamWin.onFloat}}" aria-label="Yüzen pencere" title="Yüzen pencere" style="{{teamWin.floatBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="12" rx="2"></rect></svg></button>
+            <button onClick="{{teamWin.onSide}}" aria-label="Yan panel" title="Yan panel" style="{{teamWin.sideBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M14 4v16"></path></svg></button>
+            <button onClick="{{onCloseTeamChat}}" aria-label="Kapat" style="{{teamWin.closeBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+          </div>
+        </div>
+        <dc-import name="Ekip-Sohbet" dept="finans" w="{{teamWin.w}}" h="{{teamWin.h}}" on-close="{{onCloseTeamChat}}" hint-size="760px,560px"></dc-import>
+        <sc-if value="{{teamWin.isFloat}}" hint-placeholder-val="{{true}}">
+          <button onPointerDown="{{teamWin.onResize}}" aria-label="Pencereyi boyutlandır" title="Köşeden tutup boyutlandırın" style="position:absolute;right:2px;bottom:2px;width:22px;height:22px;border:none;background:transparent;cursor:nwse-resize;touch-action:none;padding:0;display:flex;align-items:flex-end;justify-content:flex-end;"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M13 1 1 13M13 7l-6 6" stroke="#A9B6AE" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- Üst bar panelleri -->
+    <sc-if value="{{searchOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;top:70px;left:640px;z-index:20;">
+        <dc-import name="Arama-Sonuclari" dept="finans" query="{{searchQ}}" on-close="{{onCloseSearch}}" on-ask-balbal="{{onAskFromSearch}}" hint-size="560px,520px"></dc-import>
+      </div>
+    </sc-if>
+    <sc-if value="{{notifOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;top:70px;right:120px;z-index:20;">
+        <dc-import name="Bildirimler" dept="finans" on-close="{{onCloseNotif}}" on-open-team-chat="{{onNotifOpenTeam}}" on-open-balbal="{{onNotifOpenBalbal}}" hint-size="420px,560px"></dc-import>
+      </div>
+    </sc-if>
+    <sc-if value="{{userMenuOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;top:70px;right:24px;z-index:20;">
+        <dc-import name="Kullanici-Menusu" dept="finans" on-close="{{onCloseUserMenu}}" hint-size="340px,520px"></dc-import>
+      </div>
+    </sc-if>
+
+
+  </div>
+
+  <!-- Ödeme talebi menüsü (üst bar) · pencere -->
+  <sc-if value="{{otMenu}}" hint-placeholder-val="{{false}}"><div onClick="{{otMenuClose}}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:75;"></div></sc-if>
+  <sc-if value="{{otOv}}" hint-placeholder-val="{{false}}">
+  <div onClick="{{otBackdrop}}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:70;background:rgba(14,36,29,0.45);overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:24px;box-sizing:border-box;">
+    <sc-if value="{{otIsMs}}" hint-placeholder-val="{{false}}"><dc-import name="Masraf-Formu" embedded="{{true}}" kisi="{{otKisi}}" mod="{{otMod}}" on-close="{{otClose}}" hint-size="1280px,1210px"></dc-import></sc-if>
+    <sc-if value="{{otIsYot}}" hint-placeholder-val="{{false}}"><dc-import name="Yeni-Odeme-Talebi" embedded="{{true}}" kisi="{{otKisi}}" tur="{{otTur}}" adim="{{otAdim}}" on-close="{{otClose}}" hint-size="900px,700px"></dc-import></sc-if>
+  </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2FA968","options":["#2FA968","#0E241D","#D97706","#2563EB"]},"urun2Acik":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":980}}'>
+class Component extends DCLogic {
+  renderVals() { return Object.assign(this._rv0.apply(this, arguments), this._ot()); }
+  // Üst bar · Ödeme talebi menüsü: departmanın açabileceği tüm ödeme talepleri (Yeni-Odeme-Talebi türleriyle aynı)
+  _ot() {
+    const self = this; const st = this.state || {}; const set = function (o) { self.setState(o); };
+    const K = 'kaan';
+    const T = { masraf: ['Masraf', 'Fiş / fatura yükle · Balbal tabloyu çıkarır'], avans: ['Avans', 'İleride harcanacak tutar için'], po: ['Ürün / hizmet satın alma', 'Satın alma talebi formu'], soz: ['Sözleşmeye istinaden ödeme', 'Erişebildiğin klasörlerdeki sözleşmeler'], kredi: ['Kredi ödemesi', 'Bankalar ve krediler'], vergi: ['Vergi / yasal yükümlülük', 'Muhasebe tahakkukları'], bordro: ['Bordro', 'Kapanmış bordro dönemleri'], idari: ['İdari İşler talebi', 'Talep ve teklif tek ekranda'] };
+    const L = ['masraf', 'avans', 'soz', 'kredi'];
+    const o = st.otOpen || null; const isMs = o === 'masraf' || o === 'avans';
+    return {
+      otMenu: !!st.otMenu, otMenuOpen: st.otMenu ? 'true' : 'false',
+      otToggle: function () { set({ otMenu: !st.otMenu }); }, otMenuClose: function () { set({ otMenu: false }); },
+      otMine: function () { set({ otMenu: false, otOpen: 'liste' }); },
+      otItems: L.map(function (v) { return { lbl: T[v][0], sub: T[v][1], pick: function () { if (v === 'idari') set({ otMenu: false, zfOpen: true, zfFull: false }); else set({ otMenu: false, otOpen: v }); } }; }),
+      otOv: !!o, otIsMs: isMs, otIsYot: !!o && !isMs, otKisi: K, otMod: o === 'avans' ? 'avans' : 'masraf',
+      otTur: o && o !== 'liste' && !isMs ? o : '', otAdim: o === 'liste' ? 'liste' : 'kayit',
+      otClose: function () { set({ otOpen: null }); },
+      otBackdrop: function (e) { if (e && e.target === e.currentTarget) set({ otOpen: null }); }
+    };
+  }
+  gzStoreKey() { return 'xplatform-layout-proje-finans'; }
+  gzAreas() { return { genel: { top: [['uretim'], ['ptf', 'fx']], full: ['grid', 'satis'] }, pozisyon: { top: [['balbal', 'gorevler', 'mailler'], ['talepler', 'kredi']], full: [] } }; }
+  // ---- Gadget sürükle-bırak motoru (tutamaçtan tut, sürükle, bırak; diğerleri kayar, bırakılan yerine oturur) ----
+  // Her "alan" (genel / pozisyon) kendi düzenini bağımsız tutar.
+  componentDidMount() {
+    try {
+      const raw = window.localStorage.getItem(this.gzStoreKey());
+      if (raw) {
+        const all = JSON.parse(raw);
+        const defs = this.gzAreas();
+        const merged = {};
+        Object.keys(defs).forEach(function (area) { const v = all[area]; if (v) merged[area] = v; });
+        let ok = false;
+        Object.keys(merged).forEach(function (area) { if (this.gzValid(area, merged[area])) ok = true; else delete merged[area]; }, this);
+        if (ok) this.setState({ gzLayout: merged });
+      }
+    } catch (err) { /* depolama yoksa varsayılan düzen */ }
+  }
+  componentWillUnmount() { this.gzDetach(); this.winDetach(); }
+  // ---- Pencere motoru: yüzen pencere taşıma/boyutlandırma (Balbal ve ekip sohbeti). Konum/boyut kullanıcı bazında tutulur.
+  winDetach() {
+    if (this._wMove) window.removeEventListener('pointermove', this._wMove);
+    if (this._wUp) { window.removeEventListener('pointerup', this._wUp); window.removeEventListener('pointercancel', this._wUp); }
+    this._wMove = null; this._wUp = null;
+    try { document.body.style.userSelect = ''; } catch (err) {}
+  }
+  winStart(key, mode, e) {
+    const self = this;
+    const st = (this.state && this.state[key]) || {};
+    const def = this.winDefaults()[key];
+    const RH = 980;
+    const start = { x: e.clientX, y: e.clientY, left: st.x !== undefined ? st.x : def.x, top: st.y !== undefined ? st.y : def.y, w: st.w || def.w, h: st.h || def.h };
+    this.winDetach();
+    try { document.body.style.userSelect = 'none'; } catch (err) {}
+    this._wMove = function (ev) {
+      const dx = ev.clientX - start.x, dy = ev.clientY - start.y;
+      const cur = Object.assign({}, (self.state && self.state[key]) || {});
+      if (mode === 'move') { cur.x = Math.max(0, Math.min(1440 - 240, start.left + dx)); cur.y = Math.max(0, Math.min(RH - 120, start.top + dy)); }
+      else { cur.w = Math.max(420, Math.min(1400, start.w + dx)); cur.h = Math.max(360, Math.min(900, start.h + dy)); }
+      const patch = {}; patch[key] = cur; self.setState(patch);
+    };
+    this._wUp = function () { self.winDetach(); };
+    window.addEventListener('pointermove', this._wMove);
+    window.addEventListener('pointerup', this._wUp);
+    window.addEventListener('pointercancel', this._wUp);
+    e.preventDefault();
+  }
+  winDefaults() { return { chatWin: { x: 400, y: 120, w: 980, h: 760 }, teamWin: { x: 360, y: 150, w: 980, h: 720 } }; }
+  winBuild(key, hint) {
+    const self = this;
+    const def = this.winDefaults()[key];
+    const st = (this.state && this.state[key]) || {};
+    const RH = 980;
+    const mode = st.mode || 'float';
+    const isFloat = mode === 'float';
+    const w = isFloat ? (st.w || def.w) : 520;
+    const h = isFloat ? (st.h || def.h) : (RH - 69 - 34);
+    const x = st.x !== undefined ? st.x : def.x;
+    const y = st.y !== undefined ? st.y : def.y;
+    const base = 'position:absolute;z-index:10;display:flex;flex-direction:column;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.28);overflow:hidden;background:#FFFFFF;';
+    const style = isFloat
+      ? base + 'left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;height:' + (h + 34) + 'px;transform-origin:100% 100%;animation:genie 320ms cubic-bezier(.2,.8,.2,1);'
+      : base + 'right:0;top:69px;bottom:0;width:' + w + 'px;border-radius:0;box-shadow:-8px 0 24px rgba(19,33,25,0.12);';
+    const BTN = 'width:26px;height:26px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;';
+    const on = BTN + 'background:#2FA968;color:#0E241D;';
+    const off = BTN + 'background:transparent;color:#C9D3CC;';
+    const setMode = function (m) { return function () { const cur = Object.assign({}, st, { mode: m }); const patch = {}; patch[key] = cur; self.setState(patch); }; };
+    return {
+      style: style, w: w, h: h, isFloat: isFloat,
+      barStyle: 'height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 14px;background:#0E241D;cursor:' + (isFloat ? 'grab' : 'default') + ';touch-action:none;user-select:none;',
+      hint: isFloat ? hint + ' · tutup taşıyın, köşeden boyutlandırın' : hint + ' · yan panel',
+      floatBtn: isFloat ? on : off, sideBtn: isFloat ? off : on, fullBtn: off, closeBtn: off,
+      onFloat: setMode('float'), onSide: setMode('side'),
+      onGrab: function (e) { if (isFloat && e.target && !e.target.closest('button,a')) self.winStart(key, 'move', e); },
+      onResize: function (e) { self.winStart(key, 'resize', e); }
+    };
+  }
+  gzValid(area, v) {
+    const d = this.gzAreas()[area];
+    if (!d) return false;
+    const flat = function (x) { return x.top[0].concat(x.top[1], x.full || []).slice().sort().join(','); };
+    return v && v.top && v.top.length === 2 && flat(v) === flat(d);
+  }
+  gzDetach() {
+    if (this._gzMove) window.removeEventListener('pointermove', this._gzMove);
+    if (this._gzUp) { window.removeEventListener('pointerup', this._gzUp); window.removeEventListener('pointercancel', this._gzUp); }
+    this._gzMove = null; this._gzUp = null;
+    try { document.body.style.userSelect = ''; document.body.style.cursor = ''; } catch (err) {}
+  }
+  gzStart(area, zone, id, e) {
+    if (e.button != null && e.button !== 0) return;
+    e.preventDefault();
+    const zoneEl = e.currentTarget.closest('[data-gz="' + zone + '"]');
+    if (!zoneEl) return;
+    const colEls = zone === 'full' ? [zoneEl] : Array.prototype.slice.call(zoneEl.querySelectorAll('[data-gcol="' + zone + '"]'));
+    let fromCol = -1, fromIdx = -1, item = null;
+    const cols = colEls.map(function (c, ci) {
+      const cr = c.getBoundingClientRect();
+      const items = Array.prototype.slice.call(c.querySelectorAll('[data-gi="' + zone + '"]')).map(function (el, ii) {
+        const r = el.getBoundingClientRect();
+        const o = { id: el.getAttribute('data-gid'), top: r.top, left: r.left, w: r.width, h: r.height, mid: r.top + r.height / 2 };
+        if (o.id === id) { fromCol = ci; fromIdx = ii; item = o; }
+        return o;
+      });
+      return { left: cr.left, right: cr.right, items: items };
+    });
+    if (!item) return;
+    const gap = zone === 'full' ? 24 : 16;
+    this._drag = { area: area, zone: zone, id: id, zoneEl: zoneEl, x0: e.clientX, y0: e.clientY, cols: cols, fromCol: fromCol, fromIdx: fromIdx, item: item, h: item.h + gap };
+    this._gzMove = this.gzMove.bind(this);
+    this._gzUp = this.gzEnd.bind(this);
+    window.addEventListener('pointermove', this._gzMove);
+    window.addEventListener('pointerup', this._gzUp);
+    window.addEventListener('pointercancel', this._gzUp);
+    try { document.body.style.userSelect = 'none'; document.body.style.cursor = 'grabbing'; } catch (err) {}
+    this.setState({ gzDrag: { dx: 0, dy: 0, col: fromCol, idx: fromIdx } });
+  }
+  gzMove(e) {
+    const D = this._drag;
+    if (!D) return;
+    const dx = e.clientX - D.x0, dy = e.clientY - D.y0;
+    const cx = D.item.left + dx + D.item.w / 2, cy = D.item.top + dy + D.item.h / 2;
+    let col = 0, best = Infinity;
+    D.cols.forEach(function (c, ci) {
+      const dist = cx < c.left ? c.left - cx : (cx > c.right ? cx - c.right : 0);
+      if (dist < best) { best = dist; col = ci; }
+    });
+    const others = D.cols[col].items.filter(function (o) { return o.id !== D.id; });
+    let idx = 0;
+    others.forEach(function (o) { if (o.mid < cy) idx++; });
+    this.setState({ gzDrag: { dx: dx, dy: dy, col: col, idx: idx } });
+  }
+  gzEnd() {
+    const D = this._drag, g = this.state && this.state.gzDrag;
+    this.gzDetach();
+    if (!D || !g) { this._drag = null; return; }
+    const area = D.area;
+    const cur = (this.state && this.state.gzLayout && this.state.gzLayout[area]) || this.gzAreas()[area];
+    const next = { top: [cur.top[0].slice(), cur.top[1].slice()], full: (cur.full || []).slice() };
+    const lists = D.zone === 'full' ? [next.full] : next.top;
+    lists[D.fromCol].splice(lists[D.fromCol].indexOf(D.id), 1);
+    lists[g.col].splice(g.idx, 0, D.id);
+    this._settle = { zoneEl: D.zoneEl, zone: D.zone, id: D.id, top: D.item.top + g.dy, left: D.item.left + g.dx };
+    this._drag = null;
+    const allLayout = Object.assign({}, this.state && this.state.gzLayout);
+    allLayout[area] = next;
+    try {
+      const raw = {}; const defs = this.gzAreas();
+      Object.keys(defs).forEach(function (a) { raw[a] = allLayout[a] || defs[a]; });
+      window.localStorage.setItem(this.gzStoreKey(), JSON.stringify(raw));
+    } catch (err) {}
+    this.setState({ gzLayout: allLayout, gzDrag: null, gzNoAnim: true });
+  }
+  componentDidUpdate() {
+    const s = this._settle;
+    if (!s) return;
+    this._settle = null;
+    const self = this;
+    const el = s.zoneEl && s.zoneEl.querySelector('[data-gi="' + s.zone + '"][data-gid="' + s.id + '"]');
+    if (!el) { this.setState({ gzNoAnim: false }); return; }
+    const r = el.getBoundingClientRect();
+    el.style.transition = 'none';
+    el.style.zIndex = '40';
+    el.style.transform = 'translate(' + (s.left - r.left) + 'px,' + (s.top - r.top) + 'px) scale(1.015)';
+    el.style.boxShadow = '0 18px 40px rgba(14,36,29,0.18)';
+    el.getBoundingClientRect();
+    requestAnimationFrame(function () {
+      el.style.transition = 'transform 340ms cubic-bezier(.2,.9,.3,1.12), box-shadow 340ms ease';
+      el.style.transform = 'translate(0px,0px) scale(1)';
+      el.style.boxShadow = '0 0 0 rgba(14,36,29,0)';
+      setTimeout(function () {
+        el.style.transition = ''; el.style.transform = ''; el.style.boxShadow = ''; el.style.zIndex = '';
+        self.setState({ gzNoAnim: false });
+      }, 380);
+    });
+  }
+  componentDidUpdate() {
+    const s = this._settle;
+    if (!s) return;
+    this._settle = null;
+    const self = this;
+    const el = s.zoneEl && s.zoneEl.querySelector('[data-gi="' + s.zone + '"][data-gid="' + s.id + '"]');
+    if (!el) { this.setState({ gzNoAnim: false }); return; }
+    const r = el.getBoundingClientRect();
+    el.style.transition = 'none';
+    el.style.zIndex = '40';
+    el.style.transform = 'translate(' + (s.left - r.left) + 'px,' + (s.top - r.top) + 'px) scale(1.015)';
+    el.style.boxShadow = '0 18px 40px rgba(14,36,29,0.18)';
+    el.getBoundingClientRect();
+    requestAnimationFrame(function () {
+      el.style.transition = 'transform 340ms cubic-bezier(.2,.9,.3,1.12), box-shadow 340ms ease';
+      el.style.transform = 'translate(0px,0px) scale(1)';
+      el.style.boxShadow = '0 0 0 rgba(14,36,29,0)';
+      setTimeout(function () {
+        el.style.transition = ''; el.style.transform = ''; el.style.boxShadow = ''; el.style.zIndex = '';
+        self.setState({ gzNoAnim: false });
+      }, 380);
+    });
+  }
+  _rv0() {
+    const accent = this.props.accent ?? '#2FA968';
+    const period = (this.state && this.state.ptfPeriod) || 'gunluk';
+    const self = this;
+    const tabBaseBtn2 = "font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;";
+    const tabActiveBtn = tabBaseBtn2 + 'background:' + accent + ';color:#0E241D;';
+    const tabInactiveBtn = tabBaseBtn2 + 'background:transparent;color:#5B6B60;';
+    const modalTabBase = "font-family:'IBM Plex Sans',sans-serif;font-size:16px;font-weight:600;border:none;border-radius:8px;padding:9px 16px;cursor:pointer;";
+    const modalTabActiveBtn = modalTabBase + 'background:' + accent + ';color:#0E241D;';
+    const modalTabInactiveBtn = modalTabBase + 'background:transparent;color:#5B6B60;';
+    const setPeriod = function (p) { return function () { self.setState({ ptfPeriod: p }); }; };
+
+    const baseBtn = "font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;border:none;border-radius:8px;padding:7px 14px;cursor:pointer;";
+    const activeBtn = baseBtn + 'background:' + accent + ';color:#0E241D;';
+    const inactiveBtn = baseBtn + 'background:transparent;color:#5B6B60;';
+
+    const datasets = {
+      gunluk: {
+        raw: [32,28,35,40,52,68,74,71,66,60,58,63,70,78,82,88,92,85,76,64,55,48,40,34],
+        labels: ['00:00','06:00','12:00','18:00','23:00'],
+        value: '$63,90',
+        change: '▲ %3,2 (dün)',
+        changeColor: '#1E6B3E',
+        caption: 'Piyasa Takas Fiyatı · USD/MWh (Saatlik)'
+      },
+      aylik: {
+        raw: [55,58,60,57,62,66,70,68,64,60,58,55,59,63,67,72,75,78,74,70,66,62,60,58,61,65,69,73,77,80],
+        labels: ['1','8','15','22','30'],
+        value: '$66,80',
+        change: '▲ %1,8 (geçen ay)',
+        changeColor: '#1E6B3E',
+        caption: 'Piyasa Takas Fiyatı · USD/MWh (Günlük Ort.)'
+      },
+      yillik: {
+        raw: [50,52,58,60,65,72,78,82,80,75,68,60],
+        labels: ['Oca','Nis','Tem','Eki','Ara'],
+        value: '$64,20',
+        change: '▲ %6,4 (geçen yıl)',
+        changeColor: '#1E6B3E',
+        caption: 'Piyasa Takas Fiyatı · USD/MWh (Aylık Ort.)'
+      }
+    };
+    const ds = datasets[period];
+    const yakalamaByPeriod = { gunluk: '$59,80', aylik: '$61,20', yillik: '$58,40' };
+    const yakalamaValue = yakalamaByPeriod[period];
+    const dsMax = Math.max.apply(null, ds.raw);
+    const ptfBars = ds.raw.map(function (v) { return { h: Math.round((v / dsMax) * 100) }; });
+    // Piyasa verisi (EPİAŞ PTF, 1 Oca – 23 Eyl 2026) ve TCMB döviz alış kurları — gerçek, kamuya açık veri
+    const dataStart = Date.UTC(2026, 0, 1);
+    const ptfDayTl = [2750.63, 3037.31, 2855.42, 2146.48, 2789.1, 2960.06, 2818.61, 2788.44, 3161.14, 2727.92, 2506.13, 2961.87, 3205.25, 3248.08, 3137.71, 3163.47, 2897.79, 2523.51, 2897.1, 3059.18, 3200.18, 3100.43, 3194.15, 3129.6, 2686.56, 2773.81, 2604.45, 3037.35, 2806.07, 2643.12, 2931.62, 2207.32, 2576.34, 3101.21, 2723.0, 2294.3, 2315.08, 2481.72, 2575.92, 2851.3, 2692.91, 2874.8, 2309.09, 2327.92, 2047.5, 300.63, 1158.57, 1322.05, 1998.64, 2330.27, 1296.79, 1492.71, 1077.75, 2185.37, 2271.62, 2544.84, 1677.35, 1694.2, 1460.27, 1072.48, 1970.3, 2352.67, 1818.25, 2254.24, 2639.35, 1320.64, 1222.63, 1534.3, 2139.52, 2702.33, 2297.84, 2387.38, 2523.39, 1883.1, 2641.32, 1954.48, 1640.36, 473.76, 116.43, 380.12, 734.25, 1852.51, 1625.34, 1184.69, 1787.21, 871.47, 991.14, 918.0, 1573.89, 1366.69, 794.48, 737.73, 693.35, 1228.39, 515.12, 1153.33, 1181.37, 671.99, 1608.05, 1833.65, 1590.9, 961.89, 1194.53, 1661.14, 1840.55, 725.31, 401.91, 566.55, 354.44, 1129.09, 970.91, 685.1, 408.6, 934.52, 868.41, 625.36, 340.5, 425.83, 910.25, 618.43, 99.58, 169.18, 100.11, 1059.46, 1421.91, 1022.26, 786.57, 537.55, 633.28, 503.55, 814.66, 528.87, 793.08, 952.5, 1093.81, 482.08, 250.46, 1004.65, 591.37, 782.91, 1262.25, 1172.26, 561.15, 196.71, 200.8, 99.46, 69.54, 152.9, 78.41, 142.53, 754.04, 1298.27, 1657.98, 976.28, 1183.39, 1662.41, 1235.75, 388.13, 764.59, 1377.24, 1934.77, 1733.0, 1478.22, 689.55, 533.86, 1370.63, 1413.68, 1095.89, 764.42, 631.89, 573.41, 378.0, 908.95, 1564.5, 2111.63, 1744.73, 1729.22, 1313.15, 773.17, 1729.08, 2189.04, 3287.76, 3299.28, 3194.63, 2438.25, 1430.86, 2294.71, 2712.17, 2852.76, 3218.71, 3165.21, 2501.61, 2085.32, 2630.26, 2641.35, 2274.11, 2885.22, 2790.91, 2624.64, 2501.67, 3180.56, 3077.65, 3607.75, 3185.8, 3361.37, 2428.62, 2372.17, 2875.53, 2691.9, 1850.38, 2086.24, 2140.63, 2356.38, 2325.26, 3432.82, 3193.21, 3219.87, 3280.6, 3378.68, 2753.65, 1980.21, 2749.05, 3149.46, 3045.55, 2731.11, 2737.4, 2401.1, 2502.89, 3414.1, 3371.3, 3109.25, 3083.75, 3184.18, 3433.63, 2405.14, 2732.45, 3039.21, 3634.98, 3466.41, 2926.33, 2584.75, 1905.91, 2613.54, 3328.13, 3313.29, 2890.99, 2910.61, 2748.79, 2543.36, 2266.01, 2198.68, 2873.01, 3207.51, 3005.74, 2882.12, 2198.67, 2843.81, 2964.29, 2858.11, 3203.65, 3121.48, 2684.62, 1766.89, 3170.59, 3027.74, 2776.96];
+    const ptfDayUsd = [64.2, 70.89, 66.59, 50.06, 65.04, 68.9, 65.6, 64.89, 73.56, 63.46, 58.3, 68.9, 74.44, 75.4, 72.81, 73.37, 67.25, 58.57, 67.24, 70.82, 74.07, 71.74, 73.9, 72.44, 62.18, 64.2, 60.15, 70.12, 64.76, 60.98, 67.64, 50.93, 59.44, 71.43, 62.72, 52.83, 53.27, 57.11, 59.28, 65.62, 61.88, 66.02, 53.01, 53.43, 47.02, 6.9, 26.61, 30.3, 45.79, 53.36, 29.68, 34.17, 24.67, 50.02, 51.92, 58.13, 38.31, 38.68, 33.34, 24.49, 44.98, 53.61, 41.43, 51.36, 60.1, 30.08, 27.85, 34.95, 48.62, 61.44, 52.23, 54.22, 57.32, 42.78, 60.0, 44.31, 37.18, 10.73, 2.64, 8.61, 16.64, 41.98, 36.74, 26.76, 40.37, 19.68, 22.38, 20.73, 35.54, 30.79, 17.9, 16.62, 15.61, 27.65, 11.59, 25.96, 26.54, 15.09, 36.17, 41.2, 35.74, 21.61, 26.83, 37.22, 41.22, 16.24, 9.0, 12.67, 7.93, 25.26, 21.67, 15.29, 9.12, 20.85, 19.36, 13.94, 7.59, 9.48, 20.24, 13.75, 2.21, 3.76, 2.23, 23.56, 31.53, 22.65, 17.42, 11.9, 14.01, 11.14, 18.03, 11.68, 17.5, 21.01, 24.12, 10.62, 5.52, 22.13, 13.01, 17.23, 27.74, 25.75, 12.32, 4.32, 4.41, 2.18, 1.52, 3.35, 1.72, 3.12, 16.52, 28.45, 36.18, 21.3, 25.8, 36.23, 26.92, 8.45, 16.65, 29.93, 42.03, 37.63, 32.09, 14.96, 11.58, 29.74, 30.6, 23.71, 16.53, 13.66, 12.39, 8.17, 19.64, 33.74, 45.52, 37.59, 37.24, 28.27, 16.65, 37.23, 47.02, 70.62, 70.84, 68.58, 52.31, 30.68, 49.21, 58.16, 61.04, 68.85, 67.68, 53.47, 44.55, 56.19, 56.43, 48.48, 61.49, 59.48, 55.88, 53.24, 67.69, 65.5, 76.61, 67.62, 71.32, 51.51, 50.3, 60.97, 57.07, 39.15, 44.12, 45.25, 49.79, 49.11, 72.5, 67.44, 67.86, 69.11, 71.15, 57.97, 41.67, 57.85, 66.27, 63.95, 57.32, 57.43, 50.35, 52.45, 71.54, 70.65, 65.03, 64.47, 66.55, 71.74, 50.23, 57.07, 63.48, 75.74, 72.2, 60.93, 53.8, 39.64, 54.37, 69.23, 68.78, 59.99, 60.38, 57.0, 52.73, 46.98, 45.59, 59.42, 66.31, 62.11, 59.54, 45.4, 58.72, 61.21, 58.89, 65.98, 64.26, 55.25, 36.35, 65.22, 62.28, 57.01];
+    const hourPtfTl = [3544, 3000, 2100, 2475.01, 2100, 2100, 2627.76, 2451, 3023.61, 2100, 2087.09, 2100, 1400, 2100, 2100, 2100, 3544, 3650, 3718.15, 4214.99, 3657.07, 3556, 3500.01, 3398.28];
+    const hourPtfUsd = [72.75, 61.59, 43.11, 50.81, 43.11, 43.11, 53.94, 50.32, 62.07, 43.11, 42.84, 43.11, 28.74, 43.11, 43.11, 43.11, 72.75, 74.93, 76.33, 86.53, 75.07, 73.0, 71.85, 69.76];
+    const hourProd = [23, 21, 20, 19, 18, 16, 15, 16, 19, 24, 31, 37, 41, 45, 46, 45, 42, 38, 33, 30, 28, 27, 25, 24];
+    const fxDates = ["01-02", "01-05", "01-06", "01-07", "01-08", "01-09", "01-12", "01-13", "01-14", "01-15", "01-16", "01-19", "01-20", "01-21", "01-22", "01-23", "01-26", "01-27", "01-28", "01-29", "01-30", "02-02", "02-03", "02-04", "02-05", "02-06", "02-09", "02-10", "02-11", "02-12", "02-13", "02-16", "02-17", "02-18", "02-19", "02-20", "02-23", "02-24", "02-25", "02-26", "02-27", "03-02", "03-03", "03-04", "03-05", "03-06", "03-09", "03-10", "03-11", "03-12", "03-13", "03-16", "03-17", "03-18", "03-23", "03-24", "03-25", "03-26", "03-27", "03-30", "03-31", "04-01", "04-02", "04-03", "04-06", "04-07", "04-08", "04-09", "04-10", "04-13", "04-14", "04-15", "04-16", "04-17", "04-20", "04-21", "04-22", "04-24", "04-27", "04-28", "04-29", "04-30", "05-04", "05-05", "05-06", "05-07", "05-08", "05-11", "05-12", "05-13", "05-14", "05-15", "05-18", "05-20", "05-21", "05-22", "05-25", "06-01", "06-02", "06-03", "06-04", "06-05", "06-08", "06-09", "06-10", "06-11", "06-12", "06-15", "06-16", "06-17", "06-18", "06-19", "06-22", "06-23", "06-24", "06-25", "06-26", "06-29", "06-30", "07-01", "07-02", "07-03", "07-06", "07-07", "07-08", "07-09", "07-10", "07-13", "07-14", "07-16", "07-17", "07-20", "07-21", "07-22", "07-23", "07-24", "07-27", "07-28", "07-29", "07-30", "07-31", "08-03", "08-04", "08-05", "08-06", "08-07", "08-10", "08-11", "08-12", "08-13", "08-14", "08-17", "08-18", "08-19", "08-20", "08-21", "08-24", "08-25", "08-26", "08-27", "08-28", "08-31", "09-01", "09-02", "09-03", "09-04", "09-07", "09-08", "09-09", "09-10", "09-11", "09-14", "09-15", "09-16", "09-17", "09-18", "09-21", "09-22", "09-23"];
+    const fxUsd = [42.881, 42.9648, 42.9663, 42.9743, 42.9747, 42.9863, 43.0609, 43.0765, 43.0925, 43.1147, 43.0883, 43.1943, 43.2061, 43.2165, 43.2247, 43.2036, 43.2978, 43.3158, 43.3327, 43.3443, 43.3414, 43.4168, 43.4142, 43.4245, 43.4555, 43.4542, 43.5182, 43.545, 43.5633, 43.5702, 43.5433, 43.6375, 43.6524, 43.6747, 43.6913, 43.6883, 43.7542, 43.7775, 43.7888, 43.8026, 43.8, 43.885, 43.8913, 43.8932, 43.9135, 43.9055, 44.0007, 43.9826, 43.9964, 44.031, 44.021, 44.106, 44.1207, 44.1325, 44.2435, 44.2636, 44.2737, 44.2828, 44.2887, 44.3841, 44.3961, 44.3938, 44.4155, 44.4306, 44.5085, 44.5255, 44.4527, 44.5102, 44.5157, 44.6355, 44.6474, 44.6681, 44.6788, 44.6989, 44.7952, 44.8101, 44.8132, 44.8541, 44.9393, 44.9705, 44.985, 44.9692, 45.104, 45.1339, 45.1436, 45.1566, 45.19, 45.2951, 45.313, 45.3307, 45.3482, 45.3877, 45.4477, 45.509, 45.5277, 45.5532, 45.6312, 45.8248, 45.8402, 45.8696, 45.8873, 45.9084, 46.0144, 46.0328, 46.0491, 46.0669, 46.0857, 46.1932, 46.2125, 46.2307, 46.246, 46.2724, 46.3758, 46.3925, 46.4099, 46.4302, 46.4482, 46.5551, 46.5747, 46.5867, 46.608, 46.6337, 46.7362, 46.7525, 46.7694, 46.7854, 46.8084, 46.9121, 46.9253, 46.967, 46.9858, 47.0938, 47.1134, 47.1309, 47.1467, 47.1647, 47.2681, 47.2899, 47.3075, 47.3274, 47.3452, 47.4497, 47.4694, 47.4881, 47.5055, 47.5229, 47.626, 47.6505, 47.6678, 47.6858, 47.7206, 47.8109, 47.8293, 47.8467, 47.8642, 47.8799, 47.9924, 48.0117, 48.0292, 48.0466, 48.0732, 48.1745, 48.1891, 48.2075, 48.2238, 48.2326, 48.3465, 48.3727, 48.3905, 48.4069, 48.4305, 48.5343, 48.5585, 48.5779, 48.5873, 48.6116, 48.7131, 48.7323, 48.7499];
+    const fxEur = [50.2933, 50.2083, 50.3619, 50.2287, 50.1844, 50.0676, 50.3016, 50.2556, 50.2006, 50.1546, 50.0345, 50.2173, 50.599, 50.6184, 50.5434, 50.7105, 51.3256, 51.4513, 51.935, 51.8492, 51.699, 51.4862, 51.2353, 51.3335, 51.2442, 51.2437, 51.6162, 51.8534, 51.9129, 51.7491, 51.6384, 51.7741, 51.6837, 51.6919, 51.5343, 51.3825, 51.6617, 51.5834, 51.6237, 51.7119, 51.7008, 51.4738, 51.0094, 50.994, 50.9814, 50.8905, 50.834, 51.2174, 51.0776, 50.8713, 50.4521, 50.5073, 50.7521, 50.9193, 50.9722, 51.3211, 51.362, 51.1617, 51.015, 51.0236, 50.9294, 51.4787, 51.1885, 51.2867, 51.4048, 51.4563, 51.9678, 51.9538, 52.0744, 52.1729, 52.6281, 52.635, 52.6651, 52.6945, 52.7012, 52.7209, 52.6499, 52.4524, 52.768, 52.5814, 52.6433, 52.5723, 52.8334, 52.7563, 53.0961, 53.1305, 53.1363, 53.3097, 53.2242, 53.0837, 53.0971, 52.8112, 52.8818, 52.768, 52.8774, 52.8599, 53.1224, 53.4042, 53.3878, 53.2768, 53.3268, 53.4156, 53.0044, 53.194, 53.1886, 53.1485, 53.3419, 53.6157, 53.6077, 53.6365, 53.1143, 53.0096, 53.1153, 52.9191, 52.6683, 52.7177, 52.9289, 53.095, 53.0866, 53.089, 53.1693, 53.3956, 53.3716, 53.4346, 53.372, 53.482, 53.5195, 53.6013, 53.4792, 53.8544, 53.7467, 53.8514, 53.8086, 53.7661, 53.8043, 53.6951, 53.8746, 53.7445, 53.8871, 54.2273, 54.4841, 54.6882, 54.6413, 54.81, 54.8356, 54.7749, 55.0422, 54.9693, 54.9987, 54.9754, 55.1391, 55.4451, 55.366, 55.5061, 55.976, 56.0159, 55.9939, 55.9892, 56.0388, 55.9574, 55.9845, 55.8652, 55.8769, 55.7929, 55.9713, 56.0571, 56.1851, 56.18, 56.306, 56.3113, 56.1754, 56.0284, 56.0207, 56.0645, 55.7548, 55.7981, 55.9243, 55.8513, 55.6521];
+    // Örnek (kurgusal) santral verisi
+    const prodData = {
+      karatepe: { mw: 24, yekMw: 16, tarife: 73, yekEnd: '2028-12-31', solar: false, lastCap: 58.15, tgt: [7130, 6010, 6240, 5180, 4520, 4910, 7750, 7960, 5940, 5360, 5920, 7070], annual: 74000, daily: [159, 185, 288, 274, 256, 276, 175, 211, 214, 299, 196, 172, 129, 207, 289, 182, 315, 335, 330, 268, 215, 134, 168, 106, 114, 125, 96, 148, 150, 283, 212, 295, 227, 260, 266, 177, 276, 365, 386, 371, 265, 217, 173, 139, 200, 194, 290, 224, 344, 357, 196, 176, 278, 234, 318, 290, 188, 205, 311, 238, 144, 158, 251, 301, 193, 169, 106, 109, 216, 158, 224, 211, 160, 250, 143, 225, 151, 201, 169, 136, 270, 271, 226, 327, 236, 198, 263, 253, 186, 330, 124, 126, 144, 127, 111, 89, 65, 115, 109, 124, 140, 121, 201, 161, 157, 209, 139, 101, 174, 206, 133, 102, 168, 220, 146, 225, 232, 223, 154, 120, 86, 199, 127, 163, 152, 172, 213, 163, 99, 150, 113, 91, 119, 211, 185, 159, 183, 140, 95, 81, 109, 88, 90, 117, 124, 103, 122, 186, 246, 196, 184, 190, 125, 96, 68, 182, 183, 231, 135, 199, 201, 234, 146, 209, 168, 166, 221, 233, 241, 239, 242, 278, 172, 227, 277, 240, 205, 249, 247, 204, 196, 234, 209, 285, 180, 235, 347, 352, 315, 263, 284, 309, 259, 272, 207, 269, 166, 228, 208, 192, 262, 244, 269, 339, 220, 147, 127, 208, 167, 117, 245, 281, 276, 312, 296, 306, 201, 229, 304, 363, 371, 339, 304, 249, 184, 242, 258, 360, 368, 361, 268, 171, 196, 182, 144, 177, 278, 253, 214, 345, 383, 350, 201, 111, 184, 136, 215, 182, 198, 211, 139, 101, 149, 102, 175, 180, 119, 89, 170, 167, 195, 240, 269, 286, 301, 181] },
+      boztepe: { mw: 30, yekMw: 30, tarife: 85, yekEnd: '2030-12-31', solar: false, lastCap: 58.15, tgt: [8670, 7540, 7810, 6350, 5670, 6220, 10060, 10190, 7150, 6890, 7540, 8480], annual: 92600, daily: [230, 299, 414, 309, 347, 342, 229, 248, 337, 354, 250, 247, 170, 299, 377, 220, 425, 476, 497, 458, 292, 158, 222, 192, 180, 182, 121, 198, 263, 376, 356, 321, 309, 282, 258, 258, 395, 461, 355, 333, 266, 213, 204, 123, 263, 211, 287, 287, 372, 405, 213, 181, 284, 269, 404, 330, 167, 227, 350, 243, 173, 159, 302, 310, 237, 177, 145, 123, 229, 185, 248, 262, 177, 255, 162, 277, 152, 174, 171, 164, 323, 322, 280, 293, 216, 235, 273, 294, 216, 348, 206, 164, 253, 234, 183, 118, 115, 194, 187, 252, 232, 211, 345, 259, 257, 317, 252, 185, 260, 309, 224, 170, 247, 321, 207, 327, 386, 321, 290, 179, 75, 200, 157, 169, 121, 198, 197, 156, 133, 178, 121, 89, 144, 218, 174, 134, 231, 169, 83, 104, 112, 94, 88, 99, 134, 116, 119, 210, 236, 215, 253, 270, 172, 114, 86, 226, 274, 295, 193, 225, 230, 269, 217, 319, 200, 208, 245, 311, 316, 276, 287, 286, 257, 292, 287, 283, 226, 270, 284, 305, 224, 339, 334, 412, 275, 308, 420, 516, 513, 442, 377, 367, 332, 414, 262, 412, 244, 295, 299, 247, 327, 383, 363, 492, 382, 211, 209, 377, 293, 202, 400, 474, 355, 416, 303, 442, 308, 282, 402, 484, 479, 453, 408, 290, 195, 281, 387, 507, 490, 539, 332, 238, 273, 235, 243, 257, 345, 383, 267, 409, 451, 442, 220, 133, 279, 174, 209, 236, 224, 247, 167, 133, 203, 121, 269, 180, 159, 104, 223, 183, 274, 251, 321, 369, 304, 255] },
+      gunesalan: { mw: 18, yekMw: 18, tarife: 133, yekEnd: '2027-06-30', solar: true, lastCap: 44.65, tgt: [1320, 1550, 2220, 2560, 3070, 3280, 3450, 3250, 2530, 2000, 1420, 1240], annual: 27900, daily: [49, 48, 45, 45, 45, 44, 49, 51, 49, 50, 23, 29, 43, 50, 43, 43, 46, 32, 47, 49, 45, 46, 26, 51, 48, 42, 45, 43, 47, 49, 43, 63, 56, 54, 63, 60, 54, 59, 53, 59, 56, 56, 53, 54, 58, 59, 63, 62, 53, 55, 55, 62, 58, 26, 63, 60, 60, 56, 61, 32, 59, 64, 64, 64, 65, 39, 69, 63, 65, 67, 63, 68, 62, 64, 64, 63, 61, 40, 66, 67, 65, 30, 63, 58, 64, 61, 60, 43, 65, 62, 78, 84, 76, 77, 90, 42, 80, 56, 81, 84, 38, 80, 90, 82, 79, 89, 88, 82, 89, 78, 78, 75, 52, 89, 86, 86, 82, 42, 86, 77, 107, 101, 112, 98, 113, 99, 95, 103, 104, 62, 99, 95, 109, 99, 97, 114, 59, 101, 104, 105, 101, 110, 104, 108, 113, 110, 106, 103, 110, 98, 98, 100, 60, 101, 93, 90, 98, 95, 91, 101, 105, 93, 90, 102, 95, 91, 93, 93, 106, 91, 97, 109, 57, 109, 99, 90, 107, 97, 98, 46, 105, 107, 114, 112, 110, 124, 103, 116, 61, 121, 122, 111, 110, 107, 106, 105, 107, 109, 124, 121, 110, 70, 108, 56, 111, 118, 110, 123, 119, 122, 60, 104, 98, 102, 56, 92, 103, 54, 102, 106, 106, 94, 97, 100, 109, 97, 96, 46, 103, 111, 105, 96, 105, 109, 104, 57, 93, 98, 97, 100, 95, 96, 54, 69, 78, 78, 41, 68, 68, 76, 72, 67, 80, 71, 70, 76, 72, 81, 76, 73, 71, 80, 81, 36, 72, 82] },
+      yesilova: { mw: 22, yekMw: 12, tarife: 73, yekEnd: '2026-12-31', solar: false, lastCap: 58.15, tgt: [6410, 5510, 5800, 4800, 4030, 4460, 7220, 7320, 5300, 4910, 5430, 6400], annual: 67600, daily: [146, 198, 313, 263, 206, 246, 172, 200, 220, 255, 187, 163, 109, 204, 238, 140, 270, 286, 257, 240, 164, 125, 152, 116, 123, 119, 78, 161, 189, 218, 220, 235, 238, 229, 226, 158, 284, 298, 297, 314, 239, 182, 153, 104, 209, 190, 273, 226, 247, 285, 177, 127, 214, 183, 293, 257, 166, 173, 257, 183, 134, 135, 280, 308, 150, 157, 98, 74, 181, 157, 213, 165, 137, 182, 150, 199, 134, 150, 147, 145, 229, 266, 215, 290, 217, 174, 265, 254, 177, 236, 145, 119, 219, 149, 139, 87, 75, 119, 124, 146, 157, 147, 212, 200, 191, 222, 141, 105, 230, 222, 149, 117, 186, 280, 152, 261, 258, 226, 211, 125, 54, 142, 111, 141, 99, 167, 162, 132, 86, 141, 89, 70, 92, 136, 132, 101, 155, 122, 67, 75, 81, 60, 72, 69, 111, 88, 97, 156, 178, 185, 183, 194, 138, 70, 64, 144, 181, 196, 138, 129, 149, 158, 133, 192, 129, 153, 163, 213, 194, 185, 231, 212, 147, 169, 224, 201, 186, 196, 223, 169, 159, 232, 261, 280, 157, 247, 340, 358, 366, 324, 289, 336, 251, 353, 182, 322, 168, 265, 219, 186, 279, 233, 260, 370, 287, 146, 148, 234, 216, 138, 297, 291, 245, 274, 239, 287, 206, 200, 263, 324, 299, 287, 272, 205, 158, 182, 256, 282, 312, 351, 245, 150, 198, 164, 148, 173, 247, 197, 187, 306, 355, 254, 182, 109, 192, 137, 166, 227, 164, 202, 145, 110, 158, 101, 207, 150, 132, 72, 172, 174, 180, 235, 244, 290, 294, 165] },
+    };
+    // ---- Yardımcılar ----
+    const MS_DAY = 86400000;
+    const nDays = ptfDayUsd.length;
+    const lastIdx = nDays - 1;
+    const dayDate = function (i) { return new Date(dataStart + i * MS_DAY); };
+    const dayMonth = function (i) { return dayDate(i).getUTCMonth(); };
+    const dayNum = function (i) { return dayDate(i).getUTCDate(); };
+    const monthShort = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
+    const monthLong = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+    const dayLabel = function (i) { return dayNum(i) + ' ' + monthShort[dayMonth(i)]; };
+    const lastMonth = dayMonth(lastIdx);
+    const lastDayNum = dayNum(lastIdx);
+    const lastLabel = dayLabel(lastIdx);
+    const todayLabel = dayLabel(lastIdx + 1);
+    const monthDays = [];
+    for (let i = 0; i < nDays; i++) { const m = dayMonth(i); (monthDays[m] = monthDays[m] || []).push(i); }
+    const monthNames = monthLong.slice(0, lastMonth + 1).map(function (n, m) { return m === lastMonth ? n + '*' : n; });
+    const sumArr = function (a) { return a.reduce(function (s, x) { return s + x; }, 0); };
+    const avgArr = function (a) { return sumArr(a) / a.length; };
+    const fmtInt = function (n) { const s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); return (n < -0.5 ? '−' : '') + s; };
+    const fmtDec = function (x, dec) { const p = Math.abs(x).toFixed(dec).split('.'); return (x < 0 ? '−' : '') + p[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',' + p[1]; };
+    const fmtUsd = function (x) { return '$' + fmtDec(x, 2); };
+    const fmtMoney = function (x) { return (x < -0.5 ? '−$' : '$') + fmtInt(Math.abs(x)); };
+    const fmtPct = function (x) { return '%' + Math.round(x * 100); };
+    const fmtChg = function (cur, prev, suffix) {
+      const c = (cur / prev - 1) * 100;
+      return { text: (c >= 0 ? '▲ %' : '▼ %') + fmtDec(Math.abs(c), 1) + (suffix ? ' ' + suffix : ''), color: c >= 0 ? '#1E6B3E' : '#B23A3A' };
+    };
+    const hedefColor = function (r) { return r >= 1 ? '#1E6B3E' : (r >= 0.9 ? '#9A6B12' : '#B23A3A'); };
+    const tabBtnBase = "font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;border-radius:8px;padding:7px 14px;cursor:pointer;";
+    const projBtnActive = tabBtnBase + 'border:none;background:' + accent + ';color:#0E241D;';
+    const projBtnInactive = tabBtnBase + 'border:1px solid #E1E7E2;background:#FFFFFF;color:#5B6B60;';
+    const monthPtf = monthDays.map(function (ids) { return avgArr(ids.map(function (i) { return ptfDayUsd[i]; })); });
+    const monthPtfTl = monthDays.map(function (ids) { return avgArr(ids.map(function (i) { return ptfDayTl[i]; })); });
+
+    // ---- Santral hesapları (ortak motor: kartlar, PTF paneli ve satış tablosu aynı sonuçları kullanır) ----
+    const KGUP_ORAN = 0.60, AVANS_ORAN = 0.9649, KDV = 1.20, JP = 0.97;
+    const projectsMeta = [
+      { id: 'karatepe', name: 'Karatepe RES', seed: 0.3 },
+      { id: 'boztepe', name: 'Boztepe RES', seed: 1.1 },
+      { id: 'gunesalan', name: 'Güneşalan GES', seed: 2.2 },
+      { id: 'yesilova', name: 'Yeşilova RES', seed: 3.4 }
+    ];
+    const calc = {};
+    projectsMeta.forEach(function (p) {
+      const d = prodData[p.id];
+      const dcap = d.daily.map(function (v, i) {
+        if (i === lastIdx) return d.lastCap;
+        const f = d.solar ? 0.80 + 0.04 * Math.sin(i * 1.37 + p.seed) : 0.955 + 0.025 * Math.sin(i * 1.37 + p.seed);
+        return ptfDayUsd[i] * f;
+      });
+      const avansD = d.daily.map(function (v, i) { return v * KGUP_ORAN * dcap[i] * AVANS_ORAN; });
+      const yekEndMs = Date.parse(d.yekEnd + 'T00:00:00Z');
+      const months = monthDays.map(function (ids, m) {
+        const prod = sumArr(ids.map(function (i) { return d.daily[i]; }));
+        const rev = sumArr(ids.map(function (i) { return d.daily[i] * dcap[i]; }));
+        const cap = rev / prod;
+        const avans = sumArr(ids.map(function (i) { return avansD[i]; }));
+        const yekOn = Date.UTC(2026, m, 1) <= yekEndMs;
+        const share = yekOn ? d.yekMw / d.mw : 0;
+        const yonetim = m < 2 ? 0.0145 * rev : 0.94 * prod;
+        const satis = rev - yonetim + share * prod * (d.tarife - JP * cap);
+        const uzl = satis * KDV - avans;
+        return { prod: prod, rev: rev, cap: cap, avans: avans, satis: satis, uzl: uzl, yekOn: yekOn };
+      });
+      calc[p.id] = { d: d, dcap: dcap, avansD: avansD, months: months };
+    });
+
+    // ---- Portföy üretim kartları ----
+    const openProj = (this.state && this.state.openProj) || null;
+    const projTab = (this.state && this.state.projTab) || 'gunluk';
+    const setProjTab = function (t) { return function () { self.setState({ projTab: t }); }; };
+    const elapsedPct = Math.round(lastDayNum / 30 * 100);
+    const projects = projectsMeta.map(function (p) {
+      const c = calc[p.id], d = c.d;
+      const expanded = openProj === p.id;
+      const lastProd = d.daily[lastIdx];
+      const cur = c.months[lastMonth];
+      const yearProd = sumArr(c.months.map(function (x) { return x.prod; }));
+      const yearRev = sumArr(c.months.map(function (x) { return x.rev; }));
+      const curTgt = d.tgt[lastMonth];
+      const progress = cur.prod / curTgt;
+      const kf = function (mwh, hours) { return '%' + Math.round(mwh / (d.mw * hours) * 100); };
+      const dailyTgt = curTgt / 30;
+      const aylikRows = monthDays[lastMonth].map(function (i) {
+        const r = d.daily[i] / dailyTgt;
+        return { ay: dayLabel(i), uretim: fmtInt(d.daily[i]), hedef: fmtPct(r), hedefColor: hedefColor(r), ptf: fmtUsd(ptfDayUsd[i]), yak: fmtUsd(c.dcap[i]) };
+      });
+      const yillikRows = c.months.map(function (x, m) {
+        const r = x.prod / d.tgt[m];
+        const partial = m === lastMonth;
+        return { ay: monthNames[m], uretim: fmtInt(x.prod), hedef: partial ? fmtPct(r) + ' · devam' : fmtPct(r), hedefColor: partial ? '#8A968E' : hedefColor(r), ptf: fmtUsd(monthPtf[m]), yak: fmtUsd(x.cap) };
+      });
+      return {
+        name: p.name, meta: d.mw + ' MW · ' + (d.solar ? 'Güneş' : 'Rüzgar'),
+        today: fmtInt(lastProd) + ' MWh', month: fmtInt(cur.prod) + ' MWh', year: fmtInt(yearProd) + ' MWh',
+        expanded: expanded, chevron: expanded ? '▲' : '▼',
+        cardStyle: 'background:#FFFFFF;border:1px solid ' + (expanded ? accent : '#E1E7E2') + ';border-radius:14px;overflow:hidden;',
+        toggle: function () { self.setState({ openProj: expanded ? null : p.id }); },
+        gunlukStyle: projTab === 'gunluk' ? projBtnActive : projBtnInactive,
+        aylikStyle: projTab === 'aylik' ? projBtnActive : projBtnInactive,
+        yillikStyle: projTab === 'yillik' ? projBtnActive : projBtnInactive,
+        onGunluk: setProjTab('gunluk'), onAylik: setProjTab('aylik'), onYillik: setProjTab('yillik'),
+        isGunluk: projTab === 'gunluk', isAylik: projTab === 'aylik', isYillik: projTab === 'yillik',
+        gunlukMetrics: [
+          { label: 'Son Gün PTF', value: fmtUsd(ptfDayUsd[lastIdx]), sub: lastLabel + ' · saatlik ort.' },
+          { label: 'Ay Ortalaması PTF', value: fmtUsd(monthPtf[lastMonth]), sub: '1–' + lastLabel + ' 2026' },
+          { label: 'Son Gün Üretim', value: fmtInt(lastProd) + ' MWh', sub: lastLabel + ' · KF ' + kf(lastProd, 24) },
+          { label: 'Ay Başından Bugüne', value: fmtInt(cur.prod) + ' MWh', sub: 'KF ' + kf(cur.prod, 24 * lastDayNum) }
+        ],
+        aylikMetrics: [
+          { label: 'Toplam Üretim', value: fmtInt(cur.prod) + ' MWh', sub: monthLong[lastMonth] + ' · ' + lastDayNum + ' gün · KF ' + kf(cur.prod, 24 * lastDayNum) },
+          { label: 'Yakalama Fiyatı', value: fmtUsd(cur.cap), sub: 'PTF ort. ' + fmtUsd(monthPtf[lastMonth]) + ' · oran ' + fmtPct(cur.cap / monthPtf[lastMonth]) },
+          { label: 'Ay Hedefi', value: fmtInt(curTgt) + ' MWh', sub: 'P50 beklenen üretim (30 gün)' }
+        ],
+        progressPct: Math.min(100, Math.round(progress * 100)),
+        progressLabel: fmtPct(progress) + ' · ' + fmtInt(cur.prod) + ' / ' + fmtInt(curTgt) + ' MWh (ayın %' + elapsedPct + '\u2019i geçti)',
+        aylikRows: aylikRows,
+        aylikTotUretim: fmtInt(cur.prod),
+        aylikTotHedef: fmtPct(progress),
+        aylikTotPtf: fmtUsd(monthPtf[lastMonth]),
+        aylikTotYak: fmtUsd(cur.cap),
+        yillikRows: yillikRows,
+        ytdUretim: fmtInt(yearProd),
+        ytdHedef: fmtPct(yearProd / d.annual),
+        ytdPtf: fmtUsd(avgArr(ptfDayUsd)),
+        ytdYak: fmtUsd(yearRev / yearProd),
+        annualLabel: fmtInt(d.annual) + ' MWh'
+      };
+    });
+
+    // ---- PTF paneli (portföy geneli). Günlük = saatlik döküm; Yıllık = aylar, aya basınca o ayın günleri. ----
+    const ptfPerRaw = (this.state && this.state.ptfPeriod) || 'gunluk';
+    const ptfPer = ptfPerRaw === 'yillik' ? 'yillik' : 'gunluk';
+    const ptfListOpen = !!(this.state && this.state.ptfListOpen);
+    const ptfMonthOpen = (this.state && this.state.ptfMonth != null) ? this.state.ptfMonth : null;
+    const setPtfPer = function (p) { return function () { self.setState({ ptfPeriod: p }); }; };
+    const pIds = projectsMeta.map(function (p) { return p.id; });
+    let hSumP = 0, hSumR = 0;
+    const ptfHourRows = hourPtfUsd.map(function (v, i) {
+      hSumP += hourProd[i]; hSumR += hourProd[i] * v;
+      return { ay: (i < 10 ? '0' : '') + i + ':00', tl: fmtInt(hourPtfTl[i]) + ' TL', ptf: fmtUsd(v), uretim: fmtInt(hourProd[i]) };
+    });
+    const portDay = function (i) {
+      let pr = 0, r = 0;
+      pIds.forEach(function (id) { pr += prodData[id].daily[i]; r += prodData[id].daily[i] * calc[id].dcap[i]; });
+      return { pr: pr, r: r };
+    };
+    let dSumP = 0;
+    monthDays[lastMonth].forEach(function (i) { dSumP += portDay(i).pr; });
+    let mSumP = 0, mSumR = 0;
+    const ptfMonthRows = monthPtf.map(function (v, m) {
+      let pr = 0, r = 0;
+      pIds.forEach(function (id) { pr += calc[id].months[m].prod; r += calc[id].months[m].rev; });
+      mSumP += pr; mSumR += r;
+      const open = ptfMonthOpen === m;
+      return {
+        ay: monthNames[m] + (open ? ' ▲' : ' ▼'), tl: fmtInt(monthPtfTl[m]) + ' TL', ptf: fmtUsd(v), uretim: fmtInt(pr), yak: fmtUsd(r / pr),
+        open: open, dayCount: monthDays[m].length + ' gün',
+        days: open ? monthDays[m].map(function (i) { const q = portDay(i); return { ay: dayLabel(i), tl: fmtInt(ptfDayTl[i]) + ' TL', ptf: fmtUsd(ptfDayUsd[i]), uretim: fmtInt(q.pr), yak: q.pr > 0 ? fmtUsd(q.r / q.pr) : '–' }; }) : [],
+        toggle: function () { self.setState({ ptfMonth: open ? null : m }); },
+        rowStyle: 'display:grid;grid-template-columns:1fr 1fr 1fr 1.3fr 1fr;padding:8px 14px;font-size:12px;border-top:1px solid #F0F2F0;width:100%;border-left:none;border-right:none;border-bottom:none;text-align:left;cursor:pointer;font-family:\'IBM Plex Sans\',sans-serif;color:#132119;background:' + (open ? '#F2F8F4' : '#FFFFFF') + ';'
+      };
+    });
+    const ptfYtd = avgArr(ptfDayUsd);
+    const ptfHeadDef = {
+      gunluk: { value: ptfDayUsd[lastIdx], tl: ptfDayTl[lastIdx], chg: fmtChg(ptfDayUsd[lastIdx], ptfDayUsd[lastIdx - 1], '(önceki gün)'), caption: lastLabel + ' 2026 · son yayınlanan gün', yak: hSumR / hSumP, listLabel: 'Saatlik döküm' },
+      yillik: { value: ptfYtd, tl: avgArr(ptfDayTl), chg: { text: 'Oca–' + monthShort[lastMonth] + ' 2026 ort.', color: '#8A968E' }, caption: '2026 · Ocak–' + monthLong[lastMonth], yak: mSumR / mSumP, listLabel: 'Aylık döküm' }
+    };
+    const ptfHead = ptfHeadDef[ptfPer];
+    const ptfPanel = {
+      value: fmtUsd(ptfHead.value), change: ptfHead.chg.text, changeColor: ptfHead.chg.color, caption: ptfHead.caption,
+      tl: fmtInt(ptfHead.tl) + ' TL',
+      yak: fmtUsd(ptfHead.yak), yakSub: 'PTF\u2019nin ' + fmtPct(ptfHead.yak / ptfHead.value) + '\u2019i · üretim ağırlıklı',
+      gunlukStyle: ptfPer === 'gunluk' ? projBtnActive : projBtnInactive,
+      yillikStyle: ptfPer === 'yillik' ? projBtnActive : projBtnInactive,
+      onGunluk: function () { self.setState(ptfPer === 'gunluk' ? { ptfListOpen: !ptfListOpen } : { ptfPeriod: 'gunluk', ptfListOpen: true }); },
+      onYillik: function () { self.setState(ptfPer === 'yillik' ? { ptfListOpen: !ptfListOpen } : { ptfPeriod: 'yillik', ptfListOpen: true }); },
+      gunlukLabel: 'Günlük ' + (ptfPer === 'gunluk' && ptfListOpen ? '▲' : '▼'),
+      yillikLabel: 'Yıllık ' + (ptfPer === 'yillik' && ptfListOpen ? '▲' : '▼'),
+      listToggleLabel: ptfHead.listLabel + (ptfListOpen ? ' · gizle ▲' : ' · göster ▼'),
+      onToggleList: function () { self.setState({ ptfListOpen: !ptfListOpen }); },
+      showHour: ptfListOpen && ptfPer === 'gunluk', showMonth: ptfListOpen && ptfPer === 'yillik',
+      hourRows: ptfHourRows, monthRows: ptfMonthRows,
+      hourTot: { tl: fmtInt(avgArr(hourPtfTl)) + ' TL', ptf: fmtUsd(avgArr(hourPtfUsd)), uretim: fmtInt(hSumP), label: lastLabel },
+      monthTot: { tl: fmtInt(avgArr(ptfDayTl)) + ' TL', ptf: fmtUsd(ptfYtd), uretim: fmtInt(mSumP), yak: fmtUsd(mSumR / mSumP) }
+    };
+    const portfolioSepProd = dSumP;
+    const topSep = projectsMeta.map(function (p) { return { name: p.name, v: calc[p.id].months[lastMonth].prod }; }).sort(function (a, b) { return b.v - a.v; })[0];
+
+    // ---- Elektrik satış özeti (Projeler_2026_Elektrik_Satış.xlsx ÖZET yapısı) ----
+    const satisProjId = (this.state && this.state.satisProj) || 'karatepe';
+    const satisMonth = (this.state && this.state.satisMonth != null) ? this.state.satisMonth : null;
+    const satisOpen = !!(this.state && this.state.satisListOpen);
+    const satisCur = (this.state && this.state.satisCur) || 'usd';
+    const isTl = satisCur === 'tl';
+    const sc = calc[satisProjId], sd = sc.d;
+    const todayMs = dataStart + (lastIdx + 1) * MS_DAY;
+    const fmtDate = function (iso) { const p = iso.split('-'); return p[2] + '.' + p[1] + '.' + p[0]; };
+    // Günlük kur: o güne kadar yayımlanmış son TCMB döviz alış kuru
+    const kurDay = [];
+    (function () {
+      let k = 0;
+      for (let i = 0; i < nDays; i++) {
+        const dt = dayDate(i);
+        const key = String(dt.getUTCMonth() + 1).padStart(2, '0') + '-' + String(dt.getUTCDate()).padStart(2, '0');
+        while (k + 1 < fxDates.length && fxDates[k + 1] <= key) k++;
+        kurDay.push(fxUsd[k]);
+      }
+    })();
+    const kurMonth = monthDays.map(function (ids) { return avgArr(ids.map(function (i) { return kurDay[i]; })); });
+    const money = function (usd, tl) { return isTl ? (tl < -0.5 ? '−' : '') + fmtInt(Math.abs(tl)) + ' TL' : fmtMoney(usd); };
+    const unitPrice = function (usd, tl) { return isTl ? fmtInt(tl) + ' TL' : fmtUsd(usd); };
+    const gridCols = 'display:grid;grid-template-columns:0.9fr 1fr 0.9fr 0.9fr 0.9fr 1.15fr 1.15fr 1.15fr 1.3fr;padding:8px 14px;font-size:12px;border-top:1px solid #F0F2F0;';
+    const monthCalcTl = sc.months.map(function (x, m) {
+      const ids = monthDays[m];
+      const avansTl = sumArr(ids.map(function (i) { return sc.avansD[i] * kurDay[i]; }));
+      const revTl = sumArr(ids.map(function (i) { return sd.daily[i] * sc.dcap[i] * kurDay[i]; }));
+      const satisTl = x.satis * kurMonth[m];
+      return { avans: avansTl, capTl: revTl / x.prod, satis: satisTl, uzl: satisTl * KDV - avansTl };
+    });
+    const satisRows = monthLong.map(function (mn, m) {
+      const x = sc.months[m];
+      if (!x) {
+        return { isFuture: true, ay: mn, canOpen: false, open: false, days: [], rowStyle: gridCols + 'color:#B7C2BC;', toggle: function () {} };
+      }
+      const t = monthCalcTl[m];
+      const payMs = Date.UTC(2026, m + 1, 26);
+      const payLbl = '26 ' + monthShort[(m + 1) % 12];
+      let durum, dc;
+      if (m === lastMonth) { durum = 'Tahmini · ' + payLbl; dc = '#9A6B12'; }
+      else if (payMs < todayMs) { durum = 'Yattı · ' + payLbl; dc = '#1E6B3E'; }
+      else { durum = 'Yatacak · ' + payLbl; dc = '#2563EB'; }
+      const open = satisMonth === m;
+      const days = open ? monthDays[m].map(function (i) {
+        const kg = sd.daily[i] * KGUP_ORAN;
+        return {
+          gun: dayLabel(i), uretim: fmtInt(sd.daily[i]), kgup: fmtInt(kg),
+          ptf: unitPrice(ptfDayUsd[i], ptfDayTl[i]), avans: money(sc.avansD[i], sc.avansD[i] * kurDay[i]),
+          yatis: i === lastIdx ? todayLabel + ' (bugün)' : dayLabel(i + 1)
+        };
+      }) : [];
+      return {
+        isFuture: false, canOpen: true, open: open, days: days,
+        ay: mn + (m === lastMonth ? '*' : '') + (open ? ' ▲' : ' ▼'),
+        uretim: fmtInt(x.prod), ptf: unitPrice(monthPtf[m], monthPtfTl[m]), yak: unitPrice(x.cap, t.capTl),
+        yek: x.yekOn ? unitPrice(sd.tarife, sd.tarife * kurMonth[m]) : '–',
+        satis: money(x.satis, t.satis), avans: money(x.avans, t.avans), uzl: money(x.uzl, t.uzl), durum: durum, durumColor: dc,
+        rowStyle: gridCols + 'width:100%;border-left:none;border-right:none;border-bottom:none;text-align:left;cursor:pointer;font-family:\'IBM Plex Sans\',sans-serif;color:#132119;background:' + (open ? '#F2F8F4' : '#FFFFFF') + ';',
+        toggle: function () { self.setState({ satisMonth: open ? null : m }); }
+      };
+    });
+    const sm = sc.months;
+    const sTotProd = sumArr(sm.map(function (x) { return x.prod; }));
+    const sTotRev = sumArr(sm.map(function (x) { return x.rev; }));
+    const sTotRevTl = sumArr(monthCalcTl.map(function (t, m) { return t.capTl * sm[m].prod; }));
+    const tlSum = function (k) { return sumArr(monthCalcTl.map(function (t) { return t[k]; })); };
+    const usdSum = function (k) { return sumArr(sm.map(function (x) { return x[k]; })); };
+    // YEKDEM bitiş uyarısı: bitişe 12 aydan az kaldıysa
+    const yekEndMs2 = Date.parse(sd.yekEnd + 'T00:00:00Z');
+    const monthsLeft = (yekEndMs2 - todayMs) / (MS_DAY * 30.44);
+    const yekSupport = sumArr(sm.map(function (x) { return x.yekOn ? (sd.yekMw / sd.mw) * x.prod * (sd.tarife - JP * x.cap) : 0; }));
+    const lastBox = sc.avansD[lastIdx];
+    const satisPanel = {
+      projects: projectsMeta.map(function (p) {
+        return { name: p.name, style: p.id === satisProjId ? projBtnActive : projBtnInactive, select: function () { self.setState({ satisProj: p.id, satisMonth: null }); } };
+      }),
+      title: projectsMeta.filter(function (p) { return p.id === satisProjId; })[0].name + ' · ' + sd.mw + ' MW · YEK ' + sd.tarife + ' USD/MWh',
+      usdStyle: !isTl ? projBtnActive : projBtnInactive,
+      tlStyle: isTl ? projBtnActive : projBtnInactive,
+      onUsd: function () { self.setState({ satisCur: 'usd' }); },
+      onTl: function () { self.setState({ satisCur: 'tl' }); },
+      boxes: [
+        { label: 'Bugün yatan avans', value: money(lastBox, lastBox * kurDay[lastIdx]), sub: lastLabel + ' üretimi · G+1 · ' + todayLabel },
+        { label: '26 ' + monthShort[lastMonth] + ' yatacak uzlaştırma', value: money(sm[lastMonth - 1].uzl, monthCalcTl[lastMonth - 1].uzl), sub: monthLong[lastMonth - 1] + ' · KDV dahil fatura − avans' },
+        { label: monthLong[lastMonth] + ' avans toplamı', value: money(sm[lastMonth].avans, monthCalcTl[lastMonth].avans), sub: '1–' + lastLabel + ' üretimleri · ' + monthDays[lastMonth].length + ' gün' }
+      ],
+      hasWarn: monthsLeft < 12,
+      warnText: 'YEKDEM ' + fmtDate(sd.yekEnd) + ' tarihinde bitiyor (yaklaşık ' + Math.max(0, Math.round(monthsLeft)) + ' ay). Sonrasında ' + sd.mw + ' MW\u2019ın tamamı PTF\u2019den satılacak. 2026\u2019da (Oca–' + monthShort[lastMonth] + ') YEKDEM farkının satışa katkısı: ' + fmtMoney(yekSupport) + '; satış içindeki payı ' + fmtPct(yekSupport / usdSum('satis')) + '.',
+      listOpen: satisOpen,
+      listToggleLabel: 'Aylık tablo ve günlük avanslar' + (satisOpen ? ' · gizle ▲' : ' · göster ▼'),
+      onToggleList: function () { self.setState({ satisListOpen: !satisOpen }); },
+      unitLabel: isTl ? 'TL' : 'USD',
+      rows: satisRows,
+      tot: {
+        uretim: fmtInt(sTotProd),
+        ptf: unitPrice(ptfYtd, avgArr(ptfDayTl)),
+        yak: unitPrice(sTotRev / sTotProd, sTotRevTl / sTotProd),
+        yek: isTl ? '–' : fmtUsd(sd.tarife),
+        satis: money(usdSum('satis'), tlSum('satis')), avans: money(usdSum('avans'), tlSum('avans')), uzl: money(usdSum('uzl'), tlSum('uzl'))
+      },
+      noteMw: 'Kurulu güç ' + sd.mw + ' MW · YEKDEM kapsamında ' + sd.yekMw + ' MW (' + sd.tarife + ' USD/MWh) · PTF\u2019ye satış ' + (sd.mw - sd.yekMw) + ' MW · YEKDEM bitiş: ' + fmtDate(sd.yekEnd)
+    };
+
+    // ---- Döviz kurları paneli (TCMB döviz alış). Liste butonla açılır; yıllıkta aya basınca o ayın tüm günleri. ----
+    const fxPer = (this.state && this.state.fxPeriod) || 'gunluk';
+    const fxListOpen = !!(this.state && this.state.fxListOpen);
+    const fxMonthOpen = (this.state && this.state.fxMonth != null) ? this.state.fxMonth : null;
+    const setFxPer = function (p) { return function () { self.setState({ fxPeriod: p }); }; };
+    const fxN = fxUsd.length;
+    const fxEurUsd = fxUsd.map(function (u, i) { return fxEur[i] / u; });
+    const fxLbl = function (i) { const p = fxDates[i].split('-'); return parseInt(p[1], 10) + ' ' + monthShort[parseInt(p[0], 10) - 1]; };
+    const fxRow = function (label, u, e) { return { tarih: label, usd: fmtDec(u, 4), eur: fmtDec(e, 4), eurusd: fmtDec(e / u, 4) }; };
+    const fxByMonth = [];
+    fxDates.forEach(function (dt, i) { const m = parseInt(dt.split('-')[0], 10) - 1; (fxByMonth[m] = fxByMonth[m] || []).push(i); });
+    const fxBox = function (label, value, chg, sub) { return { label: label, value: value, sub: chg ? chg.text : sub, subColor: chg ? chg.color : '#8A968E' }; };
+    const fxMonthRows = fxByMonth.map(function (ids, m) {
+      const u = avgArr(ids.map(function (i) { return fxUsd[i]; })), e = avgArr(ids.map(function (i) { return fxEur[i]; }));
+      const open = fxMonthOpen === m;
+      const r = fxRow(monthLong[m] + (open ? ' ▲' : ' ▼'), u, e);
+      r.open = open;
+      r.days = open ? ids.map(function (i) { return fxRow(fxLbl(i), fxUsd[i], fxEur[i]); }) : [];
+      r.dayCount = ids.length + ' iş günü';
+      r.toggle = function () { self.setState({ fxMonth: open ? null : m }); };
+      r.rowStyle = 'display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;padding:8px 14px;font-size:12px;border-top:1px solid #F0F2F0;width:100%;border-left:none;border-right:none;border-bottom:none;text-align:left;cursor:pointer;font-family:\'IBM Plex Sans\',sans-serif;color:#132119;background:' + (open ? '#F2F8F4' : '#FFFFFF') + ';';
+      return r;
+    });
+    const ytdU = avgArr(fxUsd), ytdE = avgArr(fxEur);
+    const fxPanel = {
+      caption: fxPer === 'gunluk' ? fxLbl(fxN - 1) + ' 2026 bülteni · önceki iş gününe göre' : '2026 ortalaması · Ocak–' + monthLong[lastMonth] + ' · aya basınca günlük kurlar',
+      boxes: fxPer === 'gunluk' ? [
+        fxBox('USD/TRY', fmtDec(fxUsd[fxN - 1], 4), fmtChg(fxUsd[fxN - 1], fxUsd[fxN - 2], '')),
+        fxBox('EUR/TRY', fmtDec(fxEur[fxN - 1], 4), fmtChg(fxEur[fxN - 1], fxEur[fxN - 2], '')),
+        fxBox('EUR/USD', fmtDec(fxEurUsd[fxN - 1], 4), fmtChg(fxEurUsd[fxN - 1], fxEurUsd[fxN - 2], ''))
+      ] : [
+        fxBox('USD/TRY', fmtDec(ytdU, 4), null, 'Oca–' + monthShort[lastMonth] + ' ort.'),
+        fxBox('EUR/TRY', fmtDec(ytdE, 4), null, 'Oca–' + monthShort[lastMonth] + ' ort.'),
+        fxBox('EUR/USD', fmtDec(ytdE / ytdU, 4), null, 'Oca–' + monthShort[lastMonth] + ' ort.')
+      ],
+      isGunluk: fxPer === 'gunluk', isYillik: fxPer === 'yillik',
+      dayRows: fxDates.slice(-10).map(function (dt, k) { const i = fxN - 10 + k; return fxRow(fxLbl(i), fxUsd[i], fxEur[i]); }).reverse(),
+      monthRows: fxMonthRows,
+      tot: fxRow('2026 YTD ort.', ytdU, ytdE),
+      gunlukStyle: fxPer === 'gunluk' ? projBtnActive : projBtnInactive,
+      yillikStyle: fxPer === 'yillik' ? projBtnActive : projBtnInactive,
+      onGunluk: function () { self.setState(fxPer === 'gunluk' ? { fxListOpen: !fxListOpen } : { fxPeriod: 'gunluk', fxListOpen: true }); },
+      onYillik: function () { self.setState(fxPer === 'yillik' ? { fxListOpen: !fxListOpen } : { fxPeriod: 'yillik', fxListOpen: true }); },
+      gunlukLabel: 'Günlük ' + (fxPer === 'gunluk' && fxListOpen ? '▲' : '▼'),
+      yillikLabel: 'Yıllık ' + (fxPer === 'yillik' && fxListOpen ? '▲' : '▼'),
+      showDays: fxListOpen && fxPer === 'gunluk', showMonths: fxListOpen && fxPer === 'yillik',
+      listToggleLabel: (fxPer === 'gunluk' ? 'Son 10 iş günü' : 'Aylık kurlar') + (fxListOpen ? ' · gizle ▲' : ' · göster ▼'),
+      onToggleList: function () { self.setState({ fxListOpen: !fxListOpen }); }
+    };
+    const loans = [
+      { month: 'Eki 2026', project: 'Karatepe RES', bank: 'Garanti BBVA', amount: '$125,000' },
+      { month: 'Kas 2026', project: 'Boztepe RES', bank: 'Akbank', amount: '$182,000' },
+      { month: 'Ara 2026', project: 'Yeşilova RES', bank: 'Commerzbank', amount: '$116,000' },
+      { month: 'Oca 2027', project: 'Karatepe RES', bank: 'Garanti BBVA', amount: '$125,000' },
+      { month: 'Şub 2027', project: 'Güneşalan GES', bank: 'QNB Finansbank', amount: '$53,500' },
+      { month: 'Mar 2027', project: 'Boztepe RES', bank: 'Akbank', amount: '$182,000' }
+    ];
+    const loanTotal = '$783,500';
+
+    const mailsDef = [
+      { title: 'Yillik_Raporlama_Talebi_Commerzbank.eml', meta: 'Commerzbank AG · 14 Eyl 2026', status: 'Taranmadı', badgeBg: '#EEF0EE', badgeColor: '#5B6B60', href: 'Mail-Talep-Detay.dc.html' },
+      { title: 'Ek_Belge_Talebi_Denetim.eml', meta: 'Bağımsız Denetim · 13 Eyl 2026', status: 'Belgeler Tam', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E', href: 'Mail-Talep-Detay-Denetim.dc.html' },
+      { title: 'Teminat_Belgeleri_Talebi_Akbank.eml', meta: 'Akbank Kurumsal · 12 Eyl 2026', status: 'Belgeler Eksik', badgeBg: '#FBE7E7', badgeColor: '#B23A3A', href: 'Mail-Talep-Detay-Akbank.dc.html' },
+      { title: 'Portfoy_Izleme_Talebi_GreenFund.eml', meta: 'GreenFund Capital Partners · 11 Eyl 2026', status: 'Taranmadı', badgeBg: '#EEF0EE', badgeColor: '#5B6B60', href: 'Mail-Talep-Detay-GreenFund.dc.html' },
+      { title: 'Yillik_Uygunluk_Belgesi_KGF.eml', meta: 'KGF Kurumsal · 10 Eyl 2026', status: 'Belgeler Tam', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E', href: 'Mail-Talep-Detay-KGF.dc.html' },
+      { title: 'Sigorta_Yenileme_Ek_Evrak.eml', meta: 'Sigorta Brokerliği · 9 Eyl 2026', status: 'Belgeler Eksik', badgeBg: '#FBE7E7', badgeColor: '#B23A3A', href: 'Mail-Talep-Detay-Sigorta.dc.html' }
+    ];
+
+    const tasksDef = [
+      { title: 'Yeşilova RES Sigorta Yenileme Takibi', meta: 'Bitiş: 20 Eyl 2026', status: 'Devam Ediyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Gorev-Detay-SigortaYenileme.dc.html' },
+      { title: 'Q3 Bütçe Revizyonu', meta: 'Bitiş: 25 Eyl 2026', status: 'Bekliyor', badgeBg: '#EEF0EE', badgeColor: '#5B6B60', href: 'Main.dc.html' },
+      { title: 'Denetim Hazırlık Toplantısı', meta: 'Bitiş: 16 Eyl 2026', status: 'Tamamlandı', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E', href: 'Main.dc.html' }
+    ];
+
+    const talepDef = [
+      { title: 'Hukuk Departmanı', meta: 'Karatepe RES kredi sözleşmesi kopyasını talep etti · 15 Eyl 2026', status: 'Bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Gelen-Talep-Detay-Hukuk.dc.html' },
+      { title: 'Muhasebe', meta: 'Q3 nakit akış tablosunu talep etti · 13 Eyl 2026', status: 'Tamamlandı', badgeBg: '#E7F3EB', badgeColor: '#1E6B3E', href: 'Main.dc.html' }
+    ];
+
+    // Ürün 2 — Balbal'ın hazırladığı, insan onayı bekleyen çıktılar (şablon, taslak, hesap). Balbal göndermez, kayıt oluşturmaz.
+    const balbalDef = [
+      { title: 'Commerzbank Annex F formu dolduruldu', meta: 'Yeşilova RES · 2 alan onayınızı bekliyor · 1 alan boş', status: 'Onay bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Sablon-Doldur.dc.html' },
+      { title: 'Commerzbank cevap yazısı taslağı', meta: 'Yeşilova RES · 5 kaynak · son gün 14 Eki 2026', status: 'Taslak', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Yazi-Taslagi.dc.html' },
+      { title: 'Hukuk\'a görüş talebi — teminat mektubu bildirimi', meta: 'Karatepe RES · Balbal 3 belge bağladı · göndermeden önce kontrol edin', status: 'Onay bekliyor', badgeBg: '#FBF1DE', badgeColor: '#9A6B12', href: 'Gorus-Talebi.dc.html' }
+    ];
+    const balbalPending = balbalDef.filter(function (b) { return b.status !== 'Hazır'; }).length;
+
+    const mailsPending = mailsDef.filter(function (m) { return m.status === 'Taranmadı'; }).length;
+    const tasksPending = tasksDef.filter(function (t) { return t.status !== 'Tamamlandı'; }).length;
+    const talepPending = talepDef.filter(function (t) { return t.status !== 'Tamamlandı'; }).length;
+    const totalPending = mailsPending + tasksPending + talepPending;
+
+    const pageTab = (this.state && this.state.pageTab) || 'genel';
+    const pageBaseBtn = "font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:20px;padding:10px 20px;cursor:pointer;";
+    const pageActiveBtn = pageBaseBtn + 'background:#0E241D;color:#F6F7F5;';
+    const pageInactiveBtn = pageBaseBtn + 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;';
+
+    // Chat modal state
+    const chatOpen = !!(this.state && this.state.chatOpen);
+    const activeTabId = (this.state && this.state.activeTab) || 'genel';
+
+    const tabsDef = [
+      {
+        id: 'genel', label: 'Genel',
+        messages: [
+          { from: 'user', text: 'Karatepe RES kredi sözleşmesinde erken ödeme cezası var mı?' },
+          { from: 'ai', queryType: 'DOCUMENT', text: "Garanti BBVA kredi sözleşmesi madde 7.3'e göre, ilk 24 ay içinde erken ödemede %2 ceza uygulanır.", source: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', sourceHref: 'Sozlesme-Onizleme.dc.html', sourcePage: 4, sourceDate: '12.01.2024', sourceVersion: 2, sourceCurrent: true },
+          { from: 'user', text: 'Ticaret Sicil Gazetesi belgesine bakabilir miyim?' },
+          { from: 'ai', text: 'Bu belge Mali İşler / Muhasebe departmanının yetkili alanında, Proje Finans erişiminizde değil.', isPermissionDenied: true }
+        ]
+      },
+      {
+        id: 'kredi', label: 'Kredi Sözleşmeleri',
+        messages: [
+          { from: 'user', text: "Hangi projelerin kredisi Commerzbank'ta?" },
+          { from: 'ai', queryType: 'DOCUMENT', text: 'Yeşilova RES kredisi Commerzbank AG ile yapılandırılmış, aylık ödeme yaklaşık $116.000.', source: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', sourceHref: 'Sozlesme-Onizleme.dc.html', sourcePage: 2, sourceDate: '03.06.2023', sourceVersion: 1, sourceCurrent: true },
+          { from: 'user', text: 'Yeşilova RES için bu ayki taksit tutarı ve kalan bakiye ne kadar?' },
+          { from: 'ai', queryType: 'DATA', text: 'Eylül taksiti $116.240, anapara bakiyesi $8.420.000 olarak görünüyor.', excelFile: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', excelSheet: 'Odeme Takvimi', excelRange: 'B14:D14', excelHref: 'Sozlesme-Onizleme.dc.html' }
+        ]
+      },
+      {
+        id: 'uretim', label: 'Üretim Verileri',
+        messages: [
+          { from: 'user', text: 'Bu ay portföyde toplam kaç MWh ürettik?' },
+          { from: 'ai', text: 'Bu ay (1–23 Eylül) portföy toplamı ' + fmtInt(portfolioSepProd) + ' MWh. En yüksek katkı ' + topSep.name + '\u2019ten (' + fmtInt(topSep.v) + ' MWh) geldi.' }
+        ]
+      }
+    ];
+
+    const tabs = tabsDef.map(function (t) {
+      const isActive = t.id === activeTabId;
+      return {
+        id: t.id,
+        label: t.label,
+        style: isActive ? modalTabActiveBtn : modalTabInactiveBtn,
+        select: function () { self.setState({ activeTab: t.id }); }
+      };
+    });
+
+    // Backend'in gerçek sorgu tipi rozeti (DOCUMENT/DATA/MIXED/GENERAL_QUERY) — ADR-010.
+    const queryTypeMeta = {
+      DOCUMENT: { label: 'Belge', style: 'display:inline-block;font-size:12px;font-weight:700;color:#5B6B60;background:#EEF0EE;border-radius:6px;padding:2px 8px;margin-bottom:8px;' },
+      DATA: { label: 'Excel', style: 'display:inline-block;font-size:12px;font-weight:700;color:#5B6B60;background:#EEF0EE;border-radius:6px;padding:2px 8px;margin-bottom:8px;' },
+      MIXED: { label: 'Belge + Excel', style: 'display:inline-block;font-size:12px;font-weight:700;color:#5B6B60;background:#EEF0EE;border-radius:6px;padding:2px 8px;margin-bottom:8px;' },
+      GENERAL: { label: 'Genel bilgi', style: 'display:inline-block;font-size:12px;font-weight:700;color:#9A6B12;background:#FBF1DE;border-radius:6px;padding:2px 8px;margin-bottom:8px;' }
+    };
+
+    const currentTabDef = tabsDef.filter(function (t) { return t.id === activeTabId; })[0] || tabsDef[0];
+    const messages = currentTabDef.messages.map(function (m) {
+      const qt = m.queryType ? queryTypeMeta[m.queryType] : null;
+      const metaParts = [];
+      if (m.sourcePage) metaParts.push('s.' + m.sourcePage);
+      if (m.sourceDate) metaParts.push(m.sourceDate);
+      if (m.sourceVersion) metaParts.push('v' + m.sourceVersion);
+      return {
+        text: m.text,
+        isUser: m.from === 'user',
+        isAi: m.from === 'ai',
+        queryTypeLabel: qt ? qt.label : null,
+        queryTypeBadgeStyle: qt ? qt.style : null,
+        source: m.source || null,
+        sourceHref: m.sourceHref || null,
+        sourceMeta: metaParts.length ? (' — ' + metaParts.join(' · ')) : '',
+        sourceCurrent: !!m.sourceCurrent,
+        excelFile: m.excelFile || null,
+        excelSheet: m.excelSheet || null,
+        excelRange: m.excelRange || null,
+        excelHref: m.excelHref || null,
+        isPermissionDenied: !!m.isPermissionDenied
+      };
+    });
+
+    const requestSent = !!(this.state && this.state.accountingRequestSent);
+
+    // Two chat windows
+    const teamChatOpen = !!(this.state && this.state.teamChatOpen);
+    const anyModalClosed = !chatOpen && !teamChatOpen;
+    // B-25 urun katmani anahtari (demo): Ekip Sohbeti = gorus talebi = Urun 2.
+    // Urun 2 kapatilirsa (urun2Acik=false) baslatici hic gorunmez.
+    const urun2Acik = this.props.urun2Acik !== false;
+    const showTeamLauncher = anyModalClosed && urun2Acik;
+    const addMenuOpen = !!(this.state && this.state.addMenuOpen);
+    const addedPeople = (this.state && this.state.addedPeople) || {};
+    const aiAdded = !!(this.state && this.state.aiAdded);
+    const activeThreadId = (this.state && this.state.activeThread) || 'ayse';
+
+    const roster = [
+      { id: 'ayse', name: 'Ayşe Yılmaz', dept: 'Hukuk', initials: 'AY', color: '#2563EB' },
+      { id: 'deniz', name: 'Deniz Kaya', dept: 'İdari İşler', initials: 'DK', color: '#7C3AED' },
+      { id: 'elif', name: 'Elif Şahin', dept: 'Mali İşler', initials: 'ES', color: '#DB2777' },
+      { id: 'mehmet', name: 'Oğuz Tekin', dept: 'Proje Finans', initials: 'OT', color: '#0891B2' },
+      { id: 'lev', name: 'Levent Aksoy', dept: 'Tüm departmanlar', initials: 'LA', color: '#9A6B12' }
+    ];
+    const kaan = { id: 'kaan', name: 'Kaan Turhan', dept: 'Proje Finans', initials: 'KT', color: '#2FA968' };
+    const rosterById = {};
+    roster.forEach(function (r) { rosterById[r.id] = r; });
+
+    const threadsDef = [
+      {
+        id: 'ayse',
+        label: 'Ayşe Yılmaz',
+        baseIds: ['kaan', 'ayse'],
+        messages: [
+          { from: 'other', senderLabel: 'Ayşe Yılmaz · Hukuk', text: 'Karatepe RES kredi sözleşmesinin güncel halini gönderebilir misin?' },
+          { from: 'user', text: 'Tabii, hemen Balbal\u2019ı ekleyeyim, direkt bulup paylaşsın.' },
+          { from: 'ai', text: "Karatepe_RES_Kredi_Sozlesmesi.pdf sistemde mevcut, madde 7.3'e göre ilk 24 ayda erken ödemede %2 ceza uygulanıyor.", source: 'Karatepe_RES_Kredi_Sozlesmesi.pdf', sourceHref: 'Sozlesme-Onizleme.dc.html', showIf: 'aiAdded' }
+        ]
+      },
+      {
+        id: 'lev',
+        label: 'Levent Aksoy',
+        baseIds: ['kaan', 'lev'],
+        messages: [
+          { from: 'other', senderLabel: 'Levent Aksoy · Genel Müdür', text: 'Demo hazırlığı nasıl gidiyor, yatırımcı görüşmesine yetişir mi?' },
+          { from: 'user', text: 'Evet, Ürün 1 çekirdeği bu hafta tamamlanıyor, demo hazır olacak.' },
+          { from: 'ai', text: 'Merhaba, ben Balbal. Belgelerden ve verilerden anında yanıt verebilirim — örneğin hangi projenin hangi bankada kredisi olduğunu sorabilirsiniz.', showIf: 'aiAdded' }
+        ]
+      }
+    ];
+
+    const extraThreads = (this.state && this.state.extraThreads) || [];
+    extraThreads.forEach(function (et) {
+      threadsDef.push({ id: et.id, label: et.label, baseIds: ['kaan'], messages: [] });
+    });
+
+    const threads = threadsDef.map(function (t) {
+      const isActive = t.id === activeThreadId;
+      return {
+        id: t.id,
+        label: t.label,
+        style: isActive ? modalTabActiveBtn : modalTabInactiveBtn,
+        select: function () { self.setState({ activeThread: t.id }); }
+      };
+    });
+
+    const currentThreadDef = threadsDef.filter(function (t) { return t.id === activeThreadId; })[0] || threadsDef[0];
+    const baseIds = currentThreadDef.baseIds;
+
+    // extra people added to this thread beyond its base pair
+    const extraAddedIds = Object.keys(addedPeople).filter(function (id) {
+      return addedPeople[id] && baseIds.indexOf(id) === -1;
+    });
+
+    const systemMessages = extraAddedIds.map(function (id) {
+      const person = rosterById[id];
+      return { from: 'system', text: (person ? person.name : id) + ' sohbete eklendi' };
+    });
+    if (aiAdded) systemMessages.push({ from: 'system', text: 'Balbal sohbete eklendi' });
+
+    const teamMessages = systemMessages.concat(
+      currentThreadDef.messages.filter(function (m) {
+        if (m.showIf === 'aiAdded') return aiAdded;
+        return true;
+      })
+    ).map(function (m) {
+      return {
+        text: m.text,
+        isOther: m.from === 'other',
+        isUser: m.from === 'user',
+        isSystem: m.from === 'system',
+        isAi: m.from === 'ai',
+        senderLabel: m.senderLabel || null,
+        source: m.source || null,
+        sourceHref: m.sourceHref || null
+      };
+    });
+
+    const participantIds = baseIds.concat(extraAddedIds);
+    const participants = participantIds.map(function (id) {
+      const p = id === 'kaan' ? kaan : rosterById[id];
+      return { name: p.name + ' · ' + p.dept, shortName: p.name, initials: p.initials, color: p.color, isAi: false, isHuman: true };
+    }).concat(aiAdded ? [{ name: 'Balbal', shortName: 'Balbal', initials: 'AI', color: '#0E241D', isAi: true, isHuman: false }] : []);
+
+    const participantNamesLabel = participants.map(function (p) { return p.shortName; }).join(', ');
+
+    const addablePeople = roster
+      .filter(function (r) { return participantIds.indexOf(r.id) === -1; })
+      .sort(function (a, b) { return a.name.localeCompare(b.name, 'tr'); })
+      .map(function (r) {
+        return {
+          id: r.id,
+          name: r.name,
+          dept: r.dept,
+          select: function () {
+            const next = Object.assign({}, addedPeople);
+            next[r.id] = true;
+            self.setState({ addedPeople: next });
+          }
+        };
+      });
+
+    const expDept = 'Proje Finans';
+    // ---- Excel'e aktar: her gadget kendi verisini, seçilen tarih aralığında, ayrı bir çalışma kitabı olarak indirir ----
+    const F0 = '#,##0', F2 = '#,##0.00', F3 = '#,##0.000', F4 = '0.0000', FD = 'dd.mm.yyyy', FP = '0%';
+    const xlDate = function (ms) { return (ms - Date.UTC(1899, 11, 30)) / MS_DAY; };
+    const toDateStr = function (ms) { return new Date(ms).toISOString().slice(0, 10); };
+    const fmtDateStr = function (str) { const p = str.split('-'); return p[2] + '.' + p[1] + '.' + p[0]; };
+    const monthOverlaps = function (m, fromMs, toMs) {
+      const start = Date.UTC(2026, m, 1), end = Date.UTC(2026, m + 1, 1);
+      return start <= toMs && end > fromMs;
+    };
+    const dayInRange = function (ms, fromMs, toMs) { return ms >= fromMs && ms <= toMs; };
+    const mkSheet = function (X, rows, fmts, widths) {
+      const ws = X.utils.aoa_to_sheet(rows);
+      const rg = X.utils.decode_range(ws['!ref']);
+      for (let R = 1; R <= rg.e.r; R++) {
+        for (let C = 0; C <= rg.e.c; C++) {
+          const f = fmts[C];
+          const cell = ws[X.utils.encode_cell({ r: R, c: C })];
+          if (f && cell && cell.t === 'n') cell.z = f;
+        }
+      }
+      ws['!cols'] = widths.map(function (w) { return { wch: w }; });
+      return ws;
+    };
+    const infoRows = function (gadget, source, fromMs, toMs) {
+      return [
+        ['X Platformu — ' + gadget, ''],
+        ['Departman', expDept],
+        ['Oluşturma', new Date().toLocaleString('tr-TR')],
+        ['Seçilen aralık', fmtDateStr(toDateStr(fromMs)) + ' – ' + fmtDateStr(toDateStr(toMs))],
+        ['Kaynak', source]
+      ];
+    };
+
+    // Her gadget için sistemdeki gerçek veri aralığı (min/max), doğrulama ve varsayılan seçim için
+    const dataMaxMs = dataStart + (nDays - 1) * MS_DAY;
+    const fxMinMs = Date.parse('2026-' + fxDates[0] + 'T00:00:00Z');
+    const fxMaxMs = Date.parse('2026-' + fxDates[fxDates.length - 1] + 'T00:00:00Z');
+    const exporters = {
+      uretim: { label: 'Portföy Üretim Verileri', min: dataStart, max: dataMaxMs, build: null, note: '' },
+      ptf: { label: 'PTF / Yakalama Fiyatı', min: dataStart, max: dataMaxMs, build: null, note: 'Saatlik döküm her zaman son güne (' + lastLabel + ') aittir, tarih aralığından etkilenmez.' },
+      fx: { label: 'Döviz Kurları', min: fxMinMs, max: fxMaxMs, build: null, note: '' },
+      satis: { label: 'Elektrik Satış Özeti', min: dataStart, max: dataMaxMs, build: null, note: 'Parametreler sayfası tarih aralığından etkilenmez.' }
+    };
+
+    exporters.uretim.build = function (X, fromMs, toMs) {
+      const wb = X.utils.book_new();
+      X.utils.book_append_sheet(wb, mkSheet(X, infoRows('Portföy Üretim Verileri', 'EPİAŞ Şeffaflık Platformu · santral verileri örnek (kurgusal) demo verisi', fromMs, toMs), [], [22, 62]), 'Bilgi');
+      const months = []; for (let m = 0; m <= lastMonth; m++) if (monthOverlaps(m, fromMs, toMs)) months.push(m);
+      const trows = [['Ay', 'Toplam Üretim (MWh)', 'Toplam Hedef (MWh)', 'Hedef %', 'Portföy Yakalama (USD/MWh)']];
+      let tp = 0, tt = 0, tr = 0;
+      months.forEach(function (m) {
+        let prod = 0, tgt = 0, rev = 0;
+        projectsMeta.forEach(function (p) { const c = calc[p.id], x = c.months[m]; prod += x.prod; tgt += c.d.tgt[m]; rev += x.rev; });
+        trows.push([monthLong[m] + (m === lastMonth ? '*' : ''), prod, tgt, prod / tgt, rev / prod]);
+        tp += prod; tt += tgt; tr += rev;
+      });
+      if (tp > 0) trows.push(['TOPLAM', tp, tt, tp / tt, tr / tp]);
+      X.utils.book_append_sheet(wb, mkSheet(X, trows, [null, F0, F0, FP, F2], [14, 18, 16, 9, 20]), 'Portföy Toplam');
+      projectsMeta.forEach(function (p) {
+        const c = calc[p.id], d = c.d;
+        const rows = [['Ay', 'Üretim (MWh)', 'Hedef (MWh)', 'Hedef %', 'PTF Ort. (USD)', 'PTF Ort. (TL)', 'Yakalama (USD)']];
+        let pp = 0, pt = 0, pr = 0;
+        months.forEach(function (m) {
+          const x = c.months[m];
+          rows.push([monthLong[m] + (m === lastMonth ? '*' : ''), x.prod, d.tgt[m], x.prod / d.tgt[m], monthPtf[m], monthPtfTl[m], x.cap]);
+          pp += x.prod; pt += d.tgt[m]; pr += x.rev;
+        });
+        if (pp > 0) rows.push(['TOPLAM', pp, pt, pp / pt, ptfYtd, avgArr(ptfDayTl), pr / pp]);
+        X.utils.book_append_sheet(wb, mkSheet(X, rows, [null, F3, F0, FP, F2, F2, F2], [12, 14, 13, 9, 14, 14, 16]), p.name.slice(0, 31));
+      });
+      return wb;
+    };
+
+    exporters.ptf.build = function (X, fromMs, toMs) {
+      const wb = X.utils.book_new();
+      X.utils.book_append_sheet(wb, mkSheet(X, infoRows('PTF / Yakalama Fiyatı', 'EPİAŞ Şeffaflık Platformu — piyasa takas fiyatı, kamuya açık veri', fromMs, toMs), [], [22, 62]), 'Bilgi');
+      X.utils.book_append_sheet(wb, mkSheet(X, [['Saat (' + lastLabel + ')', 'PTF (TL/MWh)', 'PTF (USD/MWh)']].concat(hourPtfTl.map(function (v, h) { return [(h < 10 ? '0' : '') + h + ':00', v, hourPtfUsd[h]]; })), [null, F2, F2], [14, 14, 14]), 'PTF Saatlik');
+      const months = []; for (let m = 0; m <= lastMonth; m++) if (monthOverlaps(m, fromMs, toMs)) months.push(m);
+      const mrows = [['Ay', 'PTF Ort. (TL)', 'PTF Ort. (USD)', 'Portföy Üretim (MWh)', 'Yakalama (USD)']];
+      let tp = 0, tr = 0;
+      months.forEach(function (m) {
+        let pr = 0, r = 0;
+        projectsMeta.forEach(function (p) { pr += calc[p.id].months[m].prod; r += calc[p.id].months[m].rev; });
+        mrows.push([monthLong[m] + (m === lastMonth ? '*' : ''), monthPtfTl[m], monthPtf[m], pr, r / pr]);
+        tp += pr; tr += r;
+      });
+      if (tp > 0) mrows.push(['TOPLAM', avgArr(months.map(function (m) { return monthPtfTl[m]; })), avgArr(months.map(function (m) { return monthPtf[m]; })), tp, tr / tp]);
+      X.utils.book_append_sheet(wb, mkSheet(X, mrows, [null, F2, F2, F0, F2], [10, 14, 14, 18, 14]), 'PTF Aylık');
+      const drows = [['Tarih', 'PTF (TL/MWh)', 'PTF (USD/MWh)']];
+      for (let i = 0; i < nDays; i++) { const ms = dataStart + i * MS_DAY; if (dayInRange(ms, fromMs, toMs)) drows.push([xlDate(ms), ptfDayTl[i], ptfDayUsd[i]]); }
+      X.utils.book_append_sheet(wb, mkSheet(X, drows, [FD, F2, F2], [12, 14, 14]), 'PTF Günlük');
+      return wb;
+    };
+
+    exporters.fx.build = function (X, fromMs, toMs) {
+      const wb = X.utils.book_new();
+      X.utils.book_append_sheet(wb, mkSheet(X, infoRows('Döviz Kurları', 'TCMB döviz alış kurları', fromMs, toMs), [], [22, 62]), 'Bilgi');
+      const drows = [['Tarih', 'USD/TRY', 'EUR/TRY', 'EUR/USD']];
+      const byMonth = [];
+      fxDates.forEach(function (dt, i) {
+        const ms = Date.parse('2026-' + dt + 'T00:00:00Z');
+        if (dayInRange(ms, fromMs, toMs)) { drows.push([xlDate(ms), fxUsd[i], fxEur[i], fxEur[i] / fxUsd[i]]); const m = parseInt(dt.split('-')[0], 10) - 1; (byMonth[m] = byMonth[m] || []).push(i); }
+      });
+      X.utils.book_append_sheet(wb, mkSheet(X, drows, [FD, F4, F4, F4], [12, 12, 12, 12]), 'Kur Günlük');
+      const rows = [['Ay', 'USD/TRY Ort.', 'EUR/TRY Ort.', 'EUR/USD Ort.', 'İş Günü']];
+      let allU = [], allE = [];
+      byMonth.forEach(function (ids, m) {
+        if (!ids) return;
+        const u = avgArr(ids.map(function (i) { return fxUsd[i]; })), e = avgArr(ids.map(function (i) { return fxEur[i]; }));
+        rows.push([monthLong[m], u, e, e / u, ids.length]);
+        allU = allU.concat(ids.map(function (i) { return fxUsd[i]; })); allE = allE.concat(ids.map(function (i) { return fxEur[i]; }));
+      });
+      if (allU.length) rows.push(['TOPLAM ort.', avgArr(allU), avgArr(allE), avgArr(allE) / avgArr(allU), allU.length]);
+      X.utils.book_append_sheet(wb, mkSheet(X, rows, [null, F4, F4, F4, F0], [12, 14, 14, 14, 10]), 'Kur Aylık');
+      return wb;
+    };
+
+    exporters.satis.build = function (X, fromMs, toMs) {
+      const wb = X.utils.book_new();
+      X.utils.book_append_sheet(wb, mkSheet(X, infoRows('Elektrik Satış Özeti', 'Excel dosyanızdaki (Projeler_2026_Elektrik_Satış) yöntem; santral verileri örnek (kurgusal) demo verisi', fromMs, toMs), [], [22, 70]), 'Bilgi');
+      X.utils.book_append_sheet(wb, mkSheet(X, [['Proje', 'Tür', 'Kurulu Güç (MW)', 'YEKDEM (MW)', 'PTF\u2019ye Satış (MW)', 'YEK Tarifesi (USD/MWh)', 'YEKDEM Bitiş', 'Yıllık Hedef (MWh)']].concat(projectsMeta.map(function (p) {
+        const d = prodData[p.id];
+        return [p.name, d.solar ? 'GES' : 'RES', d.mw, d.yekMw, d.mw - d.yekMw, d.tarife, xlDate(Date.parse(d.yekEnd + 'T00:00:00Z')), d.annual];
+      })), [null, null, F2, F2, F2, F2, FD, F0], [18, 8, 16, 13, 18, 22, 14, 18]), 'Parametreler');
+      const months = []; for (let m = 0; m <= lastMonth; m++) if (monthOverlaps(m, fromMs, toMs)) months.push(m);
+      projectsMeta.forEach(function (p) {
+        const c = calc[p.id], d = c.d;
+        const head = ['Ay', 'Üretim (MWh)', 'Hedef (MWh)', 'Hedef %', 'PTF (USD/MWh)', 'PTF (TL/MWh)', 'Yakalama (USD/MWh)', 'Proje YEKDEM (USD/MWh)', 'Ort. Kur (TL/USD)', 'Satış Geliri (USD)', 'Günlük Avans Top. (USD)', 'Uzlaştırma (USD)', 'Satış Geliri (TL)', 'Günlük Avans Top. (TL)', 'Uzlaştırma (TL)', 'Durum'];
+        const rows = [head];
+        const tot = [0, 0, 0, 0, 0, 0, 0, 0];
+        months.forEach(function (m) {
+          const x = c.months[m], ids = monthDays[m];
+          const avTl = sumArr(ids.map(function (i) { return c.avansD[i] * kurDay[i]; }));
+          const saTl = x.satis * kurMonth[m];
+          const uzTl = saTl * KDV - avTl;
+          const payMs = Date.UTC(2026, m + 1, 26);
+          const durum = m === lastMonth ? 'Tahmini' : (payMs < todayMs ? 'Yattı' : 'Yatacak');
+          rows.push([monthLong[m] + (m === lastMonth ? '*' : ''), x.prod, d.tgt[m], x.prod / d.tgt[m], monthPtf[m], monthPtfTl[m], x.cap, x.yekOn ? d.tarife : 0, kurMonth[m], x.satis, x.avans, x.uzl, saTl, avTl, uzTl, durum + ' · 26 ' + monthShort[(m + 1) % 12]]);
+          tot[0] += x.prod; tot[1] += d.tgt[m]; tot[2] += x.satis; tot[3] += x.avans; tot[4] += x.uzl; tot[5] += saTl; tot[6] += avTl; tot[7] += uzTl;
+        });
+        if (tot[0] > 0) rows.push(['TOPLAM', tot[0], tot[1], tot[0] / tot[1], avgArr(months.map(function (m) { return monthPtf[m]; })), avgArr(months.map(function (m) { return monthPtfTl[m]; })), tot[2] === 0 ? 0 : sumArr(months.map(function (m) { return c.months[m].rev; })) / tot[0], d.tarife, avgArr(months.map(function (m) { return kurMonth[m]; })), tot[2], tot[3], tot[4], tot[5], tot[6], tot[7], '']);
+        rows.push([]);
+        rows.push(['Kurulu güç ' + d.mw + ' MW · YEKDEM ' + d.yekMw + ' MW (' + d.tarife + ' USD/MWh) · PTF\u2019ye satış ' + (d.mw - d.yekMw) + ' MW · YEKDEM bitiş ' + fmtDate(d.yekEnd)]);
+        rows.push(['* Eylül devam ediyor, tutarlar tahminidir. Satış geliri KDV hariç.']);
+        X.utils.book_append_sheet(wb, mkSheet(X, rows, [null, F3, F0, FP, F2, F2, F2, F2, F4, F2, F2, F2, F2, F2, F2, null], [12, 14, 13, 9, 14, 14, 18, 20, 16, 18, 20, 16, 18, 20, 18, 18]), ('Satış - ' + p.name).slice(0, 31));
+      });
+      const drows = [['Proje', 'Tarih', 'Üretim (MWh)', 'KGÜP (MWh)', 'PTF (USD/MWh)', 'PTF (TL/MWh)', 'Yakalama (USD/MWh)', 'Kur (TL/USD)', 'Avans (USD)', 'Avans (TL)', 'Avans Yatış Tarihi']];
+      projectsMeta.forEach(function (p) {
+        const c = calc[p.id], d = c.d;
+        for (let i = 0; i < nDays; i++) {
+          const ms = dataStart + i * MS_DAY;
+          if (dayInRange(ms, fromMs, toMs)) drows.push([p.name, xlDate(ms), d.daily[i], d.daily[i] * KGUP_ORAN, ptfDayUsd[i], ptfDayTl[i], c.dcap[i], kurDay[i], c.avansD[i], c.avansD[i] * kurDay[i], xlDate(ms + MS_DAY)]);
+        }
+      });
+      X.utils.book_append_sheet(wb, mkSheet(X, drows, [null, FD, F3, F3, F2, F2, F2, F4, F2, F2, FD], [16, 12, 13, 12, 14, 14, 18, 13, 14, 16, 18]), 'Günlük Üretim-Avans');
+      return wb;
+    };
+
+    const saveFile = async function (filename, buf) {
+      let cl = null;
+      try { cl = window.claude || (window.parent && window.parent.claude) || null; } catch (err) { cl = window.claude || null; }
+      if (cl && typeof cl.use === 'function') {
+        const dl = await cl.use('downloads');
+        if (dl) { await dl.save({ filename: filename, data: new Blob([buf]) }); return; }
+      }
+      const url = URL.createObjectURL(new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.style.display = 'none';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 5000);
+    };
+
+    // Modal: hangi gadget'ın dışa aktarma penceresi açık, seçilen tarihler
+    const expModalId = (this.state && this.state.expModalId) || null;
+    const expFromStr = (this.state && this.state.expFrom) || '';
+    const expToStr = (this.state && this.state.expTo) || '';
+    const openExpModal = function (id) {
+      return function () {
+        const ex = exporters[id];
+        self.setState({ expModalId: id, expFrom: toDateStr(ex.min), expTo: toDateStr(ex.max) });
+      };
+    };
+    const closeExpModal = function () { self.setState({ expModalId: null }); };
+    const activeEx = expModalId ? exporters[expModalId] : null;
+    let expModal = { open: false };
+    if (activeEx) {
+      const selFromMs = Date.parse(expFromStr + 'T00:00:00Z');
+      const selToMs = Date.parse(expToStr + 'T00:00:00Z');
+      const validDates = !isNaN(selFromMs) && !isNaN(selToMs);
+      const orderOk = validDates && selFromMs <= selToMs;
+      const cFrom = validDates ? Math.max(selFromMs, activeEx.min) : activeEx.min;
+      const cTo = validDates ? Math.min(selToMs, activeEx.max) : activeEx.max;
+      const warnFrom = validDates && selFromMs < activeEx.min;
+      const warnTo = validDates && selToMs > activeEx.max;
+      const overlapOk = orderOk && cFrom <= cTo;
+      const confirmDisabled = !orderOk || !overlapOk;
+      expModal = {
+        open: true, title: activeEx.label + ' — Excel\u2019e Aktar',
+        rangeLabel: fmtDateStr(toDateStr(activeEx.min)) + ' – ' + fmtDateStr(toDateStr(activeEx.max)),
+        hasNote: !!activeEx.note, note: activeEx.note,
+        from: expFromStr, to: expToStr,
+        onFromChange: function (e) { self.setState({ expFrom: e.target.value }); },
+        onToChange: function (e) { self.setState({ expTo: e.target.value }); },
+        warnFrom: warnFrom, warnFromText: 'Seçtiğiniz başlangıç tarihi (' + fmtDateStr(expFromStr) + ') sistemdeki en eski veriden (' + fmtDateStr(toDateStr(activeEx.min)) + ') daha eski. Dışa aktarım ' + fmtDateStr(toDateStr(activeEx.min)) + ' tarihinden başlayacak.',
+        warnTo: warnTo, warnToText: 'Seçtiğiniz bitiş tarihi (' + fmtDateStr(expToStr) + ') sistemdeki en güncel veriden (' + fmtDateStr(toDateStr(activeEx.max)) + ') daha ileri. Dışa aktarım ' + fmtDateStr(toDateStr(activeEx.max)) + ' tarihinde sona erecek.',
+        invalid: !orderOk || (orderOk && !overlapOk),
+        invalidText: !orderOk ? 'Başlangıç tarihi bitiş tarihinden sonra olamaz.' : 'Seçilen aralıkta veri bulunmuyor.',
+        confirmDisabled: confirmDisabled,
+        confirmStyle: "font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;border:none;border-radius:20px;padding:9px 18px;background:" + (confirmDisabled ? '#B7C2BC' : accent) + ";color:#0E241D;cursor:" + (confirmDisabled ? 'not-allowed' : 'pointer') + ";",
+        onClose: closeExpModal,
+        onConfirm: function () {
+          if (confirmDisabled) return;
+          const id = expModalId, ex = exporters[id];
+          self.setState({ expModalId: null });
+          const patch1 = {}; patch1['exp_' + id] = 'busy'; self.setState(patch1);
+          const done = function (v) {
+            const p = {}; p['exp_' + id] = v; self.setState(p);
+            setTimeout(function () { const p2 = {}; p2['exp_' + id] = 'idle'; self.setState(p2); }, 1600);
+          };
+          const X = window.XLSX;
+          if (!X || !X.utils) { done('error'); return; }
+          (async function () {
+            try {
+              const buf = X.write(ex.build(X, cFrom, cTo), { bookType: 'xlsx', type: 'array' });
+              const fn = 'X_Platformu_' + expDept.replace(/ /g, '_') + '_' + id.charAt(0).toUpperCase() + id.slice(1) + '_' + toDateStr(cFrom) + '_' + toDateStr(cTo) + '.xlsx';
+              await saveFile(fn, buf);
+              done('done');
+            } catch (err) {
+              if (err && err.code === 'declined') { const p = {}; p['exp_' + id] = 'idle'; self.setState(p); return; }
+              done('error');
+            }
+          })();
+        }
+      };
+    }
+
+    const expStateOf = function (id) { return (self.state && self.state['exp_' + id]) || 'idle'; };
+    const expIconStyle = function (st) {
+      const base = 'display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:7px;border:1px solid #D6E4DA;background:#F6FBF8;flex-shrink:0;transition:background 160ms ease,border-color 160ms ease,transform 160ms ease;';
+      if (st === 'busy') return base + 'cursor:wait;';
+      if (st === 'error') return base + 'cursor:pointer;border-color:#EAC2C2;background:#FBF0F0;';
+      return base + 'cursor:pointer;';
+    };
+    const expIcon = function (id) {
+      const st = expStateOf(id);
+      return { onClick: openExpModal(id), style: expIconStyle(st), isBusy: st === 'busy', isDone: st === 'done', isError: st === 'error', isIdle: st === 'idle' };
+    };
+    const expUretim = expIcon('uretim');
+    const expPtf = expIcon('ptf');
+    const expFx = expIcon('fx');
+    const expSatis = expIcon('satis');
+
+    // ---- Gadget düzeni (alan bazlı: genel + pozisyon) ----
+    const gzLayoutState = (this.state && this.state.gzLayout) || {};
+    const gzDragSt = this.state && this.state.gzDrag;
+    const gzD = this._drag;
+    const gzNoAnim = !!(this.state && this.state.gzNoAnim);
+    const gzEase = 'transition:transform 240ms cubic-bezier(.2,.8,.2,1);';
+    const gzAreaDefs = this.gzAreas();
+    const gzItemStyle = function (area, zone, lists, ci, ii, id, gapPx) {
+      const base = 'position:relative;min-width:0;';
+      if (gzDragSt && gzD && gzD.area === area && gzD.zone === zone) {
+        if (id === gzD.id) {
+          return base + 'z-index:40;transform:translate(' + gzDragSt.dx + 'px,' + gzDragSt.dy + 'px) scale(1.015);box-shadow:0 18px 40px rgba(14,36,29,0.18);border-radius:14px;opacity:0.97;transition:box-shadow 160ms ease;';
+        }
+        const others = lists[ci].filter(function (x) { return x !== gzD.id; });
+        let shift = 0;
+        if (ci === gzD.fromCol && ii > gzD.fromIdx) shift -= gzD.h;
+        if (ci === gzDragSt.col && others.indexOf(id) >= gzDragSt.idx) shift += gzD.h;
+        return base + 'transform:translateY(' + shift + 'px);' + gzEase;
+      }
+      return base + (gzNoAnim ? 'transition:none;' : gzEase);
+    };
+    const gzGrab = function (area, zone, id) { return function (e) { self.gzStart(area, zone, id, e); }; };
+    const gzBuildTop = function (area, idFlags, colWidths) {
+      const layout = gzLayoutState[area] || gzAreaDefs[area];
+      const dragging = gzDragSt && gzD && gzD.area === area && gzD.zone === 'top';
+      return layout.top.map(function (ids, ci) {
+        const target = dragging && gzDragSt.col === ci;
+        return {
+          style: 'flex:' + (colWidths ? colWidths[ci] : '1') + ';min-width:0;display:flex;flex-direction:column;gap:16px;min-height:100px;border-radius:16px;transition:outline-color 200ms ease;' + (dragging ? 'outline:2px dashed ' + (target ? accent : '#D5DDD8') + ';outline-offset:8px;' : 'outline:2px dashed transparent;outline-offset:8px;'),
+          isEmpty: ids.length === 0,
+          items: ids.map(function (id, ii) {
+            const item = { id: id, style: gzItemStyle(area, 'top', layout.top, ci, ii, id, 16), onGrab: gzGrab(area, 'top', id) };
+            if (idFlags[id]) item[idFlags[id]] = true;
+            return item;
+          })
+        };
+      });
+    };
+    const gzBuildFull = function (area, idFlags) {
+      const layout = gzLayoutState[area] || gzAreaDefs[area];
+      return (layout.full || []).map(function (id, ii) {
+        const item = { id: id, style: gzItemStyle(area, 'full', [layout.full], 0, ii, id, 24), onGrab: gzGrab(area, 'full', id) };
+        if (idFlags[id]) item[idFlags[id]] = true;
+        return item;
+      });
+    };
+
+    const gzGenelTop = gzBuildTop('genel', { uretim: 'isUretim', ptf: 'isPtf', fx: 'isFx' }, ['1.3', '1']);
+    const gzGenelFull = gzBuildFull('genel', { grid: 'isGrid', satis: 'isSatis' });
+    const gzPozTop = gzBuildTop('pozisyon', { balbal: 'isBalbal', gorevler: 'isGorevler', mailler: 'isMailler', talepler: 'isTalepler', kredi: 'isKredi' }, ['1', '1']);
+
+
+    // Üst bar panelleri + ortak sohbet bileşenleri
+    const shellSt = this.state || {};
+    const searchQ = shellSt.searchQ || '';
+    const searchOpen = !!shellSt.searchOpen;
+    const notifOpen = !!shellSt.notifOpen;
+    const userMenuOpen = !!shellSt.userMenuOpen;
+    const chatAsk = shellSt.chatAsk || '';
+
+    const chatWin = this.winBuild('chatWin', 'Balbal');
+    const teamWin = this.winBuild('teamWin', 'Ekip sohbeti');
+    const sidePad = ((chatOpen && !chatWin.isFloat) || (teamChatOpen && !teamWin.isFloat)) ? 520 : 0;
+    const chatFull = !!(this.state && this.state.chatFull);
+    const pageIsBalbal = chatFull && pageTab === 'balbal';
+    const prevTab = (this.state && this.state.prevTab) || 'genel';
+    const TABB = "font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:20px;padding:8px 18px 8px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;";
+    const balbalVals = {
+      chatWin: chatWin, teamWin: teamWin,
+      balbalTab: chatFull,
+      pageIsBalbal: pageIsBalbal,
+      balbalTabStyle: TABB + (pageIsBalbal ? 'background:#D97706;color:#132119;' : 'background:#FFF4E5;color:#9A4E0A;border:1px solid #F5C892;'),
+      onSelectBalbalTab: function () { self.setState({ pageTab: 'balbal' }); },
+      onBalbalFull: function () { const cur = pageTab; self.setState({ chatFull: true, chatOpen: false, pageTab: 'balbal', prevTab: cur === 'balbal' ? prevTab : cur, notifOpen: false, userMenuOpen: false, searchOpen: false }); },
+      onBalbalToWindow: function () { self.setState({ chatFull: false, chatOpen: true, pageTab: prevTab, chatWin: Object.assign({}, (self.state && self.state.chatWin) || {}, { mode: 'float' }) }); },
+      onBalbalCloseFull: function () { self.setState({ chatFull: false, chatAsk: '', pageTab: prevTab }); },
+      fullW: 1360, fullH: 740,
+      bodyStyle: 'flex: 1; display: flex; flex-direction: column; gap: 24px; padding: 28px ' + (sidePad + 40) + 'px 28px 40px; box-sizing: border-box; min-height: 0; overflow-y: auto; overflow-x: hidden; background-color: #EEF6F0; transition: padding 220ms ease;',
+      onNotifOpenBalbal: function (q) { self.setState({ notifOpen: false, chatOpen: true, chatFull: false, chatAsk: q || '' }); }
+    };
+    return Object.assign(balbalVals, {
+      chatAsk: chatAsk,
+      searchQ: searchQ,
+      searchOpen: searchOpen,
+      notifOpen: notifOpen,
+      userMenuOpen: userMenuOpen,
+      onSearchInput: function (e) { self.setState({ searchQ: e.target.value, searchOpen: true, notifOpen: false, userMenuOpen: false }); },
+      onSearchFocus: function () { self.setState({ searchOpen: true, notifOpen: false, userMenuOpen: false }); },
+      onCloseSearch: function () { self.setState({ searchOpen: false }); },
+      onAskFromSearch: function (q) { self.setState({ searchOpen: false, chatOpen: true, chatAsk: q }); },
+      onToggleNotif: function () { self.setState({ notifOpen: !notifOpen, userMenuOpen: false, searchOpen: false }); },
+      onCloseNotif: function () { self.setState({ notifOpen: false }); },
+      onNotifOpenTeam: function () { self.setState({ notifOpen: false, teamChatOpen: true }); },
+      onToggleUserMenu: function () { self.setState({ userMenuOpen: !userMenuOpen, notifOpen: false, searchOpen: false }); },
+      onCloseUserMenu: function () { self.setState({ userMenuOpen: false }); },
+      onOpenChat: function () { self.setState({ chatOpen: true, chatAsk: '', notifOpen: false, userMenuOpen: false, searchOpen: false }); },
+      onCloseChat: function () { self.setState({ chatOpen: false, chatAsk: '' }); },
+      onOpenTeamChat: function () { self.setState({ teamChatOpen: true, notifOpen: false, userMenuOpen: false, searchOpen: false }); },
+      onCloseTeamChat: function () { self.setState({ teamChatOpen: false }); },
+      accent: accent,
+      bars: ptfBars,
+      ptfBars: ptfBars,
+      ptfXLabels: ds.labels,
+      ptfValue: ds.value,
+      yakalamaValue: yakalamaValue,
+      ptfChange: ds.change,
+      ptfCaption: ds.caption,
+      gunlukBtnStyle: period === 'gunluk' ? activeBtn : inactiveBtn,
+      aylikBtnStyle: period === 'aylik' ? activeBtn : inactiveBtn,
+      yillikBtnStyle: period === 'yillik' ? activeBtn : inactiveBtn,
+      onSelectGunluk: setPeriod('gunluk'),
+      onSelectAylik: setPeriod('aylik'),
+      onSelectYillik: setPeriod('yillik'),
+      projects: projects,
+      ptfPanel: ptfPanel,
+      satisPanel: satisPanel,
+      gzGenelTop: gzGenelTop,
+      gzGenelFull: gzGenelFull,
+      gzPozTop: gzPozTop,
+      expUretim: expUretim,
+      expPtf: expPtf,
+      expFx: expFx,
+      expSatis: expSatis,
+      expModal: expModal,
+      fxPanel: fxPanel,
+      loans: loans,
+      loanTotal: loanTotal,
+      mailsList: mailsDef,
+      tasksList: tasksDef,
+      talepList: talepDef,
+      balbalList: balbalDef,
+      balbalPendingLabel: balbalPending + ' Onay bekliyor',
+      mailsPendingLabel: mailsPending + ' Bekliyor',
+      tasksPendingLabel: tasksPending + ' Bekliyor',
+      talepPendingLabel: talepPending + ' Bekliyor',
+      pageIsGenel: pageTab === 'genel',
+      pageIsPozisyon: pageTab === 'pozisyon',
+      pageGenelBtnStyle: pageTab === 'genel' ? pageActiveBtn : pageInactiveBtn,
+      pagePozisyonBtnStyle: pageTab === 'pozisyon' ? pageActiveBtn : pageInactiveBtn,
+      onSelectPageGenel: function () { self.setState({ pageTab: 'genel' }); },
+      onSelectPagePozisyon: function () { self.setState({ pageTab: 'pozisyon' }); },
+      tabs: tabs,
+      messages: messages,
+      requestSent: requestSent,
+      requestNotSent: !requestSent,
+      onRequestAccounting: function () { self.setState({ accountingRequestSent: true }); },
+      chatOpen: chatOpen,
+      teamChatOpen: teamChatOpen,
+      anyModalClosed: anyModalClosed,
+      showTeamLauncher: showTeamLauncher,
+      addMenuOpen: addMenuOpen,
+      participants: participants,
+      participantNamesLabel: participantNamesLabel,
+      threads: threads,
+      teamMessages: teamMessages,
+      addablePeople: addablePeople,
+      aiAdded: aiAdded,
+      aiAddable: !aiAdded,
+      onNewThread: function () {
+        const newId = 'yeni' + (extraThreads.length + 1);
+        const nextList = extraThreads.concat([{ id: newId, label: 'Yeni Sohbet ' + (extraThreads.length + 1) }]);
+        self.setState({ extraThreads: nextList, activeThread: newId });
+      },
+      onToggleAddMenu: function () { self.setState({ addMenuOpen: !addMenuOpen }); },
+      onAddAi: function () { self.setState({ aiAdded: true, addMenuOpen: false }); }
+    });
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1430 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>İK Departmanı — Ana Sayfa (Organizasyon, İzin, Mevzuat, Maaş)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+body{margin:0}
+@keyframes genie{0%{transform:scale(.12) translate(40%,40%);opacity:0}70%{opacity:1}100%{transform:scale(1) translate(0,0);opacity:1}}
+a{color:inherit;text-decoration:none}
+</style>
+</helmet>
+
+<div style="width:1440px;height:980px;box-sizing:border-box;display:flex;flex-direction:column;background:#EEF6F0;font-family:'IBM Plex Sans',sans-serif;color:#132119;overflow:hidden;position:relative;">
+
+  <!-- Top bar -->
+  <div style="height:72px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:#0E241D;color:#F6F7F5;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <img src="/_blob/971aff4c7613d55ac58efe53b0a7a61a" alt="XYZ Enerji" style="width:34px;height:34px;border-radius:8px;object-fit:cover;flex-shrink:0;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px;letter-spacing:0.2px;">XYZ Enerji A.Ş. Platformu</div>
+      </div>
+      <div style="width:1px;height:22px;background:#28483A;"></div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:{{accent}};display:inline-block;"></span>
+        <div style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;color:#F6F7F5;">İK Departmanı</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-right:14px;"><div style="display:flex;align-items:center;gap:8px;width:340px;height:38px;box-sizing:border-box;background:#1D3329;border:1px solid #2E4A3D;border-radius:10px;padding:0 12px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><label for="top-search" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Belge, proje veya kişi ara</label><input id="top-search" type="text" onInput="{{onSearchInput}}" onFocus="{{onSearchFocus}}" placeholder="Belge, proje veya kişi ara" style="flex:1;min-width:0;background:transparent;border:none;outline:none;color:#F6F7F5;font-family:'IBM Plex Sans',sans-serif;font-size:14px;"></div><a href="Belge-Yukle.dc.html" style="height:38px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;border:1px solid #2E4A3D;color:#F6F7F5;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"></path></svg>Belge yükle</a><div style="position:relative;"><button onClick="{{otToggle}}" aria-haspopup="menu" aria-expanded="{{otMenuOpen}}" style="height:38px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;border:1px solid #2FA968;background:#2FA968;color:#0E241D;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">+ Ödeme talebi<span aria-hidden="true" style="font-size:10px;">▾</span></button><sc-if value="{{otMenu}}" hint-placeholder-val="{{false}}"><div role="menu" aria-label="Ödeme talebi" style="position:absolute;top:calc(100% + 6px);right:0;z-index:80;width:290px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;box-shadow:0 16px 40px rgba(14,36,29,0.18);padding:6px;display:flex;flex-direction:column;gap:2px;color:#132119;"><button role="menuitem" onClick="{{otMine}}" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;border:none;border-radius:10px;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;background:#F6F9F7;color:#132119;cursor:pointer;"><span style="font-size:13.5px;font-weight:700;">Taleplerim</span><span style="font-size:11.5px;font-weight:500;color:#5B6B60;">Açtığın ödeme talepleri ve durumları</span></button><div aria-hidden="true" style="height:1px;background:#F0F2F0;margin:4px 6px;"></div><sc-for list="{{otItems}}" as="t" hint-placeholder-count="3"><button role="menuitem" onClick="{{t.pick}}" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;border:none;border-radius:10px;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;background:#FFFFFF;color:#132119;cursor:pointer;"><span style="font-size:13.5px;font-weight:700;">{{t.lbl}}</span><span style="font-size:11.5px;font-weight:500;color:#5B6B60;">{{t.sub}}</span></button></sc-for></div></sc-if></div><button onClick="{{onToggleNotif}}" aria-label="Bildirimler" style="position:relative;width:38px;height:38px;flex-shrink:0;border-radius:10px;border:1px solid #2E4A3D;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F6F7F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg><span style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;box-sizing:border-box;border-radius:9px;background:#2FA968;color:#0E241D;font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;">3</span></button></div>
+      <div style="text-align:right;">
+        <div style="font-size:13px;font-weight:600;line-height:1.2;">Zeynep Koç</div>
+        <div style="font-size:11px;color:#9FB0A6;line-height:1.2;">İK Uzmanı · Departman yöneticisi</div>
+      </div>
+      <button onClick="{{onToggleUserMenu}}" aria-label="Kullanıcı menüsü" style="border:none;cursor:pointer;padding:0;width:36px;height:36px;border-radius:50%;background:#D97706;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:#FFFFFF;">ZK</button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <!-- Body -->
+  <div style="{{bodyStyle}}">
+
+    <div style="display:flex;gap:8px;flex-shrink:0;align-items:center;">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+        <button onClick="{{t.select}}" style="{{t.style}}">{{t.label}}</button>
+      </sc-for>
+      <sc-if value="{{balbalTab}}" hint-placeholder-val="{{false}}">
+        <button style="{{balbalTabStyle}}" onClick="{{onSelectBalbalTab}}"><img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:18px;height:18px;border-radius:50%;object-fit:contain;">Balbal</button>
+      </sc-if>
+      <sc-if value="{{semaTab}}" hint-placeholder-val="{{false}}">
+        <div style="{{semaTabWrap}}">
+          <button onClick="{{onSelectSemaTab}}" style="{{semaTabStyle}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="5" rx="1"></rect><rect x="3" y="16" width="6" height="5" rx="1"></rect><rect x="15" y="16" width="6" height="5" rx="1"></rect><path d="M12 8v4M6 16v-4h12v4"></path></svg>Şirket Yapısı · çalışma</button>
+          <button onClick="{{onCloseSemaTab}}" aria-label="Çalışma sekmesini kapat" style="border:none;background:transparent;cursor:pointer;padding:0 10px 0 2px;font-size:15px;line-height:1;color:#9A6B12;">×</button>
+        </div>
+      </sc-if>
+      <span style="flex:1;"></span>
+      <span style="font-size:12.5px;color:#5B6B60;">Organizasyon verisi <strong style="color:#132119;">ana veridir</strong>: yönetim paneli, roller, onay akışları ve yöneticiler buradan otomatik türetilir.</span>
+    </div>
+
+    <sc-if value="{{pageIsBalbal}}" hint-placeholder-val="{{false}}">
+    <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+        <div style="font-size:12.5px;color:#5B6B60;">Balbal tam ekran · diğer sekmelere geçince konuşma açık kalır</div>
+        <div style="display:flex;gap:8px;">
+          <button onClick="{{onBalbalToWindow}}" style="display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:8px;padding:7px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#132119;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H3v6M15 21h6v-6M3 3l7 7M21 21l-7-7"></path></svg>Pencereye küçült</button>
+          <button onClick="{{onBalbalCloseFull}}" style="display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:8px;padding:7px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#5B6B60;cursor:pointer;">Kapat</button>
+        </div>
+      </div>
+      <dc-import name="Balbal-Sohbet" dept="ik" ask="{{chatAsk}}" w="{{fullW}}" h="{{fullH}}" on-full="{{onBalbalFull}}" hint-size="1360px,740px"></dc-import>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{notBalbal}}" hint-placeholder-val="{{true}}">
+
+    <!-- GENEL BAKIŞ -->
+    <sc-if value="{{isGenel}}" hint-placeholder-val="{{true}}">
+      <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:14px;flex-shrink:0;">
+        <sc-for list="{{kpis}}" as="k" hint-placeholder-count="6">
+          <button onClick="{{k.select}}" style="text-align:left;background:#FFFFFF;border:1px solid #E1E7E2;border-top:4px solid {{k.color}};border-radius:14px;padding:14px 18px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;color:#132119;display:flex;flex-direction:column;gap:5px;">
+            <span style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;font-weight:700;color:#132119;">{{k.label}}</span><span style="{{k.badgeStyle}}">{{k.badge}}</span><span style="margin-left:auto;font-size:11.5px;color:#1E6B3E;font-weight:600;">Sekmeyi aç →</span></span>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;">{{k.value}}</span>
+            <span style="font-size:12.5px;color:#5B6B60;line-height:1.4;">{{k.sub}}</span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);gap:16px;">
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+          <div style="padding:14px 20px;border-bottom:1px solid #E9EDEA;display:flex;align-items:center;gap:10px;">
+            <div style="flex:1;font-size:14px;font-weight:600;">Bekleyen Organizasyon İşleri</div>
+            <span style="font-size:12px;color:#8A968E;">İK tamamlar; sistem gerisini türetir</span>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;">
+            <sc-for list="{{tasks}}" as="ts" hint-placeholder-count="4">
+              <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 20px;border-bottom:1px solid #F0F2F0;">
+                <span style="{{ts.tagStyle}}">{{ts.tag}}</span>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:13.5px;font-weight:600;">{{ts.title}}</div>
+                  <div style="font-size:12.5px;color:#5B6B60;line-height:1.45;margin-top:2px;">{{ts.text}}</div>
+                </div>
+                <button onClick="{{ts.go}}" style="background:#FFFFFF;border:1px solid #D6E4DA;border-radius:8px;padding:6px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#132119;cursor:pointer;white-space:nowrap;">{{ts.action}}</button>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ŞİRKET YAPISI (ağaç: IK-Sirket-Yapisi.dc.html, sekme içinde) -->
+    <div style="{{semaWrap}}">
+      <dc-import name="IK-Sirket-Yapisi" embedded="{{true}}" full="{{semaIsFull}}" on-full="{{onSemaFull}}" on-window="{{onCloseSemaTab}}" on-stage="{{onSyStage}}" w="{{semaW}}" h="{{semaH}}" hint-size="1360px,790px"></dc-import>
+    </div>
+
+    <!-- KİŞİLER VE POZİSYONLAR (salt okunur; yapı Şirket Yapısı'ndan gelir) -->
+    <sc-if value="{{isKisiler}}" hint-placeholder-val="{{false}}">
+      <div style="flex:1;min-height:0;display:flex;gap:16px;">
+        <div style="flex:1;min-width:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+          <div style="padding:14px 20px;border-bottom:1px solid #E9EDEA;display:flex;align-items:center;gap:12px;">
+            <div style="flex:1;font-size:14px;font-weight:600;">Kişiler <span style="font-weight:400;color:#8A968E;font-size:12.5px;">{{kVerLabel}}</span></div>
+            <button onClick="{{hireOpenFn}}" disabled="{{kLocked}}" style="{{kHireStyle}}">+ İşe giriş</button>
+          </div>
+          <sc-if value="{{kLocked}}" hint-placeholder-val="{{false}}">
+            <div role="status" style="flex-shrink:0;display:flex;align-items:center;gap:8px;background:#FBF1DE;border-bottom:1px solid #F0DDB5;padding:8px 20px;font-size:12.5px;color:#7A4E0B;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Şirket yapısı değişikliği onayda; atama değişiklikleri devreye almaya kadar kapalı.</div>
+          </sc-if>
+          <div style="display:grid;grid-template-columns:1.3fr 1.5fr 1.2fr 0.8fr 0.6fr;column-gap:12px;padding:10px 20px;border-bottom:1px solid #E9EDEA;font-size:11.5px;color:#8A968E;flex-shrink:0;">
+            <div>Kişi</div><div>Pozisyon</div><div>Yönetici</div><div>Dosya</div><div>Durum</div>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;">
+            <sc-for list="{{kRows}}" as="p" hint-placeholder-count="10">
+              <sc-if value="{{p.isHead}}" hint-placeholder-val="{{false}}">
+                <div style="{{p.headStyle}}"><span>{{p.name}}</span><span style="font-weight:400;color:#8A968E;">{{p.sub}}</span></div>
+              </sc-if>
+              <sc-if value="{{p.isRow}}" hint-placeholder-val="{{true}}">
+                <div style="{{p.rowStyle}}">
+                  <button onClick="{{p.select}}" style="{{p.nameBtnStyle}}"><span style="display:block;font-weight:600;font-size:13.5px;color:#132119;">{{p.name}}</span><span style="display:block;font-size:11.5px;color:#8A968E;">{{p.user}}</span></button>
+                  <div style="display:flex;flex-direction:column;gap:3px;align-items:flex-start;">
+                    <span style="font-size:13px;">{{p.posName}}</span>
+                    <span style="display:flex;gap:4px;flex-wrap:wrap;"><span style="{{p.roleStyle}}">{{p.role}}</span><sc-if value="{{p.hasReq}}" hint-placeholder-val="{{false}}"><span style="font-size:11px;font-weight:700;color:#9A6B12;background:#FBF1DE;border-radius:6px;padding:2px 6px;">Onayda → {{p.reqTo}}</span></sc-if></span>
+                  </div>
+                  <div style="font-size:12.5px;color:#5B6B60;">{{p.mgr}}</div>
+                  <div style="{{p.fileStyle}}">{{p.fileTxt}}</div>
+                  <div><span style="{{p.actStyle}}">{{p.actLabel}}</span></div>
+                </div>
+              </sc-if>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- Kişi kartı -->
+        <div style="width:380px;flex-shrink:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;">
+          <sc-if value="{{kNoSel}}" hint-placeholder-val="{{true}}">
+            <div style="font-size:12.5px;color:#8A968E;">Bir kişi seçin.</div>
+          </sc-if>
+          <sc-if value="{{kHasSel}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="width:40px;height:40px;border-radius:50%;background:#E7F3EB;color:#14401F;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">{{kCard.ini}}</span>
+              <div style="min-width:0;"><div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;">{{kCard.name}}</div><div style="font-size:12px;color:#8A968E;">{{kCard.user}}</div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;background:#F6F9F7;border-radius:12px;padding:12px 14px;">
+              <sc-for list="{{kCard.facts}}" as="f" hint-placeholder-count="4">
+                <div style="display:flex;gap:8px;font-size:12.5px;line-height:1.4;"><span style="width:96px;flex-shrink:0;color:#8A968E;">{{f.k}}</span><span style="font-weight:500;">{{f.v}}</span></div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button onClick="{{kOpenPos}}" disabled="{{kPosOff}}" style="{{kPosBtnStyle}}">Pozisyon değiştir</button>
+              <button onClick="{{kToggleActive}}" disabled="{{kLocked}}" style="{{kActBtnStyle}}">{{kActBtnLabel}}</button>
+            </div>
+            <sc-if value="{{kHasOffWhy}}" hint-placeholder-val="{{false}}"><div style="font-size:11.5px;color:#8A968E;">{{kOffWhy}}</div></sc-if>
+
+            <sc-if value="{{kPending}}" hint-placeholder-val="{{false}}">
+              <div style="display:flex;flex-direction:column;gap:8px;background:#FBF1DE;border-radius:12px;padding:10px 12px;">
+                <div style="font-size:12.5px;line-height:1.5;color:#5E3A06;"><strong>Onayda:</strong> {{kReqText}}</div>
+                <div style="display:flex;gap:6px;">
+                  <button onClick="{{kReqApprove}}" style="flex:1;background:#2FA968;border:none;border-radius:8px;padding:7px 10px;font-size:12.5px;font-weight:600;color:#0E241D;cursor:pointer;">Onaylandı (demo)</button>
+                  <button onClick="{{kReqCancel}}" style="flex:1;background:#FFFFFF;border:1px solid #E6C98F;border-radius:8px;padding:7px 10px;font-size:12.5px;font-weight:600;color:#7A4E0B;cursor:pointer;">Talebi geri çek</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{kPosOpen}}" hint-placeholder-val="{{false}}">
+              <div style="display:flex;flex-direction:column;gap:10px;border:1px solid #E1E7E2;border-radius:12px;padding:12px 14px;">
+                <div style="font-size:13px;font-weight:600;">Yeni pozisyon</div>
+                <div style="display:flex;flex-direction:column;gap:8px;max-height:260px;overflow-y:auto;">
+                  <sc-for list="{{kPosGroups}}" as="g" hint-placeholder-count="3">
+                    <div style="display:flex;flex-direction:column;gap:4px;">
+                      <div style="font-size:11px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;color:#8A968E;">{{g.name}}</div>
+                      <sc-for list="{{g.items}}" as="it" hint-placeholder-count="2">
+                        <button onClick="{{it.pick}}" disabled="{{it.off}}" style="{{it.style}}"><span style="flex:1;">{{it.label}}</span><span style="font-size:11px;">{{it.sub}}</span></button>
+                      </sc-for>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{kHasTarget}}" hint-placeholder-val="{{false}}">
+                  <sc-if value="{{kDown}}" hint-placeholder-val="{{false}}">
+                    <div style="display:flex;flex-direction:column;gap:6px;background:#FBEAEA;border-radius:10px;padding:8px 10px;">
+                      <div style="font-size:12.5px;font-weight:600;color:#7A2323;">Alt seviyeye geçiş: {{kDownText}}</div>
+                      <label for="k-reason" style="font-size:12px;color:#7A2323;">Gerekçe (zorunlu)</label>
+                      <input id="k-reason" type="text" value="{{kReason}}" onInput="{{onKReason}}" style="height:34px;box-sizing:border-box;border:1px solid #F0C9C9;border-radius:8px;padding:0 10px;font-size:12.5px;">
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{kEmpty}}" hint-placeholder-val="{{false}}"><div style="font-size:12.5px;font-weight:600;color:#7A2323;">{{kEmptyText}}</div></sc-if>
+                  <div style="font-size:12.5px;line-height:1.5;"><span style="color:#8A968E;">Onaylayacak:</span> {{kApprText}}</div>
+                  <div style="display:flex;gap:6px;">
+                    <button onClick="{{kSend}}" disabled="{{kSendOff}}" style="{{kSendStyle}}">Onaya gönder</button>
+                    <button onClick="{{kClosePos}}" style="flex:1;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:8px;padding:8px 10px;font-size:12.5px;font-weight:600;color:#5B6B60;cursor:pointer;">Vazgeç</button>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-if>
+
+          <sc-if value="{{hasFileSel}}" hint-placeholder-val="{{true}}">
+            <div style="border-top:1px solid #F0F2F0;padding-top:12px;display:flex;flex-direction:column;gap:8px;">
+              <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;">Personel dosyası · {{fileSel.name}}</div>
+              <div style="font-size:12.5px;color:#5B6B60;">{{fileSel.label}} · <strong style="color:#132119;">{{fileSel.progress}}</strong></div>
+              <div style="font-size:11.5px;color:#8A968E;">Klasör (ortak alan, otomatik): {{fileSel.folder}}</div>
+              <sc-for list="{{fileSel.docs}}" as="dc1" hint-placeholder-count="6">
+                <button onClick="{{dc1.toggle}}" style="display:flex;align-items:center;gap:8px;text-align:left;background:none;border:none;padding:4px 0;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;">
+                  <span style="{{dc1.style}}">{{dc1.mark}}</span><span style="flex:1;{{dc1.txtStyle}}">{{dc1.name}}</span><span style="{{dc1.tagStyle}}">{{dc1.tag}}</span>
+                </button>
+              </sc-for>
+            </div>
+          </sc-if>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- İZİN YÖNETİMİ -->
+    <sc-if value="{{isIzin}}" hint-placeholder-val="{{false}}">
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:1.25fr 1fr;gap:16px;">
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+          <div style="padding:14px 20px;border-bottom:1px solid #E9EDEA;">
+            <div style="font-size:14px;font-weight:600;">Bekleyen İzin Talepleri</div>
+            <div style="font-size:12.5px;color:#8A968E;margin-top:2px;">Personel Balbal ile başlatır; onaylar yöneticinin bildiriminde çıkar; İK burada izler ve kaydeder. Belge yükleme onayından ayrı bir akıştır.</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.3fr 1fr 1fr 1.2fr 0.9fr;column-gap:12px;padding:10px 20px;border-bottom:1px solid #E9EDEA;font-size:11.5px;color:#8A968E;">
+            <div>Kişi</div><div>Tür · Tarih</div><div>Kalan hak</div><div>Onay adımı</div><div>Durum</div>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;">
+            <sc-for list="{{reqs}}" as="r" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:1.3fr 1fr 1fr 1.2fr 0.9fr;column-gap:12px;padding:11px 20px;border-bottom:1px solid #F0F2F0;align-items:center;font-size:13px;">
+                <div><div style="font-weight:600;">{{r.name}}</div><div style="font-size:11.5px;color:#8A968E;">{{r.sub}}</div></div>
+                <div><div>{{r.type}}</div><div style="font-size:11.5px;color:#8A968E;">{{r.date}}</div></div>
+                <div style="{{r.leftStyle}}">{{r.left}}</div>
+                <div style="font-size:12.5px;">{{r.step}}</div>
+                <div><span style="{{r.stStyle}}">{{r.status}}</span></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;min-height:0;">
+          <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:10px;">
+            <div style="font-size:14px;font-weight:600;">İzin Onay Mekanizması <span style="font-weight:400;color:#8A968E;font-size:12px;">· İK belirler</span></div>
+            <sc-for list="{{rules}}" as="ru" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F0F2F0;font-size:13px;">
+                <span style="flex:1;font-weight:600;">{{ru.type}}</span>
+                <span style="color:#5B6B60;">{{ru.chain}}</span>
+              </div>
+            </sc-for>
+            <div style="font-size:12px;color:#8A968E;line-height:1.5;">Onaylayan yönetici hiyerarşi şemasından gelir. Yöneticinin bildirimine düşer; onaylamazsa talep reddedilir ve personele bildirilir.</div>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;overflow-y:auto;">
+            <div style="font-size:14px;font-weight:600;">Vekâlet <span style="font-weight:400;color:#8A968E;font-size:12px;">· yönetici izindeyse veya ayrıldıysa</span></div>
+            <sc-for list="{{proxies}}" as="px" hint-placeholder-count="3">
+              <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #F0F2F0;font-size:13px;">
+                <div><div style="font-weight:600;">{{px.name}}</div><div style="font-size:11.5px;color:#8A968E;">{{px.sub}}</div></div>
+                <select value="{{px.val}}" onChange="{{px.onChange}}" aria-label="{{px.label}}" style="width:100%;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:8px;padding:6px 8px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;color:#132119;background:#FFFFFF;">
+                  <sc-for list="{{px.opts}}" as="o" hint-placeholder-count="4">
+                    <option value="{{o.v}}">{{o.l}}</option>
+                  </sc-for>
+                </select>
+              </div>
+            </sc-for>
+            <div style="font-size:12px;color:#8A968E;line-height:1.5;">Vekil, tüm müdürler ve üst pozisyonlardan seçilir. Yönetici izne çıkınca vekâlet kendiliğinden devreye girer; ayrılmışsa (pasif) sürekli vekildir.</div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- İZİN HAKLARI -->
+    <sc-if value="{{isHaklar}}" hint-placeholder-val="{{false}}">
+      <sc-if value="{{izinLocked}}" hint-placeholder-val="{{false}}">
+        <div style="flex-shrink:0;display:flex;align-items:center;gap:12px;background:#FBE7E7;border:1px solid #F3CFCF;border-radius:12px;padding:10px 16px;font-size:13px;color:#7A2323;"><strong>Hak hesabı kilitli:</strong><span style="flex:1;">{{izinLockText}}</span><button onClick="{{goMevzuat}}" style="background:#FFFFFF;border:1px solid #F3CFCF;border-radius:8px;padding:6px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#7A2323;cursor:pointer;">Mevzuat'a git</button></div>
+      </sc-if>
+      <div style="display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:16px;flex-shrink:0;">
+        <sc-for list="{{lvKpis}}" as="k" hint-placeholder-count="4">
+          <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:11.5px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;">{{k.label}}</span>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;{{k.valStyle}}">{{k.value}}</span>
+            <span style="font-size:12.5px;color:#5B6B60;line-height:1.4;">{{k.sub}}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="flex:1;min-height:0;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+        <div style="padding:12px 20px;border-bottom:1px solid #E9EDEA;display:flex;align-items:center;gap:10px;">
+          <div style="font-size:14px;font-weight:600;flex:1;">Yıllık İzin Hakları · 2026</div>
+          <span style="font-size:12px;color:#8A968E;">Hak: 1–5 yıl 14 gün · 5–15 yıl 20 gün · 15+ yıl 26 gün (4857 s. İş K. m.53) · ilk yıl dolmadan hak doğmaz</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1.4fr 1.1fr 0.9fr 0.7fr 0.7fr 0.7fr 0.8fr 1.4fr;column-gap:12px;padding:10px 20px;border-bottom:1px solid #E9EDEA;font-size:11.5px;color:#8A968E;">
+          <div>Kişi</div><div>İşe giriş · kıdem</div><div>Yıllık hak</div><div>Devir</div><div>Kullanılan</div><div>Kalan</div><div>Durum</div><div>Kullanım</div>
+        </div>
+        <div style="flex:1;min-height:0;overflow-y:auto;">
+          <sc-for list="{{lvRows}}" as="l" hint-placeholder-count="12">
+            <sc-if value="{{l.isHead}}" hint-placeholder-val="{{false}}"><div style="{{l.headStyle}}"><span>{{l.name}}</span><span style="font-weight:400;color:#8A968E;">{{l.sub}}</span></div></sc-if>
+            <sc-if value="{{l.isRow}}" hint-placeholder-val="{{true}}">
+            <div style="{{l.rowStyle}}">
+              <div style="{{l.nameStyle}}"><div style="font-weight:600;">{{l.name}}</div><div style="font-size:11.5px;color:#8A968E;">{{l.sub}}</div></div>
+              <div style="font-size:12.5px;">{{l.hire}}<div style="font-size:11.5px;color:#8A968E;">{{l.tenure}}</div></div>
+              <div>{{l.ent}}</div><div style="color:#5B6B60;">{{l.carry}}</div><div>{{l.used}}</div>
+              <div style="{{l.leftStyle}}">{{l.left}}</div>
+              <div><span style="{{l.stStyle}}">{{l.status}}</span></div>
+              <div style="display:flex;align-items:center;gap:8px;"><div style="flex:1;height:8px;background:#F0F2F0;border-radius:4px;overflow:hidden;"><div style="{{l.barStyle}}"></div></div><span style="font-size:11.5px;color:#8A968E;width:34px;">{{l.pct}}</span></div>
+            </div>
+            </sc-if>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- KIDEM VE İHBAR -->
+    <sc-if value="{{isKidem}}" hint-placeholder-val="{{false}}">
+      <sc-if value="{{kidemLocked}}" hint-placeholder-val="{{false}}">
+        <div style="flex-shrink:0;display:flex;align-items:center;gap:12px;background:#FBE7E7;border:1px solid #F3CFCF;border-radius:12px;padding:10px 16px;font-size:13px;color:#7A2323;"><strong>Hesap kilitli:</strong><span style="flex:1;">{{kidemLockText}}</span><button onClick="{{goMevzuat}}" style="background:#FFFFFF;border:1px solid #F3CFCF;border-radius:8px;padding:6px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#7A2323;cursor:pointer;">Mevzuat'a git</button></div>
+      </sc-if>
+      <div style="{{kidemWrap}}">
+      <div style="display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:16px;flex-shrink:0;">
+        <sc-for list="{{svKpis}}" as="k" hint-placeholder-count="4">
+          <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:11.5px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;">{{k.label}}</span>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;">{{k.value}}</span>
+            <span style="font-size:12.5px;color:#5B6B60;line-height:1.4;">{{k.sub}}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:1.6fr 1fr;gap:16px;">
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+          <div style="padding:12px 20px;border-bottom:1px solid #E9EDEA;display:flex;align-items:center;gap:10px;">
+            <div style="font-size:14px;font-weight:600;flex:1;">Bugün İşten Çıkarılsa · Kişi Bazında Yük</div>
+            <span style="font-size:12px;color:#8A968E;">Son hesaplama: {{calcAt}} · her gün 06:00'da yenilenir</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1.4fr 1fr 0.9fr 1.1fr 0.9fr 1.1fr;column-gap:12px;padding:10px 20px;border-bottom:1px solid #E9EDEA;font-size:11.5px;color:#8A968E;">
+            <div>Kişi</div><div>Kıdem</div><div>İhbar süresi</div><div>Kıdem tazminatı (net)</div><div>İhbar tazm. (brüt)</div><div>Toplam yük</div>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;">
+            <sc-for list="{{svRows}}" as="v" hint-placeholder-count="12">
+              <sc-if value="{{v.isHead}}" hint-placeholder-val="{{false}}"><div style="{{v.headStyle}}"><span>{{v.name}}</span><span style="font-weight:400;color:#8A968E;">{{v.sub}}</span></div></sc-if>
+              <sc-if value="{{v.isRow}}" hint-placeholder-val="{{true}}">
+              <button onClick="{{v.select}}" style="{{v.rowStyle}}">
+                <div style="{{v.nameStyle}}"><div style="font-weight:600;">{{v.name}}</div><div style="font-size:11.5px;color:#8A968E;">{{v.sub}}</div></div>
+                <div style="font-size:12.5px;">{{v.tenure}}</div>
+                <div style="font-size:12.5px;">{{v.notice}}</div>
+                <div style="font-weight:600;">{{v.kidem}}</div>
+                <div>{{v.ihbar}}</div>
+                <div style="font-weight:700;color:#0E241D;">{{v.total}}</div>
+              </button>
+              </sc-if>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
+          <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;">Hesap açıklaması · {{svSel.name}}</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:#0E241D;">{{svSel.total}}</div>
+          <div style="font-size:12.5px;color:#5B6B60;">{{svSel.head}}</div>
+          <sc-for list="{{svSel.lines}}" as="sl" hint-placeholder-count="5">
+            <div style="background:#F6F9F7;border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.5;color:#5B6B60;"><strong style="color:#132119;">{{sl.head}}</strong><br>{{sl.text}}</div>
+          </sc-for>
+          <div style="font-size:11.5px;color:#8A968E;line-height:1.5;">Bilgi amaçlı ön hesaptır; bordro ve hukuk birimi son kontrolü yapar. Parametreler Mevzuat sekmesindeki ortak alan kaynaklarının güncel sürümlerinden gelir. Tüm ücretler kurgusaldır.</div>
+        </div>
+      </div>
+      </div>
+    </sc-if>
+
+    <!-- MEVZUAT -->
+    <sc-if value="{{isMevzuat}}" hint-placeholder-val="{{false}}">
+      <div style="flex-shrink:0;display:flex;align-items:center;gap:12px;background:#FBF1DE;border:1px solid #F0DDB5;border-radius:12px;padding:10px 16px;font-size:13px;color:#5E430C;">
+        <span style="font-size:11px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;color:#9A6B12;flex-shrink:0;">Haftalık güncellik bildirimi</span>
+        <span style="flex:1;line-height:1.45;">{{mevBanner}}</span>
+      </div>
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:1.6fr 1fr;gap:16px;">
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+          <div style="padding:12px 20px;border-bottom:1px solid #E9EDEA;">
+            <div style="font-size:14px;font-weight:600;">Ortak Alandaki Mevzuat · Kaynaklar</div>
+            <div style="font-size:12px;color:#8A968E;margin-top:2px;">Balbal İK sorularında bu klasörlerdeki güncel sürümleri kullanır. Burada yalnızca kaynak ve güncellik durumu görünür; yeni sürüm veya yeni mevzuat yandaki Balbal üzerinden eklenir.</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.3fr 1.6fr 1.3fr 1fr 1.1fr;column-gap:12px;padding:8px 20px;border-bottom:1px solid #E9EDEA;font-size:11.5px;color:#8A968E;">
+            <div>Mevzuat</div><div>Referans · Belge (yeni sekmede açılır)</div><div>Klasör (ortak alan)</div><div>Kullanıldığı yer</div><div>Güncellik</div>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;">
+            <sc-for list="{{mevRows}}" as="m" hint-placeholder-count="8">
+              <div style="{{m.rowStyle}}">
+                <div style="font-weight:600;">{{m.title}}</div>
+                <div style="color:#5B6B60;">{{m.ref}}<a href="Sozlesme-Onizleme.dc.html" target="_blank" rel="noopener" title="Mevzuat metnini yeni sekmede aç" style="display:block;margin-top:4px;font-size:11.5px;font-weight:600;color:#1E6B3E;text-decoration:underline;">{{m.doc}} ↗</a></div>
+                <div style="color:#5B6B60;font-size:12px;">{{m.folder}}</div>
+                <div style="color:#8A968E;font-size:11.5px;">{{m.used}}</div>
+                <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
+                  <span style="{{m.stStyle}}">{{m.status}}</span>
+                  <span style="font-size:11px;color:#8A968E;">{{m.checked}}</span>
+                  <sc-if value="{{m.canAsk}}" hint-placeholder-val="{{false}}"><button onClick="{{m.ask}}" style="background:#FFFFFF;border:1px solid #D6E4DA;border-radius:8px;padding:4px 8px;font-family:'IBM Plex Sans',sans-serif;font-size:11.5px;font-weight:600;color:#132119;cursor:pointer;">Balbal'a sor</button></sc-if>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+          <div style="padding:12px 18px;border-bottom:1px solid #E9EDEA;display:flex;align-items:center;gap:10px;">
+            <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="" style="width:26px;height:26px;border-radius:50%;object-fit:contain;">
+            <div style="flex:1;"><div style="font-size:13.5px;font-weight:600;">Balbal · mevzuat</div><div style="font-size:11.5px;color:#8A968E;">Güncellik sorun, yeni mevzuat isteyin</div></div>
+          </div>
+          <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;overflow-y:auto;">
+            <sc-if value="{{balHasQ}}" hint-placeholder-val="{{false}}">
+              <div style="align-self:flex-end;max-width:85%;background:#0E241D;color:#F6F7F5;border-radius:12px 12px 2px 12px;padding:8px 12px;font-size:13px;">{{balQText}}</div>
+            </sc-if>
+            <div style="background:#F0FAF3;border:1px solid #DCEEE2;border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.55;">{{balAnswer}}</div>
+
+            <sc-if value="{{mvFound}}" hint-placeholder-val="{{false}}">
+              <div style="border:1px solid #E1E7E2;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;">
+                <div style="font-size:11px;font-weight:700;letter-spacing:0.4px;text-transform:uppercase;color:#9A6B12;">{{mv.kindLabel}}</div>
+                <div style="font-size:13.5px;font-weight:600;">{{mv.title}}</div>
+                <div style="font-size:12.5px;color:#5B6B60;line-height:1.45;">{{mv.ref}}</div>
+                <a href="Sozlesme-Onizleme.dc.html" target="_blank" rel="noopener" style="font-size:12.5px;font-weight:600;color:#1E6B3E;text-decoration:underline;">{{mv.doc}} ↗ · önce okuyun</a>
+                <div style="display:flex;gap:8px;">
+                  <button onClick="{{mvAccept}}" style="flex:1;background:#2FA968;border:none;border-radius:10px;padding:9px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#0E241D;cursor:pointer;">Okudum, onaylıyorum</button>
+                  <button onClick="{{mvReject}}" style="flex:1;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:10px;padding:9px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#7A2323;cursor:pointer;">Onaylamıyorum</button>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{mvFolder}}" hint-placeholder-val="{{false}}">
+              <div style="border:1px solid #E1E7E2;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;">
+                <div style="font-size:13px;line-height:1.5;">Nereye ekleyeyim? Önerim aşağıda; isterseniz başka bir klasör seçin.</div>
+                <select value="{{mvFolderVal}}" onChange="{{onMvFolder}}" aria-label="Eklenecek klasör" style="height:36px;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:8px;padding:0 8px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;background:#FFFFFF;color:#132119;">
+                  <sc-for list="{{mvFolderOpts}}" as="o" hint-placeholder-count="4"><option value="{{o.v}}">{{o.l}}</option></sc-for>
+                </select>
+                <button onClick="{{mvAdd}}" style="background:#0E241D;border:none;border-radius:10px;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#F6F7F5;cursor:pointer;">Bu klasöre ekle</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{mvDone}}" hint-placeholder-val="{{false}}">
+              <div role="status" style="background:#E7F3EB;border-radius:12px;padding:10px 12px;font-size:12.5px;line-height:1.5;color:#14401F;">{{mvDoneText}}</div>
+            </sc-if>
+            <sc-if value="{{mvRejected}}" hint-placeholder-val="{{false}}">
+              <div role="status" style="background:#F6F7F5;border-radius:12px;padding:10px 12px;font-size:12.5px;line-height:1.5;color:#5B6B60;">Eklenmedi. Ortak alandaki mevcut sürüm kullanılmaya devam ediyor; Pazartesi kontrolünde yeniden bakarım.</div>
+            </sc-if>
+            <div style="font-size:11.5px;color:#8A968E;line-height:1.5;">Balbal yeni bir sürüm veya mevzuat bulduğunda önerir; İK okuyup onaylamadan ve klasörünü onaylamadan ortak alana eklenmez. Eski sürüm silinmez, "eski sürüm" olarak arşivlenir. Her cevapta kaynak belirtilir.</div>
+          </div>
+          <div style="padding:10px 14px;border-top:1px solid #E9EDEA;display:flex;gap:8px;">
+            <label for="mev-q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Mevzuat sorusu</label>
+            <input id="mev-q" type="text" value="{{mvQ}}" onInput="{{onMvQ}}" onKeyDown="{{onMvKey}}" placeholder="Ör. Kıdem tavanı güncel mi?" style="flex:1;height:36px;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:10px;padding:0 12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;">
+            <button onClick="{{onMvAsk}}" style="background:#2FA968;border:none;border-radius:10px;padding:0 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;color:#0E241D;cursor:pointer;">Sor</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- MAAŞ: kilit -->
+    <sc-if value="{{payLocked}}" hint-placeholder-val="{{false}}">
+      <div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center;">
+        <div style="width:420px;background:#FFFFFF;border:1px solid #E1E7E2;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center;">
+          <div style="width:52px;height:52px;border-radius:50%;background:#F0F2F0;display:flex;align-items:center;justify-content:center;font-size:22px;">🔒</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;">Maaş sekmesi şifreli</div>
+          <div style="font-size:12.5px;color:#5B6B60;line-height:1.5;">Her açılışta şifre istenir; sekmeden ayrılınca yeniden kilitlenir. Erişim denetim kaydına yazılır (Zeynep Koç · İK).</div>
+          <input type="password" value="{{payPass}}" onChange="{{onPayPass}}" placeholder="İK şifresi" aria-label="İK şifresi" style="width:100%;height:40px;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:10px;padding:0 12px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;">
+          <sc-if value="{{payErr}}" hint-placeholder-val="{{false}}"><div style="font-size:12px;color:#7A2323;">Şifre hatalı. Deneme denetim kaydına yazıldı.</div></sc-if>
+          <button onClick="{{payUnlock}}" style="width:100%;background:#132119;border:none;border-radius:10px;padding:11px;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:600;color:#FFFFFF;cursor:pointer;">Aç</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- MAAŞ: açık -->
+    <sc-if value="{{payOpen}}" hint-placeholder-val="{{false}}">
+      <sc-if value="{{maasLocked}}" hint-placeholder-val="{{false}}">
+        <div style="flex-shrink:0;display:flex;align-items:center;gap:12px;background:#FBE7E7;border:1px solid #F3CFCF;border-radius:12px;padding:10px 16px;font-size:13px;color:#7A2323;"><strong>Bordro kilitli:</strong><span style="flex:1;">{{maasLockText}}</span><button onClick="{{goMevzuat}}" style="background:#FFFFFF;border:1px solid #F3CFCF;border-radius:8px;padding:6px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;color:#7A2323;cursor:pointer;">Mevzuat'a git</button></div>
+      </sc-if>
+      <div style="{{maasWrap}}">
+      <div style="display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:14px;flex-shrink:0;">
+        <sc-for list="{{payKpis}}" as="k" hint-placeholder-count="4">
+          <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:14px 18px;display:flex;flex-direction:column;gap:5px;">
+            <span style="font-size:11.5px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;">{{k.label}}</span>
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;">{{k.value}}</span>
+            <span style="font-size:12px;color:#5B6B60;line-height:1.4;">{{k.sub}}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:1.9fr 1fr;gap:16px;">
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;">
+          <div style="padding:12px 20px;border-bottom:1px solid #E9EDEA;display:flex;align-items:center;gap:10px;">
+            <div style="flex:1;"><div style="font-size:14px;font-weight:600;">Ekim 2026 Bordrosu · brüt → net (sistem hesaplar)</div><div style="font-size:12px;color:#8A968E;margin-top:2px;">Parametreler Mevzuat sekmesinden: SGK %14 + işsizlik %1 · gelir vergisi kümülatif tarife · damga ‰7,59 · asgari ücret vergi istisnası. İşveren: SGK %15,75 + işsizlik %2.</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.4fr 0.9fr 0.9fr 0.8fr 0.7fr 0.9fr 0.9fr;column-gap:10px;padding:8px 20px;border-bottom:1px solid #E9EDEA;font-size:11.5px;color:#8A968E;">
+            <div>Kişi</div><div>Brüt</div><div>SGK+işsizlik</div><div>Gelir v. (dilim)</div><div>Damga</div><div>Net</div><div>İşveren maliyeti</div>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;">
+            <sc-for list="{{payRows}}" as="r" hint-placeholder-count="12">
+              <sc-if value="{{r.isHead}}" hint-placeholder-val="{{false}}"><div style="{{r.headStyle}}"><span>{{r.name}}</span><span style="font-weight:400;color:#8A968E;">{{r.sub}}</span></div></sc-if>
+              <sc-if value="{{r.isRow}}" hint-placeholder-val="{{true}}">
+              <div style="display:grid;grid-template-columns:1.4fr 0.9fr 0.9fr 0.8fr 0.7fr 0.9fr 0.9fr;column-gap:10px;padding:9px 20px;border-bottom:1px solid #F0F2F0;align-items:center;font-size:12.5px;">
+                <div style="{{r.nameStyle}}"><div style="font-weight:600;">{{r.name}}</div><div style="font-size:11px;color:#8A968E;">{{r.sub}}</div></div>
+                <div>{{r.gross}}</div><div style="color:#5B6B60;">{{r.sgk}}</div><div style="color:#5B6B60;">{{r.gv}} <span style="font-size:10.5px;color:#8A968E;">{{r.bracket}}</span></div><div style="color:#5B6B60;">{{r.dv}}</div>
+                <div style="font-weight:700;color:#1E6B3E;">{{r.net}}</div><div style="color:#5B6B60;">{{r.employer}}</div>
+              </div>
+              </sc-if>
+            </sc-for>
+          </div>
+          <div style="flex-shrink:0;display:flex;align-items:center;gap:12px;padding:12px 20px;border-top:1px solid #E9EDEA;background:#FBFCFB;">
+            <sc-if value="{{payNotSent}}" hint-placeholder-val="{{true}}">
+              <div style="flex:1;font-size:12.5px;color:#5B6B60;line-height:1.45;">Bordroyu Finansal Muhasebe'ye (Gökhan Erdem) ödeme talimatı için iletin. İletim denetim kaydına yazılır; tutarlar yalnızca alıcıya açılır.</div>
+              <button onClick="{{paySend}}" style="background:#2FA968;border:none;border-radius:10px;padding:10px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:600;color:#0E241D;cursor:pointer;">Finansal Muhasebe'ye ilet →</button>
+            </sc-if>
+            <sc-if value="{{paySent}}" hint-placeholder-val="{{false}}">
+              <div role="status" style="flex:1;font-size:13px;font-weight:600;color:#14401F;background:#E7F3EB;border-radius:10px;padding:10px 14px;">Ekim 2026 bordrosu Finansal Muhasebe'ye iletildi · Gökhan Erdem'in bildirimine düştü · ödeme talimatı bekliyor · denetim kaydına yazıldı.</div>
+            </sc-if>
+          </div>
+        </div>
+        <div style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;">
+          <div style="font-size:11px;font-weight:600;color:#8A968E;letter-spacing:0.4px;text-transform:uppercase;">Netten brüte hesap</div>
+          <div style="font-size:12.5px;color:#5B6B60;line-height:1.45;">Yeni işe giriş teklifi veya zam için: hedef net ücret girin, sistem brütü ve işveren maliyetini hesaplar.</div>
+          <label for="n2g" style="font-size:12px;color:#8A968E;">Hedef net (TL/ay)</label>
+          <input id="n2g" type="number" value="{{n2gVal}}" onChange="{{onN2g}}" style="height:38px;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:8px;padding:0 12px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;">
+          <div style="background:#F6F9F7;border-radius:10px;padding:12px 14px;">
+            <div style="font-size:11px;color:#8A968E;">Gereken brüt</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:#0E241D;">{{n2gGross}}</div>
+            <div style="font-size:12px;color:#5B6B60;margin-top:4px;">{{n2gDed}}</div>
+            <div style="font-size:12px;color:#5B6B60;">İşveren maliyeti: <strong style="color:#132119;">{{n2gEmp}}</strong></div>
+          </div>
+          <div style="font-size:11.5px;color:#8A968E;line-height:1.5;">Hesap Ekim ayı kümülatif vergi matrahına göredir (yıl içinde dilim yükselir). 2026 parametreleri Mevzuat sekmesinde onaylanınca bordro kendiliğinden yenilenir. Tüm ücretler kurgusaldır.</div>
+        </div>
+      </div>
+      </div>
+    </sc-if>
+
+
+    </sc-if>
+
+    <!-- ZİMMETLİ ALIM ONAYI (ortak bileşen Talep-Onay-Yonetici, İK görünümü) -->
+    <sc-if value="{{ikOnayOpen}}" hint-placeholder-val="{{false}}">
+      <div onClick="{{ikOnayBackdrop}}" style="{{ikOnayWrap}}">
+        <dc-import name="Talep-Onay-Yonetici" embedded="{{true}}" kisi="zeynep" talep="{{ikOnayId}}" full="{{ikOnayFull}}" on-full="{{ikOnayGoFull}}" on-window="{{ikOnayToWindow}}" on-close="{{ikOnayClose}}" w="1360" h="{{ikOnayH}}" hint-size="900px,760px"></dc-import>
+      </div>
+    </sc-if>
+
+    <!-- Two round chat buttons -->
+    <sc-if value="{{anyModalClosed}}" hint-placeholder-val="{{true}}">
+      <button aria-label="Ekip Sohbetini Aç" onClick="{{onOpenTeamChat}}" style="position:absolute;right:36px;bottom:112px;width:56px;height:56px;border-radius:50%;background:{{accent}};border:none;box-shadow:0 8px 22px rgba(19,33,25,0.2);cursor:pointer;display:flex;align-items:center;justify-content:center;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+      </button>
+      <button aria-label="Balbal'ı Aç" onClick="{{onOpenChat}}" style="position:absolute;right:36px;bottom:36px;width:64px;height:64px;border-radius:50%;background:#FFFFFF;border:none;box-shadow:0 8px 22px rgba(19,33,25,0.28), 0 0 0 2px {{accent}};cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;">
+        <img src="/_blob/324e9ca9d20603b36121ea8b3f350b8d" alt="Balbal" style="width:78%;height:78%;object-fit:contain;">
+      </button>
+    </sc-if>
+
+    <!-- Balbal penceresi (ortak bileşen: Balbal-Sohbet.dc.html) — yüzen / yan panel / tam ekran sekme -->
+    <sc-if value="{{chatOpen}}" hint-placeholder-val="{{false}}">
+      <div style="{{chatWin.style}}">
+        <div onPointerDown="{{chatWin.onGrab}}" style="{{chatWin.barStyle}}">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#C9D3CC;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><path d="M5 9h14M5 15h14"></path></svg>
+            {{chatWin.hint}}
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;">
+            <button onClick="{{chatWin.onFloat}}" aria-label="Yüzen pencere" title="Yüzen pencere" style="{{chatWin.floatBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="12" rx="2"></rect></svg></button>
+            <button onClick="{{chatWin.onSide}}" aria-label="Yan panel" title="Yan panel" style="{{chatWin.sideBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M14 4v16"></path></svg></button>
+            <button onClick="{{onBalbalFull}}" aria-label="Tam ekran sekme" title="Tam ekran sekme" style="{{chatWin.fullBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg></button>
+            <button onClick="{{onCloseChat}}" aria-label="Kapat" style="{{chatWin.closeBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+          </div>
+        </div>
+        <dc-import name="Balbal-Sohbet" dept="ik" ask="{{chatAsk}}" w="{{chatWin.w}}" h="{{chatWin.h}}" on-close="{{onCloseChat}}" on-full="{{onBalbalFull}}" hint-size="760px,560px"></dc-import>
+        <sc-if value="{{chatWin.isFloat}}" hint-placeholder-val="{{true}}">
+          <button onPointerDown="{{chatWin.onResize}}" aria-label="Pencereyi boyutlandır" title="Köşeden tutup boyutlandırın" style="position:absolute;right:2px;bottom:2px;width:22px;height:22px;border:none;background:transparent;cursor:nwse-resize;touch-action:none;padding:0;display:flex;align-items:flex-end;justify-content:flex-end;"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M13 1 1 13M13 7l-6 6" stroke="#A9B6AE" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- Ekip sohbeti penceresi (ortak bileşen: Ekip-Sohbet.dc.html) — aynı pencere davranışı -->
+    <sc-if value="{{teamChatOpen}}" hint-placeholder-val="{{false}}">
+      <div style="{{teamWin.style}}">
+        <div onPointerDown="{{teamWin.onGrab}}" style="{{teamWin.barStyle}}">
+          <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#C9D3CC;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9FB0A6" stroke-width="2" stroke-linecap="round"><path d="M5 9h14M5 15h14"></path></svg>
+            {{teamWin.hint}}
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;">
+            <button onClick="{{teamWin.onFloat}}" aria-label="Yüzen pencere" title="Yüzen pencere" style="{{teamWin.floatBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="12" rx="2"></rect></svg></button>
+            <button onClick="{{teamWin.onSide}}" aria-label="Yan panel" title="Yan panel" style="{{teamWin.sideBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M14 4v16"></path></svg></button>
+            <button onClick="{{onCloseTeamChat}}" aria-label="Kapat" style="{{teamWin.closeBtn}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button>
+          </div>
+        </div>
+        <dc-import name="Ekip-Sohbet" dept="ik" w="{{teamWin.w}}" h="{{teamWin.h}}" on-close="{{onCloseTeamChat}}" hint-size="760px,560px"></dc-import>
+        <sc-if value="{{teamWin.isFloat}}" hint-placeholder-val="{{true}}">
+          <button onPointerDown="{{teamWin.onResize}}" aria-label="Pencereyi boyutlandır" title="Köşeden tutup boyutlandırın" style="position:absolute;right:2px;bottom:2px;width:22px;height:22px;border:none;background:transparent;cursor:nwse-resize;touch-action:none;padding:0;display:flex;align-items:flex-end;justify-content:flex-end;"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M13 1 1 13M13 7l-6 6" stroke="#A9B6AE" stroke-width="1.6" stroke-linecap="round"></path></svg></button>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- Üst bar panelleri -->
+    <sc-if value="{{searchOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;top:70px;left:640px;z-index:20;">
+        <dc-import name="Arama-Sonuclari" dept="ik" query="{{searchQ}}" on-close="{{onCloseSearch}}" on-ask-balbal="{{onAskFromSearch}}" hint-size="560px,520px"></dc-import>
+      </div>
+    </sc-if>
+    <sc-if value="{{notifOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;top:70px;right:120px;z-index:20;">
+        <dc-import name="Bildirimler" dept="ik" on-close="{{onCloseNotif}}" on-open-team-chat="{{onNotifOpenTeam}}" on-open-balbal="{{onNotifOpenBalbal}}" hint-size="420px,560px"></dc-import>
+      </div>
+    </sc-if>
+    <sc-if value="{{userMenuOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;top:70px;right:24px;z-index:20;">
+        <dc-import name="Kullanici-Menusu" dept="ik" on-close="{{onCloseUserMenu}}" hint-size="340px,520px"></dc-import>
+      </div>
+    </sc-if>
+
+  </div>
+    <!-- AYRILIŞ SORULARI (aktif → pasif) -->
+    <sc-if value="{{exitOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(14,36,29,0.5);display:flex;align-items:center;justify-content:center;">
+        <div role="dialog" aria-label="Ayrılış" style="width:760px;background:#FFFFFF;border-radius:16px;padding:22px 26px;display:flex;flex-direction:column;gap:14px;font-family:'IBM Plex Sans',sans-serif;">
+          <div><div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;">{{exitName}} pasife alınıyor — ayrılış soruları</div><div style="font-size:12.5px;color:#8A968E;margin-top:2px;">Cevaba göre toplanacak belgeler belirlenir ve ortak alanda personel klasörü otomatik açılır.</div></div>
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:6px;">1 · Ayrılış türü</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+              <sc-for list="{{exitTypes}}" as="et" hint-placeholder-count="4">
+                <button onClick="{{et.select}}" style="{{et.style}}">{{et.label}}</button>
+              </sc-for>
+            </div>
+            <sc-if value="{{exitHasType}}" hint-placeholder-val="{{false}}"><div style="font-size:12.5px;color:#5E430C;background:#FBF1DE;border-radius:8px;padding:8px 10px;margin-top:8px;line-height:1.45;">{{exitNote}}</div></sc-if>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <div><div style="font-size:13px;font-weight:600;margin-bottom:6px;">2 · Son çalışma günü</div><input type="text" value="{{exitDate}}" onChange="{{onExitDate}}" placeholder="gg.aa.yyyy" aria-label="Son çalışma günü" style="width:100%;height:36px;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:8px;padding:0 10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;"></div>
+            <div><div style="font-size:13px;font-weight:600;margin-bottom:6px;">3 · Onay ve vekâlet</div><div style="font-size:12.5px;color:#5B6B60;line-height:1.45;">{{exitProxy}}</div></div>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:6px;">4 · Toplanacak belgeler (sistem belirledi)</div>
+            <sc-if value="{{exitHasType}}" hint-placeholder-val="{{false}}">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;font-size:12.5px;">
+                <sc-for list="{{exitDocs}}" as="xd" hint-placeholder-count="6"><div style="display:flex;gap:8px;align-items:center;"><span style="width:14px;height:14px;border:1.5px solid #B5BFB8;border-radius:4px;flex-shrink:0;"></span>{{xd}}</div></sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{exitNoType}}" hint-placeholder-val="{{true}}"><div style="font-size:12.5px;color:#8A968E;">Ayrılış türü seçilince liste gelir.</div></sc-if>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:10px;border-top:1px solid #E9EDEA;padding-top:12px;">
+            <button onClick="{{exitCancel}}" style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:10px;padding:9px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;color:#5B6B60;cursor:pointer;">Vazgeç</button>
+            <button onClick="{{exitConfirm}}" style="{{exitBtnStyle}}">Pasife al ve dosyayı aç</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- İŞE GİRİŞ -->
+    <sc-if value="{{hireOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(14,36,29,0.5);display:flex;align-items:center;justify-content:center;">
+        <div role="dialog" aria-label="İşe giriş" style="width:720px;background:#FFFFFF;border-radius:16px;padding:22px 26px;display:flex;flex-direction:column;gap:14px;font-family:'IBM Plex Sans',sans-serif;">
+          <div><div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;">İşe giriş</div><div style="font-size:12.5px;color:#8A968E;margin-top:2px;">Kişi pozisyona atanır; yönetici, rol ve onay akışı şemadan türetilir; gerekli belgeler listelenir ve personel klasörü otomatik açılır.</div></div>
+          <div style="display:grid;grid-template-columns:1.2fr 1.2fr 0.8fr;gap:12px;">
+            <div><div style="font-size:12px;color:#8A968E;margin-bottom:4px;">Ad soyad</div><input type="text" value="{{hireName}}" onChange="{{onHireName}}" aria-label="Ad soyad" style="width:100%;height:36px;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:8px;padding:0 10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;"></div>
+            <div><div style="font-size:12px;color:#8A968E;margin-bottom:4px;">Pozisyon (şemadan)</div><select value="{{hirePos}}" onChange="{{onHirePos}}" aria-label="Pozisyon" style="width:100%;height:36px;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:8px;padding:0 8px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;background:#FFFFFF;"><sc-for list="{{hirePosOpts}}" as="o" hint-placeholder-count="5"><option value="{{o.v}}">{{o.l}}</option></sc-for></select></div>
+            <div><div style="font-size:12px;color:#8A968E;margin-bottom:4px;">Başlangıç</div><input type="text" value="{{hireDate}}" onChange="{{onHireDate}}" placeholder="gg.aa.yyyy" aria-label="Başlangıç" style="width:100%;height:36px;box-sizing:border-box;border:1px solid #D6E4DA;border-radius:8px;padding:0 10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;"></div>
+          </div>
+          <div style="font-size:12.5px;color:#5B6B60;">{{hireDerived}}</div>
+          <div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:6px;">Toplanacak belgeler (12)</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;font-size:12.5px;">
+              <sc-for list="{{hireDocs}}" as="hd" hint-placeholder-count="6"><div style="display:flex;gap:8px;align-items:center;"><span style="width:14px;height:14px;border:1.5px solid #B5BFB8;border-radius:4px;flex-shrink:0;"></span>{{hd}}</div></sc-for>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:10px;border-top:1px solid #E9EDEA;padding-top:12px;">
+            <button onClick="{{hireCancel}}" style="background:#FFFFFF;border:1px solid #E1E7E2;border-radius:10px;padding:9px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;color:#5B6B60;cursor:pointer;">Vazgeç</button>
+            <button onClick="{{hireConfirm}}" style="{{hireBtnStyle}}">Kaydet ve dosyayı aç</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+  <!-- Ödeme talebi menüsü (üst bar) · pencere -->
+  <sc-if value="{{otMenu}}" hint-placeholder-val="{{false}}"><div onClick="{{otMenuClose}}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:75;"></div></sc-if>
+  <sc-if value="{{otOv}}" hint-placeholder-val="{{false}}">
+  <div onClick="{{otBackdrop}}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:70;background:rgba(14,36,29,0.45);overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:24px;box-sizing:border-box;">
+    <sc-if value="{{otIsMs}}" hint-placeholder-val="{{false}}"><dc-import name="Masraf-Formu" embedded="{{true}}" kisi="{{otKisi}}" mod="{{otMod}}" on-close="{{otClose}}" hint-size="1280px,1210px"></dc-import></sc-if>
+    <sc-if value="{{otIsYot}}" hint-placeholder-val="{{false}}"><dc-import name="Yeni-Odeme-Talebi" embedded="{{true}}" kisi="{{otKisi}}" tur="{{otTur}}" adim="{{otAdim}}" on-close="{{otClose}}" hint-size="900px,700px"></dc-import></sc-if>
+  </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2FA968","options":["#2FA968","#0E241D","#D97706","#2563EB"]},"onay":{"editor":null},"sekme":{"editor":"enum","default":"genel","options":["genel","sema","kisiler","izin","haklar","kidem","mevzuat","maas"]},"$preview":{"width":1440,"height":980}}'>
+class Component extends DCLogic {
+  renderVals() { return Object.assign(this._rv0.apply(this, arguments), this._ot()); }
+  // Üst bar · Ödeme talebi menüsü: departmanın açabileceği tüm ödeme talepleri (Yeni-Odeme-Talebi türleriyle aynı)
+  _ot() {
+    const self = this; const st = this.state || {}; const set = function (o) { self.setState(o); };
+    const K = 'zeynep';
+    const T = { masraf: ['Masraf', 'Fiş / fatura yükle · Balbal tabloyu çıkarır'], avans: ['Avans', 'İleride harcanacak tutar için'], po: ['Ürün / hizmet satın alma', 'Satın alma talebi formu'], soz: ['Sözleşmeye istinaden ödeme', 'Erişebildiğin klasörlerdeki sözleşmeler'], kredi: ['Kredi ödemesi', 'Bankalar ve krediler'], vergi: ['Vergi / yasal yükümlülük', 'Muhasebe tahakkukları'], bordro: ['Bordro', 'Kapanmış bordro dönemleri'], idari: ['İdari İşler talebi', 'Talep ve teklif tek ekranda'] };
+    const L = ['masraf', 'avans', 'bordro'];
+    const o = st.otOpen || null; const isMs = o === 'masraf' || o === 'avans';
+    return {
+      otMenu: !!st.otMenu, otMenuOpen: st.otMenu ? 'true' : 'false',
+      otToggle: function () { set({ otMenu: !st.otMenu }); }, otMenuClose: function () { set({ otMenu: false }); },
+      otMine: function () { set({ otMenu: false, otOpen: 'liste' }); },
+      otItems: L.map(function (v) { return { lbl: T[v][0], sub: T[v][1], pick: function () { if (v === 'idari') set({ otMenu: false, zfOpen: true, zfFull: false }); else set({ otMenu: false, otOpen: v }); } }; }),
+      otOv: !!o, otIsMs: isMs, otIsYot: !!o && !isMs, otKisi: K, otMod: o === 'avans' ? 'avans' : 'masraf',
+      otTur: o && o !== 'liste' && !isMs ? o : '', otAdim: o === 'liste' ? 'liste' : 'kayit',
+      otClose: function () { set({ otOpen: null }); },
+      otBackdrop: function (e) { if (e && e.target === e.currentTarget) set({ otOpen: null }); }
+    };
+  }
+  componentWillUnmount() { this.winDetach(); }
+  winDetach() {
+    if (this._wMove) window.removeEventListener('pointermove', this._wMove);
+    if (this._wUp) { window.removeEventListener('pointerup', this._wUp); window.removeEventListener('pointercancel', this._wUp); }
+    this._wMove = null; this._wUp = null;
+    try { document.body.style.userSelect = ''; } catch (err) {}
+  }
+  winStart(key, mode, e) {
+    const self = this;
+    const st = (this.state && this.state[key]) || {};
+    const def = this.winDefaults()[key];
+    const RH = 980;
+    const start = { x: e.clientX, y: e.clientY, left: st.x !== undefined ? st.x : def.x, top: st.y !== undefined ? st.y : def.y, w: st.w || def.w, h: st.h || def.h };
+    this.winDetach();
+    try { document.body.style.userSelect = 'none'; } catch (err) {}
+    this._wMove = function (ev) {
+      const dx = ev.clientX - start.x, dy = ev.clientY - start.y;
+      const cur = Object.assign({}, (self.state && self.state[key]) || {});
+      if (mode === 'move') { cur.x = Math.max(0, Math.min(1440 - 240, start.left + dx)); cur.y = Math.max(0, Math.min(RH - 120, start.top + dy)); }
+      else { cur.w = Math.max(420, Math.min(1400, start.w + dx)); cur.h = Math.max(360, Math.min(900, start.h + dy)); }
+      const patch = {}; patch[key] = cur; self.setState(patch);
+    };
+    this._wUp = function () { self.winDetach(); };
+    window.addEventListener('pointermove', this._wMove);
+    window.addEventListener('pointerup', this._wUp);
+    window.addEventListener('pointercancel', this._wUp);
+    e.preventDefault();
+  }
+  winDefaults() { return { chatWin: { x: 400, y: 120, w: 980, h: 760 }, teamWin: { x: 360, y: 150, w: 980, h: 720 } }; }
+  winBuild(key, hint) {
+    const self = this;
+    const def = this.winDefaults()[key];
+    const st = (this.state && this.state[key]) || {};
+    const RH = 980;
+    const mode = st.mode || 'float';
+    const isFloat = mode === 'float';
+    const w = isFloat ? (st.w || def.w) : 520;
+    const h = isFloat ? (st.h || def.h) : (RH - 69 - 34);
+    const x = st.x !== undefined ? st.x : def.x;
+    const y = st.y !== undefined ? st.y : def.y;
+    const base = 'position:absolute;z-index:10;display:flex;flex-direction:column;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.28);overflow:hidden;background:#FFFFFF;';
+    const style = isFloat
+      ? base + 'left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;height:' + (h + 34) + 'px;transform-origin:100% 100%;animation:genie 320ms cubic-bezier(.2,.8,.2,1);'
+      : base + 'right:0;top:69px;bottom:0;width:' + w + 'px;border-radius:0;box-shadow:-8px 0 24px rgba(19,33,25,0.12);';
+    const BTN = 'width:26px;height:26px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;';
+    const on = BTN + 'background:#2FA968;color:#0E241D;';
+    const off = BTN + 'background:transparent;color:#C9D3CC;';
+    const setMode = function (m) { return function () { const cur = Object.assign({}, st, { mode: m }); const patch = {}; patch[key] = cur; self.setState(patch); }; };
+    return {
+      style: style, w: w, h: h, isFloat: isFloat,
+      barStyle: 'height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 14px;background:#0E241D;cursor:' + (isFloat ? 'grab' : 'default') + ';touch-action:none;user-select:none;',
+      hint: isFloat ? hint + ' · tutup taşıyın, köşeden boyutlandırın' : hint + ' · yan panel',
+      floatBtn: isFloat ? on : off, sideBtn: isFloat ? off : on, fullBtn: off, closeBtn: off,
+      onFloat: setMode('float'), onSide: setMode('side'),
+      onGrab: function (e) { if (isFloat && e.target && !e.target.closest('button,a')) self.winStart(key, 'move', e); },
+      onResize: function (e) { self.winStart(key, 'resize', e); }
+    };
+  }
+  _rv0() {
+    const self = this;
+    const st = this.state || {};
+    const props = this.props || {};
+    const tab = st.tab || props.sekme || 'genel';
+    const PILL = 'font-size:11.5px;font-weight:600;border-radius:6px;padding:3px 8px;';
+    const TAB = "font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:20px;padding:10px 20px;cursor:pointer;";
+    const tabs = [['genel', 'Genel Bakış'], ['sema', 'Şirket Yapısı'], ['kisiler', 'Kişiler ve Pozisyonlar'], ['izin', 'İzin Yönetimi'], ['haklar', 'İzin Hakları'], ['kidem', 'Kıdem ve İhbar'], ['mevzuat', 'Mevzuat'], ['maas', 'Maaş 🔒']].map(function (t) {
+      return { label: t[1], style: TAB + (tab === t[0] ? 'background:#0E241D;color:#F6F7F5;border:1px solid #0E241D;' : 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;'), select: function () { self.setState({ tab: (t[0] === 'sema' && st.semaFull) ? 'semaFull' : t[0], hSavedFlag: false, payUnlocked: false }); } };
+    });
+    const go = function (t) { return function () { self.setState({ tab: t, payUnlocked: false }); }; };
+
+    // ---- Ana veri (Yönetim paneliyle aynı; burada İK düzenler) ----
+    const DNA = { yon: 'Yönetim', pf: 'Proje Finans', mali: 'Mali İşler', hukuk: 'Hukuk', idari: 'İdari İşler', ik: 'İK', enerji: 'Enerji' };
+    const POS = {
+      gm: { n: 'Genel Müdür', d: 'yon' },
+      pfm: { n: 'Proje Finans Müdürü', d: 'pf' }, pfu: { n: 'Proje Finans Uzmanı', d: 'pf' },
+      mim: { n: 'Mali İşler Müdürü', d: 'mali' }, muh: { n: 'Muhasebe Uzmanı', d: 'mali' }, fmu: { n: 'Finansal Muhasebe Uzmanı', d: 'mali' },
+      hkm: { n: 'Hukuk Müdürü', d: 'hukuk' }, avu: { n: 'Avukat', d: 'hukuk' },
+      idr: { n: 'İdari İşler Sorumlusu', d: 'idari' }, stj: { n: 'Stajyer', d: 'idari' },
+      ikuz: { n: 'İK Uzmanı', d: 'ik' },
+      enm: { n: 'Enerji Grubu Müdürü', d: 'enerji' }, pgu: { n: 'Proje Geliştirme Uzmanı', d: 'enerji' }, om: { n: 'O&M Mühendisi', d: 'enerji' }, epc: { n: 'EPC Proje Mühendisi', d: 'enerji' }, upu: { n: 'Üretim/Piyasa Uzmanı', d: 'enerji' },
+      sfm: { n: 'Saha Operasyon Müdürü', d: 'enerji' },
+      'kt-tek': { n: 'Saha Teknisyeni · Karatepe RES', d: 'enerji' },
+      'bz-tek': { n: 'Saha Teknisyeni · Boztepe RES', d: 'enerji' },
+      'ys-tek': { n: 'Saha Teknisyeni · Yeşilova RES', d: 'enerji' },
+      'gn-tek': { n: 'Saha Teknisyeni · Güneşalan GES', d: 'enerji' },
+      'epc-ins': { n: 'İnşaat Mühendisi', d: 'enerji' }, 'epc-elk': { n: 'Elektrik Mühendisi', d: 'enerji' }, 'epc-tkr': { n: 'EPC Teknikeri', d: 'enerji' }
+    };
+    const POS_ORDER = Object.keys(POS);
+    const UPBASE = { gm: null, pfm: 'gm', pfu: 'pfm', mim: 'gm', muh: 'mim', fmu: 'mim', hkm: 'gm', avu: 'hkm', idr: 'gm', stj: 'idr', ikuz: 'gm', enm: 'gm', pgu: 'enm', om: 'enm', upu: 'enm', sfm: 'enm', 'kt-tek': 'sfm', 'bz-tek': 'sfm', 'ys-tek': 'sfm', 'gn-tek': 'sfm', epc: 'enm', 'epc-ins': 'epc', 'epc-elk': 'epc', 'epc-tkr': 'epc' };
+    const PEOPLE = [
+      ['levent', 'Levent Aksoy', 'levent.aksoy', 'gm', true, true], ['kaan', 'Kaan Turhan', 'kaan.turhan', 'pfm', true, true], ['oguz', 'Oğuz Tekin', 'oguz.tekin', 'pfu', true, false],
+      ['elif', 'Elif Şahin', 'elif.sahin', 'mim', true, true], ['selin', 'Selin Arslan', 'selin.arslan', 'muh', true, false], ['gokhan', 'Gökhan Erdem', 'gokhan.erdem', 'fmu', true, false],
+      ['ayse', 'Ayşe Yılmaz', 'ayse.yilmaz', 'hkm', true, true], ['burak', 'Burak Çelik', 'burak.celik', 'avu', true, false],
+      ['deniz', 'Deniz Kaya', 'deniz.kaya', 'idr', true, true], ['stajyer', 'Eski Stajyer', 'stajyer.2025', 'stj', false, false],
+      ['zeynep', 'Zeynep Koç', 'zeynep.koc', 'ikuz', true, false],
+      ['kerem', 'Kerem Aydın', 'kerem.aydin', 'enm', true, true], ['cem', 'Cem Aktaş', 'cem.aktas', 'pgu', true, false], ['onur', 'Onur Yıldız', 'onur.yildiz', 'om', true, false], ['hakan', 'Hakan Tunç', 'hakan.tunc', 'epc', true, true], ['pinar', 'Pınar Güler', 'pinar.guler', 'upu', true, false],
+      ['murat', 'Murat Kılınç', 'murat.kilinc', 'sfm', true, true],
+      ['emre', 'Emre Yalçın', 'emre.yalcin', 'kt-tek', true, false],
+      ['furkan', 'Furkan Kurt', 'furkan.kurt', 'kt-tek', true, false],
+      ['volkan', 'Volkan Özdemir', 'volkan.ozdemir', 'kt-tek', true, false],
+      ['serkan', 'Serkan Doğan', 'serkan.dogan', 'kt-tek', true, false],
+      ['ugur', 'Uğur Şimşek', 'ugur.simsek', 'bz-tek', true, false],
+      ['baris', 'Barış Ateş', 'baris.ates', 'bz-tek', true, false],
+      ['sinan', 'Sinan Polat', 'sinan.polat', 'bz-tek', true, false],
+      ['tolga', 'Tolga Aslan', 'tolga.aslan', 'bz-tek', true, false],
+      ['mert', 'Mert Aydoğan', 'mert.aydogan', 'ys-tek', true, false],
+      ['okan', 'Okan Yavuz', 'okan.yavuz', 'ys-tek', true, false],
+      ['gurkan', 'Gürkan Taş', 'gurkan.tas', 'ys-tek', true, false],
+      ['erkan', 'Erkan Bulut', 'erkan.bulut', 'ys-tek', true, false],
+      ['ece', 'Ece Duman', 'ece.duman', 'gn-tek', true, false],
+      ['yusuf', 'Yusuf Akın', 'yusuf.akin', 'gn-tek', true, false],
+      ['ramazan', 'Ramazan Er', 'ramazan.er', 'gn-tek', true, false],
+      ['nihat', 'Nihat Çetin', 'nihat.cetin', 'gn-tek', true, false],
+      ['caner', 'Caner Doğru', 'caner.dogru', 'epc-ins', true, false],
+      ['melis', 'Melis Karaca', 'melis.karaca', 'epc-elk', true, false],
+      ['halil', 'Halil Öztürk', 'halil.ozturk', 'epc-tkr', true, false],
+      ['semih', 'Semih Kaplan', 'semih.kaplan', 'epc-tkr', true, false]
+    ].map(function (r) { return { id: r[0], name: r[1], user: r[2], pos: r[3], active: r[4], apprOn: r[5] }; });
+    // İK kayıtları (kurgusal): işe giriş, brüt ücret (TL), bu yıl kullanılan yıllık izin, devreden
+    const HR = {
+      levent: ['2015-02-02', 420000, 6, 0], kaan: ['2022-08-15', 185000, 10, 0], oguz: ['2024-09-02', 48000, 3, 0],
+      elif: ['2016-05-09', 190000, 12, 4], selin: ['2021-01-11', 47000, 16, -2], gokhan: ['2023-04-03', 46000, 5, 0],
+      ayse: ['2019-10-14', 175000, 8, 0], burak: ['2024-02-05', 98000, 14, 0],
+      deniz: ['2018-03-19', 95000, 20, 3], stajyer: ['2025-07-01', 28000, 0, 0],
+      zeynep: ['2020-06-01', 88000, 7, 0],
+      kerem: ['2017-09-04', 210000, 11, 2], cem: ['2023-11-20', 52000, 4, 0], onur: ['2022-03-07', 101000, 17, 0], hakan: ['2024-03-03', 99000, 9, 0], pinar: ['2025-01-13', 45000, 2, 0],
+      murat: ['2018-06-11', 165000, 9, 2],
+      emre: ['2021-07-05', 64000, 10, 0],
+      furkan: ['2024-05-20', 56000, 6, 0],
+      volkan: ['2020-02-17', 69000, 14, 1],
+      serkan: ['2019-04-01', 71000, 12, 0],
+      ugur: ['2022-03-28', 61000, 11, 0],
+      baris: ['2025-02-03', 54000, 3, 0],
+      sinan: ['2021-10-11', 67000, 9, 0],
+      tolga: ['2020-09-14', 70000, 8, 0],
+      mert: ['2022-06-06', 60000, 13, 0],
+      okan: ['2025-08-18', 53000, 0, 0],
+      gurkan: ['2023-01-16', 65000, 8, 0],
+      erkan: ['2022-01-10', 68000, 7, 0],
+      ece: ['2023-09-04', 62000, 5, 0],
+      yusuf: ['2022-11-07', 57000, 12, 0],
+      ramazan: ['2025-04-14', 52000, 2, 0],
+      nihat: ['2021-05-03', 66000, 10, 0],
+      caner: ['2022-09-12', 92000, 8, 0],
+      melis: ['2023-02-20', 90000, 6, 0],
+      halil: ['2021-11-15', 58000, 11, 0],
+      semih: ['2024-08-05', 52000, 4, 0]
+    };
+    const TODAY = new Date(2026, 9, 5); // 05.10.2026 — hesaplar her gün 06:00'da bu tarihe göre yenilenir
+    const KIDEM_TAVAN = 53919.68; // TL · İK parametresi (01.07–31.12.2025 tavanı; güncel değeri İK girer)
+    const DAMGA = 0.00759;
+    const fmtTL = function (n) { return Math.round(n).toLocaleString('tr-TR') + ' TL'; };
+    const fmtD = function (d) { return d.toLocaleDateString('tr-TR'); };
+    const tenure = function (id) { const h = new Date(HR[id][0]); const ms = TODAY - h; const days = Math.floor(ms / 86400000); const y = Math.floor(days / 365.25); const m = Math.floor((days - y * 365.25) / 30.44); return { days: days, years: days / 365.25, y: y, m: m, label: y + ' yıl ' + m + ' ay', hire: h }; };
+    const entitle = function (years) { return years < 1 ? 0 : (years < 5 ? 14 : (years < 15 ? 20 : 26)); };
+    const noticeWeeks = function (years) { const m = years * 12; return m < 6 ? 2 : (m < 18 ? 4 : (m < 36 ? 6 : 8)); };
+    const leaveOf = function (q) { const t = tenure(q.id); const ent = entitle(t.years); const carry = HR[q.id][3]; const used = HR[q.id][2]; return { ent: ent, carry: carry, used: used, left: ent + carry - used, t: t }; };
+    const sevOf = function (q) {
+      const t = tenure(q.id); const gross = HR[q.id][1]; const daily = gross / 30;
+      const base = Math.min(gross, KIDEM_TAVAN);
+      const kidemBrut = t.years >= 1 ? base * t.years : 0;
+      const kidemNet = kidemBrut * (1 - DAMGA);
+      const nw = noticeWeeks(t.years); const ihbar = daily * nw * 7;
+      const lv = leaveOf(q); const leavePay = Math.max(lv.left, 0) * daily;
+      return { t: t, gross: gross, base: base, capped: gross > KIDEM_TAVAN, kidemBrut: kidemBrut, kidemNet: kidemNet, nw: nw, ihbar: ihbar, leaveLeft: Math.max(lv.left, 0), leavePay: leavePay, total: kidemNet + ihbar + leavePay };
+    };
+
+    const hSaved = st.hSaved || UPBASE; const hP = st.hP || {}; const hPend = Object.assign({}, hSaved, hP);
+    const pSaved = st.pSaved || {}; const pP = st.pP || {};
+    const pe = function (q) { return Object.assign({}, q, pSaved[q.id] || {}, pP[q.id] || {}); };
+    const ancOf = function (map, k) { const out = []; let u = map[k]; while (u) { out.push(u); u = map[u]; } return out; };
+    const lvlOf = function (map, k) { return ancOf(map, k).length + 1; };
+    const descOf = function (map, k) { return POS_ORDER.filter(function (x) { return ancOf(map, x).indexOf(k) >= 0; }); };
+    const roleOf = function (map, k) { const l = lvlOf(map, k); return l === 1 ? 'Üst yönetim' : (l === 2 ? 'Departman yöneticisi' : 'Çalışan'); };
+    const ROLE_STYLE = { 'Üst yönetim': 'color:#9A6B12;background:#FBF1DE;', 'Departman yöneticisi': 'color:#1E6B3E;background:#E7F3EB;', 'Çalışan': 'color:#5B6B60;background:#F0F2F0;' };
+    const holders = function (map, k, pf) { return PEOPLE.filter(function (q) { return pf(q).pos === k; }); };
+    const mgrOf = function (map, q, pf) { const u = map[pf(q).pos]; if (!u) return null; const hs = holders(map, u, pf); return hs.filter(function (x) { return pf(x).active; })[0] || null; };
+    const approversOf = function (map, q, pf) { const an = ancOf(map, pf(q).pos); const all = PEOPLE.filter(function (x) { const e = pf(x); return e.active && e.apprOn && x.id !== q.id && an.indexOf(x.pos) >= 0; }); if (!all.length) return []; const best = Math.min.apply(null, all.map(function (x) { return an.indexOf(pf(x).pos); })); return all.filter(function (x) { return an.indexOf(pf(x).pos) === best; }); };
+    const shortName = function (q) { const w = q.name.split(' '); return w[0] + ' ' + w[w.length - 1].charAt(0) + '.'; };
+    const nameList = function (arr) { return arr.map(shortName).join(', ') || 'yok'; };
+    const peSaved = function (q) { return Object.assign({}, q, pSaved[q.id] || {}); };
+    const byId = function (id) { return PEOPLE.filter(function (q) { return q.id === id; })[0]; };
+    const prox = st.prox || { kerem: 'elif', kaan: 'levent', elif: 'kaan', ayse: 'levent', deniz: '', levent: '' };
+    // Departman → hiyerarşi sırası (tüm kişi listeleri bu sırayı kullanır; yönetim paneliyle aynı kural)
+    const DEPT_ORDER = ['yon', 'pf', 'mali', 'hukuk', 'idari', 'ik', 'enerji'];
+    const posRank = {}; (function () { let i = 0; const w = function (k) { posRank[k] = i++; POS_ORDER.filter(function (x) { return hPend[x] === k; }).forEach(w); }; POS_ORDER.filter(function (x) { return !hPend[x]; }).forEach(w); })();
+    const deptOf = function (q, pf) { return POS[(pf || pe)(q).pos].d; };
+    const sortH = function (arr, pf) { pf = pf || pe; return arr.slice().sort(function (a, b) { return DEPT_ORDER.indexOf(deptOf(a, pf)) - DEPT_ORDER.indexOf(deptOf(b, pf)) || posRank[pf(a).pos] - posRank[pf(b).pos] || a.name.localeCompare(b.name); }); };
+    const HEADROW = 'display:flex;align-items:center;gap:10px;padding:8px 20px;background:#F6F9F7;border-bottom:1px solid #E9EDEA;border-top:1px solid #E9EDEA;font-size:12px;font-weight:700;color:#0E241D;letter-spacing:0.3px;';
+    const withHeads = function (people, build, pf) {
+      pf = pf || pe; const rows = []; let cur = null; const minL = {};
+      people.forEach(function (q) { const d = deptOf(q, pf); const l = lvlOf(hPend, pf(q).pos); if (minL[d] === undefined || l < minL[d]) minL[d] = l; });
+      people.forEach(function (q) {
+        const d = deptOf(q, pf);
+        if (d !== cur) { cur = d; rows.push({ isHead: true, isRow: false, name: DNA[d], sub: people.filter(function (x) { return deptOf(x, pf) === d; }).length + ' kişi · hiyerarşi sırasıyla', headStyle: HEADROW }); }
+        const r = build(q); r.isHead = false; r.isRow = true;
+        const ind = (lvlOf(hPend, pf(q).pos) - minL[d]) * 16;
+        r.nameStyle = 'padding-left:' + ind + 'px;' + (ind ? "border-left:2px solid #E1E7E2;padding-left:" + (ind + 8) + 'px;' : '');
+        rows.push(r);
+      });
+      return rows;
+    };
+
+    // ---- Genel bakış ----
+    const act = PEOPLE.filter(function (q) { return pe(q).active; });
+    const emptyPos = POS_ORDER.filter(function (k) { return !PEOPLE.some(function (q) { return pe(q).active && pe(q).pos === k; }); });
+    const noApprover = act.filter(function (q) { return pe(q).pos !== 'gm' && !approversOf(hPend, q, pe).length; });
+    const kpis = []; // sekmelerin özeti; hesaplar aşağıda tamamlanınca doldurulur (bkz. genel özet)
+    const TAGS = { giris: PILL + 'color:#1E6B3E;background:#E7F3EB;', ayrilis: PILL + 'color:#7A2323;background:#FBE7E7;', sema: PILL + 'color:#9A6B12;background:#FBF1DE;' };
+    const tasks = [
+      { tag: 'Ayrılış', tagStyle: TAGS.ayrilis, title: 'Eski Stajyer — ayrılış dosyası eksik (3 belge)', text: 'İbraname, çalışma belgesi ve yıllık izin ücreti hesabı dosyaya eklenmedi. Belgeler yüklenince kutular kendiliğinden işaretlenir.', action: 'Dosyayı aç', go: function () { self.setState({ tab: 'kisiler', lastFile: 'stajyer' }); } },
+      { tag: 'İşe giriş', tagStyle: TAGS.giris, title: 'Hakan Tunç — işe giriş dosyasında 1 eksik belge', text: 'Askerlik durum belgesi eksik. Personele bildirim gönderildi; yüklenince dosya tamamlanır.', action: 'Dosyayı aç', go: function () { self.setState({ tab: 'kisiler', lastFile: 'hakan' }); } },
+      { tag: 'Şema', tagStyle: TAGS.sema, title: 'İK Uzmanı doğrudan Genel Müdür\'e bağlı', text: 'Bu bağlılık İK Uzmanı\'nı seviye 2 (departman yöneticisi) yapar. İK\'ya bir müdür pozisyonu açılacaksa şema güncellenmeli.', action: 'Şirket Yapısı\'nı aç', go: go('sema') },
+      { tag: 'İşe giriş', tagStyle: TAGS.giris, title: 'Yeni işe giriş: pozisyon ataması bekleniyor', text: 'Şirket rehberine eklenen kişi pozisyona atanınca yöneticisi, rolü ve onay akışı kendiliğinden oluşur; sistem yöneticisi yalnızca erişim yetkilerini açar.', action: '+ İşe giriş', go: go('kisiler') },
+      { tag: 'Şema', tagStyle: TAGS.sema, title: 'Yıllık organizasyon gözden geçirmesi', text: 'Tüm bağlılıkları ve boş pozisyonları gözden geçirin. Değişiklikler kaydedilmeden önce etkisi sağ panelde listelenir.', action: 'Şirket Yapısı\'nı aç', go: go('sema') }
+    ];
+    const derived = [
+      { head: 'Yönetici', text: 'Kişinin yöneticisi = pozisyonunun bağlı olduğu pozisyondaki aktif kişi.' },
+      { head: 'Rol ve görüntüleme kapsamı', text: 'Seviye 1 → Üst yönetim (tüm departmanlar); seviye 2 → Departman yöneticisi (+ kısıtlı belgeler); altı → Çalışan (kendi departmanı).' },
+      { head: 'Kimleri onaylar', text: 'Onay yetkili kişi, hiyerarşide altındaki pozisyonlardaki kişilerin belgelerini onaylar; isimler şemadan gelir.' },
+      { head: 'Belge akışı', text: 'Eklenen belge en yakın onay yetkili üste gider; o kişi pasifse vekiline, yoksa bir üst seviyeye.' }
+    ];
+
+    // ---- Hiyerarşi şeması ----
+    const hDirtyKeys = Object.keys(hP).filter(function (k) { return hP[k] !== hSaved[k]; });
+    const hOrder = [];
+    const walk = function (k, d) { hOrder.push([k, d]); POS_ORDER.filter(function (x) { return hPend[x] === k; }).forEach(function (x) { walk(x, d + 1); }); };
+    POS_ORDER.filter(function (x) { return !hPend[x]; }).forEach(function (x) { walk(x, 0); });
+    const HROW = 'display:grid;grid-template-columns:1.6fr 0.9fr 0.6fr 1.3fr 1.3fr;column-gap:14px;padding:9px 20px;border-bottom:1px solid #F0F2F0;align-items:center;font-size:13px;';
+    const hRows = hOrder.map(function (it) {
+      const k = it[0]; const d = it[1];
+      const bad = descOf(hPend, k).concat([k]);
+      const opts = (POS[k].d === 'yon' ? [{ v: '', l: '— En üst (YK\'ya bağlı)' }] : []).concat(POS_ORDER.filter(function (x) { return bad.indexOf(x) < 0 && (POS[x].d === POS[k].d || POS[x].d === 'yon'); }).map(function (x) { return { v: x, l: POS[x].n + (POS[x].d === POS[k].d ? '' : ' · üst yönetim') }; }));
+      const r = roleOf(hPend, k);
+      return {
+        name: POS[k].n, branch: d ? '└ ' : '', dept: DNA[POS[k].d], role: r, roleStyle: PILL + ROLE_STYLE[r],
+        nameStyle: 'padding-left:' + (d * 22) + 'px;' + (d ? '' : 'font-weight:700;') + (d === 1 ? 'font-weight:600;' : ''),
+        people: holders(hPend, k, pe).map(function (x) { return x.name + (pe(x).active ? '' : ' (pasif)'); }).join(', ') || 'Boş',
+        up: hPend[k] || '', opts: opts, selLabel: POS[k].n + ' · bağlı olduğu pozisyon',
+        onUp: function (e) { const v = e.target.value || null; const np = Object.assign({}, hP); if (v === hSaved[k]) { delete np[k]; } else { np[k] = v; } self.setState({ hP: np, hSavedFlag: false }); },
+        rowStyle: HROW + (hDirtyKeys.indexOf(k) >= 0 ? 'background:#FFFBF0;' : '')
+      };
+    });
+    const impact = [];
+    if (hDirtyKeys.length) {
+      hDirtyKeys.forEach(function (k) { impact.push({ head: POS[k].n, text: 'Bağlı olduğu: ' + (hSaved[k] ? POS[hSaved[k]].n : 'en üst') + ' → ' + (hPend[k] ? POS[hPend[k]].n : 'en üst') }); });
+      PEOPLE.forEach(function (q) {
+        const r0 = roleOf(hSaved, pe(q).pos); const r1 = roleOf(hPend, pe(q).pos);
+        if (r0 !== r1) impact.push({ head: 'Rol: ' + q.name, text: r0 + ' → ' + r1 });
+        const a0 = nameList(approversOf(hSaved, q, pe)); const a1 = nameList(approversOf(hPend, q, pe));
+        if (a0 !== a1) impact.push({ head: 'Onaylayan: ' + q.name, text: a0 + ' → ' + a1 });
+        const m0 = mgrOf(hSaved, q, pe); const m1 = mgrOf(hPend, q, pe);
+        if ((m0 && m0.id) !== (m1 && m1.id)) impact.push({ head: 'Yönetici: ' + q.name, text: (m0 ? m0.name : '—') + ' → ' + (m1 ? m1.name : '—') });
+      });
+    } else {
+      impact.push({ head: 'Değişiklik yok', text: 'Bir pozisyonun bağlı olduğu pozisyonu değiştirdiğinizde etkisi (rol, yönetici, onaylayan) burada kaydetmeden önce listelenir.' });
+    }
+    const hSave = function () { self.setState({ hSaved: hPend, hP: {}, hSavedFlag: true }); };
+
+    // ---- Kişiler ve pozisyonlar ----
+    const pDirtyIds = Object.keys(pP);
+    const PROW = 'display:grid;grid-template-columns:1.4fr 1.3fr 0.8fr 0.9fr 1.1fr 0.9fr 0.8fr;column-gap:12px;padding:9px 20px;border-bottom:1px solid #F0F2F0;align-items:center;font-size:13px;';
+    const setPP = function (id, key, val) { const np = Object.assign({}, pP); const cur = Object.assign({}, np[id] || {}); if (peSaved(PEOPLE.filter(function (q) { return q.id === id; })[0])[key] === val) { delete cur[key]; } else { cur[key] = val; } if (Object.keys(cur).length) { np[id] = cur; } else { delete np[id]; } self.setState({ pP: np }); };
+    const posOpts = POS_ORDER.map(function (k) { return { v: k, l: POS[k].n + ' · ' + DNA[POS[k].d] }; });
+    // ---- Personel dosyaları (işe giriş / ayrılış): gerekli belgeler, ortak alanda otomatik klasör ----
+    const DOCS_IN = ['Nüfus cüzdanı fotokopisi', 'İkametgâh belgesi', 'Adli sicil kaydı', 'Sağlık raporu', 'Diploma / öğrenim belgesi', 'Askerlik durum belgesi', 'SGK işe giriş bildirgesi', 'İmzalı iş sözleşmesi', 'Vesikalık fotoğraf (2)', 'Banka hesap bilgisi (IBAN)', 'KVKK aydınlatma ve onay', 'Önceki işyeri çalışma belgesi'];
+    const DOCS_OUT = {
+      istifa: ['İstifa dilekçesi (imzalı)', 'İbraname', 'SGK işten ayrılış bildirgesi (kod 03)', 'Çalışma belgesi', 'Yıllık izin ücreti hesabı', 'Zimmet iade formu', 'Son bordro ve ödeme dekontu'],
+      fesih: ['Fesih bildirimi (yazılı, gerekçeli)', 'Savunma istemi ve savunma (varsa)', 'İbraname', 'SGK işten ayrılış bildirgesi (kod 04)', 'Çalışma belgesi', 'Kıdem ve ihbar tazminatı bordrosu', 'Yıllık izin ücreti hesabı', 'Zimmet iade formu', 'İşten ayrılma bildirgesi (İŞKUR)'],
+      emeklilik: ['Emeklilik talep dilekçesi', 'SGK yazısı (emekliliğe hak kazanma)', 'İbraname', 'SGK işten ayrılış bildirgesi (kod 08)', 'Kıdem tazminatı bordrosu', 'Yıllık izin ücreti hesabı', 'Zimmet iade formu'],
+      sure: ['Belirli süreli sözleşme (süre sonu)', 'İbraname', 'SGK işten ayrılış bildirgesi (kod 05)', 'Çalışma belgesi', 'Yıllık izin ücreti hesabı', 'Zimmet iade formu']
+    };
+    const EXIT_T = { istifa: 'Kendi ayrıldı (istifa)', fesih: 'İşveren feshi', emeklilik: 'Emeklilik', sure: 'Sözleşme süresi doldu' };
+    const EXIT_NOTE = { istifa: 'İstifada kural olarak kıdem tazminatı doğmaz; ihbar süresine personel uyar. Yıllık izin ücreti ödenir.', fesih: 'Kıdem (1 yılı dolduysa) ve ihbar tazminatı doğar; Kıdem ve İhbar sekmesindeki hesap bordroya taşınır.', emeklilik: 'Kıdem tazminatı doğar; ihbar yoktur.', sure: 'Belirli süreli sözleşme sonu: kıdem tazminatı doğar (1 yılı dolduysa); ihbar yoktur.' };
+    const FILES_BASE = {
+      hakan: { kind: 'giris', label: 'İşe giriş · 03.03.2024', docs: DOCS_IN, have: DOCS_IN.filter(function (d) { return d !== 'Askerlik durum belgesi'; }) },
+      stajyer: { kind: 'ayrilis', label: 'Ayrılış · süre sonu · 30.09.2026', docs: DOCS_OUT.sure, have: ['Belirli süreli sözleşme (süre sonu)', 'SGK işten ayrılış bildirgesi (kod 05)', 'Zimmet iade formu'] }
+    };
+    const files = Object.assign({}, FILES_BASE, st.files || {});
+    const fileOf = function (id) { const f = files[id]; if (!f) return null; const missing = f.docs.filter(function (d) { return f.have.indexOf(d) < 0; }); return Object.assign({ missing: missing, done: f.docs.length - missing.length, total: f.docs.length }, f); };
+    const toggleDoc = function (id, d) { const nf = JSON.parse(JSON.stringify(files)); const f = nf[id]; const i = f.have.indexOf(d); if (i >= 0) { f.have.splice(i, 1); } else { f.have.push(d); } self.setState({ files: nf }); };
+    const exitFor = st.exitFor ? byId(st.exitFor) : null;
+    const exitType = st.exitType || null;
+    const hireOpen = !!st.hireOpen;
+    const openExit = function (q) { return function () { self.setState({ exitFor: q.id, exitType: null, exitDate: '' }); }; };
+    const confirmExit = function () {
+      if (!exitFor || !exitType) return;
+      const ns = Object.assign({}, pSaved); ns[exitFor.id] = Object.assign({}, ns[exitFor.id] || {}, { active: false });
+      const nf = JSON.parse(JSON.stringify(files)); nf[exitFor.id] = { kind: 'ayrilis', label: 'Ayrılış · ' + EXIT_T[exitType].toLowerCase() + ' · ' + (st.exitDate || fmtD(TODAY)), docs: DOCS_OUT[exitType], have: [] };
+      self.setState({ pSaved: ns, files: nf, exitFor: null, exitType: null, lastFile: exitFor.id, tab: 'kisiler' });
+    };
+    const confirmHire = function () {
+      const nm = (st.hireName || '').trim(); if (!nm || !st.hirePos) return;
+      const id = 'yeni' + Object.keys(files).length;
+      const nf = JSON.parse(JSON.stringify(files)); nf[id] = { kind: 'giris', label: 'İşe giriş · ' + (st.hireDate || fmtD(TODAY)) + ' · ' + (S.pos[st.hirePos] ? S.pos[st.hirePos].n : ''), docs: DOCS_IN, have: [], name: nm };
+      self.setState({ files: nf, hireOpen: false, hireName: '', hirePos: '', hireDate: '', lastFile: id });
+    };
+    const fileRows = Object.keys(files).map(function (id) { const f = fileOf(id); const q = byId(id); const nm = q ? q.name : (f.name || id); return { id: id, name: nm, label: f.label, done: f.done, total: f.total, missing: f.missing, missingN: f.missing.length, folder: 'İK / Personel Dosyaları / ' + nm + ' (' + (f.kind === 'giris' ? 'işe giriş' : 'ayrılış') + ')' }; });
+    const fileSelId = (st.kSel && files[st.kSel]) ? st.kSel : (st.lastFile || 'hakan');
+    const fileSel = (function () { const f = fileOf(fileSelId); if (!f) return null; const q = byId(fileSelId); const nm = q ? q.name : (f.name || fileSelId); return { name: nm, label: f.label, folder: 'İK / Personel Dosyaları / ' + nm + ' (' + (f.kind === 'giris' ? 'işe giriş' : 'ayrılış') + ')', progress: f.done + ' / ' + f.total + ' belge', docs: f.docs.map(function (d) { const on = f.have.indexOf(d) >= 0; return { name: d, mark: on ? '✓' : '', style: 'width:18px;height:18px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;' + (on ? 'background:#1E6B3E;border:1px solid #1E6B3E;color:#FFFFFF;' : 'background:#FFFFFF;border:1.5px solid #B5BFB8;color:transparent;'), txtStyle: on ? 'color:#5B6B60;' : 'color:#132119;font-weight:600;', tag: on ? 'dosyalandı' : 'EKSİK', tagStyle: PILL + (on ? 'color:#1E6B3E;background:#E7F3EB;' : 'color:#7A2323;background:#FBE7E7;'), toggle: function () { toggleDoc(fileSelId, d); } }; }) }; })();
+    const missingTotal = fileRows.reduce(function (a, r) { return a + r.missingN; }, 0);
+
+    const pRows = withHeads(sortH(PEOPLE), function (q) {
+      const e = pe(q); const r = roleOf(hPend, e.pos); const m = mgrOf(hPend, q, pe);
+      const f = fileOf(q.id);
+      return {
+        fileTxt: f ? (f.missing.length ? f.missing.length + ' eksik belge' : 'Dosya tam') : '—', fileStyle: f ? (f.missing.length ? 'color:#7A2323;font-weight:600;' : 'color:#1E6B3E;') : 'color:#8A968E;', openFile: function () { self.setState({ lastFile: q.id }); },
+        name: q.name, user: q.user, pos: e.pos, posOpts: posOpts, posLabel: q.name + ' · pozisyon', dept: DNA[POS[e.pos].d],
+        role: e.active ? r : 'Pasif', roleStyle: PILL + (e.active ? ROLE_STYLE[r] : 'color:#8A968E;background:#F0F2F0;'),
+        mgr: m ? m.name + ' · ' + POS[pe(m).pos].n : (e.pos === 'gm' ? '—' : 'Üst pozisyonda aktif kişi yok'),
+        onPos: function (ev) { setPP(q.id, 'pos', ev.target.value); },
+        actLabel: e.active ? 'Aktif' : 'Pasif · ayrıldı', actStyle: "border-radius:8px;padding:5px 10px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:1px solid " + (e.active ? '#CFE8D8;background:#E7F3EB;color:#14401F;' : '#E1E7E2;background:#F0F2F0;color:#5B6B60;'),
+        toggleActive: e.active ? openExit(q) : function () { setPP(q.id, 'active', true); },
+        rowStyle: PROW + (pP[q.id] ? 'background:#FFFBF0;' : '') + (e.active ? '' : 'opacity:0.65;')
+      };
+    });
+    const pImpact = [];
+    if (pDirtyIds.length) {
+      pDirtyIds.forEach(function (id) {
+        const q = PEOPLE.filter(function (x) { return x.id === id; })[0]; const b = peSaved(q); const a = pe(q);
+        if (b.pos !== a.pos) pImpact.push({ head: q.name + ' · pozisyon', text: POS[b.pos].n + ' → ' + POS[a.pos].n + ' · rol: ' + roleOf(hPend, b.pos) + ' → ' + roleOf(hPend, a.pos) });
+        if (b.active !== a.active) pImpact.push({ head: q.name + ' · durum', text: (b.active ? 'Aktif' : 'Pasif') + ' → ' + (a.active ? 'Aktif' : 'Pasif') + (a.active ? '' : ' · onayladığı belgeler vekiline, yoksa bir üst seviyeye gider; yönetim panelinde yetkileri kilitlenir') });
+      });
+      PEOPLE.forEach(function (q) {
+        const a0 = nameList(approversOf(hPend, q, peSaved)); const a1 = nameList(approversOf(hPend, q, pe));
+        if (a0 !== a1) pImpact.push({ head: 'Onaylayan: ' + q.name, text: a0 + ' → ' + a1 });
+        const m0 = mgrOf(hPend, q, peSaved); const m1 = mgrOf(hPend, q, pe);
+        if ((m0 && m0.id) !== (m1 && m1.id)) pImpact.push({ head: 'Yönetici: ' + q.name, text: (m0 ? m0.name : '—') + ' → ' + (m1 ? m1.name : '—') });
+      });
+    } else {
+      pImpact.push({ head: 'İşe giriş', text: 'Kişi şirket rehberinden gelir; İK pozisyona atar. Yönetici, rol ve onay akışı kendiliğinden oluşur. Sistem yöneticisi sonra erişim ve onay yetkilerini açar.' });
+      pImpact.push({ head: 'Ayrılış', text: 'Hesap pasif olur; yetkileri yönetim panelinde kilitlenir. Onay yetkisi varsa vekili (tüm müdürler ve üst pozisyonlardan seçilir) onaylar; yoksa belgeler bir üst seviyeye gider.' });
+      pImpact.push({ head: 'Pozisyon değişikliği', text: 'Terfi veya departman değişikliği burada yapılır; rol, yönetici ve kimleri onayladığı otomatik güncellenir.' });
+    }
+    const pSave = function () { const ns = Object.assign({}, pSaved); pDirtyIds.forEach(function (id) { ns[id] = Object.assign({}, ns[id] || {}, pP[id]); }); self.setState({ pSaved: ns, pP: {} }); };
+
+    // ---- Kişiler (salt okunur) — yapı yürürlükteki Şirket Yapısı'ndan gelir ----
+    const CAPI = { sfm: 1, 'kt-tek': 4, 'bz-tek': 4, 'ys-tek': 4, 'gn-tek': 4, 'epc-ins': 1, 'epc-elk': 1, 'epc-tkr': 2, gm: 1, pfm: 1, pfu: 3, mim: 1, muh: 2, fmu: 2, hkm: 1, avu: 3, idr: 1, stj: 2, ikuz: 2, enm: 1, pgu: 3, om: 3, epc: 1, upu: 2 };
+    const sy = st.sy || null;
+    const useSy = !!(sy && sy.liveVer > 3);
+    const asgOv = st.asgOv || {};
+    const S = (function () {
+      const out = { pos: {}, order: [], deptName: {}, posOrder: [] };
+      if (!useSy) {
+        POS_ORDER.forEach(function (k) { out.pos[k] = { n: POS[k].n, dept: POS[k].d, up: hPend[k] || null, cap: CAPI[k] || 1 }; });
+        out.order = DEPT_ORDER.slice(); out.deptName = DNA;
+        const w = function (k) { out.posOrder.push(k); POS_ORDER.filter(function (x) { return hPend[x] === k; }).forEach(w); }; POS_ORDER.filter(function (x) { return !hPend[x]; }).forEach(w);
+        return out;
+      }
+      const m = {}; sy.nodes.forEach(function (x) { m[x.id] = x; });
+      const upOf = function (id) { let p = m[id].p; while (p) { if (m[p].t === 'poz') return p; p = m[p].p; } return null; };
+      const deptId = function (id) { let c = m[id]; while (c) { if (c.t === 'dept') return c.id; c = m[c.p]; } return 'yon'; };
+      out.order = ['yon']; out.deptName = { yon: 'Yönetim' };
+      sy.nodes.forEach(function (x) { if (x.t === 'dept') { out.order.push(x.id); out.deptName[x.id] = x.n; } });
+      const w = function (id) { sy.nodes.filter(function (x) { return x.p === id; }).forEach(function (x) { if (x.t === 'poz') { const dup = sy.nodes.filter(function (y) { return y.t === 'poz' && y.n === x.n; }).length > 1; const bir = (function () { let c = m[x.p]; while (c && c.t !== 'birim' && c.t !== 'dept') c = m[c.p]; return c && c.t === 'birim' ? c.n : ''; })(); out.pos[x.id] = { n: x.n + (dup && bir ? ' · ' + bir : ''), dept: deptId(x.id), up: upOf(x.id), cap: x.cap || 1 }; out.posOrder.push(x.id); } w(x.id); }); };
+      w(sy.nodes.filter(function (x) { return !x.p; })[0].id);
+      return out;
+    })();
+    const asgOf = function (q) { if (asgOv[q.id]) return asgOv[q.id]; return useSy ? sy.asg[q.id] : pe(q).pos; };
+    const lvlS = function (k) { let n = 0; let c = k; while (c && S.pos[c] && n < 40) { n++; c = S.pos[c].up; } return n; };
+    const holdS = function (k, exceptId) { return PEOPLE.filter(function (q) { return pe(q).active && q.id !== exceptId && asgOf(q) === k; }); };
+    const mgrAt = function (k, exceptId) { let c = k && S.pos[k] ? S.pos[k].up : null; while (c) { const h = holdS(c, exceptId); if (h.length) return h[0]; c = S.pos[c].up; } return null; };
+    const roleS = function (k) { const l = lvlS(k); return l === 1 ? 'Üst yönetim' : (l === 2 ? 'Departman yöneticisi' : 'Çalışan'); };
+    const kLocked = !!(sy && ['yk', 'atama', 'kisiOnay', 'hazir'].indexOf(sy.stage) >= 0);
+    const posReq = st.posReq || {};
+    const kSelId = st.kSel && byId(st.kSel) ? st.kSel : null;
+    const KROW = 'display:grid;grid-template-columns:1.3fr 1.5fr 1.2fr 0.8fr 0.6fr;column-gap:12px;padding:8px 20px;border-bottom:1px solid #F0F2F0;align-items:center;font-size:13px;';
+    const kRows = [];
+    (function () {
+      const rank = {}; S.posOrder.forEach(function (k, i) { rank[k] = i; });
+      const placed = PEOPLE.filter(function (q) { return S.pos[asgOf(q)]; });
+      const unplaced = PEOPLE.filter(function (q) { return !S.pos[asgOf(q)]; });
+      const rowFor = function (q, ind) {
+        const e = pe(q); const k = asgOf(q); const f = fileOf(q.id); const mg = k ? mgrAt(k, q.id) : null; const r = k && S.pos[k] ? roleS(k) : '—'; const rq = posReq[q.id];
+        return { isHead: false, isRow: true, name: q.name, user: q.user, select: function () { self.setState({ kSel: q.id, kPos: false, kTarget: null, kReason: '' }); },
+          nameBtnStyle: 'text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;padding:0;' + (ind ? 'border-left:2px solid #E1E7E2;padding-left:' + (ind + 8) + 'px;' : ''),
+          posName: k && S.pos[k] ? S.pos[k].n : 'Yerleştirilmedi', role: e.active ? r : 'Pasif', roleStyle: PILL + (e.active ? (ROLE_STYLE[r] || 'color:#5B6B60;background:#F0F2F0;') : 'color:#8A968E;background:#F0F2F0;'),
+          hasReq: !!rq, reqTo: rq && S.pos[rq.to] ? S.pos[rq.to].n : '',
+          mgr: mg ? mg.name : '—', fileTxt: f ? (f.missing.length ? f.missing.length + ' eksik' : 'Tam') : '—', fileStyle: 'font-size:12.5px;' + (f ? (f.missing.length ? 'color:#7A2323;font-weight:600;' : 'color:#1E6B3E;') : 'color:#8A968E;'),
+          actLabel: e.active ? 'Aktif' : 'Pasif', actStyle: PILL + (e.active ? 'color:#14401F;background:#E7F3EB;' : 'color:#5B6B60;background:#F0F2F0;'),
+          rowStyle: KROW + (q.id === kSelId ? 'background:#F1F8F3;box-shadow:inset 3px 0 0 #2FA968;' : '') + (e.active ? '' : 'opacity:0.65;') };
+      };
+      S.order.forEach(function (d) {
+        const ppl = placed.filter(function (q) { return S.pos[asgOf(q)].dept === d; }).sort(function (a, b) { return rank[asgOf(a)] - rank[asgOf(b)] || a.name.localeCompare(b.name); });
+        if (!ppl.length) return;
+        const minL = Math.min.apply(null, ppl.map(function (q) { return lvlS(asgOf(q)); }));
+        kRows.push({ isHead: true, isRow: false, name: S.deptName[d] || d, sub: ppl.length + ' kişi', headStyle: HEADROW });
+        ppl.forEach(function (q) { kRows.push(rowFor(q, (lvlS(asgOf(q)) - minL) * 16)); });
+      });
+      const unA = unplaced.filter(function (q) { return pe(q).active; }); const unP = unplaced.filter(function (q) { return !pe(q).active; });
+      if (unA.length) { kRows.push({ isHead: true, isRow: false, name: 'Yerleştirilmemiş', sub: unA.length + ' kişi', headStyle: HEADROW + 'color:#7A2323;' }); unA.forEach(function (q) { kRows.push(rowFor(q, 0)); }); }
+      if (unP.length) { kRows.push({ isHead: true, isRow: false, name: 'Ayrılanlar', sub: unP.length + ' kişi', headStyle: HEADROW + 'color:#8A968E;' }); unP.forEach(function (q) { kRows.push(rowFor(q, 0)); }); }
+    })();
+    const kq = kSelId ? byId(kSelId) : null;
+    const kCur = kq ? asgOf(kq) : null;
+    const kTarget = st.kTarget && S.pos[st.kTarget] ? st.kTarget : null;
+    const kReq = kq ? posReq[kq.id] : null;
+    const kDown = !!(kq && kTarget && kCur && S.pos[kCur] && lvlS(kTarget) > lvlS(kCur));
+    const apprFor = function (q, from, to) {
+      if ((from && S.pos[from] && lvlS(from) === 1) || lvlS(to) === 1) return 'Yönetim Kurulu';
+      const a = from ? mgrAt(from, q.id) : null; const b = mgrAt(to, q.id); const L = [];
+      [a, b].forEach(function (x) { if (x && L.indexOf(x) < 0) L.push(x); });
+      return L.length ? L.map(function (x) { return x.name + ' (' + (S.pos[asgOf(x)] ? S.pos[asgOf(x)].n : '') + ')'; }).join(' + ') : 'Yönetim Kurulu';
+    };
+    const kPosGroups = (kq && st.kPos) ? S.order.map(function (d) {
+      const items = S.posOrder.filter(function (k) { return S.pos[k].dept === d && k !== kCur; }).map(function (k) {
+        const n = holdS(k, kq.id).length; const cap = S.pos[k].cap; const full = n >= cap; const on = k === kTarget;
+        return { label: S.pos[k].n, sub: full ? 'dolu ' + n + '/' + cap : (n ? n + '/' + cap : 'boş'), off: full, pick: function () { if (!full) self.setState({ kTarget: k, kReason: '' }); },
+          style: 'display:flex;align-items:center;gap:8px;text-align:left;border-radius:8px;padding:7px 10px;font-family:inherit;font-size:12.5px;' + (full ? 'background:#F6F7F5;border:1px solid #EEF1EE;color:#B5BFB8;cursor:not-allowed;' : (on ? 'background:#E7F3EB;border:1px solid #2FA968;color:#14401F;font-weight:600;cursor:pointer;' : 'background:#FFFFFF;border:1px solid #E1E7E2;color:#132119;cursor:pointer;')) };
+      });
+      return { name: S.deptName[d] || d, items: items };
+    }).filter(function (g) { return g.items.length; }) : [];
+    const kReason = st.kReason || '';
+    const kSendOff = !kTarget || (kDown && !kReason.trim());
+    const kPosOff = !kq || kLocked || !pe(kq).active || !!kReq;
+    const kOffWhy = !kq ? '' : (kLocked ? 'Şirket yapısı onayda; devreye alınana kadar kapalı.' : (!pe(kq).active ? 'Pasif kişide pozisyon değişmez.' : (kReq ? 'Bekleyen bir talep var.' : '')));
+    const applyPos = function (pid, to) { const ov = Object.assign({}, asgOv); ov[pid] = to; const o = { asgOv: ov }; if (!useSy && POS[to]) { const ns = Object.assign({}, pSaved); ns[pid] = Object.assign({}, ns[pid] || {}, { pos: to }); o.pSaved = ns; } return o; };
+    const BTN = function (on, main) { return 'flex:1;border-radius:8px;padding:8px 10px;font-size:12.5px;font-weight:600;font-family:inherit;' + (!on ? 'background:#F0F2F0;border:1px solid #E6EAE7;color:#A9B3AC;cursor:not-allowed;' : (main ? 'background:#0E241D;border:1px solid #0E241D;color:#F6F7F5;cursor:pointer;' : 'background:#FFFFFF;border:1px solid #D6E4DA;color:#132119;cursor:pointer;')); };
+    const kVals = {
+      kRows: kRows, kLocked: kLocked, kVerLabel: useSy ? '· şirket yapısı v' + sy.liveVer : '',
+      kHireStyle: kLocked ? 'background:#F0F2F0;border:none;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600;color:#A9B3AC;cursor:not-allowed;' : "background:#2FA968;border:none;border-radius:10px;padding:8px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;color:#0E241D;cursor:pointer;",
+      kHasSel: !!kq, kNoSel: !kq,
+      kCard: kq ? { name: kq.name, user: kq.user, ini: kq.name.split(' ').map(function (w) { return w.charAt(0); }).join('').slice(0, 2),
+        facts: [{ k: 'Pozisyon', v: kCur && S.pos[kCur] ? S.pos[kCur].n : 'Yerleştirilmedi' }, { k: 'Departman', v: kCur && S.pos[kCur] ? (S.deptName[S.pos[kCur].dept] || '') : '—' }, { k: 'Rol', v: kCur && S.pos[kCur] ? roleS(kCur) : '—' }, { k: 'Yönetici', v: (function () { const m = kCur ? mgrAt(kCur, kq.id) : null; return m ? m.name : '—'; })() }, { k: 'Durum', v: pe(kq).active ? 'Aktif' : 'Pasif' }] } : { name: '', user: '', ini: '', facts: [] },
+      kOpenPos: function () { if (!kPosOff) self.setState({ kPos: true, kTarget: null, kReason: '' }); }, kPosOff: kPosOff, kPosBtnStyle: BTN(!kPosOff, false),
+      kToggleActive: function () { if (!kq || kLocked) return; if (pe(kq).active) openExit(kq)(); else { const ns = Object.assign({}, pSaved); ns[kq.id] = Object.assign({}, ns[kq.id] || {}, { active: true }); self.setState({ pSaved: ns }); } },
+      kActBtnStyle: BTN(!!kq && !kLocked, false), kActBtnLabel: kq && pe(kq).active ? 'Pasife al' : 'Aktife al',
+      kHasOffWhy: !!kOffWhy, kOffWhy: kOffWhy,
+      kPosOpen: !!(kq && st.kPos && !kPosOff), kPosGroups: kPosGroups, kHasTarget: !!kTarget,
+      kDown: kDown, kDownText: kDown ? (S.pos[kCur].n + ' → ' + S.pos[kTarget].n) : '', kReason: kReason, onKReason: function (e) { self.setState({ kReason: e.target.value }); },
+      kApprText: kq && kTarget ? apprFor(kq, kCur, kTarget) : '',
+      kEmpty: !!(kq && kTarget && kCur && S.pos[kCur] && holdS(kCur, kq.id).length === 0), kEmptyText: kCur && S.pos[kCur] ? S.pos[kCur].n + ' pozisyonu boş kalır.' : '',
+      kSendOff: kSendOff, kSendStyle: BTN(!kSendOff, true),
+      kSend: function () { if (kSendOff) return; const r = Object.assign({}, posReq); r[kq.id] = { to: kTarget, from: kCur, reason: kReason, appr: apprFor(kq, kCur, kTarget) }; self.setState({ posReq: r, kPos: false, kTarget: null, kReason: '' }); },
+      kClosePos: function () { self.setState({ kPos: false, kTarget: null, kReason: '' }); },
+      kPending: !!kReq, kReqText: kReq ? (S.pos[kReq.from] ? S.pos[kReq.from].n : '—') + ' → ' + (S.pos[kReq.to] ? S.pos[kReq.to].n : '—') + ' · ' + kReq.appr + (kReq.reason ? ' · gerekçe: ' + kReq.reason : '') : '',
+      kReqApprove: function () { if (!kReq) return; const r = Object.assign({}, posReq); delete r[kq.id]; self.setState(Object.assign({ posReq: r }, applyPos(kq.id, kReq.to))); },
+      kReqCancel: function () { const r = Object.assign({}, posReq); delete r[kq.id]; self.setState({ posReq: r }); },
+      hasFileSel: !!(kq && fileOf(kq.id))
+    };
+
+
+
+    // ---- İzin yönetimi ----
+    const PILLS = { wait: PILL + 'color:#9A6B12;background:#FBF1DE;', ok: PILL + 'color:#1E6B3E;background:#E7F3EB;', no: PILL + 'color:#7A2323;background:#FBE7E7;', gray: PILL + 'color:#5B6B60;background:#F0F2F0;' };
+    const mgrName = function (q) { const m = mgrOf(hPend, q, pe); return m ? m.name : '—'; };
+    const reqs = [
+      ['hakan', 'Yıllık izin', '06.10.2026 · 1 gün', 'wait', 'Bildirim gönderildi'],
+      ['selin', 'Yıllık izin', '13–17.10.2026 · 5 gün', 'no', 'Hak yetersiz: bakiye eksiye düşer'],
+      ['burak', 'Ücretli mazeret', '08.10.2026 · 1 gün · Sağlık', 'ok', 'Onaylandı · İK kaydı bekliyor'],
+      ['cem', 'Ücretsiz izin', '20–24.10.2026 · 5 gün · Aile', 'wait', 'Vekil onaylıyor (Kerem A. izinde)']
+    ].sort(function (a, b) { const qa = byId(a[0]), qb = byId(b[0]); return DEPT_ORDER.indexOf(deptOf(qa)) - DEPT_ORDER.indexOf(deptOf(qb)) || posRank[pe(qa).pos] - posRank[pe(qb).pos]; }).map(function (r) {
+      const q = byId(r[0]); const lv = leaveOf(q); const left = r[1] === 'Yıllık izin' ? lv.left : null;
+      const step = r[3] === 'ok' ? '2 · İK kaydı (Zeynep K.)' : '1 · Yönetici onayı (' + (r[0] === 'cem' ? 'vekil: Elif Ş.' : mgrName(q)) + ')';
+      return { name: q.name, sub: POS[pe(q).pos].n + ' · ' + DNA[POS[pe(q).pos].d], type: r[1], date: r[2], left: left === null ? 'Etkilenmez' : left + ' gün', leftStyle: left !== null && left < 0 ? 'color:#7A2323;font-weight:600;' : (left !== null && left <= 2 ? 'color:#9A6B12;font-weight:600;' : ''), step: step, status: r[4], stStyle: PILLS[r[3]] };
+    });
+    const rules = [
+      { type: 'Yıllık izin', chain: 'Yönetici → İK kaydı' },
+      { type: 'Ücretli mazeret izni', chain: 'Yönetici → İK kaydı' },
+      { type: 'Ücretsiz izin', chain: 'Yönetici → Genel Müdür → İK kaydı (bordro)' },
+      { type: 'Rapor (sağlık)', chain: 'Onay gerekmez · İK kaydı' }
+    ];
+    const mgrs = PEOPLE.filter(function (q) { return pe(q).apprOn; });
+    const proxies = mgrs.map(function (q) {
+      const opts = [{ v: '', l: '— Seçilmedi (bir üst seviye)' }].concat(PEOPLE.filter(function (x) { return x.id !== q.id && pe(x).active && lvlOf(hPend, pe(x).pos) <= 2; }).map(function (x) { return { v: x.id, l: x.name + ' · ' + POS[pe(x).pos].n }; }));
+      const onLeave = q.id === 'kerem';
+      return { name: q.name, sub: POS[pe(q).pos].n + (onLeave ? ' · şu an izinde → vekâlet devrede' : (pe(q).active ? '' : ' · ayrıldı → sürekli vekil')), val: prox[q.id] || '', opts: opts, label: q.name + ' vekili', onChange: function (ev) { const np = Object.assign({}, prox); np[q.id] = ev.target.value; self.setState({ prox: np }); } };
+    });
+
+    // ---- İzin hakları ----
+    const lvRows = withHeads(sortH(PEOPLE.filter(function (q) { return pe(q).active; })), function (q) {
+      const lv = leaveOf(q); const t = lv.t; const tot = lv.ent + lv.carry;
+      const pct = tot > 0 ? Math.min(100, Math.round(lv.used / tot * 100)) : 0;
+      let status = ['Normal', PILLS.ok];
+      if (lv.ent === 0) status = ['Hak doğmadı', PILLS.gray];
+      else if (lv.left < 0) status = ['Ekside', PILLS.no];
+      else if (lv.left <= 2) status = ['Bitmek üzere', PILLS.wait];
+      else if (lv.used === 0 && t.years >= 1) status = ['Hiç kullanmadı', PILLS.wait];
+      return { name: q.name, sub: POS[pe(q).pos].n + ' · ' + DNA[POS[pe(q).pos].d], hire: fmtD(t.hire), tenure: t.label, ent: lv.ent ? lv.ent + ' gün' : '—', carry: lv.carry ? (lv.carry > 0 ? '+' : '') + lv.carry : '—', used: lv.used + ' gün',
+        left: lv.ent ? lv.left + ' gün' : '—', leftStyle: 'font-weight:700;' + (lv.left < 0 ? 'color:#7A2323;' : (lv.left <= 2 ? 'color:#9A6B12;' : 'color:#1E6B3E;')),
+        status: status[0], stStyle: status[1], pct: pct + '%', barStyle: 'height:100%;width:' + pct + '%;background:' + (lv.left < 0 ? '#C2410C' : (pct > 80 ? '#D97706' : '#2FA968')) + ';',
+        rowStyle: 'display:grid;grid-template-columns:1.4fr 1.1fr 0.9fr 0.7fr 0.7fr 0.7fr 0.8fr 1.4fr;column-gap:12px;padding:10px 20px;border-bottom:1px solid #F0F2F0;align-items:center;font-size:13px;' + (lv.left < 0 ? 'background:#FDF1F1;' : '') };
+    });
+    const actAll = PEOPLE.filter(function (q) { return pe(q).active; });
+    const lvs = actAll.map(leaveOf);
+    const neg = lvs.filter(function (l) { return l.ent && l.left < 0; }).length;
+    const totalLeft = lvs.reduce(function (a, l) { return a + (l.ent ? Math.max(l.left, 0) : 0); }, 0);
+    const lvKpis = [
+      { label: 'Aktif çalışan', value: String(actAll.length), valStyle: '', sub: lvs.filter(function (l) { return !l.ent; }).length + ' kişinin ilk yılı dolmadı (hak doğmadı)' },
+      { label: 'Toplam kalan izin', value: totalLeft + ' gün', valStyle: 'color:#1E6B3E;', sub: 'Yıl sonuna 3 ay: kullanılmayan izin devreder, ödeme çıkışta' },
+      { label: 'Ekside olan', value: String(neg), valStyle: neg ? 'color:#7A2323;' : '', sub: neg ? 'Hakkından fazla kullanan: ' + actAll.filter(function (q) { const l = leaveOf(q); return l.ent && l.left < 0; }).map(shortName).join(', ') : 'Kimse hakkını aşmadı' },
+      { label: 'Bitmek üzere (≤2 gün)', value: String(lvs.filter(function (l) { return l.ent && l.left >= 0 && l.left <= 2; }).length), valStyle: 'color:#9A6B12;', sub: 'Yeni talep gelirse Balbal bakiyeyi uyarır' }
+    ];
+
+    // ---- Kıdem ve ihbar ----
+    const svAll = sortH(actAll).map(function (q) { return { q: q, s: sevOf(q) }; });
+    const svSelId = st.svSel || (svAll[0] ? svAll[0].q.id : null);
+    const svRows = withHeads(svAll.map(function (x) { return x.q; }), function (q) {
+      const s2 = sevOf(q);
+      return { name: q.name, sub: POS[pe(q).pos].n + ' · ' + DNA[POS[pe(q).pos].d], tenure: s2.t.label, notice: s2.nw + ' hafta', kidem: s2.kidemBrut ? fmtTL(s2.kidemNet) : 'Hak yok (<1 yıl)', ihbar: fmtTL(s2.ihbar), total: fmtTL(s2.total),
+        select: function () { self.setState({ svSel: q.id }); },
+        rowStyle: "display:grid;grid-template-columns:1.4fr 1fr 0.9fr 1.1fr 0.9fr 1.1fr;column-gap:12px;padding:10px 20px;border:none;border-bottom:1px solid #F0F2F0;align-items:center;font-size:13px;text-align:left;width:100%;font-family:'IBM Plex Sans',sans-serif;color:#132119;cursor:pointer;" + (q.id === svSelId ? 'background:#E7F3EB;' : 'background:#FFFFFF;') };
+    });
+    const svQ = byId(svSelId) || actAll[0]; const sv = sevOf(svQ);
+    const svSel = {
+      name: svQ.name, total: fmtTL(sv.total) + ' toplam yük',
+      head: 'Bugün (' + fmtD(TODAY) + ') işten çıkarılsa · kıdem ' + sv.t.label + ' · brüt ücret ' + fmtTL(sv.gross) + '/ay',
+      lines: [
+        { head: 'Kıdem tazminatı: ' + (sv.kidemBrut ? fmtTL(sv.kidemNet) + ' net' : 'hak yok'), text: sv.kidemBrut ? 'Esas ücret ' + fmtTL(sv.base) + (sv.capped ? ' (tavan uygulandı: ' + fmtTL(KIDEM_TAVAN) + ')' : '') + ' × ' + sv.t.years.toFixed(2) + ' yıl = ' + fmtTL(sv.kidemBrut) + ' brüt; yalnızca damga vergisi (%0,759) kesilir.' : '1 yılı dolmadığı için kıdem tazminatı doğmaz (' + sv.t.label + ').' },
+        { head: 'İhbar süresi: ' + sv.nw + ' hafta', text: 'Kıdeme göre (m.17): 6 aya kadar 2, 6 ay–1,5 yıl 4, 1,5–3 yıl 6, 3 yıl üzeri 8 hafta. Süre kullandırılmazsa ihbar tazminatı ödenir.' },
+        { head: 'İhbar tazminatı: ' + fmtTL(sv.ihbar) + ' brüt', text: 'Günlük brüt ' + fmtTL(sv.gross / 30) + ' × ' + (sv.nw * 7) + ' gün. Gelir ve damga vergisine tabidir.' },
+        { head: 'Kullanılmayan yıllık izin: ' + sv.leaveLeft + ' gün → ' + fmtTL(sv.leavePay), text: 'Kalan izin günleri çıkışta ücret olarak ödenir (m.59); gelir vergisine tabidir.' },
+        { head: 'Vekâlet ve devir', text: pe(svQ).apprOn ? 'Onay yetkisi var: ayrılırsa ' + (prox[svQ.id] && byId(prox[svQ.id]) ? byId(prox[svQ.id]).name + ' vekil olarak' : 'bir üst seviye') + ' onaylar; altındaki ' + descOf(hPend, pe(svQ).pos).length + ' pozisyonun belge akışı otomatik güncellenir.' : 'Onay yetkisi yok; ayrılması onay zincirini etkilemez.' }
+      ]
+    };
+    const svKpis = [
+      { label: 'Toplam yük (bugün)', value: fmtTL(svAll.reduce(function (a, x) { return a + x.s.total; }, 0)), sub: actAll.length + ' aktif çalışanın tamamı için kıdem + ihbar + izin ödemesi' },
+      { label: 'Kıdem tazminatı', value: fmtTL(svAll.reduce(function (a, x) { return a + x.s.kidemNet; }, 0)), sub: svAll.filter(function (x) { return x.s.capped; }).length + ' kişide tavan uygulanıyor (' + fmtTL(KIDEM_TAVAN) + ')' },
+      { label: 'İhbar tazminatı', value: fmtTL(svAll.reduce(function (a, x) { return a + x.s.ihbar; }, 0)), sub: '8 haftalık ihbar: ' + svAll.filter(function (x) { return x.s.nw === 8; }).length + ' kişi' },
+      { label: 'Hak doğmamış', value: String(svAll.filter(function (x) { return !x.s.kidemBrut; }).length), sub: 'İlk yılı dolmayanlar: ' + (svAll.filter(function (x) { return !x.s.kidemBrut; }).map(function (x) { return shortName(x.q); }).join(', ') || '—') }
+    ];
+
+
+    // ---- Mevzuat (İK onaylar; sistem her Pazartesi güncellik kontrolü yapar; Balbal referanslı cevaplar) ----
+    const MEV_BASE = [
+      { id: 'izin', doc: '4857_Is_Kanunu_m53-60.pdf', title: 'Yıllık ücretli izin süreleri', ref: '4857 s. İş Kanunu m.53–60', value: '1–5 yıl 14 gün · 5–15 yıl 20 gün · 15+ yıl 26 gün; 18 yaş altı ve 50 yaş üstü en az 20 gün', checked: '05.10.2026', status: 'ok', used: 'İzin Hakları, İzin Yönetimi, Balbal izin akışı' },
+      { id: 'ihbar', doc: '4857_Is_Kanunu_m17.pdf', title: 'İhbar süreleri', ref: '4857 s. İş Kanunu m.17', value: '6 aya kadar 2 hafta · 6 ay–1,5 yıl 4 · 1,5–3 yıl 6 · 3 yıl üzeri 8 hafta', checked: '05.10.2026', status: 'ok', used: 'Kıdem ve İhbar' },
+      { id: 'kidem', doc: '1475_Is_Kanunu_m14.pdf', title: 'Kıdem tazminatı esasları', ref: '1475 s. İş Kanunu m.14 (yürürlükte)', value: 'Her tam yıl için 30 günlük giydirilmiş brüt ücret; 1 yılı dolmayana ödenmez; yalnızca damga vergisi kesilir', checked: '05.10.2026', status: 'ok', used: 'Kıdem ve İhbar' },
+      { id: 'tavan', doc: 'Kidem_Tazminati_Tavani_Genelgesi_2025-2.pdf', title: 'Kıdem tazminatı tavanı', ref: 'Hazine ve Maliye Bakanlığı Genelgesi (memur maaş katsayısına bağlı, Ocak/Temmuz)', value: '53.919,68 TL (01.07–31.12.2025 dönemi) — 2026 dönemi için yeni genelge bekleniyor', checked: '05.10.2026', status: 'suspect', used: 'Kıdem ve İhbar, Maaş (parametre)' },
+      { id: 'asgari', doc: 'Asgari_Ucret_Komisyon_Karari_2025.pdf', title: 'Asgari ücret ve vergi istisnası', ref: 'Asgari Ücret Tespit Komisyonu kararı · GVK m.23/18, 7349 s. Kanun', value: '2025 brüt 26.005,50 TL · net 22.104,67 TL; asgari ücret tutarı gelir ve damga vergisinden istisna — 2026 kararı bekleniyor', checked: '05.10.2026', status: 'suspect', used: 'Maaş' },
+      { id: 'sgk', doc: '5510_SSGSS_Kanunu_m81.pdf', title: 'SGK ve işsizlik prim oranları', ref: '5510 s. Kanun m.81 · 4447 s. Kanun m.49', value: 'İşçi: SGK %14 + işsizlik %1 · İşveren: SGK %20,75 (5 puan indirimli %15,75) + işsizlik %2', checked: '05.10.2026', status: 'ok', used: 'Maaş' },
+      { id: 'gv', doc: 'GVK_m103_2025_Tarifesi.pdf', title: 'Gelir vergisi tarifesi (ücret)', ref: 'GVK m.103 · 2025 yılı tarifesi', value: '%15 (158.000 TL\'ye kadar) · %20 (330.000) · %27 (1.200.000) · %35 (4.300.000) · %40 üzeri — 2026 tarifesi Aralık\'ta yayımlanır', checked: '05.10.2026', status: 'suspect', used: 'Maaş' },
+      { id: 'damga', doc: '488_Damga_Vergisi_Kanunu_I_Tablo.pdf', title: 'Damga vergisi (ücret)', ref: '488 s. Damga Vergisi Kanunu (I) sayılı tablo', value: 'Binde 7,59 (%0,759)', checked: '05.10.2026', status: 'ok', used: 'Maaş, Kıdem ve İhbar' }
+    ];
+    const FOLDER_OF = { izin: 'İK / Mevzuat / İzin', ihbar: 'İK / Mevzuat / Kıdem ve İhbar', kidem: 'İK / Mevzuat / Kıdem ve İhbar', tavan: 'İK / Mevzuat / Kıdem ve İhbar', asgari: 'İK / Mevzuat / Ücret ve Vergi', sgk: 'İK / Mevzuat / Ücret ve Vergi', gv: 'İK / Mevzuat / Ücret ve Vergi', damga: 'İK / Mevzuat / Ücret ve Vergi' };
+    const mevUpd = st.mevUpd || {};
+    const mevNew = st.mevNew || [];
+    const MEV = MEV_BASE.map(function (m) { return Object.assign({}, m, { folder: FOLDER_OF[m.id] }, mevUpd[m.id] || {}); }).concat(mevNew);
+    const MST = { ok: ['Güncel', PILL + 'color:#1E6B3E;background:#E7F3EB;'], suspect: ['Daha güncel sürüm olabilir', PILL + 'color:#9A6B12;background:#FBF1DE;'], fresh: ['Güncel · bugün eklendi', PILL + 'color:#14401F;background:#DDF3E4;'] };
+    const ASK_OF = { tavan: 0, gv: 1, asgari: 2 };
+    const mevRows = MEV.map(function (m) {
+      return {
+        title: m.title, ref: m.ref, doc: m.doc, folder: 'Ortak Alan / ' + m.folder, used: m.used,
+        checked: m.status === 'fresh' ? 'Eski sürüm arşivde' : 'Son kontrol: ' + m.checked, status: MST[m.status][0], stStyle: MST[m.status][1],
+        canAsk: m.status === 'suspect' && ASK_OF[m.id] !== undefined, ask: function () { balChips[ASK_OF[m.id]].select(); self.setState({ mvAsked: BALQ[ASK_OF[m.id]].q }); },
+        rowStyle: 'display:grid;grid-template-columns:1.3fr 1.6fr 1.3fr 1fr 1.1fr;column-gap:12px;padding:10px 20px;border-bottom:1px solid #F0F2F0;align-items:start;font-size:12.5px;' + (m.status === 'suspect' ? 'background:#FFFBF0;' : '')
+      };
+    });
+    const lockKidem = []; const lockMaas = []; const lockIzin = [];
+    const mevStats = { total: MEV.length, suspect: MEV.filter(function (m) { return m.status === 'suspect'; }).length };
+    const balQ = (st.balQ === undefined || st.balQ === null) ? null : st.balQ;
+    const FOLDERS_MEV = ['İK / Mevzuat / Kıdem ve İhbar', 'İK / Mevzuat / Ücret ve Vergi', 'İK / Mevzuat / Çalışma Süreleri', 'İK / Mevzuat / İzin', 'İK / Mevzuat (genel)'];
+    const BALQ = [
+      { q: 'Kıdem tavanı güncel mi?', a: 'Ortak alandaki kaynak 01.07–31.12.2025 dönemi genelgesi. Daha güncel bir genelge tespit ettim (2026/1. dönem). Okuyup onaylarsanız güncel mevzuat olarak ortak alana eklerim; o zamana kadar hesaplar mevcut sürümle devam eder. [Kaynak: Ortak Alan / İK / Mevzuat / Kıdem ve İhbar]',
+        flow: { kind: 'upd', target: 'tavan', kindLabel: 'Daha güncel sürüm', title: 'Kıdem tazminatı tavanı · 2026/1. dönem', ref: 'Hazine ve Maliye Bakanlığı Genelgesi · 01.01–30.06.2026 dönemi', doc: 'Kidem_Tazminati_Tavani_Genelgesi_2026-1.pdf', folder: 'İK / Mevzuat / Kıdem ve İhbar' } },
+      { q: 'Gelir vergisi tarifesi güncel mi?', confirm: 'gv', a: '2026 tarifesi henüz yayımlanmadı. Ortak alandaki 2025 tarifesi şu an geçerli en güncel sürüm. Yayımlandığında Pazartesi kontrolünde bildiririm ve onayınıza sunarım. [Kaynak: Ortak Alan / İK / Mevzuat / Ücret ve Vergi]' },
+      { q: 'Asgari ücret güncel mi?', confirm: 'asgari', a: '2026 asgari ücret kararı henüz açıklanmadı. Ortak alandaki 2025 kararı geçerli en güncel sürüm. [Kaynak: Ortak Alan / İK / Mevzuat / Ücret ve Vergi]' },
+      { q: 'Fazla çalışma mevzuatını ekle', a: 'Ortak alanda fazla çalışma düzenlemesi yok. İlgili kaynağı buldum: 4857 s. İş Kanunu m.41 ve İş Kanununa İlişkin Fazla Çalışma ve Fazla Sürelerle Çalışma Yönetmeliği. Okuyup onaylarsanız ortak alana eklerim.',
+        flow: { kind: 'new', id: 'mesai', kindLabel: 'Yeni mevzuat önerisi', title: 'Fazla çalışma', ref: '4857 s. İş Kanunu m.41 · Fazla Çalışma Yönetmeliği', doc: '4857_Is_Kanunu_m41_Fazla_Calisma.pdf', folder: 'İK / Mevzuat / Çalışma Süreleri', used: 'Maaş, İzin Yönetimi' } },
+      { q: 'Ücretsiz izinde SGK primi ödenir mi?', a: 'Ücretsiz izinde çalışılmayan günler için prim bildirilmez; eksik gün nedeni "ücretsiz izin" olarak SGK\'ya bildirilir. Bu süre kıdeme sayılmaz. [Kaynak: 5510 s. Kanun m.86; SSİY m.102]' },
+      { q: 'Ocak\'ta hangi mevzuat değişir?', a: 'Her Ocak: asgari ücret, gelir vergisi tarifesi, kıdem tavanı (Ocak ve Temmuz), SGK tavanı. Pazartesi kontrollerinde bunları sorgular, daha güncel sürüm bulduğumda onayınıza sunarım. [Kaynak: Ortak Alan / İK / Mevzuat]' }
+    ];
+    const mvState = st.mvState || {};
+    const balChips = BALQ.map(function (q, i) { return { label: q.q, style: "border-radius:14px;padding:5px 11px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;" + (balQ === i ? 'background:#0E241D;color:#F6F7F5;border:1px solid #0E241D;' : 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;'), select: function () { const o = { balQ: i }; if (q.confirm && !(mevUpd[q.confirm] && mevUpd[q.confirm].status === 'ok')) { const u = Object.assign({}, mevUpd); u[q.confirm] = { status: 'ok', checked: fmtD(TODAY) + ' · Balbal teyit etti' }; o.mevUpd = u; } self.setState(o); } }; });
+    const KEYS = [/kıdem|tavan/, /gelir vergi|vergi tarife/, /asgari/, /fazla (çalışma|mesai)/, /ücretsiz izin/, /ocak/];
+    const askText = function (txt) { const q = String(txt || '').trim(); if (!q) return; const t = q.replace(/İ/g, 'i').replace(/I/g, 'ı').toLowerCase(); let k = -1; KEYS.forEach(function (re, n) { if (k < 0 && re.test(t)) k = n; });
+      if (k >= 0) { balChips[k].select(); self.setState({ mvAsked: q, mvQ: '' }); } else self.setState({ balQ: -1, mvAsked: q, mvQ: '' }); };
+    const curQ = (balQ === null || balQ < 0) ? null : BALQ[balQ];
+    const fl = curQ && curQ.flow ? curQ.flow : null;
+    const done = fl && (fl.kind === 'upd' ? !!mevUpd[fl.target] : mevNew.some(function (x) { return x.id === fl.id; }));
+    const mvStep = !fl ? '' : (done ? 'done' : (mvState[balQ] || 'found'));
+    const setStep = function (v) { const n = Object.assign({}, mvState); n[balQ] = v; self.setState({ mvState: n }); };
+    const mvFolderVal = (st.mvFolderSel && st.mvFolderSel[balQ]) || (fl ? fl.folder : '');
+    const balAnswer = balQ === null ? 'Bir mevzuatın güncel olup olmadığını sorun ya da yeni bir mevzuat isteyin. Daha güncel sürüm bulursam önerir, onayınızla ortak alana eklerim.' : (balQ < 0 ? 'Bu konuda ortak alanda kayıtlı bir mevzuat bulamadım. Hangi kanun veya düzenleme olduğunu yazarsanız güncel sürümünü arar, bulursam onayınıza sunarım.' : curQ.a);
+    const mvAdd = function () {
+      if (!fl) return;
+      if (fl.kind === 'upd') { const u = Object.assign({}, mevUpd); u[fl.target] = { ref: fl.ref, doc: fl.doc, folder: mvFolderVal, status: 'fresh', checked: fmtD(TODAY) }; self.setState({ mevUpd: u }); }
+      else { self.setState({ mevNew: mevNew.concat([{ id: fl.id, title: fl.title, ref: fl.ref, doc: fl.doc, folder: mvFolderVal, used: fl.used, status: 'fresh', checked: fmtD(TODAY) }]) }); }
+    };
+    const mevVals = {
+      mvFound: mvStep === 'found', mvFolder: mvStep === 'folder', mvDone: mvStep === 'done', mvRejected: mvStep === 'rejected',
+      mv: fl ? { kindLabel: fl.kindLabel, title: fl.title, ref: fl.ref, doc: fl.doc } : { kindLabel: '', title: '', ref: '', doc: '' },
+      mvAccept: function () { setStep('folder'); }, mvReject: function () { setStep('rejected'); },
+      mvFolderVal: mvFolderVal, mvFolderOpts: FOLDERS_MEV.map(function (f) { return { v: f, l: 'Ortak Alan / ' + f + (fl && f === fl.folder ? ' (öneri)' : '') }; }),
+      onMvFolder: function (e) { const n = Object.assign({}, st.mvFolderSel || {}); n[balQ] = e.target.value; self.setState({ mvFolderSel: n }); },
+      mvAdd: mvAdd,
+      mvDoneText: fl ? (fl.kind === 'upd' ? 'Eklendi: ' + fl.title + ' → Ortak Alan / ' + ((mevUpd[fl.target] || {}).folder || mvFolderVal) + '. Önceki sürüm "eski sürüm" olarak arşivlendi; hesaplar ve cevaplar artık yeni sürümü kullanıyor. Değişiklik Geçmişi\'ne yazıldı.' : 'Eklendi: ' + fl.title + ' → Ortak Alan / ' + mvFolderVal + '. Listede görünüyor; Pazartesi kontrollerine dahil edildi.') : '',
+      balHasQ: balQ !== null, balQText: st.mvAsked || (curQ ? curQ.q : '')
+    };
+
+    // ---- Maaş (şifreli; brüt→net ve net→brüt; Finansal Muhasebe'ye iletim) ----
+    const payUnlocked = !!st.payUnlocked;
+    const paySent = !!st.paySent;
+    const PR = { sgkI: 0.14, issI: 0.01, sgkE: 0.1575, issE: 0.02, damga: 0.00759, asgBrut: 26005.50 };
+    const GV = [[158000, 0.15], [330000, 0.20], [1200000, 0.27], [4300000, 0.35], [Infinity, 0.40]];
+    const taxOn = function (cum) { let t = 0, prev = 0; for (let i = 0; i < GV.length; i++) { const lim = GV[i][0]; if (cum > prev) t += (Math.min(cum, lim) - prev) * GV[i][1]; prev = lim; if (cum <= lim) break; } return t; };
+    const MONTH_IDX = 10; // Ekim: kümülatif matrah Ocak–Eylül = 9 ay
+    const calc = function (gross) {
+      const sgk = gross * PR.sgkI, iss = gross * PR.issI;
+      const matrah = gross - sgk - iss;
+      const cum = matrah * (MONTH_IDX - 1);
+      const gvRaw = taxOn(cum + matrah) - taxOn(cum);
+      const asgMatrah = PR.asgBrut * (1 - PR.sgkI - PR.issI);
+      const asgCum = asgMatrah * (MONTH_IDX - 1);
+      const gvEx = taxOn(asgCum + asgMatrah) - taxOn(asgCum);
+      const gv = Math.max(gvRaw - gvEx, 0);
+      const dvRaw = gross * PR.damga; const dvEx = PR.asgBrut * PR.damga; const dv = Math.max(dvRaw - dvEx, 0);
+      const net = gross - sgk - iss - gv - dv;
+      const employer = gross + gross * PR.sgkE + gross * PR.issE;
+      return { gross: gross, sgk: sgk, iss: iss, matrah: matrah, gv: gv, dv: dv, net: net, employer: employer, cumBase: cum + matrah };
+    };
+    const netToGross = function (net) { let lo = net, hi = net * 2.2; for (let i = 0; i < 40; i++) { const mid = (lo + hi) / 2; if (calc(mid).net < net) lo = mid; else hi = mid; } return (lo + hi) / 2; };
+    const payRows = withHeads(sortH(actAll), function (q) {
+      const c = calc(HR[q.id][1]);
+      return { name: q.name, sub: POS[pe(q).pos].n + ' · ' + DNA[POS[pe(q).pos].d], gross: fmtTL(c.gross), sgk: fmtTL(c.sgk + c.iss), gv: fmtTL(c.gv), dv: fmtTL(c.dv), net: fmtTL(c.net), employer: fmtTL(c.employer), bracket: (function () { let i = 0; while (i < GV.length - 1 && c.cumBase > GV[i][0]) i++; return '%' + Math.round(GV[i][1] * 100); })() };
+    });
+    const payTot = actAll.reduce(function (a, q) { const c = calc(HR[q.id][1]); a.gross += c.gross; a.net += c.net; a.employer += c.employer; a.sgk += c.sgk + c.iss; a.gv += c.gv + c.dv; return a; }, { gross: 0, net: 0, employer: 0, sgk: 0, gv: 0 });
+    const n2gVal = parseFloat(st.n2g || '60000') || 0;
+    const n2g = netToGross(n2gVal);
+    const n2gC = calc(n2g);
+    const payKpis = [
+      { label: 'Toplam brüt', value: fmtTL(payTot.gross), sub: actAll.length + ' aktif çalışan · Ekim 2026' },
+      { label: 'Toplam net (ödenecek)', value: fmtTL(payTot.net), sub: 'Finansal Muhasebe\'ye iletilecek tutar' },
+      { label: 'Kesintiler', value: fmtTL(payTot.sgk + payTot.gv), sub: 'SGK+işsizlik ' + fmtTL(payTot.sgk) + ' · gelir+damga vergisi ' + fmtTL(payTot.gv) },
+      { label: 'İşveren maliyeti', value: fmtTL(payTot.employer), sub: 'Brüt + işveren SGK %15,75 + işsizlik %2' }
+    ];
+    // ---- Genel Bakış: tüm sekmelerin özeti ----
+    const BG = function (tone, txt) { return { badge: txt, badgeStyle: PILL + (tone === 'ok' ? 'color:#1E6B3E;background:#E7F3EB;' : (tone === 'warn' ? 'color:#9A6B12;background:#FBF1DE;' : (tone === 'bad' ? 'color:#7A2323;background:#FBE7E7;' : 'color:#5B6B60;background:#F0F2F0;'))) }; };
+    const pushK = function (o, b) { kpis.push(Object.assign(o, b)); };
+    pushK({ label: 'Şirket Yapısı', color: '#0E241D', value: POS_ORDER.length + ' pozisyon · ' + act.length + ' aktif', sub: (emptyPos.length ? emptyPos.length + ' boş pozisyon (' + emptyPos.map(function (k) { return POS[k].n; }).join(', ') + ') · ' : 'Tüm pozisyonlar dolu · ') + (noApprover.length ? 'onay zinciri eksik: ' + nameList(noApprover) : 'onay zinciri tam'), select: go('sema') }, noApprover.length ? BG('warn', 'Eksik var') : BG('ok', 'Güncel'));
+    pushK({ label: 'Kişiler ve Pozisyonlar', color: '#2563EB', value: act.length + ' çalışan · ' + (PEOPLE.length - act.length) + ' pasif', sub: 'Departman ve hiyerarşi sırasıyla · ' + fileRows.length + ' personel dosyası açık (işe giriş/ayrılış)', select: go('kisiler') }, BG('gray', 'Şemadan'));
+    pushK({ label: 'Eksik Belgeler (personel dosyaları)', color: '#7A2323', value: missingTotal + ' eksik belge', sub: fileRows.filter(function (r) { return r.missingN; }).map(function (r) { return r.name + ' (' + r.missingN + ')'; }).join(' · ') || 'Tüm dosyalar tam', select: go('kisiler') }, missingTotal ? BG('bad', fileRows.filter(function (r) { return r.missingN; }).length + ' dosya') : BG('ok', 'Tam'));
+    pushK({ label: 'İzin Yönetimi', color: '#D97706', value: reqs.length + ' bekleyen talep', sub: reqs.filter(function (r) { return r.status.indexOf('yetersiz') >= 0; }).length + ' hak yetersiz · ' + reqs.filter(function (r) { return r.status.indexOf('Vekil') >= 0; }).length + ' vekil onayında · ' + reqs.filter(function (r) { return r.status.indexOf('İK kaydı') >= 0; }).length + ' İK kaydı bekliyor', select: go('izin') }, BG('warn', reqs.length + ' bekliyor'));
+    pushK({ label: 'İzin Hakları', color: '#2FA968', value: totalLeft + ' gün kalan hak', sub: (neg ? neg + ' kişi ekside (' + actAll.filter(function (q) { const l = leaveOf(q); return l.ent && l.left < 0; }).map(shortName).join(', ') + ') · ' : 'Kimse ekside değil · ') + lvs.filter(function (l) { return l.ent && l.left >= 0 && l.left <= 2; }).length + ' kişide ≤2 gün', select: go('haklar') }, neg ? BG('bad', neg + ' ekside') : BG('ok', 'Normal'));
+    pushK({ label: 'Kıdem ve İhbar', color: '#7A2323', value: fmtTL(svAll.reduce(function (a, x) { return a + x.s.total; }, 0)) + ' toplam yük', sub: 'Bugün tüm çalışanlar çıkarılsa · ' + svAll.filter(function (x) { return x.s.capped; }).length + ' kişide kıdem tavanı · son hesap ' + fmtD(TODAY) + ' 06:00', select: go('kidem') }, BG('gray', 'Günlük'));
+    pushK({ label: 'Mevzuat', color: '#9A6B12', value: mevStats.total + ' mevzuat · ' + mevStats.suspect + ' daha güncel olabilir', sub: 'Son güncellik kontrolü Pzt ' + fmtD(TODAY) + ' · sonraki Pzt 12.10.2026 · yeni sürümler Balbal önerisi ve İK onayıyla eklenir', select: go('mevzuat') }, mevStats.suspect ? BG('warn', 'Kontrol et') : BG('ok', 'Güncel'));
+    pushK({ label: 'Maaş (şifreli)', color: '#5B6B60', value: 'Ekim 2026 bordrosu', sub: paySent ? 'Finansal Muhasebe\'ye iletildi · ödeme talimatı bekliyor' : act.length + ' kişi hesaplandı (brüt→net) · henüz iletilmedi · tutarlar şifreyle açılır', select: go('maas') }, paySent ? BG('ok', 'İletildi') : BG('gray', 'Kilitli'));
+    pushK({ label: 'Balbal (İK)', color: '#2FA968', value: 'Sorular mevzuata referanslı', sub: 'Örn. "Kıdem tavanı ne kadar?", "Ücretsiz izinde SGK primi?" — cevaplar ortak alandaki güncel mevzuattan, kaynaklı', select: go('mevzuat') }, BG('ok', 'Hazır'));
+    pushK({ label: 'Değişiklik Geçmişi', color: '#8A968E', value: 'Son: 27.09 · şema', sub: 'Şema, atama, izin kuralı, mevzuat onayı ve bordro iletimi tek kayıtta; yönetim paneliyle ortak', select: go('sema') }, BG('gray', 'Kayıt'));
+
+    // ---- Ortak departman kabuğu: arama, bildirim, kullanıcı menüsü, Balbal penceresi, ekip sohbeti (diğer ana sayfalarla aynı) ----
+    const accent = this.props.accent || '#2FA968';
+    const chatOpen = !!st.chatOpen; const teamChatOpen = !!st.teamChatOpen; const anyModalClosed = !chatOpen && !teamChatOpen;
+    const searchQ = st.searchQ || ''; const searchOpen = !!st.searchOpen; const notifOpen = !!st.notifOpen; const userMenuOpen = !!st.userMenuOpen; const chatAsk = st.chatAsk || '';
+    const chatWin = this.winBuild('chatWin', 'Balbal'); const teamWin = this.winBuild('teamWin', 'Ekip sohbeti');
+    const sidePad = ((chatOpen && !chatWin.isFloat) || (teamChatOpen && !teamWin.isFloat)) ? 520 : 0;
+    const chatFull = !!st.chatFull; const pageIsBalbal = chatFull && tab === 'balbal'; const prevTab = st.prevTab || 'genel';
+    const TABB = "font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:20px;padding:8px 18px 8px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;";
+    const shellVals = {
+      accent: accent, chatWin: chatWin, teamWin: teamWin, balbalTab: chatFull, pageIsBalbal: pageIsBalbal, notBalbal: !pageIsBalbal,
+      balbalTabStyle: TABB + (pageIsBalbal ? 'background:#D97706;color:#132119;' : 'background:#FFF4E5;color:#9A4E0A;border:1px solid #F5C892;'),
+      onSelectBalbalTab: function () { self.setState({ tab: 'balbal', payUnlocked: false }); },
+      onBalbalFull: function () { const cur = tab; self.setState({ chatFull: true, chatOpen: false, tab: 'balbal', prevTab: cur === 'balbal' ? prevTab : cur, notifOpen: false, userMenuOpen: false, searchOpen: false, payUnlocked: false }); },
+      onBalbalToWindow: function () { self.setState({ chatFull: false, chatOpen: true, tab: prevTab, chatWin: Object.assign({}, st.chatWin || {}, { mode: 'float' }) }); },
+      onBalbalCloseFull: function () { self.setState({ chatFull: false, chatAsk: '', tab: prevTab }); },
+      fullW: 1360, fullH: 740, semaW: 1360, semaH: 790,
+      semaWrap: (tab === 'sema' || tab === 'semaFull') && !pageIsBalbal ? '' : 'display:none;', onSyStage: function (info) { self.setState({ sy: info }); },
+      semaShown: tab === 'sema' || tab === 'semaFull', semaIsFull: tab === 'semaFull', semaTab: !!st.semaFull,
+      semaTabWrap: 'display:inline-flex;align-items:center;border-radius:10px;' + (tab === 'semaFull' ? 'background:#F7C78E;border:1px solid #F7C78E;' : 'background:#FFF8EF;border:1px solid #F5D3A8;'),
+      semaTabStyle: "display:inline-flex;align-items:center;gap:7px;border:none;background:transparent;cursor:pointer;padding:8px 6px 8px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;font-weight:600;" + (tab === 'semaFull' ? 'color:#5E3A06;' : 'color:#9A6B12;'),
+      onSemaFull: function () { self.setState({ semaFull: true, tab: 'semaFull' }); },
+      onSelectSemaTab: function () { self.setState({ tab: 'semaFull' }); },
+      onCloseSemaTab: function () { self.setState({ semaFull: false, tab: 'sema' }); },
+      bodyStyle: 'flex:1;display:flex;flex-direction:column;gap:24px;padding:28px ' + (sidePad + 40) + 'px 28px 40px;box-sizing:border-box;min-height:0;overflow:hidden;transition:padding 220ms ease;',
+      chatAsk: chatAsk, searchQ: searchQ, searchOpen: searchOpen, notifOpen: notifOpen, userMenuOpen: userMenuOpen,
+      onSearchInput: function (e) { self.setState({ searchQ: e.target.value, searchOpen: true, notifOpen: false, userMenuOpen: false }); },
+      onSearchFocus: function () { self.setState({ searchOpen: true, notifOpen: false, userMenuOpen: false }); },
+      onCloseSearch: function () { self.setState({ searchOpen: false }); },
+      onAskFromSearch: function (q) { self.setState({ searchOpen: false, chatOpen: true, chatAsk: q }); },
+      onToggleNotif: function () { self.setState({ notifOpen: !notifOpen, userMenuOpen: false, searchOpen: false }); },
+      onCloseNotif: function () { self.setState({ notifOpen: false }); },
+      onNotifOpenTeam: function () { self.setState({ notifOpen: false, teamChatOpen: true }); },
+      onNotifOpenBalbal: function (q) { self.setState({ notifOpen: false, chatOpen: true, chatFull: false, chatAsk: q || '' }); },
+      onToggleUserMenu: function () { self.setState({ userMenuOpen: !userMenuOpen, notifOpen: false, searchOpen: false }); },
+      onCloseUserMenu: function () { self.setState({ userMenuOpen: false }); },
+      onOpenChat: function () { self.setState({ chatOpen: true, chatAsk: '', notifOpen: false, userMenuOpen: false, searchOpen: false }); },
+      onCloseChat: function () { self.setState({ chatOpen: false, chatAsk: '' }); },
+      onOpenTeamChat: function () { self.setState({ teamChatOpen: true, notifOpen: false, userMenuOpen: false, searchOpen: false }); },
+      onCloseTeamChat: function () { self.setState({ teamChatOpen: false }); },
+      chatOpen: chatOpen, teamChatOpen: teamChatOpen, anyModalClosed: anyModalClosed
+    };
+
+    const ikOnayId = st.ikOnayId !== undefined ? st.ikOnayId : (props.onay || null); const ikOnayFull = !!st.ikOnayFull;
+    return Object.assign(shellVals, {
+      ikOnayOpen: !!ikOnayId, ikOnayId: ikOnayId || '', ikOnayFull: ikOnayFull, ikOnayH: 980 - 72 - 28 - 44 - 24 - 28,
+      ikOnayWrap: ikOnayFull ? 'position:absolute;top:72px;left:0;right:0;bottom:0;z-index:55;background:#EEF6F0;display:flex;padding:20px 40px;box-sizing:border-box;' : 'position:absolute;top:0;left:0;right:0;bottom:0;z-index:55;background:rgba(14,36,29,0.45);overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:24px;box-sizing:border-box;',
+      ikOnayClose: function () { self.setState({ ikOnayId: null, ikOnayFull: false }); }, ikOnayBackdrop: function (e) { if (!ikOnayFull && e && e.target === e.currentTarget) self.setState({ ikOnayId: null }); },
+      ikOnayGoFull: function () { self.setState({ ikOnayFull: true }); }, ikOnayToWindow: function () { self.setState({ ikOnayFull: false }); },
+      tabs: tabs, isGenel: tab === 'genel', isIzin: tab === 'izin', isHaklar: tab === 'haklar', isKidem: tab === 'kidem',
+      isMevzuat: tab === 'mevzuat', isMaas: tab === 'maas', payLocked: tab === 'maas' && !payUnlocked, payOpen: tab === 'maas' && payUnlocked,
+      mevRows: mevRows, mevStats: mevStats,
+      mevBanner: 'Pazartesi ' + fmtD(TODAY) + ' 06:00 güncellik kontrolü: ' + mevStats.total + ' mevzuat sorgulandı, ' + mevStats.suspect + ' tanesinin daha güncel sürümü olabilir. Ayrıntı için satırdaki "Balbal\'a sor" düğmesini kullanın. Sonraki kontrol: Pazartesi 12.10.2026. Bu bildirim her Pazartesi İK\'ya gelir.',
+      balAnswer: balAnswer, mvQ: st.mvQ || '', onMvQ: function (e) { self.setState({ mvQ: e.target.value }); }, onMvKey: function (e) { if (e.key === 'Enter') { e.preventDefault(); askText(e.target.value); } }, onMvAsk: function () { askText(st.mvQ); }, mvFound: mevVals.mvFound, mvFolder: mevVals.mvFolder, mvDone: mevVals.mvDone, mvRejected: mevVals.mvRejected, mv: mevVals.mv, mvAccept: mevVals.mvAccept, mvReject: mevVals.mvReject, mvFolderVal: mevVals.mvFolderVal, mvFolderOpts: mevVals.mvFolderOpts, onMvFolder: mevVals.onMvFolder, mvAdd: mevVals.mvAdd, mvDoneText: mevVals.mvDoneText, balHasQ: mevVals.balHasQ, balQText: mevVals.balQText,
+      payPass: st.payPass || '', onPayPass: function (ev) { self.setState({ payPass: ev.target.value }); }, payUnlock: function () { if ((st.payPass || '') === '123456') { self.setState({ payUnlocked: true, payPass: '', payErr: false }); } else { self.setState({ payErr: true }); } }, payErr: !!st.payErr,
+      payKpis: payKpis, payRows: payRows, paySent: paySent, payNotSent: !paySent, paySend: function () { if (lockMaas.length) return; self.setState({ paySent: true }); },
+      kidemLocked: lockKidem.length > 0, kidemLockText: 'Mevzuat listesinde tiksiz kaynak: ' + lockKidem.join(', ') + '. Bu kaynaklar dikkate alınmadan kıdem/ihbar hesabı yapılmaz (öncül kural).', kidemWrap: 'flex:1;min-height:0;display:flex;flex-direction:column;gap:18px;' + (lockKidem.length ? 'opacity:0.4;pointer-events:none;' : ''),
+      maasLocked: lockMaas.length > 0, maasLockText: 'Mevzuat listesinde tiksiz kaynak: ' + lockMaas.join(', ') + '. Bordro hesaplanmaz ve Finansal Muhasebe\'ye iletilemez.', maasWrap: 'flex:1;min-height:0;display:flex;flex-direction:column;gap:18px;' + (lockMaas.length ? 'opacity:0.4;pointer-events:none;' : ''),
+      izinLocked: lockIzin.length > 0, izinLockText: 'Yıllık izin mevzuatı (4857 m.53) dikkate alınmıyor; hak ve kalan gün hesabı güvenilir değil.',
+      goMevzuat: go('mevzuat'),
+      n2gVal: st.n2g || '60000', onN2g: function (ev) { self.setState({ n2g: ev.target.value }); }, n2gGross: fmtTL(n2g), n2gEmp: fmtTL(n2gC.employer), n2gDed: fmtTL(n2gC.sgk + n2gC.iss) + ' SGK+işsizlik · ' + fmtTL(n2gC.gv + n2gC.dv) + ' vergi',
+      reqs: reqs, rules: rules, proxies: proxies, lvKpis: lvKpis, lvRows: lvRows, svKpis: svKpis, svRows: svRows, svSel: svSel, calcAt: fmtD(TODAY) + ' 06:00', isSema: tab === 'sema', isKisiler: tab === 'kisiler',
+      kpis: kpis, tasks: tasks, derived: derived,
+      hRows: hRows, impact: impact, impactTitle: hDirtyKeys.length ? 'Bu değişiklik neyi etkiler?' : 'Etki önizlemesi',
+      hDirty: hDirtyKeys.length > 0, hDirtyLabel: hDirtyKeys.length + ' bağlılık değişikliği', hCancel: function () { self.setState({ hP: {} }); }, hSave: hSave, hSaved: !!st.hSavedFlag && !hDirtyKeys.length,
+      hireOpenFn: function () { self.setState({ hireOpen: true, hireName: '', hirePos: '', hireDate: '' }); },
+      exitOpen: !!exitFor, exitName: exitFor ? exitFor.name : '', exitTypes: Object.keys(EXIT_T).map(function (k) { return { label: EXIT_T[k], style: "border-radius:14px;padding:6px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;" + (exitType === k ? 'background:#0E241D;color:#F6F7F5;border:1px solid #0E241D;' : 'background:#FFFFFF;color:#5B6B60;border:1px solid #E1E7E2;'), select: function () { self.setState({ exitType: k }); } }; }),
+      exitHasType: !!exitType, exitNoType: !exitType, exitNote: exitType ? EXIT_NOTE[exitType] : '', exitDocs: exitType ? DOCS_OUT[exitType] : [],
+      exitDate: st.exitDate || '', onExitDate: function (ev) { self.setState({ exitDate: ev.target.value }); },
+      exitProxy: exitFor ? (pe(exitFor).apprOn ? 'Onay yetkisi var: ' + (prox[exitFor.id] && byId(prox[exitFor.id]) ? byId(prox[exitFor.id]).name + ' sürekli vekil olarak onaylar.' : 'vekil seçilmemiş; belgeler bir üst seviyeye gider. İzin Yönetimi → Vekâlet\'ten seçin.') + ' Yönetim panelinde yetkileri kilitlenir.' : 'Onay yetkisi yok; onay zinciri etkilenmez. Yönetim panelinde yetkileri kilitlenir.') : '',
+      exitCancel: function () { self.setState({ exitFor: null, exitType: null }); }, exitConfirm: confirmExit,
+      exitBtnStyle: "border:none;border-radius:10px;padding:9px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;" + (exitType ? 'background:#132119;color:#FFFFFF;' : 'background:#E9EDEA;color:#8A968E;'),
+      hireOpen: hireOpen, hireName: st.hireName || '', onHireName: function (ev) { self.setState({ hireName: ev.target.value }); }, hirePos: st.hirePos || '', onHirePos: function (ev) { self.setState({ hirePos: ev.target.value }); }, hireDate: st.hireDate || '', onHireDate: function (ev) { self.setState({ hireDate: ev.target.value }); },
+      hirePosOpts: [{ v: '', l: '— Pozisyon seçin' }].concat(S.posOrder.filter(function (k2) { return holdS(k2).length < S.pos[k2].cap; }).map(function (k2) { return { v: k2, l: S.pos[k2].n + ' · ' + (S.deptName[S.pos[k2].dept] || '') + ' · ' + holdS(k2).length + '/' + S.pos[k2].cap }; })), hireDocs: DOCS_IN,
+      hireDerived: st.hirePos && S.pos[st.hirePos] ? 'Departman ' + (S.deptName[S.pos[st.hirePos].dept] || '') + ' · rol ' + roleS(st.hirePos) + ' · yönetici ' + (function () { const m2 = mgrAt(st.hirePos); return m2 ? m2.name : '—'; })() : '',
+      hireCancel: function () { self.setState({ hireOpen: false }); }, hireConfirm: confirmHire,
+      hireBtnStyle: "border:none;border-radius:10px;padding:9px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;" + ((st.hireName || '').trim() && st.hirePos ? 'background:#132119;color:#FFFFFF;' : 'background:#E9EDEA;color:#8A968E;'),
+      fileSel: fileSel || { name: '', label: '', folder: '', progress: '', docs: [] }, hasFileSel: !!fileSel,
+      pRows: pRows, pImpact: pImpact, pImpactTitle: pDirtyIds.length ? 'Bu değişiklik neyi etkiler?' : 'İK süreçleri ve etkileri',
+      pDirty: pDirtyIds.length > 0, pDirtyLabel: pDirtyIds.length + ' kişi değişikliği', pCancel: function () { self.setState({ pP: {} }); }, pSave: pSave
+    }, kVals);
+  }
+}
+</script>
+</body>
+</html>

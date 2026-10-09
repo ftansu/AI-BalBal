@@ -1,8 +1,10 @@
-# Balbal Anayasası — v2.0 Taslak (01.10.2026)
+# Balbal Anayasası — v2.1 Taslak (09.10.2026)
 
 Bu klasör Balbal Platformunun bağlayıcı çerçevesidir. Tüm Üretici Taraflar ve Üretici AI'lar (frontend, backend, AI katmanı) her görevde bu Anayasaya göre çalışır.
 
 **Yapı:** 00 Çekirdek (herkes okur) · 01 Ürün · 02 Teknik ve Güvenlik · 03 Operasyon ve Veri · Ek-A Proje Yetkilileri · Ek-B Yetenek Listesi · Ek-C Değişiklik Kaydı · Ek-D Süreç Tanımları · Ek-E Karar Bekleyen Noktalar · Ek-F Karakter Tanımı
+
+**v2.1 (09.10.2026):** İş akışı katmanı ve yükümlülük bağı eklendi (Ek-B, Ü-3, Ü-4, O-13); Ç-6, Ç-12, T-13/S-9, Ç-17, Ek-A ve Ek-E güncellendi. Değişikliğin özeti Ek-C’dedir. Ç-3 gereği tüm Proje Yetkililerinin onayıyla yürürlüğe girer; .docx kopyası onaydan sonra eşlenir (S-5/3).
 
 **Bu taslağın niteliği:** v1.1 üzerine, 30.09.2026 tarihli değerlendirme raporundaki önerilerin uygulanmış hâlidir. Tansu’nun yapısı, madde kodları ve temel mantığı korunmuştur. Yeni maddeler mevcut numaralandırmanın sonuna eklenmiş, değişen maddeler yerinde revize edilmiştir. Proje Yetkililerinin karar vermesi gereken ve bu taslakta *karar verilmemiş* noktalar Ek-E’de listelenmiştir; metin içinde köşeli parantezle gösterilir.
 

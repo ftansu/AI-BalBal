@@ -31,6 +31,8 @@
 
 ## 0. Bu belge nasıl okunur
 
+> **KARAR (08.10.2026, ürün sahibi) — Naci'ye yalnızca iki not:** [`NACI_NOTU_URUN1.md`](NACI_NOTU_URUN1.md) (**Ürün 1 — hemen başlanabilir**) ve [`NACI_NOTU_URUN2.md`](NACI_NOTU_URUN2.md) (**Ürün 2 ve sonrası — ürün sahibinden Kayıtlı Kanalda yazılı onay gelmeden başlanmaz**). B-29 … B-42 Ürün 2 notundadır. Bu belge referans olarak aynen geçerlidir; §9.2'deki "Ankara RES / İzmir RES" demo projeleri yerine canvas şirket grubu kullanılır (Ürün 1 notu §A.4).
+
 - Belge **konu başlıklarına** göre düzenlendi. Her talebin yanında bir **B kodu** var (B-01 … B-28). Frontend kodundaki yorumlar (`// BACKEND_GAPS B-07` gibi) bu kodlara atıf yapar; kodlar değişmedi. Hangi kodun hangi bölümde olduğu **Ek A**'da.
 - Her talebin başlığının altında **"Ürün:"** satırı var: o özelliğin hangi ürün katmanına (Ürün 1 Tanıma / Ürün 2 Birleştirme / Ürün 3 Yorumlama / ortak altyapı) ait olduğu. Ayrıntı ve kurallar **§1.5**'te.
 - Her talebin başında bir **durum etiketi** var:
@@ -1341,6 +1343,20 @@ Frontend kod yorumlarındaki B kodlarının bu belgedeki yeri.
 | B-26 | Klasör yapısı ve departman erişim yetkileri | §2.6 | Ürün 1 |
 | B-27 | Web üzerinden Ürün 1 test ortamı | §1.8 | Ortak |
 | B-28 | Belge yükleme: tanıma, onay, manuel alan, kayıt defteri | §4.7 | Ürün 1 |
+| B-29 | Şirket yapısı sürümleri ve onay paketi | `NACI_NOTU_URUN2.md` | Ürün 1 (katman) · onay bekler |
+| B-30 | Kapasite, atama, pozisyon değişikliği talepleri | `NACI_NOTU_URUN2.md` | Ürün 1 (katman) · onay bekler |
+| B-31 | Devreye alma ve tetik noktaları | `NACI_NOTU_URUN2.md` | Ürün 1 (katman) · onay bekler |
+| B-32 | Klasör uyumsuzlukları ve güncelleme talepleri | `NACI_NOTU_URUN2.md` | Ürün 1 (katman) · onay bekler |
+| B-33 | Ortak klasör onayı | `NACI_NOTU_URUN2.md` | Ürün 1 (katman) · onay bekler |
+| B-34 | Mevzuat kaynakları ve güncellik | `NACI_NOTU_URUN2.md` | Ürün 2 |
+| B-35 | Balbal Hiyerarşi Düzenleyici | `NACI_NOTU_URUN2.md` | Ürün 2 |
+| B-36 | Yapılandırılmış cevap blokları, pencere sürekliliği | `NACI_NOTU_URUN2.md` | Ürün 2 |
+| B-37 | Şirket Bilgileri, cari, ödeme talimatı, deterministik son kontrol | `NACI_NOTU_URUN2.md` | Ürün 2 |
+| B-38 | Tek PO ve zincir durum modeli | `NACI_NOTU_URUN2.md` | Ürün 2 |
+| B-39 | Ödeme kategorileri, sözleşme bakiyesi, avans mahsubu | `NACI_NOTU_URUN2.md` | Ürün 2 |
+| B-40 | Gelen evrak, eşleştirme, itiraz süresi, kayıt önerisi | `NACI_NOTU_URUN2.md` | Ürün 2 |
+| B-41 | Eksik belge isteme ve silinemez not | `NACI_NOTU_URUN2.md` | Ürün 2 |
+| B-42 | Varlık / zimmet otomatik kayıt | `NACI_NOTU_URUN2.md` | Ürün 2 |
 
 ### Revizyon geçmişi
 

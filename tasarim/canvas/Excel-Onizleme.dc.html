@@ -128,7 +128,7 @@ class Component extends DCLogic {
       ['13', '14.04.2027', '98.000', '15.858', '113.858', '1.078.000', 'Bekliyor']
     ];
     const CELL = 'padding:8px 10px;border-bottom:1px solid #F0F2F0;border-right:1px solid #F0F2F0;white-space:nowrap;';
-    const rows = [{ n: 1, a: 'Yeşilova RES — Commerzbank AG kredi ödeme takvimi (2023-YS)', b: '', c: '', d: '', e: '', f: '', g: '' }, { n: 2, a: 'Sürüm 01.09.2026 (güncel)', b: '3 aylık', c: '24 taksit', d: 'SOFR+%1,50', e: '', f: 'Açılış 2.352.000', g: '' }, { n: 3, a: header[0], b: header[1], c: header[2], d: header[3], e: header[4], f: header[5], g: header[6], head: true }]
+    const rows = [{ n: 1, a: 'Yeşilova RES — Commerzbank AG kredi ödeme takvimi (2023-YS)', b: '', c: '', d: '', e: '', f: '', g: '' }, { n: 2, a: 'Sürüm', b: '01.09.2026', c: '24 taksit', d: '3 aylık', e: 'SOFR+%1,50', f: 'Açılış 2.352.000', g: 'Güncel' }, { n: 3, a: header[0], b: header[1], c: header[2], d: header[3], e: header[4], f: header[5], g: header[6], head: true }]
       .concat(data.map(function (r) { return { n: Number(r[0]) + 3, a: r[0], b: r[1], c: r[2], d: r[3], e: r[4], f: r[5], g: r[6] }; }))
       .map(function (r) {
         const hl = r.n === 14;

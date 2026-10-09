@@ -4,7 +4,7 @@
 **Tek kopya kuralı (07.10.2026, Ürün Yetkilisi):** Ürün 2 ve sonrasının tasarımı repoda **yalnızca bu klasörde** durur. Başka dal veya klasörde ikinci bir canvas kopyası tutulmaz.
 **Ürün 1 ayrıdır:** Ürün 1'in kendi arayüzü vardır ve ayrı durur — tasarım kaynağı "X Platformu — Ürün 1" canvas'ı, kod `frontend/`, kurallar `docs/URUN1_ARAYUZ.md`. Ürün 1 ekranları bu klasöre eklenmez; bu klasördeki ekranlar Ürün 1 arayüzüne taşınmaz.
 
-**Alındığı an:** 08.10.2026, canvas sürümü `1791471743-c7f2` (v135). Önceki kopya: 07.10.2026 `1791363018-8719`.
+**Alındığı an:** 09.10.2026, canvas sürümü `1791520600-7c1f` (v136; veri tekleştirmesi). Önceki: 08.10.2026 `1791471743-c7f2` (v135). Önceki kopya: 07.10.2026 `1791363018-8719`.
 **Esas olan:** Canlı canvas. Bu klasör, canvas'a erişimi olmayan geliştirici ve AI'ı için **salt okunur referanstır**; buradan canvas'a geri yazılmaz. Canvas değiştikçe bu klasör yeni bir PR ile yenilenir (eskisinin üzerine; yeni kopya açılmaz).
 
 > **Durum: Balbal frontend tasarımı TAMAMLANMADI.** Bu dosyalar kodlamaya hazır ekranlar listesi değildir; mantığı ve yönü gösterir. Backend beklentileri ve açık işler: `docs/NACI_NOTU_URUN2.md` (PR #13) — ⛔ ürün sahibinin onayı gelmeden başlanmaz. Ürün 1 işleri: `docs/NACI_NOTU_URUN1.md`.
@@ -47,7 +47,7 @@ Bu klasördeki demo veriler, canvas'ın kendi içindeki çelişkiler giderilerek
 - Şirketlerin ünvan biçimi "… RES/GES Enerji Üretim A.Ş.".
 - IBAN'lar mod-97 kontrolünden geçecek şekilde yeniden üretildi.
 
-**Uyarı:** Esas olan canlı canvas'tır. Bu düzeltmeler canlı canvas'a da işlenmeden yeni bir canvas kopyası buraya alınırsa düzeltmeler kaybolur. Önce canlı canvas güncellenmeli.
+**Canlı canvas da güncellendi (09.10.2026, sürüm 136 · `1791520600-7c1f`).** Bu klasör canlı canvas'la birebir aynıdır (121 pano). Yayın öncesi kontrol: 120 pano, yeni hata 0; tekleştirme öncesi bilinen 49 hata düzeldi, 11 bilinen uyarı (açıklayıcı metin) duruyor.
 
 ## 08.10.2026 çıkışında değişenler (özet)
 

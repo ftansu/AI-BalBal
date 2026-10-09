@@ -1540,7 +1540,7 @@ class Component extends DCLogic {
         id: 'kredi', label: 'Kredi Sözleşmeleri',
         messages: [
           { from: 'user', text: "Hangi projelerin kredisi Commerzbank'ta?" },
-          { from: 'ai', queryType: 'DOCUMENT', text: 'Yeşilova RES kredisi Commerzbank AG ile yapılandırılmış; 3 aylık taksitlerle ödeniyor (24 × $98.000 anapara + faiz, her ayın 14\'ü).', source: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', sourceHref: 'Sozlesme-Onizleme.dc.html', sourcePage: 2, sourceDate: '03.06.2023', sourceVersion: 1, sourceCurrent: true },
+          { from: 'ai', queryType: 'DOCUMENT', text: 'Yeşilova RES kredisi Commerzbank AG ile yapılandırılmış; taksitler üç ayda bir ödeniyor (24 × $98.000 anapara + faiz, her ayın 14\'ü).', source: 'Yesilova_RES_Kredi_Sozlesmesi.pdf', sourceHref: 'Sozlesme-Onizleme.dc.html', sourcePage: 2, sourceDate: '03.06.2023', sourceVersion: 1, sourceCurrent: true },
           { from: 'user', text: 'Yeşilova RES için bu ayki taksit tutarı ve kalan bakiye ne kadar?' },
           { from: 'ai', queryType: 'DATA', text: 'Ekim taksiti (#11/24, vade 14.10.2026) $116.240 (anapara $98.000 + faiz $18.240); kalan anapara $1.372.000, taksit sonrası $1.274.000 olarak görünüyor.', excelFile: 'Yesilova_RES_Kredi_Odeme_Plani.xlsx', excelSheet: 'Odeme Takvimi', excelRange: 'B14:F14', excelHref: 'Sozlesme-Onizleme.dc.html' }
         ]

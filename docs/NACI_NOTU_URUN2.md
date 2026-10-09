@@ -1,6 +1,6 @@
 # Naci Notu — ÜRÜN 2 ve sonrası (Balbal tam arayüzü)
 
-**Kimden:** Ürün sahibi (Claude ile) · **Kime:** Naci ve Naci'nin AI'ı · **Son güncelleme:** 09.10.2026 (veriler canvas ile tekleştirildi)
+**Kimden:** Ürün sahibi (Claude ile) · **Kime:** Naci ve Naci'nin AI'ı · **Son güncelleme:** 09.10.2026 (veriler canvas ile tekleştirildi · Bölüm F: yükümlülük bağı eklendi)
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ürün 2" (ad tarihsel; Balbal uygulamasının tam arayüzü). Repoda tek kopya `tasarim/canvas/` (PR #12, güncel sürüm `1791471743-c7f2`, v135); okuma kılavuzu `tasarim/README.md`. Canvas ile fark varsa **canvas esastır**.
 
 > ## ⛔ ONAY GELMEDEN BAŞLANMAZ
@@ -21,6 +21,7 @@
 | C | Mali İşler, İdari İşler, Akış Zincirleri 1–3 kuralları · **B-37…B-42** | 06–07.10 |
 | D | **Ödeme zincirleri ve Finansal Muhasebe** (08.10): TEMEL İLKE (belgeden öğrenme), ortak onay kuralı, Zincir 4–7, ödeme listesi (Seçilileri öde, Acil öde), banka ekstresinden otomatik tanıma, masraf / avans ve "+ Ödeme talebi" menüsü, açık kararlar | 08.10 |
 | E | Anayasa uyarıları (Ürün 2) | 06–08.10 |
+| F | **Yükümlülük bağı** (09.10): yükümlülük · olay · bağ modeli, zincirlerle uyum, ölçüm kaydı · Anayasa v2.1 taslağı (PR #15) O-13 | 09.10 |
 
 Atıflar: `§D.5.3` = bu notun D bölümü 5.3. Başka belgeye atıf dosya adıyla yazılır.
 
@@ -631,3 +632,61 @@ P-1 ile ilişkisi: P-1 "personel onayı olmadan işlem ilerlemez"in ödeme süre
 3. Kurumsal Hafızaya neyin, hangi koşulla yazılacağı (belgeden öğrenilen bilgi kartı, §D.1) Kritik Geliştirme Kararıdır (Ç-15/7, O-7): onaydan sonra önce ADR.
 4. Ürün 2'de yorum yoktur: karşılaştırma ve aritmetik veri diliyle yazılır; neden-sonuç ve tahmin Ürün 3'tür.
 5. Aritmetik (faiz, kur, avans netleme, mükerrer kontrolü) deterministik koddadır, LLM'e bırakılmaz; her hesap denetim kaydına yazılır.
+
+
+---
+
+## F. Yükümlülük bağı (09.10.2026)
+
+**Ürün:** bağı önermek ve kaydetmek Ürün 1 (Tanıma), yükümlülük durumu ve sapma hesabı Ürün 2 (Birleştirme), neden-sonuç Ürün 3. **Anayasa dayanağı:** v2.1 taslağı, PR #15 — Ek-B, Ü-3, Ü-4 ve yeni **O-13**. PR onaylanana kadar bu bölüm de ⛔ kuralına tabidir. **Canvas:** bu bölüm için ekran değişikliği yok; bağ veride yaşar, değeri Balbal'a soru sorulunca ortaya çıkar (Ü-10).
+
+### F.1 Neden
+
+Belgeler şirketin ne planladığını, akış kayıtları ne yaşadığını anlatır. Balbal'ın "sözleşmeye uyuldu mu", "bu süreç neden uzadı" gibi sorulara cevap verebilmesi için bir ödemenin, belgenin ya da notun **hangi işe ait olduğunu** bilmesi gerekir. Bugün kayıtlar yalnızca şirket ve masraf yerine bağlı; süreç adımına ve yükümlülüğe bağlı değil. Bu bağ olayın doğduğu anda kurulmazsa sonradan kurulamaz.
+
+**Örnek (demo, mantığı anlatmak için; birebir uygulanacak senaryo değildir):** Kızılova'nın TEİ başvurusu için kurum yazısında başvuru bedelinin son günü 12.09. Enerji ödeme talebini açarken Balbal bağı önerir: *Kızılova RES › TEİ başvurusu › Başvuru bedeli*. Finansal Muhasebe ödeme tarihini kendi nakit planına göre 15.09 seçer ve not düşer. Başvuru 16.09'da yapılır, kurum yazısıyla bir sonraki döneme kalır. Yıllar sonra "TEİ sonucu neden geç çıktı?" sorusuna Balbal bu bağlar üzerinden tarih sırasıyla, kaynaklarıyla ve notu aynen aktararak cevap verir; kendi neden-sonuç cümlesini kurmaz.
+
+### F.2 Model
+
+- **Yükümlülük:** belgeden çıkarılan, konusu ve son tarihi olan madde (kredi taksiti, teminat mektubu, raporlama, harç, sigorta yenileme, eskalasyon yıldönümü vb.). Alanları: konu, son tarih, sorumlu departman, varsa tutar, kaynak (belge · versiyon · madde/sayfa). §D.1'deki bilgi kartlarının takvimli maddeleridir; ayrı bir öğrenme mekanizması kurulmaz. Balbal çıkarır (AI Taslağı), ilgili departman onaylar.
+- **Olay:** sistemde zaten olan her kayıt — talep, PO, ödeme, fatura, belge, Kullanıcı Notu, görüş talebi, mail.
+- **Bağ:** olayın bir ana bağı olabilir: **proje · süreç adımı · yükümlülük**. Ek bağlar en aza indirilir. Bağ zorunlu değildir; "genel" olabilir (telefon faturası gibi).
+- **Yükümlülük durumu** elle girilmez; bağlı olaylardan hesaplanır: bekliyor / yerine getirildi / son gün geçti / kısmi, ve son günden sapma (gün). Hesap kodda yapılır (T-4).
+- Süreç adımları mevcut Proje Geliştirme ağacından gelir; bu bölüm ağacı genişletmez.
+
+### F.3 Bağı kim kurar ve onaylar (mevcut zincirlerle uyum)
+
+Ayrı bir onay adımı **eklenmez**. Bağ, Balbal'ın doldurduğu bilgiler için zaten var olan onay satırının (§D.2) içindedir ve kayıt numarasına takılır; numara zincir boyunca taşındığı için bağ her adıma kendiliğinden geçer.
+
+| Zincir | Bağ nerede kurulur | Not |
+|---|---|---|
+| Z1 satın alma, Z2 İdari alım | Talep formunda; talebi açan onaylar | Red → revizede bağ aynı PO'da kalır |
+| Z3 sözleşme ödemesi | Balbal'ın sözleşme kalemi eşleştirmesinin parçası | Ayrıca sorulmaz; mükerrer satır açılmaz |
+| Z4 eşleşmeyen fatura | Muhasebe'nin ilk ekranında | Çoğu zaman "genel" kalır |
+| Z5 kredi, banka ekstresinden tanınan kayıtlar | Kayıt otomatik açılır | Bağ, kayda **ilk dokunan** kişinin onay satırıyla kesinleşir |
+| Z6 vergi/yasal, Z7 bordro | Türden belli (vergi takvimi, bordro dönemi) | Bağ **kurala göre kodda** atanır; Balbal önerisi, notu ve onay satırı yoktur ("Balbal girmez" kararıyla uyumlu) |
+| Masraf/avans, acil öde | Mevcut onay satırının içinde | — |
+
+**Değişiklik kuralları:**
+- Balbal onaylanmış bir bağı **kendisi değiştirmez**. Daha uygun eşleşme görürse yalnızca not düşer. (§D.2'deki "Balbal yeni bir şey doldurursa onay sıfırlanır" kuralı ilerlemiş bir zincirde başkasının onayını sıfırlamasın diye.)
+- Zincirdeki her kişi bağı değiştirebilir; bu yeni onay turu başlatmaz, denetim kaydına yazılır (kim, ne zaman, önce/sonra).
+
+### F.4 Balbal'ın tutumu
+
+- Balbal iş kararlarının niyetini ve zamanlamasını sorgulamaz; ödemeyi öne çekmeye zorlamaz. Şirket bir işlemi bilerek bekletiyor olabilir.
+- Seçilen tarih yükümlülüğün son gününü geçiyorsa yalnızca bilgi notu + "Onaylıyorum"; gerekçe istenmez. Ödeme listesinde ayrıca uyarı rengi yoktur.
+- Kayıtta gerekçe yoksa sonradan sorulduğunda "kayıtta gerekçe bulunmuyor" der; tahmin etmez (Ç-6).
+
+### F.5 Ölçüm kaydı (baştan, ekran değişikliği yok)
+
+Ürün testinde Balbal'ın doldurma yaklaşımının sahada tutup tutmadığı ölçülecek. Bu veriler geriye dönük toplanamadığı için kayıt baştan tutulmalı:
+- Balbal'ın doldurduğu her alan için kullanıcı düzeltmesi: alan, Balbal'ın değeri, kullanıcının değeri, güven skoru.
+- Onay ekranının açılması ile onay satırının işaretlenmesi arasındaki süre.
+- Bağın önerildiği, kabul edildiği, değiştirildiği ya da "genel" seçildiği bilgisi.
+
+Bu kayıtlar toplu değerlendirilir (alan bazında düzeltme oranı, ortalama onay süresi); kişi bazında performans değerlendirmesinde kullanılmaz (O-13/8). Üzerine kural ya da uyarı kurulmaz; aksiyon ölçüm sonuçlarından sonra ürün sahibince belirlenir.
+
+### F.6 Kodlamadan önce
+
+- Yükümlülük ve bağın veri modeli Kurumsal Hafızaya ne yazıldığını belirlediği için Kritik Geliştirme Kararıdır (Ç-15/7, O-7): onaydan sonra önce kısa bir ADR.
+- Tek akış motoru ilkesi (O-13/1): zincirler motorun yapılandırmalarıdır; zincir başına ayrı kod yolu kurulmaz.

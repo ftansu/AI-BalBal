@@ -1,6 +1,6 @@
 # Naci Notu — ÜRÜN 1
 
-**Kimden:** Ürün sahibi (Claude ile) · **Kime:** Naci ve Naci'nin AI'ı · **Son güncelleme:** 09.10.2026 (veriler canvas ile tekleştirildi)
+**Kimden:** Ürün sahibi (Claude ile) · **Kime:** Naci ve Naci'nin AI'ı · **Son güncelleme:** 09.10.2026 (veriler canvas ile tekleştirildi · Bölüm G: yeniden test ölçütü ve ölçüm kaydı)
 **Durum: ✅ HEMEN BAŞLANABİLİR.** Bu nottaki her iş için ürün sahibinden ayrıca onay beklenmez.
 Tek değer listesi: `docs/NACI_CEVAP_2026-10-08.md` §3 — canvas, bu not ve ledger aynı değerleri kullanır.
 
@@ -19,6 +19,7 @@ Tek değer listesi: `docs/NACI_CEVAP_2026-10-08.md` §3 — canvas, bu not ve le
 | D | Demo veri kütüphanesi (B-18): kurgu şirket grubu, SPV klasörleri, belge içerik rehberi, kasıtlı tuzaklar, test planı | Şimdi başlar, frontend'le birlikte biter |
 | E | 08.10 demo veri eklemeleri | D ile birlikte |
 | F | Anayasa uyarıları, beklenen çıktılar, açık sorular | — |
+| G | **Ürün 1 yeniden testi** (09.10): soru setinin yeri, kategoriler ve geçme ölçütü, ölçüm kaydı | Klasörler tamamlanınca test |
 
 Atıflar: `§C.4` = bu notun C bölümünün 4. maddesi. Başka belgeye atıf dosya adıyla yazılır.
 
@@ -731,3 +732,52 @@ Bölüm D'ye eklenir; belgeler bu değerleri **içerecek** şekilde üretilir (A
 - ~~Güneşalan ve Boztepe'nin finansman yapısı uygun mu?~~ → Çözüldü 08.10: canvas değerleri (Güneşalan özkaynak, kredi yok; Boztepe Garanti BBVA USD 2024-BZ).
 - Açık: gerçek banka/OEM adları (Anayasa Ç-12 ile çelişiyor; karar gelene kadar adlar ledger’da tek tablodan yönetilsin); Yeşilova kredisinin 2,35 mn USD olması; Boztepe KGF kefaleti.
 - ~~İmza limitleri~~ → çözüldü: 500.000 TL'ye kadar tek A, üstü A+B (§E.4).
+
+
+---
+
+## G. Ürün 1 yeniden testi — ölçüt, soru seti ve ölçüm kaydı (09.10.2026)
+
+### G.1 Ne zaman
+
+Klasör yapısı (§D.2) ve demo kütüphanesi (§D) tamamlanınca. Bu, ürün sahibinin ürün testidir (T-13); kod testlerinden ayrıdır. Klasörler tamamlandığında haber vermen yeterli.
+
+### G.2 Soru seti ürün sahibinde kalır (§D.6.1'i düzeltir)
+
+§D.6.1'de test senaryolarının (`TEST_SENARYOLARI.md`) repoda tutulması önerilmişti. **Düzeltme:** soru metinleri ve beklenen cevaplar repoda tutulmaz, ürün sahibinde kalır.
+
+**Neden:** Repo herkese açık ve geliştirici AI'ı repoyu okuyor. Sistem test sorularını önceden görürse istemeden onlara göre ayarlanır; o zaman test, Balbal'ın gerçek davranışını değil, o soruları ezberleyip ezberlemediğini ölçer. Bu kimseye güvensizlik değil; ölçümün güvenilir olması için standart bir yöntem.
+
+**Repoda kalanlar:** `TEST_PLANI.md` (kapsam, kategoriler, geçme ölçütü — G.3) ve `TEST_DEFTERI.md` (her turun sonucu ve bulguları). Bulgular yine `urun-testi` etiketli issue olarak gelir; bir bulgunun soru metni o tur bittikten sonra açıklanır, sonraki turda o soru yenisiyle değiştirilir.
+
+Senaryoların ihtiyaç duyduğu belgeler zaten §D ledger'ında ve §D.5 tuzaklarında tanımlı; test için ayrıca belge üretilmez.
+
+### G.3 Kategoriler ve geçme ölçütü (§D.6.3'ün yerine geçer)
+
+| Kategori | Ne ölçer | Soru sayısı | Geçme |
+|---|---|---|---|
+| K1 · Anlama | Doğal dil, eş anlamlı ifade, belge adıyla birebir eşleşmeyen soru (§B) | 10 | ≥ 9/10 |
+| K2 · Kesin bilgi ve kaynak | Doğru değer + doğru belge ve sürüm (güncel/tarihsel) | 8 | ≥ 7/8 |
+| K3 · Çelişki, eksik, sürüm | §D.5 tuzakları: Çelişkili Veri'de seçim yapmama, Veri Yok'ta yardım teklifi | 5 | 5/5 |
+| K4 · Ürün 1 sınırı | Birleştirme ve hesap yapmama; projeleri ayrı ayrı cevaplama | 3 | 3/3 |
+| K5 · Yetki | Yetkisiz belgenin adı bile dönmemesi (P-2) | 4 | 4/4 |
+| K6 · Belirsiz ve kapsam dışı | Tek netleştirici soru; kapsam dışında kibar yönlendirme | 3 | ≥ 2/3 |
+| Belge yükleme (B-28) | SPV, tür, klasör doğru; emin değilse sorar | 4 senaryo | SPV yanlış yerleştirme 0 |
+
+**Kritik bulgular (tek biri bile turu "kaldı" yapar):** yetki sızıntısı, kaynakta olmayan bilginin söylenmesi (uydurma), Çelişkili Veri'de sessizce bir kaynağın seçilmesi, belgenin yanlış SPV'ye yerleştirilmesi.
+
+Sayılar ürün sahibinin ilk turdan sonra gözden geçireceği başlangıç değerleridir.
+
+### G.4 Ölçüm kaydı (baştan tutulur, ekran değişikliği yok)
+
+Ürün 1'de Balbal hem belge yüklerken alan dolduruyor hem soru cevaplıyor. Davranışın sahada nasıl çalıştığını görmek için şu kayıtlar baştan tutulsun; sonradan toplanamazlar:
+
+- **Belge yükleme:** Balbal'ın doldurduğu her alan için Balbal'ın değeri, kullanıcının son değeri, güven skoru; formun açılmasıyla onaylanması arasındaki süre.
+- **Balbal cevapları:** cevabın Ç-7 durumu, netleştirici soru sorulup sorulmadığı, gösterilen kaynak sayısı, kullanıcının bir kaynağı açıp açmadığı.
+- **Tutukluk göstergesi:** kullanıcı kısa süre içinde aynı şeyi başka kelimelerle yeniden sorduysa bu işaretlenir. Bu oran, §B'deki sorunun düzelip düzelmediğini testten bağımsız olarak gösterir.
+
+Bu kayıtlar toplu değerlendirilir (alan bazında düzeltme oranı, durum dağılımı, yeniden sorma oranı); **kişi bazında performans değerlendirmesinde kullanılmaz** (Anayasa v2.1 taslağı O-13/8). Mevcut audit log kuralları (O-5) aynen geçerli; ayrı bir veri saklama düzeni kurulmaz.
+
+### G.5 Sıra
+
+Ürün 1 ürün testini geçmeden hiçbir üst ürün finalize edilmez (T-13). Test sonuçları `TEST_DEFTERI.md`'ye ve biriken sorular listesine işlenir.

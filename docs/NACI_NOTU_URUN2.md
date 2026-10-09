@@ -1,6 +1,6 @@
 # Naci Notu — ÜRÜN 2 ve sonrası (Balbal tam arayüzü)
 
-**Kimden:** Ürün sahibi (Claude ile) · **Kime:** Naci ve Naci'nin AI'ı · **Son güncelleme:** 09.10.2026 (veriler canvas ile tekleştirildi · Bölüm F: yükümlülük bağı eklendi)
+**Kimden:** Ürün sahibi (Claude ile) · **Kime:** Naci ve Naci'nin AI'ı · **Son güncelleme:** 09.10.2026 (veriler canvas ile tekleştirildi · Bölüm F: yükümlülük bağı · Bölüm G: dış veri bağlantı katmanı)
 **Tasarım kaynağı:** Claude Design canvas "X Platformu — Ürün 2" (ad tarihsel; Balbal uygulamasının tam arayüzü). Repoda tek kopya `tasarim/canvas/` (PR #12, güncel sürüm `1791471743-c7f2`, v135); okuma kılavuzu `tasarim/README.md`. Canvas ile fark varsa **canvas esastır**.
 
 > ## ⛔ ONAY GELMEDEN BAŞLANMAZ
@@ -22,6 +22,7 @@
 | D | **Ödeme zincirleri ve Finansal Muhasebe** (08.10): TEMEL İLKE (belgeden öğrenme), ortak onay kuralı, Zincir 4–7, ödeme listesi (Seçilileri öde, Acil öde), banka ekstresinden otomatik tanıma, masraf / avans ve "+ Ödeme talebi" menüsü, açık kararlar | 08.10 |
 | E | Anayasa uyarıları (Ürün 2) | 06–08.10 |
 | F | **Yükümlülük bağı** (09.10): yükümlülük · olay · bağ modeli, zincirlerle uyum, ölçüm kaydı · Anayasa v2.1 taslağı (PR #15) O-13 | 09.10 |
+| G | **Dış veri bağlantı katmanı** (09.10): EPİAŞ, e-Fatura, banka, TCMB, ERP — "bağlanacakmış gibi" altyapı, demo kaynak formatları, gerçek PTF/YEKDEM, uyarıların kaynaktan bağımsızlığı | 09.10 |
 
 Atıflar: `§D.5.3` = bu notun D bölümü 5.3. Başka belgeye atıf dosya adıyla yazılır.
 
@@ -690,3 +691,52 @@ Bu kayıtlar toplu değerlendirilir (alan bazında düzeltme oranı, ortalama on
 
 - Yükümlülük ve bağın veri modeli Kurumsal Hafızaya ne yazıldığını belirlediği için Kritik Geliştirme Kararıdır (Ç-15/7, O-7): onaydan sonra önce kısa bir ADR.
 - Tek akış motoru ilkesi (O-13/1): zincirler motorun yapılandırmalarıdır; zincir başına ayrı kod yolu kurulmaz.
+
+
+---
+
+## G. Dış veri bağlantı katmanı (09.10.2026)
+
+**Ürün:** ortak altyapı (T-1); bağlantıyı kullanan özellik kendi ürün etiketini taşır. ⛔ kuralı geçerli. **Canvas:** ekran değişikliği yok.
+
+### G.1 Karar
+
+Ürün sahibi: dış kaynaklar **bağlanacakmış gibi** kurulur; gerçek bağlantının ne zaman ve hangi kaynakla açılacağına sonra karar verilir. Demo şirketler kurgusal olduğu için santrallerimiz EPİAŞ'ta yok, faturalarımız entegratörde yok; altyapı buna rağmen gerçek bağlantıya hazır olmalı.
+
+### G.2 Mantık — tek arayüz, değişebilir kaynak
+
+- Her dış kaynak için **tek bir bağlantı arayüzü** vardır: EPİAŞ Şeffaflık, e-Fatura/e-Arşiv entegratörü, banka (hareket ve ekstre), TCMB (döviz kurları), ERP (cari, muavin, kayıt dışa aktarımı).
+- Uygulamanın geri kalanı (Balbal, zincirler, ekranlar, hesap katmanı) yalnızca bu arayüzle konuşur; verinin dosyadan mı canlı bağlantıdan mı geldiğini bilmez.
+- Her arayüzün iki kaynak modu vardır:
+  - **Dosya modu (şimdi):** veri, gerçek formatta hazırlanmış dosyalardan okunur.
+  - **Canlı mod (sonra):** aynı arayüze gerçek bağlantı takılır. Uygulamada başka hiçbir şey değişmez.
+- Gelen her kayıt kaynağını taşır: kaynak türü, mod, dosya ya da çağrı kimliği, çekme zamanı. Balbal cevaplarında kaynak gösterimi buradan beslenir (Ç-7).
+- Dosya modu yalnızca demo için değildir. Tam kapalı kurulumda (model C) dış bağlantı açılamayabilir; müşteri o durumda dışa aktarımları elle yükleyerek aynı sistemi kullanmaya devam eder.
+
+### G.3 Demo kaynak formatları (dosya modu)
+
+| Kaynak | Demo verinin biçimi | Not |
+|---|---|---|
+| EPİAŞ — piyasa fiyatları (PTF, YEKDEM birim fiyatı) | EPİAŞ Şeffaflık yanıt yapısında | **Gerçek, kamuya açık değerler** kullanılır (ürün sahibi kararı, 09.10). Değerler Şeffaflık Platformu'ndan demo dönemi için bir kez dışa aktarılıp dosya olarak konur; canlı çekme yapılmaz. Piyasa fiyatı müşteri verisi değildir, demo inandırıcılığı için gerçektir |
+| EPİAŞ — santral üretimi, uzlaştırma | EPİAŞ Şeffaflık yanıt yapısında | **Kurgusal.** Santral kimlikleri gerçek bir santrale ait olmaz (Ürün 1 notu §D.5/7); üretim değerleri kurulu güç ve kapasite faktörleriyle tutarlı |
+| e-Fatura / e-Arşiv | UBL-TR XML (gelen ve giden) | Kurgusal taraflar ve VKN'ler; ledger ile aynı |
+| Banka | MT940 / camt.053 / Excel ekstre | Ürün 1 notu §E.6'daki örnekler; API yanıtı biçimi de aynı kayıt modeline dönüşür |
+| TCMB döviz kurları | TCMB'nin günlük kur dosyası yapısında | Değerler demo tek değer listesindeki kur serisidir |
+| ERP | Cari listesi, muavin ve kayıt dışa aktarımı (Excel/CSV) | Hangi ERP olduğu müşteriye göre değişir; arayüz ERP'den bağımsız |
+
+PTF gerçek, üretim kurgusal olduğu için elektrik satış hesabı (B-21) gerçek fiyat × kurgusal üretim ile çalışır. Bu bilinçli bir tercihtir.
+
+### G.4 Uyarılar kaynaktan bağımsızdır (TEMEL)
+
+Balbal'ın asıl işi form doldurmak değildir; form işi kolaylaştırır. Asıl değer, personeli destekleyen uyarılardır: çift ödeme, eşleşmeyen ödeme, son günü geçen yükümlülük, fatura ve banka tutarı farkı, sözleşme dışı kalem. Bu yüzden:
+
+- Bu kontroller, kayıt **hangi yoldan gelirse gelsin** aynı şekilde çalışır: Balbal formu, banka hareketi, e-fatura, ERP dışa aktarımı ya da elle yüklenen dosya.
+- Bir işlem Balbal'ın hiçbir formundan geçmeden, örneğin doğrudan ERP'de ya da bankada yapıldıysa, Balbal onu bağlantı katmanından görür ve aynı uyarıyı üretir. Bankadan tanıma (Bölüm D.6) bunun ilk örneğidir.
+- Kontroller deterministik koddadır (T-4); LLM kural uygulamaz, bulguyu açıklar.
+- Uyarı engellemez: not + gerekirse "Onaylıyorum" (Bölüm A/1).
+
+### G.5 Kodlamadan önce
+
+- Canlı modun açılması her kaynak için ayrı bir dış bağlantı kararıdır (Ç-11/b, T-14): bir Proje Yetkilisinin Kayıtlı Kanalda onayı olmadan canlı bağlantı kodu çalıştırılmaz. Dosya modu ve arayüzün kendisi bu onayı beklemez; bu not ⛔ kuralına tabidir.
+- Kimlik bilgileri ve uç adresleri koda yazılmaz; yapılandırmada durur.
+- Gerçek PTF/YEKDEM dosyasının alınması tek seferlik bir dışa aktarımdır, canlı bağlantı değildir; dosyanın kaynağı ve alındığı tarih ledger'a yazılır.

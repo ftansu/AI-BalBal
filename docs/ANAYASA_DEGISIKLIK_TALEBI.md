@@ -5,6 +5,7 @@ Bu dosya Balbal Anayasası'na yönelik **tüm değişiklik taleplerini** tek yer
 | Talep | Tarih | Konu | Anayasa sürümü | Durum |
 |---|---|---|---|---|
 | **ADT-1** | 09.10.2026 | İş akışı katmanı ve yükümlülük bağı + madde düzeltmeleri | v2.0 → v2.1 | @ftansu onayladı · @ntoydem onayı bekleniyor |
+| **ADT-2** | 09.10.2026 | Ek-F Karakter Tanımı içeriği (F-2…F-8) | — (Ü-11: Anayasa değişikliği değil) | Taslak · iki Proje Yetkilisinin onayı bekleniyor · PR #16 |
 
 ---
 
@@ -55,3 +56,30 @@ Bu dosya Balbal Anayasası'na yönelik **tüm değişiklik taleplerini** tek yer
 **Nasıl onaylanır:** PR #15'te *Approve* ile review ya da "ADT-1'i onaylıyorum" yorumu. Bir maddeye itiraz varsa madde numarasıyla yazılır (ör. "1.14'e itirazım var"); o madde talepten çıkarılır, kalanlar onaylanabilir.
 
 **Onaydan sonra:** PR #15 birleştirilir → Ek-C'deki v2.1 satırına onay işlenir → `.docx` kopyası eşlenir → güncel Anayasa geliştirici reposuna (`ntoydem/company-ai`) eklenir ki geliştiricinin AI'ı her oturumda okusun (T-16).
+
+---
+
+## ADT-2 — Ek-F Karakter Tanımı içeriği (09.10.2026)
+
+**Nitelik:** Ü-11'e göre Ek-F'nin içeriği ürün davranışıdır ve Anayasa değişikliği sayılmaz; Ürün Yetkilisi yazar. Ürün Yetkilisi rolü devredilmediği için (Ç-1) iki Proje Yetkilisi birlikte onaylar. Bu yüzden ayrı bir PR'dadır: **#16**. ADT-1'den bağımsız onaylanabilir.
+
+**Neden:** Ürün 1 testinin en büyük bulgusu Balbal'ın tutukluğu. Bunun bir kısmı eksik klasörlerden, bir kısmı da Balbal'a nasıl konuşacağının yazılı olarak verilmemesinden kaynaklanıyor. Ek-F şablon halindeydi (Ek-E 7).
+
+| # | Alan | Önerilen (özet; tam metin PR #16) |
+|---|---|---|
+| 2.1 | F-2 Hitap ve ton | "Siz"; deneyimli çalışan gibi sade iş dili; dolgu, emoji, ünlem yok; kullanıcının terimini kullanır; iş kararının gerekçesini sormaz |
+| 2.2 | F-3 Uzunluk | Önce cevap, sonra kaynak; 1–3 cümle; liste en fazla 7 madde; projeler ayrı başlıkta |
+| 2.3 | F-4 Netleştirme | Kavramsal anlama; tek anlamlıysa sormaz; gerekiyorsa tek netleştirici soru; zayıf eşleşmede linkli liste + teyit |
+| 2.4 | F-5 Veri Yok | Ç-7.1 kalıbı; yükleme önerisi ilk cümle olmaz; hazır toplam yoksa "elimde yalnızca şu kayıtlar var" |
+| 2.5 | F-6 Çelişkili Veri | Kaynaklar ve fark sayıyla, yorum yok, teyit sorusu |
+| 2.6 | F-7 İş dışı | Tek cümle yönlendirme |
+| 2.7 | F-8 Biçim | Tarih, tutar, oran; proje adı; belge ve madde atfı; sektör kısaltmaları |
+
+### Onay
+
+| Proje Yetkilisi | Karar | Tarih | Kanal |
+|---|---|---|---|
+| @ftansu | ☐ bekleniyor | | PR #16 |
+| @ntoydem | ☐ bekleniyor | | PR #16 |
+
+**Onaydan sonra:** PR #16 birleştirilir; Ek-F'nin Balbal AI sistem promptuna işlenmesi geliştiricinin işidir (Ç-15/8, bu PR'daki onay Onay Kanıtıdır).

@@ -1,6 +1,6 @@
 # BALBAL ANAYASASI — EK-B: YETENEK LİSTESİ
 
-**Balbal Platformu \| Versiyon 2.0 \| 01.10.2026**
+**Balbal Platformu \| Versiyon 2.1 \| 09.10.2026**
 
 01 Ürün Modülünün ayrıntılı ekidir ve **kapalı listedir** (Ü-1): burada olmayan yetenek yoktur; eklemek Ç-3 kapsamında Anayasa değişikliğidir. Her madde bağlı olduğu ürünün sınırlarına (Ü-3, Ü-4, Ü-5) tabidir; Ürün Modülü ile çelişirse Ürün Modülü geçerlidir.
 
@@ -20,6 +20,9 @@
 - Belgeleri sınıflandırır; bilgileri indeksler; belgeler arasında bağlantı kurar.
 - Departman yapısı üzerinden yetkiye göre bilgi erişimi sağlar.
 - Bilgiyi bulur; belgeyi bulur; belgeyi okur.
+- Şirketin iş akışlarını (talep, onay, satın alma, ödeme talebi, ödeme listesi, masraf/avans, teslim, ödeme kaydı) tek bir akış motoru üzerinde, şirketin tanımladığı adım ve onaycılarla kayıt altına alır (O-13).
+- Belgelerden yükümlülükleri (konu, son tarih, sorumlu departman, varsa tutar, kaynak madde) çıkarır (AI Taslağı; ilgili departman onaylar).
+- Akış kayıtları, belgeler ve Kullanıcı Notları ile proje, süreç adımı ve yükümlülük arasında bağ önerir; bağ Kullanıcı onayıyla kesinleşir (O-13).
 - Birden çok kaynaktan beslenir; her kaynağın söylediğini ayrı ayrı, kaynağını göstererek, yorum katmadan aktarır.
 - Tek sohbet penceresinde birden fazla projeyle ilgili soruya, her projeyi ayrı ayrı cevaplayarak hizmet verir (Ü-3). Projeleri kıyaslamaz.
 - Geçmiş kayıtları ve Kullanıcı Notlarını bulup gösterir.
@@ -34,6 +37,9 @@
 - Kısıtlı raporlama: gerçekleşmiş veriyi Müşterinin önceden belirlediği Word/Excel şablonlarına işler. Serbest raporlama yoktur.
 - Veri taslağı hazırlar (Ü-4).
 - Eksik bilgi veya belgeyi gösterir.
+- Akış içinde ilgili belge ve kayıtları yan yana gösteren bulgular sunar; onay vermez, akışı durdurmaz.
+- Yükümlülük durumunu (bekliyor / yerine getirildi / son gün geçti / kısmi) ve son günden sapmayı bağlı olaylardan hesaplar.
+- Bir süreç adımına bağlı olayları tarih sırasıyla, kaynaklarıyla ve Kullanıcı Notlarını aynen aktararak sunar; neden-sonuç kurmaz.
 - **Süre ve deadline takibi ve hatırlatması** (her departman için geçerli Ürün 2 yeteneği): kredi, teminat, sigorta, dava, icra, izin/ruhsat, bakım, muayene, milestone, görev süreleri.
 - Birikmiş Kullanıcı Notlarını bir araya getirip gösterir.
 - Departmanlar sistem üzerinden başka bir departmandan görüş talep edebilir; görüşler Kurumsal Hafızada saklanır.

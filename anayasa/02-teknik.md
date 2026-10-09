@@ -1,6 +1,6 @@
 # BALBAL ANAYASASI — 02 TEKNİK VE GÜVENLİK MODÜLÜ
 
-**Balbal Platformu \| Versiyon 2.0 \| Durum: Taslak \| 01.10.2026**
+**Balbal Platformu \| Versiyon 2.1 \| Durum: Taslak \| 09.10.2026**
 
 **Kim okur (insan):** Backend, frontend ve AI katmanı geliştiricileri. Üretici AI için: Ç-17. Önce 00 Çekirdek okunmuş olmalıdır. **Ne düzenler:** Mimari, sorumluluk alanları, geliştirme akışı ve güvenlik kuralları.
 
@@ -70,7 +70,9 @@ Yeni bir görsel/UI öğesi doğrudan kodlanmaz. Önce tasarım ortamında \[Ek-
 
 - Kod testi teknik ekip tarafından yapılır. **Ürün testi** Ürün Yetkilisi tarafından yapılır.
 - Kod testlerini geçmek ürünün tamamlandığı veya satılabilir olduğu anlamına gelmez; bir ürün ancak ürün testini geçtikten sonra finalize edilir.
-- Geçiş sırası: T0 başarılı → Ürün 1 → Ürün 1 başarılı → Ürün 2 → Ürün 2 başarılı → Ürün 3. Üst ürün geliştirilirken alt ürünün yetenekleri ve testleri korunur. Süreç: Ek-D S-9.
+- Geçiş sırası: T0 başarılı → Ürün 1 → Ürün 1 başarılı → Ürün 2 ve Ürün 3. Üst ürün geliştirilirken alt ürünün yetenekleri ve testleri korunur. Süreç: Ek-D S-9.
+- **Ürün 2 ve Ürün 3 birlikte geliştirilir.** İkisinin tasarımı ve geliştirmesi tek bir uygulama olarak yürütülür; ürün ayrımı (ürün anahtarları, T-2) ve ürün testleri geliştirme tamamlandıktan sonra yapılır. Bu süreçte de her özellik ürün etiketi taşır (T-11); etiketi belirsiz olan özellik Ürün Yetkilisine sorulur.
+- Ürün 1 ürün testi devam ederken Ürün 2 ve Ürün 3 tasarlanabilir. Ürün 2 ve Ürün 3 backend geliştirmesi, Ürün Yetkilisinin iş bazında Onay Kanıtıyla başlar. Hiçbir üst ürün, Ürün 1 ürün testini geçmeden finalize edilmez.
 
 ## BÖLÜM III — GÜVENLİK
 

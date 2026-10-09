@@ -1,6 +1,6 @@
 # BALBAL ANAYASASI — 01 ÜRÜN MODÜLÜ
 
-**Balbal Platformu \| Versiyon 2.0 \| Durum: Taslak \| 01.10.2026**
+**Balbal Platformu \| Versiyon 2.1 \| Durum: Taslak \| 09.10.2026**
 
 **Kim okur (insan):** Ürün, frontend ve AI katmanı üzerinde çalışan herkes. Üretici AI için: Ç-17. Önce 00 Çekirdek okunmuş olmalıdır. **Ne düzenler:** Hangi yeteneğin hangi ürüne ait olduğunu ve her ürünün sınırlarını. Ayrıntılı yetenek listesi Ek-B’dedir.
 
@@ -23,6 +23,8 @@ T0, ürün geliştirmesine kaynak ayrılmadan önce yapılan kavramsal testtir: 
 - Belgeleri toplar, sınıflandırır, indeksler, belgeler arasında ilişki kurar.
 - Bilgiyi ve belgeyi bulur, okur ve yetkili Kullanıcıya gösterir.
 - Birden çok kaynaktan beslenir ve **her kaynağın söylediğini ayrı ayrı, kaynağını göstererek** aktarır.
+- Şirketin **iş akışlarını** (talep, onay, satın alma, ödeme talebi, masraf/avans, teslim, ödeme kaydı) şirketin tanımladığı adımlarla kayıt altına alır. Akışlar şirketin temel verisidir; Balbal AI belgeyi bildiği kadar, o belgenin hayatta nasıl uygulandığını da bu kayıtlardan bilir (O-13).
+- Belgelerden **yükümlülükleri** çıkarır ve akış kayıtları, belgeler ve Kullanıcı Notları ile yükümlülükler arasında **bağ önerir**; bağ Kullanıcı onayıyla kesinleşir (O-13).
 - Geçmiş kayıt ile Kullanıcı Notu ve Kullanıcı Yorumlarını (Ç-1) bulup gösterir.
 - **Personel arası sohbet** sunar (Ü-7).
 
@@ -41,6 +43,8 @@ T0, ürün geliştirmesine kaynak ayrılmadan önce yapılan kavramsal testtir: 
 - Müşterinin **önceden tanımlı** Word/Excel şablonlarını gerçekleşmiş veriyle doldurur. Yeni şablon veya serbest rapor üretmez.
 - **Veri taslağı** hazırlar: içeriği yalnızca Kesin Veri ve Kullanıcının verdiği bilgiden oluşan yazı taslağı (ör. “şu belgelerdeki tarihleri içeren bir bilgilendirme yazısı”). Kaynakta olmayan değerlendirme içeren taslak Ürün 3’tür.
 - Eksik bilgi ve belgeyi gösterir.
+- Akış içinde ilgili belge ve kayıtları yan yana gösteren **bulgular** sunar (ör. sözleşme kalemi ile talep tutarı); onay vermez, akışı durdurmaz.
+- Yükümlülüğün durumunu ve son günden sapmayı bağlı olaylardan, gerçekleşmiş veriyle hesaplar (T-4). Sorulduğunda bir süreç adımına bağlı olayları tarih sırasıyla, kaynaklarıyla ve Kullanıcı Notlarını aynen aktararak sunar; neden-sonuç kurmaz.
 - **Süre, deadline ve görev takibi ve hatırlatması** yapar. Takip edilen sürenin konusu (kredi, dava, bakım, sigorta, izin/ruhsat vb.) ürünü değiştirmez; takip ve hatırlatma her konuda Ürün 2 yeteneğidir. Sürenin *sonucuna dair değerlendirme* Ürün 3’tür.
 - Birikmiş Kullanıcı Notu ve Yorumlarını derleyip gösterir.
 - Departmanlar arası görüş talebi akışını sağlar; bu görüşler Kurumsal Hafızaya kaydedilir (O-7).

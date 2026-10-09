@@ -1,6 +1,6 @@
 # BALBAL ANAYASASI — 03 OPERASYON VE VERİ MODÜLÜ
 
-**Balbal Platformu \| Versiyon 2.0 \| Durum: Taslak \| 01.10.2026**
+**Balbal Platformu \| Versiyon 2.1 \| Durum: Taslak \| 09.10.2026**
 
 **Kim okur (insan):** Backend, AI katmanı geliştiricileri ve müşteri operasyonu. Üretici AI için: Ç-17. Önce 00 Çekirdek okunmuş olmalıdır. **Ne düzenler:** Belgenin sisteme girişi, verinin saklanması, erişim, kayıt ve müşteri operasyonları.
 
@@ -93,3 +93,22 @@ Müşteri Anayasaya aykırı bir işlem talep ederse Balbal AI (Ek-D S-8):
 
 Hukuki kurgu KVKK uzmanı görüşüyle kesinleştirilir.
 
+
+## BÖLÜM IV — İŞ AKIŞLARI
+
+### O-13 — Akış Kayıtları ve Yükümlülük Bağı
+
+**Amaç:** Belgeler şirketin ne planladığını, akış kayıtları ne yaşadığını anlatır. Balbal AI ikisini birbirine bağladığında “sözleşmeye uyuldu mu, bir süreç neden uzadı” gibi sorulara kaynaklı cevap verebilir. Bu bağın kurulduğu an olayın doğduğu andır; sonradan kurulması çoğu zaman mümkün değildir.
+
+1. **Akış.** Şirketin kendi iş akışlarıdır (talep, onay, satın alma, ödeme, masraf/avans, teslim vb.). Adımlar, onaycılar ve sıra Müşteri tarafından belirlenir (O-10). Tüm akışlar tek bir akış motoru üzerinde, Müşteriye göre yapılandırılarak çalışır (T-1); akış türü başına ayrı motor yazılmaz.
+2. **Kayıt numarası.** Her akış kaydı tek bir kayıt numarası taşır; numara akış boyunca korunur, red ve revizyonda değişmez. Bağ bu numaraya takılır ve akışın her adımına kendiliğinden geçer.
+3. **Yükümlülük.** Belgeden çıkarılan, konusu ve son tarihi olan maddedir (ör. kredi taksiti, teminat mektubu, raporlama, harç, sigorta yenileme). Balbal AI çıkarır (AI Taslağı, O-3); ilgili departman onaylar. Yükümlülüğün durumu elle girilmez; bağlı olaylardan hesaplanır (T-4).
+4. **Bağ.** Her akış kaydı, belge ve Kullanıcı Notu bir ana bağ (proje · süreç adımı · yükümlülük) taşıyabilir; ek bağlar en aza indirilir. Bağ zorunlu değildir; kayıt “genel” olarak bırakılabilir.
+5. **Bağı kim onaylar.**
+   - Balbal AI önerir. Kaydı oluşturan Kullanıcı, Balbal AI’ın doldurduğu bilgiler için verdiği mevcut onayla bağı da onaylar; ayrı bir onay adımı eklenmez.
+   - Otomatik açılan kayıtlarda (banka bildirimi, banka ekstresi) bağ, kayda ilk dokunan Kullanıcının aynı onayıyla kesinleşir.
+   - Türü bağını kendiliğinden belirleyen akışlarda (vergi ve yasal yükümlülük, bordro) bağ kurala göre kodda atanır; Balbal AI önerisi, notu ve ek onay satırı yoktur.
+   - Sözleşmeye dayalı akışlarda bağ, Balbal AI’ın sözleşme kalemi eşleştirmesinin parçasıdır; ayrıca sorulmaz.
+6. **Değişiklik.** Balbal AI onaylanmış bir bağı kendiliğinden değiştirmez; daha uygun bir eşleşme görürse yalnızca not düşer. Akıştaki her Kullanıcı bağı değiştirebilir; bu yeni bir onay turu başlatmaz ve audit log’a yazılır (O-5).
+7. **Niyet.** Balbal AI iş kararlarının niyetini ve zamanlamasını sorgulamaz; işlemi öne çekmeye zorlamaz. Bir yükümlülüğün son gününden sonraya planlanan işlemde yalnızca bilgi notu düşer ve “Onaylıyorum” ister; gerekçe istemez. Kayıtta gerekçe yoksa, sonradan sorulduğunda gerekçe bulunmadığını söyler; tahmin etmez (Ç-6).
+8. **Ölçüm.** Balbal AI’ın doldurduğu alanlarda Kullanıcı düzeltmeleri (alan, önceki ve sonraki değer) ve onay ekranında geçen süre, ürün testi ve iyileştirme amacıyla baştan kaydedilir (O-5). Bu ölçümler toplu olarak değerlendirilir; kişi bazında performans değerlendirmesi için kullanılmaz.

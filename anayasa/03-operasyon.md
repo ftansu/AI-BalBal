@@ -1,6 +1,6 @@
 # BALBAL ANAYASASI — 03 OPERASYON VE VERİ MODÜLÜ
 
-**Balbal Platformu \| Versiyon 2.1 \| Durum: Taslak \| 09.10.2026**
+**Balbal Platformu \| Versiyon 2.1 \| Durum: Yürürlükte \| 09.10.2026 (onay 09.10.2026)**
 
 **Kim okur (insan):** Backend, AI katmanı geliştiricileri ve müşteri operasyonu. Üretici AI için: Ç-17. Önce 00 Çekirdek okunmuş olmalıdır. **Ne düzenler:** Belgenin sisteme girişi, verinin saklanması, erişim, kayıt ve müşteri operasyonları.
 

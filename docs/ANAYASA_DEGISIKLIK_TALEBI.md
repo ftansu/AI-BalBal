@@ -4,8 +4,8 @@ Bu dosya Balbal Anayasası'na yönelik **tüm değişiklik taleplerini** tek yer
 
 | Talep | Tarih | Konu | Anayasa sürümü | Durum |
 |---|---|---|---|---|
-| **ADT-1** | 09.10.2026 | İş akışı katmanı ve yükümlülük bağı + madde düzeltmeleri | v2.0 → v2.1 | @ftansu onayladı · @ntoydem onayı bekleniyor |
-| **ADT-2** | 09.10.2026 | Ek-F Karakter Tanımı içeriği (F-2…F-8) | — (Ü-11: Anayasa değişikliği değil) | @ftansu onayladı · @ntoydem onayı bekleniyor · PR #16 |
+| **ADT-1** | 09.10.2026 | İş akışı katmanı ve yükümlülük bağı + madde düzeltmeleri | v2.0 → v2.1 | @ftansu ve @ntoydem onayladı (09.10.2026) · yürürlükte |
+| **ADT-2** | 09.10.2026 | Ek-F Karakter Tanımı içeriği (F-2…F-8) | — (Ü-11: Anayasa değişikliği değil) | @ftansu ve @ntoydem onayladı (09.10.2026) · PR #16 |
 
 ---
 
@@ -51,7 +51,7 @@ Bu dosya Balbal Anayasası'na yönelik **tüm değişiklik taleplerini** tek yer
 | Proje Yetkilisi | Karar | Tarih | Kanal |
 |---|---|---|---|
 | @ftansu | ✅ Onaylıyorum | 09.10.2026 | PR #15 yorumu (issuecomment-6076199482) |
-| @ntoydem | ☐ bekleniyor | | |
+| @ntoydem | ✅ Onaylıyorum | 09.10.2026 (teyit 11.10.2026) | PR #15 review (Approve) |
 
 **Nasıl onaylanır:** PR #15'te *Approve* ile review ya da "ADT-1'i onaylıyorum" yorumu. Bir maddeye itiraz varsa madde numarasıyla yazılır (ör. "1.14'e itirazım var"); o madde talepten çıkarılır, kalanlar onaylanabilir.
 
@@ -80,6 +80,6 @@ Bu dosya Balbal Anayasası'na yönelik **tüm değişiklik taleplerini** tek yer
 | Proje Yetkilisi | Karar | Tarih | Kanal |
 |---|---|---|---|
 | @ftansu | ✅ Onaylıyorum | 09.10.2026 | PR #16 yorumu (issuecomment-6076199725) |
-| @ntoydem | ☐ bekleniyor | | PR #16 |
+| @ntoydem | ✅ Onaylıyorum | 09.10.2026 (teyit 11.10.2026) | PR #16 review (Approve) |
 
 **Onaydan sonra:** PR #16 birleştirilir; Ek-F'nin Balbal AI sistem promptuna işlenmesi geliştiricinin işidir (Ç-15/8, bu PR'daki onay Onay Kanıtıdır).

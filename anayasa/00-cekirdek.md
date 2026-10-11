@@ -1,6 +1,6 @@
 # BALBAL ANAYASASI — 00 ÇEKİRDEK
 
-**Balbal Platformu \| Versiyon 2.1 \| Durum: Taslak \| 09.10.2026**
+**Balbal Platformu \| Versiyon 2.1 \| Durum: Yürürlükte \| 09.10.2026 (onay 09.10.2026)**
 
 Bu belge Anayasanın çekirdeğidir. Her Üretici Taraf ve her Üretici AI, her görevden önce bu belgeyi okur. Modüller bu çekirdeği detaylandırır; çekirdekle çelişemez.
 
@@ -282,7 +282,7 @@ Modül başlıklarındaki “Kim okur” satırları insan ekipler içindir; Ür
 | Versiyon | Tarih      | Değişiklik                                                                                                                                                                                                                                                                                        | Onaylayan         |
 |----------|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
 | 1.0      | 29.09.2026 | İlk taslak (dört ayrı belge)                                                                                                                                                                                                                                                                      | Proje Yetkilileri |
-| 1.1      | 29.09.2026 | Katmanlı yapıya geçiş; terimler genişletildi; AI Yorumu/Projeksiyon durumu, güvenlik ilkeleri, oybirliği kuralı eklendi; Ürün 1 personel arası sohbet eklendi                                                                                                                                     | \[onay bekliyor\] |
-| 2.0      | 01.10.2026 | Değerlendirme raporu uygulandı: Balbal AI / Üretici AI ayrımı; AI Yorumu, Birleştirme, AI Taslağı, Onay Kanıtı, Kritik Geliştirme Kararı tanımları; Bölüm IV (Ç-14…Ç-17); Ürün 1 çok projeli sohbet / Ürün 2 kıyas sınırı; Ek-B ürün etiketleri düzeltildi; Ek-D süreçler; Ek-E karar bekleyenler | \[onay bekliyor\] |
-| 2.1      | 09.10.2026 | İş akışı katmanı ve yükümlülük bağı: Ek-B’ye akış, yükümlülük ve bağ yetenekleri; O-13 eklendi; Ü-3/Ü-4 genişletildi; Ç-6 “yetki alanını genişletemez” ve belgeden öğrenen bilgi; Ç-12 banka adı istisnası; T-13/S-9 Ürün 2 ve 3’ün birlikte geliştirilmesi; Ç-17 satırı; Ek-A dolduruldu; Ek-E güncellendi | \[onay bekliyor\] |
+| 1.1      | 29.09.2026 | Katmanlı yapıya geçiş; terimler genişletildi; AI Yorumu/Projeksiyon durumu, güvenlik ilkeleri, oybirliği kuralı eklendi; Ürün 1 personel arası sohbet eklendi                                                                                                                                     | onaylandı (Tansu 09.10.2026 · Naci 09.10.2026, PR #15 Approve) |
+| 2.0      | 01.10.2026 | Değerlendirme raporu uygulandı: Balbal AI / Üretici AI ayrımı; AI Yorumu, Birleştirme, AI Taslağı, Onay Kanıtı, Kritik Geliştirme Kararı tanımları; Bölüm IV (Ç-14…Ç-17); Ürün 1 çok projeli sohbet / Ürün 2 kıyas sınırı; Ek-B ürün etiketleri düzeltildi; Ek-D süreçler; Ek-E karar bekleyenler | onaylandı (Tansu 09.10.2026 · Naci 09.10.2026, PR #15 Approve) |
+| 2.1      | 09.10.2026 | İş akışı katmanı ve yükümlülük bağı: Ek-B’ye akış, yükümlülük ve bağ yetenekleri; O-13 eklendi; Ü-3/Ü-4 genişletildi; Ç-6 “yetki alanını genişletemez” ve belgeden öğrenen bilgi; Ç-12 banka adı istisnası; T-13/S-9 Ürün 2 ve 3’ün birlikte geliştirilmesi; Ç-17 satırı; Ek-A dolduruldu; Ek-E güncellendi | onaylandı (Tansu 09.10.2026 · Naci 09.10.2026, PR #15 Approve) |
 

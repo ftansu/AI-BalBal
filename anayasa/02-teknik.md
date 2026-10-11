@@ -1,6 +1,6 @@
 # BALBAL ANAYASASI — 02 TEKNİK VE GÜVENLİK MODÜLÜ
 
-**Balbal Platformu \| Versiyon 2.1 \| Durum: Taslak \| 09.10.2026**
+**Balbal Platformu \| Versiyon 2.1 \| Durum: Yürürlükte \| 09.10.2026 (onay 09.10.2026)**
 
 **Kim okur (insan):** Backend, frontend ve AI katmanı geliştiricileri. Üretici AI için: Ç-17. Önce 00 Çekirdek okunmuş olmalıdır. **Ne düzenler:** Mimari, sorumluluk alanları, geliştirme akışı ve güvenlik kuralları.
 

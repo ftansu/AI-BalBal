@@ -1,6 +1,6 @@
 # BALBAL ANAYASASI — 01 ÜRÜN MODÜLÜ
 
-**Balbal Platformu \| Versiyon 2.1 \| Durum: Taslak \| 09.10.2026**
+**Balbal Platformu \| Versiyon 2.1 \| Durum: Yürürlükte \| 09.10.2026 (onay 09.10.2026)**
 
 **Kim okur (insan):** Ürün, frontend ve AI katmanı üzerinde çalışan herkes. Üretici AI için: Ç-17. Önce 00 Çekirdek okunmuş olmalıdır. **Ne düzenler:** Hangi yeteneğin hangi ürüne ait olduğunu ve her ürünün sınırlarını. Ayrıntılı yetenek listesi Ek-B’dedir.
 

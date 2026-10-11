@@ -53,6 +53,29 @@ ADIM5_PF_PARTISI_PLAN'ın parti sırası PF → Hukuk → Enerji → Mali İşle
 
 ---
 
+## ÖNEMLİ NOT — Süre ve verim (Tansu → Naci)
+
+Bu bir değerlendirme değil, verimi artırmak için bir soru. İlk iskelet çok kısa sürede çıkmıştı; şimdi her iş daha uzun sürüyor. Bir kısmı normal (yetki, onay akışı, test seti ve belge kütüphanesi koddan çok doğrulama işi), ama nedenini ve bizim payımızı netleştirmek istiyoruz.
+
+**Soru:** Son iki haftada zamanın kabaca yüzde kaçı şuna gitti?
+1. Kodlama (yeni özellik)
+2. Bizden cevap veya onay beklemek
+3. Düzeltme ve geri dönüş (tutarsız ledger/canvas verisi, eski veriden kalan değerler, yeniden üretilen belgeler)
+4. Test, ölçüm ve değerlendirme
+5. Belge üretimi ve tutarlılık kontrolü
+6. Diğer
+
+**Bizden beklentilerin neler?** Verimi artırmak için şunları yaz:
+- Hangi kararlar veya cevaplar bizde bekliyor ve seni en çok yavaşlatan hangisi?
+- Dönüş sıklığı nasıl olsun: anında, günlük ya da haftalık toplu?
+- Hangi bilgiyi baştan verirsek tekrar soru sormana gerek kalmaz?
+- Hangi PR/onay kuralı (Anayasa dahil) işi gereğinden fazla yavaşlatıyor?
+- Verimini düşüren başka bir engel veya eksik var mı (araç, erişim, token, ortam, veri)?
+
+Cevabını bu PR'a yaz. Bir sonraki turda beklentilerini önceliklendirip işleyeceğiz.
+
+---
+
 ## Tansu'dan Naci'ye: yapılacaklar
 
 1. T-11 değerlerini ledger'a işle; kredi toplamı <= capex − özkaynak tutarlılığını kontrol et.

@@ -18,7 +18,9 @@ ima ediliyor** — "5 × 4,4" ifadesiyle birebir örtüşmüyor.
 
 | Kod | Proje | Soru | Cevap |
 |---|---|---|---|
-| T-14.1 | Yeşilova | Türbin/MW çelişkisi — hangisi doğru? **(A)** Tek tip 4,4 MW modu: Faz 1 = 3 × 4,4 = 13,2 MWe, Faz 2 = 2 × 4,4 = 8,8 MWe, toplam 22 MWe; canvas'taki "Faz 1 = 12 MW YEKDEM" rakamı 13,2 olarak düzeltilir. **(B)** Faz bazlı MW sabit kalır (12/10), türbin başına güç fazlar arası farklı (4,0/5,0); T-11.13'ün "5×4,4" ifadesi iptal edilir. | |
+| T-14.1 | Yeşilova | Türbin/MW çelişkisi — hangisi doğru? **(A)** Tek tip 4,4 MW modu: Faz 1 = 3 × 4,4 = 13,2 MWe, Faz 2 = 2 × 4,4 = 8,8 MWe, toplam 22 MWe; canvas'taki "Faz 1 = 12 MW YEKDEM" rakamı 13,2 olarak düzeltilir. **(B)** Faz bazlı MW sabit kalır (12/10), türbin başına güç fazlar arası farklı (4,0/5,0); T-11.13'ün "5×4,4" ifadesi iptal edilir. | **B.** Faz 1 = 3 türbin × 4,0 MW = **12 MWe** (YEKDEM, canvas aynen kalır); Faz 2 = 2 türbin × 5,0 MW = **+10 MWe** (PTF); toplam 5 türbin, **22 MWe**. "5 × 4,4 MW" iptal. Faz 2 türbinleri farklı bir model/mod; belgelerde yalnız "Vestas, 5,0 MW sınıfı" yazılır, ayrıca model adı uydurulmaz. Kontrol: 3 × 4,0 + 2 × 5,0 = 12 + 10 = 22 ✅. Çelişki bizim 6. tur notumuzdan çıktı; yakaladığın için teşekkürler. Bilinçli sapma #4 ("Faz 1'de V136 4,4 MW modu") "Faz 1'de V136 4,0 MW modu" olarak okunur. |
 
 **Not:** PR #15/#16 birleşince banka adı işleme (Anayasa v2.1 Ç-12) başlayacak — şimdilik
 hepsi eski kurgusal adlarıyla (PQR Bank, LMN Bank, DEF Bank) kalıyor.
+
+**Cevaplandı — Tansu (ürün sahibi), 12.10.2026 (T-14.1 = B).** Ürün sahibi onaylı; `AI_ASSUMPTION` gerekmez.

@@ -1,6 +1,6 @@
 # BALBAL ANAYASASI — EK-D: SÜREÇ TANIMLARI
 
-**Balbal Platformu \| Versiyon 2.0 \| 01.10.2026**
+**Balbal Platformu \| Versiyon 2.1 \| 09.10.2026**
 
 Her süreç şu yapıyla tanımlanır: **Kimi bağlar · Başlangıç (tetik) · Adımlar · Bitiş · Çıktı / kayıt.** Bir süreç başlangıç tetiği gerçekleşmeden başlamaz ve bitiş koşulu sağlanmadan bitmiş sayılmaz. Süreçler S-1…S-5 Üretici AI’ı, S-6…S-8 ve S-10 Balbal AI’ı, S-9 Üretici Tarafları bağlar.
 
@@ -38,7 +38,7 @@ Her süreç şu yapıyla tanımlanır: **Kimi bağlar · Başlangıç (tetik) ·
 
 ## S-9 — Ürün Geçişi
 
-**Kimi bağlar:** Üretici Taraflar, Ürün Yetkilisi. **Başlangıç:** Bir ürünün kod testleri geçti. **Adımlar:** Ürün testi (Ürün Yetkilisi) → başarılı ise finalize → bir sonraki ürüne kaynak ayrılır → alt ürünün testleri korunur ve her PR’da çalıştırılır (T-13). **Bitiş:** Ürün Yetkilisinin Kayıtlı Kanalda “ürün testi geçti” onayı. **Çıktı:** Finalize edilmiş ürün; bir sonraki ürüne geçiş kararı.
+**Kimi bağlar:** Üretici Taraflar, Ürün Yetkilisi. **Başlangıç:** Bir ürünün kod testleri geçti. **Adımlar:** Ürün testi (Ürün Yetkilisi) → başarılı ise finalize → bir sonraki ürüne kaynak ayrılır → alt ürünün testleri korunur ve her PR’da çalıştırılır (T-13). **İstisna (T-13):** Ürün 2 ve Ürün 3 birlikte geliştirilir; ürün testi ve ayrım geliştirme tamamlandıktan sonra, her iki ürün için ayrı ayrı yapılır. **Bitiş:** Ürün Yetkilisinin Kayıtlı Kanalda “ürün testi geçti” onayı. **Çıktı:** Finalize edilmiş ürün; bir sonraki ürüne geçiş kararı.
 
 ## S-10 — “Veri Yok” Öncesi ve Sonrası (Platformda)
 

@@ -12,7 +12,9 @@
 | `README.md` | Bu not: sonuçlar, bulgular, kök neden tahminleri, bilgilendirmeler |
 | `BT-01_ozet.json` | Soru başına sayısal kayıt: ID, grup, puan, HTTP durumu, deneme sayısı, süre, izlenen yol, token, kök neden tahmini |
 
-**Bilerek konmayanlar:** soru metinleri, beklenen cevaplar, Balbal'ın cevap metinleri ve tam PDF rapor. QS-v1 soru seti sonraki koşularda (BT-02, BT-03) **kelimesi kelimesine aynı** sorulacak. Sorular repoda olursa sistem istemeden onlara göre ayarlanabilir ve ölçüm Balbal'ın gerçek davranışını değil soruların ezberini ölçer (Ürün 1 notu G.2). Bu, kimseye güvensizlik değil; ölçümün güvenilir olması için standart yöntemdir. Tam rapor ürün sahibinde durur.
+**Bilerek konmayanlar:** soru metinleri, beklenen cevaplar, Balbal'ın cevap metinleri ve tam PDF rapor. Kontrolör kaydı ilke olarak soru metni taşımaz: sorular repoda olursa sistem istemeden onlara göre ayarlanabilir ve ölçüm Balbal'ın gerçek davranışını değil soruların ezberini ölçer (Ürün 1 notu G.2). Bu, kimseye güvensizlik değil; ölçümün güvenilir olması için standart yöntemdir.
+
+**QS-v1'in durumu:** Tam BT-01 raporu ve soru metinleri daha önce PR #31 ile paylaşıldı. Bu yüzden QS-v1 bundan sonra **açık regresyon seti** olarak kullanılır: gelişmeyi koşudan koşuya izlemeye yarar, ama tek başına bağımsız ölçüm sayılmaz. Bağımsız ölçüm için kontrolör ayrıca gizli bir set tutar.
 
 ## 2. Ortam
 
@@ -85,5 +87,5 @@ Anayasa versiyonu : v2.1
 Okunan modüller   : Çekirdek, 02 Teknik (T-13), Ek-D (S-9)
 Ürün etiketi      : Ürün 1 — T-11
 Gizli bilgi / yeni bağımlılık : Yok — T-14 (şifre, adres dışı erişim bilgisi, gerçek veri yok; demo veri kurgusal, Ç-12)
-Kapsam dışı değişiklik        : Yok — yalnız `docs/testler/` altına kayıt eklendi; kod ve Anayasa dosyalarına dokunulmadı — Ç-16
+Kapsam dışı değişiklik        : Yok — yalnız `kontrolor/` altına kayıt eklendi; kod ve Anayasa dosyalarına dokunulmadı — Ç-16
 Kendi başına verilen kararlar : Tam PDF rapor repoya konmadı, çünkü QS-v1 soru metinlerini içeriyor (G.2); yerine soru metinsiz özet kondu — Ç-9

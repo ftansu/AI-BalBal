@@ -6,6 +6,7 @@ Bu dosya Balbal Anayasası'na yönelik **tüm değişiklik taleplerini** tek yer
 |---|---|---|---|---|
 | **ADT-1** | 09.10.2026 | İş akışı katmanı ve yükümlülük bağı + madde düzeltmeleri | v2.0 → v2.1 | @ftansu ve @ntoydem onayladı (09.10.2026) · yürürlükte |
 | **ADT-2** | 09.10.2026 | Ek-F Karakter Tanımı içeriği (F-2…F-8) | — (Ü-11: Anayasa değişikliği değil) | @ftansu ve @ntoydem onayladı (09.10.2026) · PR #16 |
+| **ADT-4** | 12.10.2026 | Ürün 1 süresince geçici plan istisnası (Ç-14/1, T-9) — hızlandırma önerisi taviz 8 | v2.1 + geçici hüküm (süre sonunda kendiliğinden kalkar) | **onaylandı** — @ftansu (12.10.2026) · @ntoydem (12.10.2026, PR #29 yorumu). Ek-C notu (madde 4.4) birleştirmeden sonra işlenecek |
 
 ---
 
@@ -83,3 +84,33 @@ Bu dosya Balbal Anayasası'na yönelik **tüm değişiklik taleplerini** tek yer
 | @ntoydem | ✅ Onaylıyorum | 09.10.2026 (teyit 11.10.2026) | PR #16 review (Approve) |
 
 **Onaydan sonra:** PR #16 birleştirilir; Ek-F'nin Balbal AI sistem promptuna işlenmesi geliştiricinin işidir (Ç-15/8, bu PR'daki onay Onay Kanıtıdır).
+
+---
+
+## ADT-4 — Ürün 1 süresince geçici plan istisnası (12.10.2026)
+
+> ADT-3 numarası üretici adları kararına ayrılmıştır (11.10.2026); o talep henüz açılmadı.
+
+**Neden:** Ürün 1 uzadı; "bitti" tanımı ve 2 Kasım 2026 hedef tarihi iki tarafça kabul edildi (PR #25). İş emirleri akşamları yürüyor ve Kritik Geliştirme Kararı içeren her görevde "önce plan, sonra onay" turu bir günlük gecikme yaratabiliyor. Hızlandırma önerisinin taviz 8'i bu turu Ürün 1 süresince yalnız yüksek riskli kararlara indirmeyi öneriyor; Naci PR #25 yorumunda tarihli ve geçici bir ADT olarak onaylayacağını yazdı.
+
+**Niteliği:** Kalıcı metin değişmez. Ç-14/1 ve T-9'a **tarihli, geçici bir hüküm** eklenir; süre dolunca hüküm kendiliğinden kalkar ve mevcut metin aynen uygulanır.
+
+| # | Madde | Mevcut | Önerilen (geçici hüküm) | Gerekçe |
+|---|---|---|---|---|
+| 4.1 | **T-9** (son madde) ve **Ç-14/1** (son madde) | Görev bir Kritik Geliştirme Kararı (Ç-15) içeriyorsa Üretici AI kodlamadan önce plan sunar ve onay bekler | **Geçici hüküm:** Ürün 1 süresince, Üretici AI kodlamadan önce plan sunup onay beklemeyi yalnız şu dört durumda uygular: Ç-15/3 (yetki katmanı, tenant izolasyonu, erişim kuralı), Ç-15/4 (veri modeli / şema), Ç-15/6 (geri alınamaz git veya üretim ortamı işlemi), Ç-15/8 (Balbal AI sistem promptu, davranış kuralı, Ek-F'nin prompta işlenmesi). Ç-15'in diğer maddelerinde (1, 2, 5, 7, 9) Üretici AI doğrudan uygular ve kararını görev sonu notunda (Ç-14/3) açıkça yazar. | Bekleme süresini yalnız geri dönüşü zor veya güvenlik etkili kararlarda tutmak |
+| 4.2 | **Sınırlar** | — | Bu hüküm şunları **değiştirmez:** Ç-11 onay kademesi (yeni yetenek, araç, veri kaynağı, dış bağlantı için Onay Kanıtı gerekliliği aynen sürer — hüküm yalnız plan sunma adımını kaldırır, onayı kaldırmaz); Ç-10 aykırılık bildirimi; Ç-16 kapsam kuralı; T-14 (ana dala doğrudan push yok, insan incelemesi, gizli bilgi); görev sonu notu zorunluluğu. | Hızlandırmanın güvenlik kurallarını gevşetmemesi |
+| 4.3 | **Süre** | — | Hüküm, iki Proje Yetkilisinin onayıyla başlar ve şu iki tarihten **önce gelende** kendiliğinden sona erer: (a) Ürün 1'in "bitti" tanımının (PR #25) karşılandığının Kayıtlı Kanalda yazılması; (b) **30.11.2026**. Uzatma ancak yeni bir ADT ile yapılır. | Geçici hükmün kalıcılaşmaması |
+| 4.4 | **Ek-C** | — | v2.1 satırına not: "ADT-4 geçici hükmü (12.10.2026 – en geç 30.11.2026)". Hüküm sona erdiğinde not "sona erdi (tarih)" olarak güncellenir. | S-5/3 kayıt |
+
+**Önerilen metinden fark (açıklama):** Hızlandırma önerisi plan zorunluluğunu "sistem promptu, yetki ve şema" olarak üç başlıkta tutuyordu. Bu talep listeye **Ç-15/6 (geri alınamaz üretim işlemi)** ekler. Gerekçe: 12.10.2026 İş Emri I'de canlı DB'ye yükleme öncesi sunulan plan, eski proje adlarını (R1) yakalayıp proje izolasyonunu korudu; bu tür işlemde plan adımı hızdan önemlidir.
+
+### Onay
+
+| Proje Yetkilisi | Karar | Tarih | Kanal |
+|---|---|---|---|
+| @ftansu | ✅ Onaylıyorum | 12.10.2026 | Bu PR (ürün sahibinin talimatıyla hazırlandı) |
+| @ntoydem | ⏳ Bekleniyor | — | Bu PR'da *Approve* ya da "ADT-4'ü onaylıyorum" yorumu |
+
+**Nasıl onaylanır:** Bu PR'da *Approve* ile review ya da "ADT-4'ü onaylıyorum" yorumu. Bir maddeye itiraz madde numarasıyla yazılır (ör. "4.1'de Ç-15/6'ya itirazım var").
+
+**Onaydan sonra:** PR birleştirilir → Ek-C'ye geçici hüküm notu işlenir → güncel metin `ntoydem/company-ai`'ye de eklenir ki geliştiricinin AI'ı her oturumda okusun (T-16). Onaylanana kadar mevcut T-9 ve Ç-14/1 aynen geçerlidir.

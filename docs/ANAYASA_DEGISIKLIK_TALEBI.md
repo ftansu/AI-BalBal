@@ -6,7 +6,7 @@ Bu dosya Balbal Anayasası'na yönelik **tüm değişiklik taleplerini** tek yer
 |---|---|---|---|---|
 | **ADT-1** | 09.10.2026 | İş akışı katmanı ve yükümlülük bağı + madde düzeltmeleri | v2.0 → v2.1 | @ftansu ve @ntoydem onayladı (09.10.2026) · yürürlükte |
 | **ADT-2** | 09.10.2026 | Ek-F Karakter Tanımı içeriği (F-2…F-8) | — (Ü-11: Anayasa değişikliği değil) | @ftansu ve @ntoydem onayladı (09.10.2026) · PR #16 |
-| **ADT-4** | 12.10.2026 | Ürün 1 süresince geçici plan istisnası (Ç-14/1, T-9) — hızlandırma önerisi taviz 8 | v2.1 + geçici hüküm (süre sonunda kendiliğinden kalkar) | @ftansu onayladı (12.10.2026) · @ntoydem onayı bekleniyor |
+| **ADT-4** | 12.10.2026 | Ürün 1 süresince geçici plan istisnası (Ç-14/1, T-9) — hızlandırma önerisi taviz 8 | v2.1 + geçici hüküm (süre sonunda kendiliğinden kalkar) | **onaylandı** — @ftansu (12.10.2026) · @ntoydem (12.10.2026, PR #29 yorumu). Ek-C notu (madde 4.4) birleştirmeden sonra işlenecek |
 
 ---
 

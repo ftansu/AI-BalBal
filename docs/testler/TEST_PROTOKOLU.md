@@ -1,6 +1,6 @@
 # Balbal Ürün 1 — Test Protokolü ve İlerleme Kaydı
 
-**Oluşturma:** 13.10.2026 · **Son güncelleme:** 13.10.2026 (BT-01; koşu zamanlaması eklendi) · **Hazırlayan:** Claude (test ve kontrol), ürün sahibi Tansu adına
+**Oluşturma:** 13.10.2026 · **Son güncelleme:** 13.10.2026 (BT-01; koşu zamanlaması ve BT-02 yükleme testi eklendi) · **Hazırlayan:** Claude (test ve kontrol), ürün sahibi Tansu adına
 
 Bu dosya, Balbal Ürün 1 kabul/gerileme testlerinin **nasıl tekrarlanacağını** ve **koşu sonuçlarını** tutar. Her yeni koşu bu kurallarla yapılır, sonuç aşağıdaki tabloya eklenir. Her koşu kendi tarihli klasöründedir: `docs/testler/<YYYY-MM-DD>_BT-NN/` (rapor PDF, ham sonuçlar JSON, raporu üreten betik). BT-01: `2026-10-13_BT-01/`.
 
@@ -81,3 +81,12 @@ BT-01: 1/5 · 8/10 · 9/10 · 8/10 · 3/10.
 ## 7. QS-v2 adayları (BT-01 kapsamı dışında)
 
 Yetki negatifleri (departman kullanıcısı), proje adsız değer sorusunda netleştirme, Yeşilova faiz çelişkisi (18.240 / 18.912), Karatepe sonraki taksit tuzağı (07.10.2026, 412.500 USD; 31.12 verilmemeli), 3–5 paralel kullanıcı ile kararlılık, otomatik etiket/alan doldurma.
+
+## 8. BT-02'de ZORUNLU ek bölüm — belge yükleme testi (13.10.2026 kararı)
+
+Tansu'ya BT-02 öncesi **hatırlatılır**. QS-v1 puanından ayrı raporlanır.
+
+- **Ön koşul:** Naci'den ayrı test alanı (Test departmanı/klasörü) istenir; yüklenen belgeler 113 belgelik dondurulmuş kütüphaneyi ve ölçümleri kirletmemeli. Test sonunda belgeleri Naci kaldırır ya da test alanında kalır.
+- **Belgeler (5):** dijital PDF sözleşme, taranmış PDF, Excel, fotoğraf (jpg/png), Word — her biri farklı projeye ait, kurgusal (Ç-12).
+- **Ölçülenler (belge başına):** Y1 alanları Balbal kendisi dolduruyor mu (başlık, tür, tarih, karşı taraf); Y2 doğru klasör/departman/proje; Y3 etiket kalitesi (anlamlı, Türkçe, katalogdan); Y4 aranabilir olma süresi (yüklemeden "ready"e); Y5 yükleme sonrası ilgili soruda belgeyi buluyor mu; Y6 eminlik %80 altı alanlarda "Onaylıyorum" zorunlu mu.
+- **Yükleme canlı veriye yazar:** yalnız Tansu'nun koşu günü onayıyla yapılır.

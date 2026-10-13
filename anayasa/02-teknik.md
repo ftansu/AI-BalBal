@@ -53,6 +53,9 @@ B modelinde dış AI servisine yalnızca soruyu cevaplamak için gereken asgari 
 - Hiçbir taraf (insan veya Üretici AI) başka bir tarafın alanındaki kodu **sessizce değiştirmez**; öneri yapar veya bildirir.
 - Taraflar arası ihtiyaçlar yazılı not olarak iletilir. Notlar **mantığı açıklar**; uygulamanın nasıl kurgulanacağı ilgili *insan* tarafa bırakılır.
 - **Talimat Alan bir Üretici AI ise:** uygulama kurgusu AI’ın takdirine bırakılmaz. Üretici AI, görev bir Kritik Geliştirme Kararı (Ç-15) içeriyorsa kodlamadan önce kısa bir plan (dokunulacak dosyalar, veri modeli etkisi, ürün etiketi, yeni bağımlılık var/yok) sunar ve Talimat Vericinin onayını bekler. İçermiyorsa doğrudan uygular ve Ç-16’ya uyar.
+- **Geçici hüküm (ADT-4, Ürün 1 süresince):** Ürün 1 süresince Üretici AI, kodlamadan önce plan sunup onay beklemeyi yalnız şu dört durumda uygular: Ç-15/3 (yetki katmanı, tenant izolasyonu, erişim kuralı), Ç-15/4 (veri modeli / şema), Ç-15/6 (geri alınamaz git veya üretim ortamı işlemi), Ç-15/8 (Balbal AI sistem promptu, davranış kuralı, Ek-F'nin prompta işlenmesi). Ç-15'in diğer maddelerinde (1, 2, 5, 7, 9) Üretici AI doğrudan uygular ve kararını görev sonu notunda (Ç-14/3) açıkça yazar.
+  - **Sınırlar:** Bu hüküm Ç-11 onay kademesini (yeni yetenek, araç, veri kaynağı, dış bağlantı için Onay Kanıtı), Ç-10 aykırılık bildirimini, Ç-16 kapsam kuralını, T-14'ü (ana dala doğrudan push yok, insan incelemesi, gizli bilgi) ve görev sonu notu zorunluluğunu değiştirmez. Yalnız plan sunma adımını kaldırır, onayı kaldırmaz.
+  - **Süre:** 12.10.2026'da başladı (iki Proje Yetkilisinin onayı, PR #29). Şu iki tarihten önce gelende kendiliğinden sona erer: (a) Ürün 1 "bitti" tanımının karşılandığının Kayıtlı Kanalda yazılması; (b) **30.11.2026**. Uzatma ancak yeni bir ADT ile yapılır. Sona erdiğinde bu madde silinmez, "sona erdi (tarih)" olarak işaretlenir.
 
 ### T-10 — Belirsizlik (Uygulama)
 

@@ -1,6 +1,6 @@
 # Balbal Ürün 1 — Test Protokolü ve İlerleme Kaydı
 
-**Oluşturma:** 13.10.2026 · **Son güncelleme:** 13.10.2026 (BT-01) · **Hazırlayan:** Claude (test ve kontrol), ürün sahibi Tansu adına
+**Oluşturma:** 13.10.2026 · **Son güncelleme:** 13.10.2026 (BT-01; koşu zamanlaması eklendi) · **Hazırlayan:** Claude (test ve kontrol), ürün sahibi Tansu adına
 
 Bu dosya, Balbal Ürün 1 kabul/gerileme testlerinin **nasıl tekrarlanacağını** ve **koşu sonuçlarını** tutar. Her yeni koşu bu kurallarla yapılır, sonuç aşağıdaki tabloya eklenir. Her koşu kendi tarihli klasöründedir: `docs/testler/<YYYY-MM-DD>_BT-NN/` (rapor PDF, ham sonuçlar JSON, raporu üreten betik). BT-01: `2026-10-13_BT-01/`.
 
@@ -61,9 +61,10 @@ BT-01: 1/5 · 8/10 · 9/10 · 8/10 · 3/10.
 | Koşu | Tarih | Model / bayraklar | M1 | M2 | M3 | M4 | M6 | Not |
 |---|---|---|---|---|---|---|---|---|
 | BT-01 | 13.10.2026 | gemini-3.5-flash-lite · EK_F off · ASSIST off | %64 | 4 | %18 | 14/20 | 27/45 | Taban |
-| BT-02 | | | | | | | | Haiku + Excel paketi sonrası |
-| BT-03 | | | | | | | | B2 sonrası |
-| BT-04 | | | | | | | | Web testi öncesi |
+| BT-02 | | | | | | | | Haiku + Excel paketi **ve** B2 canlıdayken |
+| BT-03 | | | | | | | | Web testi öncesi kabul koşusu |
+
+**Koşu zamanlaması (13.10.2026 kararı):** Ara/küçük test yapılmaz; her koşu 45 sorunun tamamıdır ve yalnız belirli bir seviyeye ulaşıldığında yapılır. Hazırlık, her sabahki "Balbal GitHub günlük rapor" görevinde kontrol edilir; hazır olunca Tansu'ya bildirilir.
 
 **QS-v1 düzeltme kaydı:** B4 beklenen para birimi EUR (ledger `epc_contract_price` EUR) — 13.10.2026.
 

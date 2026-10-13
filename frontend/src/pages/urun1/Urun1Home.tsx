@@ -65,7 +65,6 @@ export function Urun1Home({ department, uploadPath }: { department: Department; 
   }
 
   const firstName = (user?.display_name ?? "").split(" ")[0];
-  const examples = S.urun1.examples[department.slug as keyof typeof S.urun1.examples] ?? S.urun1.examples.default;
 
   const bar = (
     <form className={`u1-bar${turns.length ? " compact" : ""}`} onSubmit={onSubmit}>
@@ -93,13 +92,6 @@ export function Urun1Home({ department, uploadPath }: { department: Department; 
         <span className="agent-mark u1-agent" aria-hidden="true" />
         <h1 className="u1-greeting">{S.urun1.greeting(firstName)}</h1>
         {bar}
-        <div className="u1-examples">
-          {examples.map((q) => (
-            <button type="button" key={q} className="u1-example" onClick={() => send(q)}>
-              {q}
-            </button>
-          ))}
-        </div>
       </section>
     );
   }

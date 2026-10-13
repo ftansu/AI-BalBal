@@ -17,7 +17,7 @@ Not: Backend `enabled_products` alanını henüz dönmüyor; alan gelene kadar f
 ## Ekran
 
 - Üst bar: şirket, departman, belge yükle, bildirimler, kullanıcı. Üst bardaki arama bu sayfada yok, çünkü arama ortadaki Balbal çubuğudur.
-- Ortada: Balbal simgesi, selamlama, **büyük Balbal çubuğu**, departmana özel örnek sorular.
+- Ortada: Balbal simgesi, selamlama, **büyük Balbal çubuğu**. Örnek soru ya da açıklama metni yok (ürün sahibi kararı 05.10.2026, `docs/NACI_NOT_ACILIS_ORNEK_SORULAR_2026-10-13.md`).
 - Soru sorulunca: soru ve cevaplar ortada akar, çubuk alta iner. Cevap `/api/ask`'ten gelir; kaynaklar tıklanabilir ve indirilebilir (P-4). Kaynak yoksa Balbal uydurmaz.
 - Sağ altta yalnızca ekip sohbeti butonu var; ekip sohbeti Balbal'ı içermez (B-06b). Balbal butonu bu sayfada yok, çünkü Balbal ortadaki çubuktur.
 - Belgeler ve Belge Yükle sayfaları mevcut ekranlarıyla açılır (`/departman/<slug>/belgeler`, `/yukle`).

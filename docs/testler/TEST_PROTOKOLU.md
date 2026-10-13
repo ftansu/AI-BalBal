@@ -1,6 +1,6 @@
 # Balbal Ürün 1 — Test Protokolü ve İlerleme Kaydı
 
-**Oluşturma:** 13.10.2026 · **Son güncelleme:** 13.10.2026 (BT-01; koşu zamanlaması ve BT-02 yükleme testi eklendi) · **Hazırlayan:** Claude (test ve kontrol), ürün sahibi Tansu adına
+**Oluşturma:** 13.10.2026 · **Son güncelleme:** 13.10.2026 (BT-01; koşu zamanlaması, BT-02 yükleme testi ve Y7 tutarlılık senaryosu eklendi) · **Hazırlayan:** Claude (test ve kontrol), ürün sahibi Tansu adına
 
 Bu dosya, Balbal Ürün 1 kabul/gerileme testlerinin **nasıl tekrarlanacağını** ve **koşu sonuçlarını** tutar. Her yeni koşu bu kurallarla yapılır, sonuç aşağıdaki tabloya eklenir. Her koşu kendi tarihli klasöründedir: `docs/testler/<YYYY-MM-DD>_BT-NN/` (rapor PDF, ham sonuçlar JSON, raporu üreten betik). BT-01: `2026-10-13_BT-01/`.
 
@@ -89,4 +89,5 @@ Tansu'ya BT-02 öncesi **hatırlatılır**. QS-v1 puanından ayrı raporlanır.
 - **Ön koşul:** Naci'den ayrı test alanı (Test departmanı/klasörü) istenir; yüklenen belgeler 113 belgelik dondurulmuş kütüphaneyi ve ölçümleri kirletmemeli. Test sonunda belgeleri Naci kaldırır ya da test alanında kalır.
 - **Belgeler (5):** dijital PDF sözleşme, taranmış PDF, Excel, fotoğraf (jpg/png), Word — her biri farklı projeye ait, kurgusal (Ç-12).
 - **Ölçülenler (belge başına):** Y1 alanları Balbal kendisi dolduruyor mu (başlık, tür, tarih, karşı taraf); Y2 doğru klasör/departman/proje; Y3 etiket kalitesi (anlamlı, Türkçe, katalogdan); Y4 aranabilir olma süresi (yüklemeden "ready"e); Y5 yükleme sonrası ilgili soruda belgeyi buluyor mu; Y6 eminlik %80 altı alanlarda "Onaylıyorum" zorunlu mu.
+- **Tutarlılık senaryosu (Y7):** Aynı projeye (ör. Karatepe) ikinci bir olumlu ÇED kararı yüklenir. Beklenen (hedef davranış): Balbal mevcut ÇED'i fark eder, yazışarak "bu yenisi nereden çıktı?" diye sorar, varsayım yapmaz, sonda tek satırlık özet + onay ister. Bugünkü sistemde beklenen sonuç: fark etmez — taban ölçüm olarak kaydedilir.
 - **Yükleme canlı veriye yazar:** yalnız Tansu'nun koşu günü onayıyla yapılır.

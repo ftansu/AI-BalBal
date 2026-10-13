@@ -196,6 +196,7 @@ Her görev üç aşamada yürütülür. Aşamalar atlanmaz.
 - Görev türü belirlenir ve Ç-17 tablosuna göre okunacak modüller açılır.
 - Görev Kapsamı (Ç-1) tespit edilir: talimatta ne yazıyor, ne yazmıyor.
 - Görev bir Kritik Geliştirme Kararı içeriyorsa (Ç-15) kodlamadan önce kısa bir plan Talimat Vericiye sunulur (T-9).
+  - **Geçici hüküm (ADT-4; 12.10.2026 – en geç 30.11.2026):** Ürün 1 süresince plan sunma ve onay bekleme yalnız Ç-15/3, Ç-15/4, Ç-15/6 ve Ç-15/8'de uygulanır. Diğer maddelerde Üretici AI doğrudan uygular ve kararını görev sonu notuna yazar. Ayrıntı ve sınırlar: T-9.
 
 **2. Görev sırasında**
 
@@ -284,5 +285,5 @@ Modül başlıklarındaki “Kim okur” satırları insan ekipler içindir; Ür
 | 1.0      | 29.09.2026 | İlk taslak (dört ayrı belge)                                                                                                                                                                                                                                                                      | Proje Yetkilileri |
 | 1.1      | 29.09.2026 | Katmanlı yapıya geçiş; terimler genişletildi; AI Yorumu/Projeksiyon durumu, güvenlik ilkeleri, oybirliği kuralı eklendi; Ürün 1 personel arası sohbet eklendi                                                                                                                                     | onaylandı (Tansu 09.10.2026 · Naci 09.10.2026, PR #15 Approve) |
 | 2.0      | 01.10.2026 | Değerlendirme raporu uygulandı: Balbal AI / Üretici AI ayrımı; AI Yorumu, Birleştirme, AI Taslağı, Onay Kanıtı, Kritik Geliştirme Kararı tanımları; Bölüm IV (Ç-14…Ç-17); Ürün 1 çok projeli sohbet / Ürün 2 kıyas sınırı; Ek-B ürün etiketleri düzeltildi; Ek-D süreçler; Ek-E karar bekleyenler | onaylandı (Tansu 09.10.2026 · Naci 09.10.2026, PR #15 Approve) |
-| 2.1      | 09.10.2026 | İş akışı katmanı ve yükümlülük bağı: Ek-B’ye akış, yükümlülük ve bağ yetenekleri; O-13 eklendi; Ü-3/Ü-4 genişletildi; Ç-6 “yetki alanını genişletemez” ve belgeden öğrenen bilgi; Ç-12 banka adı istisnası; T-13/S-9 Ürün 2 ve 3’ün birlikte geliştirilmesi; Ç-17 satırı; Ek-A dolduruldu; Ek-E güncellendi | onaylandı (Tansu 09.10.2026 · Naci 09.10.2026, PR #15 Approve) |
+| 2.1      | 09.10.2026 | İş akışı katmanı ve yükümlülük bağı: Ek-B’ye akış, yükümlülük ve bağ yetenekleri; O-13 eklendi; Ü-3/Ü-4 genişletildi; Ç-6 “yetki alanını genişletemez” ve belgeden öğrenen bilgi; Ç-12 banka adı istisnası; T-13/S-9 Ürün 2 ve 3’ün birlikte geliştirilmesi; Ç-17 satırı; Ek-A dolduruldu; Ek-E güncellendi. **Not:** ADT-4 geçici hükmü (12.10.2026 – en geç 30.11.2026) | onaylandı (Tansu 09.10.2026 · Naci 09.10.2026, PR #15 Approve); ADT-4: Tansu 12.10.2026 · Naci 12.10.2026 (PR #29) |
 

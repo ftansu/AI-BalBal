@@ -11,7 +11,7 @@
 
 | Ekran | Durum |
 |---|---|
-| **Ürün 1 ana sayfası** (canvas: "X Platformu — Ürün 1") — **yalnızca Ürün 1 içindir** | Çalışıyor: ortada büyük Balbal çubuğu, departmana özel örnek sorular, kaynaklı cevaplar; tablo/gösterge yok. Yalnızca Ürün 1 açıkken görünür. Ayrıntı: [`docs/URUN1_ARAYUZ.md`](docs/URUN1_ARAYUZ.md) |
+| **Ürün 1 ana sayfası** (canvas: "X Platformu — Ürün 1") — **yalnızca Ürün 1 içindir** | Çalışıyor: ortada büyük Balbal çubuğu, kaynaklı cevaplar; örnek soru yok (ürün sahibi kararı, PR #34); tablo/gösterge yok. Yalnızca Ürün 1 açıkken görünür. Ayrıntı: [`docs/URUN1_ARAYUZ.md`](docs/URUN1_ARAYUZ.md) |
 | Giriş (canvas: Giris.dc.html) | Çalışıyor: marka alanı + giriş kartı, şifre göster/gizle, backend'in hata mesajları |
 | Üst bar: arama, belge yükle, bildirimler, kullanıcı menüsü, **"Bugün" rozeti** | Arama `GET /api/search` ile çalışıyor (belge içeriği + metadata — snippet ve sayfa —, proje, kişi; B-14). Kişi araması rehberden (`/api/directory`, B-05). Bildirimler backend bekliyor (B-02). "Bugün" rozeti `/api/auth/login`\|`/me`'nin `today`/`demo_mode_enabled` alanlarını gösterir — sistemin kendi tarihi (demo veya gerçek takvim, company-ai ADR-026); arayüz tarih hesabı yapmaz |
 | Balbal penceresi: geçmiş sorular, cevap türü + ürün katmanı rozeti (proje seçimi yok, canvas v165), Ç-7 veri durumu uyarıları (`warnings`), numaralı kaynaklar (önceki/sonraki versiyon tıklanabilir, proje adı kartta), geri bildirim | `/api/ask` ile çalışıyor (`product_level`, `warnings`, `audit_log_id`). Geçmiş şimdilik oturumda tutuluyor (B-03), geri bildirim ucu backend bekliyor (B-04) |
@@ -24,7 +24,7 @@
 | Yönetim › Klasörler ve erişim: klasör ağacı, departman bazında görme/değiştirme, genel tablo, değişiklik geçmişi | Çalışıyor (`/api/admin/folders*`, B-26) |
 | **Etiketler ve ek alanlar (B-28b)**: etiketler katalogdan seçilir (yazılmaz; kimlik / değişiklik), 1. aşama panelinde Balbal'ın açtığı veya personelin eklediği **ek alanlar** (+ Alan ekle, en fazla 20, kaynak rozeti Balbal/Personel), tür rehberinden ipucu; Yönetim › **Etiketler** (ekle, emekli et, geçmiş) ve **Tür rehberi** (aile başına desen, ek alan, etiket, vurgu, Balbal ipucu; "Sinyaller" + "Rehbere ekle"); arama sonucunda eşleşme rozeti (Etiket / Ek alan) | Çalışıyor (`/api/tags`, `/api/admin/tags`, `/api/document-type-guide`, `/api/admin/document-type-guide*`, `/api/admin/events`, `matched_on`; company-ai ADR-025) |
 | Belgeler: klasör ağacı (kendi klasörlerim + bana açılanlar), klasörde arama, proje süzme; Belge Yükle'de klasör seçimi | Çalışıyor (`/api/folders`, B-26). Roller: `department_manager` (B-08) kendi departmanının kısıtlı belgelerini görür; kartlar üyelik bazlı |
-| Ürün anahtarı (B-25) | `enabled_products` backend'den geliyor. P2 kapalıyken "Gündeminiz", görüş talebi sekmesi ve Excel örnek soruları gizli (ekip sohbeti her pakette açık); cevap kartında `product_level` rozeti; alan gelmezse yalnızca P1 varsayılır |
+| Ürün anahtarı (B-25) | `enabled_products` backend'den geliyor. P2 kapalıyken "Gündeminiz" ve görüş talebi sekmesi gizli (ekip sohbeti her pakette açık); cevap kartında `product_level` rozeti; alan gelmezse yalnızca P1 varsayılır |
 | İzin talebi (Balbal ile), Taleplerim, Onay kuyruğu | Henüz tasarlanmadı; önce canvas. Backend sözleşmesi hazır (B-22, `proposed.ts` §8) |
 | Gelen yazı / dava evrakı → cevap ve dilekçe taslağı | Henüz tasarlanmadı; önce canvas. Backend sözleşmesi hazır (B-23, `proposed.ts` §9) |
 

@@ -39,19 +39,9 @@ export const S = {
   },
   ask: {
     generalTitle: "Genel Sor",
-    scopeNote: (name: string) => `Yalnızca ${name} belgelerinde arar.`,
     placeholder: "Sorunuzu yazın",
     submit: "Sor",
     submitting: "Cevap bekleniyor…",
-    examples: "Örnek:",
-    exampleQuestions: [
-      "Ankara RES'in güncel minimum DSCR covenant'ı nedir?",
-      "Ankara RES 2026 Q2 DSCR kaç?",
-      "Güncel DSCR kaç?",
-      "İzmir RES'in COD tarihi nedir?",
-    ],
-    /** Excel hesabı isteyen örnekler — yalnızca Ürün 2 açıkken gösterilir (ADR-022). */
-    exampleQuestionsP2: ["Ankara RES 2026 Q2 DSCR kaç?", "Güncel DSCR kaç?"],
     productLevelTitle: "Cevabı veren ürün katmanı",
     /** Ç-7 veri durumu etiketleri (Balbal Anayasası v2.0). */
     warningKind: {
@@ -572,42 +562,5 @@ export const S = {
     placeholderFollow: "Devam edin veya yeni bir soru sorun…",
     send: "Sor",
     newQuestion: "Yeni soru",
-    examples: {
-      finans: [
-        "Ankara RES kredi sözleşmesinin vadesi ne zaman doluyor?",
-        "Kredi sözleşmesinin son tadili hangi maddeleri değiştirdi?",
-        "Ankara RES sigorta poliçesi ne zaman bitiyor?",
-      ],
-      mali_isler: [
-        "Son yüklenen fatura hangi iş için kesildi?",
-        "2025 bağımsız denetim raporunu hangi firma hazırladı?",
-        "Vergi levhasının güncel hali hangisi?",
-      ],
-      hukuk: [
-        "Ankara RES EPC sözleşmesinde gecikme cezası maddesi nedir?",
-        "İzmir RES davasında son duruşma ne zaman yapıldı?",
-        "Hisse rehni sözleşmesi hangi bankayla imzalandı?",
-      ],
-      idari_isler: [
-        "Ofis kira sözleşmesi ne zaman sona eriyor?",
-        "Şirket araçlarının kasko poliçeleri hangi sigortada?",
-        "Jeneratör bakım sözleşmesi kiminle yapıldı?",
-      ],
-      ik: [
-        "Personel yönetmeliğine göre fazla mesai nasıl onaylanır?",
-        "Yıllık izin süreleri yönetmelikte nasıl tanımlı?",
-        "Organizasyon şemasının güncel hali hangisi?",
-      ],
-      enerji_grubu: [
-        "İzmir RES ÇED başvurusu hangi tarihte yapıldı?",
-        "Ankara RES son arıza raporu neyi anlatıyor?",
-        "İzmir RES bağlantı görüşü hangi trafo merkezini gösteriyor?",
-      ],
-      default: [
-        "Bu departmanın en son yüklenen belgesi hangisi?",
-        "Güncel sözleşmelerimiz hangileri?",
-        "Bu konuyla ilgili belge var mı?",
-      ],
-    },
   },
 } as const;

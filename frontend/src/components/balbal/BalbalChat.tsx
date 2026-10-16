@@ -126,13 +126,6 @@ export function BalbalChat({ initialQuestion, onClose }: { initialQuestion: stri
                 <span className="agent-mark large" aria-hidden="true" />
                 <h2>{S.balbal.emptyTitle}</h2>
                 <p className="muted">{S.balbal.emptyHint}</p>
-                <div className="example-list">
-                  {S.ask.exampleQuestions.map((q) => (
-                    <button type="button" key={q} className="example-button" onClick={() => void send(q)}>
-                      {q}
-                    </button>
-                  ))}
-                </div>
               </div>
             )}
             {active?.turns.map((t) => (

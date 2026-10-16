@@ -5,7 +5,6 @@ import { ask } from "../api/ask";
 import { useDocuments } from "../api/documents";
 import { projectNameById, useProjects } from "../api/projects";
 import type { AskResponse, Department } from "../api/types";
-import { useHasProduct } from "../auth/useProduct";
 import { S } from "../lib/strings";
 import { AnswerView } from "./balbal/AnswerView";
 import { ErrorBox } from "./ErrorBox";
@@ -17,7 +16,6 @@ import { ErrorBox } from "./ErrorBox";
 export function AskPanel({ department }: { department?: Department }) {
   const [question, setQuestion] = useState("");
   const [result, setResult] = useState<AskResponse | null>(null);
-  const hasP2 = useHasProduct("P2");
   const documents = useDocuments(department ? { department: department.slug } : {});
   const projects = useProjects();
   const projectNames = projectNameById(projects.data);
@@ -29,9 +27,6 @@ export function AskPanel({ department }: { department?: Department }) {
     mutationFn: (q: string) => ask({ question: q, department: department ? department.slug : undefined }),
     onSuccess: (data) => setResult(data),
   });
-  // P1: Excel-based example questions would only trigger the `product_limit` warning (ADR-022).
-  const excelOnly: readonly string[] = S.ask.exampleQuestionsP2;
-  const examples = hasP2 ? S.ask.exampleQuestions : S.ask.exampleQuestions.filter((q) => !excelOnly.includes(q));
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -41,9 +36,10 @@ export function AskPanel({ department }: { department?: Department }) {
     mutation.mutate(q);
   }
 
+  // Product-owner decision (05.10.2026, PR #34): the question screen shows only the question
+  // field and the "Sor" button — no scope note, no example questions.
   return (
     <div>
-      <p className="notice">{department ? S.ask.scopeNote(department.name) : S.home.askHint}</p>
       <form className="ask-form" onSubmit={onSubmit}>
         <textarea
           value={question}
@@ -57,14 +53,6 @@ export function AskPanel({ department }: { department?: Department }) {
           {mutation.isPending ? S.ask.submitting : S.ask.submit}
         </button>
       </form>
-      <div className="examples">
-        {S.ask.examples}{" "}
-        {examples.map((q) => (
-          <button type="button" key={q} className="link-button" onClick={() => setQuestion(q)}>
-            {q}
-          </button>
-        ))}
-      </div>
       {mutation.isError && <ErrorBox error={mutation.error} />}
       {result && (
         <AnswerView

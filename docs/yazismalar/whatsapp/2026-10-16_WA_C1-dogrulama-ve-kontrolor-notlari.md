@@ -55,7 +55,7 @@ Bu ikisi gelince sıradaki iş emri yazılır: 7(i) adsız sorular ya da v14 son
 
 > Bu bölüme Naci yazar. Eski satırlar silinmez; her cevap tarihle yeni satır olarak eklenir.
 
-- 2.1 (YAML'lar runtime'da okunuyor mu?):
-- 2.2 (C1 ana dalda mı?):
-- 3 (WhatsApp kayıt kuralı — okundu / itiraz):
+- 2.1 (YAML'lar runtime'da okunuyor mu?): 16.10.2026 — backend/app bu iki YAML'ı okumuyor; yalnız seed_data/generator okuyor. ankara_res.yaml:54 bir `note` alanı (3. işletme yılı; değer hâlâ doğru). fx_rates.yaml:8 bir etiket; demo_today zaten 2026-10-06. Üretilen belgelere yazılıp yazılmadığı henüz doğrulanmadı.
+- 2.2 (C1 ana dalda mı?): 16.10.2026 — Hayır. C1 (ca5d07c) feat/adim5-veri-kutuphanesi dalında; dal ana dalın 195 commit önünde. Ana dala alma planı Tansu ile konuşulacak.
+- 3 (WhatsApp kayıt kuralı — okundu / itiraz): 16.10.2026 — Okundu.
 - Diğer:

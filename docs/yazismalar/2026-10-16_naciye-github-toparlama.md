@@ -83,7 +83,7 @@ Tansu
 
 > Bu bölüme Naci yazar. Eski satırlar silinmez; her cevap tarihle yeni satır olarak eklenir.
 
-- 2 (eklenen WA dosyaları):
-- 3 (company-ai ana dal planı):
-- 5 (kural — okundu / itiraz):
+- 2 (eklenen WA dosyaları): 16.10.2026 — Verimlilik görüşü Word'ü (Balbal_Gelistirici_Gorusu_Verimlilik_Raporu_2026-10-16.docx) repoya ayrıca eklenecek.
+- 3 (company-ai ana dal planı): 16.10.2026 — Dal ana dalın 195 commit önünde. Plan henüz kesin değil; Tansu ile konuşulacak.
+- 5 (kural — okundu / itiraz): 16.10.2026 — Okundu.
 - Diğer:

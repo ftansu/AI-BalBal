@@ -72,10 +72,10 @@ Tansu
 
 > Bu bölüme Naci yazar. Eski satırlar silinmez; her cevap tarihle yeni satır olarak eklenir.
 
-- §1 V21 dondurma — sürüm/commit:
-- §3a blok-bayrak eşleme listesi — durum:
-- §3b embedding planı — durum:
-- §4 ADR-032 ile çelişki var mı:
-- §5 `previous_question`:
-- §5 Excel 1×1 / B-01 önerisi:
-- Diğer:
+- §1 V21 dondurma — sürüm/commit: 16.10.2026 — Puanlayıcı v2.1, commit 773b3a4 (company-ai, feat/adim5-veri-kutuphanesi). V21'e yeni kural eklenmeyecek; kapı koşuları bu sürümle yapılacak. V22 yalnız liste, kod yok.
+- §3a blok-bayrak eşleme listesi — durum: 16.10.2026 — Henüz hazır değil; K0'dan önce çıkarılacak.
+- §3b embedding planı — durum: 16.10.2026 — Henüz hazır değil. Yalnız eval kapsamında kısa plan gelecek (Ç-15/5, Ç-11).
+- §4 ADR-032 ile çelişki var mı: 16.10.2026 — Kısmen. Üç alanı (projects, project_bound, company_level) mevcut router JSON'una eklemek ek LLM çağrısı getirmez. Ama bugün bilinmeyen proje ve "var mı/neler" soruları router'dan ÖNCE kodla karara bağlanıyor, router hiç çağrılmıyor. Proje alanı router çıktısına bağlanırsa bu sorularda bir router çağrısı (yaklaşık 0,001 USD) eklenir. Bilinmeyen proje ve yetki doğrulaması kodda kalmalı. ADR-032 güncellenmeli; router prompt planı Ç-15/8 ile gelecek.
+- §5 `previous_question`: 16.10.2026 — Evet. Router ve cevap çağrısı bunu alıyor (EK_F_MODE açıkken; canlıda açık). Yalnız önceki sorunun metni gidiyor, cevabı gitmiyor.
+- §5 Excel 1×1 / B-01 önerisi: 16.10.2026 — B-01'in kök nedeni 1×1 sınırı değil, router promptu (ödeme planı workbook'unu DATA ipucu saymıyor). Onaylanan 12. madde (tüm ödeme planı workbook'ları için genel ipucu) bunu çözer. 1×1 ayrı konu: tek değer yeter, ama çok satırlı/çok kolonlu cevap için sonuç tablosu gerekir; önce plan yazılacak.
+- Diğer: 16.10.2026 — Verimlilik raporuna yazılı görüş Word olarak WhatsApp'tan gitti (Balbal_Gelistirici_Gorusu_Verimlilik_Raporu_2026-10-16.docx); repoya ayrıca eklenecek.

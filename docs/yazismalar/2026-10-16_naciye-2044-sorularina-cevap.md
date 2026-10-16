@@ -104,9 +104,32 @@ Kendi başına verilen kararlar : Not, mevcut düzen gereği `docs/yazismalar/` 
 > Bu bölüme Naci yazar. Eski satırlar silinmez; her cevap tarihle yeni satır olarak eklenir.
 
 - S1 (v2.2 alanı) — commit:
+  - 16.10.2026 (Naci): Commit: ntoydem/company-ai `c83f40a` (dal `feat/adim5-veri-kutuphanesi`). Rapor: `docs/reports/IS_EMRI_2026-10-16V22.md`.
+    - `answer_policy: either` uygulandı (R10, ablasyon bayrağıyla; Q9 doğrulama kuralı). GEN-GEN-001/002/003'e verildi. GEN-GEN-002'ye Kızılova yasağı eklenmedi.
+    - Netleştirici soru bu üç soruda geçmiyor.
+    - LLM'siz yeniden puanlama (99 ölçülen soru):
+      - M1: 70/99. Net değişim 0: GEN-GEN-003 ❌→✅, GEN-GEN-002 ✅→❌.
+      - N1: 68/99. GEN-GEN-002 ve 003 düştü, çünkü N1 tanım sorusuna proje soruyor.
+      - Resmî M1 71/99 değişmedi.
+    - V14 raporundaki "M1 71/99 olur" tahminimiz GEN-GEN-002 için yanlıştı: M1'in cevabı "bulamadım" değil, yalnız proje sorusu. Düzelttik.
+    - N1'in tanım sorusuna proje sorması rapora "AI konumlandırma adayı" olarak yazıldı. Koda kelime kuralı yazılmadı.
 - S3 (LEG-004) — ledger'a göre hangi tarih:
 - S4/S5 (canlı işlem) — yedek, smoke, rapor:
 - S6 (etiket) — commit:
 - S9 (B-01) — çözüm yolu:
 - S11 (GEN-DSC-003-F) — commit:
+  - 16.10.2026 (Naci): Commit: `c83f40a`.
+    - Soru: finans kullanıcısıyla "Sigorta ne zaman bitiyor?". Beklenen: seçenekleri yalnız Karatepe ve Yeşilova olan tek netleştirici soru. Kızılova vb. yasak.
+    - Veri eval DB'den (yalnız SELECT) doğrulandı: finans kullanıcısı yalnız Karatepe ve Yeşilova sigorta belgesini görüyor.
+    - GEN-DSC-003 (enerji) değişmedi.
+    - Henüz ölçülmedi; eski koşularda ham cevabı yok. İlk ölçüm 6 soruluk koşuda olacak. Madde 1 uygulanana kadar ❌ beklenir.
 - Diğer:
+  - 16.10.2026 (Naci): V22 sonucundan Tansu'ya 2 karar sorusu:
+    - Q-1 (kategori eşiği): Soru sayısı 99'dan 100'e çıktı; "ambiguous" kategorisi 8'den 9 soruya çıktı. Kategori eşiği %80.
+      - 8 soruda 7 geçen eşiği tutuyordu (%87,5). 9 soruda 7/9 = %77,8 tutmaz; en az 8/9 gerekir.
+      - GEN-DSC-003 zaten ❌. 003-F de beklendiği gibi ❌ olursa ambiguous 7/9 olur ve kategori bayrağı düşer.
+      - Toplam %75 kapısı etkilenmiyor: 75/100 = %75,0, yani yine aynı sayıda (75) geçen soru gerekiyor.
+      - Soru: Kapı tanımı kategori bayrağını da içeriyor mu? İçeriyorsa (a) 003-F kapı ölçümünden ayrı mı tutulsun, yoksa (b) ambiguous eşiği 9 soruya göre yeniden mi belirlensin? Karar Tansu'nun; kodda sayma kuralını değiştirmedik.
+    - Q-2 ("bulamadım" sonrası yardım): "Bulamadım" cümlesinden sonra gelen yardım sorusu ve belge listesi şu an (b) cevabını bozmuyor; GEN-GEN-001 iki koşuda böyle geçiyor.
+      - Daha katı okuma ("yardım sorusu taşıyan her yanıt düşer") S1 metninde yok; uygulamadık.
+      - Soru: Böyle kalsın mı?

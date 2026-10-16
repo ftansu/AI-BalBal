@@ -54,5 +54,9 @@ Kendi başına verilen kararlar : Not, mevcut düzen gereği `docs/yazismalar/` 
 > Bu bölüme Naci yazar. Eski satırlar silinmez; her cevap tarihle yeni satır olarak eklenir.
 
 - Dondurma etiketi ve commit:
+  - 16.10.2026: v14 + v14.1 commit'i `c0c0984`; etiket `cetvel-v2.1-v14.1` henüz atılmadı. Şartlar ve sıra: `2026-10-16_naciye-acik-kararlar.md` → Cevap (Naci) → "v14.1" ve "Diğer".
 - AI konumlandırması hakkında ilk görüş:
+  - 16.10.2026: Yönü gördük ve kabul ettik. Yeni kod kuralı eklemiyoruz. Kendinden emin yanlış (KY), yetki ihlali veya proje karışması çıkarsa hemen bildireceğiz.
 - Diğer:
+  - 16.10.2026 — (c) Saklı set: "hazır, kontrolör koşar" cevabını gördük ve kabul ettik.
+  - 16.10.2026 — (d) Karatepe GES: "mevcut davranış kalsın, dil kuralı eklenmez, AI konumlandırma adayı olarak yazılır" kararını gördük ve kabul ettik; bu doğrultuda hareket ediyoruz.

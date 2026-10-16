@@ -99,8 +99,19 @@ Kendi başına verilen kararlar : Not, mevcut düzen gereği `docs/yazismalar/` 
 > Bu bölüme Naci yazar. Eski satırlar silinmez; her cevap tarihle yeni satır olarak eklenir.
 
 - Madde 1 (seçenekleri daraltma) — plan:
+  - 16.10.2026: Plan henüz yazılmadı. Sıra: etiketten sonra önce kısa plan (yöntem + ölçü), sonra kod. Plan yazılınca bu satırın altına eklenecek.
+  - 16.10.2026 — **Bulgu (GEN-DSC-003), karar senin:** "enerji" kullanıcısı yalnız Karatepe'nin sigorta belgelerini görüyor. Yeşilova Sigorta Zeyilnamesi ve Karatepe Insurance Assignment (finans), Sigorta Programı notları ve grup özeti (idari_isler) enerjiye kapalı. Yetki içinde beklenen seçenek yalnız Karatepe. Yeşilova'yı seçenek olarak beklemek, görünmeyen belgenin varlığını sızdırır (değişmez kural 1); bu yüzden öyle kodlamadık. Çok projeli sigorta vakası ölçülmek istenirse iki yol var: (a) `ask_as_user` finans yapılır (Karatepe + Yeşilova), (b) ayrı varyant GEN-DSC-003-F eklenir. Bu bir soru seti kararı; uygulanmadı.
 - Madde 2 (tek aday) — görüş:
+  - 16.10.2026: "Bugünkü davranış kalsın" kararını gördük ve kabul ettik; bu doğrultuda hareket ediyoruz.
 - Madde 3 (❗ çelişkili veri) — plan / commit:
+  - 16.10.2026: Plan henüz yazılmadı. Prompt değişirse önce kısa plan (Ç-15/8), sonra kod. Plan yazılınca buraya eklenecek.
 - Madde 4 (Hukuk görünürlüğü) — plan:
+  - 16.10.2026: Kapıdan sonra; önce plan. Plan henüz yazılmadı.
 - v14.1 uygulandı mı — commit:
+  - 16.10.2026: Uygulandı — commit `c0c0984` (ntoydem/company-ai, dal `feat/adim5-veri-kutuphanesi`). 5 sorunun 5'i de uygulandı. Puanlayıcı kodu değişmedi. Sürüm alanı int olduğu için "14" kaldı; v14.1 kaydı soru notlarında. Rapor: `docs/reports/IS_EMRI_2026-10-16V141.md`.
+  - LLM'siz yeniden puanlama: M1 70/99, N1 70/99 (resmî M1 71/99 değişmedi).
+  - Önce/sonra: GEN-DSC-004 ❌→✅ (M1, N1). GEN-DSC-003: M1 ✅→❌ (proje sormadan cevapladı), N1 ❌ (Kızılova'yı da saydı). ANK-MIX-001 ikisinde ❌ (M1 projesiz rakam verdi, N1 Kızılova'yı da saydı). GEN-DSC-011/011-K: ham cevaplar eski metne ait; yeni metin sonraki canlı koşuda ölçülecek.
+  - Alan seçimi bildirimi (itiraz edersen geri alınır): GEN-DSC-003/004 kategorisi discovery → ambiguous yapıldı (discovery, `answered_ok`'u koşulsuz True yapıyor ve belge gösterimi istiyor; `validate_ledger` Q8 discovery + expect_no_answer birleşimini reddediyor). ANK-MIX-001 kategorisi mixed kaldı, `required_sources` boşaltıldı (proje seçildikten sonraki MIXED cevap kapsam dışı). GEN-DSC-011 `required_sources` "Financial Model 2026" oldu.
 - Diğer:
+  - 16.10.2026 — Dondurma etiketi `cetvel-v2.1-v14.1` henüz atılmadı. Şartlar: (1) GEN-GEN-001/002/003 puanlayıcı kararı — v2.2 `answer_policy: either` önerimiz, onayını bekliyor (PR #55); (2) Kızılova tarih düzeltmesi — K1 planı hazır (`docs/reports/IS_EMRI_2026-10-16K1_PLAN.md`), canlı adım için açık onay gerekir.
+  - 16.10.2026 — Etiketten sonraki sıra: Madde 1 (önce kısa plan, sonra kod), Madde 3 ❗ çelişkili veri (prompt değişirse önce plan), Excel proje ayrımı (önce tek sayfalık plan). Bu planlar henüz yazılmadı; yazılınca ilgili Cevap satırına eklenecek. Madde 4 (KP-3) ve Madde 5 (takma ad alanı) kapıdan sonra, plan önce.

@@ -4,7 +4,7 @@
 **Kimden:** Tansu (Ürün Yetkilisi / Proje Yetkilisi). Metni Claude, Tansu'nun talimatı ve onayıyla (16.10.2026, 21:45) hazırladı.
 **Kime:** Naci ve Naci'nin AI'ı
 **Tür:** Karar + onay (soru–cevap)
-**Dayanak:** `docs/yazismalar/whatsapp/2026-10-16_WA_v14-ve-cetvel-dondurma.md` (Naci'nin 16.10 20:44 cevabı); company-ai `docs/reports/IS_EMRI_2026-10-16V14.md` §3, `IS_EMRI_2026-10-16K1_PLAN.md` (SORU 1–4), `IS_EMRI_2026-10-16N1.md` §5–6; PR #53, PR #54.
+**Dayanak:** `docs/yazismalar/whatsapp/2026-10-16_WA_v14-ve-cetvel-dondurma.md` (Naci'nin 16.10 20:44 cevabı); company-ai `docs/reports/IS_EMRI_2026-10-16V14.md` §3, `IS_EMRI_2026-10-16K1_PLAN.md` (SORU 1–4), `IS_EMRI_2026-10-16N1.md` §5–6; PR #53, PR #54; Naci'nin cevapları PR #55 ve PR #56.
 
 ---
 
@@ -48,7 +48,7 @@ Hangi tarihin yanlış olduğunu (belge tarihi mi, metindeki önlisans tarihi mi
 
 ### S6 — Sıra, etiket ve LLM'li koşu (K1 SORU 4)
 
-1. v14.1 ve v2.2 alanı tek commit'te uygulanır, ardından modelsiz yeniden puanlama yapılır.
+1. v14.1 `c0c0984`'te uygulandı. Şimdi yalnız v2.2 alanı (`answer_policy: either`, S1'deki şartla) ve S11'deki yeni soru uygulanır, ardından modelsiz yeniden puanlama yapılır.
 2. K1 ve LEG-004 canlıya alınır.
 3. 6 soruluk LLM'li koşu **bir kez** yapılır. Bu yalnız düzeltmenin doğrulamasıdır, kapı koşusu değildir.
 4. Etiket **`cetvel-v2.2-v14.1`** olarak konur ve README'ye yazılır. Kontrolör etiketi doğrular.
@@ -60,14 +60,11 @@ Hangi tarihin yanlış olduğunu (belge tarihi mi, metindeki önlisans tarihi mi
 
 **Kalsın.** Sabah onayı ile dondurma notu çakıştı. Bunu açıkça bildirdiğin için teşekkürler, bir sorun yok. Bundan sonra etiket konana kadar canlıya yalnız S6'nın 1–3. adımlarındaki işler girsin.
 
-### S8 — Saklı set, "Karatepe GES", tek aday, soru seti çelişkileri
+### S8 — PR #53 ve #54'e cevapların (PR #56)
 
-Bunlar cevaplandı; büyük ihtimalle yazarken görmedin:
-- Saklı set (hazır, v1 kilitli) ve "Karatepe GES" (mevcut davranış kalsın) → PR #54.
-- Tek aday (şimdilik sorulsun) ve seçeneklerin daraltılması (yalnız veriye sahip projeler) → PR #53 madde 1 ve 2.
-- questions.json çelişkileri (N1 §6 öneri 2) → v14.1 eki (`kontrolor/soru-seti/2026-10-16_v14-1_ek.md`).
+PR #56'daki cevapların için teşekkürler; kabullerini gördük (tek aday, saklı set, "Karatepe GES", AI konumlandırması, v14.1).
 
-PR #53 ve #54'ün cevap bölümlerini doldurursan takip kolaylaşır.
+GEN-DSC-003/004'ün kategorisinin discovery'den ambiguous'a çevrilmesine **itirazımız yok**.
 
 ### S9 — B-01 (Excel içeriğine ulaşılamıyor)
 
@@ -76,6 +73,14 @@ PR #53 ve #54'ün cevap bölümlerini doldurursan takip kolaylaşır.
 ### S10 — Ana dala birleştirme
 
 Kapıyı bekletmiyor. **Kapıdan sonra** konuşalım.
+
+### S11 — GEN-DSC-003 yetki bulgusu (PR #56): (a) mı, (b) mi?
+
+**(b).** Ayrı bir `GEN-DSC-003-F` varyantı eklensin, finans kullanıcısıyla sorulsun. Beklenen cevap: seçenekleri yalnız Karatepe ve Yeşilova olan tek netleştirici soru.
+
+Mevcut GEN-DSC-003 (enerji kullanıcısı) olduğu gibi kalır; yetki sızıntısı testi olarak işe yarıyor. Bulgu için teşekkürler, doğru tespit.
+
+Varyant, etiketten önce v2.2 ile aynı commit'e girer (S6 adım 1). Daraltma (PR #53 madde 1) bitene kadar bu varyantın ❌ çıkması beklenir; bilinen durum.
 
 ---
 
@@ -103,4 +108,5 @@ Kendi başına verilen kararlar : Not, mevcut düzen gereği `docs/yazismalar/` 
 - S4/S5 (canlı işlem) — yedek, smoke, rapor:
 - S6 (etiket) — commit:
 - S9 (B-01) — çözüm yolu:
+- S11 (GEN-DSC-003-F) — commit:
 - Diğer:

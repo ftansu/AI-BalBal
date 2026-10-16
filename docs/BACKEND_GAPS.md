@@ -579,7 +579,16 @@ Etiketin görevi belgeyi **bulmak**, anlatmak değil. İki tür etiket düşün�
 - **Kimlik etiketleri:** şirket, konu, tür. Örn. `#karatepe-res #pf-kredi #tadil`.
 - **Değişiklik etiketleri:** yalnızca başka bir belgeyi değiştiren belgelerde (tadil, ek, protokol, zeyilname) ve yalnızca belge o konuyu **gerçekten** değiştiriyorsa. Örn. faiz marjını değiştiren tadil `#faiz-değişikliği`; teminat yapısını da değiştiriyorsa `#teminat-yapısı-değişikliği`.
 
-Etiketler **şirketin sabit bir listesinden** gelmeli. Aynı olay bir gün `faiz-değişikliği`, başka gün `marj-güncelleme` diye kaydedilirse, yıllar sonra arama bir kısmını kaçırır. Liste büyüyebilir, ama büyümesi insan kararıyla olur.
+Etiketler **önce şirketin kataloğundan** gelir. Aynı olay bir gün `faiz-değişikliği`, başka gün `marj-güncelleme` diye kaydedilirse, yıllar sonra arama bir kısmını kaçırır. Liste büyüyebilir, ama büyümesi insan kararıyla olur.
+
+**K3 güncellemesi (Tansu, 16.10.2026 — önceki "yalnız sabit listeden seçilir" kuralının yerine):**
+
+1. Belge yüklendikten sonra Balbal etiketleri **kendisi ekler**, önce katalogdan.
+2. Yükleyen personel beğenmediği etiketi kaldırabilir; gerekirse **yeni etiket ekleyebilir**. Yeni etiket kataloğa eklenmiş olur; "büyüme insan kararıyla" ilkesi böyle sağlanır.
+3. Belge onaya yöneticiye giderse **yönetici de etiket ekleyip çıkarabilir**.
+4. Katalogdaki emekli etme, ad düzenleme ve değişiklik geçmişi (Yönetim › Etiketler) aynen kalır.
+
+Geliştiriciye: bugünkü uygulama (katalog dışı etiket 422 `unknown_tag`, arayüzde yalnız seçim, yöneticinin onay sırasında etiket düzenleyememesi) bu kurala göre değişmeli. Ürün 1 kapısını etkilemez; sıra geliştiricinin planındadır.
 
 Değişiklik etiketleri için başlangıç önerisi (ürün sahibi onaylayacak): `faiz-değişikliği` · `teminat-yapısı-değişikliği` · `vade-değişikliği` · `kredi-tutarı-değişikliği` · `ödeme-planı-değişikliği` · `finansal-taahhüt-değişikliği` · `taraf-değişikliği` · `temettü-dağıtım-koşulu-değişikliği` · `sigorta-şartı-değişikliği`
 

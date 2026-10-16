@@ -39,12 +39,27 @@ Kararlar #55, #58 ve #59'a dağılmıştı; bu sayfa Tansu'dan beklediğimiz her
   Önerimiz: Excel'de cevap versin; Excel verisi kesin.
 - [ ] **10. S-3 (iki proje adı).** "Yeşilova ve Boztepe'nin sıradaki taksiti" gibi iki proje adı geçen Excel sorusunda "hangisi?" diye sorulsun, proje proje ayrı Excel cevabı (Ü-3) kapıdan sonraya kalsın mı?
   Önerimiz: evet.
+- [ ] **11. Madde 3 (❗ Çelişkili veri) PLANI hazır (kod yok, onay bekliyor; Ç-15/8).** Plan: ntoydem/company-ai, dal `feat/adim5-veri-kutuphanesi`, commit `bba766d`, `docs/reports/IS_EMRI_2026-10-16P3_PLAN.md`.
+  - Bugün çelişki tespiti yok: 99 sorunun hiçbirinde ❗ (Çelişkili veri etiketi) yok.
+  - N1'de kendinden emin yanlış bulundu: Karatepe kredi tutarı çelişkisi (14,0M ↔ 13,6M USD) sürüm değişikliği gibi anlatılmış (ANK-FIN-002).
+  - Yöntem: Çelişkiyi AI tespit eder (prompt kural 13). ❗ işaretini ve sabit uyarı cümlesini KOD basar (Ek-F F-1 modele ünlemi yasaklıyor). Kod modelin işaretini doğrular: aynı belge zinciri, farklı proje ve yürürlükte olmayan kaynak çelişki sayılmaz.
+  - Prompt değişikliği VAR (kural 13), Tansu'nun ayrı onayı gerekir (Ç-15/8). Ek LLM çağrısı yok, şema yok.
+  - Kabul ölçütü: kasıtlı çelişki soruları dışında 0 yanlış ❗.
+  - Bilinen sınır: Model çelişki satırını yazmazsa çelişki kaçar.
+  - Tansu'dan: prompt değişikliği (kural 13) için onay/itiraz ve aşağıdaki S-1, S-2, S-3.
+- [ ] **12. Madde 3 planı S-1 ("güncel kaynak" ve Karatepe çifti).** Plandan aynen: "Bir tadil maddeyi değiştirmediyse, eski halkadaki değer kural 5'e göre hâlâ güncel. Bu değer başka bir belge ailesindeki değerden farklıysa ❗ sayalım mı? Somut örnek: Facility Agreement 14.000.000 USD ↔ Covenant Report "kullandırılan" 13.600.000 USD. Ledger bu çifti `genuine_conflict` diye işaretliyor, ama iki değer farklı adlarla yazılmış (tesis tutarı / kullandırılan)."
+  Önerimiz (plandan aynen): "**evet, ❗** (ledger kararınızla aynı). "Farklı olgu" derseniz kural 13'e (d) eklenir, çift ❗ almaz."
+- [ ] **13. Madde 3 planı S-2 (Excel ↔ belge).** Plandan aynen: "MIXED cevapta Excel değeri ile belge değeri farklıysa (Yeşilova 11. taksit faizi: ödeme planı 18.240 ↔ banka bildirimi 18.912 USD) ❗ kapı öncesi kapsamda mı?"
+  Önerimiz (plandan aynen): "**hayır, kapıdan sonra, P2'den (Excel proje ayrımı) sonra.** Bugün Excel'in eşleme hatası (FIN-013 "marj %6,5") yanlış ❗ üretir. Bu pakette yalnız belge ↔ belge yapılır."
+- [ ] **14. Madde 3 planı S-3 (künye ↔ metin).** Plandan aynen: "Bir belgenin künye tarihi (`document_date`) ile başka bir belgenin metnindeki tarih farklıysa ❗ sayılsın mı? Örnek: Kızılova önlisans, künyede 18.01.2024, ÇED yazısında 15.01.2025. Demo veride bu bir hataydı, K2 ile düzeliyor. Gerçek müşteri verisinde aynı durum çıkacak."
+  Önerimiz (plandan aynen): "**evet.** İki kaynak da kullanıcının gördüğü yetkili kaynaktır (Ç-7 "yetkili kaynakların farklı bilgi vermesi"). K2 canlıya geçince IZM-DEV-001/007 yanlış alarm testine girer."
 
 ## B. Bizim yapacaklarımız (Tansu'dan bağımsız, sırayla)
 
 - [ ] B-01 (Excel içeriğine ulaşılamıyor) + Excel proje ayrımı için tek sayfalık plan (kod yok); Tansu onayı sonrası kod.
 - [x] B-01 + Excel proje ayrımı planı (yapıldı: `bdbe0e1`). Tansu onayından sonra kod: commit 1 proje ayrımı, commit 2 B-01; sonra ayrı onayla canlı + LLM'li ölçüm (yaklaşık 0,3–0,5 USD).
 - [ ] Madde 3 (❗ çelişkili veri) planı (prompt değişirse Ç-15/8, önce plan).
+- [x] Madde 3 (❗ çelişkili veri) planı (yapıldı: `bba766d`). Tansu onayından sonra kod; sonra ayrı onayla canlı + LLM'li ölçüm.
 - [ ] Hukuk görünürlüğü (Madde 4, KP-3) planı (kod kapıdan sonra, Ç-15/3).
 - [ ] Takma ad alanı (Madde 5), kural merdiveni bayrak eşleme listesi, embedding planı: kapıdan sonra.
 
@@ -55,6 +70,7 @@ Kararlar #55, #58 ve #59'a dağılmıştı; bu sayfa Tansu'dan beklediğimiz her
 - [ ] 3. Q-1 kararı → etiket `cetvel-v2.2-v14.1` + README.
 - [ ] 4. Kapı öncesi işler: Madde 1 kodu, Madde 3, Excel proje ayrımı, B-01.
   - Kapı öncesi işler sırası: Madde 1, B-01+Excel proje ayrımı (önce proje ayrımı, sonra B-01), Madde 3.
+  - Güncel sıra (P3 planından sonra): Madde 1, B-01+Excel proje ayrımı (önce proje ayrımı, sonra B-01), Madde 3 ❗ (Tansu onaylarına bağlı).
 - [ ] 5. Kapı koşuları (3 koşu; saklı set kontrolörde).
 
 ## D. Canlıda şu an olanlar
@@ -72,3 +88,4 @@ Kararlar #55, #58 ve #59'a dağılmıştı; bu sayfa Tansu'dan beklediğimiz her
 - **AI-BalBal:** #55 (birleşti), #56 (birleşti), #57 (Tansu'nun notu, birleşti), #58 (Madde 1 planı), #59 (V22/K2 cevapları).
 - **company-ai** (dal `feat/adim5-veri-kutuphanesi`): `c0c0984` (V141), `1810cba` (P1 plan), `c83f40a` (V22), `3026264` (K2).
 - **company-ai:** `bdbe0e1` (P2 planı).
+- **company-ai:** `bba766d` (P3 planı).

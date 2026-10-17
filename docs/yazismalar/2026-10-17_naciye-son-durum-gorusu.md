@@ -74,3 +74,17 @@ Kendi başına verilen kararlar : Yok — yeni karar içermez; görüş ve bekle
 - Test alanı — ne zaman:
 - Excel oynaklığı ölçümü — yöntem:
 - Eval komutu riski — çözüm:
+
+---
+
+## Durum (kontrolör) — 17.10.2026 16:15
+
+> Kontrolör yazar; "Cevap (Naci)" bölümüne dokunulmaz.
+
+| Beklenti | Durum | Kanıt |
+|---|---|---|
+| 1 · Kapı öncesi kod | **Kısmen** — P1 kapandı ve canlıda; P2 commit 1 kodlandı (canlı onayı verildi); B-01, tek satır, P3 açık. Yeni madde: P-5 (ANK-ISO-003) | P1K_CANLI, P2A; 17.10 akşamüstü notu |
+| 2 · Test alanı | Açık | — |
+| 3 · Excel oynaklığı ölçümü | Açık — yöntem 17.10 akşamüstü notu E'de | P1M §5 (3 gerileme kaynak seçimi) |
+| 4 · Eval komutu riski | **Kısmen** — koşular açık `-p company-ai-eval` ile yürütülüyor; OPERATIONS uyarısı onaylandı (A2), commit bekleniyor | D2 §8, P1M §1 |
+| 5 · Cevap bölümleri | Açık | — |

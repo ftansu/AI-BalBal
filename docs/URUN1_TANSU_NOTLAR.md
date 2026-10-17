@@ -121,6 +121,7 @@
 | B-10 | Balbal Kütüphanesi (sektör + şirket + öğrenme döngüsü) | PR #61 §D | İçerik şimdi yazılır, kapı sonrası grup belgesi; yapısal kütüphane Ürün 2 |
 | B-11 | Dalga 1 kalanı (proje ekseninde AI anlar/kod uygular, takma ad, embedding); kural merdiveni; 2×2 teşhis; gece tutarlılık ajanı | PR #52; KP-5; 14.10 WA | Geliştirici temposunda, takvim baskısı yok |
 | B-12 | Alt metin "yorum veya tahmin eklemez" Ürün 2/3'te değişir | 17.10 kararı | Ürün 2 notuna |
+| B-13 | **Excel anlama katmanı:** yükleme anında güçlü model dosya haritası çıkarır (yapı, başlık, birim, proje, dönem, formül anlamı, eş anlamlı); kod doğrular, kullanıcı onaylar; soru anında planlayıcı haritayla plan kurar, rakamı motor verir (T-4 aynen) | `docs/mimari/2026-10-18_KARAR_excel-anlama-katmani.md` (18.10 Tansu kararı) | **Kapı sonrası.** Her adım kontrolör kapısından geçer (K-1…K-6, `kontrolor/protokol/2026-10-18_EXCEL_ANLAMA_KONTROL_PROTOKOLU.md`). K-1 ön deneyi kontrolör şimdi, kodsuz yapar; senden iş istemez. Görüşün S-8'de |
 
 ---
 
@@ -131,7 +132,7 @@
 - **Farklı olgu:** kredi limiti/taahhüt ↔ kullandırılan tutar; ödeme planındaki öngörülen tutar ↔ bankanın bildirdiği gerçekleşen tutar — çelişki **değil**, ikisi kendi adı ve kaynağıyla. ❗ yalnız iki güncel kaynak aynı olgu için farklı değer verirse. (PR #61 madde 11–12; E1)
 - **Adsız sorular:** belge arıyorsa proje başlıklı liste (yetki içi; başka proje sayılmaz); değer soruyorsa önce "hangi proje?" — seçenekler yalnız veriye sahip projeler; hiçbirinde yoksa "veri yok" olabilir; tek aday şimdilik sorulur. Adsız Excel'de veriye tek proje sahipse cevap verilir, proje adı ve kaynak açık. İki proje adı geçerse "hangisi?". "Hangi proje…" biçimi ise çoklu proje sorusudur (A-1). (10.10; 16.10 KP-2/KP-7; PR #61 madde 9–10; PR #64 P-5)
 - **Smoke:** canlıya alma şartı smoke 9/9; dalgalanma payı yok. Sebep bulunamazsa canlıya alınmaz, daraltılmış sürüm planlanır. (PR #66 §1)
-- **AI konumlandırması:** dil anlama (yanlış ek, eski ad, kısaltma) için koda kelime kuralı yazılmaz; AI anlar, kod uygular. (PR #54)
+- **AI konumlandırması:** dil anlama (yanlış ek, eski ad, kısaltma) için koda kelime kuralı yazılmaz. (PR #54) **Düzeltme (18.10):** "AI anlar, kod uygular" ifadesi 16.10 kontrolör görüş notundan (yalnız proje ekseni) buraya geçmişti; Ürün Yetkililerinin genel mimari kararı değildir. Geçerli olan: anlama ve yorumlama yapay zekânın işidir; **sayısal sonuç hesap katmanından gelir (Anayasa T-4)**; yetki ve proje izolasyonu kodda kalır (T-5). Excel için uygulaması B-13.
 - **Örnek soru / öneri çipi yok** — hiçbir arayüzde (05.10, 13.10, 17.10). Netleştirme sorusu metin olarak kalır.
 - **Alt metin** Ürün 1'de kalır (A-4).
 - **Not usulü:** Talep ve kararlar yalnız bu dosyada; WhatsApp'ta verilen karar repoya girene kadar resmî değil (16.10 §5). Naci'ye sorular GitHub'dan.
@@ -185,6 +186,7 @@
 | S-5 | 14.10 WA teşhis notu (2×2) sana ulaşmış mıydı? Tek kelime yeter. | 16.10 §1 — cevapsız |
 | S-6 | A-5 için router cümlesinin daraltılmış yeni metnini ne zaman plan olarak getirirsin? | PR #67 §4 |
 | S-7 | B-3 (boş sonuç → sabit cümle) A-6 koduyla aynı dosyada ücretsiz çözülebilir mi? Evetse A-6'ya eklenir. | P2D_CANLI §4.2 |
+| S-8 | B-13 Excel anlama katmanı: teknik engel / daha iyi yol; harita deposu (JSON alan mı, ayrı tablo mı); formül metninin haritaya taşınması; kapı sonrası kaba gün tahmini. Kapı yolunu etkilemez, acele yok. | Karar notu §9 |
 
 ---
 
@@ -224,6 +226,7 @@
 - S-5:
 - S-6:
 - S-7:
+- B-13 / S-8:
 - Diğer:
 
 ---

@@ -101,6 +101,15 @@ Kendi başına verilen kararlar : Not, mevcut düzen gereği `docs/yazismalar/` 
 - Madde 1 (seçenekleri daraltma) — plan:
   - 16.10.2026: Plan henüz yazılmadı. Sıra: etiketten sonra önce kısa plan (yöntem + ölçü), sonra kod. Plan yazılınca bu satırın altına eklenecek.
   - 16.10.2026 — **Bulgu (GEN-DSC-003), karar senin:** "enerji" kullanıcısı yalnız Karatepe'nin sigorta belgelerini görüyor. Yeşilova Sigorta Zeyilnamesi ve Karatepe Insurance Assignment (finans), Sigorta Programı notları ve grup özeti (idari_isler) enerjiye kapalı. Yetki içinde beklenen seçenek yalnız Karatepe. Yeşilova'yı seçenek olarak beklemek, görünmeyen belgenin varlığını sızdırır (değişmez kural 1); bu yüzden öyle kodlamadık. Çok projeli sigorta vakası ölçülmek istenirse iki yol var: (a) `ask_as_user` finans yapılır (Karatepe + Yeşilova), (b) ayrı varyant GEN-DSC-003-F eklenir. Bu bir soru seti kararı; uygulanmadı.
+  - 16.10.2026 — **Madde 1 PLANI hazır** (kod yazılmadı, onay bekliyor, Ç-15/3): ntoydem/company-ai, dal `feat/adim5-veri-kutuphanesi`, commit `1810cba`, `docs/reports/IS_EMRI_2026-10-16P1_PLAN.md`.
+    - Özet: Netleştirme seçenekleri artık yetki kümesinin İÇİNDEN, soru konusunu (ör. sigorta, DSCR, lisans) belge düzeyinde içeren projelerden gelir; sıralamaya/chunk skoruna dayanmaz. LLM yok, şema yok, yeni bağımlılık yok.
+    - Ölçüm (eval DB, SELECT-only): GEN-DSC-003 Karatepe,Kızılova → Karatepe; ANK-MIX-001 Boztepe,Karatepe,Kızılova,Yeşilova → Boztepe,Karatepe,Yeşilova; N1 70/99 → tahmin 72/99 (kesin sayı canlı koşuda). Diğer 13 soruda geçme durumu değişmez. Geri alma ≈ 12 sn.
+    - Tansu'ya 3 soru ve bizim önerimiz:
+      - S-1 Konu belirlenemezse (tüm kelimeler belgelerin çoğunda geçiyor, ör. hukuk) bugünkü tam liste kalsın (eksik seçenek sunmaktan iyi). Onay?
+      - S-2 Konu hiçbir proje belgesinde yoksa proje sorusu sorulmasın, soru normal yoldan gitsin (sonuç grup belgesinden cevap ya da mevcut 'veri yok' kalıbı; yeni metin yok). Onay?
+      - S-3 Daraltmada tek proje kalırsa doğrudan cevap bu pakette YOK (madde 2'ye göre tek aday da sorulur); doğrudan cevap P1 canlıda ölçüldükten sonra ayrı paket. Gerekçe: kanıt kelime düzeyinde (ör. 'Son tadil' sorusunda yalnız Karatepe çıkıyor, Yeşilova zeyilnamesi kelime olarak yakalanmıyor). Onay?
+    - Not: Adım 4 'proje ekseni' yolu (parça dağılımına dayanan) bu planın dışında bırakıldı; Tansu onu da belge düzeyine çekmek isterse ayrı plan.
+    - Onay gelmeden kod yazılmayacak. Sıra: Tansu'nun 16.10 S6 sırası (v2.2 alanı + GEN-DSC-003-F, K1/LEG-004 canlı, 6 soruluk doğrulama, etiket cetvel-v2.2-v14.1) önce; Madde 1 kodu etiketten sonra.
 - Madde 2 (tek aday) — görüş:
   - 16.10.2026: "Bugünkü davranış kalsın" kararını gördük ve kabul ettik; bu doğrultuda hareket ediyoruz.
 - Madde 3 (❗ çelişkili veri) — plan / commit:

@@ -13,6 +13,7 @@
 | Yol | İçerik |
 |---|---|
 | `protokol/TEST_PROTOKOLU.md` | Ürün testinin kuralları: puanlama, göstergeler, koşu öncesi kayıt, ilerleme tablosu |
+| `protokol/2026-10-18_EXCEL_ANLAMA_KONTROL_PROTOKOLU.md` | Excel anlama katmanının adım adım kontrolü (K-1 ön deney … K-6 sürekli denetim); her adım kapıdan geçmeden sonrakine geçilmez |
 | `kosular/<YYYY-MM-DD>_BT-NN/` | Her komple koşunun kaydı: sonuç özeti, soru başına sayısal veri, kök neden tahminleri, bilgilendirmeler |
 
 ## Kurallar

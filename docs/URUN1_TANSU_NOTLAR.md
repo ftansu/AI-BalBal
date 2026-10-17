@@ -121,6 +121,7 @@
 | B-10 | Balbal Kütüphanesi (sektör + şirket + öğrenme döngüsü) | PR #61 §D | İçerik şimdi yazılır, kapı sonrası grup belgesi; yapısal kütüphane Ürün 2 |
 | B-11 | Dalga 1 kalanı (proje ekseninde AI anlar/kod uygular, takma ad, embedding); kural merdiveni; 2×2 teşhis; gece tutarlılık ajanı | PR #52; KP-5; 14.10 WA | Geliştirici temposunda, takvim baskısı yok |
 | B-12 | Alt metin "yorum veya tahmin eklemez" Ürün 2/3'te değişir | 17.10 kararı | Ürün 2 notuna |
+| B-13 | Yetki kapsamı: arama ve embedding indeksi, önbellek, audit kayıtları da izinli belge süzgecinden geçiyor mu; kayıtlarda hassas içerik var mı | Bilgi katmanı şeması §7 (18.10) | Embedding açılmadan önce ilk kontrol |
 
 ---
 

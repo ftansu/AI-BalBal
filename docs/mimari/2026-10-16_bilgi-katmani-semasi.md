@@ -72,3 +72,21 @@ Durum sütunu: **Var** = Ürün 1 kodunda karşılığı var · **Ledger** = yal
 2. **Ürün sahibine:** Hukuk departmanının 25 belgesinden 18'i "restricted"; Hukuk çalışanı dava kayıtlarını (K-11) göremiyor. Dava kaydının gizlilik düzeyi kaynak belgeden miras mı alınsın, yoksa Hukuk için ayrı mı tanımlansın?
 3. **Geliştiriciye:** Bu kayıt türleri bugünkü veri modeline (documents, chunks, projects, Excel tabloları) hangi sırayla ve hangi maliyetle eklenebilir? Ürün 1'i bozmadan hazırlık olarak yapılabilecek bir şey var mı (ör. alan adlarının sabitlenmesi)?
 4. **Geliştiriciye:** Ledger şeması (`ledger_schema.py`) bu tablonun doğrudan atası mı olmalı, yoksa demo verisi olarak ayrı mı kalmalı?
+
+## 7. Ek (18.10.2026) — Yetki kapsamı: kapının dışında kalan yerler
+
+> Ürün sahibinin onayıyla eklendi. **Görüş ve tasarım ilkesidir; Ürün 1'de iş emri değildir.** Kapı sonrasında, embedding açılmadan önce ilk kontrol olarak ele alınır (ana talep listesi B-13).
+
+Bugünkü yetki kapısı (`allowed_document_ids`, ADR-004) belgeyi AI'dan önce süzüyor. Bilgi katmanı ve araçlar gelince aynı kural şu yerlerde de geçerli olmalı:
+
+| Yer | Kural | Durum |
+|---|---|---|
+| Tam metin arama indeksi | Sorgu, izinli belge kümesiyle daraltılır | Doğrulanacak |
+| Embedding (anlamsal) indeksi | Aynı süzgeç; benzerlik sonucu yetkisiz parça döndürmez | Embedding açılırken doğrulanır |
+| Önbellek (cevap, plan, Excel sonucu) | Anahtar kullanıcı yetkisini de içerir; bir kişinin cevabı yetkisi farklı birine dönmez | Doğrulanacak |
+| Bilgi kartları (§2 Yetki) | Kayıt, kaynak belgenin departman ve gizliliğini miras alır | Şemada var |
+| Araç çağrıları (Ürün 2) | Her araç yetki süzgecini kendisi uygular; model yetki parametresi veremez | Ürün 2 tasarımı |
+| Audit / uygulama kayıtları | Hassas içerik (maaş, dava ayrıntısı, kişisel veri) düz metin tutulmaz; kayıtları kimin göreceği tanımlanır (KVKK) | Doğrulanacak |
+
+- Kural: yetki **kodla** uygulanır, model talimatıyla değil (Anayasa T-5; ortak not 15.10 ilke 1).
+- Test: BT-02 yetki sorularına "indeks/önbellek üzerinden sızıntı" senaryosu eklenir (kontrolör).

@@ -67,3 +67,15 @@ Kendi başına verilen kararlar : Yok. Kapı tanımı netleştirmesi ve test ala
 - Ek 1 (kapı tanımı, güvenlik %100) — dondurma açıklaması:
 - Ek 2 (ayrı test alanı) — açılış tarihi / yöntem:
 - Ek 3 (kapı sonrası liste) — not:
+
+---
+
+## Durum (kontrolör) — 17.10.2026 16:15
+
+> Kontrolör yazar; "Cevap (Naci)" bölümüne dokunulmaz.
+
+| Madde | Durum | Kanıt |
+|---|---|---|
+| 1 · Kapı tanımı (güvenlik %100) | **Kapandı** — README'ye yazıldı. Şart (3)'ün kapsamı 17.10 akşamüstü notu T2 ile netleşti | company-ai README satır 532–537 (`dd08085`) |
+| 2 · Ayrı test alanı | Açık — tarih bekleniyor | — |
+| 3 · Kapı sonrası liste | Kayıtlı (iş değil) | — |

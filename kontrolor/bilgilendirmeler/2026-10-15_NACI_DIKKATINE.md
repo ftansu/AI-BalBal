@@ -30,6 +30,32 @@ Bu dosyada yalnızca canlı sistemde çalışmadığı görülen noktalar Naci'n
 
 **Ek not:** Sözlük "ödeme planı" ifadesini Financial Model › Debt sayfasına eşliyor; aynı adı taşıyan ödeme planı dosyalarına değil.
 
+**Kontrolör notu (17.10.2026):** İlerleme var — P2A (`1f9ac13`) ile Excel yolunda proje ayrımı kodlandı; "Yeşilova kalan kredi borcu" artık Karatepe'nin rakamını döndürmüyor (ölçüm 12 → 0). Ödeme planı başlıkları (`col_b…`, birimsiz 98000) P2 commit 2'nin işi; madde açık kalır.
+
+---
+
+### B-02 · 17.10.2026 · "Hangi proje…" sorusuna geri soru soruluyor
+
+**Durum:** Açık
+
+**Gözlem** (eval ortamı, ayarlar canlıyla birebir aynı — P1M §1a; soru ANK-ISO-003, kullanıcı finans):
+
+| Soru | Balbal | Beklenen |
+|---|---|---|
+| "Hangi projenin finansmanı kapanmış (financial close) durumda?" | "Hangi projeyi kastediyorsunuz: Karatepe RES mi, Yeşilova RES mi?" + Excel yarısı "veri bulamadım" (MIXED) | Karatepe RES — 08.07.2022, kaynağıyla |
+
+**Okuma:** Soru zaten çoklu proje soruyor; adsız-değer netleştirmesine düşüyor. Aynı tipteki ANK-ISO-002 belge yolunda doğru cevaplanıyor. Kapı şartı (3) gereği izolasyon kategorisi %100 olmalı (17.10 akşamüstü notu, P-5).
+
+---
+
+### B-03 · 17.10.2026 · "12553 MWh üretim kaybı"
+
+**Durum:** Açık
+
+**Gözlem** (eval, P1M; soru ANK-MIX-002): cevap "Arıza … 12553 MWh üretim kaybına yol açmıştır [Bakım Raporu — Temmuz 2024]".
+
+**Okuma:** Ledger'da 12.553 MWh, Temmuz 2024'ün **üretim** değeri (`ankara_res.yaml` satır 219). Ya belge böyle yazılmış (demo veri hatası) ya da model yanlış okumuş (KY). Belge metninde arama sonucu bekleniyor (17.10 akşamüstü notu, A3).
+
 ---
 
 ## Kapananlar

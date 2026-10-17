@@ -214,3 +214,28 @@ Kendi başına verilen kararlar : Not, mevcut düzen gereği `docs/yazismalar/` 
 - Madde 12 (ledger `conflict_kind`) — commit:
 - B (ana dala birleştirme, kural merdiveni) — görüş:
 - D (kütüphane) — görüş:
+
+---
+
+## Durum (kontrolör) — 17.10.2026 16:15
+
+> Kontrolör yazar; "Cevap (Naci)" bölümüne dokunulmaz. Dayanak: company-ai `feat/adim5-veri-kutuphanesi` HEAD `b73b750`.
+
+| Madde | Durum | Kanıt |
+|---|---|---|
+| 1 · LEG-004 + K1 canlı | **Kapandı** | K2CANLI `b2a4c68` (113 belge, smoke 9/9); eval DB eşitlendi D2 `add0473` |
+| 2 · Etiket `cetvel-v2.2-v14.1` | **Kapandı** | E1 `dd08085`, etiket uzakta. Tanım ek kararı: 17.10 akşamüstü notu T1 (v14.2), T2 |
+| 3 · "Bulamadım ile geçen" satırı | **Kapandı** | E1 `verdict_passes`; P1M §6 (17/72) |
+| 4 · P1 (Madde 1) | **Kapandı** | `6c4f38b`; canlı P1K_CANLI `647b2c3` (smoke 9/9); P1M 71/99 |
+| 5 · 7 soruluk doğrulama | **Kapandı** | D1 canlı 6/7, D3 eval 6/7 (003-F P1 ile P1M'de ✅) |
+| 6 · PR #58–#60 birleştirme | **Kapandı** | ai-balbal main |
+| 7 · P2 | **Kısmen** — commit 1 kodlandı (`1f9ac13`, 12 → 0), canlı onayı 17.10 akşamüstü notu A1; commit 2 (B-01) açık | P2A |
+| 8 · Tek satır iki değer | Açık | — |
+| 9 · Adsız Excel, tek sahip → cevap | **Kodlandı, canlı bekliyor** (P2A ile) | ADR-036, P2A §2 kural 3 |
+| 10 · İki proje adı → "hangisi?" | **Kodlandı, canlı bekliyor** (P2A ile) | P2A §2 kural 4 |
+| 11 · P3 + kural 13 (d) | Açık | — |
+| 12 · Ledger `different_facts` | **Kapandı** | E1 `dd08085` |
+| 13 · Excel ↔ belge | Kapı sonrası (karar) | — |
+| 14 · Künye ↔ metin ❗ | P3 içinde, açık | — |
+| B · `main`'e birleştirme | Açık — Naci görüşü bekleniyor | — |
+| B · Kural merdiveni (K0, K5) | Açık — başlamadı | — |

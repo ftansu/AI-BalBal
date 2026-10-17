@@ -65,10 +65,15 @@
 - **İş:** Router cümlesi için **yeni, daraltılmış metin** planı (Ç-15/8, Tansu onayı). Ölçü P2C usulüyle (eval, kol başına ≥ 5 tekrar, başka projenin rakamı 0, l/g/a/b düşüşü 0). Canlıya alma Ç-15/6, smoke 9/9 — **gevşetilmez** (PR #66 §1).
 - **Durum:** Açık. · **Kimde:** Naci (plan) → Tansu (onay).
 
-### A-6 · "Tek satır iki değer" (vade + anapara [+ faiz]) — onaylandı
-- **Kaynak:** PR #61 madde 8; Naci'nin planı company-ai `IS_EMRI_2026-10-17T1_PLAN.md` (`fbabcf0`); PR #68.
-- **Karar (Tansu, 17.10 gece):** §3'teki iki prompt cümlesi **aynen onaylandı**; en fazla 3 değer; para birimi ayrı commit + ayrı ölçü (T1b). Cevap promptu değişmez; rakam koddan gelir. Ölçüm planı §4 ve eşikleri kabul. Onay Kanıtı: Tansu'nun PR #68 yorumu (metin §0.3'te hazır).
-- **Sıra:** A-5'ten sonra. Sette bu tipte soru yok (0), kapı skorunu etkilemez; A-5 uzarsa **kapı sonrasına kayabilir** — karar hazırlık koşusundan önce verilir.
+### A-6 · Kredi sorularında tarih + tutar + para birimi birlikte — onaylandı
+- **Kaynak:** PR #61 madde 8; Naci'nin planı company-ai `IS_EMRI_2026-10-17T1_PLAN.md` (`fbabcf0`) §3 ve §4; PR #68 §3 ve §5.
+- **Sorun 1 — tarih gelmiyor:** "Yeşilova'nın bir sonraki kredi ödemesi ne zaman" sorusunda planlayıcı doğru satırı 10/10 buluyor; ama kod yalnız 1×1 sonucu kabul ettiği için 7/10 yalnız tutar (116.240, **tarihsiz**), 3/10 yalnız tarih (tutarsız) dönüyor. Kullanıcı açısından Balbal "ne zaman" sorusuna tarih veremiyor.
+- **Sorun 2 — para birimi gelmiyor:** SQL yolunda sütun adları sadeleştiriliyor ("Anapara (USD)" → `anapara_usd`); birim okuyucu (`tr_format.unit_from_label`) parantez aradığı için birimi bulamıyor → "98.000" çıplak çıkıyor. Fonksiyon yolunda (`currency_of`) sorun yok.
+- **Karar (Tansu, 17.10 gece):** (a) §3'teki iki prompt cümlesi **aynen onaylandı**; en fazla 3 değer; cevap promptu değişmez, rakam koddan gelir. (b) **Para birimi bu işin zorunlu parçasıdır**, opsiyonel değil: SQL yolundaki her tutar sayfanın özgün başlığından okunan birimle verilir (plan §4). Ayrı commit + ayrı ölçü (T1b) olarak kalır, ama A-6 birlikte kapanır. Ölçüm planı §4 ve eşikleri kabul. Onay Kanıtı: Tansu'nun PR #68 yorumu.
+- **Kabul ölçütü:** "bir sonraki taksit ne zaman ve ne kadar" türü 3 soruda ≥ 4/5 "tarih + tutar + para birimi doğru"; SQL yolundan dönen tutarlarda birimsiz rakam 0; tek değerli 16 soruda tabandan ≥ 2/5 düşüş yok; başka projenin rakamı 0.
+- **Ek kontrol (belge yolu):** Yeşilova 12. taksit belge metninden "98.000" diye geliyor. Belge PDF'inde birim yazıyor mu? Yazıyorsa model birimi atıyor (cevap kuralı sorunu, ayrıca raporla); yazmıyorsa demo belge eksik (K2 usulüyle düzelt). 10 dakikalık arama.
+- **Not:** `_sql_value` tarih dalının ayrı birim testi yok (P2D §3 kendi kararı 3); A-6 ile eklensin.
+- **Sıra:** A-5'ten sonra. Sette bu tipte soru yok (0), kapı skorunu etkilemez; ama finans kullanıcısının en sık sorusu. A-5 uzarsa sıra hazırlık koşusundan önce yeniden konuşulur.
 - **Durum:** Onaylandı, kod bekliyor. · **Kimde:** Naci.
 
 ### A-7 · P3 — ❗ çelişkili veri + kural 13(d) + künye↔metin — **kapı bloğu değil**
@@ -185,6 +190,7 @@
 | S-5 | 14.10 WA teşhis notu (2×2) sana ulaşmış mıydı? Tek kelime yeter. | 16.10 §1 — cevapsız |
 | S-6 | A-5 için router cümlesinin daraltılmış yeni metnini ne zaman plan olarak getirirsin? | PR #67 §4 |
 | S-7 | B-3 (boş sonuç → sabit cümle) A-6 koduyla aynı dosyada ücretsiz çözülebilir mi? Evetse A-6'ya eklenir. | P2D_CANLI §4.2 |
+| S-8 | A-6 ek kontrol: Yeşilova ödeme planı / faiz bildirimi PDF metninde tutarların yanında para birimi yazıyor mu? | 17.10 gece |
 
 ---
 
@@ -224,6 +230,7 @@
 - S-5:
 - S-6:
 - S-7:
+- S-8:
 - Diğer:
 
 ---

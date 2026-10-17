@@ -104,9 +104,73 @@ Kendi başına verilen kararlar : Not, mevcut düzen gereği `docs/yazismalar/` 
 > Bu bölüme Naci yazar. Eski satırlar silinmez; her cevap tarihle yeni satır olarak eklenir.
 
 - S1 (v2.2 alanı) — commit:
+  - 16.10.2026 (Naci): Commit: ntoydem/company-ai `c83f40a` (dal `feat/adim5-veri-kutuphanesi`). Rapor: `docs/reports/IS_EMRI_2026-10-16V22.md`.
+    - `answer_policy: either` uygulandı (R10, ablasyon bayrağıyla; Q9 doğrulama kuralı). GEN-GEN-001/002/003'e verildi. GEN-GEN-002'ye Kızılova yasağı eklenmedi.
+    - Netleştirici soru bu üç soruda geçmiyor.
+    - LLM'siz yeniden puanlama (99 ölçülen soru):
+      - M1: 70/99. Net değişim 0: GEN-GEN-003 ❌→✅, GEN-GEN-002 ✅→❌.
+      - N1: 68/99. GEN-GEN-002 ve 003 düştü, çünkü N1 tanım sorusuna proje soruyor.
+      - Resmî M1 71/99 değişmedi.
+    - V14 raporundaki "M1 71/99 olur" tahminimiz GEN-GEN-002 için yanlıştı: M1'in cevabı "bulamadım" değil, yalnız proje sorusu. Düzelttik.
+    - N1'in tanım sorusuna proje sorması rapora "AI konumlandırma adayı" olarak yazıldı. Koda kelime kuralı yazılmadı.
 - S3 (LEG-004) — ledger'a göre hangi tarih:
+  - 16.10.2026 (Naci): Yanlış olan LEG-004'ün **belge tarihi** (01.11.2023). Metindeki önlisans tarihi (15.01.2025) doğru.
+    - Gerekçe:
+      - Önlisans tarihi ledger'da kanonik USER_FACT (`timeline.pre_licence = 2025-01-15`) ve ledger'da birçok yerde geçiyor.
+      - LEG-004 belge tarihi ise AI_ASSUMPTION.
+      - Önlisans başvurusu 04.10.2023'te yapılmış. Yani eski belge tarihinde, süre uzatımı istenecek bir önlisans henüz yoktu.
+    - **Dikkat:** Ledger yalnız hangi tarihin yanlış olduğunu gösteriyor, yeni belge tarihini vermiyor.
+    - Yeni tarihi biz seçtik: **10.08.2026** (AI_ASSUMPTION olarak işaretli). Bu tarih:
+      - önlisanstan ve ÇED ek bilgi talebinden (18.07.2026) sonra,
+      - ÇED Durum Yazısı (27.08.2026) ve "en son gelişme" (12.09.2026) tarihlerinden önce.
+      - Böylece IZM-DEV-009 vb. sorular etkilenmiyor.
+    - Alternatifler:
+      - (a) önlisanstan hemen sonra, ör. Şubat 2025;
+      - (c) 12.09.2026'dan sonra (önermiyoruz).
+    - **SORU:** Tansu'nun farklı bir tarih tercihi var mı? İtiraz gelmezse 10.08.2026 ile canlıya alacağız. Değişiklik tek satır; canlıdan önce kolayca değiştirilebilir.
+  - 16.10.2026 (Naci): K1 (DEV-001): tarih 2024-01-18 → 2025-01-15 yapıldı.
+    - Totolojik cümle kaldı; `hand_edited` eklenmedi.
+    - Depoda içerik olarak yalnız bu iki belge değişti (106 belgeden 2'si).
+    - Soru beklentilerinde tarih geçmediği için soru seti değişmedi.
 - S4/S5 (canlı işlem) — yedek, smoke, rapor:
+  - 16.10.2026 (Naci): Depo adımı bitti: ntoydem/company-ai `3026264`, rapor `docs/reports/IS_EMRI_2026-10-16K2.md`.
+    - Canlı komut listesi hazır:
+      - pg_dump ve iki belge klasörünün yedeği;
+      - yalnız iki `external_ref` silinir;
+      - `make seed-demo-documents`;
+      - `smoke_live` 9/9;
+      - geri dönüş planı.
+    - Silinen eski UUID'ye bağlı bağlar:
+      - FK'li her şey cascade/SET NULL ile gidiyor.
+      - FK'siz tek iz, `audit_log`'daki tarihsel kayıtlar. Bunlara bilerek dokunulmuyor.
+    - Canlı işlem **henüz çalıştırılmadı**. Şu şartlarla yapılacak:
+      - LEG-004 tarihine itiraz olmadığı görüldükten sonra;
+      - yedek alınarak;
+      - smoke testi 9/9 geçecek;
+      - kapı koşularından önce bitecek.
 - S6 (etiket) — commit:
+  - 16.10.2026 (Naci): `cetvel-v2.2-v14.1` etiketi henüz atılmadı. Sıra:
+    1. K1 ve LEG-004 canlıya alınır.
+    2. 6 soruluk LLM'li doğrulama koşusu yapılır.
+    3. Etiket konur ve README'ye yazılır. Q-1 kararı etiketten önce gelmeli.
 - S9 (B-01) — çözüm yolu:
+  - 16.10.2026 (Naci): Henüz plan yazılmadı.
+    - Excel proje ayrımı planıyla aynı pakette ele alıp kısa bir plan sunacağız (gerekirse Ç-15/8).
+    - Kapıdan önce çözülecek.
 - S11 (GEN-DSC-003-F) — commit:
+  - 16.10.2026 (Naci): Commit: `c83f40a`.
+    - Soru: finans kullanıcısıyla "Sigorta ne zaman bitiyor?". Beklenen: seçenekleri yalnız Karatepe ve Yeşilova olan tek netleştirici soru. Kızılova vb. yasak.
+    - Veri eval DB'den (yalnız SELECT) doğrulandı: finans kullanıcısı yalnız Karatepe ve Yeşilova sigorta belgesini görüyor.
+    - GEN-DSC-003 (enerji) değişmedi.
+    - Henüz ölçülmedi; eski koşularda ham cevabı yok. İlk ölçüm 6 soruluk koşuda olacak. Madde 1 uygulanana kadar ❌ beklenir.
 - Diğer:
+  - 16.10.2026 (Naci): V22 sonucundan Tansu'ya 2 karar sorusu:
+    - Q-1 (kategori eşiği): Soru sayısı 99'dan 100'e çıktı; "ambiguous" kategorisi 8'den 9 soruya çıktı. Kategori eşiği %80.
+      - 8 soruda 7 geçen eşiği tutuyordu (%87,5). 9 soruda 7/9 = %77,8 tutmaz; en az 8/9 gerekir.
+      - GEN-DSC-003 zaten ❌. 003-F de beklendiği gibi ❌ olursa ambiguous 7/9 olur ve kategori bayrağı düşer.
+      - Toplam %75 kapısı etkilenmiyor: 75/100 = %75,0, yani yine aynı sayıda (75) geçen soru gerekiyor.
+      - Soru: Kapı tanımı kategori bayrağını da içeriyor mu? İçeriyorsa (a) 003-F kapı ölçümünden ayrı mı tutulsun, yoksa (b) ambiguous eşiği 9 soruya göre yeniden mi belirlensin? Karar Tansu'nun; kodda sayma kuralını değiştirmedik.
+    - Q-2 ("bulamadım" sonrası yardım): "Bulamadım" cümlesinden sonra gelen yardım sorusu ve belge listesi şu an (b) cevabını bozmuyor; GEN-GEN-001 iki koşuda böyle geçiyor.
+      - Daha katı okuma ("yardım sorusu taşıyan her yanıt düşer") S1 metninde yok; uygulamadık.
+      - Soru: Böyle kalsın mı?
+  - 16.10.2026 (Naci): Madde 1 planı PR #58'de (`1810cba`), onay bekliyor.

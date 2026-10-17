@@ -1,5 +1,7 @@
 # Tansu'dan Naci'ye: P2B geri alma sonrası görüş (17.10.2026, akşam)
 
+> **18.10.2026 — Bu notun açık maddeleri `docs/URUN1_TANSU_NOTLAR.md` ana listesine taşındı. Cevaplar oraya yazılır; buradaki "Cevap (Naci)" bölümü doldurulmaz.**
+
 **Tarih:** 17.10.2026
 **Kimden:** Tansu (Ürün Yetkilisi / Proje Yetkilisi). Metni Claude (kontrolör) hazırladı; Tansu 17.10.2026 18:17'de onayladı.
 **Kime:** Naci ve Naci'nin AI'ı

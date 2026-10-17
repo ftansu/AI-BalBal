@@ -4,6 +4,8 @@
 
 Bu dosyada yalnızca canlı sistemde çalışmadığı görülen noktalar Naci'nin dikkatine sunulmaktadır. Talimat değil, bilgilendirmedir.
 
+> **18.10.2026:** Talep ve sıra ana listede: `docs/URUN1_TANSU_NOTLAR.md` — B-01 → A-5, B-02 → A-1, B-03 → A-3. Burada yalnız **Durum** satırı güncellenir.
+
 **Nasıl kapanır:** Bir sorun çözüldüğünde ilgili maddenin **Durum** satırını `Çözüldü — GG.AA.GGGG` olarak güncellemen yeterli. Kontrolör canlıda doğruladıktan sonra madde aşağıdaki "Kapananlar" bölümüne taşınır; madde silinmez, iz kalır.
 
 > Not: `kontrolor/` klasörüne geliştirici yazmaz kuralının tek istisnası bu dosyadaki **Durum** satırlarıdır.

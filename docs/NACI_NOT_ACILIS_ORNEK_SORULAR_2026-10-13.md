@@ -1,5 +1,7 @@
 # Tansu'dan Naci'ye — Balbal açılışındaki örnek sorular — 13.10.2026
 
+> **18.10.2026 — Bu notun açık maddeleri `docs/URUN1_TANSU_NOTLAR.md` ana listesine taşındı. Cevaplar oraya yazılır; buradaki "Cevap (Naci)" bölümü doldurulmaz.**
+
 **Kimden:** Tansu (ürün sahibi). Metni Claude, ürün sahibinin talimatıyla hazırladı. · **Kime:** Naci ve Naci'nin AI'ı
 **Ürün etiketi:** Ürün 1 · **Test ve kontrol çalışmasıyla ilgisi yoktur**; ayrı bir ürün davranışı notudur.
 

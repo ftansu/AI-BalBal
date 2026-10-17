@@ -1,5 +1,7 @@
 # Tansu'dan Naci'ye: Bekleyenler cevabına üç kısa ek (17.10.2026, öğlen)
 
+> **18.10.2026 — Bu notun açık maddeleri `docs/URUN1_TANSU_NOTLAR.md` ana listesine taşındı. Cevaplar oraya yazılır; buradaki "Cevap (Naci)" bölümü doldurulmaz.**
+
 **Tarih:** 17.10.2026
 **Kimden:** Tansu (Ürün Yetkilisi / Proje Yetkilisi). Metni Claude hazırladı; Tansu 17.10.2026 10:43'te onayladı.
 **Kime:** Naci ve Naci'nin AI'ı

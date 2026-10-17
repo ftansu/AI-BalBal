@@ -1,5 +1,7 @@
 # Tansu'dan Naci'ye: Son durum — görüşlerimiz ve beklentilerimiz (17.10.2026, öğleden sonra)
 
+> **18.10.2026 — Bu notun açık maddeleri `docs/URUN1_TANSU_NOTLAR.md` ana listesine taşındı. Cevaplar oraya yazılır; buradaki "Cevap (Naci)" bölümü doldurulmaz.**
+
 **Tarih:** 17.10.2026
 **Kimden:** Tansu (Ürün Yetkilisi / Proje Yetkilisi). Metni Claude, Tansu'nun talimatıyla hazırladı.
 **Kime:** Naci ve Naci'nin AI'ı

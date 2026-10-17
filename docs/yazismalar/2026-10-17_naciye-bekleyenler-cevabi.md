@@ -1,5 +1,7 @@
 # Tansu'dan Naci'ye: Bekleyenler listesine cevap (17.10.2026)
 
+> **18.10.2026 — Bu notun açık maddeleri `docs/URUN1_TANSU_NOTLAR.md` ana listesine taşındı. Cevaplar oraya yazılır; buradaki "Cevap (Naci)" bölümü doldurulmaz.**
+
 **Tarih:** 17.10.2026
 **Kimden:** Tansu (Ürün Yetkilisi / Proje Yetkilisi). Metni Claude, Tansu'nun talimatı ve onayıyla (17.10.2026, 07:45) hazırladı.
 **Kime:** Naci ve Naci'nin AI'ı
